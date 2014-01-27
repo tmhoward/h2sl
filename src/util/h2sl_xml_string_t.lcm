@@ -1,8 +1,0 @@
-package h2sl;
-
-struct xml_string_t
-{
-    int64_t utime; 
-        
-    string xml;        // String containing message in XML format
-}

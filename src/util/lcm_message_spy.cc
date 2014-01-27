@@ -34,7 +34,11 @@
 #include <iostream>
 #include <lcm/lcm-cpp.hpp>
 
-#include "h2sl/xml_string_t.hpp"
+#include "h2sl/constraint_set.h"
+#include "h2sl/constraint.h"
+#include "h2sl/region.h"
+#include "h2sl/object.h"
+#include "h2sl/gui_lcm.h"
 #include "h2sl/constraint_set_t.hpp"
 #include "lcm_message_spy_cmdline.h"
 
@@ -47,36 +51,13 @@ class LCM_Message_Handler {
                          const std::string &channel) {
         int decode_status = -1;
 
-        // This function will be called when ANY message is received
-
-        // An h2sl_xml_string_t message
-        h2sl::xml_string_t xml_string_msg;
-        decode_status =  xml_string_msg.decode (rbuf->data, 0, rbuf->data_size);
-        if (decode_status >= 0) {
-            cout << "Received xml_string_t message on channel " << channel << " with contents:" << endl;
-            cout << xml_string_msg.xml << endl;
-        }
-
         // An h2sl_constraint_set_t message
         h2sl::constraint_set_t constraint_set_msg;
         decode_status = constraint_set_msg.decode (rbuf->data, 0, rbuf->data_size);
         if (decode_status >= 0) {
-            cout << "Received constraint_set_t message on channel " << channel << " with contents:" << endl;
-            cout << "Number of constraints = " << constraint_set_msg.num_constraints << endl;
-            
-            vector<constraint_t>::iterator it;
-            for (it = constraint_set_msg.constraints.begin(); it != constraint_set_msg.constraints.end(); ++it) {
-                cout << "Constraint type " << (*it).type << endl;
-                cout << "Parent region: " << endl;
-                cout << "    Region type = " << (*it).parent.type << endl;
-                cout << "    Object type = " << (*it).parent.object.type << endl;
-                cout << "    Object name = " << (*it).parent.object.name << endl;
-                cout << "Child region: " << endl;
-                cout << "    Region type = " << (*it).child.type << endl;
-                cout << "    Object type = " << (*it).child.object.type << endl;
-                cout << "    Object name = " << (*it).child.object.name << endl;
-                cout << endl;
-            }
+            Constraint_Set constraint_set;
+            GUI_LCM::constraint_set_from_constraint_set_t( constraint_set, constraint_set_msg );
+            cout << "constraint_set: " << constraint_set << endl;
         }
     }
 };
@@ -89,7 +70,6 @@ main( int argc,
     exit(1);
   }
 
-  cout << "Listening for h2sl_xml_string_t LCM messages" << endl;
   lcm::LCM lcm;
 
   if( !lcm.good() ){
@@ -98,8 +78,7 @@ main( int argc,
   }
 
   LCM_Message_Handler lcm_message_handler;
-  // Subscribe to all channels of h2sl
-  lcm.subscribe( ".*", &LCM_Message_Handler::on_lcm_message, &lcm_message_handler );
+  lcm.subscribe( args.channel_arg, &LCM_Message_Handler::on_lcm_message, &lcm_message_handler );
     
   while( true ){
     lcm.handle();

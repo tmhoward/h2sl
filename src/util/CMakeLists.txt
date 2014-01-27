@@ -1,5 +1,4 @@
 if (LCM_GEN)
-    generate_lcm(h2sl_xml_string_t.lcm h2sl/xml_string_t.hpp)
     generate_lcm(h2sl_object_t.lcm h2sl/object_t.hpp)
     generate_lcm(h2sl_region_t.lcm h2sl/region_t.hpp)
     generate_lcm(h2sl_constraint_t.lcm h2sl/constraint_t.hpp)
@@ -26,7 +25,6 @@ endif (LCM_FOUND)
 
 if (LCM_FOUND)
     set (LCM_MESSAGE_HEADERS
-        ${CMAKE_CURRENT_BINARY_DIR}/h2sl/xml_string_t.hpp
         ${CMAKE_CURRENT_BINARY_DIR}/h2sl/object_t.hpp
         ${CMAKE_CURRENT_BINARY_DIR}/h2sl/region_t.hpp
         ${CMAKE_CURRENT_BINARY_DIR}/h2sl/constraint_t.hpp
@@ -54,7 +52,7 @@ if (LCM_FOUND)
     target_link_libraries(h2sl-gui-lcm-demo ${LIB} h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${LCM_LIBRARIES})
 
     add_executable(h2sl-lcm-message-spy lcm_message_spy.cc ${CMAKE_CURRENT_BINARY_DIR}/lcm_message_spy_cmdline.c)
-    target_link_libraries(h2sl-lcm-message-spy ${LCM_LIBRARIES})
+    target_link_libraries(h2sl-lcm-message-spy ${LIB} h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${LCM_LIBRARIES})
 endif (LCM_FOUND)
 
 install(FILES 

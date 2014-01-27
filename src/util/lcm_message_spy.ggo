@@ -2,4 +2,6 @@ package "h2sl-lcm-message-spy"
 version "0.0.1"
 purpose "A command-line program used to inspect h2sl_xml_string_t Lightweight Communications and Marshalling (LCM) messages that are being published."
 
+option "channel" c "channel name" string default="CONSTRAINT_SET" optional
+
 text ""

@@ -35,6 +35,7 @@
 #include "h2sl/constraint_set_t.hpp"
 
 using namespace std;
+using namespace lcm;
 using namespace h2sl;
 
 GUI_LCM::
@@ -43,49 +44,119 @@ GUI_LCM( Parser * parser,
           LLM * llm,
           DCG * dcg,
           const unsigned int& beamWidth,
-          QWidget * parent ) : GUI( parser, world, llm, dcg, beamWidth, parent ) {
-    lcm::LCM lcm = lcm::LCM();
-
-//  connect( _line_edit_sentence, SIGNAL( returnPressed() ), this, SLOT( _line_edit_sentence_return_pressed() ) );
+          QWidget * parent ) : GUI( parser, world, llm, dcg, beamWidth, parent ),
+                                _lcm( new LCM() ) {
 }
 
 GUI_LCM::
 ~GUI_LCM() {
+  if( _lcm != NULL ){
+    delete _lcm;
+    _lcm = NULL;
+  }
+}
 
+void 
+GUI_LCM::
+object_to_object_t( const Object& object, 
+                    object_t& msg ){
+  msg.name = object.name();
+  msg.type = object.type();
+  return;
+}
+
+void 
+GUI_LCM::
+region_to_region_t( const Region& region, 
+                    region_t& msg ){
+  msg.type = region.type();
+  object_to_object_t( region.object(), msg.object );
+  return;
+}
+
+void 
+GUI_LCM::
+constraint_to_constraint_t( const Constraint& constraint, 
+                            constraint_t& msg ){
+  msg.type = constraint.type();
+  region_to_region_t( constraint.parent(), msg.parent );
+  region_to_region_t( constraint.child(), msg.child );
+  return;
+}
+
+void
+GUI_LCM::
+constraint_set_to_constraint_set_t( const Constraint_Set& constraintSet,
+                                    constraint_set_t& msg ){
+  msg.num_constraints = constraintSet.constraints().size();
+  msg.constraints.resize( constraintSet.constraints().size() );
+  for( unsigned int i = 0; i < constraintSet.constraints().size(); i++ ){
+    constraint_to_constraint_t( constraintSet.constraints()[ i ], msg.constraints[ i ] );
+  }
+  return;
+}
+
+void 
+GUI_LCM::
+object_from_object_t( Object& object, 
+                      const object_t& msg ){
+  object.name() = msg.name;
+  object.type() = msg.type;
+  return;
+}
+
+void 
+GUI_LCM::
+region_from_region_t( Region& region, 
+                      const region_t& msg ){
+  region.type() = msg.type;
+  object_from_object_t( region.object(), msg.object );
+  return;
+}
+
+void 
+GUI_LCM::
+constraint_from_constraint_t( Constraint& constraint, 
+                              const constraint_t& msg ){
+  constraint.type() = msg.type;
+  region_from_region_t( constraint.parent(), msg.parent );
+  region_from_region_t( constraint.child(), msg.child );
+  return;
+}
+
+void 
+GUI_LCM::
+constraint_set_from_constraint_set_t( Constraint_Set& constraintSet, 
+                                      const constraint_set_t& msg ){
+  constraintSet.constraints().resize( msg.constraints.size() );
+  for( unsigned int i = 0; i < msg.constraints.size(); i++ ){
+    constraint_from_constraint_t( constraintSet.constraints()[ i ], msg.constraints[ i ] );
+  }
+  return;
 }
 
 void
 GUI_LCM::
 _send_message( void ){
-  h2sl::xml_string_t xml_msg;
-  if(!lcm.good())
-      cout << "LCM isn't initialized" << endl;
+  if( !_lcm->good() ){
+    cout << "LCM isn't initialized" << endl;
+    return;
+  } else {
+    cout << "sending LCM message" << endl;
+  }
 
-  xml_msg.xml = _line_edit_sentence->text().toLower().toStdString();
-  lcm.publish ("GUI_XML_STRING", &xml_msg);
+  if( !_solutions.empty() ){
+    Constraint_Set * constraint_set = dynamic_cast< Constraint_Set* >( _solutions.front().second.grounding() );
+    if( constraint_set != NULL ){
+      constraint_set_t msg;
+      constraint_set_to_constraint_set_t( *constraint_set, msg );
+      _lcm->publish( "CONSTRAINT_SET", &msg );
+    }
+  }
 
-  h2sl::constraint_set_t cmsg;
-  cmsg.num_constraints = 2;
-  h2sl::constraint_t c1;
-  c1.type = 10;
-  c1.parent.type = 1;
-  c1.parent.object.type = 2;
-  c1.parent.object.name = "hello";
-  c1.child.object.type = 3;
-  c1.child.object.name = "matt";
-  h2sl::constraint_t c2;
-  c2.type = 20;
-  c2.parent.type = 1;
-  c2.parent.object.type = 2;
-  c2.parent.object.name = "hello";
-  c2.child.object.type = 3;
-  c2.child.object.name = "matt";
-  cmsg.constraints.resize (cmsg.num_constraints);
-  cmsg.constraints[0] = c1;
-  cmsg.constraints[1] = c2;
-  lcm.publish ("CONSTRAINT_SET", &cmsg);
   return;
 }
+
 
 namespace h2sl {
   ostream&
@@ -93,5 +164,4 @@ namespace h2sl {
               const GUI_LCM& other ) {
     return out;
   }
-
 }
