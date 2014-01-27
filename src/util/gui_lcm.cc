@@ -85,7 +85,7 @@ void
 GUI_LCM::
 world_to_world_t( const World& world,
                   world_t& msg ){
-  msg.time = world.time();
+  msg.utime = world.time();
   object_set_to_object_set_t( world.object_set(), msg.object_set );
   return;
 }
@@ -145,7 +145,7 @@ void
 GUI_LCM::
 world_from_world_t( World& world,
                     const world_t& msg ){
-  world.time() = msg.time;
+  world.time() = msg.utime;
   object_set_from_object_set_t( world.object_set(), msg.object_set );
   return;
 }
