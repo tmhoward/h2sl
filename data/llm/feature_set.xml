@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <feature_set>
+    <feature_group>
+      <feature_cv invert="0" cv="1"/>
+      <feature_cv invert="0" cv="2"/>
+    </feature_group>
+    <feature_group>
+      <feature_word invert="0" pos="CC" text="and"/>
+      <feature_word invert="0" pos="DT" text="the"/>
+      <feature_word invert="0" pos="DT" text="these"/>
+      <feature_word invert="0" pos="DT" text="a"/>
+      <feature_word invert="0" pos="DT" text="this"/>
+      <feature_word invert="0" pos="EX" text="there"/>
+      <feature_word invert="0" pos="IN" text="near"/>
+      <feature_word invert="0" pos="IN" text="behind"/>
+      <feature_word invert="0" pos="IN" text="at"/>
+      <feature_word invert="0" pos="IN" text="toward"/>
+      <feature_word invert="0" pos="IN" text="towards"/>
+      <feature_word invert="0" pos="IN" text="by"/>
+      <feature_word invert="0" pos="IN" text="for"/>
+      <feature_word invert="0" pos="IN" text="of"/>
+      <feature_word invert="0" pos="IN" text="in"/>
+      <feature_word invert="0" pos="IN" text="from"/>
+      <feature_word invert="0" pos="IN" text="behind"/>
+      <feature_word invert="0" pos="IN" text="on"/>
+      <feature_word invert="0" pos="NN" text="robot"/>
+      <feature_word invert="0" pos="NN" text="box"/>
+      <feature_word invert="0" pos="NN" text="package"/>
+      <feature_word invert="0" pos="NN" text="crate"/>
+      <feature_word invert="0" pos="NN" text="table"/>
+      <feature_word invert="0" pos="NN" text="counter"/>
+      <feature_word invert="0" pos="NN" text="desk"/>
+      <feature_word invert="0" pos="NN" text="chair"/>
+      <feature_word invert="0" pos="NN" text="seat"/>
+      <feature_word invert="0" pos="NN" text="stool"/>
+      <feature_word invert="0" pos="NN" text="couch"/>
+      <feature_word invert="0" pos="NN" text="sofa"/>
+      <feature_word invert="0" pos="NN" text="sink"/>
+      <feature_word invert="0" pos="NN" text="mug"/>
+      <feature_word invert="0" pos="NN" text="cup"/>
+      <feature_word invert="0" pos="NN" text="glass"/>
+      <feature_word invert="0" pos="NN" text="left"/>
+      <feature_word invert="0" pos="NN" text="right"/>
+      <feature_word invert="0" pos="NN" text="front"/>
+      <feature_word invert="0" pos="NN" text="back"/>
+      <feature_word invert="0" pos="NN" text="can"/>
+      <feature_word invert="0" pos="NN" text="fridge"/>
+      <feature_word invert="0" pos="NN" text="refrigerator"/>
+      <feature_word invert="0" pos="NN" text="hammer"/>
+      <feature_word invert="0" pos="NN" text="mallet"/>
+      <feature_word invert="0" pos="NN" text="screwdriver"/>
+      <feature_word invert="0" pos="NN" text="pipe"/>
+      <feature_word invert="0" pos="NN" text="tube"/>
+      <feature_word invert="0" pos="NN" text="newspaper"/>
+      <feature_word invert="0" pos="NN" text="marker"/>
+      <feature_word invert="0" pos="NN" text="pen"/>
+      <feature_word invert="0" pos="NN" text="tape"/>
+      <feature_word invert="0" pos="NN" text="bone"/>
+      <feature_word invert="0" pos="TO" text="to"/>
+      <feature_word invert="0" pos="VB" text="walk"/>
+      <feature_word invert="0" pos="VB" text="proceed"/>
+      <feature_word invert="0" pos="VB" text="drive"/>
+      <feature_word invert="0" pos="VB" text="move"/>
+      <feature_word invert="0" pos="VB" text="go"/>
+      <feature_word invert="0" pos="VB" text="approach"/>
+      <feature_word invert="0" pos="VB" text="leave"/>
+      <feature_word invert="0" pos="VB" text="exit"/>
+      <feature_num_words invert="0" num_words="0"/>
+    </feature_group>
+    <feature_group>
+      <feature_region_object invert="0" object_type="1"/>
+      <feature_region_object invert="0" object_type="2"/>
+      <feature_region_object invert="0" object_type="3"/>
+      <feature_region_object invert="0" object_type="4"/>
+      <feature_region_object invert="0" object_type="5"/>
+      <feature_region_object invert="0" object_type="6"/>
+      <feature_region_object invert="0" object_type="7"/>
+      <feature_region_object invert="0" object_type="8"/>
+      <feature_region_object invert="0" object_type="9"/>
+      <feature_region_object invert="0" object_type="10"/>
+      <feature_region_object invert="0" object_type="11"/>
+      <feature_region_object invert="0" object_type="12"/>
+      <feature_region_object invert="0" object_type="13"/>
+      <feature_region_object invert="0" object_type="14"/>
+      <feature_region_object invert="0" object_type="15"/>
+      <feature_region_object invert="0" object_type="16"/>
+      <feature_region_object invert="0" object_type="17"/>
+      <feature_region_object invert="0" object_type="18"/>
+      <feature_region invert="0" region_type="1"/>
+      <feature_region invert="0" region_type="2"/>
+      <feature_region invert="0" region_type="3"/>
+      <feature_region invert="0" region_type="4"/>
+      <feature_region invert="0" region_type="5"/>
+      <feature_region invert="0" region_type="6"/>
+      <feature_region invert="0" region_type="7"/>
+      <feature_region invert="0" region_type="8"/>
+      <feature_constraint invert="0" constraint_type="1"/>
+      <feature_constraint invert="0" constraint_type="2"/>
+      <feature_region_object_matches_child invert="0"/>
+      <feature_region_object_matches_child invert="1"/>
+      <feature_region_matches_child invert="0"/>
+      <feature_region_matches_child invert="1"/>
+      <feature_region_merge_partially_known_regions invert="0"/>
+      <feature_region_merge_partially_known_regions invert="1"/>
+      <feature_constraint_parent_matches_child_region invert="0"/>
+      <feature_constraint_parent_matches_child_region invert="1"/>
+      <feature_constraint_child_matches_child_region invert="0"/>
+      <feature_constraint_child_matches_child_region invert="1"/>
+      <feature_constraint_parent_is_robot invert="0"/>
+      <feature_constraint_parent_is_robot invert="1"/>
+      <feature_constraint_child_is_robot invert="0"/>
+      <feature_constraint_child_is_robot invert="1"/>
+    </feature_group>
+  </feature_set>
+</root>

@@ -1,0 +1,41 @@
+H2SL (Human 2 Structured Language) provides the source code for a set
+of libraries and executables that convert free-form text input to its
+corresponding structured language instance.
+
+Copyright (C) 2014 by the Massachusetts Institute of Technology
+
+Developed by Thomas M. Howard and Matthew R. Walter at the Computer
+Science and Artificial Intelligence Laboratory, MIT, Cambridge,
+Massachusetts USA, with partial support from the U.S. Army Research
+Laboratory under the Robotics Collaborative Technology Alliance,
+Cooperative Agreement W911NF-10-2-0016.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, see
+<http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
+Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+02110-1301, USA.
+
+TUTORIAL
+
+To train the model from a corpus of labeled examples, run ...
+
+h2sl-llm-train (examples files) --feature_set=(feature_set.xml) --output=(llm.xml)
+
+To run the Distributed Correspondence Graph (DCG) demo, run ...
+
+h2sl-dcg-demo --world=(world.xml) --llm=(llm.xml) --grammar=(grammar.xml) --command=(command string) -output=(output.xml)
+
+To run the Graphical User Interface (GUI), run ...
+
+h2sl-gui-demo --world=(world.xml) --llm=(llm.xml) --grammar=(grammar.xml)

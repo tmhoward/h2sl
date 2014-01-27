@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world time="0">
+    <object_set>
+      <object name="o0" type="robot"/>
+      <object name="o1" type="box"/>
+      <object name="o2" type="table"/>
+      <object name="o3" type="chair"/>
+    </object_set>
+  </world>
+  <VP>
+    <grounding>
+      <constraint_set>
+        <constraint type="outside">
+          <parent>
+            <region type="na">
+              <object name="o0" type="robot"/>
+            </region>
+          </parent>
+          <child>
+            <region type="na">
+              <object name="o2" type="table"/>
+            </region>
+          </child>
+        </constraint>
+      </constraint_set>
+    </grounding>
+    <VB text="leave"/>
+    <NP>
+      <grounding>
+        <region_set>
+          <region type="na">
+            <object name="o2" type="table"/>
+          </region>
+        </region_set>
+      </grounding>
+      <DT text="the"/>
+      <NN text="table"/>
+    </NP>
+  </VP>
+</root>

@@ -1,0 +1,15 @@
+find_path(H2SL_INCLUDE_DIR NAMES h2sl/pos.h
+          HINTS @CMAKE_INSTALL_PREFIX@/include)
+
+find_library(H2SL_SYMBOL_LIBRARY NAMES h2sl-symbol
+              HINTS @CMAKE_INSTALL_PREFIX@/lib)
+
+find_library(H2SL_LANGUAGE_LIBRARY NAMES h2sl-language
+              HINTS @CMAKE_INSTALL_PREFIX@/lib)
+
+find_library(H2SL_PARSER_LIBRARY NAMES h2sl-parser
+              HINTS @CMAKE_INSTALL_PREFIX@/lib)
+
+set(H2SL_LIBRARIES ${H2SL_PARSER_LIBRARY} ${H2SL_LANGUAGE_LIBRARY} ${H2SL_SYMBOL_LIBRARY})
+
+mark_as_advanced(H2SL_INCLUDE_DIR H2SL_LIBRARIES)

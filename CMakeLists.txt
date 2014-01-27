@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 2.8)
+project(h2sl)
+
+set(H2SL_VERSION 1.0)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+add_subdirectory(src)
+
+configure_file(${PROJECT_SOURCE_DIR}/Find${PROJECT_NAME}.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/Find${PROJECT_NAME}.cmake @ONLY)
+install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/Find${PROJECT_NAME}.cmake
+        DESTINATION
+        ${CMAKE_INSTALL_PREFIX}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/)

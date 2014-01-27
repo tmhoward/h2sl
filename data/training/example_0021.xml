@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world time="0">
+    <object_set>
+      <object name="o0" type="robot"/>
+      <object name="o1" type="box"/>
+      <object name="o2" type="table"/>
+      <object name="o3" type="chair"/>
+    </object_set>
+  </world>
+  <VP>
+    <grounding>
+      <constraint_set>
+        <constraint type="inside">
+          <parent>
+            <region type="na">
+              <object name="o0" type="robot"/>
+            </region>
+          </parent>
+          <child>
+            <region type="left">
+              <object name="o1" type="box"/>
+            </region>
+          </child>
+        </constraint>
+      </constraint_set>
+    </grounding>
+    <VB text="walk"/>
+    <PP>
+      <grounding>
+        <region_set>
+          <region type="left">
+            <object name="o1" type="box"/>
+          </region>
+        </region_set>
+      </grounding>
+      <TO text="to"/>
+      <NP>
+        <grounding>
+          <region_set>
+            <region type="left">
+              <object name="o1" type="box"/>
+            </region>
+          </region_set>
+        </grounding>
+        <NP>
+          <grounding>
+            <region_set>
+              <region type="left">
+                <object name="na" type="na"/>
+              </region>
+            </region_set>
+          </grounding>
+          <DT text="the"/>
+          <NN text="left"/>
+        </NP>
+        <PP>
+          <grounding>
+            <region_set>
+              <region type="na">
+                <object name="o1" type="box"/>
+              </region>
+            </region_set>
+          </grounding>
+          <IN text="of"/>
+          <NP>
+            <grounding>
+              <region_set>
+                <region type="na">
+                  <object name="o1" type="box"/>
+                </region>
+              </region_set>
+            </grounding>
+            <DT text="the"/>
+            <NN text="crate"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </VP>
+</root>
