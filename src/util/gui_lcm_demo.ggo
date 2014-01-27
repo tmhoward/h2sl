@@ -7,5 +7,6 @@ option "grammar" g "grammar file" string required
 option "world" w "world file" string required
 option "phrase" p "phrase file" string optional
 option "beam_width" b "beam width" int default="4" optional 
+option "world_channel" c "world  channel" string default="WORLD" optional
 
 text ""

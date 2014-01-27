@@ -44,8 +44,12 @@ GUI_LCM( Parser * parser,
           LLM * llm,
           DCG * dcg,
           const unsigned int& beamWidth,
+          const string& worldChannel,
           QWidget * parent ) : GUI( parser, world, llm, dcg, beamWidth, parent ),
                                 _lcm( new LCM() ) {
+  if( !_lcm->good() ){
+    _lcm->subscribe( worldChannel, &GUI_LCM::_receive_world, this );
+  }
 }
 
 GUI_LCM::
@@ -62,6 +66,27 @@ object_to_object_t( const Object& object,
                     object_t& msg ){
   msg.name = object.name();
   msg.type = object.type();
+  return;
+}
+
+void
+GUI_LCM::
+object_set_to_object_set_t( const Object_Set& objectSet,
+                            object_set_t& msg ){
+  msg.num_objects = objectSet.objects().size();
+  msg.objects.resize( objectSet.objects().size() );
+  for( unsigned int i = 0; i < objectSet.objects().size(); i++ ){
+    object_to_object_t( objectSet.objects()[ i ], msg.objects[ i ] );
+  }
+  return;
+}
+
+void
+GUI_LCM::
+world_to_world_t( const World& world,
+                  world_t& msg ){
+  msg.time = world.time();
+  object_set_to_object_set_t( world.object_set(), msg.object_set );
   return;
 }
 
@@ -105,6 +130,26 @@ object_from_object_t( Object& object,
   return;
 }
 
+void
+GUI_LCM::
+object_set_from_object_set_t( Object_Set& objectSet,
+                              const object_set_t& msg ){
+  objectSet.objects().resize( msg.objects.size() );
+  for( unsigned int i = 0; i < msg.objects.size(); i++ ){
+    object_from_object_t( objectSet.objects()[ i ], msg.objects[ i ] );
+  }
+  return;
+}
+
+void
+GUI_LCM::
+world_from_world_t( World& world,
+                    const world_t& msg ){
+  world.time() = msg.time;
+  object_set_from_object_set_t( world.object_set(), msg.object_set );
+  return;
+}
+
 void 
 GUI_LCM::
 region_from_region_t( Region& region, 
@@ -137,7 +182,7 @@ constraint_set_from_constraint_set_t( Constraint_Set& constraintSet,
 
 void
 GUI_LCM::
-_send_message( void ){
+_send_constraint_set( void ){
   if( !_lcm->good() ){
     cout << "LCM isn't initialized" << endl;
     return;
@@ -157,6 +202,16 @@ _send_message( void ){
   return;
 }
 
+void 
+GUI_LCM::
+_receive_world( const ReceiveBuffer* buf, 
+                const string& channel, 
+                const world_t * msg ){
+  if( _world != NULL ){
+    world_from_world_t( *_world, *msg );
+  }
+  return;
+}
 
 namespace h2sl {
   ostream&

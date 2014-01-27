@@ -1,0 +1,7 @@
+package h2sl;
+
+struct world_t
+{
+    int32_t time;
+    object_set_t object_set;
+}

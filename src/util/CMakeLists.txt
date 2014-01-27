@@ -1,5 +1,7 @@
 if (LCM_GEN)
     generate_lcm(h2sl_object_t.lcm h2sl/object_t.hpp)
+    generate_lcm(h2sl_object_set_t.lcm h2sl/object_set_t.hpp)
+    generate_lcm(h2sl_world_t.lcm h2sl/world_t.hpp)
     generate_lcm(h2sl_region_t.lcm h2sl/region_t.hpp)
     generate_lcm(h2sl_constraint_t.lcm h2sl/constraint_t.hpp)
     generate_lcm(h2sl_constraint_set_t.lcm h2sl/constraint_set_t.hpp)
@@ -26,6 +28,8 @@ endif (LCM_FOUND)
 if (LCM_FOUND)
     set (LCM_MESSAGE_HEADERS
         ${CMAKE_CURRENT_BINARY_DIR}/h2sl/object_t.hpp
+        ${CMAKE_CURRENT_BINARY_DIR}/h2sl/object_set_t.hpp
+        ${CMAKE_CURRENT_BINARY_DIR}/h2sl/world_t.hpp
         ${CMAKE_CURRENT_BINARY_DIR}/h2sl/region_t.hpp
         ${CMAKE_CURRENT_BINARY_DIR}/h2sl/constraint_t.hpp
         ${CMAKE_CURRENT_BINARY_DIR}/h2sl/constraint_set_t.hpp)

@@ -456,7 +456,7 @@ void
 GUI::
 _line_edit_sentence_return_pressed( void ){
   _run_inference( _line_edit_sentence->text().toStdString() );
-  _send_message();
+  _send_constraint_set();
   return;
 }
 
@@ -498,7 +498,7 @@ _run_inference( const string& sentence ){
 
 void
 GUI::
-_send_message( void ){
+_send_constraint_set( void ){
   return;
 }
 

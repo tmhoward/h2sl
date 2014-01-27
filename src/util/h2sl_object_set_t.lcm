@@ -1,0 +1,8 @@
+package h2sl;
+
+struct object_set_t
+{
+    int32_t num_objects;
+
+    object_t objects[num_objects];
+}

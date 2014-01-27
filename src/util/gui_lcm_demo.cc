@@ -65,7 +65,7 @@ main( int argc,
 
   DCG * dcg = new DCG();
 
-  GUI_LCM gui_lcm( parser, world, llm, dcg, args.beam_width_arg );
+  GUI_LCM gui_lcm( parser, world, llm, dcg, args.beam_width_arg, args.world_channel_arg );
   
   if( args.phrase_given ){
     Phrase * phrase = new Phrase();

@@ -145,7 +145,7 @@ namespace h2sl {
     virtual void resizeEvent( QResizeEvent* event );
 
     virtual void _run_inference( const std::string& sentence );
-    virtual void _send_message( void );
+    virtual void _send_constraint_set( void );
     QString _format_comment (const std::string& comment, const bool& error = false);
 
     QLineEdit* _line_edit_sentence;
