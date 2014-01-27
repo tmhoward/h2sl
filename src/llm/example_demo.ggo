@@ -1,0 +1,10 @@
+package "example_demo"
+version "0.0.1"
+purpose "A program used to demonstrate generate an example from a world model and a phrase"
+
+option "world" f "world file" string required
+option "grammar" g "grammar file" string required
+option "command" c "command" string required
+option "output" o "output file" string required
+
+text ""

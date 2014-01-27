@@ -1,0 +1,8 @@
+package h2sl;
+
+struct region_t
+{
+    int32_t type; // the type as indicated in h2sl/region.h
+
+    object_t object;
+}

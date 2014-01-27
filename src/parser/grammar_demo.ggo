@@ -1,0 +1,8 @@
+package "grammar_demo"
+version "0.0.1"
+purpose "A program used to demonstrate the grammar class."
+
+option "grammar" g "grammar file" string required
+option "output" o "output file" string optional
+
+text ""

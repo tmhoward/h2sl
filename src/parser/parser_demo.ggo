@@ -1,0 +1,9 @@
+package "parser_demo"
+version "0.0.1"
+purpose "A program used to demonstrate the parser class."
+
+option "grammar" g "grammar file" string required
+option "command" c "command string" string required
+option "output" o "output file" string optional
+
+text ""

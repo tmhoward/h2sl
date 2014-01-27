@@ -1,0 +1,8 @@
+package h2sl;
+
+struct constraint_set_t
+{
+    int32_t num_constraints;
+
+    constraint_t constraints[num_constraints];
+}

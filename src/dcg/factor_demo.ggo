@@ -1,0 +1,8 @@
+package "factor_demo"
+version "0.0.1"
+purpose "A program used to demonstrate the Factor class."
+
+option "llm" m "log-linear model file" string required
+option "output" o "output file" string optional
+
+text ""

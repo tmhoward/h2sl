@@ -1,0 +1,7 @@
+package "cv_demo"
+version "0.0.1"
+purpose "A program used to demonstrate the CV (Correspondence Variable) class."
+
+option "output" o "output file" string optional
+
+text ""

@@ -1,0 +1,9 @@
+package h2sl;
+
+struct constraint_t
+{
+    int32_t type; // the type as indicated in h2sl/constraint.h
+    
+    region_t parent;
+    region_t child;
+}
