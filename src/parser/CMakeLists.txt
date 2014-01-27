@@ -3,12 +3,13 @@ generate_ggo(parser_demo.ggo parser_demo_cmdline)
 
 set(LIB h2sl-parser)
 
-add_library(${LIB}
+add_library(${LIB} SHARED
             grammar_terminal.cc
             grammar_non_terminal.cc
             grammar_unit_production.cc
             grammar.cc
             parser.cc)
+target_link_libraries(${LIB} h2sl-language h2sl-symbol ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-grammar-demo grammar_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/grammar_demo_cmdline.c)
 target_link_libraries(h2sl-grammar-demo ${LIB} h2sl-language h2sl-symbol ${LIBXML2_LIBRARIES})
@@ -25,8 +26,6 @@ install(FILES
         DESTINATION include/${PROJECT_NAME})
 
 install(TARGETS ${LIB}
-        LIBRARY 
-        ARCHIVE 
         DESTINATION lib)
 
 install(TARGETS 

@@ -1,6 +1,6 @@
 set(LIB h2sl-symbol)
 
-add_library(${LIB}
+add_library(${LIB} SHARED
             grounding.cc
             object.cc
             object_set.cc
@@ -9,6 +9,7 @@ add_library(${LIB}
             constraint.cc
             constraint_set.cc
             world.cc)
+target_link_libraries(${LIB} ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-grounding-demo grounding_demo.cc)
 target_link_libraries(h2sl-grounding-demo ${LIB} ${LIBXML2_LIBRARIES})
@@ -46,8 +47,9 @@ install(FILES
         DESTINATION include/${PROJECT_NAME})
 
 install(TARGETS ${LIB}
-        LIBRARY 
-        ARCHIVE 
+        LIBRARY
+        DESTINATION lib
+        ARCHIVE
         DESTINATION lib)
 
 install(TARGETS 

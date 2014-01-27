@@ -3,9 +3,10 @@ generate_ggo(dcg_demo.ggo dcg_demo_cmdline)
 
 set(LIB h2sl-dcg)
 
-add_library(${LIB}
+add_library(${LIB} SHARED
             factor.cc
             dcg.cc)
+target_link_libraries(${LIB} h2sl-llm h2sl-language h2sl-symbol ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-factor-demo factor_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/factor_demo_cmdline.c)
 target_link_libraries(h2sl-factor-demo ${LIB} h2sl-llm h2sl-language h2sl-symbol ${LIBXML2_LIBRARIES})
@@ -19,8 +20,6 @@ install(FILES
         DESTINATION include/${PROJECT_NAME})
 
 install(TARGETS ${LIB}
-        LIBRARY 
-        ARCHIVE 
         DESTINATION lib)
 
 install(TARGETS 

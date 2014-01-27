@@ -5,7 +5,7 @@ generate_ggo(example_demo.ggo example_demo_cmdline)
 
 set(LIB h2sl-llm)
 
-add_library(${LIB}
+add_library(${LIB} SHARED
             feature.cc
             feature_cv.cc
             feature_word.cc
@@ -23,6 +23,7 @@ add_library(${LIB}
             feature_constraint_child_is_robot.cc
             feature_set.cc
             llm.cc)
+target_link_libraries(${LIB} h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-cv-demo cv_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/cv_demo_cmdline.c)
 target_link_libraries(h2sl-cv-demo ${LIB} h2sl-language h2sl-symbol ${LIBXML2_LIBRARIES})
@@ -58,8 +59,6 @@ install(FILES
         DESTINATION include/${PROJECT_NAME})
 
 install(TARGETS ${LIB}
-        LIBRARY 
-        ARCHIVE 
         DESTINATION lib)
 
 install(TARGETS 

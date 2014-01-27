@@ -1,8 +1,9 @@
 set(LIB h2sl-language)
 
-add_library(${LIB}
+add_library(${LIB} SHARED
             word.cc
             phrase.cc)
+target_link_libraries(${LIB} h2sl-symbol ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-pos-demo pos_demo.cc)
 target_link_libraries(h2sl-pos-demo ${LIB} h2sl-symbol ${LIBXML2_LIBRARIES})
@@ -20,8 +21,7 @@ install(FILES
         DESTINATION include/${PROJECT_NAME})
 
 install(TARGETS ${LIB}
-        LIBRARY 
-        ARCHIVE 
+        LIBRARY
         DESTINATION lib)
 
 install(TARGETS 

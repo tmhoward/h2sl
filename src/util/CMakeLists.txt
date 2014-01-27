@@ -39,11 +39,16 @@ else (LCM_FOUND)
     set (LCM_GUI_SRC)
 endif (LCM_FOUND)
 
-add_library(${LIB}
+add_library(${LIB} SHARED
             gui.cc
             ${LCM_GUI_SRC}
             ${LCM_MESSAGE_HEADERS}
             ${MOC_SRCS})
+if (LCM_FOUND)
+  target_link_libraries(${LIB} h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${LCM_LIBRARIES})
+else (LCM_FOUND)
+  target_link_libraries(${LIB} h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES})
+endif (LCM_FOUND)
 
 add_executable(h2sl-llm-train llm_train.cc ${CMAKE_CURRENT_BINARY_DIR}/llm_train_cmdline.c)
 target_link_libraries(h2sl-llm-train ${LIB} h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES})
@@ -66,8 +71,6 @@ install(FILES
         DESTINATION include/${PROJECT_NAME})
 
 install(TARGETS ${LIB}
-        LIBRARY 
-        ARCHIVE 
         DESTINATION lib)
 
 if (LCM_FOUND)
