@@ -2,6 +2,6 @@ package h2sl;
 
 struct world_t
 {
-    int32_t time;
+    int64_t utime;
     object_set_t object_set;
 }
