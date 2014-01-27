@@ -379,29 +379,31 @@ update_graph( void ){
       QGraphicsItem_Factor * qgraphicsitem_factor = dynamic_cast< QGraphicsItem_Factor* >( _graphics_items[ i ] );
       if( qgraphicsitem_factor != NULL ){
         for( unsigned int j = 0; j < _graphics_items.size(); j++ ){
-          QGraphicsItem_Grounding* qgraphicsitem_grounding = dynamic_cast< QGraphicsItem_Grounding* >( _graphics_items[ j ] );
-          if( qgraphicsitem_grounding != NULL ){
-            if( qgraphicsitem_factor->factor()->phrase() == qgraphicsitem_grounding->grounding() ){
-              QGraphicsLineItem * qgraphicslineitem = new QGraphicsLineItem( qgraphicsitem_factor->x(), qgraphicsitem_factor->y(), qgraphicsitem_grounding->x(), qgraphicsitem_grounding->y() );
-              qgraphicslineitem->setPen( QPen( Qt::black, 2.0 ) );
-              _graphics_items.push_back( qgraphicslineitem );
-              qgraphicsitem_factor->qgraphicslineitems().push_back( qgraphicslineitem );
-              qgraphicsitem_grounding->qgraphicslineitems().push_back( qgraphicslineitem );
-            }
-            if( qgraphicsitem_factor->factor()->grounding() == qgraphicsitem_grounding->grounding() ){
-              QGraphicsLineItem * qgraphicslineitem = new QGraphicsLineItem( qgraphicsitem_factor->x(), qgraphicsitem_factor->y(), qgraphicsitem_grounding->x(), qgraphicsitem_grounding->y() );
-              qgraphicslineitem->setPen( QPen( Qt::black, 2.0 ) );
-              _graphics_items.push_back( qgraphicslineitem );
-              qgraphicsitem_factor->qgraphicslineitems().push_back( qgraphicslineitem );
-              qgraphicsitem_grounding->qgraphicslineitems().push_back( qgraphicslineitem );
-            }
-            for( unsigned int k = 0; k < qgraphicsitem_factor->factor()->children().size(); k++ ){
-              if( qgraphicsitem_factor->factor()->children()[ k ]->grounding() == qgraphicsitem_grounding->grounding() ){
+          if( i != j ){
+            QGraphicsItem_Grounding* qgraphicsitem_grounding = dynamic_cast< QGraphicsItem_Grounding* >( _graphics_items[ j ] );
+            if( qgraphicsitem_grounding != NULL ){
+              if( qgraphicsitem_factor->factor()->phrase() == qgraphicsitem_grounding->grounding() ){
                 QGraphicsLineItem * qgraphicslineitem = new QGraphicsLineItem( qgraphicsitem_factor->x(), qgraphicsitem_factor->y(), qgraphicsitem_grounding->x(), qgraphicsitem_grounding->y() );
                 qgraphicslineitem->setPen( QPen( Qt::black, 2.0 ) );
                 _graphics_items.push_back( qgraphicslineitem );
-                qgraphicsitem_factor->qgraphicslineitems().push_back( qgraphicslineitem ); 
+                qgraphicsitem_factor->qgraphicslineitems().push_back( qgraphicslineitem );
                 qgraphicsitem_grounding->qgraphicslineitems().push_back( qgraphicslineitem );
+              }
+              if( qgraphicsitem_factor->factor()->grounding() == qgraphicsitem_grounding->grounding() ){
+                QGraphicsLineItem * qgraphicslineitem = new QGraphicsLineItem( qgraphicsitem_factor->x(), qgraphicsitem_factor->y(), qgraphicsitem_grounding->x(), qgraphicsitem_grounding->y() );
+                qgraphicslineitem->setPen( QPen( Qt::black, 2.0 ) );
+                _graphics_items.push_back( qgraphicslineitem );
+                qgraphicsitem_factor->qgraphicslineitems().push_back( qgraphicslineitem );
+                qgraphicsitem_grounding->qgraphicslineitems().push_back( qgraphicslineitem );
+              }
+              for( unsigned int k = 0; k < qgraphicsitem_factor->factor()->children().size(); k++ ){
+                if( qgraphicsitem_factor->factor()->children()[ k ]->grounding() == qgraphicsitem_grounding->grounding() ){
+                  QGraphicsLineItem * qgraphicslineitem = new QGraphicsLineItem( qgraphicsitem_factor->x(), qgraphicsitem_factor->y(), qgraphicsitem_grounding->x(), qgraphicsitem_grounding->y() );
+                  qgraphicslineitem->setPen( QPen( Qt::black, 2.0 ) );
+                  _graphics_items.push_back( qgraphicslineitem );
+                  qgraphicsitem_factor->qgraphicslineitems().push_back( qgraphicslineitem ); 
+                  qgraphicsitem_grounding->qgraphicslineitems().push_back( qgraphicslineitem );
+                } 
               }
             }
           }
