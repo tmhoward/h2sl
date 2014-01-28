@@ -1,3 +1,5 @@
+set(CMAKE_INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+
 include_directories(${PROJECT_SOURCE_DIR}/src/symbol
                     ${PROJECT_SOURCE_DIR}/src/language
                     ${PROJECT_SOURCE_DIR}/src/parser
