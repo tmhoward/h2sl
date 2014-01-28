@@ -76,10 +76,13 @@ install(TARGETS ${LIB}
 if (LCM_FOUND)
     install(TARGETS 
         h2sl-gui-demo
+        h2sl-llm-train
         h2sl-gui-lcm-demo
+        h2sl-lcm-message-spy
         DESTINATION bin)
 else (LCM_FOUND)
     install(TARGETS 
         h2sl-gui-demo
+        h2sl-llm-train
         DESTINATION bin)
 endif (LCM_FOUND)

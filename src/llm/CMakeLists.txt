@@ -65,4 +65,5 @@ install(TARGETS
         h2sl-cv-demo
         h2sl-feature-set-demo
         h2sl-llm-demo
+        h2sl-example-demo
         DESTINATION bin)

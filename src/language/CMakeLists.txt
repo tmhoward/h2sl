@@ -25,6 +25,7 @@ install(TARGETS ${LIB}
         DESTINATION lib)
 
 install(TARGETS 
+        h2sl-pos-demo
         h2sl-word-demo
         h2sl-phrase-demo
         DESTINATION bin)

@@ -60,4 +60,5 @@ install(TARGETS
         h2sl-region-set-demo
         h2sl-constraint-demo
         h2sl-constraint-set-demo
+        h2sl-world-demo
         DESTINATION bin)
