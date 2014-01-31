@@ -35,6 +35,7 @@
 #define H2SL_GUI_LCM_H
 
 #include <iostream>
+#include <QThread>
 #include <lcm/lcm-cpp.hpp>
 
 #include "h2sl/gui.h"
@@ -52,6 +53,19 @@
 #include "h2sl/world_t.hpp"
 
 namespace h2sl {
+  class LCMThread : public QThread {
+    Q_OBJECT
+        
+  public:
+    LCMThread (lcm::LCM *lcm) {_lcm = lcm; };
+    virtual ~LCMThread () {};
+
+  protected:
+    void run ();
+
+    lcm::LCM * _lcm;
+  };
+
   class GUI_LCM: public GUI {
     Q_OBJECT
   public:
@@ -77,6 +91,7 @@ namespace h2sl {
     virtual void _receive_world( const lcm::ReceiveBuffer* rbuf, const std::string& channel, const world_t * msg );
     
     lcm::LCM * _lcm;
+    LCMThread *_lcm_thread;
 
   };
   std::ostream& operator<<( std::ostream& out, const GUI_LCM& other );

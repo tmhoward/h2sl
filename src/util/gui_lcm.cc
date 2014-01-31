@@ -46,10 +46,14 @@ GUI_LCM( Parser * parser,
           const unsigned int& beamWidth,
           const string& worldChannel,
           QWidget * parent ) : GUI( parser, world, llm, dcg, beamWidth, parent ),
-                                _lcm( new LCM() ) {
-  if( !_lcm->good() ){
+                               _lcm( new LCM()) {
+  if( _lcm->good() ){
     _lcm->subscribe( worldChannel, &GUI_LCM::_receive_world, this );
-  }
+    
+    _lcm_thread = new LCMThread (_lcm);
+    _lcm_thread->start();
+  } else
+      cerr << "Error initializing LCM instance" << endl;
 }
 
 GUI_LCM::
@@ -58,6 +62,7 @@ GUI_LCM::
     delete _lcm;
     _lcm = NULL;
   }
+  delete _lcm_thread;
 }
 
 void 
@@ -211,6 +216,13 @@ _receive_world( const ReceiveBuffer* buf,
     world_from_world_t( *_world, *msg );
   }
   return;
+}
+
+
+void
+LCMThread::
+run () {
+    while (_lcm->handle() == 0);
 }
 
 namespace h2sl {
