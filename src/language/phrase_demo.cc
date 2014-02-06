@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 
 #include <h2sl/phrase.h>
 

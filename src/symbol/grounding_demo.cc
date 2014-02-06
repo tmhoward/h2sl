@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include "h2sl/grounding.h"
 #include "grounding_demo_cmdline.h"
 

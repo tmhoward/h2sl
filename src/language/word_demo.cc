@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include <h2sl/word.h>
 
 using namespace std;

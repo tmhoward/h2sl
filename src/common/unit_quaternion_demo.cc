@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include "h2sl/unit_quaternion.h"
 #include "unit_quaternion_demo_cmdline.h"
 

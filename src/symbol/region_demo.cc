@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include "h2sl/region.h"
 #include "region_demo_cmdline.h"
 

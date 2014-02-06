@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include "h2sl/constraint.h"
 #include "constraint_demo_cmdline.h"
 

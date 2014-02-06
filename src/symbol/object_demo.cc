@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include "h2sl/object.h"
 #include "object_demo_cmdline.h"
 
