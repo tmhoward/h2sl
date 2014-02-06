@@ -1,5 +1,5 @@
 /**
- * @file    object_set.h
+ * @file    transform_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,44 +28,40 @@
  *
  * @section DESCRIPTION
  *
- * The interface for a class used to describe a set of objects
+ * A Transform class demo program
  */
 
-#ifndef H2SL_OBJECT_SET_H
-#define H2SL_OBJECT_SET_H
-
 #include <iostream>
-#include <vector>
+#include "h2sl/transform.h"
+#include "transform_demo_cmdline.h"
 
-#include "grounding.h"
-#include "object.h"
+using namespace std;
+using namespace h2sl;
 
-namespace h2sl {
-  class Object_Set: public Grounding {
-  public:
-    Object_Set( const std::vector< Object >& objects = std::vector< Object >() );
-    virtual ~Object_Set();
-    Object_Set( const Object_Set& other );
-    Object_Set& operator=( const Object_Set& other );
+int
+main( int argc,
+      char* argv[] ) {
+  int status = 0;
+  cout << "start of Transform class demo program" << endl;
 
-    void clear( void );
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
 
-    virtual void to_xml( const std::string& filename )const;
-    virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
+  Transform * transform = new Transform();
 
-    virtual void from_xml( const std::string& filename );
-    virtual void from_xml( xmlNodePtr root );
+  cout << "transform " << *transform << endl;
+  
+  transform->from_std_string( "1.5,3.0,4.5" );
 
-    inline std::vector< Object >& objects( void ){ return _objects; };
-    inline const std::vector< Object >& objects( void )const{ return _objects; };
+  cout << "transform " << *transform << endl;
 
-  protected:
-    std::vector< Object > _objects;
+  if( transform != NULL ){
+    delete transform;
+    transform = NULL;
+  }
 
-  private:
-
-  };
-  std::ostream& operator<<( std::ostream& out, const Object_Set& other );
+  cout << "end of Transform class demo program" << endl;
+  return status;
 }
-
-#endif /* H2SL_OBJECT_SET_H */

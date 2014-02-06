@@ -37,8 +37,8 @@ using namespace std;
 using namespace h2sl;
 
 Grammar_Unit_Production::
-Grammar_Unit_Production( const phrase_t& phrase,
-                              const string& symbol ) : _phrase( phrase ),
+Grammar_Unit_Production( const phrase_type_t& type,
+                              const string& symbol ) : _type( type ),
                                                     _symbol( symbol ) {
 
 }
@@ -49,7 +49,7 @@ Grammar_Unit_Production::
 }
 
 Grammar_Unit_Production::
-Grammar_Unit_Production( const Grammar_Unit_Production& other ) : _phrase( other._phrase ),
+Grammar_Unit_Production( const Grammar_Unit_Production& other ) : _type( other._type ),
                                                                             _symbol( other._symbol ){
 
 }
@@ -57,7 +57,7 @@ Grammar_Unit_Production( const Grammar_Unit_Production& other ) : _phrase( other
 Grammar_Unit_Production&
 Grammar_Unit_Production::
 operator=( const Grammar_Unit_Production& other ) {
-  _phrase = other._phrase;
+  _type = other._type;
   _symbol = other._symbol;
   return (*this);
 }
@@ -73,7 +73,7 @@ Grammar_Unit_Production::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "grammar_unit_production" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "symbol" ), ( const xmlChar* )( _symbol.c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "phrase" ), ( const xmlChar* )( Phrase::phrase_t_to_std_string( _phrase ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "type" ), ( const xmlChar* )( Phrase::phrase_type_t_to_std_string( _type ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -88,10 +88,10 @@ void
 Grammar_Unit_Production::
 from_xml( xmlNodePtr root ){
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "phrase" ) );
+    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "type" ) );
     if( tmp != NULL ){
-      string phrase_string = ( char* )( tmp );
-      _phrase = Phrase::phrase_t_from_std_string( phrase_string );
+      string type_string = ( char* )( tmp );
+      _type = Phrase::phrase_type_t_from_std_string( type_string );
       xmlFree( tmp );
     }
     tmp = xmlGetProp( root, ( const xmlChar* )( "symbol" ) );
@@ -107,7 +107,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Grammar_Unit_Production& other ) {
-    out << Phrase::phrase_t_to_std_string( other.phrase() ) << "-" << other.symbol();
+    out << Phrase::phrase_type_t_to_std_string( other.type() ) << "-" << other.symbol();
     return out;
   }
 

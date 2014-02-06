@@ -70,7 +70,8 @@ Feature_Region::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< Grounding* >& children,
-        const Phrase* phrase ){
+        const Phrase* phrase,
+        const World* world ){
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
     if( region->type() == _region_type ){

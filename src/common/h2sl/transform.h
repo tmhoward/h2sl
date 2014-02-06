@@ -1,5 +1,5 @@
 /**
- * @file    region_set.h
+ * @file    transform.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,45 +28,42 @@
  *
  * @section DESCRIPTION
  *
- * The interface for a class used to describe a set of regions
+ * The interface for a class used to describe a three-dimensional transform
  */
 
-#ifndef H2SL_REGION_SET_H
-#define H2SL_REGION_SET_H
+#ifndef H2SL_TRANSFORM_H
+#define H2SL_TRANSFORM_H
 
 #include <iostream>
 #include <vector>
 
-#include "grounding.h"
-#include "region.h"
+#include "h2sl/unit_quaternion.h"
+#include "h2sl/vector3.h"
 
 namespace h2sl {
-  class Region_Set: public Grounding {
+  class Transform {
   public:
-    Region_Set( const std::vector< Region >& regions = std::vector< Region >() );
-    virtual ~Region_Set();
-    Region_Set( const Region_Set& other );
-    Region_Set& operator=( const Region_Set& other );
-    virtual Grounding* dup( void )const;
+    Transform( const Unit_Quaternion& orientation = Unit_Quaternion(), const Vector3& position = Vector3() );
+    virtual ~Transform();
+    Transform( const Transform& other );
+    Transform& operator=( const Transform& other );
 
-    void clear( void );
-
-    virtual void to_xml( const std::string& filename )const;
-    virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
-
-    virtual void from_xml( const std::string& filename );
-    virtual void from_xml( xmlNodePtr root );
-
-    inline std::vector< Region >& regions( void ){ return _regions; };
-    inline const std::vector< Region >& regions( void )const{ return _regions; };
+    std::string to_std_string( void )const;
+    void from_std_string( const std::string& arg );
+  
+    inline Unit_Quaternion& orientation( void ){ return _orientation; };
+    inline const Unit_Quaternion& orientation( void )const{ return _orientation; };
+    inline Vector3& position( void ){ return _position; };
+    inline const Vector3& position( void )const{ return _position; };
 
   protected:
-    std::vector< Region > _regions;
+    Unit_Quaternion _orientation;
+    Vector3 _position;
 
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const Region_Set& other );
+  std::ostream& operator<<( std::ostream& out, const Transform& other );
 }
 
-#endif /* H2SL_REGION_SET_H */
+#endif /* H2SL_TRANSFORM_H */

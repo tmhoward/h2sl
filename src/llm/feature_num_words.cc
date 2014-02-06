@@ -71,7 +71,8 @@ Feature_Num_Words::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< Grounding* >& children,
-        const Phrase* phrase ){
+        const Phrase* phrase,
+        const World* world ){
   if( phrase != NULL ){
     if( phrase->words().size() == _num_words ){
       return !_invert;

@@ -49,7 +49,7 @@ Grammar() : _terminals(),
     _terminals.push_back( Grammar_Terminal( pos_t_to_std_string( ( pos_t )( i ) ) ) );
   }
   for( unsigned int i = PHRASE_NP; i < NUM_PHRASE_TYPES; i++ ){
-    _terminals.push_back( Grammar_Terminal( Phrase::phrase_t_to_std_string( ( phrase_t )( i ) ) ) );
+    _terminals.push_back( Grammar_Terminal( Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( i ) ) ) );
   }
 }
   
@@ -237,7 +237,7 @@ cnyify( void ){
   unsigned int rule_changes = 0;
   for( int i = 0; i < _non_terminals.size(); i++ ){
     if( _non_terminals[ i ].elements().size() == 2 ){
-      _unit_productions.push_back( Grammar_Unit_Production( Phrase::phrase_t_from_std_string( _non_terminals[ i ].elements().front() ), _non_terminals[ i ].elements().back() ) );
+      _unit_productions.push_back( Grammar_Unit_Production( Phrase::phrase_type_t_from_std_string( _non_terminals[ i ].elements().front() ), _non_terminals[ i ].elements().back() ) );
       for( unsigned int j = 0; j < _terminals.size(); j++ ){
         if( _terminals[ j ].symbol() == _non_terminals[ i ].elements().back() ){
           for( unsigned int k = 0; k < _terminals.size(); k++ ){

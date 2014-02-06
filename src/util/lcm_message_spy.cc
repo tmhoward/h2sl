@@ -34,7 +34,7 @@
 #include <iostream>
 #include <lcm/lcm-cpp.hpp>
 
-#include "h2sl/constraint_set.h"
+#include "h2sl/grounding_set.h"
 #include "h2sl/constraint.h"
 #include "h2sl/region.h"
 #include "h2sl/object.h"
@@ -55,9 +55,9 @@ class LCM_Message_Handler {
         h2sl::constraint_set_t constraint_set_msg;
         decode_status = constraint_set_msg.decode (rbuf->data, 0, rbuf->data_size);
         if (decode_status >= 0) {
-            Constraint_Set constraint_set;
-            GUI_LCM::constraint_set_from_constraint_set_t( constraint_set, constraint_set_msg );
-            cout << "constraint_set: " << constraint_set << endl;
+            Grounding_Set grounding_set;
+            GUI_LCM::grounding_set_from_constraint_set_t( grounding_set, constraint_set_msg );
+            cout << "grounding_set: " << grounding_set << endl;
         }
     }
 };

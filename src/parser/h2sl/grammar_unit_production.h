@@ -42,7 +42,7 @@
 namespace h2sl {
   class Grammar_Unit_Production {
   public:
-    Grammar_Unit_Production( const phrase_t& phrase = PHRASE_UNKNOWN, const std::string& symbol = "UNKNOWN" );
+    Grammar_Unit_Production( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& symbol = "UNKNOWN" );
     virtual ~Grammar_Unit_Production();
     Grammar_Unit_Production( const Grammar_Unit_Production& other );
     Grammar_Unit_Production& operator=( const Grammar_Unit_Production& other );
@@ -53,13 +53,13 @@ namespace h2sl {
     void from_xml( const std::string& filename );
     void from_xml( xmlNodePtr root );
  
-    inline phrase_t& phrase( void ){ return _phrase; };
-    inline const phrase_t& phrase( void )const{ return _phrase; };
+    inline phrase_type_t& type( void ){ return _type; };
+    inline const phrase_type_t& type( void )const{ return _type; };
     inline std::string& symbol( void ){ return _symbol; };
     inline const std::string& symbol( void )const{ return _symbol; };
 
   protected:
-    phrase_t _phrase;
+    phrase_type_t _type;
     std::string _symbol;
 
   private:

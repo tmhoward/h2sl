@@ -31,9 +31,9 @@
  * A World class demo program
  */
 
-#include <iostream>
 #include <sstream>
 #include "h2sl/world.h"
+#include "world_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -44,19 +44,21 @@ main( int argc,
   int status = 0;
   cout << "start of World class demo program" << endl;
 
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
+
   World * world = new World();
 
-  if( argc > 1 ){
-    unsigned int num_objects = strtol( argv[1], NULL, 10 );
-    for( unsigned int i = 0; i < num_objects; i++ ){
-      stringstream object_name;
-      object_name << "o" << i;
-      world->object_set().objects().push_back( Object( object_name.str(), i + 1 ) );
-    }
+  if( args.input_given ){
+    world->from_xml( args.input_arg );
+  }
 
-    if( argc > 2 ){
-      world->to_xml( argv[2] );
-    }
+  cout << "world:(" << *world << ")" << endl;
+
+  if( args.output_given ){
+    world->to_xml( args.output_arg );
   }
 
   if( world != NULL ){

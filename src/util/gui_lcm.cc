@@ -33,6 +33,7 @@
 
 #include "h2sl/gui_lcm.h"
 #include "h2sl/constraint_set_t.hpp"
+#include "h2sl/constraint_t.hpp"
 
 using namespace std;
 using namespace lcm;
@@ -76,22 +77,14 @@ object_to_object_t( const Object& object,
 
 void
 GUI_LCM::
-object_set_to_object_set_t( const Object_Set& objectSet,
-                            object_set_t& msg ){
-  msg.num_objects = objectSet.objects().size();
-  msg.objects.resize( objectSet.objects().size() );
-  for( unsigned int i = 0; i < objectSet.objects().size(); i++ ){
-    object_to_object_t( objectSet.objects()[ i ], msg.objects[ i ] );
-  }
-  return;
-}
-
-void
-GUI_LCM::
 world_to_world_t( const World& world,
                   world_t& msg ){
   msg.utime = world.time();
-  object_set_to_object_set_t( world.object_set(), msg.object_set );
+  msg.num_objects = world.objects().size();
+  msg.objects.resize( world.objects().size() );
+  for( unsigned int i = 0; i < world.objects().size(); i++ ){
+    object_to_object_t( *world.objects()[ i ], msg.objects[ i ] );
+  }
   return;
 }
 
@@ -116,13 +109,15 @@ constraint_to_constraint_t( const Constraint& constraint,
 
 void
 GUI_LCM::
-constraint_set_to_constraint_set_t( const Constraint_Set& constraintSet,
+grounding_set_to_constraint_set_t( const Grounding_Set& groundingSet,
                                     constraint_set_t& msg ){
-  msg.num_constraints = constraintSet.constraints().size();
-  msg.constraints.resize( constraintSet.constraints().size() );
-  for( unsigned int i = 0; i < constraintSet.constraints().size(); i++ ){
-    constraint_to_constraint_t( constraintSet.constraints()[ i ], msg.constraints[ i ] );
+  for( unsigned int i = 0; i < groundingSet.groundings().size(); i++ ){
+    if( dynamic_cast< Constraint* >( groundingSet.groundings()[ i ] ) != NULL ){
+      msg.constraints.push_back( constraint_t() );
+      constraint_to_constraint_t( *static_cast< Constraint* >( groundingSet.groundings()[ i ] ), msg.constraints.back() );
+    }
   }
+  msg.num_constraints = msg.constraints.size();
   return;
 }
 
@@ -137,21 +132,19 @@ object_from_object_t( Object& object,
 
 void
 GUI_LCM::
-object_set_from_object_set_t( Object_Set& objectSet,
-                              const object_set_t& msg ){
-  objectSet.objects().resize( msg.objects.size() );
-  for( unsigned int i = 0; i < msg.objects.size(); i++ ){
-    object_from_object_t( objectSet.objects()[ i ], msg.objects[ i ] );
-  }
-  return;
-}
-
-void
-GUI_LCM::
 world_from_world_t( World& world,
                     const world_t& msg ){
+  for( unsigned int i = 0; i < world.objects().size(); i++ ){
+    if( world.objects()[ i ] != NULL ){
+      delete world.objects()[ i ];
+      world.objects()[ i ] = NULL;
+    }
+  }
   world.time() = msg.utime;
-  object_set_from_object_set_t( world.object_set(), msg.object_set );
+  world.objects().resize( msg.objects.size() );
+  for( unsigned int i = 0; i < msg.objects.size(); i++ ){
+    object_from_object_t( *world.objects()[ i ], msg.objects[ i ] );
+  }
   return;
 }
 
@@ -176,18 +169,19 @@ constraint_from_constraint_t( Constraint& constraint,
 
 void 
 GUI_LCM::
-constraint_set_from_constraint_set_t( Constraint_Set& constraintSet, 
+grounding_set_from_constraint_set_t( Grounding_Set& groundingSet, 
                                       const constraint_set_t& msg ){
-  constraintSet.constraints().resize( msg.constraints.size() );
+  groundingSet.groundings().resize( msg.constraints.size() );
   for( unsigned int i = 0; i < msg.constraints.size(); i++ ){
-    constraint_from_constraint_t( constraintSet.constraints()[ i ], msg.constraints[ i ] );
+    groundingSet.groundings()[ i ] = new Constraint();
+    constraint_from_constraint_t( *static_cast< Constraint* >( groundingSet.groundings()[ i ] ), msg.constraints[ i ] );
   }
   return;
 }
 
 void
 GUI_LCM::
-_send_constraint_set( void ){
+_send_output( void ){
   if( !_lcm->good() ){
     cout << "LCM isn't initialized" << endl;
     return;
@@ -196,10 +190,10 @@ _send_constraint_set( void ){
   }
 
   if( !_solutions.empty() ){
-    Constraint_Set * constraint_set = dynamic_cast< Constraint_Set* >( _solutions.front().second.grounding() );
-    if( constraint_set != NULL ){
+    Grounding_Set * grounding_set = dynamic_cast< Grounding_Set* >( _solutions.front().second->grounding() );
+    if( grounding_set != NULL ){
       constraint_set_t msg;
-      constraint_set_to_constraint_set_t( *constraint_set, msg );
+      grounding_set_to_constraint_set_t( *grounding_set, msg );
       _lcm->publish( "CONSTRAINT_SET", &msg );
     }
   }

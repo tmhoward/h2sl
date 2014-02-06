@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include "h2sl/region.h"
+#include "region_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -42,6 +43,29 @@ main( int argc,
       char* argv[] ) {
   int status = 0;
   cout << "start of Region class demo program" << endl;
+
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
+
+  Region * region = new Region();
+
+  if( args.input_given ){
+    region->from_xml( args.input_arg );
+  }
+
+  cout << "region:(" << *region << ")" << endl;
+
+  if( args.output_given ){
+    region->to_xml( args.output_arg );
+  }
+
+  if( region != NULL ){
+    delete region;
+    region = NULL;
+  }
+
   cout << "end of Region class demo program" << endl;
   return status;
 }

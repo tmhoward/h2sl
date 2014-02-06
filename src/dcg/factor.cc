@@ -40,12 +40,14 @@ Factor::
 Factor( const unsigned int& cv,
         Grounding* grounding,
         Phrase* phrase,
+        const World* world,
         const vector< Factor* >& children,
         LLM* llm,
         const vector< unsigned int >& cvs,
         const unsigned int& solutionIndex ) : _cv( cv ),
                                                   _grounding( grounding ),
                                                   _phrase( phrase ),
+                                                  _world( world ),
                                                   _children( children ),
                                                   _llm( llm ),
                                                   _cvs( cvs ),
@@ -63,6 +65,7 @@ Factor::
 Factor( const Factor& other ) : _cv( other._cv ),
                                 _grounding( other._grounding ),
                                 _phrase( other._phrase ),
+                                _world( other._world ),
                                 _children( other._children ),
                                 _llm( other._llm ),
                                 _cvs( other._cvs ),
@@ -78,6 +81,7 @@ operator=( const Factor& other ) {
   _grounding = other._grounding;
   _children = other._children;
   _phrase = other._phrase;
+  _world = other._world;
   _llm = other._llm;
   _cvs = other._cvs;
   _solution_index = other._solution_index;
@@ -96,7 +100,7 @@ value( const unsigned int& cv ){
         children.push_back( _children[ i ]->grounding() );
       } 
     }
-    _pygx = _llm->pygx( _cv, _grounding, children, _phrase, _cvs );
+    _pygx = _llm->pygx( _cv, _grounding, children, _phrase, _world, _cvs );
     return _pygx;
   } else {
     return 0.5;

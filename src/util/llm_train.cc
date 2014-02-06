@@ -86,22 +86,26 @@ main( int argc,
     exit(1);
   }
 
-  LLM * llm = new LLM();
-  llm->feature_set().from_xml( args.feature_set_arg );
-  llm->weights().resize( llm->feature_set().size() );
+  Feature_Set * feature_set = new Feature_Set();
+  feature_set->from_xml( args.feature_set_arg );
+
+  LLM * llm = new LLM( feature_set );
+  llm->weights().resize( llm->feature_set()->size() );
 
   DCG * dcg = new DCG();
+
+  vector< World* > worlds( args.inputs_num, NULL );
 
   vector< pair< unsigned int, LLM_X > > examples;
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
     cout << "reading file " << args.inputs[ i ] << endl;
-    World * world = new World();
-    world->from_xml( args.inputs[ i ] );
-    
+    worlds[ i ] = new World();
+    worlds[ i ]->from_xml( args.inputs[ i ] ); 
+   
     Phrase * phrase = new Phrase();
     phrase->from_xml( args.inputs[ i ] );
 
-    dcg->construct( *phrase, *world, *llm, true );
+    dcg->construct( phrase, worlds[ i ], llm, true );
 
     for( unsigned int j = 0; j < dcg->factors().size(); j++ ){
       examples.push_back( pair< unsigned int, LLM_X >() );
@@ -113,16 +117,12 @@ main( int argc,
         }
       }
       examples.back().second.phrase() = dcg->factors()[ j ]->phrase()->dup(); 
+      examples.back().second.world() = worlds[ i ];
     } 
   
     if( phrase != NULL ){
       delete phrase;
       phrase = NULL;
-    }
-
-    if( world != NULL ){
-      delete world;
-      world = NULL;
     }
   }
 
@@ -142,6 +142,11 @@ main( int argc,
   if( llm != NULL ){
     delete llm;
     llm = NULL;
+  }
+
+  if( feature_set != NULL ){
+    delete feature_set;
+    feature_set = NULL;
   }
 
   return 0;

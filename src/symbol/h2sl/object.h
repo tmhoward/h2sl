@@ -37,7 +37,8 @@
 #include <iostream>
 #include <libxml/tree.h>
 
-#include "grounding.h"
+#include "h2sl/grounding.h"
+#include "h2sl/transform.h"
 
 namespace h2sl {
   typedef enum {
@@ -73,14 +74,14 @@ namespace h2sl {
 
   class Object: public Grounding {
   public:
-    Object( const std::string& name = "na", const unsigned int& type = 0 );
-    Object( const std::string& name, const object_type_t& type );
+    Object( const std::string& name = "na", const unsigned int& type = 0, const Transform& transform = Transform() );
+    Object( const std::string& name, const object_type_t& type, const Transform& transform );
     virtual ~Object();
     Object( const Object& other );
     Object& operator=( const Object& other );
     bool operator==( const Object& other )const;
     bool operator!=( const Object& other )const;
-    virtual Grounding* dup( void )const;
+    virtual Object* dup( void )const;
 
     static std::string type_to_std_string( const unsigned int& type );
     static unsigned int type_from_std_string( const std::string& type );
@@ -95,10 +96,13 @@ namespace h2sl {
     inline const std::string& name( void )const{ return _name; };
     inline unsigned int& type( void ){ return _type; };
     inline const unsigned int& type( void )const{ return _type; };
+    inline Transform& transform( void ){ return _transform; };
+    inline const Transform& transform( void )const{ return _transform; };
 
   protected:
     std::string _name;
     unsigned int _type;
+    Transform _transform;
 
   private:
 

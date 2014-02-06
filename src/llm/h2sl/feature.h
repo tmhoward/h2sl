@@ -37,8 +37,9 @@
 #include <vector>
 #include <libxml/tree.h>
 
-#include <h2sl/grounding.h>
-#include <h2sl/phrase.h>
+#include "h2sl/grounding.h"
+#include "h2sl/phrase.h"
+#include "h2sl/world.h"
 
 namespace h2sl {
   class Feature {
@@ -48,7 +49,7 @@ namespace h2sl {
     Feature( const Feature& other );
     Feature& operator=( const Feature& other );
 
-    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase ) = 0;
+    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world ) = 0;
 
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const = 0;
 

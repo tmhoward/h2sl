@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
   <world time="0">
-    <object_set>
-      <object name="o0" type="robot"/>
-      <object name="o1" type="box"/>
-      <object name="o2" type="table"/>
-      <object name="o3" type="chair"/>
-    </object_set>
+    <object name="o0" type="robot"/>
+    <object name="o1" type="box"/>
+    <object name="o2" type="table"/>
+    <object name="o3" type="chair"/>
   </world>
   <VP>
     <grounding>
-      <constraint_set>
+      <grounding_set>
         <constraint type="inside">
           <parent>
             <region type="na">
@@ -23,53 +21,53 @@
             </region>
           </child>
         </constraint>
-      </constraint_set>
+      </grounding_set>
     </grounding>
     <VB text="go"/>
     <PP>
       <grounding>
-        <region_set>
+        <grounding_set>
           <region type="front">
             <object name="o2" type="table"/>
           </region>
-        </region_set>
+        </grounding_set>
       </grounding>
       <TO text="to"/>
       <NP>
         <grounding>
-          <region_set>
+          <grounding_set>
             <region type="front">
               <object name="o2" type="table"/>
             </region>
-          </region_set>
+          </grounding_set>
         </grounding>
         <NP>
           <grounding>
-            <region_set>
+            <grounding_set>
               <region type="front">
                 <object name="na" type="na"/>
               </region>
-            </region_set>
+            </grounding_set>
           </grounding>
           <DT text="the"/>
           <NN text="front"/>
         </NP>
         <PP>
           <grounding>
-            <region_set>
+            <grounding_set>
               <region type="na">
                 <object name="o2" type="table"/>
               </region>
-            </region_set>
+            </grounding_set>
           </grounding>
           <IN text="of"/>
           <NP>
             <grounding>
-              <region_set>
+              <grounding_set>
                 <region type="na">
                   <object name="o2" type="table"/>
                 </region>
-              </region_set>
+              </grounding_set>
             </grounding>
             <DT text="the"/>
             <NN text="desk"/>

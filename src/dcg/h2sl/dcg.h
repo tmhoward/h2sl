@@ -50,8 +50,8 @@ namespace h2sl {
     DCG( const DCG& other );
     DCG& operator=( const DCG& other );
 
-    void construct( Phrase& phrase, const World& world, LLM& llm, const bool& fill=false );
-    bool search( Phrase& phrase, const World& world, LLM& llm, std::vector< std::pair< double, Phrase > >& solutions, const unsigned int& beamWidth = 4 );
+    void construct( Phrase* phrase, const World* world, LLM* llm, const bool& fill=false );
+    bool search( Phrase* phrase, const World* world, LLM* llm, std::vector< std::pair< double, Phrase* > >& solutions, const unsigned int& beamWidth = 4 );
     bool step( std::vector< std::pair< double, std::vector< unsigned int > > >& solutions, const unsigned int& beamWidth );
     void score( std::pair< double, std::vector< unsigned int > >& solution, const unsigned int searchIndex );
 
@@ -61,16 +61,16 @@ namespace h2sl {
     inline const std::vector< Factor* >& factors( void )const{ return _factors; };
 
   protected:
-    virtual void _add_phrase_to_model( Phrase& phrase, const World& world, LLM& llm, const bool& fill );
-    virtual void _add_vp_phrase_to_model( Phrase& phrase, const World& world, LLM& llm, const bool& fill );
-    virtual void _add_pp_phrase_to_model( Phrase& phrase, const World& world, LLM& llm, const bool& fill );
-    virtual void _add_np_phrase_to_model( Phrase& phrase, const World& world, LLM& llm, const bool& fill );
-    virtual void _connect_children( Phrase& phrase );
+    virtual void _add_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
+    virtual void _add_vp_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
+    virtual void _add_pp_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
+    virtual void _add_np_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
+    virtual void _connect_children( Phrase* phrase );
 
-    virtual void _fill_phrase_from_model( Phrase& phrase );
-    virtual void _fill_vp_phrase_from_model( Phrase& phrase );
-    virtual void _fill_pp_phrase_from_model( Phrase& phrase );
-    virtual void _fill_np_phrase_from_model( Phrase& phrase );
+    virtual void _fill_phrase_from_model( Phrase* phrase );
+    virtual void _fill_vp_phrase_from_model( Phrase* phrase );
+    virtual void _fill_pp_phrase_from_model( Phrase* phrase );
+    virtual void _fill_np_phrase_from_model( Phrase* phrase );
 
     Phrase * _phrase;    
     std::vector< Phrase* > _phrases;

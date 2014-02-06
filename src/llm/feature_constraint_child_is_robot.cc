@@ -67,7 +67,8 @@ Feature_Constraint_Child_Is_Robot::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< Grounding* >& children,
-        const Phrase* phrase ){
+        const Phrase* phrase,
+        const World* world ){
   const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
   if( constraint != NULL ){
     if( ( constraint->child().type() == REGION_TYPE_UNKNOWN ) && ( constraint->child().object().type() == OBJECT_TYPE_ROBOT ) ){

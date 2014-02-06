@@ -1,5 +1,5 @@
 /**
- * @file    region_set_demo.cc
+ * @file    unit_quaternion_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,11 +28,12 @@
  *
  * @section DESCRIPTION
  *
- * A Region_Set class demo program
+ * A Unit_Quaternion class demo program
  */
 
 #include <iostream>
-#include "h2sl/region_set.h"
+#include "h2sl/unit_quaternion.h"
+#include "unit_quaternion_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -41,7 +42,26 @@ int
 main( int argc,
       char* argv[] ) {
   int status = 0;
-  cout << "start of Region_Set class demo program" << endl;
-  cout << "end of Region_Set class demo program" << endl;
+  cout << "start of Unit_Quaternion class demo program" << endl;
+
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
+
+  Unit_Quaternion * unit_quaternion = new Unit_Quaternion();
+
+  cout << "unit_quaternion " << *unit_quaternion << endl;
+  
+  unit_quaternion->from_std_string( "1.0,0.0,0.0,0.0" );
+
+  cout << "unit_quaternion " << *unit_quaternion << endl;
+
+  if( unit_quaternion != NULL ){
+    delete unit_quaternion;
+    unit_quaternion = NULL;
+  }
+
+  cout << "end of Unit_Quaternion class demo program" << endl;
   return status;
 }

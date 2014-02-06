@@ -66,7 +66,8 @@ Feature_Region_Merge_Partially_Known_Regions::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< Grounding* >& children,
-        const Phrase* phrase ){
+        const Phrase* phrase,
+        const World* world ){
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
     std::vector< const Region* > known_region_type_and_unknown_object_type;

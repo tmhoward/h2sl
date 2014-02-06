@@ -59,7 +59,9 @@ main( int argc,
   World * world = new World();
   world->from_xml( args.world_arg );
 
-  LLM * llm = new LLM();
+  Feature_Set * feature_set = new Feature_Set();
+
+  LLM * llm = new LLM( feature_set );
   if( args.llm_given ){
     llm->from_xml( args.llm_arg );
   }
@@ -72,7 +74,7 @@ main( int argc,
     Phrase * phrase = new Phrase();
     phrase->from_xml( args.phrase_arg );
   
-    gui.dcg()->construct( *phrase, *world, *llm, true );
+    gui.dcg()->construct( phrase, world, llm, true );
     gui.update_graph();
       
     if( phrase != NULL ){

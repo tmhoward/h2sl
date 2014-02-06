@@ -46,7 +46,7 @@ namespace h2sl {
     Feature_Region( const Feature_Region& other );
     Feature_Region& operator=( const Feature_Region& other );
 
-    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase );
+    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world );
 
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 

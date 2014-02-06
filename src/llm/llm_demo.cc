@@ -39,12 +39,6 @@
 using namespace std;
 using namespace h2sl;
 
-void
-train( LLM * llm ){
-  
-  return;
-}
-
 int
 main( int argc,
       char* argv[] ) {
@@ -55,19 +49,17 @@ main( int argc,
     exit(1);
   }
 
-  LLM * llm = new LLM();
+  Feature_Set * feature_set = new Feature_Set();
+
+  LLM * llm = new LLM( feature_set );
+
+  if( args.input_given ){
+    llm->from_xml( args.input_arg );
+  }
 
   if( args.feature_set_given ){
-    llm->feature_set().from_xml( args.feature_set_arg );
-    cout << "read " << llm->feature_set().size() << " features" << endl;
-  }
-
-  if( args.llm_given ){
-    llm->from_xml( args.llm_arg );
-  }
-
-  if( args.training_given ){
-    cout << "training model" << endl;
+    llm->feature_set()->from_xml( args.feature_set_arg );
+    cout << "read " << llm->feature_set()->size() << " features" << endl;
   }
 
   if( args.output_given ){
@@ -78,6 +70,11 @@ main( int argc,
   if( llm != NULL ){
     delete llm;
     llm = NULL;
+  }
+
+  if( feature_set != NULL ){
+    delete feature_set;
+    feature_set = NULL;
   }
 
   cout << "end of LLM class demo program" << endl;

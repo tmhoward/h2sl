@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include "h2sl/grounding.h"
+#include "grounding_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -42,12 +43,29 @@ main( int argc,
       char* argv[] ) {
   int status = 0;
   cout << "start of Grounding class demo program" << endl;
+
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
+
   Grounding * grounding = new Grounding();
+
+  if( args.input_given ){
+    grounding->from_xml( args.input_arg );
+  }
+
   cout << "grounding:(" << *grounding << ")" << endl;
+
+  if( args.output_given ){
+    grounding->to_xml( args.output_arg );
+  }
+
   if( grounding != NULL ){
     delete grounding;
     grounding = NULL;
   }
+
   cout << "end of Grounding class demo program" << endl;
   return status;
 }

@@ -20,12 +20,14 @@ IF("${isSystemDir}" STREQUAL "-1")
 ENDIF("${isSystemDir}" STREQUAL "-1")
 
 
-include_directories(${PROJECT_SOURCE_DIR}/src/symbol
+include_directories(${PROJECT_SOURCE_DIR}/src/common
+                    ${PROJECT_SOURCE_DIR}/src/symbol
                     ${PROJECT_SOURCE_DIR}/src/language
                     ${PROJECT_SOURCE_DIR}/src/parser
                     ${PROJECT_SOURCE_DIR}/src/llm
                     ${PROJECT_SOURCE_DIR}/src/dcg
                     ${PROJECT_SOURCE_DIR}/src/util
+                    ${PROJECT_BINARY_DIR}/src/common
 		    ${PROJECT_BINARY_DIR}/src/parser
 		    ${PROJECT_BINARY_DIR}/src/llm
 		    ${PROJECT_BINARY_DIR}/src/util)
@@ -83,6 +85,7 @@ endmacro(generate_ggo)
 
 add_definitions(-Wall -g -O3)
 
+add_subdirectory(common)
 add_subdirectory(symbol)
 add_subdirectory(language)
 add_subdirectory(parser)

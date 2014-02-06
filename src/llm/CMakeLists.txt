@@ -23,19 +23,19 @@ add_library(${LIB} SHARED
             feature_constraint_child_is_robot.cc
             feature_set.cc
             llm.cc)
-target_link_libraries(${LIB} h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
+target_link_libraries(${LIB} h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-cv-demo cv_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/cv_demo_cmdline.c)
-target_link_libraries(h2sl-cv-demo ${LIB} h2sl-language h2sl-symbol ${LIBXML2_LIBRARIES})
+target_link_libraries(h2sl-cv-demo ${LIB} h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-feature-set-demo feature_set_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/feature_set_demo_cmdline.c)
-target_link_libraries(h2sl-feature-set-demo ${LIB} h2sl-parser h2sl-language h2sl-symbol ${LIBXML2_LIBRARIES})
+target_link_libraries(h2sl-feature-set-demo ${LIB} h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-llm-demo llm_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/llm_demo_cmdline.c)
-target_link_libraries(h2sl-llm-demo ${LIB} h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
+target_link_libraries(h2sl-llm-demo ${LIB} h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-example-demo example_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/example_demo_cmdline.c)
-target_link_libraries(h2sl-example-demo ${LIB} h2sl-parser h2sl-language h2sl-symbol ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
+target_link_libraries(h2sl-example-demo ${LIB} h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
 
 install(FILES 
         h2sl/cv.h

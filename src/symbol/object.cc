@@ -37,17 +37,21 @@ using namespace h2sl;
 
 Object::
 Object( const string& name,
-        const unsigned int& type ) : Grounding(),   
-                                    _name( name ),
-                                    _type( type ) {
-
+        const unsigned int& type,
+        const Transform& transform ) : Grounding(),   
+                                        _name( name ),
+                                        _type( type ),
+                                        _transform( transform ) {
+  
 }
 
 Object::
 Object( const string& name,
-        const object_type_t& type ) : Grounding(),
-                                      _name( name ),
-                                      _type( type ) {
+        const object_type_t& type,
+        const Transform& transform ) : Grounding(),
+                                        _name( name ),
+                                        _type( type ),
+                                        _transform( transform ) {
 
 }
 
@@ -59,7 +63,8 @@ Object::
 Object::
 Object( const Object& other ) : Grounding( other ),
                                 _name( other._name ),
-                                _type( other._type ) {
+                                _type( other._type ),
+                                _transform( other._transform ) {
 
 }
 
@@ -68,6 +73,7 @@ Object::
 operator=( const Object& other ) {
   _name = other._name;
   _type = other._type;
+  _transform = other._transform;
   return (*this);
 }
 
@@ -89,7 +95,7 @@ operator!=( const Object& other )const{
   return !( *this == other );
 } 
  
-Grounding*
+Object*
 Object::
 dup( void )const{
   return new Object( *this );
@@ -197,6 +203,12 @@ type_from_std_string( const string& type ){
 void
 Object::
 to_xml( const string& filename )const{
+  xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+  xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+  xmlDocSetRootElement( doc, root );
+  to_xml( doc, root );
+  xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
+  xmlFreeDoc( doc );
   return;
 }
 
@@ -207,6 +219,8 @@ to_xml( xmlDocPtr doc,
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "object" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "name" ), ( const xmlChar* )( _name.c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "type" ), ( const xmlChar* )( Object::type_to_std_string( _type ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "position" ), ( const xmlChar* )( _transform.position().to_std_string().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "orientation" ), ( const xmlChar* )( _transform.orientation().to_std_string().c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -258,7 +272,9 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Object& other ) {
-    out << "name:\"" << other.name() << "\" type:\"" << Object::type_to_std_string( other.type() ) << "\"";
+    out << "name:\"" << other.name() << "\" type:\"" << Object::type_to_std_string( other.type() ) << "\" ";
+    out << "position" << other.transform().position() << " ";
+    out << "orientation:(" << other.transform().orientation() << ")";
     return out;
   }
 }

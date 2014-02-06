@@ -3,5 +3,6 @@ package h2sl;
 struct world_t
 {
     int64_t utime;
-    object_set_t object_set;
+    int32_t num_objects;
+    object_t objects[num_objects];
 }

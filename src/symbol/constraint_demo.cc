@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include "h2sl/constraint.h"
+#include "constraint_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -42,6 +43,29 @@ main( int argc,
       char* argv[] ) {
   int status = 0;
   cout << "start of Constraint class demo program" << endl;
+
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
+
+  Constraint * constraint = new Constraint();
+
+  if( args.input_given ){
+    constraint->from_xml( args.input_arg );
+  }
+
+  cout << "constraint:(" << *constraint << ")" << endl;
+
+  if( args.output_given ){
+    constraint->to_xml( args.output_arg );
+  }
+
+  if( constraint != NULL ){
+    delete constraint;
+    constraint = NULL;
+  }
+
   cout << "end of Constraint class demo program" << endl;
   return status;
 }

@@ -31,6 +31,7 @@
  * The implementation of a class used for the graphical user interface for h2sl
  */
 
+#include <iomanip>
 #include <sstream>
 
 #include <QtGui/QApplication>
@@ -190,7 +191,7 @@ paint( QPainter * painter,
   if( phrase != NULL ){
     painter->setPen( QPen( Qt::black, 2.0 ) );
     painter->setFont( QFont( QApplication::font().defaultFamily(), 12, QFont::Bold ) );
-    painter->drawText( QRect( -24, -24, 48, 48 ), QString::fromStdString( Phrase::phrase_t_to_std_string( phrase->phrase() ) ), QTextOption( Qt::AlignCenter ) );
+    painter->drawText( QRect( -24, -24, 48, 48 ), QString::fromStdString( Phrase::phrase_type_t_to_std_string( phrase->type() ) ), QTextOption( Qt::AlignCenter ) );
   }
 
   return;
@@ -273,11 +274,9 @@ GUI( Parser * parser,
   
   _list_widget_world->setFixedHeight( 75 );
   _list_widget_world->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Fixed );
-  for( unsigned int i = 0; i < world->object_set().objects().size(); i++ ){
-    stringstream item_string;
-    item_string << world->object_set().objects()[ i ].name() << " (" << Object::type_to_std_string( world->object_set().objects()[ i ].type() ) << ")";
-    _list_widget_world->addItem( QString::fromStdString( item_string.str() ) );
-  }
+  QFont list_widget_world_font( QApplication::font().defaultFamily(), 12 );
+  list_widget_world_font.setStyleHint( QFont::Monospace );
+  _list_widget_world->setFont( list_widget_world_font ); 
 
   _graphics_view_graph->setMinimumSize( 400, 300 );
   _graphics_view_graph->setStyleSheet( "background:transparent" );
@@ -310,11 +309,29 @@ GUI( Parser * parser,
 
   connect( _line_edit_sentence, SIGNAL( returnPressed() ), this, SLOT( _line_edit_sentence_return_pressed() ) );
   connect( _combo_box_solutions, SIGNAL( currentIndexChanged( int ) ), this, SLOT( _combo_box_solutions_index_changed( int ) ) );
+
+  update_world();
+  update_graph();
 }
 
 GUI::
 ~GUI() {
 
+}
+
+void
+GUI::
+update_world( void ){
+  for( unsigned int i = 0; i < _world->objects().size(); i++ ){
+    stringstream item_string;
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->name() << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << Object::type_to_std_string( _world->objects()[ i ]->type() ) << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->transform().position().to_std_string() << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->transform().orientation().to_std_string() << " ";
+    _list_widget_world->addItem( QString::fromStdString( item_string.str() ) );
+  }
+  update();
+  return;
 }
 
 void
@@ -343,7 +360,7 @@ update_graph( void ){
   _graphics_items.clear();
 
   if( ( !_solutions.empty() ) && ( _combo_box_solutions->currentIndex() >= 0 ) ){
-    _dcg->construct( _solutions[ _combo_box_solutions->currentIndex() ].second, *_world, *_llm, true ); 
+    _dcg->construct( _solutions[ _combo_box_solutions->currentIndex() ].second, _world, _llm, true ); 
 
     // add the phrases
     for( unsigned int i = 0; i < _dcg->phrases().size(); i++ ){
@@ -458,7 +475,7 @@ void
 GUI::
 _line_edit_sentence_return_pressed( void ){
   _run_inference( _line_edit_sentence->text().toStdString() );
-  _send_constraint_set();
+  _send_output();
   return;
 }
 
@@ -472,9 +489,9 @@ _combo_box_solutions_index_changed( int index ){
 void
 GUI::
 _run_inference( const string& sentence ){
-  Phrase phrase;
+  Phrase * phrase = new Phrase();
   if( _parser->parse( sentence, phrase ) ){
-    if( _dcg->search( phrase, *_world, *_llm, _solutions, _beam_width ) ){
+    if( _dcg->search( phrase, _world, _llm, _solutions, _beam_width ) ){
       stringstream comment_string;
       comment_string << "successfully inferred structured language for \"" << sentence << "\"";
       _text_browser_comments->append( _format_comment( comment_string.str(), false ) );
@@ -495,12 +512,16 @@ _run_inference( const string& sentence ){
     _combo_box_solutions->addItem( QString::fromStdString( solution_string.str() ) );
   }
   update_graph();
+  if( phrase != NULL ){
+    delete phrase;
+    phrase = NULL;
+  }
   return;
 }
 
 void
 GUI::
-_send_constraint_set( void ){
+_send_output( void ){
   return;
 }
 

@@ -1,5 +1,5 @@
 /**
- * @file    constraint_set.h
+ * @file    grounding_set.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,26 +28,25 @@
  *
  * @section DESCRIPTION
  *
- * The interface for a class used to describe a set of constraints
+ * The interface for a class used to describe a set of groundings
  */
 
-#ifndef H2SL_CONSTRAINT_SET_H
-#define H2SL_CONSTRAINT_SET_H
+#ifndef H2SL_GROUNDING_SET_H
+#define H2SL_GROUNDING_SET_H
 
 #include <iostream>
 #include <vector>
 
-#include "grounding.h"
-#include "constraint.h"
+#include "h2sl/grounding.h"
 
 namespace h2sl {
-  class Constraint_Set: public Grounding {
+  class Grounding_Set: public Grounding {
   public:
-    Constraint_Set( const std::vector< Constraint >& constraints = std::vector< Constraint >() );
-    virtual ~Constraint_Set();
-    Constraint_Set( const Constraint_Set& other );
-    Constraint_Set& operator=( const Constraint_Set& other );
-    virtual Grounding* dup( void )const;
+    Grounding_Set( const std::vector< Grounding* >& groundings = std::vector< Grounding* >() );
+    virtual ~Grounding_Set();
+    Grounding_Set( const Grounding_Set& other );
+    Grounding_Set& operator=( const Grounding_Set& other );
+    virtual Grounding_Set* dup( void )const;
 
     void clear( void );
 
@@ -57,16 +56,16 @@ namespace h2sl {
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline std::vector< Constraint >& constraints( void ){ return _constraints; };
-    inline const std::vector< Constraint >& constraints( void )const{ return _constraints; };
+    inline std::vector< Grounding* >& groundings( void ){ return _groundings; };
+    inline const std::vector< Grounding* >& groundings( void )const{ return _groundings; };
 
   protected:
-    std::vector< Constraint > _constraints;
+    std::vector< Grounding* > _groundings;
 
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const Constraint_Set& other );
+  std::ostream& operator<<( std::ostream& out, const Grounding_Set& other );
 }
 
-#endif /* H2SL_CONSTRAINT_SET_H */
+#endif /* H2SL_GROUNDING_SET_H */

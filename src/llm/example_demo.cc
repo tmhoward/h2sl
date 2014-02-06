@@ -58,7 +58,7 @@ main( int argc,
   parser->grammar().from_xml( args.grammar_arg );
 
   Phrase * phrase = new Phrase();
-  if( parser->parse( args.command_arg, *phrase ) ){
+  if( parser->parse( args.command_arg, phrase ) ){
     cout << "successfully parsed " << args.command_arg << endl;
   } else {
     cout << "failed to parse " << args.command_arg << endl;

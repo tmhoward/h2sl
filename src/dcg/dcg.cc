@@ -36,11 +36,9 @@
 #include <algorithm>
 
 #include <h2sl/object.h>
-#include <h2sl/object_set.h>
+#include <h2sl/grounding_set.h>
 #include <h2sl/region.h>
-#include <h2sl/region_set.h>
 #include <h2sl/constraint.h>
-#include <h2sl/constraint_set.h>
 #include "h2sl/cv.h"
 #include <h2sl/dcg.h>
 
@@ -85,9 +83,9 @@ operator=( const DCG& other ) {
 
 void
 DCG::
-construct( Phrase& phrase,
-            const World& world,
-            LLM& llm,
+construct( Phrase* phrase,
+            const World* world,
+            LLM* llm,
             const bool& fill ){
   _phrases.clear();
   _factors.clear();
@@ -96,19 +94,19 @@ construct( Phrase& phrase,
     _phrase = NULL;
   }  
 
-  _phrase = phrase.dup();
+  _phrase = phrase->dup();
 
-  _add_phrase_to_model( *_phrase, world, llm, fill );
-  _connect_children( *_phrase );
+  _add_phrase_to_model( _phrase, world, llm, fill );
+  _connect_children( _phrase );
   return;
 }
 
 bool
 DCG::
-search( Phrase& phrase,
-        const World& world,
-        LLM& llm,
-        vector< pair< double, Phrase > >& solutions,
+search( Phrase* phrase,
+        const World* world,
+        LLM* llm,
+        vector< pair< double, Phrase* > >& solutions,
         const unsigned int& beamWidth ){
   solutions.clear();
 
@@ -125,7 +123,7 @@ search( Phrase& phrase,
   }
 
   for( unsigned int i = 0; i < solution_cvs.size(); i++ ){
-    solutions.push_back( make_pair< double, Phrase >( solution_cvs[ i ].first, phrase ) );  
+    solutions.push_back( make_pair< double, Phrase* >( solution_cvs[ i ].first, phrase->dup() ) );  
     for( unsigned int j = 0; j < _factors.size(); j++ ){
       _factors[ j ]->cv() = solution_cvs[ i ].second[ j ];
     }
@@ -196,23 +194,23 @@ score( pair< double, vector< unsigned int > >& solution,
 
 void
 DCG::
-_add_vp_phrase_to_model( Phrase& phrase,
-                        const World& world,
-                        LLM& llm,
+_add_vp_phrase_to_model( Phrase* phrase,
+                        const World* world,
+                        LLM* llm,
                         const bool& fill ){
-  Constraint_Set * constraint_set = NULL;
+  Grounding_Set * grounding_set = NULL;
   if( fill ){
-    constraint_set = dynamic_cast< Constraint_Set* >( phrase.grounding() );
+    grounding_set = dynamic_cast< Grounding_Set* >( phrase->grounding() );
   }
 
-  vector< Constraint* > new_groundings;
+  vector< Constraint* > new_constraint_groundings;
   for( unsigned int i = CONSTRAINT_TYPE_INSIDE; i < NUM_CONSTRAINT_TYPES; i++ ){
-    for( unsigned int j = 0; j < world.object_set().objects().size(); j++ ){
+    for( unsigned int j = 0; j < world->objects().size(); j++ ){
       for( unsigned int k = 0; k < NUM_REGION_TYPES; k++ ){
-        for( unsigned int l = 0; l < world.object_set().objects().size(); l++ ){
+        for( unsigned int l = 0; l < world->objects().size(); l++ ){
           for( unsigned int m = 0; m < NUM_REGION_TYPES; m++ ){
             if( ( j != l ) || ( k != m ) ){
-              new_groundings.push_back( new Constraint( i, Region( k, world.object_set().objects()[ j ] ), Region( m, world.object_set().objects()[ l ] ) ) );
+              new_constraint_groundings.push_back( new Constraint( i, Region( k, *world->objects()[ j ] ), Region( m, *world->objects()[ l ] ) ) );
             }
           }
         }
@@ -224,21 +222,24 @@ _add_vp_phrase_to_model( Phrase& phrase,
   cvs.push_back( CV_FALSE );  
   cvs.push_back( CV_TRUE );
 
-  for( unsigned int i = 0; i < new_groundings.size(); i++ ){
-    if( fill && ( constraint_set != NULL ) ){
+  for( unsigned int i = 0; i < new_constraint_groundings.size(); i++ ){
+    if( fill && ( grounding_set != NULL ) ){
       bool found_match = false;
-      for( unsigned int j = 0; j < constraint_set->constraints().size(); j++ ){
-        if( constraint_set->constraints()[ j ] == *new_groundings[ i ] ){
-          found_match = true;
+      for( unsigned int j = 0; j < grounding_set->groundings().size(); j++ ){
+        Constraint * grounding = dynamic_cast< Constraint* >( grounding_set->groundings()[ j ] );
+        if( grounding != NULL ){
+          if( *grounding == *new_constraint_groundings[ i ] ){
+            found_match = true;
+          }
         }
       }
       if( found_match ){
-        _factors.push_back( new Factor( CV_TRUE, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+        _factors.push_back( new Factor( CV_TRUE, new_constraint_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
       } else {
-        _factors.push_back( new Factor( CV_FALSE, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+        _factors.push_back( new Factor( CV_FALSE, new_constraint_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
       }
     } else {
-      _factors.push_back( new Factor( 0, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+      _factors.push_back( new Factor( 0, new_constraint_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
     }
   }
 
@@ -247,22 +248,22 @@ _add_vp_phrase_to_model( Phrase& phrase,
 
 void
 DCG::
-_add_pp_phrase_to_model( Phrase& phrase,
-                        const World& world,
-                        LLM& llm,
+_add_pp_phrase_to_model( Phrase* phrase,
+                        const World* world,
+                        LLM* llm,
                         const bool& fill ){
-  Region_Set * region_set = NULL;
+  Grounding_Set * grounding_set = NULL;
   if( fill ){
-    region_set = dynamic_cast< Region_Set* >( phrase.grounding() );
+    grounding_set = dynamic_cast< Grounding_Set* >( phrase->grounding() );
   }
 
-  vector< Region* > new_groundings;
+  vector< Region* > new_region_groundings;
   for( unsigned int i = REGION_TYPE_UNKNOWN; i < NUM_REGION_TYPES; i++ ){
     if( i != REGION_TYPE_UNKNOWN ){
-      new_groundings.push_back( new Region( i, Object() ) );  
+      new_region_groundings.push_back( new Region( i, Object() ) );  
     }
-    for( unsigned int j = 0; j < world.object_set().objects().size(); j++ ){
-      new_groundings.push_back( new Region( i, world.object_set().objects()[ j ] ) );
+    for( unsigned int j = 0; j < world->objects().size(); j++ ){
+      new_region_groundings.push_back( new Region( i, *world->objects()[ j ] ) );
     }
   }
 
@@ -270,21 +271,24 @@ _add_pp_phrase_to_model( Phrase& phrase,
   cvs.push_back( CV_FALSE );
   cvs.push_back( CV_TRUE );
 
-  for( unsigned int i = 0; i < new_groundings.size(); i++ ){
-    if( fill && ( region_set != NULL ) ){
+  for( unsigned int i = 0; i < new_region_groundings.size(); i++ ){
+    if( fill && ( grounding_set != NULL ) ){
       bool found_match = false;
-      for( unsigned int j = 0; j < region_set->regions().size(); j++ ){
-        if( region_set->regions()[ j ] == *new_groundings[ i ] ){
-          found_match = true;
+      for( unsigned int j = 0; j < grounding_set->groundings().size(); j++ ){
+        Region * grounding = dynamic_cast< Region* >( grounding_set->groundings()[ j ] );
+        if( grounding != NULL ){
+          if( *grounding == *new_region_groundings[ i ] ){
+            found_match = true;
+          }
         }
       }
       if( found_match ){
-        _factors.push_back( new Factor( CV_TRUE, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+        _factors.push_back( new Factor( CV_TRUE, new_region_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
       } else {
-        _factors.push_back( new Factor( CV_FALSE, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+        _factors.push_back( new Factor( CV_FALSE, new_region_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
       }
     } else {
-      _factors.push_back( new Factor( 0, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+      _factors.push_back( new Factor( 0, new_region_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
     }
   }
 
@@ -294,22 +298,22 @@ _add_pp_phrase_to_model( Phrase& phrase,
 
 void
 DCG::
-_add_np_phrase_to_model( Phrase& phrase,
-                        const World& world,
-                        LLM& llm,
+_add_np_phrase_to_model( Phrase* phrase,
+                        const World* world,
+                        LLM* llm,
                         const bool& fill ){
-  Region_Set * region_set = NULL;
+  Grounding_Set * grounding_set = NULL;
   if( fill ){
-    region_set = dynamic_cast< Region_Set* >( phrase.grounding() );
+    grounding_set = dynamic_cast< Grounding_Set* >( phrase->grounding() );
   }
 
-  vector< Region* > new_groundings;
+  vector< Region* > new_region_groundings;
   for( unsigned int i = REGION_TYPE_UNKNOWN; i < NUM_REGION_TYPES; i++ ){
     if( i != REGION_TYPE_UNKNOWN ){
-      new_groundings.push_back( new Region( i, Object() ) );    
+      new_region_groundings.push_back( new Region( i, Object() ) );    
     }
-    for( unsigned int j = 0; j < world.object_set().objects().size(); j++ ){
-      new_groundings.push_back( new Region( i, world.object_set().objects()[ j ] ) );
+    for( unsigned int j = 0; j < world->objects().size(); j++ ){
+      new_region_groundings.push_back( new Region( i, *world->objects()[ j ] ) );
     }
   }
 
@@ -317,21 +321,24 @@ _add_np_phrase_to_model( Phrase& phrase,
   cvs.push_back( CV_FALSE );
   cvs.push_back( CV_TRUE );
 
-  for( unsigned int i = 0; i < new_groundings.size(); i++ ){
-    if( fill && ( region_set != NULL ) ){
+  for( unsigned int i = 0; i < new_region_groundings.size(); i++ ){
+    if( fill && ( grounding_set != NULL ) ){
       bool found_match = false;
-      for( unsigned int j = 0; j < region_set->regions().size(); j++ ){
-        if( region_set->regions()[ j ] == *new_groundings[ i ] ){
-          found_match = true;
+      for( unsigned int j = 0; j < grounding_set->groundings().size(); j++ ){
+        Region * grounding = dynamic_cast< Region* >( grounding_set->groundings()[ j ] );
+        if( grounding != NULL ){
+          if( *grounding == *new_region_groundings[ i ] ){
+            found_match = true;
+          }
         }
       }
       if( found_match ){
-        _factors.push_back( new Factor( CV_TRUE, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+        _factors.push_back( new Factor( CV_TRUE, new_region_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
       } else {
-        _factors.push_back( new Factor( CV_FALSE, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+        _factors.push_back( new Factor( CV_FALSE, new_region_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
       }
     } else {
-      _factors.push_back( new Factor( 0, new_groundings[ i ], _phrases.back(), vector< Factor* >(), &llm, cvs, _factors.size() ) );
+      _factors.push_back( new Factor( 0, new_region_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
     }
   }
 
@@ -340,13 +347,13 @@ _add_np_phrase_to_model( Phrase& phrase,
 
 void
 DCG::
-_add_phrase_to_model( Phrase& phrase,
-                      const World& world,
-                      LLM& llm,
+_add_phrase_to_model( Phrase* phrase,
+                      const World* world,
+                      LLM* llm,
                       const bool& fill ){
-  _phrases.push_back( &phrase );
+  _phrases.push_back( phrase );
 
-  switch( phrase.phrase() ){
+  switch( phrase->type() ){
   case( PHRASE_VP ):
     _add_vp_phrase_to_model( phrase, world, llm, fill );
     break;
@@ -360,8 +367,8 @@ _add_phrase_to_model( Phrase& phrase,
     break;
   }
 
-  for( unsigned int i = 0; i < phrase.children().size(); i++ ){
-    _add_phrase_to_model( phrase.children()[ i ], world, llm, fill );
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    _add_phrase_to_model( phrase->children()[ i ], world, llm, fill );
   }
 
   return;
@@ -369,26 +376,26 @@ _add_phrase_to_model( Phrase& phrase,
 
 void
 DCG::
-_connect_children( Phrase& phrase ){
-  for( unsigned int i = 0; i < phrase.children().size(); i++ ){
+_connect_children( Phrase* phrase ){
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
     for( unsigned int j = 0; j < _factors.size(); j++ ){
-      if( _factors[ j ]->phrase() == &phrase ){
+      if( _factors[ j ]->phrase() == phrase ){
         for( unsigned int k = 0; k < _factors.size(); k++ ){
-          if( _factors[ k ]->phrase() == &phrase.children()[ i ] ){
+          if( _factors[ k ]->phrase() == phrase->children()[ i ] ){
             _factors[ j ]->children().push_back( _factors[ k ] );
           }
         }
       }
     } 
-    _connect_children( phrase.children()[ i ] );  
+    _connect_children( phrase->children()[ i ] );  
   }
   return;
 }
 
 void 
 DCG::
-_fill_phrase_from_model( Phrase& phrase ){
-  switch( phrase.phrase() ){
+_fill_phrase_from_model( Phrase* phrase ){
+  switch( phrase->type() ){
   case( PHRASE_VP ):
     _fill_vp_phrase_from_model( phrase );
     break;
@@ -402,71 +409,71 @@ _fill_phrase_from_model( Phrase& phrase ){
     break;
   }
 
-  for( unsigned int i = 0; i < phrase.children().size(); i++ ){
-    _fill_phrase_from_model( phrase.children()[ i ] );
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    _fill_phrase_from_model( phrase->children()[ i ] );
   }
   return;
 }
 
 void 
 DCG::
-_fill_vp_phrase_from_model( Phrase& phrase ){
-  if( phrase.grounding() != NULL ){
-    delete phrase.grounding(); 
-    phrase.grounding() = NULL;
+_fill_vp_phrase_from_model( Phrase* phrase ){
+  if( phrase->grounding() != NULL ){
+    delete phrase->grounding(); 
+    phrase->grounding() = NULL;
   }
-  Constraint_Set * constraint_set = new Constraint_Set();
+  Grounding_Set * grounding_set = new Grounding_Set();
   for( unsigned int i = 0; i < _factors.size(); i++ ){
     if( _factors[ i ]->cv() == CV_TRUE ){
       if( dynamic_cast< Constraint* >( _factors[ i ]->grounding() ) != NULL ){
-        if( *_factors[ i ]->phrase() == phrase ){
-          constraint_set->constraints().push_back( *static_cast< Constraint* >( _factors[ i ]->grounding()->dup() ) );
+        if( *_factors[ i ]->phrase() == *phrase ){
+          grounding_set->groundings().push_back( static_cast< Constraint* >( _factors[ i ]->grounding() )->dup() );
         }
       }
     }
   }
-  phrase.grounding() = constraint_set;
+  phrase->grounding() = grounding_set;
   return;
 }
 
 void 
 DCG::
-_fill_pp_phrase_from_model( Phrase& phrase ){
-  if( phrase.grounding() != NULL ){
-    delete phrase.grounding(); 
-    phrase.grounding() = NULL;
+_fill_pp_phrase_from_model( Phrase* phrase ){
+  if( phrase->grounding() != NULL ){
+    delete phrase->grounding(); 
+    phrase->grounding() = NULL;
   }
-  Region_Set * region_set = new Region_Set();
+  Grounding_Set * grounding_set = new Grounding_Set();
   for( unsigned int i = 0; i < _factors.size(); i++ ){
     if( _factors[ i ]->cv() == CV_TRUE ){
       if( dynamic_cast< Region* >( _factors[ i ]->grounding() ) != NULL ){
-        if( *_factors[ i ]->phrase() == phrase ){
-          region_set->regions().push_back( *static_cast< Region* >( _factors[ i ]->grounding()->dup() ) );
+        if( *_factors[ i ]->phrase() == *phrase ){
+          grounding_set->groundings().push_back( static_cast< Region* >( _factors[ i ]->grounding() )->dup() );
         }
       }
     }
   }
-  phrase.grounding() = region_set;
+  phrase->grounding() = grounding_set;
   return;
 }
 
 void DCG::
-_fill_np_phrase_from_model( Phrase& phrase ){
-  if( phrase.grounding() != NULL ){
-    delete phrase.grounding();
-    phrase.grounding() = NULL;
+_fill_np_phrase_from_model( Phrase* phrase ){
+  if( phrase->grounding() != NULL ){
+    delete phrase->grounding();
+    phrase->grounding() = NULL;
   }
-  Region_Set * region_set = new Region_Set();
+  Grounding_Set * grounding_set = new Grounding_Set();
   for( unsigned int i = 0; i < _factors.size(); i++ ){
     if( _factors[ i ]->cv() == CV_TRUE ){
       if( dynamic_cast< Region* >( _factors[ i ]->grounding() ) != NULL ){
-        if( *_factors[ i ]->phrase() == phrase ){
-          region_set->regions().push_back( *static_cast< Region* >( _factors[ i ]->grounding()->dup() ) );
+        if( *_factors[ i ]->phrase() == *phrase ){
+          grounding_set->groundings().push_back( static_cast< Region* >( _factors[ i ]->grounding() )->dup() );
         }
       }
     }
   }
-  phrase.grounding() = region_set;
+  phrase->grounding() = grounding_set;
   return;
 }
 

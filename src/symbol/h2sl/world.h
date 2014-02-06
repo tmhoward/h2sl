@@ -37,15 +37,16 @@
 #include <iostream>
 #include <vector>
 
-#include "object_set.h"
+#include "h2sl/object.h"
 
 namespace h2sl {
   class World {
   public:
-    World( const unsigned long long& time = 0, const Object_Set& objectSet = Object_Set() );
+    World( const unsigned long long& time = 0, const std::vector< Object* >& objects = std::vector< Object* >() );
     virtual ~World();
     World( const World& other );
     World& operator=( const World& other );
+    virtual World* dup( void )const;
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -55,12 +56,12 @@ namespace h2sl {
 
     inline unsigned long long& time( void ){ return _time; };
     inline const unsigned long long& time( void )const{ return _time; };
-    inline Object_Set& object_set( void ){ return _object_set; };
-    inline const Object_Set& object_set( void )const{ return _object_set; };
+    inline std::vector< Object* >& objects( void ){ return _objects; };
+    inline const std::vector< Object* >& objects( void )const{ return _objects; };
 
   protected:
     unsigned long long _time;
-    Object_Set _object_set;
+    std::vector< Object* > _objects;
 
   private:
 

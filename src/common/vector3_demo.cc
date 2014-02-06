@@ -1,5 +1,5 @@
 /**
- * @file    object_set_demo.cc
+ * @file    vector3_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,11 +28,12 @@
  *
  * @section DESCRIPTION
  *
- * A Object_Set class demo program
+ * A Vector3 class demo program
  */
 
 #include <iostream>
-#include "h2sl/object_set.h"
+#include "h2sl/vector3.h"
+#include "vector3_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -41,7 +42,26 @@ int
 main( int argc,
       char* argv[] ) {
   int status = 0;
-  cout << "start of Object_Set class demo program" << endl;
-  cout << "end of Object_Set class demo program" << endl;
+  cout << "start of Vector3 class demo program" << endl;
+
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
+
+  Vector3 * vector3 = new Vector3();
+
+  cout << "vector3" << *vector3 << endl;
+  
+  vector3->from_std_string( "1.5,3.0,4.5" );
+
+  cout << "vector3" << *vector3 << endl;
+
+  if( vector3 != NULL ){
+    delete vector3;
+    vector3 = NULL;
+  }
+
+  cout << "end of Vector3 class demo program" << endl;
   return status;
 }

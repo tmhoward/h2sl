@@ -1,5 +1,5 @@
 /**
- * @file    constraint_set_demo.cc
+ * @file    grounding_set_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,11 +28,12 @@
  *
  * @section DESCRIPTION
  *
- * A Constraint_Set class demo program
+ * A Grounding_Set class demo program
  */
 
 #include <iostream>
-#include "h2sl/constraint_set.h"
+#include "h2sl/grounding_set.h"
+#include "grounding_set_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -41,7 +42,30 @@ int
 main( int argc,
       char* argv[] ) {
   int status = 0;
-  cout << "start of Constraint_Set class demo program" << endl;
-  cout << "end of Constraint_Set class demo program" << endl;
+  cout << "start of Grounding_Set class demo program" << endl;
+  
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
+
+  Grounding_Set * grounding_set = new Grounding_Set();
+
+  if( args.input_given ){
+    grounding_set->from_xml( args.input_arg );
+  }
+
+  cout << "grounding_set:(" << *grounding_set << ")" << endl;
+
+  if( args.output_given ){
+    grounding_set->to_xml( args.output_arg );
+  }
+
+  if( grounding_set != NULL ){
+    delete grounding_set;
+    grounding_set = NULL;
+  }
+
+  cout << "end of Grounding_Set class demo program" << endl;
   return status;
 }

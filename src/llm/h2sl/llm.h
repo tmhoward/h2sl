@@ -56,24 +56,27 @@ namespace h2sl {
     inline const std::vector< Grounding* >& children( void )const{ return _children; };
     inline Phrase*& phrase( void ){ return _phrase; };
     inline const Phrase* phrase( void )const{ return _phrase; }; 
- 
+    inline World*& world( void ){ return _world; };
+    inline const World* world( void )const{ return _world; }; 
+
   protected:
     Grounding* _grounding;
     std::vector< Grounding* > _children;
     Phrase * _phrase;
+    World * _world;
   };
   std::ostream& operator<<( std::ostream& out, const LLM_X& other );
 
   class LLM {
   public:
-    LLM();
+    LLM( Feature_Set* featureSet = NULL );
     virtual ~LLM();
     LLM( const LLM& other );
     LLM& operator=( const LLM& other );
 
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< unsigned int >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs );
-    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const std::vector< unsigned int >& cvs );
+    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
     void train( std::vector< std::pair< unsigned int, LLM_X > >& examples, const unsigned int& maxIterations = 100, const double& lambda = 0.01 );
 
     static double objective( LLM& llm, const std::vector< std::pair< unsigned int, LLM_X > >& examples, double lambda );
@@ -87,12 +90,12 @@ namespace h2sl {
 
     inline std::vector< double >& weights( void ){ return _weights; };
     inline const std::vector< double >& weights( void )const{ return _weights; };
-    inline Feature_Set& feature_set( void ){ return _feature_set; };
-    inline const Feature_Set& feature_set( void )const{ return _feature_set; };
+    inline Feature_Set*& feature_set( void ){ return _feature_set; };
+    inline const Feature_Set* feature_set( void )const{ return _feature_set; };
 
   protected:
     std::vector< double > _weights;
-    Feature_Set _feature_set;
+    Feature_Set* _feature_set;
 
   private:
 

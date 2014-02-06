@@ -47,7 +47,7 @@ namespace h2sl {
     Parser( const Parser& other );
     Parser& operator=( const Parser& other );
 
-    bool parse( const std::string& text, Phrase& phrase )const;
+    bool parse( const std::string& text, Phrase* phrase )const;
 
     inline Grammar& grammar( void ){ return _grammar; };
     inline const Grammar& grammar( void )const{ return _grammar; };

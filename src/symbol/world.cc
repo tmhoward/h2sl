@@ -39,8 +39,8 @@ using namespace h2sl;
 
 World::
 World( const unsigned long long& time,
-        const Object_Set& objectSet ) : _time( time ),
-                                              _object_set( objectSet ) {
+        const std::vector< Object* >& objects ) : _time( time ),
+                                              _objects( objects ) {
 
 }
 
@@ -51,7 +51,7 @@ World::
 
 World::
 World( const World& other ) : _time( other._time ),
-                              _object_set( other._object_set ){
+                              _objects( other._objects ){
 
 }
 
@@ -59,8 +59,14 @@ World&
 World::
 operator=( const World& other ) {
   _time = other._time;
-  _object_set = other._object_set;
+  _objects = other._objects;
   return (*this);
+}
+
+World*
+World::
+dup( void )const{
+  return new World( *this );
 }
 
 void
@@ -83,7 +89,11 @@ to_xml( xmlDocPtr doc,
   stringstream time_string;
   time_string << _time;
   xmlNewProp( node, ( const xmlChar* )( "time" ), ( const xmlChar* )( time_string.str().c_str() ) );
-  _object_set.to_xml( doc, node );
+  for( unsigned int i = 0; i < _objects.size(); i++ ){
+    if( _objects[ i ] != NULL ){
+      _objects[ i ]->to_xml( doc, node );
+    }
+  }
   xmlAddChild( root, node );
   return;
 }
@@ -114,7 +124,12 @@ from_xml( const string& filename ){
 void
 World::
 from_xml( xmlNodePtr root ){
-  _object_set.clear();
+  _time = 0;
+  for( unsigned int i = 0; i < _objects.size(); i++ ){
+    delete _objects[ i ];
+    _objects[ i ] = NULL;
+  }
+  _objects.clear();
   if( root->type == XML_ELEMENT_NODE ){
     xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "time" ) );
     if( tmp != NULL ){
@@ -125,8 +140,9 @@ from_xml( xmlNodePtr root ){
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
-        if( xmlStrcmp( l1->name, ( const xmlChar* )( "object_set" ) ) == 0 ){
-          _object_set.from_xml( l1 );
+        if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
+          _objects.push_back( new Object() );
+          _objects.back()->from_xml( l1 );
         }
       }
     }
@@ -140,10 +156,10 @@ namespace h2sl {
   operator<<( ostream& out,
               const World& other ) {
     out << "time:\"" << other.time() << "\" ";
-    out << "object_set[" << other.object_set().objects().size() << "]:{";
-    for( unsigned int i = 0; i < other.object_set().objects().size(); i++ ){
-      out << "(" << other.object_set().objects()[ i ] << ")";
-      if( i != ( other.object_set().objects().size() - 1 ) ){
+    out << "objects[" << other.objects().size() << "]:{";
+    for( unsigned int i = 0; i < other.objects().size(); i++ ){
+      out << "(" << *other.objects()[ i ] << ")";
+      if( i != ( other.objects().size() - 1 ) ){
         out << ",";
       }
     }

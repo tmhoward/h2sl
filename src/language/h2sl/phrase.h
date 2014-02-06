@@ -53,48 +53,49 @@ namespace h2sl {
     PHRASE_S,
     PHRASE_SBAR,
     NUM_PHRASE_TYPES
-  } phrase_t;  
+  } phrase_type_t;  
 
   class Phrase : public Grounding {
   public:
-    Phrase( const phrase_t& phrase = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase >& children = std::vector< Phrase >(), Grounding* grounding = NULL );
+    Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase* >& children = std::vector< Phrase* >(), Grounding* grounding = NULL );
     virtual ~Phrase();
     Phrase( const Phrase& other );
     Phrase& operator=( const Phrase& other );
     bool operator==( const Phrase& other )const;
     bool operator!=( const Phrase& other )const;
-    Phrase* dup( void )const;
+    virtual Phrase* dup( void )const;
+    virtual Phrase* dup( const bool& empty )const;
 
-    void to_xml( const std::string& filename )const;
-    void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
+    virtual void to_xml( const std::string& filename )const;
+    virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    void from_xml( const std::string& filename );
-    void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& filename );
+    virtual void from_xml( xmlNodePtr root );
 
     bool has_word( const Word& word )const;
     bool has_words( const std::vector< Word >& words )const;
     
     std::string words_to_std_string( void )const;
 
-    static std::string phrase_t_to_std_string( const phrase_t& phrase );
-    static phrase_t phrase_t_from_std_string( const std::string& arg );
+    static std::string phrase_type_t_to_std_string( const phrase_type_t& phrase );
+    static phrase_type_t phrase_type_t_from_std_string( const std::string& arg );
 
-    inline phrase_t& phrase( void ){ return _phrase; };
-    inline const phrase_t& phrase( void )const{ return _phrase; };
+    inline phrase_type_t& type( void ){ return _type; };
+    inline const phrase_type_t& type( void )const{ return _type; };
     inline std::string& text( void ){ return _text; };
     inline const std::string& text( void )const{ return _text; };
-    inline std::vector< Phrase >& children( void ){ return _children; };
-    inline const std::vector< Phrase >& children( void )const{ return _children; };
+    inline std::vector< Phrase* >& children( void ){ return _children; };
+    inline const std::vector< Phrase* >& children( void )const{ return _children; };
     inline std::vector< Word >& words( void ){ return _words; };
     inline const std::vector< Word >& words( void )const{ return _words; };
     inline Grounding*& grounding( void ){ return _grounding; };
     inline const Grounding* grounding( void )const{ return _grounding; };
 
   protected:
-    phrase_t _phrase;
+    phrase_type_t _type;
     std::string _text;
     std::vector< Word > _words;
-    std::vector< Phrase > _children;
+    std::vector< Phrase* > _children;
     Grounding * _grounding;
 
   private:

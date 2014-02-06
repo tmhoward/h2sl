@@ -35,19 +35,18 @@
 #include <sstream>
 
 #include <h2sl/phrase.h>
-#include <h2sl/region_set.h>
-#include <h2sl/constraint_set.h>
+#include <h2sl/grounding_set.h>
 
 using namespace std;
 using namespace h2sl;
 
 Phrase::
-Phrase( const phrase_t& phrase,
+Phrase( const phrase_type_t& type,
         const string& text,
         const vector< Word >& words,
-        const vector< Phrase >& children,
+        const vector< Phrase* >& children,
         Grounding* grounding ) : Grounding(),
-                                              _phrase( phrase ),
+                                              _type( type ),
                                               _text( text ),
                                               _words( words ),
                                               _children( children ),
@@ -62,11 +61,14 @@ Phrase::
 
 Phrase::
 Phrase( const Phrase& other ) : Grounding( other ),
-                                _phrase( other._phrase ),
+                                _type( other._type ),
                                 _text( other._text ),
                                 _words( other._words ),
-                                _children( other._children ),
+                                _children(),
                                 _grounding( NULL ){
+  for( unsigned int i = 0; i < other._children.size(); i++ ){
+    _children.push_back( other._children[ i ]->dup() );
+  }
   if( other._grounding != NULL ){
     _grounding = other._grounding->dup();
   }
@@ -75,14 +77,20 @@ Phrase( const Phrase& other ) : Grounding( other ),
 Phrase&
 Phrase::
 operator=( const Phrase& other ) {
-  _phrase = other._phrase;
+  _type = other._type;
   _text = other._text;
   _words = other._words;
-  _children = other._children;
-  if( other._grounding != NULL ){
-    if( other._grounding != NULL ){
-      _grounding = other._grounding->dup();
+  for( unsigned int i = 0; i < _children.size(); i++ ){
+    if( _children[ i ] != NULL ){
+      delete _children[ i ];
+      _children[ i ] = NULL;
     }
+  }
+  for( unsigned int i = 0; i < other._children.size(); i++ ){
+    _children.push_back( other._children[ i ]->dup() );
+  }
+  if( other._grounding != NULL ){
+    _grounding = other._grounding->dup();
   } else {
     _grounding = NULL;  
   }
@@ -92,7 +100,7 @@ operator=( const Phrase& other ) {
 bool
 Phrase::
 operator==( const Phrase& other )const{
-  if( _phrase != other._phrase ){
+  if( _type != other._type ){
     return false;
   } else if ( _text != other._text ){
     return false;
@@ -107,7 +115,7 @@ operator==( const Phrase& other )const{
       }
     }   
     for( unsigned int i = 0; i < _children.size(); i++ ){
-      if( _children[ i ] != other._children[ i ] ){
+      if( *_children[ i ] != *other._children[ i ] ){
         return false;
       }
     }
@@ -127,6 +135,16 @@ dup( void )const{
   return new Phrase( *this );
 }
 
+Phrase*
+Phrase::
+dup( const bool& empty )const{
+  if( empty ){
+    return new Phrase();
+  } else {
+    return new Phrase( *this );
+  }
+}
+
 void
 Phrase::
 to_xml( const string& filename )const{
@@ -143,7 +161,7 @@ void
 Phrase::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( phrase_t_to_std_string( _phrase ).c_str() ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( phrase_type_t_to_std_string( _type ).c_str() ), NULL );
   xmlNodePtr grounding_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "grounding" ), NULL );
   if( _grounding != NULL ){
     _grounding->to_xml( doc, grounding_node );    
@@ -153,7 +171,9 @@ to_xml( xmlDocPtr doc,
     _words[ i ].to_xml( doc, node );
   }   
   for( unsigned int i = 0; i < _children.size(); i++ ){
-    _children[ i ].to_xml( doc, node );
+    if( _children[ i ] != NULL ){
+      _children[ i ]->to_xml( doc, node );
+    }
   }
   xmlAddChild( root, node );
   return;
@@ -172,7 +192,7 @@ from_xml( const std::string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
-            if( xmlStrcmp( l1->name, ( const xmlChar* )( phrase_t_to_std_string( ( phrase_t )( i ) ).c_str() ) ) == 0 ){
+            if( xmlStrcmp( l1->name, ( const xmlChar* )( phrase_type_t_to_std_string( ( phrase_type_t )( i ) ).c_str() ) ) == 0 ){
               from_xml( l1 );
             }
           }
@@ -187,10 +207,17 @@ from_xml( const std::string& filename ){
 void 
 Phrase::
 from_xml( xmlNodePtr root ){
+  for( unsigned int i = 0; i < _children.size(); i++ ){
+    if( _children[ i ] != NULL ){
+      delete _children[ i ];
+      _children[ i ] = NULL;
+    }
+  }
+  _children.clear();
   if( root->type == XML_ELEMENT_NODE ){
     for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
-      if( xmlStrcmp( root->name, ( const xmlChar* )( phrase_t_to_std_string( ( phrase_t )( i ) ).c_str() ) ) == 0 ){
-        _phrase = ( phrase_t )( i );
+      if( xmlStrcmp( root->name, ( const xmlChar* )( phrase_type_t_to_std_string( ( phrase_type_t )( i ) ).c_str() ) ) == 0 ){
+        _type = ( phrase_type_t )( i );
       }
     }
     xmlNodePtr l1 = NULL;
@@ -200,11 +227,8 @@ from_xml( xmlNodePtr root ){
           xmlNodePtr l2 = NULL;
           for( l2 = l1->children; l2; l2 = l2->next ){
             if( l2->type == XML_ELEMENT_NODE ){
-              if( xmlStrcmp( l2->name, ( const xmlChar* )( "region_set" ) ) == 0 ){
-                _grounding = new Region_Set();
-                _grounding->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "constraint_set" ) ) == 0 ){
-                _grounding = new Constraint_Set();
+              if( xmlStrcmp( l2->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
+                _grounding = new Grounding_Set();
                 _grounding->from_xml( l2 );
               }
             }
@@ -217,9 +241,9 @@ from_xml( xmlNodePtr root ){
           }
         }
         for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( phrase_t_to_std_string( ( phrase_t )( i ) ).c_str() ) ) == 0 ){
-            _children.push_back( Phrase() );
-            _children.back().from_xml( l1 );
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( phrase_type_t_to_std_string( ( phrase_type_t )( i ) ).c_str() ) ) == 0 ){
+            _children.push_back( new Phrase() );
+            _children.back()->from_xml( l1 );
           }
         }
       }
@@ -265,8 +289,8 @@ words_to_std_string( void )const{
   
 string
 Phrase::
-phrase_t_to_std_string( const phrase_t& phrase ){
-  switch( phrase ){
+phrase_type_t_to_std_string( const phrase_type_t& type ){
+  switch( type ){
   case( PHRASE_NP ):
     return "NP";
     break;
@@ -298,12 +322,12 @@ phrase_t_to_std_string( const phrase_t& phrase ){
   }
 }
 
-phrase_t
+phrase_type_t
 Phrase::
-phrase_t_from_std_string( const string& arg ){
+phrase_type_t_from_std_string( const string& arg ){
   for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
-    if( phrase_t_to_std_string( ( phrase_t )( i ) ) == arg ){
-      return ( phrase_t )( i );
+    if( phrase_type_t_to_std_string( ( phrase_type_t )( i ) ) == arg ){
+      return ( phrase_type_t )( i );
     }
   }
   return PHRASE_UNKNOWN;
@@ -313,7 +337,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Phrase& other ) {
-    out << Phrase::phrase_t_to_std_string( other.phrase() );
+    out << Phrase::phrase_type_t_to_std_string( other.type() );
     for( unsigned int i = 0; i < other.words().size(); i++ ){
       out << "(" << other.words()[ i ] << ")";
       if( i != ( other.words().size() - 1 ) ){
@@ -321,7 +345,7 @@ namespace h2sl {
       }
     }
     for( unsigned int i = 0; i < other.children().size(); i++ ){
-      out << "{" << other.children()[ i ] << "}";
+      out << "{" << *other.children()[ i ] << "}";
       if( i != ( other.children().size() - 1 ) ){
         out << ",";
       }

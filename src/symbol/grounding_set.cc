@@ -1,5 +1,5 @@
 /**
- * @file    constraint_set.cc
+ * @file    grounding_set.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -24,56 +24,74 @@
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA. *
+ * 02110-1301, USA.
+ *
  * @section DESCRIPTION
  *
- * The implementation of a class used to describe a set of constraints
+ * The implementation of a class used to describe a set of groundings
  */
 
-#include "h2sl/constraint_set.h"
+#include "h2sl/object.h"
+#include "h2sl/region.h"
+#include "h2sl/constraint.h"
+
+#include "h2sl/grounding_set.h"
 
 using namespace std;
 using namespace h2sl;
 
-Constraint_Set::
-Constraint_Set( const vector< Constraint >& constraints ) : Grounding(),
-                                                            _constraints( constraints ) {
+Grounding_Set::
+Grounding_Set( const vector< Grounding* >& groundings ) : Grounding(),
+                                                _groundings( groundings ) {
 
 }
 
-Constraint_Set::
-~Constraint_Set() {
-
+Grounding_Set::
+~Grounding_Set() {
+  clear();
 }
 
-Constraint_Set::
-Constraint_Set( const Constraint_Set& other ) : Grounding( other ),
-                                                _constraints( other._constraints ){
-
+Grounding_Set::
+Grounding_Set( const Grounding_Set& other ) : Grounding( other ),
+                                        _groundings(){
+  _groundings.resize( other._groundings.size(), NULL );
+  for( unsigned int i = 0; i < other._groundings.size(); i++ ){
+    _groundings[ i ] = other._groundings[ i ]->dup();
+  }   
 }
 
-Constraint_Set&
-Constraint_Set::
-operator=( const Constraint_Set& other ) {
-  _constraints = other._constraints;
+Grounding_Set&
+Grounding_Set::
+operator=( const Grounding_Set& other ) {
+  clear();
+  _groundings.resize( other._groundings.size(), NULL );
+  for( unsigned int i = 0; i < other._groundings.size(); i++ ){
+    _groundings[ i ] = other._groundings[ i ]->dup();
+  }
   return (*this);
 }
 
-Grounding*
-Constraint_Set::
+Grounding_Set*
+Grounding_Set::
 dup( void )const{
-  return new Constraint_Set( *this );
+  return new Grounding_Set( *this );
 }
 
 void
-Constraint_Set::
+Grounding_Set::
 clear( void ){
-  _constraints.clear();
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    if( _groundings[ i ] != NULL ){
+      delete _groundings[ i ];
+      _groundings[ i ] = NULL;
+    }
+  } 
+  _groundings.clear();
   return;
 }
 
 void
-Constraint_Set::
+Grounding_Set::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -85,19 +103,21 @@ to_xml( const string& filename )const{
 }
 
 void
-Constraint_Set::
+Grounding_Set::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "constraint_set" ), NULL );
-  for( unsigned int i = 0; i < _constraints.size(); i++ ){
-    _constraints[ i ].to_xml( doc, node );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "grounding_set" ), NULL );
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    if( _groundings[ i ] != NULL ){
+      _groundings[ i ]->to_xml( doc, node );
+    }
   }
   xmlAddChild( root, node );
   return;
 }
 
 void
-Constraint_Set::
+Grounding_Set::
 from_xml( const string& filename ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
@@ -108,7 +128,7 @@ from_xml( const string& filename ){
       xmlNodePtr l1 = NULL;
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint_set" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
             from_xml( l1 );
           }
         }
@@ -120,17 +140,23 @@ from_xml( const string& filename ){
 }
 
 void
-Constraint_Set::
+Grounding_Set::
 from_xml( xmlNodePtr root ){
-  _constraints.clear();
+  clear();
   if( root->type == XML_ELEMENT_NODE ){
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
-        if( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint" ) ) == 0 ){
-          _constraints.push_back( Constraint() );
-          _constraints.back().from_xml( l1 );
-        }
+        if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
+          _groundings.push_back( new Object() );
+          _groundings.back()->from_xml( l1 );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
+          _groundings.push_back( new Region() );
+          _groundings.back()->from_xml( l1 );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint" ) ) == 0 ){
+          _groundings.push_back( new Constraint() );
+          _groundings.back()->from_xml( l1 );
+        } 
       }
     }
   }
@@ -140,15 +166,8 @@ from_xml( xmlNodePtr root ){
 namespace h2sl {
   ostream&
   operator<<( ostream& out,
-              const Constraint_Set& other ) {
-    out << "constraints[" << other.constraints().size() << "]:{";
-    for( unsigned int i = 0; i < other.constraints().size(); i++ ){
-      out << "(" << other.constraints()[ i ] << ")";
-      if( i != ( other.constraints().size() - 1 ) ){
-        out << ",";
-      }
-    }
-    out << "}";
+              const Grounding_Set& other ) {
     return out;
   }
+
 }

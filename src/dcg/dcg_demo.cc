@@ -68,10 +68,10 @@ main( int argc,
 
   Phrase * phrase = new Phrase();
 
-  if( parser->parse( args.command_arg, *phrase ) ){
-    vector< pair< double, Phrase > > solutions;
+  if( parser->parse( args.command_arg, phrase ) ){
+    vector< pair< double, Phrase* > > solutions;
 
-    if( dcg->search( *phrase, *world, *llm, solutions ) ){
+    if( dcg->search( phrase, world, llm, solutions ) ){
       cout << "dcg search succeeded" << endl;
     } else {
       cout << "dcg search failed" << endl;

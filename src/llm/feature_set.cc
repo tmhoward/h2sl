@@ -81,9 +81,10 @@ indices( const unsigned int& cv,
           const Grounding* grounding,
           const vector< Grounding* >& children, 
           const Phrase* phrase,
+          const World* world,
           vector< unsigned int >& indices ){
   indices.clear();
-  evaluate( cv, grounding, children, phrase );
+  evaluate( cv, grounding, children, phrase, world );
 
   if( _values.size() == 3 ){
     for( unsigned int i = 0; i < _values[ 0 ].size(); i++ ){
@@ -103,11 +104,12 @@ Feature_Set::
 evaluate( const unsigned int& cv,
           const Grounding* grounding, 
           const vector< Grounding* >& children,
-          const Phrase* phrase ){
+          const Phrase* phrase,
+          const World* world ){
   for( unsigned int i = 0; i < _feature_groups.size(); i++ ){
     _values[ i ].clear();
     for( unsigned int j = 0; j < _feature_groups[ i ].size(); j++ ){
-      if( _feature_groups[ i ][ j ]->value( cv, grounding, children, phrase ) ){
+      if( _feature_groups[ i ][ j ]->value( cv, grounding, children, phrase, world ) ){
         _values[ i ].push_back( j );
       }
     }

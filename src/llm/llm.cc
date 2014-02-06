@@ -87,7 +87,8 @@ progress( void * instance,
 LLM_X::
 LLM_X() : _grounding( NULL ),
           _children(),
-          _phrase( NULL ) {
+          _phrase( NULL ),
+          _world( NULL ) {
 
 }
 
@@ -99,7 +100,8 @@ LLM_X::
 LLM_X::
 LLM_X( const LLM_X& other ) : _grounding( NULL ),
                               _children(),
-                              _phrase( NULL ) {
+                              _phrase( NULL ),
+                              _world( NULL ) {
   if( other._grounding != NULL ){
     _grounding = other._grounding->dup();
   }
@@ -111,6 +113,9 @@ LLM_X( const LLM_X& other ) : _grounding( NULL ),
   }
   if( other._phrase != NULL ){
     _phrase = other._phrase->dup();
+  }
+  if( other._world != NULL ){
+    _world = other._world->dup();
   }
 }
 
@@ -128,6 +133,9 @@ operator=( const LLM_X& other ) {
   }
   if( other._phrase != NULL ){
     _phrase = other._phrase->dup();
+  }
+  if( other._world != NULL ){
+    _world = other._world->dup();
   }
   return *this;
 }
@@ -149,8 +157,8 @@ namespace h2sl {
 }
 
 LLM::
-LLM() : _weights(),
-        _feature_set(){
+LLM( Feature_Set* featureSet ) : _weights(),
+                                  _feature_set( featureSet ){
 
 }
 
@@ -184,7 +192,7 @@ pygx( const unsigned int& cv,
   vector< unsigned int > tmp;
   for( unsigned int i = 0; i < cvs.size(); i++ ){
     double dp = 0.0;
-    _feature_set.indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), tmp );
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), tmp );
     for( unsigned int j = 0; j < tmp.size(); j++ ){
       dp += _weights[ tmp[ j ] ];
     }
@@ -208,7 +216,7 @@ pygx( const unsigned int& cv,
   vector< unsigned int > indices;
   for( unsigned int i = 0; i < cvs.size(); i++ ){
     double dp = 0.0;
-    _feature_set.indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), indices );
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), indices );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -227,13 +235,14 @@ pygx( const unsigned int& cv,
       const Grounding* grounding,
       const vector< Grounding* >& children,
       const Phrase* phrase,
+      const World* world,
       const vector< unsigned int >& cvs ){
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > indices;
   for( unsigned int i = 0; i < cvs.size(); i++ ){
     double dp = 0.0;
-    _feature_set.indices( cvs[ i ], grounding, children, phrase, indices );
+    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -252,12 +261,12 @@ train( vector< pair< unsigned int, LLM_X > >& examples,
         const unsigned int& maxIterations,
         const double& lambda ){
 
-  if( _feature_set.size() != _weights.size() ){
-    _weights.resize( _feature_set.size(), 0.0 );
+  if( _feature_set->size() != _weights.size() ){
+    _weights.resize( _feature_set->size(), 0.0 );
   }
   
   lbfgsfloatval_t fx;
-  lbfgsfloatval_t * x = lbfgs_malloc( _feature_set.size() );
+  lbfgsfloatval_t * x = lbfgs_malloc( _feature_set->size() );
 
   for( unsigned int i = 0; i < _weights.size(); i++ ){
     x[ i ] = _weights[ i ];
@@ -347,7 +356,7 @@ LLM::
 to_xml( xmlDocPtr doc, 
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "llm" ), NULL );
-  _feature_set.to_xml( doc, node );
+  _feature_set->to_xml( doc, node );
   stringstream weights_string;
   for( unsigned int i = 0; i < _weights.size(); i++ ){
     weights_string << _weights[ i ];
@@ -404,11 +413,12 @@ from_xml( xmlNodePtr root ){
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_set" ) ) == 0 ){
-          _feature_set.from_xml( l1 );
+          _feature_set->from_xml( l1 );
         }
       }
     }  
   }
+  _weights.resize( _feature_set->size() );
   return;
 }
 

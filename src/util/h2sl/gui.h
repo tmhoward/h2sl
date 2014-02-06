@@ -128,7 +128,8 @@ namespace h2sl {
     GUI( Parser * parser = NULL, World * world = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, QWidget * parent = NULL );
     virtual ~GUI();
 
-    void update_graph( void );
+    virtual void update_world( void );
+    virtual void update_graph( void );
 
     inline QGroupBox* group_box( void ){ return _group_box; };
     inline Parser*& parser( void ){ return _parser; };
@@ -145,7 +146,7 @@ namespace h2sl {
     virtual void resizeEvent( QResizeEvent* event );
 
     virtual void _run_inference( const std::string& sentence );
-    virtual void _send_constraint_set( void );
+    virtual void _send_output( void );
     QString _format_comment (const std::string& comment, const bool& error = false);
 
     QLineEdit* _line_edit_sentence;
@@ -161,7 +162,7 @@ namespace h2sl {
     LLM * _llm;
     DCG* _dcg;
     unsigned int _beam_width;
-    std::vector< std::pair< double, Phrase > > _solutions;
+    std::vector< std::pair< double, Phrase* > > _solutions;
     std::vector< QGraphicsItem* > _graphics_items;
 
   private:

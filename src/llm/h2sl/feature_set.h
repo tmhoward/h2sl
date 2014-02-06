@@ -49,14 +49,14 @@ namespace h2sl {
     Feature_Set( const Feature_Set& other );
     Feature_Set& operator=( const Feature_Set& other );
 
-    void indices( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, std::vector< unsigned int >& indices );
-    void evaluate( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase );
+    void indices( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, std::vector< unsigned int >& indices );
+    void evaluate( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world );
 
-    void to_xml( const std::string& filename )const;
-    void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
+    virtual void to_xml( const std::string& filename )const;
+    virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    void from_xml( const std::string& filename );
-    void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& filename );
+    virtual void from_xml( xmlNodePtr root );
 
     unsigned int size( void )const;
 

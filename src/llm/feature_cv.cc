@@ -68,7 +68,8 @@ Feature_CV::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< Grounding* >& children,
-        const Phrase* phrase ){
+        const Phrase* phrase,   
+        const World* world ){
   if( _invert ){
     return ( cv != _cv );
   } else {

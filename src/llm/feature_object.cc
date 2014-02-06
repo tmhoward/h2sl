@@ -69,7 +69,8 @@ Feature_Object::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< Grounding* >& children,
-        const Phrase* phrase ){
+        const Phrase* phrase,
+        const World* world ){
   const Object * object = dynamic_cast< const Object* >( grounding );
   if( object != NULL ){
     if( object->type() == _object_type ){

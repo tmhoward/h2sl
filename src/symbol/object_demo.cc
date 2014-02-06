@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include "h2sl/object.h"
+#include "object_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -42,9 +43,24 @@ main( int argc,
       char* argv[] ) {
   int status = 0;
   cout << "start of Object class demo program" << endl;
-  
+ 
+  gengetopt_args_info args;
+  if( cmdline_parser( argc, argv, &args ) != 0 ){
+    exit(1);
+  }
+ 
   Object * object = new Object();
+
+  if( args.input_given ){
+    object->from_xml( args.input_arg );
+  }
+
   cout << "object:(" << *object << ")" << endl;
+
+  if( args.output_given ){
+    object->to_xml( args.output_arg );
+  }
+
   if( object != NULL ){
     delete object;
     object = NULL;

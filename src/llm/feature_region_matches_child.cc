@@ -66,7 +66,8 @@ Feature_Region_Matches_Child::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< Grounding* >& children,
-        const Phrase* phrase ){
+        const Phrase* phrase,
+        const World* world ){
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
     for( unsigned int i = 0; i < children.size(); i++ ){

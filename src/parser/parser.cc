@@ -215,15 +215,15 @@ process_chart_element( Phrase& phrase,
     if( find_table_element_indices( root, words, symbols, table, root_index ) ){
     }
     for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
-      if( Phrase::phrase_t_to_std_string( ( phrase_t )( i ) ) == symbols[ root_index.k() ] ){
-        phrase.phrase() = ( phrase_t )( i );
+      if( Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( i ) ) == symbols[ root_index.k() ] ){
+        phrase.type() = ( phrase_type_t )( i );
       }
     }
 
     if( !backpointers[ root_index.i() ][ root_index.j() ][ root_index.k() ].empty() ){
       if( ( backpointers[root_index.i()][root_index.j()][root_index.k()].front().first == NULL ) && ( backpointers[root_index.i()][root_index.j()][root_index.k()].front().second == NULL ) ){
         for( unsigned int i = 0; i < grammar.unit_productions().size(); i++ ){
-          if( phrase.phrase() == grammar.unit_productions()[ i ].phrase() ){
+          if( phrase.type() == grammar.unit_productions()[ i ].type() ){
             for( unsigned int j = 0; j < NUM_POS_TAGS; j++ ){
               if( ( pos_t )( j ) == pos_t_from_std_string( grammar.unit_productions()[ i ].symbol() ) ){
                 phrase.words().push_back( Word() );
@@ -253,9 +253,9 @@ process_chart_element( Phrase& phrase,
           }
         }
         for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
-          if( Phrase::phrase_t_to_std_string( ( phrase_t )( i ) ) == symbols[ first_index.k() ] ){
-            phrase.children().push_back( Phrase() );
-            process_chart_element( phrase.children().back(), grammar, backpointers[ root_index.i() ][ root_index.j() ][ root_index.k() ].front().first, words, symbols, table, backpointers );
+          if( Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( i ) ) == symbols[ first_index.k() ] ){
+            phrase.children().push_back( phrase.dup( true ) );
+            process_chart_element( *phrase.children().back(), grammar, backpointers[ root_index.i() ][ root_index.j() ][ root_index.k() ].front().first, words, symbols, table, backpointers );
           }
         }
       }
@@ -278,16 +278,16 @@ process_chart_element( Phrase& phrase,
           }
         }
         for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
-          if( Phrase::phrase_t_to_std_string( ( phrase_t )( i ) ) == symbols[ second_index.k() ] ){
-            phrase.children().push_back( Phrase() );
-            process_chart_element( phrase.children().back(), grammar, backpointers[ root_index.i() ][ root_index.j() ][ root_index.k() ].front().second, words, symbols, table, backpointers );
+          if( Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( i ) ) == symbols[ second_index.k() ] ){
+            phrase.children().push_back( phrase.dup( true ) );
+            process_chart_element( *phrase.children().back(), grammar, backpointers[ root_index.i() ][ root_index.j() ][ root_index.k() ].front().second, words, symbols, table, backpointers );
           }
         }
       }
 
       if( ( backpointers[ root_index.i() ][ root_index.j() ][ root_index.k() ].front().first == NULL )  && ( backpointers[ root_index.i() ][ root_index.j() ][ root_index.k() ].front().second == NULL ) ){
         for( unsigned int i = 0; i < grammar.unit_productions().size(); i++ ){
-          if( Phrase::phrase_t_to_std_string( grammar.unit_productions()[ i ].phrase() ) == symbols[ root_index.k() ] ){
+          if( Phrase::phrase_type_t_to_std_string( grammar.unit_productions()[ i ].type() ) == symbols[ root_index.k() ] ){
             for( unsigned int j = 0; j < NUM_POS_TAGS; j++ ){
               if( pos_t_to_std_string( ( pos_t )( j ) ) == grammar.unit_productions()[ i ].symbol() ){
                 phrase.words().push_back( Word() );
@@ -300,7 +300,7 @@ process_chart_element( Phrase& phrase,
       }
     } else { 
       for( unsigned int i = 0; i < grammar.unit_productions().size(); i++ ){
-        if( Phrase::phrase_t_to_std_string( grammar.unit_productions()[ i ].phrase() ) == symbols[ root_index.k() ] ){
+        if( Phrase::phrase_type_t_to_std_string( grammar.unit_productions()[ i ].type() ) == symbols[ root_index.k() ] ){
           for( unsigned int j = 0; j < NUM_POS_TAGS; j++ ){
             if( pos_t_to_std_string( ( pos_t )( j ) ) == grammar.unit_productions()[ i ].symbol() ){
               phrase.words().push_back( Word() );
@@ -341,11 +341,11 @@ operator=( const Parser& other ) {
 bool
 Parser::
 parse( const string& text,
-        Phrase& phrase )const{
-  Grounding * grounding = phrase.grounding();
-  phrase.grounding() = NULL;
-  phrase.words().clear();
-  phrase.children().clear();
+        Phrase* phrase )const{
+  Grounding * grounding = phrase->grounding();
+  phrase->grounding() = NULL;
+  phrase->words().clear();
+  phrase->children().clear();
   vector< string > words;
   boost::split( words, text, boost::is_any_of( " " ) );
 
@@ -447,20 +447,9 @@ parse( const string& text,
     }
   }
   
-  process_chart_element( phrase, _grammar, root, words, symbols, table, backpointers );
+  process_chart_element( *phrase, _grammar, root, words, symbols, table, backpointers );
   
-
-  if( phrase.phrase() != PHRASE_S ){
-    for( unsigned int i = 0; i < _grammar.unit_productions().size(); i++ ){
-      if( ( _grammar.unit_productions()[ i ].phrase() == PHRASE_S ) && ( Phrase::phrase_t_from_std_string( _grammar.unit_productions()[ i ].symbol() ) == phrase.phrase() ) ){
-        Phrase new_phrase( _grammar.unit_productions()[ i ].phrase() );
-        new_phrase.children().push_back( phrase );
-        phrase = new_phrase;
-      }
-    }
-  }
-  
-  phrase.grounding() = grounding; 
+  phrase->grounding() = grounding; 
  
   for( int i = ( n - 1 ); i >= 0; i-- ){
     for( int j = 0; j < n; j++ ){
