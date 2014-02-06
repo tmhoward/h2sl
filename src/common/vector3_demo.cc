@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cstdlib>
 #include "h2sl/vector3.h"
 #include "vector3_demo_cmdline.h"
 
