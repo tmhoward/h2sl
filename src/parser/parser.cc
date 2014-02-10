@@ -226,9 +226,17 @@ process_chart_element( Phrase& phrase,
           if( phrase.type() == grammar.unit_productions()[ i ].type() ){
             for( unsigned int j = 0; j < NUM_POS_TAGS; j++ ){
               if( ( pos_t )( j ) == pos_t_from_std_string( grammar.unit_productions()[ i ].symbol() ) ){
-                phrase.words().push_back( Word() );
-                phrase.words().back().pos() = ( pos_t )( j );
-                phrase.words().back().text() = words[ root_index.i() ];
+                for( unsigned int k = 0; k < grammar.terminals().size(); k++ ){
+                  if( grammar.terminals()[ k ].symbol() == pos_t_to_std_string( ( pos_t )( j ) ) ){
+                    for( unsigned int l = 0; l < grammar.terminals()[ k ].words().size(); l++ ){
+                      if( grammar.terminals()[ k ].words()[ l ] == words[ root_index.i() ] ){
+                        phrase.words().push_back( Word() );
+                        phrase.words().back().pos() = ( pos_t )( j );
+                        phrase.words().back().text() = words[ root_index.i() ];
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -290,9 +298,17 @@ process_chart_element( Phrase& phrase,
           if( Phrase::phrase_type_t_to_std_string( grammar.unit_productions()[ i ].type() ) == symbols[ root_index.k() ] ){
             for( unsigned int j = 0; j < NUM_POS_TAGS; j++ ){
               if( pos_t_to_std_string( ( pos_t )( j ) ) == grammar.unit_productions()[ i ].symbol() ){
-                phrase.words().push_back( Word() );
-                phrase.words().back().pos() = ( pos_t )( j );
-                phrase.words().back().text() = words[ root_index.i() ];
+                for( unsigned int k = 0; k < grammar.terminals().size(); k++ ){
+                  if( grammar.terminals()[ k ].symbol() == pos_t_to_std_string( ( pos_t )( j ) ) ){
+                    for( unsigned int l = 0; l < grammar.terminals()[ k ].words().size(); l++ ){
+                      if( grammar.terminals()[ k ].words()[ l ] == words[ root_index.i() ] ){
+                        phrase.words().push_back( Word() );
+                        phrase.words().back().pos() = ( pos_t )( j );
+                        phrase.words().back().text() = words[ root_index.i() ];
+                      }
+                    }
+                  }
+                }  
               }
             }
           }
@@ -303,9 +319,17 @@ process_chart_element( Phrase& phrase,
         if( Phrase::phrase_type_t_to_std_string( grammar.unit_productions()[ i ].type() ) == symbols[ root_index.k() ] ){
           for( unsigned int j = 0; j < NUM_POS_TAGS; j++ ){
             if( pos_t_to_std_string( ( pos_t )( j ) ) == grammar.unit_productions()[ i ].symbol() ){
-              phrase.words().push_back( Word() );
-              phrase.words().back().pos() = ( pos_t )( j );
-              phrase.words().back().text() = words[ root_index.i() ];
+              for( unsigned int k = 0; k < grammar.terminals().size(); k++ ){
+                if( grammar.terminals()[ k ].symbol() == pos_t_to_std_string( ( pos_t )( j ) ) ){
+                  for( unsigned int l = 0; l < grammar.terminals()[ k ].words().size(); l++ ){
+                    if( grammar.terminals()[ k ].words()[ l ] == words[ root_index.i() ] ){
+                      phrase.words().push_back( Word() );
+                      phrase.words().back().pos() = ( pos_t )( j );
+                      phrase.words().back().text() = words[ root_index.i() ];
+                    }
+                  }
+                }
+              }
             }
           }
         }

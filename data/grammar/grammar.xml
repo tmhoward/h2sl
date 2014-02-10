@@ -37,7 +37,7 @@
     <grammar_terminal symbol="WP" words=""/>
     <grammar_terminal symbol="WPD" words=""/>
     <grammar_terminal symbol="WRB" words=""/>
-    <grammar_terminal symbol="NP" words=""/>
+    <grammar_terminal symbol="NP" words="front,there"/>
     <grammar_terminal symbol="VP" words=""/>
     <grammar_terminal symbol="PP" words=""/>
     <grammar_terminal symbol="ADJP" words=""/>
@@ -45,9 +45,11 @@
     <grammar_terminal symbol="PRT" words=""/>
     <grammar_terminal symbol="S" words=""/>
     <grammar_terminal symbol="SBAR" words=""/>
+    <grammar_non_terminal root="S" children="NP,VP"/>
     <grammar_non_terminal root="VP" children="VB,PP"/>
     <grammar_non_terminal root="VP" children="VB,X1"/>
     <grammar_non_terminal root="VP" children="VB,NP"/>
+    <grammar_non_terminal root="VP" children="VBZ,NP"/>
     <grammar_non_terminal root="PP" children="IN,NP"/>
     <grammar_non_terminal root="PP" children="TO,NP"/>
     <grammar_non_terminal root="NP" children="NP,PP"/>
@@ -58,5 +60,7 @@
     <grammar_non_terminal root="NP" children="NP,X0"/>
     <grammar_non_terminal root="X0" children="CC,NP"/>
     <grammar_non_terminal root="X1" children="NP,PP"/>
+    <grammar_unit_production type="NP" symbol="NN"/>
+    <grammar_unit_production type="NP" symbol="EX"/>
   </grammar>
 </root>
