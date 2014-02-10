@@ -62,13 +62,17 @@ namespace h2sl {
 
   protected:
     virtual void _add_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
+    virtual void _add_s_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
     virtual void _add_vp_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
+    virtual void _add_advp_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
     virtual void _add_pp_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
     virtual void _add_np_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
     virtual void _connect_children( Phrase* phrase );
 
     virtual void _fill_phrase_from_model( Phrase* phrase );
+    virtual void _fill_s_phrase_from_model( Phrase* phrase );
     virtual void _fill_vp_phrase_from_model( Phrase* phrase );
+    virtual void _fill_advp_phrase_from_model( Phrase* phrase );
     virtual void _fill_pp_phrase_from_model( Phrase* phrase );
     virtual void _fill_np_phrase_from_model( Phrase* phrase );
 

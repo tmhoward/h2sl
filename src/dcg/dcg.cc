@@ -194,6 +194,60 @@ score( pair< double, vector< unsigned int > >& solution,
 
 void
 DCG::
+_add_s_phrase_to_model( Phrase* phrase,
+                        const World* world,
+                        LLM* llm,
+                        const bool& fill ){
+  Grounding_Set * grounding_set = NULL;
+  if( fill ){
+    grounding_set = dynamic_cast< Grounding_Set* >( phrase->grounding() );
+  }
+
+  vector< Constraint* > new_constraint_groundings;
+  for( unsigned int i = CONSTRAINT_TYPE_INSIDE; i < NUM_CONSTRAINT_TYPES; i++ ){
+    for( unsigned int j = 0; j < world->objects().size(); j++ ){
+      for( unsigned int k = 0; k < NUM_REGION_TYPES; k++ ){
+        for( unsigned int l = 0; l < world->objects().size(); l++ ){
+          for( unsigned int m = 0; m < NUM_REGION_TYPES; m++ ){
+            if( ( j != l ) || ( k != m ) ){
+              new_constraint_groundings.push_back( new Constraint( i, Region( k, *world->objects()[ j ] ), Region( m, *world->objects()[ l ] ) ) );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  vector< unsigned int > cvs;
+  cvs.push_back( CV_FALSE );
+  cvs.push_back( CV_TRUE );
+
+  for( unsigned int i = 0; i < new_constraint_groundings.size(); i++ ){
+    if( fill && ( grounding_set != NULL ) ){
+      bool found_match = false;
+      for( unsigned int j = 0; j < grounding_set->groundings().size(); j++ ){
+        Constraint * grounding = dynamic_cast< Constraint* >( grounding_set->groundings()[ j ] );
+        if( grounding != NULL ){
+          if( *grounding == *new_constraint_groundings[ i ] ){
+            found_match = true;
+          }
+        }
+      }
+      if( found_match ){
+        _factors.push_back( new Factor( CV_TRUE, new_constraint_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
+      } else {
+        _factors.push_back( new Factor( CV_FALSE, new_constraint_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
+      }
+    } else {
+      _factors.push_back( new Factor( 0, new_constraint_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
+    }
+  }
+
+  return;
+}
+
+void
+DCG::
 _add_vp_phrase_to_model( Phrase* phrase,
                         const World* world,
                         LLM* llm,
@@ -248,6 +302,20 @@ _add_vp_phrase_to_model( Phrase* phrase,
 
 void
 DCG::
+_add_advp_phrase_to_model( Phrase* phrase,
+                        const World* world,
+                        LLM* llm,
+                        const bool& fill ){
+  Grounding_Set * grounding_set = NULL;
+  if( fill ){
+    grounding_set = dynamic_cast< Grounding_Set* >( phrase->grounding() );
+  }
+
+  return;
+}
+
+void
+DCG::
 _add_pp_phrase_to_model( Phrase* phrase,
                         const World* world,
                         LLM* llm,
@@ -291,7 +359,6 @@ _add_pp_phrase_to_model( Phrase* phrase,
       _factors.push_back( new Factor( 0, new_region_groundings[ i ], _phrases.back(), world, vector< Factor* >(), llm, cvs, _factors.size() ) );
     }
   }
-
 
   return;
 }
@@ -354,6 +421,9 @@ _add_phrase_to_model( Phrase* phrase,
   _phrases.push_back( phrase );
 
   switch( phrase->type() ){
+  case( PHRASE_S ):
+    _add_s_phrase_to_model( phrase, world, llm, fill );
+    break;
   case( PHRASE_VP ):
     _add_vp_phrase_to_model( phrase, world, llm, fill );
     break;
@@ -396,8 +466,14 @@ void
 DCG::
 _fill_phrase_from_model( Phrase* phrase ){
   switch( phrase->type() ){
+  case( PHRASE_S ):
+    _fill_s_phrase_from_model( phrase );
+    break;
   case( PHRASE_VP ):
     _fill_vp_phrase_from_model( phrase );
+    break;
+  case( PHRASE_ADVP ):
+    _fill_advp_phrase_from_model( phrase );
     break;
   case( PHRASE_PP ):
     _fill_pp_phrase_from_model( phrase );
@@ -412,6 +488,27 @@ _fill_phrase_from_model( Phrase* phrase ){
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
     _fill_phrase_from_model( phrase->children()[ i ] );
   }
+  return;
+}
+
+void
+DCG::
+_fill_s_phrase_from_model( Phrase* phrase ){
+  if( phrase->grounding() != NULL ){
+    delete phrase->grounding();
+    phrase->grounding() = NULL;
+  }
+  Grounding_Set * grounding_set = new Grounding_Set();
+  for( unsigned int i = 0; i < _factors.size(); i++ ){
+    if( _factors[ i ]->cv() == CV_TRUE ){
+      if( dynamic_cast< Constraint* >( _factors[ i ]->grounding() ) != NULL ){
+        if( *_factors[ i ]->phrase() == *phrase ){
+          grounding_set->groundings().push_back( static_cast< Constraint* >( _factors[ i ]->grounding() )->dup() );
+        }
+      }
+    }
+  }
+  phrase->grounding() = grounding_set;
   return;
 }
 
@@ -434,6 +531,17 @@ _fill_vp_phrase_from_model( Phrase* phrase ){
   }
   phrase->grounding() = grounding_set;
   return;
+}
+
+void
+DCG::
+_fill_advp_phrase_from_model( Phrase* phrase ){
+  if( phrase->grounding() != NULL ){
+    delete phrase->grounding();
+    phrase->grounding() = NULL;
+  }
+  Grounding_Set * grounding_set = new Grounding_Set();
+  phrase->grounding() = grounding_set;
 }
 
 void 
