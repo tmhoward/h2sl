@@ -162,7 +162,7 @@ operator=( const Table_Element& other ){
 
 string
 symbol_from_index( const int& index, const vector< string >& symbols ){
-  if( ( index >= 0 ) && ( index < symbols.size() ) ){
+  if( ( index >= 0 ) && ( index < ( int )( symbols.size() ) ) ){
     return symbols[ index ];
   } else {
     return "UNKNOWN SYMBOL";
@@ -433,12 +433,12 @@ parse( const string& text,
     } 
   } 
 
-  for( int i = 2; i <= n; i++ ){
+  for( unsigned int i = 2; i <= n; i++ ){
     int a_col = i - 1;
     for( int j = 1; j < ( n - i + 2 ); j++ ){
       int a_row = j - 1;
       int b_row = j - 1;
-      for( int k = 1; k < i; k++ ){
+      for( unsigned int k = 1; k < i; k++ ){
         int b_col = k - 1;
         int c_row = j + k - 1;
         int c_col = i - k - 1;
@@ -476,9 +476,9 @@ parse( const string& text,
   phrase->grounding() = grounding; 
  
   for( int i = ( n - 1 ); i >= 0; i-- ){
-    for( int j = 0; j < n; j++ ){
+    for( unsigned int j = 0; j < n; j++ ){
       stringstream table_string;
-      for( int k = 0; k < symbols.size(); k++ ){
+      for( unsigned int k = 0; k < symbols.size(); k++ ){
         if( table[ j ][ i ][ k ] ){
           table_string << symbols[ k ];
         }
