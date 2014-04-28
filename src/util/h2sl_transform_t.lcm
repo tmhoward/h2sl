@@ -1,0 +1,7 @@
+package h2sl;
+
+struct transform_t
+{
+    double   position[3];
+    double   orientation[4];
+}

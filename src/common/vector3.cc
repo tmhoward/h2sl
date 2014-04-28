@@ -59,6 +59,18 @@ Vector3( const Vector3& other ) : _data( other._data ){
 
 }
 
+double&
+Vector3::
+operator[]( const unsigned int& index ){
+  return _data[ index ];
+}
+
+const double&
+Vector3::
+operator[]( const unsigned int& index )const{
+  return _data[ index ];
+}
+
 Vector3&
 Vector3::
 operator=( const Vector3& other ) {

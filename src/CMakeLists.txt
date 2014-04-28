@@ -35,6 +35,9 @@ include_directories(${PROJECT_SOURCE_DIR}/src/common
 find_package(LibXml2)
 include_directories(${LIBXML2_INCLUDE_DIR})
 
+find_package(Boost 1.45.0 COMPONENTS system thread)
+include_directories(${Boost_INCLUDE_DIR})
+
 find_package(Qt4 COMPONENTS QtCore QtGui QtOpenGL REQUIRED)
 include(${QT_USE_FILE})
 include_directories(${QT_INCLUDE_DIR})

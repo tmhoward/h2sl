@@ -58,12 +58,15 @@ namespace h2sl {
     inline const Phrase* phrase( void )const{ return _phrase; }; 
     inline World*& world( void ){ return _world; };
     inline const World* world( void )const{ return _world; }; 
+    inline std::vector< unsigned int >& cvs( void ){ return _cvs; };
+    inline const std::vector< unsigned int >& cvs( void )const{ return _cvs; };
 
   protected:
     Grounding* _grounding;
     std::vector< Grounding* > _children;
     Phrase * _phrase;
     World * _world;
+    std::vector< unsigned int > _cvs;
   };
   std::ostream& operator<<( std::ostream& out, const LLM_X& other );
 

@@ -95,10 +95,17 @@ value( const unsigned int& cv ){
   _cv = cv;
   if( _llm != NULL ){
     vector< Grounding* > children;
-    for( unsigned int i = 0; i < _children.size(); i++ ){
-      if( _children[ i ]->cv() == CV_TRUE ){
-        children.push_back( _children[ i ]->grounding() );
-      } 
+    for( unsigned int i = 0; i < _children.size(); i++ ){ 
+      _children[ i ]->cv() = _children[ i ]->cv();
+      if( _children[ i ]->cvs().size() == 2 ){
+        if( _children[ i ]->cv() == CV_TRUE ){
+          children.push_back( _children[ i ]->grounding() );
+        } 
+      } else if ( _children[ i ]->cvs().size() == 3 ){
+        if( ( _children[ i ]->cv() == CV_IGNORED ) || ( _children[ i ]->cv() == CV_ACTIVE ) ){
+          children.push_back( _children[ i ]->grounding() );
+        }
+      }
     }
     _pygx = _llm->pygx( _cv, _grounding, children, _phrase, _world, _cvs );
     return _pygx;

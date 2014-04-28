@@ -43,6 +43,8 @@ namespace h2sl {
     Vector3( const double& x = 0.0, const double& y = 0.0, const double& z = 0.0 );
     virtual ~Vector3();
     Vector3( const Vector3& other );
+    double& operator[]( const unsigned int& index );
+    const double& operator[]( const unsigned int& index )const;
     Vector3& operator=( const Vector3& other );
     Vector3& operator*=( const double& rhs );
     Vector3& operator/=( const double& rhs );

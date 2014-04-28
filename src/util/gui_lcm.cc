@@ -66,12 +66,26 @@ GUI_LCM::
   delete _lcm_thread;
 }
 
+void
+GUI_LCM::
+transform_to_transform_t( const Transform& transform,
+                          transform_t& msg ){
+  for( unsigned int i = 0; i < 3; i++ ){
+    msg.position[ i ] = transform.position()[ i ];
+  }
+  for( unsigned int i = 0; i < 3; i++ ){
+    msg.orientation[ i ] = transform.orientation().qv()[ i ];
+  }
+  msg.orientation[ 3 ] = transform.orientation().qs();
+}
+
 void 
 GUI_LCM::
 object_to_object_t( const Object& object, 
                     object_t& msg ){
   msg.name = object.name();
   msg.type = object.type();
+  transform_to_transform_t( object.transform(), msg.transform );
   return;
 }
 
@@ -121,12 +135,28 @@ grounding_set_to_constraint_set_t( const Grounding_Set& groundingSet,
   return;
 }
 
+void
+GUI_LCM::
+transform_from_transform_t( Transform& transform,
+                            const transform_t& msg ){
+  transform.position() = Vector3( msg.position[ 0 ],
+                                  msg.position[ 1 ],
+                                  msg.position[ 2 ] );
+  transform.orientation().qv() = Vector3( msg.orientation[ 0 ], 
+                                          msg.orientation[ 1 ],
+                                          msg.orientation[ 2 ] );
+  transform.orientation().qs() = msg.orientation[ 3 ];
+  transform.orientation().normalize();
+  return;
+}
+
 void 
 GUI_LCM::
 object_from_object_t( Object& object, 
                       const object_t& msg ){
   object.name() = msg.name;
   object.type() = msg.type;
+  transform_from_transform_t( object.transform(), msg.transform );
   return;
 }
 

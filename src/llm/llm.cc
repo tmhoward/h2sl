@@ -88,7 +88,8 @@ LLM_X::
 LLM_X() : _grounding( NULL ),
           _children(),
           _phrase( NULL ),
-          _world( NULL ) {
+          _world( NULL ),
+          _cvs() {
 
 }
 
@@ -101,7 +102,8 @@ LLM_X::
 LLM_X( const LLM_X& other ) : _grounding( NULL ),
                               _children(),
                               _phrase( NULL ),
-                              _world( NULL ) {
+                              _world( NULL ),
+                              _cvs( other._cvs ) {
   if( other._grounding != NULL ){
     _grounding = other._grounding->dup();
   }
@@ -137,6 +139,7 @@ operator=( const LLM_X& other ) {
   if( other._world != NULL ){
     _world = other._world->dup();
   }
+  _cvs = other._cvs;
   return *this;
 }
 
@@ -296,11 +299,8 @@ objective( LLM& llm,
             const vector< pair< unsigned int, LLM_X > >& examples, 
             double lambda ){
   double o = 0.0;
-  vector< unsigned int > cvs;
-  cvs.push_back( CV_FALSE );
-  cvs.push_back( CV_TRUE );
   for( unsigned int i = 0; i < examples.size(); i++ ){
-    o += log( llm.pygx( examples[ i ].first, examples[ i ].second, cvs ) );
+    o += log( llm.pygx( examples[ i ].first, examples[ i ].second, examples[ i ].second.cvs() ) );
   }
   double half_lambda = lambda / 2.0;
   for( unsigned int i = 0; i < llm.weights().size(); i++ ){
@@ -316,17 +316,14 @@ gradient( LLM& llm,
           vector< double >& g, 
           double lambda ){
   g.resize( llm.weights().size(), 0.0 );
-  vector< unsigned int > cvs;
-  cvs.push_back( CV_FALSE );
-  cvs.push_back( CV_TRUE );
   vector< unsigned int > indices;
   for( unsigned int i = 0; i < examples.size(); i++ ){
-    for( unsigned int k = 0; k < cvs.size(); k++ ){
-      double tmp = llm.pygx( cvs[ k ], examples[ i ].second, cvs, indices );
+    for( unsigned int k = 0; k < examples[ i ].second.cvs().size(); k++ ){
+      double tmp = llm.pygx( examples[ i ].second.cvs()[ k ], examples[ i ].second, examples[ i ].second.cvs(), indices );
       for( unsigned int l = 0; l < indices.size(); l++ ){
         g[ indices[ l ] ] -= tmp;
       }
-      if( examples[ i ].first == cvs[ k ] ){
+      if( examples[ i ].first == examples[ i ].second.cvs()[ k ] ){
         for( unsigned int l = 0; l < indices.size(); l++ ){
           g[ indices[ l ] ] += 1.0;
         }

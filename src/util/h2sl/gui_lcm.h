@@ -70,12 +70,14 @@ namespace h2sl {
     GUI_LCM( Parser * parser = NULL, World * world = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, const std::string& worldChannel = "WORLD", QWidget * parent = NULL );
     virtual ~GUI_LCM();
 
+    static void transform_to_transform_t( const Transform& transform, transform_t& msg );
     static void object_to_object_t( const Object& object, object_t& msg );
     static void world_to_world_t( const World& world, world_t& msg );
     static void region_to_region_t( const Region& region, region_t& msg );
     static void constraint_to_constraint_t( const Constraint& constraint, constraint_t& msg );
     static void grounding_set_to_constraint_set_t( const Grounding_Set& groundingSet, constraint_set_t& msg );
 
+    static void transform_from_transform_t( Transform& transform, const transform_t& msg );
     static void object_from_object_t( Object& object, const object_t& msg );
     static void world_from_world_t( World& world, const world_t& msg );
     static void region_from_region_t( Region& region, const region_t& msg );

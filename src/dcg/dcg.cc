@@ -129,7 +129,6 @@ search( Phrase* phrase,
     }
     _fill_phrase_from_model( solutions.back().second );
   }
-  
   return true;
 }
 
@@ -176,7 +175,6 @@ step( vector< pair< double, vector< unsigned int > > >& solutions,
   if( solutions.size() > beamWidth ){
     solutions.erase( solutions.begin() + beamWidth, solutions.end() );
   }
- 
   return true;
 }
 

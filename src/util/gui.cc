@@ -33,6 +33,7 @@
 
 #include <iomanip>
 #include <sstream>
+#include <sys/time.h>
 
 #include <QtGui/QApplication>
 #include <QtGui/QLabel>
@@ -45,6 +46,16 @@
 
 using namespace std;
 using namespace h2sl;
+
+double
+diff_time( struct timeval& startTime,
+            struct timeval& endTime ){
+  if( endTime.tv_usec < startTime.tv_usec ){
+    return ( ( double )( endTime.tv_sec - startTime.tv_sec - 1 ) + ( double )( 1000000 + endTime.tv_usec - startTime.tv_usec ) / 1000000.0 );
+  } else {
+    return ( ( double )( endTime.tv_sec - startTime.tv_sec ) + ( double )( endTime.tv_usec - startTime.tv_usec ) / 1000000.0 );
+  }
+}
 
 QGraphicsItem_Label::
 QGraphicsItem_Label( const string& label,
@@ -491,9 +502,13 @@ GUI::
 _run_inference( const string& sentence ){
   Phrase * phrase = new Phrase();
   if( _parser->parse( sentence, phrase ) ){
+    struct timeval start_time;
+    gettimeofday( &start_time, NULL );
     if( _dcg->search( phrase, _world, _llm, _solutions, _beam_width ) ){
+      struct timeval end_time;
+      gettimeofday( &end_time, NULL );
       stringstream comment_string;
-      comment_string << "successfully inferred structured language for \"" << sentence << "\"";
+      comment_string << "successfully inferred structured language for \"" << sentence << "\" in " << diff_time( start_time, end_time ) << " seconds";
       _text_browser_comments->append( _format_comment( comment_string.str(), false ) );
     } else {
       stringstream comment_string;
@@ -510,8 +525,9 @@ _run_inference( const string& sentence ){
     stringstream solution_string;
     solution_string << "solution " << i + 1 << " (" << _solutions[ i ].first << ")";
     _combo_box_solutions->addItem( QString::fromStdString( solution_string.str() ) );
-  }
-  update_graph();
+  } 
+  cout << "finished search" << endl;
+//  update_graph();
   if( phrase != NULL ){
     delete phrase;
     phrase = NULL;

@@ -111,6 +111,7 @@ main( int argc,
       examples.push_back( pair< unsigned int, LLM_X >() );
       examples.back().first = dcg->factors()[ j ]->cv();
       examples.back().second.grounding() = dcg->factors()[ j ]->grounding()->dup();
+      examples.back().second.cvs() = dcg->factors()[ j ]->cvs();
       for( unsigned int k = 0; k < dcg->factors()[ j ]->children().size(); k++ ){
         if( dcg->factors()[ dcg->factors()[ j ]->children()[ k ]->solution_index() ]->cv() == CV_TRUE ){
           examples.back().second.children().push_back( dcg->factors()[ dcg->factors()[ j ]->children()[ k ]->solution_index() ]->grounding()->dup() );
