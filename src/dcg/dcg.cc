@@ -425,6 +425,9 @@ _add_phrase_to_model( Phrase* phrase,
   case( PHRASE_VP ):
     _add_vp_phrase_to_model( phrase, world, llm, fill );
     break;
+  case( PHRASE_ADVP ):
+    _add_advp_phrase_to_model( phrase, world, llm, fill );
+    break;
   case( PHRASE_PP ):
     _add_pp_phrase_to_model( phrase, world, llm, fill );
     break;
