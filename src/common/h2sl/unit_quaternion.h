@@ -43,13 +43,15 @@ namespace h2sl {
   class Unit_Quaternion {
   public:
     Unit_Quaternion( const Vector3& qv = Vector3(), const double& qs = 1.0 );
+    Unit_Quaternion( const double& roll, const double& pitch, const double& yaw );
     virtual ~Unit_Quaternion();
     Unit_Quaternion( const Unit_Quaternion& other );
     Unit_Quaternion& operator=( const Unit_Quaternion& other );
     Unit_Quaternion& operator*=( const Unit_Quaternion& rhs );
     Unit_Quaternion& operator*=( const double& rhs );
-    Unit_Quaternion operator*( const Unit_Quaternion& rhs );
-    Unit_Quaternion operator*( const double& rhs );
+    Unit_Quaternion operator*( const Unit_Quaternion& rhs )const;
+    Vector3 operator*( const Vector3& rhs )const;
+    Unit_Quaternion operator*( const double& rhs )const;
 
     void normalize( void );
 

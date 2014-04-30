@@ -33,6 +33,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 #include "h2sl/transform.h"
 #include "transform_demo_cmdline.h"
 
@@ -50,17 +51,62 @@ main( int argc,
     exit(1);
   }
 
-  Transform * transform = new Transform();
+  Transform * a = new Transform( Unit_Quaternion( 0.0, 0.0, 0.0 ), Vector3( 1.0, 2.0, 3.0 ) );
+  Transform * b = new Transform( Unit_Quaternion( 0.0, 0.0, 0.0 ), Vector3( 1.0, 2.0, 3.0 ) );
+  Transform * c = new Transform( ( *a ) * ( *b ) );
+  Transform * d = new Transform( ( a->inverse() ) * ( *b ) );
+  Transform * e = new Transform( Unit_Quaternion( 0.0, 0.0, M_PI/2.0 ), Vector3( 1.0, 1.0, 0.0 ) );
+  Transform * f = new Transform( Unit_Quaternion( 0.0, 0.0, M_PI/2.0 ), Vector3( 1.0, 0.0, 0.0 ) );
+  Transform * g = new Transform( ( *e ) * ( *f ) );
+  Transform * h = new Transform( ( e->inverse() ) * ( *f ) );
 
-  cout << "transform " << *transform << endl;
+  cout << "a: " << *a << endl;
+  cout << "b: " << *b << endl;
+  cout << "c: " << *c << endl;
+  cout << "d: " << *d << endl;
+  cout << "e: " << *e << endl;
+  cout << "f: " << *f << endl;
+  cout << "g: " << *g << endl;
+  cout << "h: " << *h << endl;
+
+  if( h != NULL ){
+    delete h;
+    h = NULL;
+  }
+    
+  if( g != NULL ){
+    delete g;
+    g = NULL;
+  }
   
-  transform->from_std_string( "1.5,3.0,4.5" );
+  if( f != NULL ){
+    delete f;
+    f = NULL;
+  }
 
-  cout << "transform " << *transform << endl;
+  if( e != NULL ){
+    delete e;
+    e = NULL;
+  }
 
-  if( transform != NULL ){
-    delete transform;
-    transform = NULL;
+  if( d != NULL ){
+    delete d;
+    d = NULL;
+  }
+
+  if( c != NULL ){
+    delete c;
+    c = NULL;
+  }
+
+  if( b != NULL ){
+    delete b;
+    b = NULL;
+  }
+
+  if( a != NULL ){
+    delete a;
+    a = NULL;
   }
 
   cout << "end of Transform class demo program" << endl;

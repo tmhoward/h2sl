@@ -42,6 +42,14 @@
 #include "h2sl/world.h"
 
 namespace h2sl {
+  typedef enum {
+    FEATURE_TYPE_UNKNOWN,
+    FEATURE_TYPE_LANGUAGE,
+    FEATURE_TYPE_GROUNDING,
+    FEATURE_TYPE_CORRESPONDENCE,  
+    NUM_FEATURE_TYPES
+  } feature_type_t;
+
   class Feature {
   public:
     Feature( const bool& invert = false );
@@ -57,7 +65,8 @@ namespace h2sl {
  
     inline bool& invert( void ){ return _invert; };
     inline const bool& invert( void )const{ return _invert; };
-       
+    virtual inline const feature_type_t type( void )const = 0;
+    
   protected:
     bool _invert;
 

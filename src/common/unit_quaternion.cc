@@ -48,6 +48,14 @@ Unit_Quaternion( const Vector3& qv,
 }
 
 Unit_Quaternion::
+Unit_Quaternion( const double& roll,
+                  const double& pitch,
+                  const double& yaw ) : _qv(),
+                                        _qs( 1.0 ) {
+  from_rpy( roll, pitch, yaw );
+}
+
+Unit_Quaternion::
 ~Unit_Quaternion() {
 
 }
@@ -85,16 +93,20 @@ operator*=( const double& rhs ){
 
 Unit_Quaternion
 Unit_Quaternion::
-operator*( const Unit_Quaternion& rhs ){
+operator*( const Unit_Quaternion& rhs )const{
   return Unit_Quaternion( rhs.qv() * _qs + _qv * rhs.qs() + Vector3::cross( _qv, rhs.qv() ), _qs * rhs.qs() - Vector3::dot( _qv, rhs.qv() ) );
+}
+
+Vector3
+Unit_Quaternion::
+operator*( const Vector3& rhs )const{
+  return rhs + Vector3::cross( qv() * 2.0, ( Vector3::cross( qv(), rhs ) + rhs * qs() ) );
 }
 
 Unit_Quaternion
 Unit_Quaternion::
-operator*( const double& rhs ){
-  Unit_Quaternion tmp( _qv * rhs, _qs * rhs );
-  tmp.normalize();
-  return tmp;
+operator*( const double& rhs )const{
+  return Unit_Quaternion( _qv * rhs, _qs * rhs );
 }
 
 void

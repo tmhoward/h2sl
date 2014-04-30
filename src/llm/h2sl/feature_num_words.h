@@ -56,6 +56,8 @@ namespace h2sl {
     inline unsigned int& num_words( void ){ return _num_words; };
     inline const unsigned int& num_words( void )const{ return _num_words; };
 
+    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_LANGUAGE; };
+
   protected:
     unsigned int _num_words;
 

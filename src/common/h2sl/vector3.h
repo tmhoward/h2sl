@@ -46,6 +46,7 @@ namespace h2sl {
     double& operator[]( const unsigned int& index );
     const double& operator[]( const unsigned int& index )const;
     Vector3& operator=( const Vector3& other );
+    Vector3& operator+=( const Vector3& rhs );
     Vector3& operator*=( const double& rhs );
     Vector3& operator/=( const double& rhs );
     Vector3 operator+( const Vector3& rhs )const;

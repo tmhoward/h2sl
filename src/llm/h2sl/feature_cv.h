@@ -54,6 +54,7 @@ namespace h2sl {
 
     inline unsigned int& cv( void ){ return _cv; };
     inline const unsigned int& cv( void )const{ return _cv; };
+    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_CORRESPONDENCE; };
 
   protected:
     unsigned int _cv;

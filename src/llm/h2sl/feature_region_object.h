@@ -55,6 +55,8 @@ namespace h2sl {
     inline unsigned int& object_type( void ){ return _object_type; };
     inline const unsigned int& object_type( void )const{ return _object_type; };
 
+    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
+
   protected:
     unsigned int _object_type;
 

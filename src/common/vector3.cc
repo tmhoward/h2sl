@@ -80,6 +80,15 @@ operator=( const Vector3& other ) {
 
 Vector3&
 Vector3::
+operator+=( const Vector3& rhs ){
+  for( unsigned int i = 0; i < _data.size(); i++ ){
+    _data[ i ] += rhs._data[ i ];
+  }
+  return (*this);
+}
+
+Vector3&
+Vector3::
 operator*=( const double& rhs ){
   for( unsigned int i = 0; i < _data.size(); i++ ){
     _data[ i ] *= rhs;

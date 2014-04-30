@@ -55,6 +55,8 @@ namespace h2sl {
     inline Word& word( void ){ return _word; };
     inline const Word& word( void )const{ return _word; };
 
+    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_LANGUAGE; };
+
   protected:
     Word _word;
 

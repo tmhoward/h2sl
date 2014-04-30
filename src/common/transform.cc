@@ -66,10 +66,31 @@ operator=( const Transform& other ) {
   return (*this);
 }
 
+Transform&
+Transform::
+operator*=( const Transform& rhs ){
+  _position += _orientation * rhs.position();
+  _orientation *= rhs.orientation();
+  return (*this);
+}
+
+Transform
+Transform::
+operator*( const Transform& rhs )const {
+  return Transform( _orientation * rhs.orientation(), _position + _orientation * rhs.position() );
+}
+
+Transform
+Transform::
+inverse( void )const{
+  return Transform( _orientation.conjugate(), _orientation.conjugate() * _position * -1.0 );
+}
+
 string
 Transform::
 to_std_string( void )const{
   stringstream tmp;
+  tmp << _orientation.qv().x() << "," << _orientation.qv().y() << "," << _orientation.qv().z() << "," << _orientation.qs() << "," << _position.x() << "," << _position.y() << "," << _position.z();
   return tmp.str();  
 }
 
@@ -80,6 +101,15 @@ from_std_string( const string& arg ){
   _position = Vector3();
   vector< string > data_strings;
   boost::split( data_strings, arg, boost::is_any_of( "," ) );
+  if( data_strings.size() == 7 ){
+    _orientation = Unit_Quaternion(  Vector3( strtof( data_strings[ 0 ].c_str(), NULL ),
+                                              strtof( data_strings[ 1 ].c_str(), NULL ),
+                                              strtof( data_strings[ 2 ].c_str(), NULL ) ),
+                                      strtof( data_strings[ 3 ].c_str(), NULL ) );
+    _position = Vector3( strtof( data_strings[ 4 ].c_str(), NULL ),
+                          strtof( data_strings[ 5 ].c_str(), NULL ),
+                          strtof( data_strings[ 6 ].c_str(), NULL ) );
+  }
   return;
 }
 

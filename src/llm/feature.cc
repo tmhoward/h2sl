@@ -47,7 +47,7 @@ Feature::
 }
 
 Feature::
-Feature( const Feature& other ) : _invert( other._invert ){
+Feature( const Feature& other ) : _invert( other._invert ) {
 
 }
 
@@ -64,5 +64,4 @@ namespace h2sl {
               const Feature& other ) {
     return out;
   }
-
 }

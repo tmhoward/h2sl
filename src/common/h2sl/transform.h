@@ -47,6 +47,10 @@ namespace h2sl {
     virtual ~Transform();
     Transform( const Transform& other );
     Transform& operator=( const Transform& other );
+    Transform& operator*=( const Transform& other );
+    Transform operator*( const Transform& rhs )const;
+    
+    Transform inverse( void )const;
 
     std::string to_std_string( void )const;
     void from_std_string( const std::string& arg );

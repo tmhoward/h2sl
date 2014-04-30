@@ -55,6 +55,8 @@ namespace h2sl {
     inline unsigned int& region_type( void ){ return _region_type; };
     inline const unsigned int& region_type( void )const{ return _region_type; };
 
+    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
+
   protected:
     unsigned int _region_type;
 

@@ -54,6 +54,7 @@ namespace h2sl {
 
     inline unsigned int& constraint_type( void ){ return _constraint_type; };
     inline const unsigned int& constraint_type( void )const{ return _constraint_type; };
+    inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
   protected:
     unsigned int _constraint_type;
