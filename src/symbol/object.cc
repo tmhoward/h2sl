@@ -272,9 +272,12 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Object& other ) {
-    out << "name:\"" << other.name() << "\" type:\"" << Object::type_to_std_string( other.type() ) << "\" ";
-    out << "position" << other.transform().position() << " ";
-    out << "orientation:(" << other.transform().orientation() << ")";
+    out << "Object(";
+    out << "name=\"" << other.name() << "\",";
+    out << "type=\"" << Object::type_to_std_string( other.type() ) << "\",";
+    out << "position=" << other.transform().position() << ",";
+    out << "orientation=" << other.transform().orientation();
+    out << ")";
     return out;
   }
 }

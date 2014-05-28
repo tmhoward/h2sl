@@ -221,9 +221,11 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Constraint& other ) {
-    out << "type:\"" << Constraint::type_to_std_string( other.type() ) << "\" ";
-    out << "parent:(" << other.parent() << ") ";
-    out << "child:(" << other.child() << ")";
+    out << "Constraint(";
+    out << "type=\"" << Constraint::type_to_std_string( other.type() ) << "\",";
+    out << "parent=" << other.parent() << ",";
+    out << "child=" << other.child();
+    out << ")";
     return out;
   }
 }

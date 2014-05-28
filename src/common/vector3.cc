@@ -192,7 +192,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Vector3& other ) {
-    out << "[" << other.data().size() << "]:{" << other.to_std_string() << "}";
+    out << "Vector3(" << other.to_std_string() << ")";
     return out;
   }
 }

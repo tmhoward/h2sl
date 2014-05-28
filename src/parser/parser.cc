@@ -365,7 +365,8 @@ operator=( const Parser& other ) {
 bool
 Parser::
 parse( const string& text,
-        Phrase* phrase )const{
+        Phrase* phrase,
+        const bool& debug )const{
   Grounding * grounding = phrase->grounding();
   phrase->grounding() = NULL;
   phrase->words().clear();
@@ -387,16 +388,7 @@ parse( const string& text,
       }
     }
   }
-/*
-  cout << "found " << symbols.size() << " symbols (";
-  for( unsigned int i = 0; i < symbols.size(); i++ ){
-    cout << symbols[ i ];
-    if( i != ( symbols.size() - 1 ) ){
-      cout << ",";
-    }   
-  }
-  cout << ")" << endl;
-*/
+  
   unsigned int n = words.size();
   bool *** table = new bool**[ n ];
   for( unsigned int i = 0; i < n; i++ ){
@@ -452,9 +444,6 @@ parse( const string& text,
               backpointers[ a_row ][ a_col ][ a_index ].push_back( pair< bool*, bool* >( NULL, NULL ) );
               backpointers[ a_row ][ a_col ][ a_index ].back().first = &table[ b_row ][ b_col ][ b_index ];
               backpointers[ a_row ][ a_col ][ a_index ].back().second = &table[ c_row ][ c_col ][ c_index ];
-//              cout << "table[" << a_row << "][" << a_col << "][" << a_index << "] is true ";
-//              cout << "backpointers ([" << b_row << "][" << b_col << "][" << b_index << "] and [" << c_row << "][" << c_col << "][" << c_index << "]) ";
-//              cout << _grammar.non_terminals()[ l ] << endl;
             }
           } else {
             cout << "grammar rule is not cny" << endl;
@@ -474,23 +463,25 @@ parse( const string& text,
   process_chart_element( *phrase, _grammar, root, words, symbols, table, backpointers );
   
   phrase->grounding() = grounding; 
- 
-  for( int i = ( n - 1 ); i >= 0; i-- ){
-    for( unsigned int j = 0; j < n; j++ ){
-      stringstream table_string;
-      for( unsigned int k = 0; k < symbols.size(); k++ ){
-        if( table[ j ][ i ][ k ] ){
-          table_string << symbols[ k ];
+
+  if( debug ){ 
+    for( int i = ( n - 1 ); i >= 0; i-- ){
+      for( unsigned int j = 0; j < n; j++ ){
+        stringstream table_string;
+        for( unsigned int k = 0; k < symbols.size(); k++ ){
+          if( table[ j ][ i ][ k ] ){
+            table_string << symbols[ k ];
+          }
         }
-      }
-      cout << setw( 10 ) << table_string.str();
+        cout << setw( 10 ) << table_string.str();
+      } 
+      cout << endl;
+    }
+    for( unsigned int i = 0; i < n; i++ ){
+      cout << setw( 10 ) << words[ i ];
     }
     cout << endl;
   }
-  for( unsigned int i = 0; i < n; i++ ){
-    cout << setw( 10 ) << words[ i ];
-  }
-  cout << endl;
  
   for( unsigned int i = 0; i < n; i++ ){
     for( unsigned int j = 0; j < n; j++ ){

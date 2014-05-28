@@ -67,7 +67,7 @@ namespace h2sl {
   class GUI_LCM: public GUI {
     Q_OBJECT
   public:
-    GUI_LCM( Parser * parser = NULL, World * world = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, const std::string& worldChannel = "WORLD", QWidget * parent = NULL );
+    GUI_LCM( Parser * parser = NULL, World * world = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, const std::string& command = "", const std::string& worldChannel = "WORLD", QWidget * parent = NULL );
     virtual ~GUI_LCM();
 
     static void transform_to_transform_t( const Transform& transform, transform_t& msg );

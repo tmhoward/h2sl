@@ -193,9 +193,14 @@ pygx( const unsigned int& cv,
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > tmp;
+  vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
   for( unsigned int i = 0; i < cvs.size(); i++ ){
+    if( i != 0 ){
+      evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+      evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
+    }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), tmp );
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), tmp, evaluate_feature_types );
     for( unsigned int j = 0; j < tmp.size(); j++ ){
       dp += _weights[ tmp[ j ] ];
     }
@@ -217,9 +222,14 @@ pygx( const unsigned int& cv,
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > indices;
+  vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
   for( unsigned int i = 0; i < cvs.size(); i++ ){
+    if( i != 0 ){
+      evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+      evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false; 
+    }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), indices );
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), indices, evaluate_feature_types );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -243,9 +253,46 @@ pygx( const unsigned int& cv,
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > indices;
+  vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
   for( unsigned int i = 0; i < cvs.size(); i++ ){
+    if( i != 0 ){
+      evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+      evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
+    }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices );
+    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices, evaluate_feature_types );
+    for( unsigned int j = 0; j < indices.size(); j++ ){
+      dp += _weights[ indices[ j ] ];
+    }
+    dp = exp( dp );
+    if( cv == cvs[ i ] ){
+      numerator += dp;
+    }
+    denominator += dp;
+  }
+  return ( numerator / denominator );
+}
+
+double
+LLM::
+pygx( const unsigned int& cv,
+      const Grounding* grounding,
+      const vector< Grounding* >& children,
+      const Phrase* phrase,
+      const World* world,
+      const vector< unsigned int >& cvs,
+      const vector< bool >& evaluateFeatureTypes ){
+  double numerator = 0.0;
+  double denominator = 0.0;
+  vector< unsigned int > indices;
+  vector< bool > evaluate_feature_types = evaluateFeatureTypes;
+  for( unsigned int i = 0; i < cvs.size(); i++ ){
+    if( i != 0 ){
+      evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+      evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
+    }
+    double dp = 0.0;
+    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices, evaluate_feature_types );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }

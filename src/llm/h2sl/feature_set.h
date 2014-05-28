@@ -40,6 +40,7 @@
 
 #include <h2sl/grounding.h>
 #include <h2sl/feature.h>
+#include <h2sl/feature_product.h>
 
 namespace h2sl {
   class Feature_Set {
@@ -49,8 +50,8 @@ namespace h2sl {
     Feature_Set( const Feature_Set& other );
     Feature_Set& operator=( const Feature_Set& other );
 
-    void indices( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, std::vector< unsigned int >& indices );
-    void evaluate( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world );
+    void indices( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, std::vector< unsigned int >& indices, const std::vector< bool >& evaluateFeatureTypes );
+    void evaluate( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< bool >& evaluateFeatureTypes );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -60,13 +61,11 @@ namespace h2sl {
 
     unsigned int size( void )const;
 
-    inline std::vector< std::vector< Feature* > >& feature_groups( void ){ return _feature_groups; };
-    inline const std::vector< std::vector< Feature* > >& feature_groups( void )const{ return _feature_groups; };
-    inline const std::vector< std::vector< unsigned int > >& values( void )const{ return _values; };
+    inline std::vector< Feature_Product* >& feature_products( void ){ return _feature_products; };
+    inline const std::vector< Feature_Product* >& feature_products( void )const{ return _feature_products; };
 
   protected:
-    std::vector< std::vector< Feature* > > _feature_groups;
-    std::vector< std::vector< unsigned int > > _values;
+    std::vector< Feature_Product* > _feature_products;
 
   private:
 

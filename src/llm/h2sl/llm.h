@@ -80,6 +80,7 @@ namespace h2sl {
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< unsigned int >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
+    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
     void train( std::vector< std::pair< unsigned int, LLM_X > >& examples, const unsigned int& maxIterations = 100, const double& lambda = 0.01 );
 
     static double objective( LLM& llm, const std::vector< std::pair< unsigned int, LLM_X > >& examples, double lambda );

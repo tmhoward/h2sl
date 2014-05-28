@@ -6,13 +6,13 @@
     <grammar_terminal symbol="DT" words="the,these,a,this"/>
     <grammar_terminal symbol="EX" words="there"/>
     <grammar_terminal symbol="FW" words=""/>
-    <grammar_terminal symbol="IN" words="near,at,toward,by,for,of,in,from,behind,on"/>
+    <grammar_terminal symbol="IN" words="near,at,toward,towards,by,for,of,in,from,behind,on"/>
     <grammar_terminal symbol="JJ" words=""/>
     <grammar_terminal symbol="JJR" words=""/>
     <grammar_terminal symbol="JJS" words=""/>
     <grammar_terminal symbol="LS" words=""/>
     <grammar_terminal symbol="MD" words=""/>
-    <grammar_terminal symbol="NN" words="robot,box,crate,package,table,desk,chair,couch,sofa,sink,mug,cup,glass,can,fridge,refrigerator,hammer,mallet,screwdriver,pipe,tube,newspaper,marker,pen,tape,bone,left,right,front,back"/>
+    <grammar_terminal symbol="NN" words="robot,box,crate,package,table,desk,chair,couch,sofa,sink,mug,cup,glass,can,fridge,refrigerator,hammer,mallet,screwdriver,pipe,tube,newspaper,marker,pen,tape,bone,left,right,front,back,bottle,seat,stool,counter"/>
     <grammar_terminal symbol="NNS" words=""/>
     <grammar_terminal symbol="NNP" words=""/>
     <grammar_terminal symbol="NNPS" words=""/>
@@ -27,7 +27,7 @@
     <grammar_terminal symbol="SYM" words=""/>
     <grammar_terminal symbol="TO" words="to"/>
     <grammar_terminal symbol="UH" words=""/>
-    <grammar_terminal symbol="VB" words="walk,run,drive,move,go,approach,put"/>
+    <grammar_terminal symbol="VB" words="walk,run,drive,move,go,approach,put,leave,exit,proceed"/>
     <grammar_terminal symbol="VBD" words=""/>
     <grammar_terminal symbol="VBG" words=""/>
     <grammar_terminal symbol="VBN" words="left,right"/>
@@ -50,6 +50,7 @@
     <grammar_non_terminal root="VP" children="VB,X1"/>
     <grammar_non_terminal root="VP" children="VB,NP"/>
     <grammar_non_terminal root="VP" children="VBZ,NP"/>
+    <grammar_non_terminal root="VP" children="VP,X2"/>
     <grammar_non_terminal root="PP" children="IN,NP"/>
     <grammar_non_terminal root="PP" children="TO,NP"/>
     <grammar_non_terminal root="NP" children="NP,PP"/>
@@ -59,7 +60,7 @@
     <grammar_non_terminal root="NP" children="JJ,NNS"/>
     <grammar_non_terminal root="NP" children="NP,X0"/>
     <grammar_non_terminal root="X0" children="CC,NP"/>
-    <grammar_non_terminal root="X1" children="NP,PP"/>
+    <grammar_non_terminal root="X2" children="CC,VP"/>
     <grammar_unit_production type="NP" symbol="NN"/>
     <grammar_unit_production type="NP" symbol="EX"/>
   </grammar>

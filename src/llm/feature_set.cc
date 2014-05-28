@@ -51,8 +51,7 @@ using namespace std;
 using namespace h2sl;
 
 Feature_Set::
-Feature_Set() : _feature_groups(),
-                _values() {
+Feature_Set() : _feature_products() {
 
 }
 
@@ -62,16 +61,14 @@ Feature_Set::
 }
 
 Feature_Set::
-Feature_Set( const Feature_Set& other ) : _feature_groups( other._feature_groups ),
-                                          _values( other._values ){
+Feature_Set( const Feature_Set& other ) : _feature_products( other._feature_products ) {
 
 }
 
 Feature_Set&
 Feature_Set::
 operator=( const Feature_Set& other ) {
-  _feature_groups = other._feature_groups;
-  _values = other._values;
+  _feature_products = other._feature_products;
   return (*this);
 }
 
@@ -82,10 +79,42 @@ indices( const unsigned int& cv,
           const vector< Grounding* >& children, 
           const Phrase* phrase,
           const World* world,
-          vector< unsigned int >& indices ){
+          vector< unsigned int >& indices,
+          const vector< bool >& evaluateFeatureTypes ){
   indices.clear();
-  evaluate( cv, grounding, children, phrase, world );
-
+//  evaluate( cv, grounding, children, phrase, world );
+  unsigned int offset = 0;
+//  cout << "phrase:" << *phrase << endl;
+  for( unsigned int i = 0; i < _feature_products.size(); i++ ){
+//    cout << "offset: " << offset << endl;
+    vector< unsigned int > product_indices;
+    _feature_products[ i ]->indices( cv, grounding, children, phrase, world, product_indices, evaluateFeatureTypes );
+/*
+    cout << "product_indices[" << product_indices.size() << "]:{";
+    for( unsigned int j = 0; j < product_indices.size(); j++ ){
+      cout << product_indices[ j ];
+      if( j != ( product_indices.size() - 1 ) ){
+        cout << ",";
+      }
+    }
+    cout << "}" << endl; 
+*/
+    for( unsigned int j = 0; j < product_indices.size(); j++ ){
+      indices.push_back( product_indices[ j ] + offset );
+    }
+    offset += _feature_products[ i ]->size();
+  }
+/*
+  cout << "indices[" << indices.size() << "]:{";
+  for( unsigned int j = 0; j < indices.size(); j++ ){
+    cout << indices[ j ];
+    if( j != ( indices.size() - 1 ) ){
+      cout << ",";
+    }
+  }
+  cout << "}" << endl;
+*/
+/*
   if( _values.size() == 3 ){
     for( unsigned int i = 0; i < _values[ 0 ].size(); i++ ){
       for( unsigned int j = 0; j < _values[ 1 ].size(); j++ ){
@@ -95,7 +124,7 @@ indices( const unsigned int& cv,
       }
     }
   }
-
+*/
   return;
 }
 
@@ -105,14 +134,18 @@ evaluate( const unsigned int& cv,
           const Grounding* grounding, 
           const vector< Grounding* >& children,
           const Phrase* phrase,
-          const World* world ){
-  for( unsigned int i = 0; i < _feature_groups.size(); i++ ){
-    _values[ i ].clear();
+          const World* world,
+          const vector< bool >& evaluateFeatureTypes ){
+
+  for( unsigned int i = 0; i < _feature_products.size(); i++ ){
+    _feature_products[ i ]->evaluate( cv, grounding, children, phrase, world, evaluateFeatureTypes );
+/*
     for( unsigned int j = 0; j < _feature_groups[ i ].size(); j++ ){
       if( _feature_groups[ i ][ j ]->value( cv, grounding, children, phrase, world ) ){
         _values[ i ].push_back( j );
       }
     }
+*/
 /*
     cout << "values[" << _values[ i ].size() << "]:{"; 
     for( unsigned int j = 0; j < _values[ i ].size(); j++ ){
@@ -144,12 +177,8 @@ Feature_Set::
 to_xml( xmlDocPtr doc, 
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_set" ), NULL );
-  for( unsigned int i = 0; i < _feature_groups.size(); i++ ){
-    xmlNodePtr feature_group_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "feature_group" ), NULL );
-    for( unsigned int j = 0; j < _feature_groups[ i ].size(); j++ ){
-      _feature_groups[ i ][ j ]->to_xml( doc, feature_group_node );
-    }
-    xmlAddChild( node, feature_group_node );
+  for( unsigned int i = 0; i < _feature_products.size(); i++ ){
+    _feature_products[ i ]->to_xml( doc, node );
   }
   xmlAddChild( root, node );
   return;
@@ -181,78 +210,25 @@ from_xml( const string& filename ){
 void 
 Feature_Set::
 from_xml( xmlNodePtr root ){
-  for( unsigned int i = 0; i < _feature_groups.size(); i++ ){
-    for( unsigned int j = 0; j < _feature_groups[ i ].size(); j++ ){
-      if( _feature_groups[ i ][ j ] != NULL ){
-        delete _feature_groups[ i ][ j ];
-        _feature_groups[ i ][ j ] = NULL;
-      }
+  for( unsigned int i = 0; i < _feature_products.size(); i++ ){
+    if( _feature_products[ i ] != NULL ){
+      delete _feature_products[ i ];
+      _feature_products[ i ] = NULL; 
     }
-    _feature_groups[ i ].clear();
   }
-  _feature_groups.clear();
+  _feature_products.clear();
 
   if( root->type == XML_ELEMENT_NODE ){
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
-        if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_group" ) ) == 0 ){
-          _feature_groups.push_back( vector< Feature* >() );
-          xmlNodePtr l2 = NULL;
-          for( l2 = l1->children; l2; l2 = l2->next ){
-            if( l2->type == XML_ELEMENT_NODE ){
-              if( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_cv" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_CV() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_word" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Word() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_num_words" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Num_Words() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Object() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region_Object() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Constraint() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object_matches_child" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region_Object_Matches_Child() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_matches_child" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region_Matches_Child() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_merge_partially_known_regions" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region_Merge_Partially_Known_Regions() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_parent_matches_child_region" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Constraint_Parent_Matches_Child_Region() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_child_matches_child_region" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Constraint_Child_Matches_Child_Region() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_parent_is_robot" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Constraint_Parent_Is_Robot() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_child_is_robot" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Constraint_Child_Is_Robot() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else {
-                cout << "could not load feature " << l2->name << endl;
-              } 
-            }
-          }
+        if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_product" ) ) == 0 ){
+          _feature_products.push_back( new Feature_Product() );
+          _feature_products.back()->from_xml( l1 );
         }
       }
     }
   }
-  _values.resize( _feature_groups.size() );
   return;
 }
 
@@ -260,12 +236,8 @@ unsigned int
 Feature_Set::
 size( void )const{
   unsigned int tmp = 0;
-  for( unsigned int i = 0; i < _feature_groups.size(); i++ ){
-    if( i == 0 ){
-      tmp = _feature_groups[ i ].size();
-    } else {
-      tmp *= _feature_groups[ i ].size();
-    }
+  for( unsigned int i = 0; i < _feature_products.size(); i++ ){
+    tmp += _feature_products[ i ]->size();
   }
   return tmp;
 }
@@ -276,5 +248,4 @@ namespace h2sl {
               const Feature_Set& other ) {
     return out;
   }
-
 }

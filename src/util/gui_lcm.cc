@@ -45,10 +45,12 @@ GUI_LCM( Parser * parser,
           LLM * llm,
           DCG * dcg,
           const unsigned int& beamWidth,
+          const string& command,
           const string& worldChannel,
-          QWidget * parent ) : GUI( parser, world, llm, dcg, beamWidth, parent ),
+          QWidget * parent ) : GUI( parser, world, llm, dcg, beamWidth, command, parent ),
                                _lcm( new LCM()) {
   if( _lcm->good() ){
+    cout << "subscribing to world" << endl;
     _lcm->subscribe( worldChannel, &GUI_LCM::_receive_world, this );
     
     _lcm_thread = new LCMThread (_lcm);
@@ -170,9 +172,11 @@ world_from_world_t( World& world,
       world.objects()[ i ] = NULL;
     }
   }
+  world.objects().clear();
   world.time() = msg.utime;
   world.objects().resize( msg.objects.size() );
   for( unsigned int i = 0; i < msg.objects.size(); i++ ){
+    world.objects()[ i ] = new Object();
     object_from_object_t( *world.objects()[ i ], msg.objects[ i ] );
   }
   return;
@@ -219,15 +223,14 @@ _send_output( void ){
     cout << "sending LCM message" << endl;
   }
 
-  if( !_solutions.empty() ){
-    Grounding_Set * grounding_set = dynamic_cast< Grounding_Set* >( _solutions.front().second->grounding() );
-    if( grounding_set != NULL ){
-      constraint_set_t msg;
-      grounding_set_to_constraint_set_t( *grounding_set, msg );
-      _lcm->publish( "CONSTRAINT_SET", &msg );
-    }
+  Grounding_Set * grounding_set = dynamic_cast< Grounding_Set* >( _dcg->solutions().front().second->grounding() );
+//  Grounding_Set * grounding_set = dynamic_cast< Grounding_Set* >( _dcg->root()->solutions().front().groundings.front() );
+  if( grounding_set != NULL ){
+    constraint_set_t msg;
+    grounding_set_to_constraint_set_t( *grounding_set, msg );
+    _lcm->publish( "CONSTRAINT_SET", &msg );
   }
-
+  
   return;
 }
 
@@ -237,7 +240,11 @@ _receive_world( const ReceiveBuffer* buf,
                 const string& channel, 
                 const world_t * msg ){
   if( _world != NULL ){
+    cout << "loading world" << endl;
     world_from_world_t( *_world, *msg );
+    cout << "finished loading world" << endl;
+    cout << *_world << endl;
+    update_world();
   }
   return;
 }

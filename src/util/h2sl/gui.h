@@ -39,6 +39,7 @@
 #include "h2sl/parser.h"
 #include "h2sl/world.h"
 #include "h2sl/llm.h"
+#include "h2sl/factor.h"
 #include "h2sl/dcg.h"
 
 #include <QtGui/QWidget>
@@ -71,14 +72,12 @@ namespace h2sl {
   class QGraphicsItem_Factor : public QObject, public QGraphicsItem {
     Q_OBJECT
   public:
-    QGraphicsItem_Factor( Factor * factor = NULL, QGraphicsItem * parent = NULL );
+    QGraphicsItem_Factor( QGraphicsItem * parent = NULL );
     virtual ~QGraphicsItem_Factor();
 
     void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget );
     QRectF boundingRect( void )const;
 
-    inline Factor*& factor( void ){ return _factor; };
-    inline const Factor* factor( void )const{ return _factor; };
     inline std::vector< QGraphicsLineItem* >& qgraphicslineitems( void ){ return _qgraphicslineitems; };
     inline const std::vector< QGraphicsLineItem* >& qgraphicslineitems( void )const{ return _qgraphicslineitems; };
 
@@ -90,7 +89,6 @@ namespace h2sl {
     virtual void hoverEnterEvent( QGraphicsSceneHoverEvent * event );
     virtual void hoverLeaveEvent( QGraphicsSceneHoverEvent * event );
 
-    Factor * _factor;
     bool _highlight;
     std::vector< QGraphicsLineItem* > _qgraphicslineitems;
   };
@@ -98,13 +96,13 @@ namespace h2sl {
   class QGraphicsItem_Grounding : public QObject, public QGraphicsItem {
     Q_OBJECT
   public:
-    QGraphicsItem_Grounding( Grounding* randomVariable = NULL, QGraphicsItem * parent = NULL );
+    QGraphicsItem_Grounding( const Grounding* randomVariable = NULL, QGraphicsItem * parent = NULL );
     virtual ~QGraphicsItem_Grounding();
 
     void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget );
     QRectF boundingRect( void )const;
 
-    inline Grounding*& grounding( void ){ return _grounding; };
+//    inline Grounding*& grounding( void ){ return _grounding; };
     inline const Grounding* grounding( void )const{ return _grounding; };
     inline std::vector< QGraphicsLineItem* >& qgraphicslineitems( void ){ return _qgraphicslineitems; };
     inline const std::vector< QGraphicsLineItem* >& qgraphicslineitems( void )const{ return _qgraphicslineitems; };
@@ -117,7 +115,7 @@ namespace h2sl {
     virtual void hoverEnterEvent( QGraphicsSceneHoverEvent * event );
     virtual void hoverLeaveEvent( QGraphicsSceneHoverEvent * event );
 
-    Grounding * _grounding;
+    const Grounding * _grounding;
     bool _highlight;
     std::vector< QGraphicsLineItem* > _qgraphicslineitems;
   };
@@ -125,7 +123,7 @@ namespace h2sl {
   class GUI : public QWidget {
     Q_OBJECT
   public:
-    GUI( Parser * parser = NULL, World * world = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, QWidget * parent = NULL );
+    GUI( Parser * parser = NULL, World * world = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, const std::string& command = "", QWidget * parent = NULL );
     virtual ~GUI();
 
     virtual void update_world( void );
@@ -145,6 +143,7 @@ namespace h2sl {
   protected:
     virtual void resizeEvent( QResizeEvent* event );
 
+    virtual void _add_factor_set_graphics_items( const Factor_Set* factorSet, const unsigned int& solutionIndex, const std::vector< QGraphicsItem_Factor* >& parents = std::vector< QGraphicsItem_Factor* >() );
     virtual void _run_inference( const std::string& sentence );
     virtual void _send_output( void );
     QString _format_comment (const std::string& comment, const bool& error = false);
@@ -163,7 +162,7 @@ namespace h2sl {
     DCG* _dcg;
     unsigned int _beam_width;
     std::vector< std::pair< double, Phrase* > > _solutions;
-    std::vector< QGraphicsItem* > _graphics_items;
+    std::vector< std::vector< QGraphicsItem* > > _graphics_items;
 
   private:
 

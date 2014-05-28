@@ -36,6 +36,10 @@ To run the Distributed Correspondence Graph (DCG) demo, run ...
 
 h2sl-dcg-demo --world=(world.xml) --llm=(llm.xml) --grammar=(grammar.xml) --command=(command string) -output=(output.xml)
 
+To run the Distributed Correspondence Graph (DCG) test, run ...
+
+h2sl-dcg-test (example files) --llm=(llm.xml) --grammar=(grammar.xml)
+
 To run the Graphical User Interface (GUI), run ...
 
 h2sl-gui-demo --world=(world.xml) --llm=(llm.xml) --grammar=(grammar.xml)

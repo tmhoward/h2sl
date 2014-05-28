@@ -32,6 +32,10 @@
  */
 
 #include "h2sl/grounding.h"
+#include "h2sl/object.h"
+#include "h2sl/region.h"
+#include "h2sl/constraint.h"
+#include "h2sl/grounding_set.h"
 
 using namespace std;
 using namespace h2sl;
@@ -104,6 +108,15 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Grounding& other ) {
+    if( dynamic_cast< const Grounding_Set* >( &other ) != NULL ){
+      out << *static_cast< const Grounding_Set* >( &other ); 
+    } else if( dynamic_cast< const Object* >( &other ) != NULL ){
+      out << *static_cast< const Object* >( &other );
+    } else if( dynamic_cast< const Region* >( &other ) != NULL ){
+      out << *static_cast< const Region* >( &other );
+    } else if( dynamic_cast< const Constraint* >( &other ) != NULL ){
+      out << *static_cast< const Constraint* >( &other );
+    }
     return out;
   }
 }

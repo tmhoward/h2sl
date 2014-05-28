@@ -56,7 +56,9 @@ main( int argc,
   parser->grammar().from_xml( args.grammar_arg );
 
   World * world = new World();
-  world->from_xml( args.world_arg );
+  if( args.world_given ){
+    world->from_xml( args.world_arg );
+  }
 
   Feature_Set * feature_set = new Feature_Set();
 
@@ -67,14 +69,14 @@ main( int argc,
 
   DCG * dcg = new DCG();
 
-  GUI_LCM gui_lcm( parser, world, llm, dcg, args.beam_width_arg, args.world_channel_arg );
+  GUI_LCM gui_lcm( parser, world, llm, dcg, args.beam_width_arg, args.command_arg, args.world_channel_arg );
   
   if( args.phrase_given ){
     Phrase * phrase = new Phrase();
     phrase->from_xml( args.phrase_arg );
   
-    gui_lcm.dcg()->construct( phrase, world, llm, true );
-    gui_lcm.update_graph();
+//    gui_lcm.dcg()->construct( phrase, world, llm, true );
+//    gui_lcm.update_graph();
       
     if( phrase != NULL ){
       delete phrase;

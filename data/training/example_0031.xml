@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+  <instruction text="approach the front of the sofa"/>
   <world time="0">
     <object name="o0" type="robot"/>
     <object name="o1" type="couch"/>

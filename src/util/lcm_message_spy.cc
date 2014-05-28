@@ -57,7 +57,14 @@ class LCM_Message_Handler {
         if (decode_status >= 0) {
             Grounding_Set grounding_set;
             GUI_LCM::grounding_set_from_constraint_set_t( grounding_set, constraint_set_msg );
-            cout << "grounding_set: " << grounding_set << endl;
+//            cout << "grounding_set: " << grounding_set << endl;
+            for( unsigned int i = 0; i < grounding_set.groundings().size(); i++ ){
+              cout << "  groundings[" << i << "]:{";
+              if( dynamic_cast< Constraint* >( grounding_set.groundings()[ i ] ) != NULL ){
+                cout << *dynamic_cast< Constraint* >( grounding_set.groundings()[ i ] );
+              }
+              cout << "}" << endl;
+            }
         }
     }
 };

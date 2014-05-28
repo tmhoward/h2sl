@@ -51,7 +51,7 @@ namespace h2sl {
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( xmlNodePtr root );
-    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_UNKNOWN; };
+    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
   protected:
 

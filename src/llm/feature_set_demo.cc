@@ -66,44 +66,8 @@ main( int argc,
     feature_set->from_xml( args.input_arg );
   }
 
-  if( args.grammar_given ){
-    cout << "generating feature_set from grammar file " << args.grammar_arg << endl;
-    Grammar * grammar = new Grammar();
-    grammar->from_xml( args.grammar_arg );
-
-    feature_set->feature_groups().push_back( vector< Feature* >() );
-    for( unsigned int i = CV_FALSE; i < NUM_BINARY_CVS; i++ ){
-      feature_set->feature_groups().back().push_back( new Feature_CV( false, i ) );
-    }
+  cout << "feature_set->size(): " << feature_set->size() << endl;
     
-    feature_set->feature_groups().push_back( vector< Feature* >() );
-    for( unsigned int i = 0; i < grammar->terminals().size(); i++ ){
-      for( unsigned int j = 0; j < grammar->terminals()[ i ].words().size(); j++ ){
-        feature_set->feature_groups().back().push_back( new Feature_Word( false, Word( pos_t_from_std_string( grammar->terminals()[ i ].symbol() ), grammar->terminals()[ i ].words()[ j ] ) ) );
-      }
-    }
-
-    feature_set->feature_groups().push_back( vector< Feature* >() );
-    for( unsigned int i = 1; i < NUM_OBJECT_TYPES; i++ ){
-      feature_set->feature_groups().back().push_back( new Feature_Object( false, i ) );
-    }
-
-    for( unsigned int i = 1; i < NUM_OBJECT_TYPES; i++ ){
-      feature_set->feature_groups().back().push_back( new Feature_Region_Object( false, i ) );
-    }
-
-    for( unsigned int i = 1; i < NUM_REGION_TYPES; i++ ){
-      feature_set->feature_groups().back().push_back( new Feature_Region( false, i ) );
-    }
-
-    cout << "feature_set->size(): " << feature_set->size() << endl;
-
-    if( grammar != NULL ){
-      delete grammar;
-      grammar = NULL;
-    } 
-  }
-
   if( args.output_given ){
     cout << "writing feature_set to " << args.output_arg << endl;
     feature_set->to_xml( args.output_arg );

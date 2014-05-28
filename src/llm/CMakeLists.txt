@@ -1,4 +1,5 @@
 generate_ggo(cv_demo.ggo cv_demo_cmdline)
+generate_ggo(feature_product_demo.ggo feature_product_demo_cmdline)
 generate_ggo(feature_set_demo.ggo feature_set_demo_cmdline)
 generate_ggo(llm_demo.ggo llm_demo_cmdline)
 generate_ggo(example_demo.ggo example_demo_cmdline)
@@ -21,12 +22,16 @@ add_library(${LIB} SHARED
             feature_constraint_child_matches_child_region.cc
             feature_constraint_parent_is_robot.cc
             feature_constraint_child_is_robot.cc
+            feature_product.cc
             feature_set.cc
             llm.cc)
 target_link_libraries(${LIB} h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-cv-demo cv_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/cv_demo_cmdline.c)
 target_link_libraries(h2sl-cv-demo ${LIB} h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
+
+add_executable(h2sl-feature-product-demo feature_product_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/feature_product_demo_cmdline.c)
+target_link_libraries(h2sl-feature-product-demo ${LIB} h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
 
 add_executable(h2sl-feature-set-demo feature_set_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/feature_set_demo_cmdline.c)
 target_link_libraries(h2sl-feature-set-demo ${LIB} h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
@@ -54,6 +59,7 @@ install(FILES
         h2sl/feature_constraint_child_matches_child_region.h
         h2sl/feature_constraint_parent_is_robot.h
         h2sl/feature_constraint_child_is_robot.h
+        h2sl/feature_product.h
         h2sl/feature_set.h
         h2sl/llm.h
         DESTINATION include/${PROJECT_NAME})
@@ -63,6 +69,7 @@ install(TARGETS ${LIB}
 
 install(TARGETS 
         h2sl-cv-demo
+        h2sl-feature-product-demo
         h2sl-feature-set-demo
         h2sl-llm-demo
         h2sl-example-demo

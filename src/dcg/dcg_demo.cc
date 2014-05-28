@@ -1,5 +1,5 @@
 /**
- * @file    dgc_demo.cc
+ * @file    dcg_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,13 +28,14 @@
  *
  * @section DESCRIPTION
  *
- * A demo program that uses the DCG class
+ * A DCG class demo program
  */
 
 #include <iostream>
-#include <queue>
-#include <getopt.h>
-
+#include <sys/time.h>
+#include "h2sl/common.h"
+#include "h2sl/phrase.h"
+#include "h2sl/constraint.h"
 #include "h2sl/parser.h"
 #include "h2sl/dcg.h"
 #include "dcg_demo_cmdline.h"
@@ -45,57 +46,68 @@ using namespace h2sl;
 int
 main( int argc,
       char* argv[] ) {
+  int status = 0;
+  cout << "start of DCG class demo program" << endl;
   
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
     exit(1);
   }
 
-  cout << "start of DCG class demo program" << endl;
- 
-  priority_queue<vector<int>,vector<vector<int> > > pq;
-   
-  DCG * dcg = new DCG();
-  
-  World * world = new World();
-  world->from_xml( args.world_arg ); 
- 
-  LLM * llm = new LLM();
-  llm->from_xml( args.llm_arg );
-
   Parser * parser = new Parser();
-  parser->grammar().from_xml( args.grammar_arg ); 
+  if( args.grammar_given ){
+    parser->grammar().from_xml( args.grammar_arg );
+  }
 
   Phrase * phrase = new Phrase();
 
+  World * world = new World();
+  if( args.world_given ){
+    world->from_xml( args.world_arg );
+  }
+
+  Feature_Set * feature_set = new Feature_Set();
+  LLM * llm = new LLM( feature_set );
+  if( args.llm_given ){
+    llm->from_xml( args.llm_arg );
+  }
+
+  DCG * dcg = new DCG();
+  
+  struct timeval start_time;
+  gettimeofday( &start_time, NULL );
+
+  dcg->fill_search_spaces( world );
+
+  struct timeval end_time;
+  gettimeofday( &end_time, NULL );
+
+  cout << "finished fill_seach_space in " << diff_time( start_time, end_time ) << " seconds" << endl;
+
+  cout << endl;
+  for( unsigned int i = 0; i < dcg->search_spaces().size(); i++ ){
+    cout << "search_spaces[" << Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( i ) ) << "].size(): " << dcg->search_spaces()[ i ].size() << endl;
+  }
+  cout << endl;
+
+  cout << "parsing \"" << args.command_arg << "\"" << endl;
   if( parser->parse( args.command_arg, phrase ) ){
-    vector< pair< double, Phrase* > > solutions;
+    cout << "phrase:" << *phrase << endl;
+    
+    gettimeofday( &start_time, NULL );
 
-    if( dcg->search( phrase, world, llm, solutions ) ){
-      cout << "dcg search succeeded" << endl;
-    } else {
-      cout << "dcg search failed" << endl;
+    dcg->leaf_search( phrase, world, llm, args.beam_width_arg );
+
+    gettimeofday( &end_time, NULL );
+
+    cout << "finished search in " << diff_time( start_time, end_time ) << " seconds" << endl;   
+    for( unsigned int i = 0; i < dcg->solutions().size(); i++ ){
+      cout << "  solutions[" << i << "]:" << *dcg->solutions()[ i ].second << " (" << dcg->solutions()[ i ].first << ")" << endl;
     }
-  }
- 
-  if( phrase != NULL ){
-    delete phrase;
-    phrase = NULL;
-  }
- 
-  if( parser != NULL ){
-    delete parser;
-    parser = NULL;
-  }
-      
-  if( llm != NULL ){
-    delete llm;
-    llm = NULL;
-  }
-
-  if( world != NULL ){
-    delete world;
-    world = NULL;
+   
+    if( args.output_given ){
+      dcg->solutions().front().second->to_xml( args.output_arg );
+    }
   }
 
   if( dcg != NULL ){
@@ -103,6 +115,31 @@ main( int argc,
     dcg = NULL;
   }
 
+  if( llm != NULL ){
+    delete llm;
+    llm = NULL;
+  }
+
+  if( feature_set != NULL ){
+    delete feature_set;
+    feature_set = NULL;
+  }
+
+  if( world != NULL ){
+    delete world;
+    world = NULL;
+  }
+
+  if( phrase != NULL ){
+    delete phrase;
+    phrase = NULL;
+  }
+
+  if( parser != NULL ){
+    delete parser;
+    parser = NULL;
+  }
+
   cout << "end of DCG class demo program" << endl;
-  return 0;
+  return status;
 }

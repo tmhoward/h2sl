@@ -1,0 +1,10 @@
+package "dcg_test"
+version "0.0.1"
+purpose "A program used to test the Distributed Correspondence Graph (DCG) class."
+
+option "llm" - "log-linear model file" string required
+option "grammar" - "grammar file" string required
+option "output" - "output file" string optional
+option "beam_width" - "beam width" int default="4" optional 
+
+text ""

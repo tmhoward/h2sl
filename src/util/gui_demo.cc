@@ -74,8 +74,8 @@ main( int argc,
     Phrase * phrase = new Phrase();
     phrase->from_xml( args.phrase_arg );
   
-    gui.dcg()->construct( phrase, world, llm, true );
-    gui.update_graph();
+//    gui.dcg()->construct( phrase, world, llm, true );
+//    gui.update_graph();
       
     if( phrase != NULL ){
       delete phrase;

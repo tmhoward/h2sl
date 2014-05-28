@@ -28,19 +28,20 @@
  *
  * @section DESCRIPTION
  *
- * The interface for a class used to represent the Distributed Correspondence Graph
+ * The interface for a class used to represent a Distributed Correspondence
+ *   Graph
  */
 
 #ifndef H2SL_DCG_H
 #define H2SL_DCG_H
 
 #include <iostream>
+#include <vector>
 
-#include <h2sl/phrase.h>
-#include <h2sl/cv.h>
-#include <h2sl/world.h>
-#include <h2sl/llm.h>
-#include <h2sl/factor.h>
+#include "h2sl/phrase.h"
+#include "h2sl/world.h"
+#include "h2sl/llm.h"
+#include "h2sl/factor_set.h"
 
 namespace h2sl {
   class DCG {
@@ -50,36 +51,23 @@ namespace h2sl {
     DCG( const DCG& other );
     DCG& operator=( const DCG& other );
 
-    void construct( Phrase* phrase, const World* world, LLM* llm, const bool& fill=false );
-    bool search( Phrase* phrase, const World* world, LLM* llm, std::vector< std::pair< double, Phrase* > >& solutions, const unsigned int& beamWidth = 4 );
-    bool step( std::vector< std::pair< double, std::vector< unsigned int > > >& solutions, const unsigned int& beamWidth );
-    void score( std::pair< double, std::vector< unsigned int > >& solution, const unsigned int searchIndex );
+    virtual void fill_search_spaces( const World* world );
+    void construct( const Phrase* phrase, const World* world, const bool& fill = false );
+    bool leaf_search( const Phrase* phrase, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
-    inline std::vector< Phrase* >& phrases( void ){ return _phrases; };
-    inline const std::vector< Phrase* >& phrases( void )const{ return _phrases; };
-    inline std::vector< Factor* >& factors( void ){ return _factors; };
-    inline const std::vector< Factor* >& factors( void )const{ return _factors; };
+    inline const std::vector< std::vector< std::pair< std::vector< unsigned int >, Grounding* > > >& search_spaces( void ){ return _search_spaces; };
+    inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
+    inline const Factor_Set* root( void )const{ return _root; };
 
   protected:
-    virtual void _add_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
-    virtual void _add_s_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
-    virtual void _add_vp_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
-    virtual void _add_advp_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
-    virtual void _add_pp_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
-    virtual void _add_np_phrase_to_model( Phrase* phrase, const World* world, LLM* llm, const bool& fill );
-    virtual void _connect_children( Phrase* phrase );
+    virtual void _find_leaf( Factor_Set* node, Factor_Set*& leaf );
+    virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
+    virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
-    virtual void _fill_phrase_from_model( Phrase* phrase );
-    virtual void _fill_s_phrase_from_model( Phrase* phrase );
-    virtual void _fill_vp_phrase_from_model( Phrase* phrase );
-    virtual void _fill_advp_phrase_from_model( Phrase* phrase );
-    virtual void _fill_pp_phrase_from_model( Phrase* phrase );
-    virtual void _fill_np_phrase_from_model( Phrase* phrase );
-
-    Phrase * _phrase;    
-    std::vector< Phrase* > _phrases;
-    std::vector< Factor* > _factors;
-
+    std::vector< std::vector< std::pair< std::vector< unsigned int >, Grounding* > > > _search_spaces;
+    std::vector< std::pair< double, Phrase* > > _solutions;
+    Factor_Set * _root;
+  
   private:
 
   };

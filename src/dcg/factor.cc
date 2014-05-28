@@ -102,7 +102,7 @@ value( const unsigned int& cv ){
           children.push_back( _children[ i ]->grounding() );
         } 
       } else if ( _children[ i ]->cvs().size() == 3 ){
-        if( ( _children[ i ]->cv() == CV_IGNORED ) || ( _children[ i ]->cv() == CV_ACTIVE ) ){
+        if( ( _children[ i ]->cv() == CV_INVERTED ) || ( _children[ i ]->cv() == CV_TRUE ) ){
           children.push_back( _children[ i ]->grounding() );
         }
       }

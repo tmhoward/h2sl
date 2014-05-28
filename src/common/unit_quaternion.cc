@@ -195,7 +195,10 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Unit_Quaternion& other ) {
-    out << "qv" << other.qv() << " qs:" << other.qs();
+    out << "Unit_Quaternion(";
+    out << "qv=" << other.qv() << ",";
+    out << "qs=" << other.qs();
+    out << ")";
     return out;
   }
 }

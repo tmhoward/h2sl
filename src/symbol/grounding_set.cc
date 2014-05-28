@@ -167,7 +167,14 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Grounding_Set& other ) {
+    for( unsigned int i = 0; i < other.groundings().size(); i++ ){
+      if( other.groundings()[ i ] != NULL ){
+        out << *other.groundings()[ i ];
+      }
+      if( i != ( other.groundings().size() - 1 ) ){
+        out << ",";
+      } 
+    }
     return out;
   }
-
 }

@@ -39,19 +39,12 @@
 
 namespace h2sl {
   typedef enum {
-    CV_BINARY_UNKNOWN,
+    CV_UNKNOWN,
     CV_FALSE,
     CV_TRUE,
-    NUM_BINARY_CVS
-  } cv_binary_t;
-
-  typedef enum {
-    CV_TERNARY_UNKNOWN,
-    CV_ACTIVE,
     CV_INVERTED,
-    CV_IGNORED,
-    NUM_TERNARY_CVS
-  } cv_ternary_t;
+    NUM_CVS
+  } cv_t;
 }
 
 #endif /* H2SL_CV_H */

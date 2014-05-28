@@ -209,8 +209,10 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Region& other ) {
-    out << "type:\"" << Region::type_to_std_string( other.type() ) << "\" ";
-    out << "object:(" << other.object() << ")";
+    out << "Region(";
+    out << "type=\"" << Region::type_to_std_string( other.type() ) << "\",";
+    out << "object=" << other.object();
+    out << ")";
     return out;
   }
 }

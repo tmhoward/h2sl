@@ -117,8 +117,10 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Transform& other ) {
-    out << "orientation:(" << other.orientation() << ") ";
-    out << "position" << other.position();
+    out << "Transform(";
+    out << "orientation=" << other.orientation() << ",";
+    out << "position=" << other.position();
+    out << ")";
     return out;
   }
 }

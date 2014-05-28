@@ -33,6 +33,8 @@
 
 #include <iostream>
 
+#include "h2sl/cv.h"
+#include "h2sl/grounding_set.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
 #include "h2sl/llm.h"
@@ -78,6 +80,65 @@ evaluate_model( LLM* llm,
   return;
 }
 
+unsigned int
+evaluate_cv( const Grounding* grounding,
+              const Grounding_Set* groundingSet ){
+  unsigned int cv = CV_UNKNOWN;
+  if( dynamic_cast< const Region* >( grounding ) != NULL ){
+    const Region * region_grounding = dynamic_cast< const Region* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+      if( dynamic_cast< const Region* >( groundingSet->groundings()[ i ] ) ){
+        if( *region_grounding == *dynamic_cast< const Region* >( groundingSet->groundings()[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if ( dynamic_cast< const Constraint* >( grounding ) != NULL ){
+    const Constraint* constraint_grounding = dynamic_cast< const Constraint* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+      if( dynamic_cast< const Constraint* >( groundingSet->groundings()[ i ] ) ){
+        if( *constraint_grounding == *dynamic_cast< const Constraint* >( groundingSet->groundings()[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  }   
+ 
+  return cv;
+}
+
+void
+scrape_examples( const Phrase* phrase,
+                  const World* world,
+                  const vector< vector< pair< vector< unsigned int >, Grounding* > > >& searchSpaces,
+                  vector< pair< unsigned int, LLM_X > >& examples ){
+  const Grounding_Set * grounding_set = dynamic_cast< const Grounding_Set* >( phrase->grounding() );
+
+  for( unsigned int i = 0; i < searchSpaces[ phrase->type() ].size(); i++ ){
+    examples.push_back( pair< unsigned int, LLM_X >() );
+    examples.back().first = evaluate_cv( searchSpaces[ phrase->type() ][ i ].second, grounding_set );
+    examples.back().second.phrase() = phrase->dup();
+    examples.back().second.world() = world->dup();
+    examples.back().second.grounding() = searchSpaces[ phrase->type() ][ i ].second->dup();
+    examples.back().second.cvs() = searchSpaces[ phrase->type() ][ i ].first;
+    for( unsigned int j = 0; j < phrase->children().size(); j++ ){
+      Grounding_Set * child_grounding_set = dynamic_cast< Grounding_Set* >( phrase->children()[ j ]->grounding() );
+      if( child_grounding_set ){
+        for( unsigned int k = 0; k < child_grounding_set->groundings().size(); k++ ){
+          examples.back().second.children().push_back( child_grounding_set->groundings()[ k ] );
+        }   
+      }
+    }
+  }
+
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    scrape_examples( phrase->children()[ i ], world, searchSpaces, examples );
+  }
+  return;
+}
+
 int
 main( int argc,
       char* argv[] ) {
@@ -105,22 +166,10 @@ main( int argc,
     Phrase * phrase = new Phrase();
     phrase->from_xml( args.inputs[ i ] );
 
-    dcg->construct( phrase, worlds[ i ], llm, true );
+    dcg->fill_search_spaces( worlds[ i ] );
+    
+    scrape_examples( phrase, worlds[ i ], dcg->search_spaces(), examples );  
 
-    for( unsigned int j = 0; j < dcg->factors().size(); j++ ){
-      examples.push_back( pair< unsigned int, LLM_X >() );
-      examples.back().first = dcg->factors()[ j ]->cv();
-      examples.back().second.grounding() = dcg->factors()[ j ]->grounding()->dup();
-      examples.back().second.cvs() = dcg->factors()[ j ]->cvs();
-      for( unsigned int k = 0; k < dcg->factors()[ j ]->children().size(); k++ ){
-        if( dcg->factors()[ dcg->factors()[ j ]->children()[ k ]->solution_index() ]->cv() == CV_TRUE ){
-          examples.back().second.children().push_back( dcg->factors()[ dcg->factors()[ j ]->children()[ k ]->solution_index() ]->grounding()->dup() );
-        }
-      }
-      examples.back().second.phrase() = dcg->factors()[ j ]->phrase()->dup(); 
-      examples.back().second.world() = worlds[ i ];
-    } 
-  
     if( phrase != NULL ){
       delete phrase;
       phrase = NULL;
@@ -131,6 +180,8 @@ main( int argc,
     delete dcg;
     dcg = NULL;
   }
+
+  cout << "training with " << examples.size() << " examples" << endl;
 
   llm->train( examples );
  

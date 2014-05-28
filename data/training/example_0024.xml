@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+  <instruction text="approach the front of the desk"/>
   <world time="0">
     <object name="o0" type="robot"/>
     <object name="o1" type="box"/>
@@ -32,27 +33,18 @@
           </region>
         </grounding_set>
       </grounding>
-    <NP>
-      <grounding>
-        <grounding_set>
-          <region type="front">
-            <object name="na" type="na"/>
-          </region>
-        </grounding_set>
-      </grounding>
-      <DT text="the"/>
-      <NN text="front"/>
-    </NP>
-    <PP>
-      <grounding>
-        <grounding_set>
-          <region type="na">
-            <object name="o2" type="table"/>
-          </region>
-        </grounding_set>
-      </grounding>
-      <IN text="of"/>
       <NP>
+        <grounding>
+          <grounding_set>
+            <region type="front">
+              <object name="na" type="na"/>
+            </region>
+          </grounding_set>
+        </grounding>
+        <DT text="the"/>
+        <NN text="front"/>
+      </NP>
+      <PP>
         <grounding>
           <grounding_set>
             <region type="na">
@@ -60,10 +52,19 @@
             </region>
           </grounding_set>
         </grounding>
-        <DT text="the"/>
-        <NN text="desk"/>
-      </NP>
-    </PP>
+        <IN text="of"/>
+        <NP>
+          <grounding>
+            <grounding_set>
+              <region type="na">
+                <object name="o2" type="table"/>
+              </region>
+            </grounding_set>
+          </grounding>
+          <DT text="the"/>
+          <NN text="desk"/>
+        </NP>
+      </PP>
     </NP>
   </VP>
 </root>
