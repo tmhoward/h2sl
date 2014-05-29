@@ -36,6 +36,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include "h2sl/grounding.h"
 #include "h2sl/phrase.h"
