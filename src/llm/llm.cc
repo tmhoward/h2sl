@@ -50,17 +50,18 @@ evaluate( void * instance,
           lbfgsfloatval_t * g,
           const int n,
           const lbfgsfloatval_t step ) {
-  pair< vector< pair< unsigned int, LLM_X > >*, LLM* > * data = static_cast< pair< vector< pair< unsigned int, LLM_X > >*, LLM* >* >( instance );
+//  pair< vector< pair< unsigned int, LLM_X > >*, LLM* > * data = static_cast< pair< vector< pair< unsigned int, LLM_X > >*, LLM* >* >( instance );
+  LLM_Train* llm_train = static_cast< LLM_Train* >( instance );
 
-  data->second->weights().resize( n, 0.0 );
+  llm_train->llm()->weights().resize( n, 0.0 );
   for( unsigned int i = 0; i < n; i++ ){
-    data->second->weights()[ i ] = x[ i ];
+    llm_train->llm()->weights()[ i ] = x[ i ];
   }
   
-  lbfgsfloatval_t objective = ( lbfgsfloatval_t )( LLM::objective( *data->second, *data->first, 0.001 ) );
+  lbfgsfloatval_t objective = ( lbfgsfloatval_t )( LLM::objective( llm_train->llm(), *llm_train->examples(), llm_train->indices(), 0.001 ) );
 
   vector< double > gradient( n );
-  LLM::gradient( *data->second, *data->first, gradient, 0.001 );
+  LLM::gradient( llm_train->llm(), *llm_train->examples(), llm_train->indices(), gradient, 0.001 );
 
   for( unsigned int i = 0; i < gradient.size(); i++ ){
     g[i] = -gradient[i];
@@ -189,6 +190,30 @@ LLM::
 pygx( const unsigned int& cv,
       const LLM_X& x,
       const vector< unsigned int >& cvs,
+      const vector< vector< unsigned int > >& indices ){
+  double numerator = 0.0;
+  double denominator = 0.0;
+  if( cvs.size() == indices.size() ){
+    for( unsigned int i = 0; i < cvs.size(); i++ ){
+    double dp = 0.0;
+      for( unsigned int j = 0; j < indices[ i ].size(); j++ ){
+        dp += _weights[ indices[ i ][ j ] ];
+      }
+      dp = exp( dp );
+      if( cv == cvs[ i ] ){
+        numerator += dp;
+      }
+      denominator += dp;
+    }
+  }
+  return ( numerator / denominator );
+}
+
+double
+LLM::
+pygx( const unsigned int& cv,
+      const LLM_X& x,
+      const vector< unsigned int >& cvs,
       vector< unsigned int >& indices ){
   double numerator = 0.0;
   double denominator = 0.0;
@@ -309,7 +334,8 @@ void
 LLM::
 train( vector< pair< unsigned int, LLM_X > >& examples,
         const unsigned int& maxIterations,
-        const double& lambda ){
+        const double& lambda,
+        const double& epsilon ){
 
   if( _feature_set->size() != _weights.size() ){
     _weights.resize( _feature_set->size(), 0.0 );
@@ -324,12 +350,13 @@ train( vector< pair< unsigned int, LLM_X > >& examples,
 
   lbfgs_parameter_t param;
   lbfgs_parameter_init(&param);
-  param.epsilon = 0.001;
+  param.epsilon = epsilon;
   param.max_iterations = maxIterations;
 
-  pair< vector< pair< unsigned int, LLM_X > >*, LLM* > instance( &examples, this );
-  
-  lbfgs( _weights.size(), x, &fx, evaluate, progress, ( void* )( &instance ), &param );
+  LLM_Train* llm_train = new LLM_Train( this, &examples );  
+  llm_train->compute_indices();
+
+  lbfgs( _weights.size(), x, &fx, evaluate, progress, ( void* )( llm_train ), &param );
 
   for( unsigned int i = 0; i < _weights.size(); i++ ){
     _weights[ i ] = x[ i ];
@@ -337,49 +364,60 @@ train( vector< pair< unsigned int, LLM_X > >& examples,
 
   lbfgs_free( x );
 
+  if( llm_train != NULL ){
+    delete llm_train;
+    llm_train = NULL;
+  }
+
   return;
 }
 
 double 
 LLM::
-objective( LLM& llm, 
+objective( LLM* llm, 
             const vector< pair< unsigned int, LLM_X > >& examples, 
+            const vector< vector< vector< unsigned int > > >& indices,
             double lambda ){
   double o = 0.0;
   for( unsigned int i = 0; i < examples.size(); i++ ){
-    o += log( llm.pygx( examples[ i ].first, examples[ i ].second, examples[ i ].second.cvs() ) );
+    for( unsigned int k = 0; k < examples[ i ].second.cvs().size(); k++ ){
+      if( examples[ i ].first == examples[ i ].second.cvs()[ k ] ){
+        o += log( llm->pygx( examples[ i ].first, examples[ i ].second, examples[ i ].second.cvs(), indices[ i ] ) );
+      }
+    }
   }
   double half_lambda = lambda / 2.0;
-  for( unsigned int i = 0; i < llm.weights().size(); i++ ){
-    o -= half_lambda * llm.weights()[ i ] * llm.weights()[ i ];
+  for( unsigned int i = 0; i < llm->weights().size(); i++ ){
+    o -= half_lambda * llm->weights()[ i ] * llm->weights()[ i ];
   }
   return o;
 }
 
 void 
 LLM::
-gradient( LLM& llm, 
+gradient( LLM* llm, 
           const vector< pair< unsigned int, LLM_X > >& examples, 
+          const vector< vector< vector< unsigned int > > >& indices,
           vector< double >& g, 
           double lambda ){
-  g.resize( llm.weights().size(), 0.0 );
-  vector< unsigned int > indices;
+  g.resize( llm->weights().size(), 0.0 );
   for( unsigned int i = 0; i < examples.size(); i++ ){
     for( unsigned int k = 0; k < examples[ i ].second.cvs().size(); k++ ){
-      double tmp = llm.pygx( examples[ i ].second.cvs()[ k ], examples[ i ].second, examples[ i ].second.cvs(), indices );
-      for( unsigned int l = 0; l < indices.size(); l++ ){
-        g[ indices[ l ] ] -= tmp;
+      double tmp = llm->pygx( examples[ i ].second.cvs()[ k ], examples[ i ].second, examples[ i ].second.cvs(), indices[ i ] );
+      for( unsigned int l = 0; l < indices[ i ][ k ].size(); l++ ){
+        g[ indices[ i ][ k ][ l ] ] -= tmp;
       }
       if( examples[ i ].first == examples[ i ].second.cvs()[ k ] ){
-        for( unsigned int l = 0; l < indices.size(); l++ ){
-          g[ indices[ l ] ] += 1.0;
+        for( unsigned int l = 0; l < indices[ i ][ k ].size(); l++ ){
+          g[ indices[ i ][ k ][ l ] ] += 1.0;
         }
       }
     }
   }
-  for( unsigned int i = 0; i < llm.weights().size(); i++ ){
-    g[ i ] -= lambda * llm.weights()[ i ];
+  for( unsigned int i = 0; i < llm->weights().size(); i++ ){
+    g[ i ] -= lambda * llm->weights()[ i ];
   }
+
   return;
 }
 
@@ -472,5 +510,52 @@ namespace h2sl {
               const LLM& other ) {
     return out;
   }
+}
 
+LLM_Train::
+LLM_Train( LLM* llm,
+            vector< pair< unsigned int, LLM_X > >* examples ) : _llm( llm ),
+                                                                _examples( examples ),
+                                                                _indices() {
+
+}
+
+LLM_Train::
+~LLM_Train(){
+  
+}
+
+LLM_Train::
+LLM_Train( const LLM_Train& other ) : _llm( other._llm ),
+                                      _examples( other._examples ),
+                                      _indices( other._indices ){
+
+}
+    
+LLM_Train&
+LLM_Train::
+operator=( const LLM_Train& other ){
+  _llm = other._llm;
+  _examples = other._examples;
+  _indices = other._indices;
+  return (*this);
+}
+
+void
+LLM_Train::
+compute_indices( void ){
+  vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
+  _indices.clear();
+  for( unsigned int i = 0; i < _examples->size(); i++ ){
+    _indices.push_back( vector< vector< unsigned int > >() );
+    for( unsigned int k = 0; k < (*_examples)[ i ].second.cvs().size(); k++ ){
+      _indices.back().push_back( vector< unsigned int >() );
+      _llm->feature_set()->indices( (*_examples)[ i ].second.cvs()[ k ], 
+                                    (*_examples)[ i ].second.grounding(), 
+                                    (*_examples)[ i ].second.children(), 
+                                    (*_examples)[ i ].second.phrase(), 
+                                    (*_examples)[ i ].second.world(), _indices.back().back(), evaluate_feature_types );
+    }
+  }
+  return;
 }

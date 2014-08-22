@@ -11,4 +11,4 @@ configure_file(${PROJECT_SOURCE_DIR}/Find${PROJECT_NAME}.cmake.in ${CMAKE_CURREN
 install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/Find${PROJECT_NAME}.cmake
         DESTINATION
-        ${CMAKE_INSTALL_PREFIX}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/)
+        share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/)

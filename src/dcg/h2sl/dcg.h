@@ -55,6 +55,8 @@ namespace h2sl {
     void construct( const Phrase* phrase, const World* world, const bool& fill = false );
     bool leaf_search( const Phrase* phrase, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
+    void to_latex( const std::string& filename )const;
+
     inline const std::vector< std::vector< std::pair< std::vector< unsigned int >, Grounding* > > >& search_spaces( void ){ return _search_spaces; };
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
     inline const Factor_Set* root( void )const{ return _root; };

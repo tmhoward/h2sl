@@ -183,7 +183,7 @@ main( int argc,
 
   cout << "training with " << examples.size() << " examples" << endl;
 
-  llm->train( examples );
+  llm->train( examples, args.max_iterations_arg, args.lambda_arg, args.epsilon_arg );
  
   evaluate_model( llm, examples );
 

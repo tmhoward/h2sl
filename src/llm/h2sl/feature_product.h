@@ -62,6 +62,7 @@ namespace h2sl {
 
     inline std::vector< std::vector< Feature* > >& feature_groups( void ){ return _feature_groups; };
     inline const std::vector< std::vector< Feature* > >& feature_groups( void )const{ return _feature_groups; };
+    inline std::vector< std::vector< bool > >& values( void ){ return _values; };
     inline const std::vector< std::vector< bool > >& values( void )const{ return _values; };
 
   protected:

@@ -70,6 +70,8 @@ namespace h2sl {
   };
   std::ostream& operator<<( std::ostream& out, const LLM_X& other );
 
+  class LLM_Train;
+
   class LLM {
   public:
     LLM( Feature_Set* featureSet = NULL );
@@ -77,14 +79,15 @@ namespace h2sl {
     LLM( const LLM& other );
     LLM& operator=( const LLM& other );
 
+    double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, const std::vector< std::vector< unsigned int > >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< unsigned int >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
-    void train( std::vector< std::pair< unsigned int, LLM_X > >& examples, const unsigned int& maxIterations = 100, const double& lambda = 0.01 );
+    void train( std::vector< std::pair< unsigned int, LLM_X > >& examples, const unsigned int& maxIterations = 100, const double& lambda = 0.01, const double& epsilon = 0.001 );
 
-    static double objective( LLM& llm, const std::vector< std::pair< unsigned int, LLM_X > >& examples, double lambda );
-    static void gradient( LLM& llm, const std::vector< std::pair< unsigned int, LLM_X > >& examples, std::vector< double >& g, double lambda );
+    static double objective( LLM* llm, const std::vector< std::pair< unsigned int, LLM_X > >& examples, const std::vector< std::vector< std::vector< unsigned int > > >& indices, double lambda );
+    static void gradient( LLM* llm, const std::vector< std::pair< unsigned int, LLM_X > >& examples, const std::vector< std::vector< std::vector< unsigned int > > >& indices, std::vector< double >& g, double lambda );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -105,6 +108,25 @@ namespace h2sl {
 
   };
   std::ostream& operator<<( std::ostream& out, const LLM& other );
+
+  class LLM_Train {
+  public:
+    LLM_Train( LLM* llm = NULL, std::vector< std::pair< unsigned int, LLM_X > >* examples = NULL );  
+    ~LLM_Train();
+    LLM_Train( const LLM_Train& other );
+    LLM_Train& operator=( const LLM_Train& other );
+  
+    void compute_indices( void );
+
+    inline LLM*& llm( void ){ return _llm; };
+    inline std::vector< std::pair< unsigned int, LLM_X > >*& examples( void ){ return _examples; };
+    inline std::vector< std::vector< std::vector< unsigned int > > >& indices( void ){ return _indices; };
+
+  protected:
+    LLM* _llm;
+    std::vector< std::pair< unsigned int, LLM_X > >* _examples;
+    std::vector< std::vector< std::vector< unsigned int > > > _indices;
+  };
 }
 
 #endif /* H2SL_LLM_H */

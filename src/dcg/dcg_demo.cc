@@ -108,6 +108,10 @@ main( int argc,
     if( args.output_given ){
       dcg->solutions().front().second->to_xml( args.output_arg );
     }
+
+    if( args.latex_output_given ){
+      dcg->to_latex( args.latex_output_arg );
+    }
   }
 
   if( dcg != NULL ){
