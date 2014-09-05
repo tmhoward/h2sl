@@ -195,7 +195,7 @@ void
 DCG::
 to_latex( const string& filename )const{
   ofstream outfile;
-  outfile.open( filename );
+  outfile.open( filename.c_str() );
   outfile << "\\begin{tikzpicture}[textnode/.style={anchor=mid,font=\\tiny},nodeknown/.style={circle,draw=black!80,fill=black!10,minimum size=5mm,font=\\tiny,top color=white,bottom color=black!20},nodeunknown/.style={circle,draw=black!80,fill=white,minimum size=5mm,font=\\tiny},factor/.style={rectangle,draw=black!80,fill=black!80,minimum size=2mm,font=\\tiny,text=white},dot/.style={circle,draw=black!80,fill=black!80,minimum size=0.25mm,font=\\tiny}]" << endl;
   outfile << "\\end{tikzpicture}" << endl;
   outfile.close();
