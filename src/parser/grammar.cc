@@ -129,6 +129,7 @@ from_xml( const string& filename ){
 void 
 Grammar::
 from_xml( xmlNodePtr root ){
+  _symbols.clear();
   _terminals.clear();
   _non_terminals.clear();
   _unit_productions.clear();
@@ -149,6 +150,7 @@ from_xml( xmlNodePtr root ){
       }
     }
   }
+  _compute_symbols();
   return;
 }
 
@@ -300,6 +302,39 @@ terminal_rule( const string& symbol )const{
     }
   }
   return _terminals.front();
+}
+
+void
+Grammar::
+_compute_symbols( void ){
+  _symbols.clear();
+  for( unsigned int i = 0; i < _non_terminals.size(); i++ ){
+    for( unsigned int j = 0; j < _non_terminals[ i ].elements().size(); j++ ){
+      bool new_symbol = true;
+      for( unsigned int k = 0; k < _symbols.size(); k++ ){
+        if( _non_terminals[ i ].elements()[ j ] == _symbols[ k ] ){
+          new_symbol = false;
+        }
+      }
+      if( new_symbol ){
+        _symbols.push_back( _non_terminals[ i ].elements()[ j ] );
+      }
+    }
+  }
+
+  for( unsigned int i = 0; i < _unit_productions.size(); i++ ){
+    bool new_symbol = true;
+    for( unsigned int j = 0; j < _symbols.size(); j++ ){
+      if( _unit_productions[ i ].symbol() == _symbols[ j ] ){
+        new_symbol = false;
+      }
+    }
+    if( new_symbol ){
+      _symbols.push_back( _unit_productions[ i ].symbol() );
+    }
+  }  
+
+  return;
 }
 
 namespace h2sl {

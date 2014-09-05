@@ -32,11 +32,12 @@
  */
 
 #include <iostream>
+#include <iomanip>
 #include <sys/time.h>
 #include "h2sl/common.h"
 #include "h2sl/phrase.h"
 #include "h2sl/constraint.h"
-#include "h2sl/parser.h"
+#include "h2sl/parser_cyk.h"
 #include "h2sl/dcg.h"
 #include "dcg_demo_cmdline.h"
 
@@ -54,12 +55,11 @@ main( int argc,
     exit(1);
   }
 
-  Parser * parser = new Parser();
-  if( args.grammar_given ){
-    parser->grammar().from_xml( args.grammar_arg );
-  }
+  Parser< Phrase > * parser = new Parser_CYK< Phrase >();
+  Grammar * grammar = new Grammar();
+  grammar->from_xml( args.grammar_arg );
 
-  Phrase * phrase = new Phrase();
+  vector< Phrase* > phrases;
 
   World * world = new World();
   if( args.world_given ){
@@ -91,26 +91,50 @@ main( int argc,
   cout << endl;
 
   cout << "parsing \"" << args.command_arg << "\"" << endl;
-  if( parser->parse( args.command_arg, phrase ) ){
-    cout << "phrase:" << *phrase << endl;
+  if( parser->parse( *grammar, args.command_arg, phrases ) ){
+    for( unsigned int i = 0; i < phrases.size(); i++ ){
+      if( phrases[ i ] != NULL ){
+        cout << "phrases[" << i << "]:" << *phrases[ i ] << endl;
     
-    gettimeofday( &start_time, NULL );
+        gettimeofday( &start_time, NULL );
 
-    dcg->leaf_search( phrase, world, llm, args.beam_width_arg );
+        dcg->leaf_search( phrases[ i ], world, llm, args.beam_width_arg );
 
-    gettimeofday( &end_time, NULL );
+        gettimeofday( &end_time, NULL );
 
-    cout << "finished search in " << diff_time( start_time, end_time ) << " seconds" << endl;   
-    for( unsigned int i = 0; i < dcg->solutions().size(); i++ ){
-      cout << "  solutions[" << i << "]:" << *dcg->solutions()[ i ].second << " (" << dcg->solutions()[ i ].first << ")" << endl;
-    }
+        cout << "finished search in " << diff_time( start_time, end_time ) << " seconds" << endl;   
+        for( unsigned int i = 0; i < dcg->solutions().size(); i++ ){
+          cout << "  solutions[" << i << "]:" << *dcg->solutions()[ i ].second << " (" << dcg->solutions()[ i ].first << ")" << endl;
+        }
    
-    if( args.output_given ){
-      dcg->solutions().front().second->to_xml( args.output_arg );
-    }
+        if( args.output_given ){
+          string filename = args.output_arg;
+          if( filename.find( ".xml" ) != string::npos ){
+            if( phrases.size() == 1 ){
+              dcg->solutions().front().second->to_xml( filename );
+            } else {
+              boost::trim_if( filename, boost::is_any_of( ".xml" ) );
+              stringstream tmp;
+              tmp << filename << "_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
+              dcg->solutions().front().second->to_xml( tmp.str() );
+            }
+          }
+        }
 
-    if( args.latex_output_given ){
-      dcg->to_latex( args.latex_output_arg );
+        if( args.latex_output_given ){
+          string filename = args.latex_output_arg;
+          if( filename.find( ".tex" ) != string::npos ){
+            if( phrases.size() == 1 ){
+              dcg->to_latex( filename );
+            } else {
+              boost::trim_if( filename, boost::is_any_of( ".tex" ) );
+              stringstream tmp;
+              tmp << filename << "_" << setw( 4 ) << setfill( '0' ) << i << ".tex";
+              dcg->to_latex( tmp.str() );
+            }
+          }
+        } 
+      }
     }
   }
 
@@ -134,9 +158,16 @@ main( int argc,
     world = NULL;
   }
 
-  if( phrase != NULL ){
-    delete phrase;
-    phrase = NULL;
+  for( unsigned int i = 0; i < phrases.size(); i++ ){
+    if( phrases[ i ] != NULL ){
+      delete phrases[ i ];
+      phrases[ i ] = NULL;
+    }
+  }
+
+  if( grammar != NULL ){
+    delete grammar;
+    grammar = NULL;
   }
 
   if( parser != NULL ){

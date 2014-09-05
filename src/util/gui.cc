@@ -244,7 +244,8 @@ hoverLeaveEvent( QGraphicsSceneHoverEvent * event ){
 }
 
 GUI::
-GUI( Parser * parser,
+GUI( Grammar * grammar,
+      Parser< Phrase > * parser,
       World * world,
       LLM * llm,
       DCG * dcg,
@@ -258,6 +259,7 @@ GUI( Parser * parser,
                           _graphics_view_graph( new QGraphicsView( _graphics_scene_graph, this ) ),
                           _text_browser_comments (new QTextBrowser (this) ),
                           _group_box( NULL ),
+                          _grammar( grammar ),
                           _parser( parser ),
                           _world( world ),
                           _llm( llm ),
@@ -516,38 +518,46 @@ _add_factor_set_graphics_items( const Factor_Set* factorSet,
 void
 GUI::
 _run_inference( const string& sentence ){
-  Phrase * phrase = new Phrase();
-  if( _parser->parse( sentence, phrase ) ){
-    struct timeval start_time;
-    gettimeofday( &start_time, NULL );
-    if( _dcg->leaf_search( phrase, _world, _llm, _beam_width ) ){
-      struct timeval end_time;
-      gettimeofday( &end_time, NULL );
-      stringstream comment_string;
-      comment_string << "successfully inferred structured language for \"" << sentence << "\" in " << diff_time( start_time, end_time ) << " seconds";
-      _text_browser_comments->append( _format_comment( comment_string.str(), false ) );
-    } else {
-      stringstream comment_string;
-      comment_string << "failed to infer structured language for \"" << sentence << "\"";
-      _text_browser_comments->append( _format_comment( comment_string.str(), true ) );
-    }
-  } else {
+  vector< Phrase* > phrases;
+  if( _parser->parse( *_grammar, sentence, phrases ) ){
     stringstream comment_string;
-    comment_string << "failed to parse \"" << sentence << "\"";
-    _text_browser_comments->append( _format_comment( comment_string.str(), true ) );
+    comment_string << "generated " << phrases.size() << " parse trees";
+    _text_browser_comments->append( _format_comment( comment_string.str(), false ) );
+    if( !phrases.empty() ){
+      if( phrases.front() != NULL ){
+        struct timeval start_time;
+        gettimeofday( &start_time, NULL );
+        if( _dcg->leaf_search( phrases.front(), _world, _llm, _beam_width ) ){
+          struct timeval end_time;
+          gettimeofday( &end_time, NULL );
+          comment_string.str( string() );
+          comment_string << "successfully inferred structured language for \"" << sentence << "\" in " << diff_time( start_time, end_time ) << " seconds";
+          _text_browser_comments->append( _format_comment( comment_string.str(), false ) );
+        } else {
+          comment_string.str( string() );
+          comment_string << "failed to infer structured language for \"" << sentence << "\"";
+          _text_browser_comments->append( _format_comment( comment_string.str(), true ) );
+        }
+      } else {
+        comment_string.str( string() );
+        comment_string << "failed to parse \"" << sentence << "\"";
+        _text_browser_comments->append( _format_comment( comment_string.str(), true ) );
+      }
+      _combo_box_solutions->clear();
+      if( _dcg->root() != NULL ){
+        for( unsigned int i = 0; i < _dcg->root()->solutions().size(); i++ ){
+          stringstream solution_string;
+          solution_string << "solution " << i + 1 << " (" << _dcg->root()->solutions()[ i ].pygx << ")";
+          _combo_box_solutions->addItem( QString::fromStdString( solution_string.str() ) );
+        } 
+      }
+    }
   }
-  _combo_box_solutions->clear();
-  if( _dcg->root() != NULL ){
-    for( unsigned int i = 0; i < _dcg->root()->solutions().size(); i++ ){
-      stringstream solution_string;
-      solution_string << "solution " << i + 1 << " (" << _dcg->root()->solutions()[ i ].pygx << ")";
-      _combo_box_solutions->addItem( QString::fromStdString( solution_string.str() ) );
-    } 
-  }
-  cout << "finished search" << endl;
-  if( phrase != NULL ){
-    delete phrase;
-    phrase = NULL;
+  for( unsigned int i = 0; i < phrases.size(); i++ ){
+    if( phrases[ i ] != NULL ){
+      delete phrases[ i ];
+      phrases[ i ] = NULL;
+    }
   }
   return;
 }

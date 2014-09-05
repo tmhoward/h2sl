@@ -34,8 +34,11 @@
 #include <iostream>
 #include <vector>
 
+#ifndef H2SL_COMMON_H
+#define H2SL_COMMON_H
+
 namespace h2sl {
-  double
+  inline double
   diff_time( struct timeval& startTime,
               struct timeval& endTime ){
     if( endTime.tv_usec < startTime.tv_usec ){
@@ -45,7 +48,7 @@ namespace h2sl {
     }
   }
 
-  std::vector< std::vector< unsigned int > >
+  inline std::vector< std::vector< unsigned int > >
   cartesian_power( const std::vector< std::vector< unsigned int > >& vectors, const std::vector< std::vector< unsigned int > >& prev = std::vector< std::vector< unsigned int > >(), const unsigned int index = 0 ){
     if( vectors.size() > index ){
       std::vector< std::vector< unsigned int > > tmp;
@@ -68,3 +71,5 @@ namespace h2sl {
     }
   }
 }
+
+#endif /* H2SL_COMMON_H */

@@ -35,6 +35,7 @@
 
 #include <QtGui/QApplication>
 
+#include "h2sl/parser_cyk.h"
 #include "h2sl/gui.h"
 #include "gui_demo_cmdline.h"
 
@@ -53,8 +54,9 @@ main( int argc,
 
   QApplication app( argc, argv );
 
-  Parser * parser = new Parser();
-  parser->grammar().from_xml( args.grammar_arg );
+  Parser< Phrase > * parser = new Parser_CYK< Phrase >();
+  Grammar * grammar = new Grammar();
+  grammar->from_xml( args.grammar_arg );
 
   World * world = new World();
   world->from_xml( args.world_arg );
@@ -68,15 +70,12 @@ main( int argc,
 
   DCG * dcg = new DCG();
 
-  GUI gui( parser, world, llm, dcg, args.beam_width_arg );
+  GUI gui( grammar, parser, world, llm, dcg, args.beam_width_arg );
 
   if( args.phrase_given ){
     Phrase * phrase = new Phrase();
     phrase->from_xml( args.phrase_arg );
   
-//    gui.dcg()->construct( phrase, world, llm, true );
-//    gui.update_graph();
-      
     if( phrase != NULL ){
       delete phrase;
       phrase = NULL;

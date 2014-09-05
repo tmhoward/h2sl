@@ -28,14 +28,17 @@
  *
  * @section DESCRIPTION
  *
- * A LLM class demo program
+ * A example generation program
  */
 
 #include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <boost/algorithm/string.hpp>
 
 #include "h2sl/world.h"
 #include "h2sl/phrase.h"
-#include "h2sl/parser.h"
+#include "h2sl/parser_cyk.h"
 #include "example_demo_cmdline.h"
 
 using namespace std;
@@ -44,7 +47,7 @@ using namespace h2sl;
 int
 main( int argc,
       char* argv[] ) {
-  cout << "start of LLM class demo program" << endl;
+  cout << "start of example generation program" << endl;
 
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
@@ -54,28 +57,57 @@ main( int argc,
   World * world = new World();
   world->from_xml( args.world_arg );
 
-  Parser * parser = new Parser(); 
-  parser->grammar().from_xml( args.grammar_arg );
+  Parser< Phrase > * parser = new Parser_CYK< Phrase >(); 
+  Grammar * grammar = new Grammar();
+  grammar->from_xml( args.grammar_arg );
 
-  Phrase * phrase = new Phrase();
-  if( parser->parse( args.command_arg, phrase ) ){
+  vector< Phrase* > phrases;
+
+  if( parser->parse( *grammar, args.command_arg, phrases ) ){
     cout << "successfully parsed " << args.command_arg << endl;
+    string filename = args.output_arg;
+    if( filename.find( ".xml" ) != string::npos ){
+      if( phrases.size() == 1 ){
+        xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+        xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+        xmlDocSetRootElement( doc, root );
+        world->to_xml( doc, root );
+        phrases[ 0 ]->to_xml( doc, root );
+        cout << "writing example to " << filename << endl;
+        xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
+        xmlFreeDoc( doc );
+      } else {
+        boost::trim_if( filename, boost::is_any_of( ".xml" ) );
+        for( unsigned int i = 0; i < phrases.size(); i++ ){
+          if( phrases[ i ] != NULL ){
+            stringstream tmp;
+            tmp << filename << "_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
+            xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+            xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+            xmlDocSetRootElement( doc, root );
+            world->to_xml( doc, root );
+            phrases[ i ]->to_xml( doc, root );
+            cout << "writing example " << i << " to " << tmp.str() << endl;
+            xmlSaveFormatFileEnc( tmp.str().c_str(), doc, "UTF-8", 1 );
+            xmlFreeDoc( doc );
+          }
+        }
+      }
+    }
   } else {
     cout << "failed to parse " << args.command_arg << endl;
   }
 
-  cout << "writing output to " << args.output_arg << endl;
-  xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
-  xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
-  xmlDocSetRootElement( doc, root );
-  world->to_xml( doc, root );
-  phrase->to_xml( doc, root );
-  xmlSaveFormatFileEnc( args.output_arg, doc, "UTF-8", 1 );
-  xmlFreeDoc( doc );
- 
-  if( phrase != NULL ){
-    delete phrase;
-    phrase = NULL;
+  for( unsigned int i = 0; i < phrases.size(); i++ ){
+    if( phrases[ i ] != NULL ){
+      delete phrases[ i ];
+      phrases[ i ] = NULL;
+    }
+  }
+
+  if( grammar != NULL ){
+    delete grammar;
+    grammar = NULL;
   }
 
   if( parser != NULL ){
@@ -88,6 +120,6 @@ main( int argc,
     world = NULL;
   }
 
-  cout << "end of LLM class demo program" << endl;
+  cout << "end of example generation program" << endl;
   return 0;
 }

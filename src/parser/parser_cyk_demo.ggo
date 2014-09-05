@@ -1,0 +1,11 @@
+package "parser_cyk_demo"
+version "0.0.1"
+purpose "A program used to demonstrate the h2sl::Parser_CYK class."
+
+option "input" i "input string" string optional
+option "grammar" g "grammar file" string required
+option "command" c "command string" string required
+option "debug" - "debug flag" int default="0" optional
+option "output" o "output file" string optional
+
+text ""

@@ -95,12 +95,15 @@ namespace h2sl {
     inline const std::vector< Grammar_Non_Terminal >& non_terminals( void )const{ return _non_terminals; };
     inline std::vector< Grammar_Unit_Production >& unit_productions( void ){ return _unit_productions; };
     inline const std::vector< Grammar_Unit_Production >& unit_productions( void )const{ return _unit_productions; };
+    inline const std::vector< std::string >& symbols( void )const{ return _symbols; };
 
   protected:
+    void _compute_symbols( void );
 
     std::vector< Grammar_Terminal > _terminals;
     std::vector< Grammar_Non_Terminal > _non_terminals;
     std::vector< Grammar_Unit_Production > _unit_productions;
+    std::vector< std::string > _symbols;
   
   private:
 

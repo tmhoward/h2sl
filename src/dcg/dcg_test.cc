@@ -37,7 +37,7 @@
 #include "h2sl/phrase.h"
 #include "h2sl/constraint.h"
 #include "h2sl/grounding_set.h"
-#include "h2sl/parser.h"
+#include "h2sl/parser_cyk.h"
 #include "h2sl/dcg.h"
 #include "dcg_test_cmdline.h"
 
@@ -119,10 +119,9 @@ main( int argc,
     exit(1);
   }
 
-  Parser * parser = new Parser();
-  if( args.grammar_given ){
-    parser->grammar().from_xml( args.grammar_arg );
-  }
+  Parser< Phrase > * parser = new Parser_CYK< Phrase >();
+  Grammar * grammar = new Grammar();
+  grammar->from_xml( args.grammar_arg );
 
   Feature_Set * feature_set = new Feature_Set();
   LLM * llm = new LLM( feature_set );
@@ -146,25 +145,33 @@ main( int argc,
     Phrase * truth = new Phrase();
     truth->from_xml( args.inputs[ i ] );
 
-    Phrase * phrase = new Phrase();
-
-    if( parser->parse( instruction, phrase ) ){
-      cout << "  truth:" << *truth << endl;
-      dcg->leaf_search( phrase, world, llm, args.beam_width_arg );
-      if( !dcg->solutions().empty() ){
-        cout << "  parse:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl; 
-        if( compare_phrases( truth, dcg->solutions().front().second ) ){
-          cout << "  found match" << endl;
+    vector< Phrase* > phrases;
+    if( parser->parse( *grammar, instruction, phrases ) ){
+      if( !phrases.empty() ){
+        cout << "found " << phrases.size() << " phrases" << endl;
+        cout << "  truth:" << *truth << endl;
+        bool found_match = false;
+        unsigned int match_index = 0;
+        for( unsigned int i = 0; i < phrases.size(); i++ ){
+          if( phrases[ i ] != NULL ){
+            dcg->leaf_search( phrases[ i ], world, llm, args.beam_width_arg );
+            if( !dcg->solutions().empty() ){
+              cout << "  parse[" << i << "]:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl; 
+              if( compare_phrases( truth, dcg->solutions().front().second ) ){
+                found_match = true;
+                match_index = i;
+              }
+            }
+          }
+        }
+        if( found_match ){
+          cout << "  phrase[" << match_index << "] matches" << endl;
           num_correct++;
         } else {
           cout << "  did not find match" << endl;
           num_incorrect++;
           exit(0);
         }
-      } else {
-        cout << "  could not find any solutions" << endl;
-        num_incorrect++;
-        exit(0);
       }
     } else {
       cout << "  could not parse \"" << instruction << "\"" << endl;
@@ -172,9 +179,11 @@ main( int argc,
       exit(0);
     } 
 
-    if( phrase != NULL ){
-      delete phrase;
-      phrase = NULL;
+    for( unsigned int i = 0; i < phrases.size(); i++ ){
+      if( phrases[ i ] != NULL ){
+        delete phrases[ i ];
+        phrases[ i ] = NULL;
+      }
     }
 
     if( truth != NULL ){
@@ -188,7 +197,7 @@ main( int argc,
     } 
   }
 
-  cout << "correctly inferred " << num_correct << " of " << num_correct + num_incorrect << " examples (" << ( double )( num_correct ) / ( double )( num_correct + num_incorrect ) * 100.0 << ")" << endl;
+  cout << "correctly inferred " << num_correct << " of " << num_correct + num_incorrect << " examples (" << ( double )( num_correct ) / ( double )( num_correct + num_incorrect ) * 100.0 << "%)" << endl;
 
   if( dcg != NULL ){
     delete dcg;
@@ -203,6 +212,11 @@ main( int argc,
   if( feature_set != NULL ){
     delete feature_set;
     feature_set = NULL;
+  }
+
+  if( grammar != NULL ){
+    delete grammar;
+    grammar = NULL;
   }
 
   if( parser != NULL ){

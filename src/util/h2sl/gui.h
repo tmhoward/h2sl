@@ -36,7 +36,7 @@
 
 #include <iostream>
 
-#include "h2sl/parser.h"
+#include "h2sl/parser_cyk.h"
 #include "h2sl/world.h"
 #include "h2sl/llm.h"
 #include "h2sl/factor.h"
@@ -123,15 +123,15 @@ namespace h2sl {
   class GUI : public QWidget {
     Q_OBJECT
   public:
-    GUI( Parser * parser = NULL, World * world = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, const std::string& command = "", QWidget * parent = NULL );
+    GUI( Grammar * grammar = NULL, Parser< Phrase > * parser = NULL, World * world = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, const std::string& command = "", QWidget * parent = NULL );
     virtual ~GUI();
 
     virtual void update_world( void );
     virtual void update_graph( void );
 
     inline QGroupBox* group_box( void ){ return _group_box; };
-    inline Parser*& parser( void ){ return _parser; };
-    inline const Parser* parser( void )const{ return _parser; };
+    inline Parser< Phrase >*& parser( void ){ return _parser; };
+    inline const Parser< Phrase >* parser( void )const{ return _parser; };
     inline DCG*& dcg( void ){ return _dcg; };
     inline const DCG* dcg( void )const{ return _dcg; }; 
 
@@ -156,7 +156,8 @@ namespace h2sl {
     QTextBrowser * _text_browser_comments;
     QGroupBox* _group_box;
 
-    Parser* _parser;
+    Grammar * _grammar;
+    Parser< Phrase >* _parser;
     World * _world;
     LLM * _llm;
     DCG* _dcg;

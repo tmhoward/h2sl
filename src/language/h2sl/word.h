@@ -42,7 +42,7 @@
 namespace h2sl {
   class Word {
   public:
-    Word( const pos_t& pos = POS_UNKNOWN, const std::string& text = "na" );
+    Word( const pos_t& pos = POS_UNKNOWN, const std::string& text = "na", const unsigned int& order = 0 );
     virtual ~Word();
     Word( const Word& other );
     Word& operator=( const Word& other );
@@ -59,10 +59,12 @@ namespace h2sl {
     inline const pos_t& pos( void )const{ return _pos; };
     inline std::string& text( void ){ return _text; };
     inline const std::string& text( void )const{ return _text; }; 
+    inline const unsigned int& order( void )const{ return _order; };
 
   protected:
     pos_t _pos;
     std::string _text;
+    unsigned int _order;
 
   private:
 

@@ -53,6 +53,7 @@ main( int argc,
   vector< unsigned int > v1;
   vector< unsigned int > v2;
   vector< unsigned int > v3;
+  vector< unsigned int > v4;
 
   v1.push_back( 1 );
   v1.push_back( 2 );
@@ -65,10 +66,13 @@ main( int argc,
   v3.push_back( 7 );
   v3.push_back( 8 );
 
+  v4.push_back( 9 );
+
   vector< vector< unsigned int > > vectors;
   vectors.push_back( v1 );
   vectors.push_back( v2 );
   vectors.push_back( v3 );
+  vectors.push_back( v4 );
 
   vector< vector< unsigned int > > set = cartesian_power( vectors ); 
 

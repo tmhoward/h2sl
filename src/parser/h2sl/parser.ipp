@@ -1,5 +1,5 @@
 /**
- * @file    parser.h
+ * @file    parser.ipp
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,39 +28,55 @@
  *
  * @section DESCRIPTION
  *
- * The definition of a class that describes a parser
+ * The implementation of a class that describes a parser
  */
 
-#ifndef H2SL_PARSER_H
-#define H2SL_PARSER_H
+template< class T >
+Parser<T>::
+Parser() {
 
-#include <iostream>
-#include <boost/algorithm/string.hpp>
-
-#include "h2sl/word.h"
-#include "h2sl/grammar.h"
-
-namespace h2sl {
-  template< class T >
-  class Parser {
-  public:
-    Parser();
-    virtual ~Parser();
-    Parser( const Parser<T>& other );
-    Parser<T>& operator=( const Parser<T>& other );
-
-    virtual bool parse( const Grammar& grammar, const std::string& text, std::vector<T*>& phrases, const bool& debug = false )const = 0;
-
-  protected:
-    virtual void _text_to_words( const std::string& text, std::vector< Word >& words )const;
-
-  private:
-
-  };
-
-  template< class T >
-  std::ostream& operator<<( std::ostream& out, const Parser<T>& other );
-  #include "h2sl/parser.ipp"
 }
 
-#endif /* H2SL_PARSER_H */
+template< class T >
+Parser<T>::
+~Parser() {
+
+}
+
+template< class T >
+Parser<T>::
+Parser( const Parser<T>& other ) {
+
+}
+
+template< class T >
+Parser<T>&
+Parser<T>::
+operator=( const Parser<T>& other ) {
+
+  return (*this);
+}
+
+template< class T >
+void
+Parser<T>::
+_text_to_words( const std::string& text,
+                std::vector< Word >& words )const{
+  std::string tmp_text = boost::replace_all_copy( text, ",", "" );
+  std::vector< std::string > tmp_words;
+  boost::split( tmp_words, tmp_text, boost::is_any_of( " " ) );
+
+  words.clear();
+  for( unsigned int i = 0; i < tmp_words.size(); i++ ){
+    words.push_back( Word( POS_UNKNOWN, tmp_words[ i ], i ) );
+  }
+  return;
+}
+
+template< class T >
+std::ostream&
+operator<<( std::ostream& out,
+            const Parser<T>& other ) {
+  return out;
+}
+

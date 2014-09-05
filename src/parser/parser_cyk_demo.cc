@@ -1,5 +1,5 @@
 /**
- * @file    parser_demo.cc
+ * @file    parser_cyk_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,17 +28,15 @@
  *
  * @section DESCRIPTION
  *
- * A Parser class demo program
+ * A Parser_CYK class demo program
  */
 
 #include <iostream>
-#include <iomanip>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
-
-#include "h2sl/parser.h"
+#include "h2sl/phrase.h"
 #include "h2sl/parser_cyk.h"
-#include "parser_demo_cmdline.h"
+#include "parser_cyk_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -46,23 +44,23 @@ using namespace h2sl;
 int
 main( int argc,
       char* argv[] ) {
+  int status = 0;
+  cout << "start of Parser_CYK class demo program" << endl;
+
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
     exit(1);
   }
 
-  cout << "start of Parser class demo program" << endl;
-
-  Parser< Phrase > * parser = new Parser_CYK< Phrase >();
-
+  Parser_CYK< Phrase >* parser_cyk = new Parser_CYK< Phrase >();
   Grammar * grammar = new Grammar();
   grammar->from_xml( args.grammar_arg );
 
-  vector< Phrase* > phrases; 
-  if( parser->parse( *grammar, args.command_arg, phrases, ( bool )( args.debug_arg ) ) ){
-    cout << "successfully parsed " << args.command_arg << endl;
+  vector< Phrase* > phrases;
+  if( parser_cyk->parse( *grammar, args.command_arg, phrases, ( bool )( args.debug_arg ) ) ){
+    cout << "successfully parsed \"" << args.command_arg << "\"" << endl;
   } else {
-    cout << "failed to parse " << args.command_arg << endl;
+    cout << "failed to parse \"" << args.command_arg << "\"" << endl;
   }
 
   if( args.output_given ){
@@ -76,25 +74,25 @@ main( int argc,
           boost::trim_if( filename, boost::is_any_of( ".xml" ) );
           for( unsigned int i = 0; i < phrases.size(); i++ ){
             stringstream tmp;
-            tmp << filename << "_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
+            tmp << filename << "_" << i << ".xml";
             cout << "writing parsed phrase to " << tmp.str() << endl;
             phrases[ i ]->to_xml( tmp.str() );
           }
         }
       }
     }
-  } 
+  }
 
   if( grammar != NULL ){
     delete grammar;
     grammar = NULL;
   }
-
-  if( parser != NULL ){
-    delete parser;
-    parser = NULL;
+  
+  if( parser_cyk != NULL ){
+    delete parser_cyk;
+    parser_cyk = NULL;
   }
 
-  cout << "end of Parser class demo program" << endl;
-  return 0;
+  cout << "end of Parser_CYK class demo program" << endl;
+  return status;
 }

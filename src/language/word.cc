@@ -31,6 +31,7 @@
  * The implementation of a class used to describe a word
  */
 
+#include <sstream>
 #include <h2sl/word.h>
 
 using namespace std;
@@ -38,8 +39,10 @@ using namespace h2sl;
 
 Word::
 Word( const pos_t& pos,
-      const string& text ) : _pos( pos ),
-                              _text( text ) {
+      const string& text,
+      const unsigned int& order ) : _pos( pos ),
+                                    _text( text ),
+                                    _order( order ) {
 
 }
 
@@ -50,7 +53,8 @@ Word::
 
 Word::
 Word( const Word& other ) : _pos( other._pos ),
-                            _text( other._text ){
+                            _text( other._text ),
+                            _order( other._order ){
 
 }
 
@@ -59,6 +63,7 @@ Word::
 operator=( const Word& other ) {
   _pos = other._pos;
   _text = other._text;
+  _order = other._order;
   return (*this);
 }
 
@@ -98,6 +103,9 @@ to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( pos_t_to_std_string( _pos ).c_str() ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "text" ), ( const xmlChar* )( _text.c_str() ) );
+  stringstream order_string;
+  order_string << _order;
+  xmlNewProp( node, ( const xmlChar* )( "order" ), ( const xmlChar* )( order_string.str().c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -122,6 +130,12 @@ from_xml( xmlNodePtr root ){
       _text = ( char* )( tmp );
       xmlFree( tmp );
     }
+    tmp = xmlGetProp( root, ( const xmlChar* )( "order" ) );
+    if( tmp != NULL ){
+      string order_string = ( char* )( tmp );
+      _order = strtol( order_string.c_str(), NULL, 10 );
+      xmlFree( tmp );
+    }
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
@@ -139,5 +153,4 @@ namespace h2sl {
     out << pos_t_to_std_string( other.pos() ) << "/\"" << other.text() << "\"";
     return out;
   }
-
 }

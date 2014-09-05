@@ -27,6 +27,14 @@
         <feature_word invert="0" pos="NN" text="crate"/>
         <feature_word invert="0" pos="NN" text="table"/>
         <feature_word invert="0" pos="NN" text="counter"/>
+        <feature_word invert="0" pos="NN" text="car"/>
+        <feature_word invert="0" pos="NN" text="tree"/>
+        <feature_word invert="0" pos="NN" text="desk"/>
+        <feature_word invert="0" pos="NN" text="chair"/>
+        <feature_word invert="0" pos="NN" text="seat"/>
+        <feature_word invert="0" pos="NN" text="stool"/>
+        <feature_word invert="0" pos="NN" text="couch"/>
+        <feature_word invert="0" pos="NN" text="sofa"/>
         <feature_word invert="0" pos="NN" text="desk"/>
         <feature_word invert="0" pos="NN" text="chair"/>
         <feature_word invert="0" pos="NN" text="seat"/>
@@ -102,6 +110,7 @@
         <feature_word invert="0" pos="VB" text="drive"/>
         <feature_word invert="0" pos="VB" text="move"/>
         <feature_word invert="0" pos="VB" text="walk"/>
+        <feature_word invert="0" pos="VB" text="push"/>
         <feature_word invert="0" pos="VB" text="go"/>
         <feature_word invert="0" pos="VB" text="approach"/>
         <feature_word invert="0" pos="VB" text="leave"/>

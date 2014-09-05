@@ -44,11 +44,13 @@ Phrase::
 Phrase( const phrase_type_t& type,
         const string& text,
         const vector< Word >& words,
+        Phrase* parent,
         const vector< Phrase* >& children,
         Grounding* grounding ) : Grounding(),
                                               _type( type ),
                                               _text( text ),
                                               _words( words ),
+                                              _parent( parent ),
                                               _children( children ),
                                               _grounding( grounding ){
 
@@ -64,6 +66,7 @@ Phrase( const Phrase& other ) : Grounding( other ),
                                 _type( other._type ),
                                 _text( other._text ),
                                 _words( other._words ),
+                                _parent(),
                                 _children(),
                                 _grounding( NULL ){
   for( unsigned int i = 0; i < other._children.size(); i++ ){
@@ -80,6 +83,7 @@ operator=( const Phrase& other ) {
   _type = other._type;
   _text = other._text;
   _words = other._words;
+  _parent = other._parent;
   for( unsigned int i = 0; i < _children.size(); i++ ){
     if( _children[ i ] != NULL ){
       delete _children[ i ];
@@ -314,6 +318,12 @@ phrase_type_t_to_std_string( const phrase_type_t& type ){
     break;
   case( PHRASE_SBAR ):
     return "SBAR";
+    break;
+  case( PHRASE_WHNP ):
+    return "WHNP";
+    break;
+  case( PHRASE_WHVP ):
+    return "WHVP";
     break;
   case( PHRASE_UNKNOWN ):
   case( NUM_PHRASE_TYPES ):
