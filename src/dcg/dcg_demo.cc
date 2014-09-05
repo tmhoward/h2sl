@@ -103,8 +103,8 @@ main( int argc,
         gettimeofday( &end_time, NULL );
 
         cout << "finished search in " << diff_time( start_time, end_time ) << " seconds" << endl;   
-        for( unsigned int i = 0; i < dcg->solutions().size(); i++ ){
-          cout << "  solutions[" << i << "]:" << *dcg->solutions()[ i ].second << " (" << dcg->solutions()[ i ].first << ")" << endl;
+        for( unsigned int j = 0; j < dcg->solutions().size(); j++ ){
+          cout << "  solutions[" << j << "]:" << *dcg->solutions()[ j ].second << " (" << dcg->solutions()[ j ].first << ")" << endl;
         }
    
         if( args.output_given ){

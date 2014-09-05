@@ -40,14 +40,15 @@ using namespace lcm;
 using namespace h2sl;
 
 GUI_LCM::
-GUI_LCM( Parser * parser,
+GUI_LCM( Grammar * grammar,
+          Parser< Phrase > * parser,
           World * world,
           LLM * llm,
           DCG * dcg,
           const unsigned int& beamWidth,
           const string& command,
           const string& worldChannel,
-          QWidget * parent ) : GUI( parser, world, llm, dcg, beamWidth, command, parent ),
+          QWidget * parent ) : GUI( grammar, parser, world, llm, dcg, beamWidth, command, parent ),
                                _lcm( new LCM()) {
   if( _lcm->good() ){
     cout << "subscribing to world" << endl;

@@ -34,6 +34,7 @@
 #include <iostream>
 #include <QtGui/QApplication>
 
+#include "h2sl/parser_cyk.h"
 #include "h2sl/gui_lcm.h"
 #include "gui_lcm_demo_cmdline.h"
 
@@ -52,8 +53,10 @@ main( int argc,
 
   QApplication app( argc, argv );
 
-  Parser * parser = new Parser();
-  parser->grammar().from_xml( args.grammar_arg );
+  Grammar * grammar = new Grammar();
+  grammar->from_xml( args.grammar_arg );
+
+  Parser< Phrase > * parser = new Parser_CYK< Phrase >();
 
   World * world = new World();
   if( args.world_given ){
@@ -69,7 +72,7 @@ main( int argc,
 
   DCG * dcg = new DCG();
 
-  GUI_LCM gui_lcm( parser, world, llm, dcg, args.beam_width_arg, args.command_arg, args.world_channel_arg );
+  GUI_LCM gui_lcm( grammar, parser, world, llm, dcg, args.beam_width_arg, args.command_arg, args.world_channel_arg );
   
   if( args.phrase_given ){
     Phrase * phrase = new Phrase();

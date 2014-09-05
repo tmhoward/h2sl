@@ -237,7 +237,7 @@ void
 Grammar::
 cnyify( void ){
   unsigned int rule_changes = 0;
-  for( int i = 0; i < _non_terminals.size(); i++ ){
+  for( unsigned int i = 0; i < _non_terminals.size(); i++ ){
     if( _non_terminals[ i ].elements().size() == 2 ){
       _unit_productions.push_back( Grammar_Unit_Production( Phrase::phrase_type_t_from_std_string( _non_terminals[ i ].elements().front() ), _non_terminals[ i ].elements().back() ) );
       for( unsigned int j = 0; j < _terminals.size(); j++ ){

@@ -107,7 +107,7 @@ fill( const Grammar& grammar ){
   }
   for( unsigned int i = 2; i <= _words.size(); i++ ){
     int aj = i - 1;
-    for( int j = 1; j < ( _words.size() - i + 2 ); j++ ){
+    for( int j = 1; j < ( int )( _words.size() - i + 2 ); j++ ){
       int ai = j - 1;
       int bi = j - 1;
       for( unsigned int k = 1; k < i; k++ ){
