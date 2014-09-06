@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 #include "h2sl/phrase.h"
@@ -74,7 +75,7 @@ main( int argc,
           boost::trim_if( filename, boost::is_any_of( ".xml" ) );
           for( unsigned int i = 0; i < phrases.size(); i++ ){
             stringstream tmp;
-            tmp << filename << "_" << i << ".xml";
+            tmp << filename << "_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
             cout << "writing parsed phrase to " << tmp.str() << endl;
             phrases[ i ]->to_xml( tmp.str() );
           }

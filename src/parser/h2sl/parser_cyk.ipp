@@ -298,7 +298,7 @@ traverse( const Grammar& grammar,
           for( unsigned int l = 0; l < NUM_PHRASE_TYPES; l++ ){
             if( Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( l ) ) == _symbols[ first_index[ 2 ] ] ){
               phrase->children().push_back( new T() );
-              traverse( grammar, phrase->children().back(), root_cell.backpointers()[ 0 ].first );
+              traverse( grammar, dynamic_cast< T* >( phrase->children().back() ), root_cell.backpointers()[ 0 ].first );
             }
           }
           for( unsigned int l = 0; l < NUM_PHRASE_PLACEHOLDERS; l++ ){
@@ -317,7 +317,7 @@ traverse( const Grammar& grammar,
           for( unsigned int l = 0; l < NUM_PHRASE_TYPES; l++ ){
             if( Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( l ) ) == _symbols[ second_index[ 2 ] ] ){
               phrase->children().push_back( new T() );
-              traverse( grammar, phrase->children().back(), root_cell.backpointers()[ 0 ].second );
+              traverse( grammar, dynamic_cast< T* >( phrase->children().back() ), root_cell.backpointers()[ 0 ].second );
             }
           }
           for( unsigned int l = 0; l < NUM_PHRASE_PLACEHOLDERS; l++ ){
