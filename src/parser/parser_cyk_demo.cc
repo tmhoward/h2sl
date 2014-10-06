@@ -80,6 +80,8 @@ main( int argc,
             phrases[ i ]->to_xml( tmp.str() );
           }
         }
+      } else {
+        cout << "cannot write phrase to \"" << args.output_arg << "\", phrases empty" << endl;
       }
     }
   }

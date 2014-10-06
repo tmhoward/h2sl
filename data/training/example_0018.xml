@@ -42,7 +42,6 @@
             </region>
           </grounding_set>
         </grounding>
-        <grounding/>
         <DT text="the"/>
         <NN text="package"/>
       </NP>

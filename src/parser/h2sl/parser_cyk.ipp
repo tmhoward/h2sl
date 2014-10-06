@@ -200,6 +200,14 @@ void
 CYK_Table<T>::
 parse( const Grammar& grammar,
         std::vector< T* >& phrases ){
+  for( unsigned int i = 0; i < phrases.size(); i++ ){
+    if( phrases[ i ] != NULL ){
+      delete phrases[ i ];
+      phrases[ i ] = NULL;
+    }
+  }
+  phrases.clear();
+
   std::vector< std::vector< unsigned int > > indices;
   std::vector< std::vector< unsigned int > > sets;
   for( unsigned int i = 0; i < _words.size(); i++ ){
@@ -243,25 +251,26 @@ parse( const Grammar& grammar,
       }
     }
 
-    phrases.push_back( new T() );
+    
+
     for( unsigned int j = 0; j < tmp->symbols().size(); j++ ){
       if( (*tmp)( 0, tmp->words().size() - 1, j ).value() ){
+        phrases.push_back( new T() );
         tmp->traverse( grammar, phrases.back(), &( (*tmp)( 0, tmp->words().size() - 1, j ) ) );
+    
+        bool new_phrase = true; 
+        for( unsigned int j = 0; j < ( phrases.size() - 1 ); j++ ){
+          if( *phrases.back() == *phrases[ j ] ){
+            new_phrase = false;
+            j = phrases.size();
+          }
+        }
+        if( !new_phrase ){
+          delete phrases.back();
+          phrases.pop_back();
+        } 
       }
     }
- 
-    bool new_phrase = true; 
-    for( unsigned int j = 0; j < ( phrases.size() - 1 ); j++ ){
-      if( *phrases.back() == *phrases[ j ] ){
-        new_phrase = false;
-        j = phrases.size();
-      }
-    }
-    if( !new_phrase ){
-      delete phrases.back();
-      phrases.pop_back();
-    }
-
     if( tmp != NULL ){
       delete tmp;
       tmp = NULL;
@@ -480,7 +489,7 @@ parse( const Grammar& grammar,
     cyk_table = NULL;
   }
 
-  return true;
+  return !phrases.empty();
 }
 
 template< class T >

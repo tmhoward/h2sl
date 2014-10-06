@@ -64,5 +64,6 @@
     <grammar_unit_production type="PRT" symbol="RP"/>
     <grammar_unit_production type="WHNP" symbol="WDT"/>
     <grammar_unit_production type="S" symbol="VP"/>
+    <grammar_unit_production type="VP" symbol="VB"/>
   </grammar>
 </root>
