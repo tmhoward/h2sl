@@ -1,31 +1,40 @@
+# GENGETOPT FILES
+set(GGOS
+    pos_demo.ggo
+    word_demo.ggo
+    phrase_demo.ggo)
+
+# HEADER FILES
+set(HDRS
+    h2sl/pos.h
+    h2sl/word.h
+    h2sl/phrase.h)
+
+# QT HEADER FILES
+set(QT_HDRS )
+
+# SOURCE FILES
+set(SRCS
+    word.cc
+    phrase.cc)
+
+# BINARY SOURCE FILES
+set(BIN_SRCS
+    pos_demo.cc 
+    word_demo.cc
+    phrase_demo.cc)
+
+# LIBRARY DEPENDENCIES
+set(DEPS h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
+
+# LIBRARY NAME
 set(LIB h2sl-language)
 
-add_library(${LIB} SHARED
-            word.cc
-            phrase.cc)
-target_link_libraries(${LIB} h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
+# process the headers
+process_hdrs(HDRS ${HDRS} QT_HDRS ${QT_HDRS})
 
-add_executable(h2sl-pos-demo pos_demo.cc)
-target_link_libraries(h2sl-pos-demo ${LIB} h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
+# process the library
+process_lib(LIB ${LIB} QT_HDRS ${QT_HDRS} SRCS ${SRCS} DEPS ${DEPS})
 
-add_executable(h2sl-word-demo word_demo.cc)
-target_link_libraries(h2sl-word-demo ${LIB} h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
-
-add_executable(h2sl-phrase-demo phrase_demo.cc)
-target_link_libraries(h2sl-phrase-demo ${LIB} h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
-
-install(FILES 
-        h2sl/pos.h
-        h2sl/word.h
-        h2sl/phrase.h
-        DESTINATION include/${PROJECT_NAME})
-
-install(TARGETS ${LIB}
-        LIBRARY
-        DESTINATION lib)
-
-install(TARGETS 
-        h2sl-pos-demo
-        h2sl-word-demo
-        h2sl-phrase-demo
-        DESTINATION bin)
+# process the binaries
+process_bin_srcs(LIB ${LIB} BIN_SRCS ${BIN_SRCS} GGOS ${GGOS} DEPS ${DEPS})

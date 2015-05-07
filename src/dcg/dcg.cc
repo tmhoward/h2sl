@@ -33,6 +33,7 @@
  */
 
 #include <fstream>
+#include <utility>
 
 #include "h2sl/grounding_set.h"
 #include "h2sl/region.h"
@@ -95,20 +96,20 @@ fill_search_spaces( const World* world ){
   // add the NP groundings
   for( unsigned int i = 0; i < NUM_REGION_TYPES; i++ ){
     if( i != REGION_TYPE_UNKNOWN ){
-      _search_spaces[ PHRASE_NP ].push_back( make_pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, Object() ) ) );
+      _search_spaces[ PHRASE_NP ].push_back( pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, Object() ) ) );
     }
     for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      _search_spaces[ PHRASE_NP ].push_back( make_pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, *world->objects()[ j ] ) ) );
+      _search_spaces[ PHRASE_NP ].push_back( pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, *world->objects()[ j ] ) ) );
     }
   }
 
   // add the PP groundings
   for( unsigned int i = 0; i < NUM_REGION_TYPES; i++ ){
     if( i != REGION_TYPE_UNKNOWN ){
-      _search_spaces[ PHRASE_PP ].push_back( make_pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, Object() ) ) );
+      _search_spaces[ PHRASE_PP ].push_back( pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, Object() ) ) );
     }
     for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      _search_spaces[ PHRASE_PP ].push_back( make_pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, *world->objects()[ j ] ) ) );
+      _search_spaces[ PHRASE_PP ].push_back( pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, *world->objects()[ j ] ) ) );
     }
   }
 
@@ -119,7 +120,7 @@ fill_search_spaces( const World* world ){
         for( unsigned int l = 0; l < world->objects().size(); l++ ){
           for( unsigned int m = 0; m < NUM_REGION_TYPES; m++ ){
             if( ( j != l ) || ( k != m ) ){
-              _search_spaces[ PHRASE_VP ].push_back( make_pair< vector< unsigned int >, Grounding* >( ternary_cvs, new Constraint( i, Region( k, *world->objects()[ j ] ), Region( m, *world->objects()[ l ] ) ) ) );
+              _search_spaces[ PHRASE_VP ].push_back( pair< vector< unsigned int >, Grounding* >( ternary_cvs, new Constraint( i, Region( k, *world->objects()[ j ] ), Region( m, *world->objects()[ l ] ) ) ) );
             }
           }
         }
@@ -169,7 +170,7 @@ leaf_search( const Phrase* phrase,
     }
   
     for( unsigned int i = 0; i < _root->solutions().size(); i++ ){
-      _solutions.push_back( make_pair< double, Phrase* >( _root->solutions()[ i ].pygx, _root->phrase()->dup() ) );
+      _solutions.push_back( pair< double, Phrase* >( _root->solutions()[ i ].pygx, _root->phrase()->dup() ) );
 
       for( unsigned int j = 0; j < _solutions.back().second->children().size(); j++ ){
         if( _solutions.back().second->children()[ j ] != NULL ){

@@ -1,38 +1,43 @@
-generate_ggo(factor_demo.ggo factor_demo_cmdline)
-generate_ggo(factor_set_demo.ggo factor_set_demo_cmdline)
-generate_ggo(dcg_demo.ggo dcg_demo_cmdline)
-generate_ggo(dcg_test.ggo dcg_test_cmdline)
+# GENGETOPT FILES
+set(GGOS
+    factor_demo.ggo
+    factor_set_demo.ggo
+    dcg_demo.ggo
+    dcg_test.ggo)
 
+# HEADER FILES
+set(HDRS
+    h2sl/factor.h
+    h2sl/factor_set.h
+    h2sl/dcg.h)
+
+# QT HEADER FILES
+set(QT_HDRS )
+
+# SOURCE FILES
+set(SRCS
+    factor.cc
+    factor_set.cc
+    dcg.cc)
+
+# BINARY SOURCE FILES
+set(BIN_SRCS
+    factor_demo.cc
+    factor_set_demo.cc
+    dcg_demo.cc
+    dcg_test.cc)
+
+# LIBRARY DEPENDENCIES
+set(DEPS h2sl-llm h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
+
+# LIBRARY NAME
 set(LIB h2sl-dcg)
 
-add_library(${LIB} SHARED
-            factor.cc
-            factor_set.cc
-            dcg.cc)
-target_link_libraries(${LIB} h2sl-llm h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
+# process the headers
+process_hdrs(HDRS ${HDRS} QT_HDRS ${QT_HDRS})
 
-add_executable(h2sl-factor-demo factor_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/factor_demo_cmdline.c)
-target_link_libraries(h2sl-factor-demo ${LIB} h2sl-llm h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
+# process the library
+process_lib(LIB ${LIB} QT_HDRS ${QT_HDRS} SRCS ${SRCS} DEPS ${DEPS})
 
-add_executable(h2sl-factor-set-demo factor_set_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/factor_set_demo_cmdline.c)
-target_link_libraries(h2sl-factor-set-demo ${LIB} h2sl-llm h2sl-language h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
-
-add_executable(h2sl-dcg-demo dcg_demo.cc ${CMAKE_CURRENT_BINARY_DIR}/dcg_demo_cmdline.c)
-target_link_libraries(h2sl-dcg-demo ${LIB} h2sl-llm h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
-
-add_executable(h2sl-dcg-test dcg_test.cc ${CMAKE_CURRENT_BINARY_DIR}/dcg_test_cmdline.c)
-target_link_libraries(h2sl-dcg-test ${LIB} h2sl-llm h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARIES} ${LIBXML2_LIBRARIES})
-
-install(FILES 
-        h2sl/factor.h
-        h2sl/factor_set.h
-        h2sl/dcg.h
-        DESTINATION include/${PROJECT_NAME})
-
-install(TARGETS ${LIB}
-        DESTINATION lib)
-
-install(TARGETS 
-        h2sl-factor-demo
-        h2sl-dcg-demo
-        DESTINATION bin)
+# process the binaries
+process_bin_srcs(LIB ${LIB} BIN_SRCS ${BIN_SRCS} GGOS ${GGOS} DEPS ${DEPS})

@@ -1,8 +1,0 @@
-package h2sl;
-
-struct object_t
-{
-    int32_t type; // the type as indicated in h2sl/object.h
-    string name;
-    transform_t transform;
-}

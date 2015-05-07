@@ -1,8 +1,0 @@
-package h2sl;
-
-struct world_t
-{
-    int64_t utime;
-    int32_t num_objects;
-    object_t objects[num_objects];
-}

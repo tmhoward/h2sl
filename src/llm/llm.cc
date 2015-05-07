@@ -50,11 +50,10 @@ evaluate( void * instance,
           lbfgsfloatval_t * g,
           const int n,
           const lbfgsfloatval_t step ) {
-//  pair< vector< pair< unsigned int, LLM_X > >*, LLM* > * data = static_cast< pair< vector< pair< unsigned int, LLM_X > >*, LLM* >* >( instance );
   LLM_Train* llm_train = static_cast< LLM_Train* >( instance );
 
   llm_train->llm()->weights().resize( n, 0.0 );
-  for( unsigned int i = 0; i < n; i++ ){
+  for( int i = 0; i < n; i++ ){
     llm_train->llm()->weights()[ i ] = x[ i ];
   }
   
