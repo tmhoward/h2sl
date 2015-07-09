@@ -84,11 +84,7 @@ main( int argc,
 
   cout << "finished fill_seach_space in " << diff_time( start_time, end_time ) << " seconds" << endl;
 
-  cout << endl;
-  for( unsigned int i = 0; i < dcg->search_spaces().size(); i++ ){
-    cout << "search_spaces[" << Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( i ) ) << "].size(): " << dcg->search_spaces()[ i ].size() << endl;
-  }
-  cout << endl;
+  cout << endl << "search_spaces.size(): " << dcg->search_spaces().size() << endl << endl;
 
   cout << "parsing \"" << args.command_arg << "\"" << endl;
   if( parser->parse( *grammar, args.command_arg, phrases ) ){

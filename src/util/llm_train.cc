@@ -112,17 +112,17 @@ evaluate_cv( const Grounding* grounding,
 void
 scrape_examples( const Phrase* phrase,
                   const World* world,
-                  const vector< vector< pair< vector< unsigned int >, Grounding* > > >& searchSpaces,
+                  const vector< pair< vector< unsigned int >, Grounding* > >& searchSpaces,
                   vector< pair< unsigned int, LLM_X > >& examples ){
   const Grounding_Set * grounding_set = dynamic_cast< const Grounding_Set* >( phrase->grounding() );
 
-  for( unsigned int i = 0; i < searchSpaces[ phrase->type() ].size(); i++ ){
+  for( unsigned int i = 0; i < searchSpaces.size(); i++ ){
     examples.push_back( pair< unsigned int, LLM_X >() );
-    examples.back().first = evaluate_cv( searchSpaces[ phrase->type() ][ i ].second, grounding_set );
+    examples.back().first = evaluate_cv( searchSpaces[ i ].second, grounding_set );
     examples.back().second.phrase() = phrase->dup();
     examples.back().second.world() = world->dup();
-    examples.back().second.grounding() = searchSpaces[ phrase->type() ][ i ].second->dup();
-    examples.back().second.cvs() = searchSpaces[ phrase->type() ][ i ].first;
+    examples.back().second.grounding() = searchSpaces[ i ].second->dup();
+    examples.back().second.cvs() = searchSpaces[ i ].first;
     for( unsigned int j = 0; j < phrase->children().size(); j++ ){
       Grounding_Set * child_grounding_set = dynamic_cast< Grounding_Set* >( phrase->children()[ j ]->grounding() );
       if( child_grounding_set ){

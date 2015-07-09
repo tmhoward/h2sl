@@ -63,6 +63,15 @@
         <feature_word invert="0" pos="NN" text="tape"/>
         <feature_word invert="0" pos="NN" text="bone"/>
         <feature_word invert="0" pos="TO" text="to"/>
+        <feature_word invert="0" pos="VB" text="proceed"/>
+        <feature_word invert="0" pos="VB" text="drive"/>
+        <feature_word invert="0" pos="VB" text="move"/>
+        <feature_word invert="0" pos="VB" text="walk"/>
+        <feature_word invert="0" pos="VB" text="push"/>
+        <feature_word invert="0" pos="VB" text="go"/>
+        <feature_word invert="0" pos="VB" text="approach"/>
+        <feature_word invert="0" pos="VB" text="leave"/>
+        <feature_word invert="0" pos="VB" text="exit"/>
         <feature_num_words invert="0" num_words="0"/>
       </feature_group>
       <feature_group>
@@ -98,26 +107,6 @@
         <feature_region_matches_child invert="1"/>
         <feature_region_merge_partially_known_regions invert="0"/>
         <feature_region_merge_partially_known_regions invert="1"/>
-      </feature_group>
-    </feature_product>
-    <feature_product>
-      <feature_group>
-        <feature_cv invert="0" cv="1"/>
-        <feature_cv invert="0" cv="2"/>
-      </feature_group>
-      <feature_group>
-        <feature_word invert="0" pos="VB" text="proceed"/>
-        <feature_word invert="0" pos="VB" text="drive"/>
-        <feature_word invert="0" pos="VB" text="move"/>
-        <feature_word invert="0" pos="VB" text="walk"/>
-        <feature_word invert="0" pos="VB" text="push"/>
-        <feature_word invert="0" pos="VB" text="go"/>
-        <feature_word invert="0" pos="VB" text="approach"/>
-        <feature_word invert="0" pos="VB" text="leave"/>
-        <feature_word invert="0" pos="VB" text="exit"/>
-        <feature_num_words invert="0" num_words="0"/>
-      </feature_group>
-      <feature_group>
         <feature_constraint invert="0" constraint_type="1"/>
         <feature_constraint invert="0" constraint_type="2"/>
         <feature_constraint_parent_matches_child_region invert="0"/>
