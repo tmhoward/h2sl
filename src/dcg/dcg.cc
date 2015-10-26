@@ -45,6 +45,7 @@ using namespace h2sl;
 
 DCG::
 DCG() : _search_spaces(),
+        _correspondence_variables(),
         _solutions(),
         _root( NULL ) {
 
@@ -57,6 +58,7 @@ DCG::
 
 DCG::
 DCG( const DCG& other ) : _search_spaces( other._search_spaces ),
+                          _correspondence_variables( other._correspondence_variables ),
                           _solutions( other._solutions ),
                           _root( other._root ) {
 
@@ -66,6 +68,7 @@ DCG&
 DCG::
 operator=( const DCG& other ) {
   _search_spaces = other._search_spaces;
+  _correspondence_variables = other._correspondence_variables;
   _solutions = other._solutions;
   _root = other._root;
   return (*this);
@@ -82,6 +85,12 @@ fill_search_spaces( const World* world ){
     _search_spaces.clear();
   }
 
+  for( unsigned int i = 0; i < _correspondence_variables.size(); i++ ){
+    _correspondence_variables[ i ].clear();
+  }
+  _correspondence_variables.clear();
+
+
   std::vector< unsigned int > binary_cvs;
   binary_cvs.push_back( CV_FALSE );
   binary_cvs.push_back( CV_TRUE );
@@ -91,23 +100,26 @@ fill_search_spaces( const World* world ){
   ternary_cvs.push_back( CV_TRUE );
   ternary_cvs.push_back( CV_INVERTED );
 
+  _correspondence_variables.push_back( binary_cvs );
+  _correspondence_variables.push_back( ternary_cvs );
+
   // add the NP groundings
   for( unsigned int i = 0; i < NUM_REGION_TYPES; i++ ){
     if( i != REGION_TYPE_UNKNOWN ){
-      _search_spaces.push_back( pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, Object() ) ) );
+      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, Object() ) ) );
     }
     for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      _search_spaces.push_back( pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, *world->objects()[ j ] ) ) );
+      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, *world->objects()[ j ] ) ) );
     }
   }
 
   // add the PP groundings
   for( unsigned int i = 0; i < NUM_REGION_TYPES; i++ ){
     if( i != REGION_TYPE_UNKNOWN ){
-      _search_spaces.push_back( pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, Object() ) ) );
+      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, Object() ) ) );
     }
     for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      _search_spaces.push_back( pair< vector< unsigned int >, Grounding* >( binary_cvs, new Region( i, *world->objects()[ j ] ) ) );
+      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, *world->objects()[ j ] ) ) );
     }
   }
 
@@ -118,7 +130,7 @@ fill_search_spaces( const World* world ){
         for( unsigned int l = 0; l < world->objects().size(); l++ ){
           for( unsigned int m = 0; m < NUM_REGION_TYPES; m++ ){
             if( ( j != l ) || ( k != m ) ){
-              _search_spaces.push_back( pair< vector< unsigned int >, Grounding* >( ternary_cvs, new Constraint( i, Region( k, *world->objects()[ j ] ), Region( m, *world->objects()[ l ] ) ) ) );
+              _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( i, Region( k, *world->objects()[ j ] ), Region( m, *world->objects()[ l ] ) ) ) );
             }
           }
         }
@@ -159,6 +171,7 @@ leaf_search( const Phrase* phrase,
     _find_leaf( _root, leaf );
     while( leaf != NULL ){
       leaf->search( _search_spaces,
+                    _correspondence_variables,
                     world,
                     llm,
                     beamWidth,

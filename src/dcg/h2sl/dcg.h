@@ -56,7 +56,8 @@ namespace h2sl {
 
     virtual void to_latex( const std::string& filename )const;
 
-    inline const std::vector< std::pair< std::vector< unsigned int >, Grounding* > >& search_spaces( void ){ return _search_spaces; };
+    inline const std::vector< std::vector< unsigned int > >& correspondence_variables( void )const{ return _correspondence_variables; };
+    inline const std::vector< std::pair< unsigned int, Grounding* > >& search_spaces( void )const{ return _search_spaces; };
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
     inline const Factor_Set* root( void )const{ return _root; };
 
@@ -65,7 +66,8 @@ namespace h2sl {
     virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
-    std::vector< std::pair< std::vector< unsigned int >, Grounding* > > _search_spaces;
+    std::vector< std::pair< unsigned int, Grounding* > > _search_spaces;
+    std::vector< std::vector< unsigned int > > _correspondence_variables;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
   

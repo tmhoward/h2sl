@@ -31,6 +31,8 @@
  * The implementation of a class used to describe a product of features
  */
 
+#include <assert.h>
+
 #include "h2sl/feature_word.h"
 #include "h2sl/feature_num_words.h"
 #include "h2sl/feature_cv.h"

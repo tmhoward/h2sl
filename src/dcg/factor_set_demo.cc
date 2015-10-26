@@ -52,12 +52,16 @@ main( int argc,
     exit(1);
   }
 
-  vector< pair< vector< unsigned int >, Grounding* > > search_space;
+  vector< vector< unsigned int > > correspondence_variables;
+  
+  correspondence_variables.push_back( vector< unsigned int >() );
+  correspondence_variables.back().push_back( CV_TRUE );
+  correspondence_variables.back().push_back( CV_FALSE );
+
+  vector< pair< unsigned int, Grounding* > > search_space;
 
   for( unsigned int i = 0; i < NUM_OBJECT_TYPES; i++ ){
-    search_space.push_back( make_pair< vector< unsigned int >, Grounding* >( vector< unsigned int >(), NULL ) );
-    search_space.back().first.push_back( CV_TRUE );
-    search_space.back().first.push_back( CV_FALSE );
+    search_space.push_back( make_pair< unsigned int, Grounding* >( 0, NULL ) );
     search_space.back().second =  new Region( REGION_TYPE_UNKNOWN, Object( "na", ( object_type_t )( i ) ) );
   }
 
@@ -81,7 +85,7 @@ main( int argc,
 
   Factor_Set * factor_set = new Factor_Set( phrase );
 
-  factor_set->search( search_space, world, llm );
+  factor_set->search( search_space, correspondence_variables, world, llm );
 
   cout << "factor_set:" << *factor_set << endl;
 

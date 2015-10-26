@@ -36,6 +36,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <libxml/tree.h>
 
 #include <h2sl/grounding.h>
@@ -45,32 +46,28 @@
 namespace h2sl {
   class LLM_X {
   public:
-    LLM_X();
+    LLM_X( const Grounding* grounding, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::string& filename );
     virtual ~LLM_X();
     LLM_X( const LLM_X& other );
     LLM_X& operator=( const LLM_X& other );
   
-    inline Grounding*& grounding( void ){ return _grounding; };
     inline const Grounding* grounding( void )const{ return _grounding; };
     inline std::vector< Grounding* >& children( void ){ return _children; };   
     inline const std::vector< Grounding* >& children( void )const{ return _children; };
-    inline Phrase*& phrase( void ){ return _phrase; };
     inline const Phrase* phrase( void )const{ return _phrase; }; 
-    inline World*& world( void ){ return _world; };
     inline const World* world( void )const{ return _world; }; 
-    inline std::vector< unsigned int >& cvs( void ){ return _cvs; };
     inline const std::vector< unsigned int >& cvs( void )const{ return _cvs; };
+    inline const std::string& filename( void )const{ return _filename; };
 
   protected:
-    Grounding* _grounding;
+    const Grounding* _grounding;
     std::vector< Grounding* > _children;
-    Phrase * _phrase;
-    World * _world;
-    std::vector< unsigned int > _cvs;
+    const Phrase * _phrase;
+    const World * _world;
+    const std::vector< unsigned int >& _cvs;
+    const std::string& _filename;
   };
   std::ostream& operator<<( std::ostream& out, const LLM_X& other );
-
-  class LLM_Train;
 
   class LLM {
   public:
@@ -84,10 +81,6 @@ namespace h2sl {
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
-    void train( std::vector< std::pair< unsigned int, LLM_X > >& examples, const unsigned int& maxIterations = 100, const double& lambda = 0.01, const double& epsilon = 0.001 );
-
-    static double objective( LLM* llm, const std::vector< std::pair< unsigned int, LLM_X > >& examples, const std::vector< std::vector< std::vector< unsigned int > > >& indices, double lambda );
-    static void gradient( LLM* llm, const std::vector< std::pair< unsigned int, LLM_X > >& examples, const std::vector< std::vector< std::vector< unsigned int > > >& indices, std::vector< double >& g, double lambda );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -109,22 +102,48 @@ namespace h2sl {
   };
   std::ostream& operator<<( std::ostream& out, const LLM& other );
 
+  class LLM_Index_Map_Cell {
+  public:
+    LLM_Index_Map_Cell( const unsigned int& index, const unsigned int& cv, const LLM_X& llmX, std::vector< std::vector< unsigned int > >& indices ) : _index( index ), _cv( cv ), _llm_x( llmX ), _indices( indices ) {};
+    virtual ~LLM_Index_Map_Cell(){};
+
+    inline const unsigned int& index( void )const{ return _index; };
+    inline const unsigned int& cv( void )const{ return _cv; };
+    inline const LLM_X& llm_x( void )const{ return _llm_x; };
+    inline std::vector< std::vector< unsigned int > >& indices( void ){ return _indices; };
+
+  protected:
+    const unsigned int& _index;
+    const unsigned int& _cv;
+    const LLM_X& _llm_x;
+    std::vector< std::vector< unsigned int > >& _indices;
+  };
+
   class LLM_Train {
   public:
-    LLM_Train( LLM* llm = NULL, std::vector< std::pair< unsigned int, LLM_X > >* examples = NULL );  
+    LLM_Train( const std::vector< LLM* >& llms = std::vector< LLM* >(), std::vector< std::pair< unsigned int, LLM_X > >* examples = NULL );  
     ~LLM_Train();
     LLM_Train( const LLM_Train& other );
     LLM_Train& operator=( const LLM_Train& other );
-  
+ 
+    void train( std::vector< std::pair< unsigned int, LLM_X > >& examples, const unsigned int& maxIterations = 100, const double& lambda = 0.01, const double& epsilon = 0.001 );
+    static void compute_objective_thread( std::vector< LLM_Index_Map_Cell >& cells, LLM* llm, double& objective );
+    double objective( const std::vector< std::pair< unsigned int, LLM_X > >& examples, const std::vector< std::vector< std::vector< unsigned int > > >& indices, double lambda );
+    static void compute_gradient_thread( std::vector< LLM_Index_Map_Cell >& cells, LLM* llm, std::vector< double >& gradient );
+    void gradient( double lambda ); 
+    static void compute_indices_thread( std::vector< LLM_Index_Map_Cell >& cells, LLM* llm );
     void compute_indices( void );
 
-    inline LLM*& llm( void ){ return _llm; };
+    inline std::vector< LLM* >& llms( void ){ return _llms; };
     inline std::vector< std::pair< unsigned int, LLM_X > >*& examples( void ){ return _examples; };
+    inline std::vector< double > gradient( void ){ return _gradient; };
     inline std::vector< std::vector< std::vector< unsigned int > > >& indices( void ){ return _indices; };
 
   protected:
-    LLM* _llm;
-    std::vector< std::pair< unsigned int, LLM_X > >* _examples;
+    std::vector< LLM* > _llms;
+    std::vector< std::pair< unsigned int, LLM_X > >* _examples; 
+    std::vector< std::vector< LLM_Index_Map_Cell > > _index_vector;
+    std::vector< double > _gradient;
     std::vector< std::vector< std::vector< unsigned int > > > _indices;
   };
 }
