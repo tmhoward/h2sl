@@ -117,6 +117,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_CV& other ) {
+    out << "Feature_CV:( invert:(" << other.invert() << ") cv:(" << other.cv() << ") )";
     return out;
   }
 

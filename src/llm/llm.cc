@@ -92,13 +92,13 @@ LLM_X( const Grounding* grounding,
         const Phrase* phrase,
         const World* world,
         const vector< unsigned int >& cvs,
+        const vector< Feature* >& features,
         const string& filename ) : _grounding( grounding ),
                                             _children(),
                                             _phrase( phrase ),
                                             _world( world ),
                                             _cvs( cvs ),
                                             _filename( filename ) {
-
 }
 
 LLM_X::
@@ -208,6 +208,7 @@ pygx( const unsigned int& cv,
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > tmp;
+  vector< Feature* > tmp_features;
   vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
   for( unsigned int i = 0; i < cvs.size(); i++ ){
     if( i != 0 ){
@@ -215,7 +216,7 @@ pygx( const unsigned int& cv,
       evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
     }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), tmp, evaluate_feature_types );
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), tmp, tmp_features, evaluate_feature_types );
     for( unsigned int j = 0; j < tmp.size(); j++ ){
       dp += _weights[ tmp[ j ] ];
     }
@@ -233,7 +234,8 @@ double
 LLM::
 pygx( const unsigned int& cv,
       const LLM_X& x,
-      const vector< unsigned int >& cvs ){
+      const vector< unsigned int >& cvs,
+      vector< Feature* >& features ){
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > indices;
@@ -244,7 +246,7 @@ pygx( const unsigned int& cv,
       evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false; 
     }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), indices, evaluate_feature_types );
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), indices, features, evaluate_feature_types );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -268,6 +270,7 @@ pygx( const unsigned int& cv,
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > indices;
+  vector< Feature* > features;
   vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
   for( unsigned int i = 0; i < cvs.size(); i++ ){
     if( i != 0 ){
@@ -275,7 +278,7 @@ pygx( const unsigned int& cv,
       evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
     }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices, evaluate_feature_types );
+    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices, features, evaluate_feature_types );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -300,6 +303,7 @@ pygx( const unsigned int& cv,
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > indices;
+  vector< Feature* > features;
   vector< bool > evaluate_feature_types = evaluateFeatureTypes;
   for( unsigned int i = 0; i < cvs.size(); i++ ){
     if( i != 0 ){
@@ -307,7 +311,7 @@ pygx( const unsigned int& cv,
       evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
     }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices, evaluate_feature_types );
+    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices, features, evaluate_feature_types );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -606,17 +610,16 @@ compute_indices_thread( vector< LLM_Index_Map_Cell >& cells, LLM* llm ){
     last_phrase = cells[ i ].llm_x().phrase();
 
     for( unsigned int k = 0; k < cells[ i ].llm_x().cvs().size(); k++ ){
-      if( k == 0 ){
-        evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = true;
-      } else {
-        evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
-      }
       cells[ i ].indices().push_back( vector< unsigned int >() );
+      vector< Feature* > features;
       llm->feature_set()->indices( cells[ i ].llm_x().cvs()[ k ],
                                               cells[ i ].llm_x().grounding(),
                                               cells[ i ].llm_x().children(),
                                               cells[ i ].llm_x().phrase(),
-                                              cells[ i ].llm_x().world(), cells[ i ].indices().back(), evaluate_feature_types );
+                                              cells[ i ].llm_x().world(), 
+                                              cells[ i ].indices().back(), 
+                                              features,
+                                              evaluate_feature_types );
     }
   }
 

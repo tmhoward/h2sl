@@ -46,7 +46,7 @@
 namespace h2sl {
   class LLM_X {
   public:
-    LLM_X( const Grounding* grounding, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::string& filename );
+    LLM_X( const Grounding* grounding, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< Feature* >& features, const std::string& filename );
     virtual ~LLM_X();
     LLM_X( const LLM_X& other );
     LLM_X& operator=( const LLM_X& other );
@@ -57,6 +57,7 @@ namespace h2sl {
     inline const Phrase* phrase( void )const{ return _phrase; }; 
     inline const World* world( void )const{ return _world; }; 
     inline const std::vector< unsigned int >& cvs( void )const{ return _cvs; };
+    inline std::vector< Feature* >& features( void ){ return _features; };
     inline const std::string& filename( void )const{ return _filename; };
 
   protected:
@@ -65,6 +66,7 @@ namespace h2sl {
     const Phrase * _phrase;
     const World * _world;
     const std::vector< unsigned int >& _cvs;
+    std::vector< Feature* > _features;
     const std::string& _filename;
   };
   std::ostream& operator<<( std::ostream& out, const LLM_X& other );
@@ -78,7 +80,7 @@ namespace h2sl {
 
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, const std::vector< std::vector< unsigned int > >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< unsigned int >& indices );
-    double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs );
+    double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< Feature* >& features );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
 
@@ -138,6 +140,7 @@ namespace h2sl {
     inline std::vector< std::pair< unsigned int, LLM_X > >*& examples( void ){ return _examples; };
     inline std::vector< double > gradient( void ){ return _gradient; };
     inline std::vector< std::vector< std::vector< unsigned int > > >& indices( void ){ return _indices; };
+    inline std::vector< std::vector< std::vector< Feature* > > >& features( void ){ return _features; };
 
   protected:
     std::vector< LLM* > _llms;
@@ -145,6 +148,7 @@ namespace h2sl {
     std::vector< std::vector< LLM_Index_Map_Cell > > _index_vector;
     std::vector< double > _gradient;
     std::vector< std::vector< std::vector< unsigned int > > > _indices;
+    std::vector< std::vector< std::vector< Feature* > > > _features;
   };
 }
 

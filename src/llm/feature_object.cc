@@ -120,6 +120,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Object& other ) {
+    out << "Feature_Object:( invert:(" << other.invert() << ") object_type:(" << Object::type_to_std_string( other.object_type() ) << ") )";
     return out;
   }
 

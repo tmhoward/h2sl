@@ -121,6 +121,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Word& other ) {
+    out << "Feature_Word( invert:(" << other.invert() << ") word:(" << other.word() << ")";
     return out;
   }
 

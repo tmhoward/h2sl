@@ -31,7 +31,22 @@
  * The implementation of a class used to describe a feature
  */
 
-#include <h2sl/feature.h>
+#include "h2sl/feature_word.h"
+#include "h2sl/feature_num_words.h"
+#include "h2sl/feature_cv.h"
+#include "h2sl/feature_object.h"
+#include "h2sl/feature_region_object.h"
+#include "h2sl/feature_region.h"
+#include "h2sl/feature_constraint.h"
+#include "h2sl/feature_region_object_matches_child.h"
+#include "h2sl/feature_region_matches_child.h"
+#include "h2sl/feature_region_merge_partially_known_regions.h"
+#include "h2sl/feature_constraint_parent_matches_child_region.h"
+#include "h2sl/feature_constraint_child_matches_child_region.h"
+#include "h2sl/feature_constraint_parent_is_robot.h"
+#include "h2sl/feature_constraint_child_is_robot.h"
+
+#include "h2sl/feature.h"
 
 using namespace std;
 using namespace h2sl;
@@ -62,6 +77,29 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature& other ) {
+    if( dynamic_cast< const Feature_Word* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Word* >( &other );
+    } else if( dynamic_cast< const Feature_Num_Words* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Num_Words* >( &other );
+    } else if( dynamic_cast< const Feature_CV* >( &other ) != NULL ){
+      out << *static_cast< const Feature_CV* >( &other );
+    } else if( dynamic_cast< const Feature_Object* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Object* >( &other );
+    } else if( dynamic_cast< const Feature_Region_Object* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Region_Object* >( &other );
+    } else if( dynamic_cast< const Feature_Region* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Region* >( &other );
+    } else if( dynamic_cast< const Feature_Constraint* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Constraint* >( &other );
+    } else if( dynamic_cast< const Feature_Region_Object_Matches_Child* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Region_Object_Matches_Child* >( &other );
+    } else if( dynamic_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other );
+    } else if( dynamic_cast< const Feature_Constraint_Parent_Matches_Child_Region* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Constraint_Parent_Matches_Child_Region* >( &other );
+    } else if( dynamic_cast< const Feature_Constraint_Child_Matches_Child_Region* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Constraint_Child_Matches_Child_Region* >( &other );
+    } 
     return out;
   }
 }

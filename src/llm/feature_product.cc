@@ -85,6 +85,7 @@ indices( const unsigned int& cv,
           const Phrase* phrase,
           const World* world,
           vector< unsigned int >& indices,
+          vector< Feature* >& features,
           const vector< bool >& evaluateFeatureTypes ){
   indices.clear();
   evaluate( cv, grounding, children, phrase, world, evaluateFeatureTypes );
@@ -93,7 +94,8 @@ indices( const unsigned int& cv,
   for( unsigned int i = 0; i < _values.size(); i++ ){
     for( unsigned int j = 0; j < _values[ i ].size(); j++ ){
       if( _values[ i ][ j ] ){
-        group_indices[ i ].push_back( j ); 
+        group_indices[ i ].push_back( j );
+        features.push_back( _feature_groups[ i ][ j ] );
       }
     }
   }

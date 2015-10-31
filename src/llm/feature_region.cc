@@ -121,6 +121,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Region& other ) {
+    out << "Feature_Region:( invert:(" << other.invert() << ") region_type:(" << Region::type_to_std_string( other.region_type() ) << ") )";
     return out;
   }
 

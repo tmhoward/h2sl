@@ -80,6 +80,7 @@ indices( const unsigned int& cv,
           const Phrase* phrase,
           const World* world,
           vector< unsigned int >& indices,
+          vector< Feature* >& features,
           const vector< bool >& evaluateFeatureTypes ){
   indices.clear();
 //  evaluate( cv, grounding, children, phrase, world );
@@ -88,7 +89,7 @@ indices( const unsigned int& cv,
   for( unsigned int i = 0; i < _feature_products.size(); i++ ){
 //    cout << "offset: " << offset << endl;
     vector< unsigned int > product_indices;
-    _feature_products[ i ]->indices( cv, grounding, children, phrase, world, product_indices, evaluateFeatureTypes );
+    _feature_products[ i ]->indices( cv, grounding, children, phrase, world, product_indices, features, evaluateFeatureTypes );
 /*
     cout << "product_indices[" << product_indices.size() << "]:{";
     for( unsigned int j = 0; j < product_indices.size(); j++ ){
