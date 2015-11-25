@@ -94,16 +94,17 @@ Factor::
 value( const unsigned int& cv ){
   _cv = cv;
   if( _llm != NULL ){
-    vector< Grounding* > children;
+    vector< pair< const Phrase*, vector< Grounding* > > > children;
     for( unsigned int i = 0; i < _children.size(); i++ ){ 
       _children[ i ]->cv() = _children[ i ]->cv();
+      children.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ i ]->phrase(), vector< Grounding* >() ) );
       if( _children[ i ]->cvs().size() == 2 ){
         if( _children[ i ]->cv() == CV_TRUE ){
-          children.push_back( _children[ i ]->grounding() );
+          children.back().second.push_back( _children[ i ]->grounding() );
         } 
       } else if ( _children[ i ]->cvs().size() == 3 ){
         if( ( _children[ i ]->cv() == CV_INVERTED ) || ( _children[ i ]->cv() == CV_TRUE ) ){
-          children.push_back( _children[ i ]->grounding() );
+          children.back().second.push_back( _children[ i ]->grounding() );
         }
       }
     }

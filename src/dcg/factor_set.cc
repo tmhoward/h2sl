@@ -134,6 +134,16 @@ search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
     solutions_vector.back().back().cv.resize( NUM_CVS );
 
+    vector< pair< const Phrase*, vector< Grounding* > > > child_groundings;
+    for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
+      solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx;
+      child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ j ]->phrase(), vector< Grounding* >() ) );
+      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings.size(); k++ ){
+        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings[ k ] );
+      }
+    }
+
+/*
     vector< Grounding* > child_groundings;
     for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
       solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx;
@@ -141,7 +151,7 @@ search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         child_groundings.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings[ k ] );
       }
     }
-    
+*/    
     for( unsigned int j = 0; j < searchSpace.size(); j++ ){
       unsigned int num_solutions = solutions_vector.back().size();
       for( unsigned int k = 1; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){

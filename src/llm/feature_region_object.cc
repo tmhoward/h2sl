@@ -69,7 +69,7 @@ bool
 Feature_Region_Object::
 value( const unsigned int& cv,
         const Grounding* grounding,
-        const vector< Grounding* >& children,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world ){
   const Region * region = dynamic_cast< const Region* >( grounding );
@@ -121,7 +121,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Region_Object& other ) {
-    out << "Feature_Region_Object:( invert:(" << other.invert() << ") object_type:(" << Object::type_to_std_string( other.object_type() ) << ") )";
+    out << "Feature_Region_Object:(invert:(" << other.invert() << ") object_type:(" << Object::type_to_std_string( other.object_type() ) << "))";
     return out;
   }
 

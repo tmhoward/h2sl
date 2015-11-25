@@ -31,6 +31,7 @@
  * The implementation of a class used to represent a phrase
  */
 
+#include <assert.h>
 #include <fstream>
 #include <sstream>
 
@@ -272,6 +273,19 @@ has_words( const vector< Word >& words )const{
     }
   }
   return true;
+}
+
+unsigned int
+Phrase::
+min_word_order( void )const{
+  assert( !_words.empty() );
+  unsigned int min_order = _words[ 0 ].order();
+  for( unsigned int i = 1; i < _words.size(); i++ ){
+    if( _words[ i ].order() < min_order ){
+      min_order = _words[ i ].order();
+    }
+  }
+  return min_order;
 }
 
 string

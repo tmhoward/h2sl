@@ -70,7 +70,7 @@ bool
 Feature_Num_Words::
 value( const unsigned int& cv,
         const Grounding* grounding,
-        const vector< Grounding* >& children,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world ){
   if( phrase != NULL ){
@@ -123,6 +123,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Num_Words& other ) {
+    out << "Feature_Num_Words:(invert:(" << other.invert() << ") num_words:(" << other.num_words() << "))";
     return out;
   }
 

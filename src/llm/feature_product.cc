@@ -81,7 +81,7 @@ void
 Feature_Product::
 indices( const unsigned int& cv, 
           const Grounding* grounding,
-          const vector< Grounding* >& children, 
+          const vector< pair< const Phrase*, vector< Grounding* > > >& children, 
           const Phrase* phrase,
           const World* world,
           vector< unsigned int >& indices,
@@ -117,7 +117,7 @@ void
 Feature_Product::
 evaluate( const unsigned int& cv,
           const Grounding* grounding, 
-          const vector< Grounding* >& children,
+          const vector< pair< const Phrase*, vector< Grounding* > > >& children,
           const Phrase* phrase,
           const World* world,
           const vector< bool >& evaluateFeatureTypes ){

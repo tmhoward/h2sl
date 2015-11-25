@@ -68,7 +68,7 @@ bool
 Feature_Word::
 value( const unsigned int& cv,
         const Grounding* grounding,
-        const vector< Grounding* >& children,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world ){
   if( phrase->has_word( _word ) ){
@@ -121,7 +121,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Word& other ) {
-    out << "Feature_Word( invert:(" << other.invert() << ") word:(" << other.word() << ")";
+    out << "Feature_Word(invert:(" << other.invert() << ") word:(" << other.word() << "))";
     return out;
   }
 

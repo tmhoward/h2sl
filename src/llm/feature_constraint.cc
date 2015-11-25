@@ -69,7 +69,7 @@ bool
 Feature_Constraint::
 value( const unsigned int& cv,
         const Grounding* grounding,
-        const vector< Grounding* >& children,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world ){
   const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
@@ -121,6 +121,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Constraint& other ) {
+    out << "Feature_Constraint:(invert:(" << other.invert() << ") cv:(" << other.constraint_type() << "))";
     return out;
   }
 

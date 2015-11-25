@@ -115,9 +115,10 @@ LLM_X( const LLM_X& other ) : _grounding( other._grounding ),
                               _filename( other._filename ) {
   _children.resize( other._children.size() );
   for( unsigned int i = 0; i < other._children.size(); i++ ){
-    if( other._children[ i ] != NULL ){
-      _children[ i ] = other._children[ i ];
+    if( other._children[ i ].first != NULL ){
+      _children[ i ].first = other._children[ i ].first;
     }
+    _children[ i ].second = other._children[ i ].second;
   }
 }
 
@@ -126,9 +127,10 @@ LLM_X::
 operator=( const LLM_X& other ) {
   _children.resize( other._children.size() );
   for( unsigned int i = 0; i < other._children.size(); i++ ){
-    if( other._children[ i ] != NULL ){
-      _children[ i ] = other._children[ i ];
+    if( other._children[ i ].first != NULL ){
+      _children[ i ].first = other._children[ i ].first;
     }
+    _children[ i ].second = other._children[ i ].second;
   }
   return *this;
 }
@@ -263,7 +265,7 @@ double
 LLM::
 pygx( const unsigned int& cv,
       const Grounding* grounding,
-      const vector< Grounding* >& children,
+      const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
       const vector< unsigned int >& cvs ){
@@ -295,7 +297,7 @@ double
 LLM::
 pygx( const unsigned int& cv,
       const Grounding* grounding,
-      const vector< Grounding* >& children,
+      const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
       const vector< unsigned int >& cvs,

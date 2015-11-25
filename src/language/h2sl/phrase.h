@@ -76,6 +76,7 @@ namespace h2sl {
 
     bool has_word( const Word& word )const;
     bool has_words( const std::vector< Word >& words )const;
+    unsigned int min_word_order( void )const;
     
     std::string words_to_std_string( void )const;
 

@@ -65,7 +65,7 @@ bool
 Feature_Region_Merge_Partially_Known_Regions::
 value( const unsigned int& cv,
         const Grounding* grounding,
-        const vector< Grounding* >& children,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world ){
   const Region * region = dynamic_cast< const Region* >( grounding );
@@ -73,12 +73,14 @@ value( const unsigned int& cv,
     std::vector< const Region* > known_region_type_and_unknown_object_type;
     std::vector< const Region* > known_object_type_and_unknown_region_type;
     for( unsigned int i = 0; i < children.size(); i++ ){
-      const Region * child = dynamic_cast< const Region* >( children[ i ] );
-      if( child != NULL ){
-        if( ( child->object().type() != OBJECT_TYPE_UNKNOWN ) && ( child->type() == REGION_TYPE_UNKNOWN ) ){
-          known_object_type_and_unknown_region_type.push_back( child );
-        } else if( ( child->object().type() == OBJECT_TYPE_UNKNOWN ) && ( child->type() != REGION_TYPE_UNKNOWN ) ){
-          known_region_type_and_unknown_object_type.push_back( child );
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        const Region * child = dynamic_cast< const Region* >( children[ i ].second[ j ] );
+        if( child != NULL ){
+          if( ( child->object().type() != OBJECT_TYPE_UNKNOWN ) && ( child->type() == REGION_TYPE_UNKNOWN ) ){
+            known_object_type_and_unknown_region_type.push_back( child );
+          } else if( ( child->object().type() == OBJECT_TYPE_UNKNOWN ) && ( child->type() != REGION_TYPE_UNKNOWN ) ){
+            known_region_type_and_unknown_object_type.push_back( child );
+          }
         }
       }
     }
@@ -125,6 +127,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Region_Merge_Partially_Known_Regions& other ) {
+    out << "Feature_Region_Merge_Partially_Known_Regions:(invert:(" << other.invert() << "))";
     return out;
   }
 

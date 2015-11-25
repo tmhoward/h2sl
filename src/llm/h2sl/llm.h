@@ -52,8 +52,8 @@ namespace h2sl {
     LLM_X& operator=( const LLM_X& other );
   
     inline const Grounding* grounding( void )const{ return _grounding; };
-    inline std::vector< Grounding* >& children( void ){ return _children; };   
-    inline const std::vector< Grounding* >& children( void )const{ return _children; };
+    inline std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children( void ){ return _children; };   
+    inline const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children( void )const{ return _children; };
     inline const Phrase* phrase( void )const{ return _phrase; }; 
     inline const World* world( void )const{ return _world; }; 
     inline const std::vector< unsigned int >& cvs( void )const{ return _cvs; };
@@ -62,7 +62,7 @@ namespace h2sl {
 
   protected:
     const Grounding* _grounding;
-    std::vector< Grounding* > _children;
+    std::vector< std::pair< const Phrase*, std::vector< Grounding* > > > _children;
     const Phrase * _phrase;
     const World * _world;
     const std::vector< unsigned int >& _cvs;
@@ -81,8 +81,10 @@ namespace h2sl {
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, const std::vector< std::vector< unsigned int > >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< unsigned int >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< Feature* >& features );
-    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
-    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
+//    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
+//    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
+    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
+    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

@@ -65,16 +65,18 @@ bool
 Feature_Region_Matches_Child::
 value( const unsigned int& cv,
         const Grounding* grounding,
-        const vector< Grounding* >& children,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world ){
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
     for( unsigned int i = 0; i < children.size(); i++ ){
-      const Region * child = dynamic_cast< const Region* >( children[ i ] );
-      if( child != NULL ){
-        if( *child == *region ){
-          return !_invert;
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        const Region * child = dynamic_cast< const Region* >( children[ i ].second[ j ] );
+        if( child != NULL ){
+          if( *child == *region ){
+            return !_invert;
+          }
         }
       }
     }   
@@ -113,6 +115,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Region_Matches_Child& other ) {
+    out << "Feature_Region_Matches_Child:(invert:(" << other.invert() << "))";
     return out;
   }
 

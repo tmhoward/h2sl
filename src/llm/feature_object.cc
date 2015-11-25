@@ -68,7 +68,7 @@ bool
 Feature_Object::
 value( const unsigned int& cv,
         const Grounding* grounding,
-        const vector< Grounding* >& children,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world ){
   const Object * object = dynamic_cast< const Object* >( grounding );

@@ -57,7 +57,7 @@ namespace h2sl {
     Feature( const Feature& other );
     Feature& operator=( const Feature& other );
 
-    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world ) = 0;
+    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world ) = 0;
 
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const = 0;
 
@@ -65,7 +65,7 @@ namespace h2sl {
  
     inline bool& invert( void ){ return _invert; };
     inline const bool& invert( void )const{ return _invert; };
-    virtual inline const feature_type_t type( void )const = 0;
+    virtual const feature_type_t type( void )const = 0;
     
   protected:
     bool _invert;

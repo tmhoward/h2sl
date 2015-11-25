@@ -66,10 +66,15 @@ evaluate_model( LLM* llm,
         cout << "  grounding:" << *static_cast< const Constraint* >( examples[ i ].second.grounding() ) << endl; 
       }
       for( unsigned int j = 0; j < examples[ i ].second.children().size(); j++ ){
-        if( dynamic_cast< Region* >( examples[ i ].second.children()[ j ] ) != NULL ){
-          cout << "children[" << j << "]:" << *static_cast< Region* >( examples[ i ].second.children()[ j ] ) << endl;
-        } else if( dynamic_cast< Constraint* >( examples[ i ].second.children()[ j ] ) != NULL ){
-          cout << "children[" << j << "]:" << *static_cast< Constraint* >( examples[ i ].second.children()[ j ] ) << endl;
+        if( examples[ i ].second.children()[ j ].first != NULL ){
+          cout << "child phrase:(" << *examples[ i ].second.children()[ j ].first << ")" << endl;
+        }
+        for( unsigned int k = 0; k < examples[ i ].second.children()[ j ].second.size(); k++ ){
+          if( dynamic_cast< Region* >( examples[ i ].second.children()[ j ].second[ k ] ) != NULL ){
+            cout << "children[" << j << "]:" << *static_cast< Region* >( examples[ i ].second.children()[ j ].second[ k ] ) << endl;
+          } else if( dynamic_cast< Constraint* >( examples[ i ].second.children()[ j ].second[ k ] ) != NULL ){
+            cout << "children[" << j << "]:" << *static_cast< Constraint* >( examples[ i ].second.children()[ j ].second[ k ] ) << endl;
+          }
         }
       }
       cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
@@ -129,10 +134,11 @@ scrape_examples( const string& filename,
   for( unsigned int i = 0; i < searchSpaces.size(); i++ ){
     examples.push_back( pair< unsigned int, LLM_X >( evaluate_cv( searchSpaces[ i ].second, grounding_set ), LLM_X( searchSpaces[ i ].second, phrase, world, correspondenceVariables[ searchSpaces[ i ].first ], vector< Feature* >(), filename ) ) );
     for( unsigned int j = 0; j < phrase->children().size(); j++ ){
+      examples.back().second.children().push_back( pair< const Phrase*, vector< Grounding* > >( phrase->children()[ j ], vector< Grounding* >() ) );
       Grounding_Set * child_grounding_set = dynamic_cast< Grounding_Set* >( phrase->children()[ j ]->grounding() );
       if( child_grounding_set ){
         for( unsigned int k = 0; k < child_grounding_set->groundings().size(); k++ ){
-          examples.back().second.children().push_back( child_grounding_set->groundings()[ k ] );
+          examples.back().second.children().back().second.push_back( child_grounding_set->groundings()[ k ] );
         }   
       }
     }
@@ -177,13 +183,13 @@ main( int argc,
   cout << "training with " << examples.size() << " examples" << endl;
 
   vector< Feature_Set* > feature_sets;
-  for( unsigned int i = 0; i < args.threads_arg; i++ ){
+  for( int i = 0; i < args.threads_arg; i++ ){
     feature_sets.push_back( new Feature_Set() );
     feature_sets.back()->from_xml( args.feature_set_arg );
   }
 
   vector< LLM* > llms;
-  for( unsigned int i = 0; i < args.threads_arg; i++ ){
+  for( int i = 0; i < args.threads_arg; i++ ){
     llms.push_back( new LLM( feature_sets[ i ] ) );
     llms.back()->weights().resize( llms.back()->feature_set()->size() );
   }
