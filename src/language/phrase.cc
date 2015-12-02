@@ -278,13 +278,22 @@ has_words( const vector< Word >& words )const{
 unsigned int
 Phrase::
 min_word_order( void )const{
-  assert( !_words.empty() );
-  unsigned int min_order = _words[ 0 ].order();
-  for( unsigned int i = 1; i < _words.size(); i++ ){
-    if( _words[ i ].order() < min_order ){
+  unsigned int min_order = 0;
+  for( unsigned int i = 0; i < _words.size(); i++ ){
+    if( ( _words[ i ].order() < min_order ) || ( i == 0 ) ){
       min_order = _words[ i ].order();
     }
   }
+
+  for( unsigned int i = 0; i < _children.size(); i++ ){
+    if( _children[ i ] != NULL ){
+      unsigned int min_order_child = _children[ i ]->min_word_order();
+      if( ( min_order_child < min_order ) || _words.empty() ){
+        min_order = min_order_child;      
+      }
+    }
+  }
+
   return min_order;
 }
 
