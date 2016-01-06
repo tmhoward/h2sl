@@ -55,6 +55,7 @@ namespace h2sl {
     virtual void from_xml( xmlNodePtr root );
 
   protected:
+    virtual bool _equals( const Grounding& other )const;
 
   private:
 

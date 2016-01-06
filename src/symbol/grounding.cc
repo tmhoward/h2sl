@@ -31,6 +31,7 @@
  * The implementation of a class used to describe a grounding
  */
 
+#include <assert.h>
 #include "h2sl/grounding.h"
 #include "h2sl/object.h"
 #include "h2sl/region.h"
@@ -64,7 +65,7 @@ operator=( const Grounding& other ) {
 bool 
 Grounding::
 operator==( const Grounding& other )const{
-  return true;
+  return _equals( other );
 }
 
 bool 
@@ -102,6 +103,12 @@ void
 Grounding::
 from_xml( xmlNodePtr root ){
   return;
+}
+
+bool
+Grounding::
+_equals( const Grounding& other )const{
+  return true;
 }
 
 namespace h2sl {
