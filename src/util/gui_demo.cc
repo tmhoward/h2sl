@@ -58,6 +58,8 @@ main( int argc,
   Grammar * grammar = new Grammar();
   grammar->from_xml( args.grammar_arg );
 
+  Grounding * context = NULL;
+
   World * world = new World();
   world->from_xml( args.world_arg );
 
@@ -70,7 +72,7 @@ main( int argc,
 
   DCG * dcg = new DCG();
 
-  GUI gui( grammar, parser, world, llm, dcg, args.beam_width_arg );
+  GUI gui( grammar, parser, world, context, llm, dcg, args.beam_width_arg );
 
   if( args.phrase_given ){
     Phrase * phrase = new Phrase();

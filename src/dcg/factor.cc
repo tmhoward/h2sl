@@ -41,6 +41,7 @@ Factor( const unsigned int& cv,
         Grounding* grounding,
         Phrase* phrase,
         const World* world,
+        const Grounding* context,
         const vector< Factor* >& children,
         LLM* llm,
         const vector< unsigned int >& cvs,
@@ -108,7 +109,7 @@ value( const unsigned int& cv ){
         }
       }
     }
-    _pygx = _llm->pygx( _cv, _grounding, children, _phrase, _world, _cvs );
+    _pygx = _llm->pygx( _cv, _grounding, children, _phrase, _world, _context, _cvs );
     return _pygx;
   } else {
     return 0.5;

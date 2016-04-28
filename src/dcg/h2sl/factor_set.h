@@ -64,7 +64,7 @@ namespace h2sl {
     Factor_Set( const Factor_Set& other );
     Factor_Set& operator=( const Factor_Set& other );
 
-    virtual void search( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, const std::vector< std::vector< unsigned int > >& correspondenceVariables, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
+    virtual void search( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, const std::vector< std::vector< unsigned int > >& correspondenceVariables, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
     inline const Phrase* phrase( void )const{ return _phrase; };
 

@@ -70,7 +70,8 @@ value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
-        const World* world ){
+        const World* world,
+        const Grounding* context ){
   const Object * object = dynamic_cast< const Object* >( grounding );
   if( object != NULL ){
     if( object->type() == _object_type ){

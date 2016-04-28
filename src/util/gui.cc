@@ -247,6 +247,7 @@ GUI::
 GUI( Grammar * grammar,
       Parser< Phrase > * parser,
       World * world,
+      Grounding * context,
       LLM * llm,
       DCG * dcg,
       const unsigned int& beamWidth,
@@ -262,6 +263,7 @@ GUI( Grammar * grammar,
                           _grammar( grammar ),
                           _parser( parser ),
                           _world( world ),
+                          _context( context ),
                           _llm( llm ),
                           _dcg( dcg ),
                           _beam_width( beamWidth ),
@@ -527,7 +529,7 @@ _run_inference( const string& sentence ){
       if( phrases.front() != NULL ){
         struct timeval start_time;
         gettimeofday( &start_time, NULL );
-        if( _dcg->leaf_search( phrases.front(), _world, _llm, _beam_width ) ){
+        if( _dcg->leaf_search( phrases.front(), _world, _context, _llm, _beam_width ) ){
           struct timeval end_time;
           gettimeofday( &end_time, NULL );
           comment_string.str( string() );

@@ -46,25 +46,27 @@
 namespace h2sl {
   class LLM_X {
   public:
-    LLM_X( const Grounding* grounding, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< Feature* >& features, const std::string& filename );
+    LLM_X( const Grounding* grounding, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< unsigned int >& cvs, const std::vector< Feature* >& features, const std::string& filename );
     virtual ~LLM_X();
     LLM_X( const LLM_X& other );
     LLM_X& operator=( const LLM_X& other );
   
     inline const Grounding* grounding( void )const{ return _grounding; };
-    inline std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children( void ){ return _children; };   
-    inline const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children( void )const{ return _children; };
     inline const Phrase* phrase( void )const{ return _phrase; }; 
     inline const World* world( void )const{ return _world; }; 
+    inline const Grounding* context( void )const{ return _context; };
+    inline std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children( void ){ return _children; };   
+    inline const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children( void )const{ return _children; };
     inline const std::vector< unsigned int >& cvs( void )const{ return _cvs; };
     inline std::vector< Feature* >& features( void ){ return _features; };
     inline const std::string& filename( void )const{ return _filename; };
 
   protected:
     const Grounding* _grounding;
-    std::vector< std::pair< const Phrase*, std::vector< Grounding* > > > _children;
     const Phrase * _phrase;
     const World * _world;
+    const Grounding* _context;
+    std::vector< std::pair< const Phrase*, std::vector< Grounding* > > > _children;
     const std::vector< unsigned int >& _cvs;
     std::vector< Feature* > _features;
     const std::string& _filename;
@@ -83,8 +85,8 @@ namespace h2sl {
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< Feature* >& features );
 //    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
 //    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
-    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
-    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
+    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< unsigned int >& cvs );
+    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

@@ -50,8 +50,8 @@ namespace h2sl {
     Feature_Set( const Feature_Set& other );
     Feature_Set& operator=( const Feature_Set& other );
 
-    void indices( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, std::vector< unsigned int >& indices, std::vector< Feature* >& features, const std::vector< bool >& evaluateFeatureTypes );
-    void evaluate( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< bool >& evaluateFeatureTypes );
+    void indices( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, std::vector< unsigned int >& indices, std::vector< Feature* >& features, const std::vector< bool >& evaluateFeatureTypes );
+    void evaluate( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< bool >& evaluateFeatureTypes );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

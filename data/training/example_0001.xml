@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root>
-  <PHRASE_UNKNOWN>
-    <grounding/>
-  </PHRASE_UNKNOWN>
+ <root>
+   <instruction text="walk to the box"/>
+   <world time="0">
+     <object name="o0" type="robot"/>
+     <object name="o1" type="box"/>
+     <object name="o2" type="table"/>
+     <object name="o3" type="chair"/>
+   </world>
+  <VP>
+    <grounding>
+      <grounding_set>
+        <constraint type="inside">
+          <parent>
+            <region type="na">
+              <object name="o0" type="robot"/>
+            </region>
+          </parent>
+          <child>
+            <region type="na">
+              <object name="o1" type="box"/>
+            </region>
+          </child>
+        </constraint>
+      </grounding_set>
+    </grounding>
+    <VB text="walk"/>
+    <PP>
+      <grounding>
+        <grounding_set>
+          <region type="na">
+            <object name="o1" type="box"/>
+          </region>
+        </grounding_set>
+      </grounding>
+      <TO text="to"/>
+      <NP>
+        <grounding>
+          <grounding_set>
+            <region type="na">
+              <object name="o1" type="box"/>
+            </region>
+          </grounding_set>
+        </grounding>
+        <DT text="the"/>
+        <NN text="box"/>
+      </NP>
+    </PP>
+  </VP>
 </root>

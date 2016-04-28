@@ -72,6 +72,8 @@ main( int argc,
 
   cout << "phrase:" << *phrase << endl;
 
+  Grounding * context = NULL;
+
   World * world = new World();
   if( args.world_given ){
     world->from_xml( args.world_arg );
@@ -85,7 +87,7 @@ main( int argc,
 
   Factor_Set * factor_set = new Factor_Set( phrase );
 
-  factor_set->search( search_space, correspondence_variables, world, llm );
+  factor_set->search( search_space, correspondence_variables, world, context, llm );
 
   cout << "factor_set:" << *factor_set << endl;
 

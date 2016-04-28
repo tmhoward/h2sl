@@ -69,7 +69,8 @@ value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,   
-        const World* world ){
+        const World* world,
+        const Grounding* context ){
   if( _invert ){
     return ( cv != _cv );
   } else {

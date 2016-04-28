@@ -79,6 +79,7 @@ indices( const unsigned int& cv,
           const vector< pair< const Phrase*, vector< Grounding* > > >& children, 
           const Phrase* phrase,
           const World* world,
+          const Grounding* context,
           vector< unsigned int >& indices,
           vector< Feature* >& features,
           const vector< bool >& evaluateFeatureTypes ){
@@ -89,7 +90,7 @@ indices( const unsigned int& cv,
   for( unsigned int i = 0; i < _feature_products.size(); i++ ){
 //    cout << "offset: " << offset << endl;
     vector< unsigned int > product_indices;
-    _feature_products[ i ]->indices( cv, grounding, children, phrase, world, product_indices, features, evaluateFeatureTypes );
+    _feature_products[ i ]->indices( cv, grounding, children, phrase, world, context, product_indices, features, evaluateFeatureTypes );
 /*
     cout << "product_indices[" << product_indices.size() << "]:{";
     for( unsigned int j = 0; j < product_indices.size(); j++ ){
@@ -136,10 +137,11 @@ evaluate( const unsigned int& cv,
           const vector< pair< const Phrase*, vector< Grounding* > > >& children,
           const Phrase* phrase,
           const World* world,
+          const Grounding* context,
           const vector< bool >& evaluateFeatureTypes ){
 
   for( unsigned int i = 0; i < _feature_products.size(); i++ ){
-    _feature_products[ i ]->evaluate( cv, grounding, children, phrase, world, evaluateFeatureTypes );
+    _feature_products[ i ]->evaluate( cv, grounding, children, phrase, world, context, evaluateFeatureTypes );
 /*
     for( unsigned int j = 0; j < _feature_groups[ i ].size(); j++ ){
       if( _feature_groups[ i ][ j ]->value( cv, grounding, children, phrase, world ) ){

@@ -46,7 +46,7 @@ namespace h2sl {
     Feature_CV( const Feature_CV& other );
     Feature_CV& operator=( const Feature_CV& other );
 
-    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world ); 
+    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context ); 
 
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 

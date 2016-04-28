@@ -60,6 +60,8 @@ main( int argc,
   grammar->from_xml( args.grammar_arg );
 
   vector< Phrase* > phrases;
+  
+  Grounding * context = NULL;
 
   World * world = new World();
   if( args.world_given ){
@@ -94,7 +96,7 @@ main( int argc,
     
         gettimeofday( &start_time, NULL );
 
-        dcg->leaf_search( phrases[ i ], world, llm, args.beam_width_arg );
+        dcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg );
 
         gettimeofday( &end_time, NULL );
 

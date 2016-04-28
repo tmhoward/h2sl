@@ -145,6 +145,7 @@ bool
 DCG::
 leaf_search( const Phrase* phrase,
               const World* world,
+              const Grounding* context,
               LLM * llm,
               const unsigned int beamWidth,
               const bool& debug ){
@@ -173,6 +174,7 @@ leaf_search( const Phrase* phrase,
       leaf->search( _search_spaces,
                     _correspondence_variables,
                     world,
+                    context,
                     llm,
                     beamWidth,
                     debug );

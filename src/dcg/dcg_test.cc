@@ -139,6 +139,8 @@ main( int argc,
     string instruction = extract_instruction( args.inputs[ i ] );
     cout << "  found instruction \"" << instruction << "\"" << endl;
 
+    Grounding * context = NULL;
+
     World * world = new World();  
     world->from_xml( args.inputs[ i ] );
 
@@ -154,7 +156,7 @@ main( int argc,
         unsigned int match_index = 0;
         for( unsigned int i = 0; i < phrases.size(); i++ ){
           if( phrases[ i ] != NULL ){
-            dcg->leaf_search( phrases[ i ], world, llm, args.beam_width_arg );
+            dcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg );
             if( !dcg->solutions().empty() ){
               cout << "  parse[" << i << "]:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl; 
               if( compare_phrases( truth, dcg->solutions().front().second ) ){

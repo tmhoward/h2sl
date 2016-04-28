@@ -46,7 +46,7 @@
 namespace h2sl {
   class Factor {
   public:
-    Factor( const unsigned int& cv = 0, Grounding* grounding = NULL, Phrase* phrase = NULL, const World* world = NULL, const std::vector< Factor* >& children = std::vector< Factor* >(), LLM* llm = NULL, const std::vector< unsigned int >& cvs = std::vector< unsigned int >(), const unsigned int& solutionIndex = 0 );
+    Factor( const unsigned int& cv = 0, Grounding* grounding = NULL, Phrase* phrase = NULL, const World* world = NULL, const Grounding* context = NULL, const std::vector< Factor* >& children = std::vector< Factor* >(), LLM* llm = NULL, const std::vector< unsigned int >& cvs = std::vector< unsigned int >(), const unsigned int& solutionIndex = 0 );
     virtual ~Factor();
     Factor( const Factor& other );
     Factor& operator=( const Factor& other );
@@ -60,6 +60,7 @@ namespace h2sl {
     inline Phrase*& phrase( void ){ return _phrase; };
     inline const Phrase* phrase( void )const{ return _phrase; };
     inline const World* world( void )const{ return _world; };
+    inline const Grounding* context( void )const{ return _context; };
     inline std::vector< Factor* >& children( void ){ return _children; };
     inline const std::vector< Factor* >& children( void )const{ return _children; };
     inline LLM*& llm( void ){ return _llm; };
@@ -75,6 +76,7 @@ namespace h2sl {
     Grounding* _grounding;
     Phrase* _phrase;
     const World* _world;
+    const Grounding* _context;
     std::vector< Factor* > _children;
     LLM * _llm;
     std::vector< unsigned int > _cvs;

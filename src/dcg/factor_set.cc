@@ -108,6 +108,7 @@ Factor_Set::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
         const World* world, 
+        const Grounding* context, 
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
@@ -161,7 +162,7 @@ search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
       }
   
       for( unsigned int k = 0; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
-        double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], searchSpace[ j ].second, child_groundings, _phrase, world, correspondenceVariables[ searchSpace[ j ].first ], evaluate_feature_types );
+        double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], searchSpace[ j ].second, child_groundings, _phrase, world, context, correspondenceVariables[ searchSpace[ j ].first ], evaluate_feature_types );
         evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
         for( unsigned int l = 0; l < num_solutions; l++ ){
           solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j ); 

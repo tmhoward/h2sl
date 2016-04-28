@@ -70,7 +70,8 @@ value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
-        const World* world ){
+        const World* world,
+        const Grounding* context ){
   if( phrase->has_word( _word ) ){
     return !_invert;
   }

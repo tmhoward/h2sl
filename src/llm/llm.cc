@@ -91,12 +91,14 @@ LLM_X::
 LLM_X( const Grounding* grounding,
         const Phrase* phrase,
         const World* world,
+        const Grounding* context,
         const vector< unsigned int >& cvs,
         const vector< Feature* >& features,
         const string& filename ) : _grounding( grounding ),
-                                            _children(),
                                             _phrase( phrase ),
                                             _world( world ),
+                                            _context( context ),
+                                            _children(),
                                             _cvs( cvs ),
                                             _filename( filename ) {
 }
@@ -108,9 +110,10 @@ LLM_X::
 
 LLM_X::
 LLM_X( const LLM_X& other ) : _grounding( other._grounding ),
-                              _children(),
                               _phrase( other._phrase ),
                               _world( other._world ),
+                              _context( other._context ),
+                              _children(),
                               _cvs( other._cvs ),
                               _filename( other._filename ) {
   _children.resize( other._children.size() );
@@ -140,8 +143,11 @@ namespace h2sl {
   operator<<( ostream& out,
               const LLM_X& other ) {
     out << "filename:\"" << other.filename() << "\"" << endl;
-    if( dynamic_cast< const Region* >( other.grounding() ) != NULL ){
-      out << "grounding:(" << *static_cast< const Region* >( other.grounding() ) << ") ";
+    if( other.grounding() != NULL ){
+      out << "grounding:(" << *other.grounding() << ") ";
+    }
+    if( other.context() != NULL ){
+      out << "context:(" << *other.context() << ") ";
     }
     if( other.phrase() != NULL ){
       out << "phrase:(" << *other.phrase() << ")";
@@ -218,7 +224,7 @@ pygx( const unsigned int& cv,
       evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
     }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), tmp, tmp_features, evaluate_feature_types );
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), x.context(), tmp, tmp_features, evaluate_feature_types );
     for( unsigned int j = 0; j < tmp.size(); j++ ){
       dp += _weights[ tmp[ j ] ];
     }
@@ -248,7 +254,7 @@ pygx( const unsigned int& cv,
       evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false; 
     }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), indices, features, evaluate_feature_types );
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), x.context(), indices, features, evaluate_feature_types );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -268,6 +274,7 @@ pygx( const unsigned int& cv,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
+      const Grounding* context,
       const vector< unsigned int >& cvs ){
   double numerator = 0.0;
   double denominator = 0.0;
@@ -280,7 +287,7 @@ pygx( const unsigned int& cv,
       evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
     }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices, features, evaluate_feature_types );
+    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, context, indices, features, evaluate_feature_types );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -300,6 +307,7 @@ pygx( const unsigned int& cv,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
+      const Grounding* context,
       const vector< unsigned int >& cvs,
       const vector< bool >& evaluateFeatureTypes ){
   double numerator = 0.0;
@@ -313,7 +321,7 @@ pygx( const unsigned int& cv,
       evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
     }
     double dp = 0.0;
-    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, indices, features, evaluate_feature_types );
+    _feature_set->indices( cvs[ i ], grounding, children, phrase, world, context, indices, features, evaluate_feature_types );
     for( unsigned int j = 0; j < indices.size(); j++ ){
       dp += _weights[ indices[ j ] ];
     }
@@ -619,6 +627,7 @@ compute_indices_thread( vector< LLM_Index_Map_Cell >& cells, LLM* llm ){
                                               cells[ i ].llm_x().children(),
                                               cells[ i ].llm_x().phrase(),
                                               cells[ i ].llm_x().world(), 
+                                              cells[ i ].llm_x().context(), 
                                               cells[ i ].indices().back(), 
                                               features,
                                               evaluate_feature_types );

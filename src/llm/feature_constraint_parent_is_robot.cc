@@ -68,7 +68,8 @@ value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
-        const World* world ){
+        const World* world,
+        const Grounding* context ){
   const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
   if( constraint != NULL ){
     if( ( constraint->parent().type() == REGION_TYPE_UNKNOWN ) && ( constraint->parent().object().type() == OBJECT_TYPE_ROBOT ) ){

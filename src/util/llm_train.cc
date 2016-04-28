@@ -55,8 +55,8 @@ evaluate_model( LLM* llm,
   for( unsigned int i = 0; i < examples.size(); i++ ){
     vector< Feature* > features;
     double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-//    if( pygx < 0.75 ){
-    if( examples[ i ].first == CV_TRUE ){
+    if( pygx < 0.75 ){
+//    if( examples[ i ].first == CV_TRUE ){
       cout << "example " << i << " had pygx " << pygx << endl;
       cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
       cout << "         cv:" << examples[ i ].first << endl;
@@ -132,7 +132,7 @@ scrape_examples( const string& filename,
   const Grounding_Set * grounding_set = dynamic_cast< const Grounding_Set* >( phrase->grounding() );
 
   for( unsigned int i = 0; i < searchSpaces.size(); i++ ){
-    examples.push_back( pair< unsigned int, LLM_X >( evaluate_cv( searchSpaces[ i ].second, grounding_set ), LLM_X( searchSpaces[ i ].second, phrase, world, correspondenceVariables[ searchSpaces[ i ].first ], vector< Feature* >(), filename ) ) );
+    examples.push_back( pair< unsigned int, LLM_X >( evaluate_cv( searchSpaces[ i ].second, grounding_set ), LLM_X( searchSpaces[ i ].second, phrase, world, NULL, correspondenceVariables[ searchSpaces[ i ].first ], vector< Feature* >(), filename ) ) );
     for( unsigned int j = 0; j < phrase->children().size(); j++ ){
       examples.back().second.children().push_back( pair< const Phrase*, vector< Grounding* > >( phrase->children()[ j ], vector< Grounding* >() ) );
       Grounding_Set * child_grounding_set = dynamic_cast< Grounding_Set* >( phrase->children()[ j ]->grounding() );

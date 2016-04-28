@@ -84,11 +84,12 @@ indices( const unsigned int& cv,
           const vector< pair< const Phrase*, vector< Grounding* > > >& children, 
           const Phrase* phrase,
           const World* world,
+          const Grounding* context,
           vector< unsigned int >& indices,
           vector< Feature* >& features,
           const vector< bool >& evaluateFeatureTypes ){
   indices.clear();
-  evaluate( cv, grounding, children, phrase, world, evaluateFeatureTypes );
+  evaluate( cv, grounding, children, phrase, world, context, evaluateFeatureTypes );
 
   std::vector< std::vector< unsigned int > > group_indices( _values.size() );
   for( unsigned int i = 0; i < _values.size(); i++ ){
@@ -120,6 +121,7 @@ evaluate( const unsigned int& cv,
           const vector< pair< const Phrase*, vector< Grounding* > > >& children,
           const Phrase* phrase,
           const World* world,
+          const Grounding* context,
           const vector< bool >& evaluateFeatureTypes ){
 
 //  cout << "phrase:" << *phrase << endl;
@@ -127,7 +129,7 @@ evaluate( const unsigned int& cv,
   for( unsigned int i = 0; i < _feature_groups.size(); i++ ){
     for( unsigned int j = 0; j < _feature_groups[ i ].size(); j++ ){
       if( evaluateFeatureTypes[ _feature_groups[ i ][ j ]->type() ] ){
-        _values[ i ][ j ] = _feature_groups[ i ][ j ]->value( cv, grounding, children, phrase, world );
+        _values[ i ][ j ] = _feature_groups[ i ][ j ]->value( cv, grounding, children, phrase, world, context );
       }
     }
 /*
