@@ -140,6 +140,16 @@ fill_search_spaces( const World* world ){
 
   return;
 }
+
+bool
+DCG::
+leaf_search( const Phrase* phrase,
+              const World* world,
+              LLM * llm,
+              const unsigned int beamWidth,
+              const bool& debug ){
+  return leaf_search( phrase, world, llm, beamWidth, debug );
+}
   
 bool
 DCG::

@@ -107,6 +107,18 @@ void
 Factor_Set::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
+        const World* world,
+        LLM* llm,
+        const unsigned int beamWidth,
+        const bool& debug ){
+  search( searchSpace, correspondenceVariables, world, NULL, llm, beamWidth, debug );
+  return;
+}
+
+void
+Factor_Set::
+search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
+        const vector< vector< unsigned int > >& correspondenceVariables,
         const World* world, 
         const Grounding* context, 
         LLM* llm,

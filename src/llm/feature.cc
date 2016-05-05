@@ -77,6 +77,17 @@ operator=( const Feature& other ) {
   return (*this);
 }
 
+bool 
+Feature::
+value( const unsigned int& cv, 
+        const Grounding* grounding, 
+        const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, 
+        const Phrase* phrase, 
+        const World* world,
+        const Grounding* context ){
+  return value( cv, grounding, children, phrase, world );
+}
+
 namespace h2sl {
   ostream&
   operator<<( ostream& out,

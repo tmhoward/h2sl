@@ -46,6 +46,7 @@ namespace h2sl {
     Feature_Constraint_Parent_Is_Robot( const Feature_Constraint_Parent_Is_Robot& other );
     Feature_Constraint_Parent_Is_Robot& operator=( const Feature_Constraint_Parent_Is_Robot& other );
 
+    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
     virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
 
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

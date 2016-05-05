@@ -52,6 +52,7 @@ namespace h2sl {
     DCG& operator=( const DCG& other );
 
     virtual void fill_search_spaces( const World* world );
+    virtual bool leaf_search( const Phrase* phrase, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
     virtual bool leaf_search( const Phrase* phrase, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
     virtual void to_latex( const std::string& filename )const;
