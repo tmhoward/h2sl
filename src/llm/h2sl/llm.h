@@ -46,6 +46,7 @@
 namespace h2sl {
   class LLM_X {
   public:
+    LLM_X( const Grounding* grounding, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< Feature* >& features, const std::string& filename );
     LLM_X( const Grounding* grounding, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< unsigned int >& cvs, const std::vector< Feature* >& features, const std::string& filename );
     virtual ~LLM_X();
     LLM_X( const LLM_X& other );
@@ -83,9 +84,9 @@ namespace h2sl {
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, const std::vector< std::vector< unsigned int > >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< unsigned int >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< Feature* >& features );
-//    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
-//    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< Grounding* >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
+    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< unsigned int >& cvs );
+    double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );
 
     virtual void to_xml( const std::string& filename )const;

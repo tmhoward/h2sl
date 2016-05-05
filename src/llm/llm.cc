@@ -91,6 +91,21 @@ LLM_X::
 LLM_X( const Grounding* grounding,
         const Phrase* phrase,
         const World* world,
+        const vector< unsigned int >& cvs,
+        const vector< Feature* >& features,
+        const string& filename ) : _grounding( grounding ),
+                                            _phrase( phrase ),
+                                            _world( world ),
+                                            _context( NULL ),
+                                            _children(),
+                                            _cvs( cvs ),
+                                            _filename( filename ) {
+}
+
+LLM_X::
+LLM_X( const Grounding* grounding,
+        const Phrase* phrase,
+        const World* world,
         const Grounding* context,
         const vector< unsigned int >& cvs,
         const vector< Feature* >& features,
@@ -274,6 +289,17 @@ pygx( const unsigned int& cv,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
+      const vector< unsigned int >& cvs ){
+  return pygx( cv, grounding, children, phrase, world, NULL, cvs );
+}
+
+double
+LLM::
+pygx( const unsigned int& cv,
+      const Grounding* grounding,
+      const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+      const Phrase* phrase,
+      const World* world,
       const Grounding* context,
       const vector< unsigned int >& cvs ){
   double numerator = 0.0;
@@ -298,6 +324,18 @@ pygx( const unsigned int& cv,
     denominator += dp;
   }
   return ( numerator / denominator );
+}
+
+double
+LLM::
+pygx( const unsigned int& cv,
+      const Grounding* grounding,
+      const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+      const Phrase* phrase,
+      const World* world,
+      const vector< unsigned int >& cvs,
+      const vector< bool >& evaluateFeatureTypes ){
+  return pygx( cv, grounding, children, phrase, world, NULL, cvs, evaluateFeatureTypes );
 }
 
 double
