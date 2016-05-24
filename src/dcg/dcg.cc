@@ -148,7 +148,7 @@ leaf_search( const Phrase* phrase,
               LLM * llm,
               const unsigned int beamWidth,
               const bool& debug ){
-  return leaf_search( phrase, world, llm, beamWidth, debug );
+  return leaf_search( phrase, world, llm, NULL, beamWidth, debug );
 }
   
 bool
