@@ -33,13 +33,15 @@
 
 #include <assert.h>
 
+#include "h2sl/object.h"
+#include "h2sl/region.h"
+#include "h2sl/constraint.h"
+
 #include "h2sl/feature_word.h"
 #include "h2sl/feature_num_words.h"
 #include "h2sl/feature_cv.h"
-#include "h2sl/feature_object.h"
+#include "h2sl/feature_type.h"
 #include "h2sl/feature_region_object.h"
-#include "h2sl/feature_region.h"
-#include "h2sl/feature_constraint.h"
 #include "h2sl/feature_region_object_matches_child.h"
 #include "h2sl/feature_region_matches_child.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
@@ -231,18 +233,15 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_num_words" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Num_Words() );
                 _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Object() );
-                _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_type_object" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Type< Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Region_Object() );
                 _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Constraint() );
-                _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_type_region" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Type< Region >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_type_constraint" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Type< Constraint >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object_matches_child" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Region_Object_Matches_Child() );
                 _feature_groups.back().back()->from_xml( l2 );

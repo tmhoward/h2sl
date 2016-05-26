@@ -73,6 +73,8 @@ namespace h2sl {
     inline Region& child( void ){ return _child; };
     inline const Region& child( void )const{ return _child; };
 
+    static std::string class_name( void ){ return "constraint"; };
+
   protected:
     unsigned int _type;
     Region _parent;

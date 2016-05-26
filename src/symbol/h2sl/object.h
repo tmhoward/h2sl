@@ -99,6 +99,8 @@ namespace h2sl {
     inline Transform& transform( void ){ return _transform; };
     inline const Transform& transform( void )const{ return _transform; };
 
+    static std::string class_name( void ){ return "object"; };
+
   protected:
     std::string _name;
     unsigned int _type;

@@ -39,9 +39,8 @@
 #include "h2sl/cv.h"
 #include "h2sl/feature_cv.h"
 #include "h2sl/feature_word.h"
-#include "h2sl/feature_object.h"
+#include "h2sl/feature_type.h"
 #include "h2sl/feature_region_object.h"
-#include "h2sl/feature_region.h"
 #include "h2sl/feature_product.h"
 #include "feature_product_demo_cmdline.h"
 
@@ -85,7 +84,7 @@ main( int argc,
 
     feature_product->feature_groups().push_back( vector< Feature* >() );
     for( unsigned int i = 1; i < NUM_OBJECT_TYPES; i++ ){
-      feature_product->feature_groups().back().push_back( new Feature_Object( false, i ) );
+      feature_product->feature_groups().back().push_back( new Feature_Type< Object >( false, i ) );
     }
 
     for( unsigned int i = 1; i < NUM_OBJECT_TYPES; i++ ){
@@ -93,7 +92,7 @@ main( int argc,
     }
 
     for( unsigned int i = 1; i < NUM_REGION_TYPES; i++ ){
-      feature_product->feature_groups().back().push_back( new Feature_Region( false, i ) );
+      feature_product->feature_groups().back().push_back( new Feature_Type< Region >( false, i ) );
     }
 
     cout << "feature_product->size(): " << feature_product->size() << endl;
