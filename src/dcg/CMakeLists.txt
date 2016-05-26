@@ -1,13 +1,11 @@
 # GENGETOPT FILES
 set(GGOS
-    factor_demo.ggo
     factor_set_demo.ggo
     dcg_demo.ggo
     dcg_test.ggo)
 
 # HEADER FILES
 set(HDRS
-    h2sl/factor.h
     h2sl/factor_set.h
     h2sl/dcg.h)
 
@@ -16,13 +14,11 @@ set(QT_HDRS )
 
 # SOURCE FILES
 set(SRCS
-    factor.cc
     factor_set.cc
     dcg.cc)
 
 # BINARY SOURCE FILES
 set(BIN_SRCS
-    factor_demo.cc
     factor_set_demo.cc
     dcg_demo.cc
     dcg_test.cc)
