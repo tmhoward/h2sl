@@ -39,7 +39,7 @@
 #include "h2sl/parser_cyk.h"
 #include "h2sl/world.h"
 #include "h2sl/llm.h"
-#include "h2sl/factor.h"
+#include "h2sl/factor_set.h"
 #include "h2sl/dcg.h"
 
 #include <QtGui/QWidget>
