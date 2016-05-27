@@ -34,12 +34,9 @@
 #include "h2sl/feature_word.h"
 #include "h2sl/feature_num_words.h"
 #include "h2sl/feature_cv.h"
-#include "h2sl/feature_object.h"
+#include "h2sl/feature_type.h"
+#include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_region_object.h"
-#include "h2sl/feature_region.h"
-#include "h2sl/feature_constraint.h"
-#include "h2sl/feature_region_object_matches_child.h"
-#include "h2sl/feature_region_matches_child.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
@@ -84,49 +81,15 @@ indices( const unsigned int& cv,
           vector< Feature* >& features,
           const vector< bool >& evaluateFeatureTypes ){
   indices.clear();
-//  evaluate( cv, grounding, children, phrase, world );
   unsigned int offset = 0;
-//  cout << "phrase:" << *phrase << endl;
   for( unsigned int i = 0; i < _feature_products.size(); i++ ){
-//    cout << "offset: " << offset << endl;
     vector< unsigned int > product_indices;
     _feature_products[ i ]->indices( cv, grounding, children, phrase, world, context, product_indices, features, evaluateFeatureTypes );
-/*
-    cout << "product_indices[" << product_indices.size() << "]:{";
-    for( unsigned int j = 0; j < product_indices.size(); j++ ){
-      cout << product_indices[ j ];
-      if( j != ( product_indices.size() - 1 ) ){
-        cout << ",";
-      }
-    }
-    cout << "}" << endl; 
-*/
     for( unsigned int j = 0; j < product_indices.size(); j++ ){
       indices.push_back( product_indices[ j ] + offset );
     }
     offset += _feature_products[ i ]->size();
   }
-/*
-  cout << "indices[" << indices.size() << "]:{";
-  for( unsigned int j = 0; j < indices.size(); j++ ){
-    cout << indices[ j ];
-    if( j != ( indices.size() - 1 ) ){
-      cout << ",";
-    }
-  }
-  cout << "}" << endl;
-*/
-/*
-  if( _values.size() == 3 ){
-    for( unsigned int i = 0; i < _values[ 0 ].size(); i++ ){
-      for( unsigned int j = 0; j < _values[ 1 ].size(); j++ ){
-        for( unsigned int k = 0; k < _values[ 2 ].size(); k++ ){
-          indices.push_back( _values[ 0 ][ i ] * _feature_groups[ 1 ].size() * _feature_groups[ 2 ].size() + _values[ 1 ][ j ] * _feature_groups[ 2 ].size() + _values[ 2 ][ k ] );
-        }
-      }
-    }
-  }
-*/
   return;
 }
 
@@ -142,23 +105,6 @@ evaluate( const unsigned int& cv,
 
   for( unsigned int i = 0; i < _feature_products.size(); i++ ){
     _feature_products[ i ]->evaluate( cv, grounding, children, phrase, world, context, evaluateFeatureTypes );
-/*
-    for( unsigned int j = 0; j < _feature_groups[ i ].size(); j++ ){
-      if( _feature_groups[ i ][ j ]->value( cv, grounding, children, phrase, world ) ){
-        _values[ i ].push_back( j );
-      }
-    }
-*/
-/*
-    cout << "values[" << _values[ i ].size() << "]:{"; 
-    for( unsigned int j = 0; j < _values[ i ].size(); j++ ){
-      cout << _values[ i ][ j ];
-      if( j != ( _values[ i ].size() - 1 ) ){
-        cout << ",";
-      }
-    }
-    cout << "}" << endl;
-*/
   }
   return;
 }

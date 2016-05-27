@@ -39,9 +39,9 @@
 #include "h2sl/cv.h"
 #include "h2sl/feature_cv.h"
 #include "h2sl/feature_word.h"
-#include "h2sl/feature_object.h"
+#include "h2sl/feature_type.h"
 #include "h2sl/feature_region_object.h"
-#include "h2sl/feature_region.h"
+#include "h2sl/feature_type.h"
 #include "h2sl/feature_set.h"
 #include "feature_set_demo_cmdline.h"
 

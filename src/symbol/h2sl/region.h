@@ -78,6 +78,8 @@ namespace h2sl {
     inline Object& object( void ){ return _object; };
     inline const Object& object( void )const{ return _object; };
 
+    static std::string class_name( void ){ return "region"; };
+
   protected:
     unsigned int _type;
     Object _object;
