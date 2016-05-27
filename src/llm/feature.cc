@@ -41,11 +41,9 @@
 #include "h2sl/feature_num_words.h"
 #include "h2sl/feature_cv.h"
 #include "h2sl/feature_type.h"
+#include "h2sl/feature_matches_child.h"
+#include "h2sl/feature_object_matches_child.h"
 #include "h2sl/feature_region_object.h"
-#include "h2sl/feature_region_object_matches_child.h"
-#include "h2sl/feature_region_matches_child.h"
-#include "h2sl/feature_region_object_matches_child.h"
-#include "h2sl/feature_region_matches_child.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
@@ -104,16 +102,18 @@ namespace h2sl {
       out << *static_cast< const Feature_Type< Object >* >( &other );
     } else if( dynamic_cast< const Feature_Region_Object* >( &other ) != NULL ){
       out << *static_cast< const Feature_Region_Object* >( &other );
-    } else if( dynamic_cast< const Feature_Region_Object_Matches_Child* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Region_Object_Matches_Child* >( &other );
     } else if( dynamic_cast< const Feature_Type< Region >* >( &other ) != NULL ){
       out << *static_cast< const Feature_Type< Region >* >( &other );
-    } else if( dynamic_cast< const Feature_Region_Matches_Child* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Region_Matches_Child* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Object >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Object >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Region >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Region >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Constraint >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Constraint >* >( &other );
+    } else if( dynamic_cast< const Feature_Object_Matches_Child< Region, Object >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Object_Matches_Child< Region, Object >* >( &other );
     } else if( dynamic_cast< const Feature_Type< Constraint >* >( &other ) != NULL ){
       out << *static_cast< const Feature_Type< Constraint >* >( &other );
-    } else if( dynamic_cast< const Feature_Region_Object_Matches_Child* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Region_Object_Matches_Child* >( &other );
     } else if( dynamic_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other ) != NULL ){
       out << *static_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other );
     } else if( dynamic_cast< const Feature_Constraint_Parent_Matches_Child_Region* >( &other ) != NULL ){

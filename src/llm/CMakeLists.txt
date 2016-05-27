@@ -2,6 +2,8 @@
 set(GGOS
     cv_demo.ggo
     feature_type_demo.ggo
+    feature_matches_child_demo.ggo
+    feature_object_matches_child_demo.ggo
     feature_product_demo.ggo
     feature_set_demo.ggo
     llm_demo.ggo
@@ -16,9 +18,11 @@ set(HDRS
     h2sl/feature_num_words.h
     h2sl/feature_type.h
     h2sl/feature_type.ipp
+    h2sl/feature_matches_child.h
+    h2sl/feature_matches_child.ipp
+    h2sl/feature_object_matches_child.h
+    h2sl/feature_object_matches_child.ipp
     h2sl/feature_region_object.h
-    h2sl/feature_region_object_matches_child.h
-    h2sl/feature_region_matches_child.h
     h2sl/feature_region_merge_partially_known_regions.h
     h2sl/feature_constraint_parent_matches_child_region.h
     h2sl/feature_constraint_child_matches_child_region.h
@@ -38,8 +42,6 @@ set(SRCS
     feature_word.cc
     feature_num_words.cc
     feature_region_object.cc
-    feature_region_object_matches_child.cc
-    feature_region_matches_child.cc
     feature_region_merge_partially_known_regions.cc
     feature_constraint_parent_matches_child_region.cc
     feature_constraint_child_matches_child_region.cc
@@ -53,6 +55,8 @@ set(SRCS
 set(BIN_SRCS
     cv_demo.cc
     feature_type_demo.cc
+    feature_matches_child_demo.cc
+    feature_object_matches_child_demo.cc
     feature_product_demo.cc
     feature_set_demo.cc
     llm_demo.cc

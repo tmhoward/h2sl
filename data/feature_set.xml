@@ -101,10 +101,14 @@
         <feature_type_region invert="0" region_type="back"/>
         <feature_type_region invert="0" region_type="above"/>
         <feature_type_region invert="0" region_type="below"/>
-        <feature_region_object_matches_child invert="0"/>
-        <feature_region_object_matches_child invert="1"/>
-        <feature_region_matches_child invert="0"/>
-        <feature_region_matches_child invert="1"/>
+        <feature_object_matches_child_region invert="0"/>
+        <feature_object_matches_child_region invert="1"/>
+        <feature_matches_child_object invert="0"/>
+        <feature_matches_child_object invert="1"/>
+        <feature_matches_child_region invert="0"/>
+        <feature_matches_child_region invert="1"/>
+        <feature_matches_child_constraint invert="0"/>
+        <feature_matches_child_constraint invert="1"/>
         <feature_region_merge_partially_known_regions invert="0"/>
         <feature_region_merge_partially_known_regions invert="1"/>
         <feature_type_constraint invert="0" constraint_type="inside"/>
