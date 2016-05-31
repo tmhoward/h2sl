@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 project(h2sl)
 
 OPTION(BUILD_SHARED_LIBS "build dynamic libraries" OFF)
-OPTION(BUILD_STATIC_LIBS "build static libraries" ON)
-
-message("BUILD_SHARED_LIBS:${BUILD_SHARED_LIBS}")
-message("BUILD_STATIC_LIBS:${BUILD_STATIC_LIBS}")
 
 set(H2SL_VERSION 1.0)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -106,30 +102,24 @@ function(process_lib)
   if( QT_HDRS )
     qt_wrap_cpp(${LIB} MOC_SRCS ${QT_HDRS})
   endif( QT_HDRS )
-  message("PROCESS_LIB_LIB:${PROCESS_LIB_LIB}")
   if(BUILD_SHARED_LIBS)
-    message("building shared libs")
     add_library(${PROCESS_LIB_LIB} SHARED
                 ${PROCESS_LIB_SRCS}
                 ${MOC_SRCS} 
                 ${MSG_HDRS})
     target_link_libraries(${PROCESS_LIB_LIB} ${PROCESS_LIB_DEPS})
-    message("PROCESS_LIB_LIB:${PROCESS_LIB_LIB}")
     install(TARGETS ${PROCESS_LIB_LIB}
           LIBRARY
           DESTINATION lib
           ARCHIVE
           DESTINATION lib)
-  endif()
-  if(BUILD_STATIC_LIBS)
-    message("building static libs")
-    set(PROCESS_LIB_LIB_STATIC "${PROCESS_LIB_LIB}-static")
+  else(BUILD_SHARED_LIBS)
+    set(PROCESS_LIB_LIB_STATIC "${PROCESS_LIB_LIB}")
     add_library(${PROCESS_LIB_LIB_STATIC} STATIC
                 ${PROCESS_LIB_SRCS}
                 ${MOC_SRCS} 
                 ${MSG_HDRS})
     set_target_properties(${PROCESS_LIB_LIB_STATIC} PROPERTIES OUTPUT_NAME ${PROCESS_LIB_LIB})
-    message("PROCESS_LIB_LIB_STATIC:${PROCESS_LIB_LIB_STATIC}")
     install(TARGETS ${PROCESS_LIB_LIB_STATIC}
           LIBRARY
           DESTINATION lib

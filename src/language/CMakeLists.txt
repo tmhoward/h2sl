@@ -25,7 +25,7 @@ set(BIN_SRCS
     phrase_demo.cc)
 
 # LIBRARY DEPENDENCIES
-set(DEPS h2sl-symbol h2sl-common ${LIBXML2_LIBRARIES})
+set(DEPS h2sl-symbol h2sl-common ${Boost_LIBRARIES} ${LIBXML2_LIBRARIES})
 
 # LIBRARY NAME
 set(LIB h2sl-language)
