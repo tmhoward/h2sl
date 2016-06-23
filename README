@@ -26,6 +26,15 @@ along with this program; if not, see
 Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 02110-1301, USA.
 
+OVERVIEW
+
+h2sl provides a set of base classes for developing a natural language
+symbol grounding inferface.  Example symbols, features, and data is 
+provided, but is not intended to serve as a drop-in natural language
+interface for robotic system.  To adapt to new applications, one can
+replace the symbols, features, and examples with those that are 
+relevant to your system and domain.
+
 TUTORIAL
 
 To train the model from a corpus of labeled examples, run ...
