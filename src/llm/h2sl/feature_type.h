@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstdlib>
 #include <libxml/tree.h>
 
 #include "h2sl/feature.h"
