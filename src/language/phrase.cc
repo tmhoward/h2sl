@@ -344,6 +344,9 @@ phrase_type_t_to_std_string( const phrase_type_t& type ){
   case( PHRASE_WHVP ):
     return "WHVP";
     break;
+  case( PHRASE_M ):
+    return "M";
+    break;
   case( PHRASE_UNKNOWN ):
   case( NUM_PHRASE_TYPES ):
   default:

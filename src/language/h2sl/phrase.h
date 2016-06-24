@@ -54,6 +54,7 @@ namespace h2sl {
     PHRASE_SBAR,
     PHRASE_WHNP,
     PHRASE_WHVP,
+    PHRASE_M,
     NUM_PHRASE_TYPES
   } phrase_type_t;  
 
