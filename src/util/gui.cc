@@ -336,6 +336,7 @@ GUI::
 void
 GUI::
 update_world( void ){
+
   _list_widget_world->clear();
   for( unsigned int i = 0; i < _world->objects().size(); i++ ){
     stringstream item_string;
@@ -377,44 +378,47 @@ update_graph( void ){
     _graphics_view_graph->setScene( _graphics_scene_graph );
   }
 
-  if( _dcg->root() != NULL ){
-    if( ( !_dcg->root()->solutions().empty() ) && ( _combo_box_solutions->currentIndex() >= 0 ) ){
-      _add_factor_set_graphics_items( _dcg->root(), _combo_box_solutions->currentIndex() );
-    }
+
+  if( _dcg != NULL ){
+    if( _dcg->root() != NULL ){
+      if( ( !_dcg->root()->solutions().empty() ) && ( _combo_box_solutions->currentIndex() >= 0 ) ){
+        _add_factor_set_graphics_items( _dcg->root(), _combo_box_solutions->currentIndex() );
+      }
     
-    for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
-      for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
-        if( dynamic_cast< QGraphicsLineItem* >( _graphics_items[ i ][ j ] ) != NULL ){
-          _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+      for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
+        for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
+          if( dynamic_cast< QGraphicsLineItem* >( _graphics_items[ i ][ j ] ) != NULL ){
+            _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+          }
         }
       }
-    }
 
-    for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
-      for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
-        if( dynamic_cast< QGraphicsItem_Factor* >( _graphics_items[ i ][ j ] ) != NULL ){
-          _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+      for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
+        for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
+          if( dynamic_cast< QGraphicsItem_Factor* >( _graphics_items[ i ][ j ] ) != NULL ){
+            _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+          }
         }
       }
-    }
 
-    for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
-      for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
-        if( dynamic_cast< QGraphicsItem_Label* >( _graphics_items[ i ][ j ] ) != NULL ){
-          _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+      for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
+        for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
+          if( dynamic_cast< QGraphicsItem_Label* >( _graphics_items[ i ][ j ] ) != NULL ){
+            _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+          }
         }
       }
-    }
 
-    for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
-      for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
-        if( dynamic_cast< QGraphicsItem_Grounding* >( _graphics_items[ i ][ j ] ) != NULL ){
-          _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+      for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
+        for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
+          if( dynamic_cast< QGraphicsItem_Grounding* >( _graphics_items[ i ][ j ] ) != NULL ){
+            _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+          }
         }
       }
-    }
 
-    _graphics_view_graph->fitInView( _graphics_scene_graph->sceneRect(), Qt::KeepAspectRatio );
+      _graphics_view_graph->fitInView( _graphics_scene_graph->sceneRect(), Qt::KeepAspectRatio );
+    }
   }
 
   return;
@@ -520,6 +524,7 @@ _add_factor_set_graphics_items( const Factor_Set* factorSet,
 void
 GUI::
 _run_inference( const string& sentence ){
+
   vector< Phrase* > phrases;
   if( _parser->parse( *_grammar, sentence, phrases ) ){
     stringstream comment_string;
