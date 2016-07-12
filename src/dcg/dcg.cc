@@ -103,27 +103,22 @@ fill_search_spaces( const World* world ){
   _correspondence_variables.push_back( binary_cvs );
   _correspondence_variables.push_back( ternary_cvs );
 
-  // add the NP groundings
+  // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
+  for( unsigned int i = 0; i < world->objects().size(); i++ ){
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( REGION_TYPE_UNKNOWN, *world->objects()[ i ] ) ) );
+  }
+
+  // add the PP groundings; exhaustively fill the region symbol space (does no duplicate the above loop)
   for( unsigned int i = 0; i < NUM_REGION_TYPES; i++ ){
     if( i != REGION_TYPE_UNKNOWN ){
       _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, Object() ) ) );
-    }
-    for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, *world->objects()[ j ] ) ) );
-    }
-  }
-
-  // add the PP groundings
-  for( unsigned int i = 0; i < NUM_REGION_TYPES; i++ ){
-    if( i != REGION_TYPE_UNKNOWN ){
-      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, Object() ) ) );
-    }
-    for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, *world->objects()[ j ] ) ) );
+      for( unsigned int j = 0; j < world->objects().size(); j++ ){
+        _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( i, *world->objects()[ j ] ) ) );
+      }   
     }
   }
 
-  // add the VP groundings
+  // add the VP groundings; exhaustively fill the constraint symbol space
   for( unsigned int i = CONSTRAINT_TYPE_INSIDE; i < NUM_CONSTRAINT_TYPES; i++ ){
     for( unsigned int j = 0; j < world->objects().size(); j++ ){
       for( unsigned int k = 0; k < NUM_REGION_TYPES; k++ ){
