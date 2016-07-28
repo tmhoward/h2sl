@@ -60,7 +60,7 @@ namespace h2sl {
 
   class Phrase : public Grounding {
   public:
-    Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase* >& children = std::vector< Phrase* >(), Grounding* grounding = NULL );
+    Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase* >& children = std::vector< Phrase* >(), Phrase* parent = NULL, Grounding* grounding = NULL );
     virtual ~Phrase();
     Phrase( const Phrase& other );
     Phrase& operator=( const Phrase& other );
@@ -90,6 +90,8 @@ namespace h2sl {
     inline const std::string& text( void )const{ return _text; };
     inline std::vector< Phrase* >& children( void ){ return _children; };
     inline const std::vector< Phrase* >& children( void )const{ return _children; };
+    inline Phrase*& parent( void ){ return _parent; };
+    inline const Phrase* parent( void )const{ return _parent; };
     inline std::vector< Word >& words( void ){ return _words; };
     inline const std::vector< Word >& words( void )const{ return _words; };
     inline Grounding*& grounding( void ){ return _grounding; };
@@ -100,6 +102,7 @@ namespace h2sl {
     std::string _text;
     std::vector< Word > _words;
     std::vector< Phrase* > _children;
+    Phrase * _parent;
     Grounding * _grounding;
 
   private:
