@@ -1,0 +1,1 @@
+./bin/h2sl-dcg-demo --world ../data/training/example_0033.xml --llm ../data/llm.xml --grammar ../data/grammar.xml --output ../dat    a/dcg_test.xml --command "walk to the box"
