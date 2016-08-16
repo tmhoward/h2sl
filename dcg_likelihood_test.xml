@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <VP>
+    <grounding>
+      <grounding_set>
+        <constraint type="inside">
+          <parent>
+            <region type="na">
+              <object name="o0" type="robot" position="0,0,0" orientation="0,0,0,1"/>
+            </region>
+          </parent>
+          <child>
+            <region type="na">
+              <object name="o1" type="box" position="0,0,0" orientation="0,0,0,1"/>
+            </region>
+          </child>
+        </constraint>
+        <constraint type="inside">
+          <parent>
+            <region type="na">
+              <object name="o0" type="robot" position="0,0,0" orientation="0,0,0,1"/>
+            </region>
+          </parent>
+          <child>
+            <region type="na">
+              <object name="o2" type="box" position="0,0,0" orientation="0,0,0,1"/>
+            </region>
+          </child>
+        </constraint>
+      </grounding_set>
+    </grounding>
+    <VB text="walk" order="0"/>
+    <PP>
+      <grounding>
+        <grounding_set>
+          <region type="na">
+            <object name="o1" type="box" position="0,0,0" orientation="0,0,0,1"/>
+          </region>
+          <region type="na">
+            <object name="o2" type="box" position="0,0,0" orientation="0,0,0,1"/>
+          </region>
+        </grounding_set>
+      </grounding>
+      <TO text="to" order="1"/>
+      <NP>
+        <grounding>
+          <grounding_set>
+            <region type="na">
+              <object name="o1" type="box" position="0,0,0" orientation="0,0,0,1"/>
+            </region>
+            <region type="na">
+              <object name="o2" type="box" position="0,0,0" orientation="0,0,0,1"/>
+            </region>
+          </grounding_set>
+        </grounding>
+        <DT text="the" order="2"/>
+        <NN text="box" order="3"/>
+      </NP>
+    </PP>
+  </VP>
+</root>
