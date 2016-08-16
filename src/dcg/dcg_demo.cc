@@ -96,7 +96,7 @@ main( int argc,
     
         gettimeofday( &start_time, NULL );
 
-        dcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg );
+        dcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg, true);
 
         gettimeofday( &end_time, NULL );
 
