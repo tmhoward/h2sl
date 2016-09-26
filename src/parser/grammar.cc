@@ -341,6 +341,22 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Grammar& other ) {
+    out << "terminals[" << other.terminals().size() << "]:{";
+    for( unsigned int i = 0; i < other.terminals().size(); i++ ){
+      out << other.terminals()[ i ];
+      if( i != ( other.terminals().size() - 1 ) ){
+        out << ",";
+      } 
+    }
+    out << "} ";
+    out << "non_terminals[" << other.non_terminals().size() << "]:{";
+    for( unsigned int i = 0; i < other.non_terminals().size(); i++ ){
+      out << other.non_terminals()[ i ];
+      if( i != ( other.non_terminals().size() - 1 ) ){
+        out << ",";
+      }
+    }
+    out << "} ";
     return out;
   }
 }

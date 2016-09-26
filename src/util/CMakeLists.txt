@@ -1,6 +1,7 @@
 # GENGETOPT FILES
 set(GGOS
     llm_train.ggo
+    grammar_generator.ggo
     gui_demo.ggo)
 
 # HEADER FILES
@@ -18,6 +19,7 @@ set(SRCS
 # BINARY SOURCE FILES
 set(BIN_SRCS
     llm_train.cc
+    grammar_generator.cc
     gui_demo.cc )
 
 # LIBRARY DEPENDENCIES

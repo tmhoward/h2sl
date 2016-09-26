@@ -1,0 +1,7 @@
+package "h2sl-grammar-generator"
+version "0.0.1"
+purpose "A program used to generate a grammar"
+
+option "output" - "output file" string default="grammar.xml" optional
+
+text ""
