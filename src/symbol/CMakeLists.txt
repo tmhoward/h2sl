@@ -11,6 +11,7 @@ set(GGOS
 set(HDRS
     h2sl/grounding.h
     h2sl/grounding_set.h
+    h2sl/number.h    
     h2sl/object.h
     h2sl/region.h
     h2sl/constraint.h
@@ -23,6 +24,7 @@ set(QT_HDRS )
 set(SRCS
     grounding.cc
     grounding_set.cc
+    number.cc
     object.cc
     region.cc
     constraint.cc
