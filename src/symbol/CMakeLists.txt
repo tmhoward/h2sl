@@ -14,6 +14,7 @@ set(HDRS
     h2sl/index.h
     h2sl/number.h    
     h2sl/object.h
+    h2sl/object_color.h
     h2sl/region.h
     h2sl/constraint.h
     h2sl/world.h)
@@ -28,6 +29,7 @@ set(SRCS
     index.cc
     number.cc
     object.cc
+    object_color.cc
     region.cc
     constraint.cc
     world.cc)
