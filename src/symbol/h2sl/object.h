@@ -37,45 +37,15 @@
 #include <iostream>
 #include <libxml/tree.h>
 
+#include "h2sl/common.h"
 #include "h2sl/grounding.h"
 #include "h2sl/transform.h"
 
 namespace h2sl {
-  typedef enum {
-    OBJECT_TYPE_UNKNOWN,
-    OBJECT_TYPE_ROBOT,
-    OBJECT_TYPE_BOX,
-    OBJECT_TYPE_TABLE,
-    OBJECT_TYPE_CHAIR,
-    OBJECT_TYPE_COUCH,
-    OBJECT_TYPE_SINK,
-    OBJECT_TYPE_MUG,
-    OBJECT_TYPE_BOTTLE,
-    OBJECT_TYPE_CAN,
-    OBJECT_TYPE_FRIDGE,
-    OBJECT_TYPE_HAMMER,
-    OBJECT_TYPE_SCREWDRIVER,
-    OBJECT_TYPE_PIPE,
-    OBJECT_TYPE_NEWSPAPER,
-    OBJECT_TYPE_MARKER,
-    OBJECT_TYPE_TUBE,
-    OBJECT_TYPE_TAPE,
-    OBJECT_TYPE_BONE,
-    OBJECT_TYPE_KITCHEN,
-    OBJECT_TYPE_BATHROOM,
-    OBJECT_TYPE_PANTRY,
-    OBJECT_TYPE_BUILDING,
-    OBJECT_TYPE_LIVINGROOM,
-    OBJECT_TYPE_BEDROOM,
-    OBJECT_TYPE_STUDY,
-    OBJECT_TYPE_HALLWAY,
-    NUM_OBJECT_TYPES
-  } object_type_t;
-
-  class Object: public Grounding {
+  class Object : public Grounding {
   public:
-    Object( const std::string& name = "na", const unsigned int& type = 0, const Transform& transform = Transform() );
-    Object( const std::string& name, const object_type_t& type, const Transform& transform );
+    Object( const std::string& name = "na", const std::string& objecType = "na", const Transform& transform = Transform(), const Vector3& linearVelocity = Vector3(), const Vector3& angularVelocity = Vector3() );
+    Object( xmlNodePtr root );
     virtual ~Object();
     Object( const Object& other );
     Object& operator=( const Object& other );
@@ -83,28 +53,29 @@ namespace h2sl {
     bool operator!=( const Object& other )const;
     virtual Object* dup( void )const;
 
-    static std::string type_to_std_string( const unsigned int& type );
-    static unsigned int type_from_std_string( const std::string& type );
-
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline std::string& name( void ){ return _name; };
-    inline const std::string& name( void )const{ return _name; };
-    inline unsigned int& type( void ){ return _type; };
-    inline const unsigned int& type( void )const{ return _type; };
+    inline std::string& name( void ){ return get_prop< std::string >( _properties, "name" ); };
+    inline const std::string& name( void )const{ return get_prop< std::string >( _properties, "name" ); };
+    inline std::string& object_type( void ){ return get_prop< std::string >( _properties, "object_type" ); };
+    inline const std::string& object_type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
     inline Transform& transform( void ){ return _transform; };
     inline const Transform& transform( void )const{ return _transform; };
+    inline Vector3& linear_velocity( void ){ return _linear_velocity; };
+    inline const Vector3& linear_velocity( void )const{ return _linear_velocity; };
+    inline Vector3& angular_velocity( void ){ return _angular_velocity; };
+    inline const Vector3& angular_velocity( void )const{ return _angular_velocity; };
 
     static std::string class_name( void ){ return "object"; };
 
   protected:
-    std::string _name;
-    unsigned int _type;
     Transform _transform;
+    Vector3 _linear_velocity;
+    Vector3 _angular_velocity;
 
   private:
 

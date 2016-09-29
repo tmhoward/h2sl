@@ -41,9 +41,10 @@
 #include "h2sl/feature_num_words.h"
 #include "h2sl/feature_cv.h"
 #include "h2sl/feature_type.h"
+#include "h2sl/feature_grounding_property_value.h"
+#include "h2sl/feature_region_object_property_value.h"
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_object_matches_child.h"
-#include "h2sl/feature_region_object.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
@@ -108,6 +109,46 @@ indices( const unsigned int& cv,
       for( unsigned int j = 0; j < group_indices[ 1 ].size(); j++ ){
         for( unsigned int k = 0; k < group_indices[ 2 ].size(); k++ ){
           indices.push_back( group_indices[ 0 ][ i ] * _feature_groups[ 1 ].size() * _feature_groups[ 2 ].size() + group_indices[ 1 ][ j ] * _feature_groups[ 2 ].size() + group_indices[ 2 ][ k ] );
+        }
+      }
+    }
+  }
+
+  return;
+}
+
+void
+Feature_Product::
+indices( const unsigned int& cv,
+          const Grounding* grounding,
+          const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+          const Phrase* phrase,
+          const World* world,
+          const Grounding* context,
+          vector< unsigned int >& indices,
+          vector< pair< vector< Feature* >, unsigned int > >& weightedFeatures,
+          const vector< bool >& evaluateFeatureTypes ){
+  indices.clear();
+  evaluate( cv, grounding, children, phrase, world, context, evaluateFeatureTypes );
+
+  std::vector< std::vector< unsigned int > > group_indices( _values.size() );
+  for( unsigned int i = 0; i < _values.size(); i++ ){
+    for( unsigned int j = 0; j < _values[ i ].size(); j++ ){
+      if( _values[ i ][ j ] ){
+        group_indices[ i ].push_back( j );
+      }
+    }
+  }
+
+  if( _values.size() == 3 ){
+    for( unsigned int i = 0; i < group_indices[ 0 ].size(); i++ ){
+      for( unsigned int j = 0; j < group_indices[ 1 ].size(); j++ ){
+        for( unsigned int k = 0; k < group_indices[ 2 ].size(); k++ ){
+          indices.push_back( group_indices[ 0 ][ i ] * _feature_groups[ 1 ].size() * _feature_groups[ 2 ].size() + group_indices[ 1 ][ j ] * _feature_groups[ 2 ].size() + group_indices[ 2 ][ k ] );
+          weightedFeatures.push_back( pair< vector< Feature* >, unsigned int >( vector< Feature* >(), indices.back() ) );
+          weightedFeatures.back().first.push_back( _feature_groups[ 0 ][ group_indices[ 0 ][ i ] ] );
+          weightedFeatures.back().first.push_back( _feature_groups[ 1 ][ group_indices[ 1 ][ j ] ] );
+          weightedFeatures.back().first.push_back( _feature_groups[ 2 ][ group_indices[ 2 ][ k ] ] );
         }
       }
     }
@@ -233,15 +274,10 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_num_words" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Num_Words() );
                 _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_type_object" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Type< Object >( l2 ) );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region_Object() );
-                _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_type_region" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Type< Region >( l2 ) );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_type_constraint" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Type< Constraint >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_property_value" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Grounding_Property_Value( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object_property_value" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Region_Object_Property_Value( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_region" ) ) == 0 ){
@@ -267,6 +303,7 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
+                assert( false );
               } 
             }
           }

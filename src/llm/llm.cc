@@ -285,6 +285,35 @@ pygx( const unsigned int& cv,
 double
 LLM::
 pygx( const unsigned int& cv,
+      const LLM_X& x,
+      const vector< unsigned int >& cvs,
+      vector< pair< std::vector< Feature* >, unsigned int > >& weightedFeatures ){
+  double numerator = 0.0;
+  double denominator = 0.0;
+  vector< unsigned int > indices;
+  vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
+  for( unsigned int i = 0; i < cvs.size(); i++ ){
+    if( i != 0 ){
+      evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+      evaluate_feature_types[ FEATURE_TYPE_GROUNDING ] = false;
+    }
+    double dp = 0.0;
+    _feature_set->indices( cvs[ i ], x.grounding(), x.children(), x.phrase(), x.world(), x.context(), indices, weightedFeatures, evaluate_feature_types );
+    for( unsigned int j = 0; j < indices.size(); j++ ){
+      dp += _weights[ indices[ j ] ];
+    }
+    dp = exp( dp );
+    if( cv == cvs[ i ] ){
+      numerator += dp;
+    }
+    denominator += dp;
+  }
+  return ( numerator / denominator );
+}
+
+double
+LLM::
+pygx( const unsigned int& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
@@ -660,6 +689,7 @@ compute_indices_thread( vector< LLM_Index_Map_Cell >& cells, LLM* llm ){
     for( unsigned int k = 0; k < cells[ i ].llm_x().cvs().size(); k++ ){
       cells[ i ].indices().push_back( vector< unsigned int >() );
       vector< Feature* > features;
+
       llm->feature_set()->indices( cells[ i ].llm_x().cvs()[ k ],
                                               cells[ i ].llm_x().grounding(),
                                               cells[ i ].llm_x().children(),

@@ -36,11 +36,12 @@
 
 #include <iostream>
 #include <libxml/tree.h>
+#include <map>
 
 namespace h2sl {
   class Grounding {
   public:
-    Grounding();
+    Grounding( const std::map< std::string, std::string >& properties = std::map< std::string, std::string >() );
     virtual ~Grounding();
     Grounding( const Grounding& other );
     Grounding& operator=( const Grounding& other );
@@ -54,8 +55,12 @@ namespace h2sl {
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
+    inline const std::map< std::string, std::string >& properties( void )const{ return _properties; };
+
   protected:
     virtual bool _equals( const Grounding& other )const;
+  
+    std::map< std::string, std::string > _properties;
 
   private:
 

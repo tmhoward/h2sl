@@ -84,6 +84,7 @@ namespace h2sl {
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, const std::vector< std::vector< unsigned int > >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< unsigned int >& indices );
     double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< Feature* >& features );
+    double pygx( const unsigned int& cv, const LLM_X& x, const std::vector< unsigned int >& cvs, std::vector< std::pair< std::vector< Feature* >, unsigned int > >& weightedFeatures );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< unsigned int >& cvs );
     double pygx( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const std::vector< unsigned int >& cvs, const std::vector< bool >& evaluateFeatureTypes );

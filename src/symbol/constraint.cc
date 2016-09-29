@@ -37,23 +37,20 @@ using namespace std;
 using namespace h2sl;
 
 Constraint::
-Constraint( const unsigned int& type,
+Constraint( const string& constraintType,
             const Region& parent,
             const Region& child ) : Grounding(),
-                                    _type( type ),
                                     _parent( parent ),
                                     _child( child ) {
-
+  insert_prop< std::string >( _properties, "constraint_type", constraintType );
 }
 
 Constraint::
-Constraint( const constraint_type_t& type,
-            const Region& parent,
-            const Region& child ) : Grounding(),
-                                    _type( type ),
-                                    _parent( parent ),
-                                    _child( child ) {
-
+Constraint( xmlNodePtr root ) : Grounding(),
+                                _parent(),
+                                _child() {
+  insert_prop< std::string >( _properties, "constraint_type", "na" );
+  from_xml( root );
 }
 
 Constraint::
@@ -63,7 +60,6 @@ Constraint::
 
 Constraint::
 Constraint( const Constraint& other ) : Grounding( other ),
-                                        _type( other._type ),
                                         _parent( other._parent ),
                                         _child( other._child ){
 
@@ -72,7 +68,7 @@ Constraint( const Constraint& other ) : Grounding( other ),
 Constraint&
 Constraint::
 operator=( const Constraint& other ) {
-  _type = other._type;
+  _properties = other._properties;
   _parent = other._parent;
   _child = other._child;
   return (*this);
@@ -81,7 +77,7 @@ operator=( const Constraint& other ) {
 bool
 Constraint::
 operator==( const Constraint& other )const{
-  if( _type != other._type ){
+  if( constraint_type() != other.constraint_type() ){
     return false;
   } else if ( _parent != other._parent ){
     return false;
@@ -104,36 +100,15 @@ dup( void )const{
   return new Constraint( *this );
 }
 
-string
-Constraint::
-type_to_std_string( const unsigned int& type ){
-  switch( type ){
-  case( CONSTRAINT_TYPE_INSIDE ):
-    return "inside";
-    break;
-  case( CONSTRAINT_TYPE_OUTSIDE ):
-    return "outside";
-    break;
-  case( CONSTRAINT_TYPE_UNKNOWN ):
-  default:
-    return "na";
-  }
-}
-
-unsigned int
-Constraint::
-type_from_std_string( const string& type ){
-  for( unsigned int i = 0; i < NUM_OBJECT_TYPES; i++ ){
-    if( type == Constraint::type_to_std_string( i ) ){
-      return i;
-    }
-  }
-  return OBJECT_TYPE_UNKNOWN;
-}
-
 void
 Constraint::
 to_xml( const string& filename )const{
+  xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+  xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+  xmlDocSetRootElement( doc, root );
+  to_xml( doc, root );
+  xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
+  xmlFreeDoc( doc );
   return;
 }
 
@@ -142,7 +117,7 @@ Constraint::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "constraint" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "type" ), ( const xmlChar* )( Constraint::type_to_std_string( _type ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "constraint_type" ), ( const xmlChar* )( constraint_type().c_str() ) );
   xmlNodePtr parent = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "parent" ), NULL );
   _parent.to_xml( doc, parent );
   xmlAddChild( node, parent );
@@ -179,36 +154,29 @@ from_xml( const string& filename ){
 void
 Constraint::
 from_xml( xmlNodePtr root ){
-  _type = CONSTRAINT_TYPE_UNKNOWN;
+  constraint_type() = "na";
   _parent = Region();
   _child = Region();
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "type" ) );
-    if( tmp != NULL ){
-      string type_string = ( char* )( tmp );
-      _type = Constraint::type_from_std_string( type_string );
-      xmlFree( tmp );
+    pair< bool, string > constraint_type_prop = has_prop< std::string >( root, "constraint_type" );
+    if( constraint_type_prop.first ){
+      constraint_type() = constraint_type_prop.second;
     }
-    xmlNodePtr l1 = NULL;
-    for( l1 = root->children; l1; l1 = l1->next ){
-      if( l1->type == XML_ELEMENT_NODE ){
-        if( xmlStrcmp( l1->name, ( const xmlChar* )( "parent" ) ) == 0 ){
-          xmlNodePtr l2 = NULL;
-          for( l2 = l1->children; l2; l2 = l2->next ){
-            if( l2->type == XML_ELEMENT_NODE ){
-              if( xmlStrcmp( l2->name, ( const xmlChar* )( "region" ) ) == 0 ){
-                _parent.from_xml( l2 );
-              }
-            }
+    pair< bool, string > type_prop = has_prop< std::string >( root, "type" );
+    if( type_prop.first ){
+      constraint_type() = type_prop.second;
+    }
+    for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
+      if( matches_name( l1, "parent" ) ) {
+        for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+          if( matches_name( l2, "region" ) ){
+            _parent.from_xml( l2 );
           }
-        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "child" ) ) == 0 ){
-          xmlNodePtr l2 = NULL;
-          for( l2 = l1->children; l2; l2 = l2->next ){
-            if( l2->type == XML_ELEMENT_NODE ){
-              if( xmlStrcmp( l2->name, ( const xmlChar* )( "region" ) ) == 0 ){
-                _child.from_xml( l2 ); 
-              }
-            }
+        } 
+      } else if( matches_name( l1, "child" ) ) {
+        for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+          if( matches_name( l2, "region" ) ){
+            _child.from_xml( l2 );
           }
         } 
       }
@@ -222,7 +190,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Constraint& other ) {
     out << "Constraint(";
-    out << "type=\"" << Constraint::type_to_std_string( other.type() ) << "\",";
+    out << "type=\"" << other.constraint_type() << "\",";
     out << "parent=" << other.parent() << ",";
     out << "child=" << other.child();
     out << ")";

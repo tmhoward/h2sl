@@ -83,6 +83,7 @@ main( int argc,
     }
 
     feature_product->feature_groups().push_back( vector< Feature* >() );
+/*
     for( unsigned int i = 1; i < NUM_OBJECT_TYPES; i++ ){
       feature_product->feature_groups().back().push_back( new Feature_Type< Object >( false, i ) );
     }
@@ -90,11 +91,10 @@ main( int argc,
     for( unsigned int i = 1; i < NUM_OBJECT_TYPES; i++ ){
       feature_product->feature_groups().back().push_back( new Feature_Region_Object( false, i ) );
     }
-
     for( unsigned int i = 1; i < NUM_REGION_TYPES; i++ ){
       feature_product->feature_groups().back().push_back( new Feature_Type< Region >( false, i ) );
     }
-
+*/
     cout << "feature_product->size(): " << feature_product->size() << endl;
 
     if( grammar != NULL ){

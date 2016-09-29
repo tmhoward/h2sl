@@ -39,35 +39,25 @@
 #include "h2sl/region.h"
 
 namespace h2sl {
-  typedef enum {
-    CONSTRAINT_TYPE_UNKNOWN,
-    CONSTRAINT_TYPE_INSIDE,
-    CONSTRAINT_TYPE_OUTSIDE,
-    NUM_CONSTRAINT_TYPES
-  } constraint_type_t;
-
   class Constraint: public Grounding {
   public:
-    Constraint( const unsigned int& type = 0, const Region& parent = Region(), const Region& child = Region() );
-    Constraint( const constraint_type_t& type, const Region&, const Region& child );
+    Constraint( const std::string& constraintType = "na", const Region& parent = Region(), const Region& child = Region() );
+    Constraint( xmlNodePtr root );
     virtual ~Constraint();
     Constraint( const Constraint& other );
     Constraint& operator=( const Constraint& other );
     bool operator==( const Constraint& other )const;
     bool operator!=( const Constraint& other )const;
     virtual Grounding* dup( void )const;
-
-    static std::string type_to_std_string( const unsigned int& type );
-    static unsigned int type_from_std_string( const std::string& type );
-
+    
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline unsigned int& type( void ){ return _type; };
-    inline const unsigned int& type( void )const{ return _type; };
+    inline std::string& constraint_type( void ){ return get_prop< std::string >( _properties, "constraint_type" ); };
+    inline const std::string& constraint_type( void )const{ return get_prop< std::string >( _properties, "constraint_type" ); };
     inline Region& parent( void ){ return _parent; };
     inline const Region& parent( void )const{ return _parent; };
     inline Region& child( void ){ return _child; };
@@ -76,7 +66,6 @@ namespace h2sl {
     static std::string class_name( void ){ return "constraint"; };
 
   protected:
-    unsigned int _type;
     Region _parent;
     Region _child;
 

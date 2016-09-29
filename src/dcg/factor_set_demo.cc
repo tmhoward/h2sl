@@ -59,12 +59,12 @@ main( int argc,
   correspondence_variables.back().push_back( CV_FALSE );
 
   vector< pair< unsigned int, Grounding* > > search_space;
-
+/*
   for( unsigned int i = 0; i < NUM_OBJECT_TYPES; i++ ){
     search_space.push_back( make_pair< unsigned int, Grounding* >( 0, NULL ) );
     search_space.back().second =  new Region( REGION_TYPE_UNKNOWN, Object( "na", ( object_type_t )( i ) ) );
   }
-
+*/
   Phrase * phrase = new Phrase();
   if( args.phrase_given ){
     phrase->from_xml( args.phrase_arg );

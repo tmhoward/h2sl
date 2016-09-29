@@ -229,8 +229,7 @@ from_xml( xmlNodePtr root ){
           for( l2 = l1->children; l2; l2 = l2->next ){
             if( l2->type == XML_ELEMENT_NODE ){
               if( xmlStrcmp( l2->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
-                _grounding = new Grounding_Set();
-                _grounding->from_xml( l2 );
+                _grounding = new Grounding_Set( l2 );
               }
             }
           }

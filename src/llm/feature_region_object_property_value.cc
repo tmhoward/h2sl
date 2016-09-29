@@ -1,5 +1,5 @@
 /**
- * @file    feature_region_object.cc
+ * @file    feature_region_object_property_value.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,45 +28,50 @@
  *
  * @section DESCRIPTION
  *
- * The implementation of a class used to check for a match with a region's object
+ * The implementation of a class to check for a region object's property
  */
 
 #include <sstream>
 
 #include "h2sl/region.h"
-#include "h2sl/feature_region_object.h"
+#include "h2sl/feature_region_object_property_value.h"
 
 using namespace std;
 using namespace h2sl;
 
-Feature_Region_Object::
-Feature_Region_Object( const bool& invert,
-                        const unsigned int& objectType ) : Feature( invert ),
-                                                            _object_type( objectType ) {
+Feature_Region_Object_Property_Value::
+Feature_Region_Object_Property_Value( const bool& invert,
+                        const string& key,
+                        const string& symbol ) : Feature_Grounding_Property_Value( invert, key, symbol ) {
 
 }
 
-Feature_Region_Object::
-~Feature_Region_Object() {
+Feature_Region_Object_Property_Value::
+Feature_Region_Object_Property_Value( xmlNodePtr root ) : Feature_Grounding_Property_Value( root ) {
 
 }
 
-Feature_Region_Object::
-Feature_Region_Object( const Feature_Region_Object& other ) : Feature( other ),
-                                                              _object_type( other._object_type ){
+Feature_Region_Object_Property_Value::
+~Feature_Region_Object_Property_Value() {
 
 }
 
-Feature_Region_Object&
-Feature_Region_Object::
-operator=( const Feature_Region_Object& other ) {
+Feature_Region_Object_Property_Value::
+Feature_Region_Object_Property_Value( const Feature_Region_Object_Property_Value& other ) : Feature_Grounding_Property_Value( other ) {
+
+}
+
+Feature_Region_Object_Property_Value&
+Feature_Region_Object_Property_Value::
+operator=( const Feature_Region_Object_Property_Value& other ) {
   _invert = other._invert;
-  _object_type = other._object_type;
+  _key = other._key;
+  _symbol = other._symbol;
   return (*this);
 }
 
 bool
-Feature_Region_Object::
+Feature_Region_Object_Property_Value::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -76,7 +81,7 @@ value( const unsigned int& cv,
 }
 
 bool
-Feature_Region_Object::
+Feature_Region_Object_Property_Value::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -85,54 +90,36 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
-    if( region->object().type() == _object_type ){
-      return !_invert;
+    map< std::string, std::string >::const_iterator it = region->object().properties().find( _key );
+    if( it != region->object().properties().end() ){
+      if( it->second == _symbol ){
+        return !_invert;
+      } else {
+        return _invert;
+      } 
     }
   }
   return false;
 }
 
 void
-Feature_Region_Object::
+Feature_Region_Object_Property_Value::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_region_object" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_region_object_property_value" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
-  stringstream object_type_string;
-  object_type_string << _object_type;
-  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( object_type_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "key" ), ( const xmlChar* )( _key.c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "symbol" ), ( const xmlChar* )( _symbol.c_str() ) );
   xmlAddChild( root, node );
-  return;
-}
-
-void
-Feature_Region_Object::
-from_xml( xmlNodePtr root ){
-  _invert = false;
-  _object_type = 0;
-  if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( char* )( tmp );
-      _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
-    }
-    tmp = xmlGetProp( root, ( const xmlChar* )( "object_type" ) );
-    if( tmp != NULL ){
-      string object_type_string = ( char* )( tmp );
-      _object_type = strtol( object_type_string.c_str(), NULL, 10 );
-      xmlFree( tmp );
-    }
-  }
   return;
 }
 
 namespace h2sl {
   ostream&
   operator<<( ostream& out,
-              const Feature_Region_Object& other ) {
-    out << "Feature_Region_Object:(invert:(" << other.invert() << ") object_type:(" << Object::type_to_std_string( other.object_type() ) << "))";
+              const Feature_Region_Object_Property_Value& other ) {
+    out << "Feature_Region_Object_Property_Value:(invert:(" << other.invert() << ") key:(" << other.key() << ") symbol:(" << other.symbol() << "))";
     return out;
   }
 

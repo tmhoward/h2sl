@@ -30,6 +30,7 @@
  * The implementation of a class used to describe an object
  */
 
+#include "h2sl/common.h"
 #include "h2sl/object.h"
 
 using namespace std;
@@ -37,22 +38,25 @@ using namespace h2sl;
 
 Object::
 Object( const string& name,
-        const unsigned int& type,
-        const Transform& transform ) : Grounding(),   
-                                        _name( name ),
-                                        _type( type ),
-                                        _transform( transform ) {
-  
+        const string& objectType,
+        const Transform& transform,
+        const Vector3& linearVelocity,
+        const Vector3& angularVelocity ) : Grounding(),   
+                                            _transform( transform ),  
+                                            _linear_velocity( linearVelocity ),
+                                            _angular_velocity( angularVelocity ) {
+   insert_prop< std::string >( _properties, "name", name ); 
+   insert_prop< std::string >( _properties, "object_type", objectType ); 
 }
 
 Object::
-Object( const string& name,
-        const object_type_t& type,
-        const Transform& transform ) : Grounding(),
-                                        _name( name ),
-                                        _type( type ),
-                                        _transform( transform ) {
-
+Object( xmlNodePtr root ) : Grounding(),
+                            _transform(),
+                            _linear_velocity(),
+                            _angular_velocity() {
+  insert_prop< std::string >( _properties, "name", "na" );
+  insert_prop< std::string >( _properties, "object_type", "na" );
+  from_xml( root );
 }
 
 Object::
@@ -62,27 +66,28 @@ Object::
 
 Object::
 Object( const Object& other ) : Grounding( other ),
-                                _name( other._name ),
-                                _type( other._type ),
-                                _transform( other._transform ) {
+                                _transform( other._transform ), 
+                                _linear_velocity( other._linear_velocity ),
+                                _angular_velocity( other._angular_velocity ) {
 
 }
 
 Object&
 Object::
 operator=( const Object& other ) {
-  _name = other._name;
-  _type = other._type;
+  _properties = other._properties;
   _transform = other._transform;
+  _linear_velocity = other._linear_velocity;
+  _angular_velocity = other._angular_velocity;
   return (*this);
 }
 
 bool
 Object::
 operator==( const Object& other )const{
-  if( _name != other._name ){
+  if( name() != other.name() ){
     return false;
-  } else if ( _type != other._type ){
+  } else if ( object_type() != other.object_type() ){
     return false;
   } else {
     return true;
@@ -101,105 +106,6 @@ dup( void )const{
   return new Object( *this );
 }
  
-string
-Object::
-type_to_std_string( const unsigned int& type ){
-  switch( type ){
-  case( OBJECT_TYPE_ROBOT ):
-    return "robot";
-    break;
-  case( OBJECT_TYPE_BOX ):
-    return "box";
-    break;
-  case( OBJECT_TYPE_TABLE ):
-    return "table";
-    break;
-  case( OBJECT_TYPE_CHAIR ):
-    return "chair";
-    break;
-  case( OBJECT_TYPE_COUCH ):
-    return "couch";
-    break;
-  case( OBJECT_TYPE_SINK ):
-    return "sink";
-    break;
-  case( OBJECT_TYPE_MUG ):
-    return "mug";
-    break;
-  case( OBJECT_TYPE_BOTTLE ):
-    return "bottle";
-    break;
-  case( OBJECT_TYPE_CAN ):
-    return "can";
-    break;
-  case( OBJECT_TYPE_FRIDGE ):
-    return "fridge";
-    break;
-  case( OBJECT_TYPE_HAMMER ):
-    return "hammer";
-    break;
-  case( OBJECT_TYPE_SCREWDRIVER ):
-    return "screwdriver";
-    break;
-  case( OBJECT_TYPE_PIPE ):
-    return "pipe";
-    break;
-  case( OBJECT_TYPE_NEWSPAPER ):
-    return "newspaper";
-    break;
-  case( OBJECT_TYPE_MARKER ):
-    return "marker";
-    break;
-  case( OBJECT_TYPE_TUBE ):
-    return "tube";
-    break;
-  case( OBJECT_TYPE_TAPE ):
-    return "tape";
-    break;
-  case( OBJECT_TYPE_BONE ):
-    return "bone";
-    break;
-  case( OBJECT_TYPE_KITCHEN ):
-    return "kitchen";
-    break;
-  case( OBJECT_TYPE_BATHROOM ):
-    return "bathroom";
-    break;
-  case( OBJECT_TYPE_PANTRY ):
-    return "pantry";
-    break;
-  case( OBJECT_TYPE_BUILDING ):
-    return "building";
-    break;
-  case( OBJECT_TYPE_LIVINGROOM ):
-    return "livingroom";
-    break;
-  case( OBJECT_TYPE_BEDROOM ):
-    return "bedroom";
-    break;
-  case( OBJECT_TYPE_STUDY ):
-    return "STUDY";
-    break;
-  case( OBJECT_TYPE_HALLWAY ):
-    return "STUDY";
-    break;
-  default:
-    return "na";
-    break;
-  }
-}
-
-unsigned int
-Object::
-type_from_std_string( const string& type ){
-  for( unsigned int i = 0; i < NUM_OBJECT_TYPES; i++ ){
-    if( type == Object::type_to_std_string( i ) ){
-      return i;
-    }
-  }
-  return OBJECT_TYPE_UNKNOWN;
-}
-
 void
 Object::
 to_xml( const string& filename )const{
@@ -217,10 +123,12 @@ Object::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "object" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "name" ), ( const xmlChar* )( _name.c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "type" ), ( const xmlChar* )( Object::type_to_std_string( _type ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "name" ), ( const xmlChar* )( get_prop< std::string >( _properties, "name" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_type" ).c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "position" ), ( const xmlChar* )( _transform.position().to_std_string().c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "orientation" ), ( const xmlChar* )( _transform.orientation().to_std_string().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "linear_velocity" ), ( const xmlChar* )( _linear_velocity.to_std_string().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "angular_velocity" ), ( const xmlChar* )( _angular_velocity.to_std_string().c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -252,16 +160,13 @@ void
 Object::
 from_xml( xmlNodePtr root ){
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "name" ) );
-    if( tmp != NULL ){
-      _name = ( char* )( tmp );
-      xmlFree( tmp );
+    pair< bool, string > name_prop = has_prop< std::string >( root, "name" );
+    if( name_prop.first ){
+      name() = name_prop.second;
     }
-    tmp = xmlGetProp( root, ( const xmlChar* )( "type" ) );
-    if( tmp != NULL ){
-      string type_string = ( char* )( tmp );
-      _type = Object::type_from_std_string( type_string );
-      xmlFree( tmp );
+    pair< bool, string > object_type_prop = has_prop< std::string >( root, "object_type" );
+    if( object_type_prop.first ){
+      object_type() = object_type_prop.second;
     }
   }
   return;
@@ -274,9 +179,19 @@ namespace h2sl {
               const Object& other ) {
     out << "Object(";
     out << "name=\"" << other.name() << "\",";
-    out << "type=\"" << Object::type_to_std_string( other.type() ) << "\",";
-    out << "position=" << other.transform().position() << ",";
-    out << "orientation=" << other.transform().orientation();
+    out << "object_type=\"" << other.object_type() << "\"";
+    if( other.transform().position().norm() > 0.0 ){
+      out << ",position=" << other.transform().position();
+    }
+    if( !other.transform().orientation().is_identity() ){
+      out << ",orientation=" << other.transform().orientation();
+    }
+    if( other.linear_velocity().norm() > 0.0 ){
+      out << ",linear_velocity=" << other.linear_velocity();
+    }
+    if( other.angular_velocity().norm() > 0.0 ){
+      out << ",angular_velocity=" << other.angular_velocity();
+    }
     out << ")";
     return out;
   }

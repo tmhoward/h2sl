@@ -39,21 +39,27 @@ using namespace std;
 using namespace h2sl;
 
 Grammar_Non_Terminal::
-Grammar_Non_Terminal( const string& a ) : _elements( 1 ) {
+Grammar_Non_Terminal( const string& a,
+                      const double& prob ) : _elements( 1 ),
+                                              _prob( prob ) {
   _elements[ 0 ] = a;
 }
 
 Grammar_Non_Terminal::
 Grammar_Non_Terminal( const string& a,
-                            const string& b ) : _elements( 2 ) {
+                      const string& b,
+                      const double& prob ) : _elements( 2 ),
+                                              _prob( prob ) {
   _elements[ 0 ] = a;
   _elements[ 1 ] = b;
 }
 
 Grammar_Non_Terminal::
 Grammar_Non_Terminal( const string& a,
-                            const string& b,
-                            const string& c ) : _elements( 3 ) {
+                      const string& b,
+                      const string& c,
+                      const double& prob ) : _elements( 3 ),
+                                              _prob( prob ){
   _elements[ 0 ] = a;
   _elements[ 1 ] = b;
   _elements[ 2 ] = c;
@@ -65,7 +71,8 @@ Grammar_Non_Terminal::
 }
 
 Grammar_Non_Terminal::
-Grammar_Non_Terminal( const Grammar_Non_Terminal& other ) : _elements( other._elements ) {
+Grammar_Non_Terminal( const Grammar_Non_Terminal& other ) : _elements( other._elements ),
+                                                            _prob( other._prob ) {
 
 }
 
@@ -73,6 +80,7 @@ Grammar_Non_Terminal&
 Grammar_Non_Terminal::
 operator=( const Grammar_Non_Terminal& other ) {
   _elements = other._elements;
+  _prob = other._prob;
   return (*this);
 }
 
@@ -160,6 +168,7 @@ namespace h2sl {
         out << " ";
       }
     }
+    out << " prob:" << other.prob();
     return out;
   }
 

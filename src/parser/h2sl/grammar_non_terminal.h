@@ -41,9 +41,9 @@
 namespace h2sl {
   class Grammar_Non_Terminal {
   public:
-    Grammar_Non_Terminal( const std::string& a = "na" );
-    Grammar_Non_Terminal( const std::string& a, const std::string& b );
-    Grammar_Non_Terminal( const std::string& a, const std::string& b, const std::string& c );
+    Grammar_Non_Terminal( const std::string& a = "na", const double& prob = 1.0 );
+    Grammar_Non_Terminal( const std::string& a, const std::string& b, const double& prob = 1.0 );
+    Grammar_Non_Terminal( const std::string& a, const std::string& b, const std::string& c, const double& prob = 1.0 );
     virtual ~Grammar_Non_Terminal();
     Grammar_Non_Terminal( const Grammar_Non_Terminal& other );
     Grammar_Non_Terminal& operator=( const Grammar_Non_Terminal& other );
@@ -65,9 +65,12 @@ namespace h2sl {
     inline const std::string& c( void )const{ return _elements[ 2 ]; };
     inline std::vector< std::string >& elements( void ){ return _elements; };
     inline const std::vector< std::string >& elements( void )const{ return _elements; };
+    inline double& prob( void ){ return _prob; };
+    inline const double& prob( void )const{ return _prob; };
 
   protected:
     std::vector< std::string > _elements;
+    double _prob;
 
   private:
 

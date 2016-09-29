@@ -47,6 +47,12 @@ Grounding_Set( const vector< Grounding* >& groundings ) : Grounding(),
 }
 
 Grounding_Set::
+Grounding_Set( xmlNodePtr root ) : Grounding(),
+                                    _groundings() {
+  from_xml( root );
+}
+
+Grounding_Set::
 ~Grounding_Set() {
   clear();
 }
@@ -148,14 +154,11 @@ from_xml( xmlNodePtr root ){
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          _groundings.push_back( new Object() );
-          _groundings.back()->from_xml( l1 );
+          _groundings.push_back( new Object( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
-          _groundings.push_back( new Region() );
-          _groundings.back()->from_xml( l1 );
+          _groundings.push_back( new Region( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint" ) ) == 0 ){
-          _groundings.push_back( new Constraint() );
-          _groundings.back()->from_xml( l1 );
+          _groundings.push_back( new Constraint( l1 ) );
         } 
       }
     }

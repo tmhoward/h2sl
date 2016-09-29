@@ -85,7 +85,9 @@ value( const unsigned int& cv,
         }
       }
     }
-    return _invert;
+    if( !children.empty() ){
+      return _invert;
+    }
   }
   return false;
 }

@@ -53,7 +53,7 @@ evaluate_model( LLM* llm,
 
   unsigned int num_correct = 0;
   for( unsigned int i = 0; i < examples.size(); i++ ){
-    vector< Feature* > features;
+    vector< pair< vector< Feature* >, unsigned int > > features;
     double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
     if( pygx < 0.75 ){
 //    if( examples[ i ].first == CV_TRUE ){
@@ -80,7 +80,14 @@ evaluate_model( LLM* llm,
       cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
       cout << "     features[" << features.size() << "]" << endl;
       for( unsigned int j = 0; j < features.size(); j++ ){
-        cout << "      feature[" << j << "]:" << *features[ j ] << endl;
+          cout << "      ";
+        for( unsigned int k = 0; k < features[ j ].first.size(); k++ ){
+          cout << "(" << *features[ j ].first[ k ] << ")";
+          if( k != ( features[ j ].first.size() - 1 ) ){
+            cout << ",";
+          }
+        }
+        cout << ") index:" << features[ j ].second << " weight:" << llm->weights()[ features[ j ].second ] << endl;
       }
       cout << endl;
     } else {
@@ -186,6 +193,10 @@ main( int argc,
   for( int i = 0; i < args.threads_arg; i++ ){
     feature_sets.push_back( new Feature_Set() );
     feature_sets.back()->from_xml( args.feature_set_arg );
+  }
+  
+  if( !feature_sets.empty() ){
+    cout << "num features:" << feature_sets.front()->size() << endl;
   }
 
   vector< LLM* > llms;

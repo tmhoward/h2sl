@@ -109,6 +109,16 @@ operator*( const double& rhs )const{
   return Unit_Quaternion( _qv * rhs, _qs * rhs );
 }
 
+bool
+Unit_Quaternion::
+is_identity( void )const{
+  if( _qv.norm() == 0.0 ){
+    return false;
+  } else {
+    return true;
+  }
+}
+
 void
 Unit_Quaternion::
 normalize( void ){

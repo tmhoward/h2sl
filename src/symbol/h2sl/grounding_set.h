@@ -43,6 +43,7 @@ namespace h2sl {
   class Grounding_Set: public Grounding {
   public:
     Grounding_Set( const std::vector< Grounding* >& groundings = std::vector< Grounding* >() );
+    Grounding_Set( xmlNodePtr root );
     virtual ~Grounding_Set();
     Grounding_Set( const Grounding_Set& other );
     Grounding_Set& operator=( const Grounding_Set& other );
