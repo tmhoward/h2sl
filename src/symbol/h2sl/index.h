@@ -25,17 +25,7 @@ namespace h2sl {
    */
   class Index : public Grounding {
   public:
-    enum Type {
-      TYPE_FIRST,
-      TYPE_SECOND,
-      TYPE_THIRD,
-      TYPE_FOURTH,
-      TYPE_FIFTH,
-      TYPE_UNKNOWN,
-      TYPE_NUM_TYPES
-    };
-
-    Index( const Type& type = Index::TYPE_UNKNOWN );
+    Index( const std::string& indexType = "na" );
     Index( const Index& other );
     virtual ~Index();
     Index& operator=( const Index& other );
@@ -51,14 +41,14 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    static std::string type_to_std_string( const Type& type );
-    static Index::Type type_from_std_string( const std::string& arg );
+    /*static std::string type_to_std_string( const Type& type );
+    static Index::Type type_from_std_string( const std::string& arg );*/
 
-    inline Type& type( void ){ return _type; };
-    inline const Type& type( void )const{ return _type; };
+    inline std::string& index_type( void ){ return get_prop< std::string >( _properties, "index_type" ); };
+    inline const std::string& index_type( void )const{ return get_prop< std::string >( _properties, "index_type" ); };
 
   protected:
-    Type _type;
+    /*Type _type;*/
 
   private:
 

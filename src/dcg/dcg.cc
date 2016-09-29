@@ -38,6 +38,7 @@
 #include "h2sl/grounding_set.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
+#include "h2sl/index.h"
 #include "h2sl/dcg.h"
 
 using namespace std;
@@ -117,6 +118,15 @@ fill_search_spaces( const World* world ){
   vector< std::string > constraints;
   constraints.push_back( "inside" );
   constraints.push_back( "outside" );
+    
+  vector< std::string > index;
+  constraints.push_back( "first" );
+  constraints.push_back( "second" );
+  constraints.push_back( "third" );
+  constraints.push_back( "fourth" );
+  constraints.push_back( "fifth" );
+  constraints.push_back( "na" );
+
 
   // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
@@ -146,6 +156,11 @@ fill_search_spaces( const World* world ){
         }
       }
     }
+  }
+    
+  // add the ? groundings; exhaustively fill the index symbol space
+  for( unsigned int i = 0; i < index.size(); i++ ){
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Index( index [ i ] ) ) );
   }
 
   return;

@@ -17,17 +17,15 @@ using namespace h2sl;
  * Index class constructor
  */
 Index::
-Index( const Type& type ) : Grounding(),
-                                         _type( type ) {
-
+Index( const string& indexType ) : Grounding() {
+  insert_prop< std::string >( _properties, "index_type", indexType );
 }
 
 /**
  * Index class copy constructor
  */
 Index::
-Index( const Index& other ) : Grounding( other ),
-                                                    _type( other._type ) {
+Index( const Index& other ) : Grounding( other ) {
 
 }
 
@@ -45,7 +43,7 @@ Index::
 Index&
 Index::
 operator=( const Index& other ){
-  _type = other._type;
+  _properties = other._properties;
   return (*this);
 }
 
@@ -55,7 +53,7 @@ operator=( const Index& other ){
 bool
 Index::
 operator==( const Index& other )const{
-  if ( _type != other._type ){
+  if ( index_type() != other.index_type() ){
     return false;
   } else {
     return true;
@@ -111,7 +109,7 @@ from_xml( const string& filename ){
     root = xmlDocGetRootElement( doc );
     if( root->type == XML_ELEMENT_NODE ){
       xmlNodePtr l1 = NULL;
-      for( l1 = root->children; l1; l1 = l1->next ){
+      for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "index" ) ) == 0 ){
             from_xml( l1 );
@@ -132,13 +130,11 @@ from_xml( const string& filename ){
 void
 Index::
 from_xml( xmlNodePtr root ){
-  _type = Index::Type::TYPE_UNKNOWN;
+  index_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "type" ) );
-    if( tmp != NULL ){
-      string type_string = ( char* )( tmp );
-      _type = Index::type_from_std_string( type_string );
-      xmlFree( tmp );
+    pair< bool, string > index_type_prop = has_prop< std::string >( root, "index_type" );
+    if( index_type_prop.first ){
+      index_type() = index_type_prop.second;
     }
   }
   return;
@@ -167,12 +163,12 @@ Index::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "index" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "type" ), ( const xmlChar* )( Index::type_to_std_string( ( Index::Type )( _type ) ).c_str() ) );
+    xmlNewProp( node, ( const xmlChar* )( "index_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "index_type").c_str() ) );
   xmlAddChild( root, node );
   return;
 }
 
-string
+/*string
 Index::
 type_to_std_string( const Type& type ){
   switch( type ){
@@ -208,7 +204,7 @@ type_from_std_string( const string& arg ){
     }
   }
   return TYPE_UNKNOWN;
-}
+}*/
 
 namespace h2sl {
   /** 
@@ -218,7 +214,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Index& other ){
     out << "class:\"Index\" ";
-    out << "type:" << Index::type_to_std_string( ( Index::Type )( other.type() ) ) << " ";
+    out << "index_type:" << other.index_type() << " ";
     return out;
   }
 }
