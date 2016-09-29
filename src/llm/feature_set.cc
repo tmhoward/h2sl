@@ -95,6 +95,30 @@ indices( const unsigned int& cv,
 
 void
 Feature_Set::
+indices( const unsigned int& cv,
+          const Grounding* grounding,
+          const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+          const Phrase* phrase,
+          const World* world,
+          const Grounding* context,
+          vector< unsigned int >& indices,
+          vector< pair< vector< Feature* >, unsigned int > >& weightedFeatures,
+          const vector< bool >& evaluateFeatureTypes ){
+  indices.clear();
+  unsigned int offset = 0;
+  for( unsigned int i = 0; i < _feature_products.size(); i++ ){
+    vector< unsigned int > product_indices;
+    _feature_products[ i ]->indices( cv, grounding, children, phrase, world, context, product_indices, weightedFeatures, evaluateFeatureTypes );
+    for( unsigned int j = 0; j < product_indices.size(); j++ ){
+      indices.push_back( product_indices[ j ] + offset );
+    }
+    offset += _feature_products[ i ]->size();
+  }
+  return;
+}
+
+void
+Feature_Set::
 evaluate( const unsigned int& cv,
           const Grounding* grounding, 
           const vector< pair< const Phrase*, vector< Grounding* > > >& children,

@@ -2,86 +2,86 @@
 <root>
   <instruction text="walk to the counter and the stool"/>
   <world time="0">
-    <object name="o0" type="robot"/>
-    <object name="o1" type="box"/>
-    <object name="o2" type="table"/>
-    <object name="o3" type="chair"/>
+    <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o1" object_type="box" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o3" object_type="chair" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
   </world>
   <VP>
     <grounding>
       <grounding_set>
-        <constraint type="inside">
+        <constraint constraint_type="inside">
           <parent>
-            <region type="na">
-              <object name="o0" type="robot"/>
+            <region region_type="na">
+              <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             </region>
           </parent>
           <child>
-            <region type="na">
-              <object name="o2" type="table"/>
+            <region region_type="na">
+              <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             </region>
           </child>
         </constraint>
-        <constraint type="inside">
+        <constraint constraint_type="inside">
           <parent>
-            <region type="na">
-              <object name="o0" type="robot"/>
+            <region region_type="na">
+              <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             </region>
           </parent>
           <child>
-            <region type="na">
-              <object name="o3" type="chair"/>
+            <region region_type="na">
+              <object name="o3" object_type="chair" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             </region>
           </child>
         </constraint>
       </grounding_set>
     </grounding>
-    <VB text="walk"/>
+    <VB text="walk" order="0"/>
     <PP>
       <grounding>
         <grounding_set>
-          <region type="na">
-            <object name="o2" type="table"/>
+          <region region_type="na">
+            <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           </region>
-          <region type="na">
-            <object name="o3" type="chair"/>
+          <region region_type="na">
+            <object name="o3" object_type="chair" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           </region>
         </grounding_set>
       </grounding>
-      <TO text="to"/>
+      <TO text="to" order="0"/>
       <NP>
         <grounding>
           <grounding_set>
-            <region type="na">
-              <object name="o2" type="table"/>
+            <region region_type="na">
+              <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             </region>
-            <region type="na">
-              <object name="o3" type="chair"/>
+            <region region_type="na">
+              <object name="o3" object_type="chair" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             </region>
           </grounding_set>
         </grounding>
-        <CC text="and"/>
+        <CC text="and" order="0"/>
         <NP>
           <grounding>
             <grounding_set>
-              <region type="na">
-                <object name="o2" type="table"/>
+              <region region_type="na">
+                <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               </region>
             </grounding_set>
           </grounding>
-          <DT text="the"/>
-          <NN text="counter"/>
+          <DT text="the" order="0"/>
+          <NN text="counter" order="0"/>
         </NP>
         <NP>
           <grounding>
             <grounding_set>
-              <region type="na">
-                <object name="o3" type="chair"/>
+              <region region_type="na">
+                <object name="o3" object_type="chair" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               </region>
             </grounding_set>
           </grounding>
-          <DT text="the"/>
-          <NN text="stool"/>
+          <DT text="the" order="0"/>
+          <NN text="stool" order="0"/>
         </NP>
       </NP>
     </PP>

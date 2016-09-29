@@ -87,9 +87,9 @@ value( const unsigned int& cv,
       for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
         const Region * child = dynamic_cast< const Region* >( children[ i ].second[ j ] );
         if( child != NULL ){
-          if( ( child->object().type() != OBJECT_TYPE_UNKNOWN ) && ( child->type() == REGION_TYPE_UNKNOWN ) ){
+          if( ( child->object().object_type() != "na" ) && ( child->region_type() == "na" ) ){
             known_object_type_and_unknown_region_type.push_back( child );
-          } else if( ( child->object().type() == OBJECT_TYPE_UNKNOWN ) && ( child->type() != REGION_TYPE_UNKNOWN ) ){
+          } else if( ( child->object().object_type() == "na" ) && ( child->region_type() != "na" ) ){
             known_region_type_and_unknown_object_type.push_back( child );
           }
         }
@@ -97,13 +97,15 @@ value( const unsigned int& cv,
     }
     for( unsigned int i = 0; i < known_region_type_and_unknown_object_type.size(); i++ ){
       for( unsigned int j = 0; j < known_object_type_and_unknown_region_type.size(); j++ ){
-        if( ( region->type() == known_region_type_and_unknown_object_type[ i ]->type() ) && ( region->object().type() == known_object_type_and_unknown_region_type[ j ]->object().type() ) ){
+        if( ( region->region_type() == known_region_type_and_unknown_object_type[ i ]->region_type() ) && ( region->object().object_type() == known_object_type_and_unknown_region_type[ j ]->object().object_type() ) ){
           return !_invert;
         }
       }
     }   
-       
-    return _invert;
+
+    if( !known_region_type_and_unknown_object_type.empty() && !known_object_type_and_unknown_region_type.empty() ){       
+      return _invert;
+    }
   }
   return false;
 }

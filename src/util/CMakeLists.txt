@@ -1,5 +1,6 @@
 # GENGETOPT FILES
 set(GGOS
+    rewrite_examples.ggo
     llm_train.ggo
     grammar_generator.ggo
     gui_demo.ggo)
@@ -18,6 +19,7 @@ set(SRCS
 
 # BINARY SOURCE FILES
 set(BIN_SRCS
+    rewrite_examples.cc
     llm_train.cc
     grammar_generator.cc
     gui_demo.cc )

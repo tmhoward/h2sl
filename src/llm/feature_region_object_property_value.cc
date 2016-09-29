@@ -1,5 +1,5 @@
 /**
- * @file    feature_constraint_child_is_robot.cc
+ * @file    feature_region_object_property_value.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,42 +28,50 @@
  *
  * @section DESCRIPTION
  *
- * The implementation of a class used to check for a match with a region's type
+ * The implementation of a class to check for a region object's property
  */
 
 #include <sstream>
 
-#include "h2sl/constraint.h"
 #include "h2sl/region.h"
-#include "h2sl/feature_constraint_child_is_robot.h"
+#include "h2sl/feature_region_object_property_value.h"
 
 using namespace std;
 using namespace h2sl;
 
-Feature_Constraint_Child_Is_Robot::
-Feature_Constraint_Child_Is_Robot( const bool& invert ) : Feature( invert ) {
+Feature_Region_Object_Property_Value::
+Feature_Region_Object_Property_Value( const bool& invert,
+                        const string& key,
+                        const string& symbol ) : Feature_Grounding_Property_Value( invert, key, symbol ) {
 
 }
 
-Feature_Constraint_Child_Is_Robot::
-~Feature_Constraint_Child_Is_Robot() {
+Feature_Region_Object_Property_Value::
+Feature_Region_Object_Property_Value( xmlNodePtr root ) : Feature_Grounding_Property_Value( root ) {
 
 }
 
-Feature_Constraint_Child_Is_Robot::
-Feature_Constraint_Child_Is_Robot( const Feature_Constraint_Child_Is_Robot& other ) : Feature( other ) {
+Feature_Region_Object_Property_Value::
+~Feature_Region_Object_Property_Value() {
 
 }
 
-Feature_Constraint_Child_Is_Robot&
-Feature_Constraint_Child_Is_Robot::
-operator=( const Feature_Constraint_Child_Is_Robot& other ) {
+Feature_Region_Object_Property_Value::
+Feature_Region_Object_Property_Value( const Feature_Region_Object_Property_Value& other ) : Feature_Grounding_Property_Value( other ) {
+
+}
+
+Feature_Region_Object_Property_Value&
+Feature_Region_Object_Property_Value::
+operator=( const Feature_Region_Object_Property_Value& other ) {
   _invert = other._invert;
+  _key = other._key;
+  _symbol = other._symbol;
   return (*this);
 }
 
 bool
-Feature_Constraint_Child_Is_Robot::
+Feature_Region_Object_Property_Value::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -73,55 +81,45 @@ value( const unsigned int& cv,
 }
 
 bool
-Feature_Constraint_Child_Is_Robot::
+Feature_Region_Object_Property_Value::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world,
         const Grounding* context ){
-  const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
-  if( constraint != NULL ){
-    if( ( constraint->child().region_type() == "na" ) && ( constraint->child().object().object_type() == "robot" ) ){
-      return !_invert;
-    } else {
-      return _invert;
+  const Region * region = dynamic_cast< const Region* >( grounding );
+  if( region != NULL ){
+    map< std::string, std::string >::const_iterator it = region->object().properties().find( _key );
+    if( it != region->object().properties().end() ){
+      if( it->second == _symbol ){
+        return !_invert;
+      } else {
+        return _invert;
+      } 
     }
   }
   return false;
 }
 
 void
-Feature_Constraint_Child_Is_Robot::
+Feature_Region_Object_Property_Value::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_constraint_child_is_robot" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_region_object_property_value" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "key" ), ( const xmlChar* )( _key.c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "symbol" ), ( const xmlChar* )( _symbol.c_str() ) );
   xmlAddChild( root, node );
-  return;
-}
-
-void
-Feature_Constraint_Child_Is_Robot::
-from_xml( xmlNodePtr root ){
-  _invert = false;
-  if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( char* )( tmp );
-      _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
-    }
-  }
   return;
 }
 
 namespace h2sl {
   ostream&
   operator<<( ostream& out,
-              const Feature_Constraint_Child_Is_Robot& other ) {
-    out << "Feature_Constraint_Child_Is_Robot:(invert:(" << other.invert() << "))";
+              const Feature_Region_Object_Property_Value& other ) {
+    out << "Feature_Region_Object_Property_Value:(invert:(" << other.invert() << ") key:(" << other.key() << ") symbol:(" << other.symbol() << "))";
     return out;
   }
 

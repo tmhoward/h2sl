@@ -53,6 +53,7 @@ namespace h2sl {
     Vector3 operator*( const Vector3& rhs )const;
     Unit_Quaternion operator*( const double& rhs )const;
 
+    bool is_identity( void )const;
     void normalize( void );
 
     double norm( void )const;

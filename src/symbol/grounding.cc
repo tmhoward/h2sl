@@ -42,9 +42,9 @@ using namespace std;
 using namespace h2sl;
 
 Grounding::
-Grounding() {
+Grounding( const std::map< std::string, std::string >& properties ) : _properties( properties ) {
 
-}
+} 
 
 Grounding::
 ~Grounding() {
@@ -52,13 +52,14 @@ Grounding::
 }
 
 Grounding::
-Grounding( const Grounding& other ) {
+Grounding( const Grounding& other ) : _properties( other._properties ){
 
 }
 
 Grounding&
 Grounding::
 operator=( const Grounding& other ) {
+  _properties = other._properties;
   return (*this);
 }
 

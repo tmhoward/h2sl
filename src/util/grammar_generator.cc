@@ -63,18 +63,26 @@ scrape_phrases( const Phrase* phrase,
   }
 
   // check for unique non-terminals 
-  if( !phrase->children().empty() ){
-    Grammar_Non_Terminal grammar_non_terminal( Phrase::phrase_type_t_to_std_string( phrase->type() ) );
-    for( unsigned int i = 0; i < phrase->words().size(); i++ ){
-      grammar_non_terminal.elements().push_back( pos_t_to_std_string( phrase->words()[ i ].pos() ) );
+  Grammar_Non_Terminal grammar_non_terminal( Phrase::phrase_type_t_to_std_string( phrase->type() ) );
+  cout << "phrase:" << phrase->words_to_std_string() << endl;
+  // add words  
+  cout << "phrase->words().size():" << phrase->words().size() << endl;
+  for( unsigned int i = 0; i < phrase->words().size(); i++ ){
+    grammar_non_terminal.elements().push_back( pos_t_to_std_string( phrase->words()[ i ].pos() ) + "[" + phrase->words()[ i ].text() + "]" );
+  }
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    grammar_non_terminal.elements().push_back( Phrase::phrase_type_t_to_std_string( phrase->children()[ i ]->type() ) );
+  }
+  cout << "grammar_non_terminal:(" << grammar_non_terminal << ")" << endl;
+  bool found_match = false;
+  for( unsigned int i = 0; i < nonTerminals.size(); i++ ){
+    if( grammar_non_terminal == nonTerminals[ i ] ){
+      found_match = true;
     }
-    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-      grammar_non_terminal.elements().push_back( Phrase::phrase_type_t_to_std_string( phrase->children()[ i ]->type() ) );
-    }
-    cout << "grammar_non_terminal:(" << grammar_non_terminal << ")" << endl;
-    for( unsigned int i = 0; i < nonTerminals.size(); i++ ){
-
-    }
+  }
+  if( !found_match ){
+    nonTerminals.push_back( grammar_non_terminal );
+    cout << "adding non_terminal " << grammar_non_terminal << endl;
   }
 
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
@@ -121,8 +129,6 @@ main( int argc,
     }  
     cout << "}" << endl;
 
-    cout << "grammar:(" << *grammar << ")" << endl;
-    
     if( args.output_given ){
       grammar->to_xml( args.output_arg );
     }

@@ -49,6 +49,7 @@
 #include "h2sl/feature_constraint_child_matches_child_region.h"
 #include "h2sl/feature_constraint_parent_is_robot.h"
 #include "h2sl/feature_constraint_child_is_robot.h"
+#include "h2sl/feature_grounding_property_value.h"
 
 #include "h2sl/feature.h"
 
@@ -98,12 +99,8 @@ namespace h2sl {
       out << *static_cast< const Feature_Num_Words* >( &other );
     } else if( dynamic_cast< const Feature_CV* >( &other ) != NULL ){
       out << *static_cast< const Feature_CV* >( &other );
-    } else if( dynamic_cast< const Feature_Type< Object >* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Type< Object >* >( &other );
     } else if( dynamic_cast< const Feature_Region_Object* >( &other ) != NULL ){
       out << *static_cast< const Feature_Region_Object* >( &other );
-    } else if( dynamic_cast< const Feature_Type< Region >* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Type< Region >* >( &other );
     } else if( dynamic_cast< const Feature_Matches_Child< Object >* >( &other ) != NULL ){
       out << *static_cast< const Feature_Matches_Child< Object >* >( &other );
     } else if( dynamic_cast< const Feature_Matches_Child< Region >* >( &other ) != NULL ){
@@ -112,8 +109,6 @@ namespace h2sl {
       out << *static_cast< const Feature_Matches_Child< Constraint >* >( &other );
     } else if( dynamic_cast< const Feature_Object_Matches_Child< Region, Object >* >( &other ) != NULL ){
       out << *static_cast< const Feature_Object_Matches_Child< Region, Object >* >( &other );
-    } else if( dynamic_cast< const Feature_Type< Constraint >* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Type< Constraint >* >( &other );
     } else if( dynamic_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other ) != NULL ){
       out << *static_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other );
     } else if( dynamic_cast< const Feature_Constraint_Parent_Matches_Child_Region* >( &other ) != NULL ){
@@ -124,6 +119,8 @@ namespace h2sl {
       out << *static_cast< const Feature_Constraint_Parent_Is_Robot* >( &other );
     } else if( dynamic_cast< const Feature_Constraint_Child_Is_Robot* >( &other ) != NULL ){
       out << *static_cast< const Feature_Constraint_Child_Is_Robot* >( &other );
+    } else if ( dynamic_cast< const Feature_Grounding_Property_Value* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Grounding_Property_Value* >( &other );
     } else {
       assert( false );
     } 

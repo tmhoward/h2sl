@@ -37,19 +37,17 @@ using namespace std;
 using namespace h2sl;
 
 Region::
-Region( const unsigned int& type,
+Region( const string& regionType,
         const Object& object ) : Grounding(),
-                                  _type( type ),
                                   _object( object ) {
-
+  insert_prop< std::string >( _properties, "region_type", regionType );
 }
 
 Region::
-Region( const region_type_t& type,
-        const Object& object ) : Grounding(),
-                                  _type( type ),
-                                  _object( object ){
-
+Region( xmlNodePtr root ) : Grounding(),
+                            _object() {
+  insert_prop< std::string >( _properties, "region_type", "na" );
+  from_xml( root );
 }
 
 Region::
@@ -59,7 +57,6 @@ Region::
 
 Region::
 Region( const Region& other ) : Grounding( other ),
-                                _type( other._type ),
                                 _object( other._object ){
 
 }
@@ -67,7 +64,7 @@ Region( const Region& other ) : Grounding( other ),
 Region&
 Region::
 operator=( const Region& other ) {
-  _type = other._type;
+  _properties = other._properties;
   _object = other._object;
   return (*this);
 }
@@ -75,7 +72,7 @@ operator=( const Region& other ) {
 bool
 Region::
 operator==( const Region& other )const{
-  if( _type != other._type ){
+  if( region_type() != other.region_type() ){
     return false;
   } if( _object != other._object ){
     return false;
@@ -96,54 +93,15 @@ dup( void )const{
   return new Region( *this );
 }
 
-string
-Region::
-type_to_std_string( const unsigned int& type ){
-  switch( type ){
-  case( REGION_TYPE_NEAR ):
-    return "near";
-    break;
-  case( REGION_TYPE_FAR ):
-    return "far";
-    break;
-  case( REGION_TYPE_LEFT ):
-    return "left";
-    break;
-  case( REGION_TYPE_RIGHT ):
-    return "right";
-    break;
-  case( REGION_TYPE_FRONT ):
-    return "front";
-    break;
-  case( REGION_TYPE_BACK ):
-    return "back";
-    break;
-  case( REGION_TYPE_ABOVE ):
-    return "above";
-    break;
-  case( REGION_TYPE_BELOW ):
-    return "below";
-    break;
-  case( REGION_TYPE_UNKNOWN ):
-  default:
-    return "na";
-  }
-}
-
-unsigned int
-Region::
-type_from_std_string( const string& type ){
-  for( unsigned int i = 0; i < NUM_OBJECT_TYPES; i++ ){
-    if( type == Region::type_to_std_string( i ) ){
-      return i;
-    }
-  }
-  return OBJECT_TYPE_UNKNOWN;
-}
-
 void
 Region::
 to_xml( const string& filename )const{
+  xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+  xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+  xmlDocSetRootElement( doc, root );
+  to_xml( doc, root );
+  xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
+  xmlFreeDoc( doc );
   return;
 }
 
@@ -152,7 +110,7 @@ Region::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "region" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "type" ), ( const xmlChar* )( Region::type_to_std_string( _type ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "region_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "region_type" ).c_str() ) );
   _object.to_xml( doc, node );
   xmlAddChild( root, node );
   return;
@@ -184,17 +142,14 @@ from_xml( const string& filename ){
 void
 Region::
 from_xml( xmlNodePtr root ){
-  _type = REGION_TYPE_UNKNOWN;
+  region_type() = "na";
   _object = Object();
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "type" ) );
-    if( tmp != NULL ){
-      string type_string = ( char* )( tmp );
-      _type = Region::type_from_std_string( type_string );
-      xmlFree( tmp );
+    pair< bool, string > region_type_prop = has_prop< std::string >( root, "region_type" );
+    if( region_type_prop.first ){
+      region_type() = region_type_prop.second;
     }
-    xmlNodePtr l1 = NULL; 
-    for( l1 = root->children; l1; l1 = l1->next ){
+    for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
           _object.from_xml( l1 );
@@ -210,7 +165,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Region& other ) {
     out << "Region(";
-    out << "type=\"" << Region::type_to_std_string( other.type() ) << "\",";
+    out << "region_type=\"" << other.region_type() << "\",";
     out << "object=" << other.object();
     out << ")";
     return out;

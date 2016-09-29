@@ -50,6 +50,7 @@ namespace h2sl {
     Feature_Product& operator=( const Feature_Product& other );
 
     void indices( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, std::vector< unsigned int >& indices, std::vector< Feature* >& features, const std::vector< bool >& evaluateFeatureTypes );
+    void indices( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, std::vector< unsigned int >& indices, std::vector< std::pair< std::vector< Feature* >, unsigned int > >& weightedFeatures, const std::vector< bool >& evaluateFeatureTypes );
     void evaluate( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context, const std::vector< bool >& evaluateFeatureTypes );
 
     virtual void to_xml( const std::string& filename )const;

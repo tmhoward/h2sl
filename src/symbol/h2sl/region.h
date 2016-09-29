@@ -40,23 +40,10 @@
 #include "h2sl/object.h"
 
 namespace h2sl {
-  typedef enum {
-    REGION_TYPE_UNKNOWN,
-    REGION_TYPE_NEAR,
-    REGION_TYPE_FAR,
-    REGION_TYPE_LEFT,
-    REGION_TYPE_RIGHT,
-    REGION_TYPE_FRONT,
-    REGION_TYPE_BACK,
-    REGION_TYPE_ABOVE,
-    REGION_TYPE_BELOW,
-    NUM_REGION_TYPES
-  } region_type_t;
-
   class Region: public Grounding {
   public:
-    Region( const unsigned int& type = 0, const Object& object = Object() );
-    Region( const region_type_t& type, const Object& object );
+    Region( const std::string& regionType = "na", const Object& object = Object() );
+    Region( xmlNodePtr root );
     virtual ~Region();
     Region( const Region& other );
     Region& operator=( const Region& other );
@@ -64,24 +51,20 @@ namespace h2sl {
     bool operator!=( const Region& other )const;
     virtual Grounding* dup( void )const;
 
-    static std::string type_to_std_string( const unsigned int& type );
-    static unsigned int type_from_std_string( const std::string& type );
-
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline unsigned int& type( void ){ return _type; };
-    inline const unsigned int& type( void )const{ return _type; };
+    inline std::string& region_type( void ){ return get_prop< std::string >( _properties, "region_type" ); };
+    inline const std::string& region_type( void )const{ return get_prop< std::string >( _properties, "region_type" ); };
     inline Object& object( void ){ return _object; };
     inline const Object& object( void )const{ return _object; };
 
     static std::string class_name( void ){ return "region"; };
 
   protected:
-    unsigned int _type;
     Object _object;
 
   private:

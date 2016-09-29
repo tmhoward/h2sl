@@ -41,7 +41,7 @@ using namespace h2sl;
 
 Feature_Region_Object::
 Feature_Region_Object( const bool& invert,
-                        const unsigned int& objectType ) : Feature( invert ),
+                        const std::string& objectType ) : Feature( invert ),
                                                             _object_type( objectType ) {
 
 }
@@ -85,8 +85,10 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
-    if( region->object().type() == _object_type ){
+    if( region->object().object_type() == _object_type ){
       return !_invert;
+    } else {
+      return _invert;
     }
   }
   return false;
@@ -99,9 +101,7 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
-  stringstream object_type_string;
-  object_type_string << _object_type;
-  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( object_type_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( _object_type.c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -110,7 +110,7 @@ void
 Feature_Region_Object::
 from_xml( xmlNodePtr root ){
   _invert = false;
-  _object_type = 0;
+  _object_type = "na";
   if( root->type == XML_ELEMENT_NODE ){
     xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
     if( tmp != NULL ){
@@ -120,8 +120,7 @@ from_xml( xmlNodePtr root ){
     }
     tmp = xmlGetProp( root, ( const xmlChar* )( "object_type" ) );
     if( tmp != NULL ){
-      string object_type_string = ( char* )( tmp );
-      _object_type = strtol( object_type_string.c_str(), NULL, 10 );
+      _object_type = ( char* )( tmp );
       xmlFree( tmp );
     }
   }
@@ -132,7 +131,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Region_Object& other ) {
-    out << "Feature_Region_Object:(invert:(" << other.invert() << ") object_type:(" << Object::type_to_std_string( other.object_type() ) << "))";
+    out << "Feature_Region_Object:(invert:(" << other.invert() << ") object_type:(" << other.object_type() << "))";
     return out;
   }
 
