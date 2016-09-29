@@ -25,24 +25,8 @@ namespace h2sl {
    */
   class Number : public Grounding {
   public:
-    enum Value {
-      VALUE_UNKNOWN,
-      VALUE_ONE,
-      VALUE_TWO,
-      VALUE_THREE,
-      VALUE_FOUR,
-      VALUE_FIVE,
-      VALUE_SIX,
-      VALUE_SEVEN,
-      VALUE_EIGHT,
-      VALUE_NINE,
-      VALUE_TEN,
-      VALUE_ELEVEN,
-      VALUE_TWELVE,
-      VALUE_NUM_VALUES
-    };
 
-    Number( const Value& value = Number::VALUE_UNKNOWN );
+    Number( const std::string& numberValue = "na" );
     Number( const Number& other );
     virtual ~Number();
     Number& operator=( const Number& other );
@@ -58,14 +42,14 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    static std::string value_to_std_string( const Value& value );
-    static Number::Value value_from_std_string( const std::string& arg );
+    /*static std::string value_to_std_string( const Value& value );
+    static Number::Value value_from_std_string( const std::string& arg );*/
 
-    inline Value& value( void ){ return _value; };
-    inline const Value& value( void )const{ return _value; };
+    inline std::string& number_value( void ){ get_prop< std::string >( _properties, "number_value" ); };
+    inline const std::string& number_value( void )const{ return get_prop< std::string >( _properties, "number_value" ); };
 
   protected:
-    Value _value;
+    /*Value _value;*/
 
   private:
 

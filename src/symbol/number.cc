@@ -17,17 +17,15 @@ using namespace h2sl;
  * Number class constructor
  */
 Number::
-Number( const Value& value ) : Grounding(),
-                                         _value( value ) {
-
+Number( const string& numberValue ) : Grounding(){
+  insert_prop< std::string >( _properties, "number_value", numberValue );
 }
 
 /**
  * Number class copy constructor
  */
 Number::
-Number( const Number& other ) : Grounding( other ),
-                                                    _value( other._value ) {
+Number( const Number& other ) : Grounding( other ){
 
 }
 
@@ -45,7 +43,7 @@ Number::
 Number&
 Number::
 operator=( const Number& other ){
-  _value = other._value;
+  _properties = other._properties;
   return (*this);
 }
 
@@ -55,7 +53,7 @@ operator=( const Number& other ){
 bool
 Number::
 operator==( const Number& other )const{
-  if ( _value != other._value ){
+  if ( number_value() != other.number_value() ){
     return false;
   } else {
     return true;
@@ -132,13 +130,11 @@ from_xml( const string& filename ){
 void
 Number::
 from_xml( xmlNodePtr root ){
-  _value = Number::Value::VALUE_UNKNOWN;
+  number_value() = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "value" ) );
-    if( tmp != NULL ){
-      string value_string = ( char* )( tmp );
-      _value = Number::value_from_std_string( value_string );
-      xmlFree( tmp );
+    pair< bool, string > number_value_prop = has_prop< std::string >( root, "number_value" );
+    if( number_value_prop.first ){
+      number_value() = number_value_prop.second;
     }
   }
   return;
@@ -167,12 +163,12 @@ Number::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "number" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "value" ), ( const xmlChar* )( Number::value_to_std_string( ( Number::Value )( _value ) ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "number_value" ), ( const xmlChar* )( get_prop< std::string >( _properties, "number_value").c_str()  ) );
   xmlAddChild( root, node );
   return;
 }
 
-string
+/*string
 Number::
 value_to_std_string( const Value& value ){
   switch( value ){
@@ -229,7 +225,7 @@ value_from_std_string( const string& arg ){
     }
   }
   return VALUE_UNKNOWN;
-}
+}*/
 
 namespace h2sl {
   /** 
@@ -239,7 +235,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Number& other ){
     out << "class:\"Number\" ";
-    out << "value:" << Number::value_to_std_string( ( Number::Value )( other.value() ) ) << " ";
+    out << "number_value:" << other.number_value() << " ";
     return out;
   }
 }

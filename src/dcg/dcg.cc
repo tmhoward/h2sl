@@ -39,6 +39,7 @@
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
 #include "h2sl/index.h"
+#include "h2sl/number.h"
 #include "h2sl/dcg.h"
 
 using namespace std;
@@ -126,6 +127,22 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "fourth" );
   constraints.push_back( "fifth" );
   constraints.push_back( "na" );
+    
+  vector< std::string > number;
+  constraints.push_back( "na" );
+  constraints.push_back( "one" );
+  constraints.push_back( "two" );
+  constraints.push_back( "three" );
+  constraints.push_back( "four" );
+  constraints.push_back( "five" );
+  constraints.push_back( "six" );
+  constraints.push_back( "seven" );
+  constraints.push_back( "eight" );
+  constraints.push_back( "nine" );
+  constraints.push_back( "ten" );
+  constraints.push_back( "eleven" );
+  constraints.push_back( "twelve" );
+  
 
 
   // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
@@ -161,6 +178,12 @@ fill_search_spaces( const World* world ){
   // add the ? groundings; exhaustively fill the index symbol space
   for( unsigned int i = 0; i < index.size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Index( index [ i ] ) ) );
+  }
+    
+  
+  // add the ? groundings; exhaustively fill the number symbol space
+  for( unsigned int i = 0; i < number.size(); i++ ){
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Number( number [ i ] ) ) );
   }
 
   return;
