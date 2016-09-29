@@ -43,7 +43,6 @@
 #include "h2sl/feature_type.h"
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_object_matches_child.h"
-#include "h2sl/feature_region_object.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
@@ -99,8 +98,6 @@ namespace h2sl {
       out << *static_cast< const Feature_Num_Words* >( &other );
     } else if( dynamic_cast< const Feature_CV* >( &other ) != NULL ){
       out << *static_cast< const Feature_CV* >( &other );
-    } else if( dynamic_cast< const Feature_Region_Object* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Region_Object* >( &other );
     } else if( dynamic_cast< const Feature_Matches_Child< Object >* >( &other ) != NULL ){
       out << *static_cast< const Feature_Matches_Child< Object >* >( &other );
     } else if( dynamic_cast< const Feature_Matches_Child< Region >* >( &other ) != NULL ){

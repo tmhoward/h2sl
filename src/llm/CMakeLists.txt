@@ -23,7 +23,6 @@ set(HDRS
     h2sl/feature_region_object_property_value.h
     h2sl/feature_object_matches_child.h
     h2sl/feature_object_matches_child.ipp
-    h2sl/feature_region_object.h
     h2sl/feature_region_merge_partially_known_regions.h
     h2sl/feature_constraint_parent_matches_child_region.h
     h2sl/feature_constraint_child_matches_child_region.h
@@ -44,7 +43,6 @@ set(SRCS
     feature_num_words.cc
     feature_grounding_property_value.cc
     feature_region_object_property_value.cc
-    feature_region_object.cc
     feature_region_merge_partially_known_regions.cc
     feature_constraint_parent_matches_child_region.cc
     feature_constraint_child_matches_child_region.cc

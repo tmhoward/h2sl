@@ -45,7 +45,6 @@
 #include "h2sl/feature_region_object_property_value.h"
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_object_matches_child.h"
-#include "h2sl/feature_region_object.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
@@ -279,9 +278,6 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Grounding_Property_Value( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object_property_value" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Region_Object_Property_Value( l2 ) );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region_Object() );
-                _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_region" ) ) == 0 ){
