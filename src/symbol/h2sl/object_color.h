@@ -16,6 +16,8 @@
 
 #include "h2sl/grounding.h"
 
+#include "h2sl/object.h"
+
 /*#include "h2sl_nsf_nri_mvli/object_color_msg_t.hpp"*/
 
 namespace h2sl {
@@ -24,15 +26,7 @@ namespace h2sl {
      */
     class Object_Color : public Grounding {
     public:
-        enum Type {
-            TYPE_UNKNOWN,
-            TYPE_RED,
-            TYPE_BLUE,
-            TYPE_YELLOW,
-            TYPE_NUM_TYPES
-        };
-        
-        Object_Color( const Type& type = Type::TYPE_UNKNOWN );
+        Object_Color( const std::string& object_colorType = "na" );
         Object_Color( const Object_Color& other );
         virtual ~Object_Color();
         Object_Color& operator=( const Object_Color& other );
@@ -48,14 +42,14 @@ namespace h2sl {
         virtual void to_xml( const std::string& file )const;
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
-        static std::string type_to_std_string( const Type& type );
-        static Type type_from_std_string( const std::string& arg );
+        /*static std::string type_to_std_string( const Type& type );
+        static Type type_from_std_string( const std::string& arg );*/
         
-        inline Type& type( void ){ return _type; };
-        inline const Type& type( void )const{ return _type; };
+        inline std::string& object_color_type( void ){ return get_prop< std::string >( _properties, "object_color_type" ); };
+        inline const std::string& object_color_type( void )const{ return get_prop< std::string >( _properties, "object_color_type" ); };
         
     protected:
-        Type _type;
+        /*Type _type;*/
 
     private:
         

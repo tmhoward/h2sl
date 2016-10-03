@@ -40,6 +40,7 @@
 #include "h2sl/constraint.h"
 #include "h2sl/index.h"
 #include "h2sl/number.h"
+#include "h2sl/object_color.h"
 #include "h2sl/dcg.h"
 
 using namespace std;
@@ -142,6 +143,13 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "ten" );
   constraints.push_back( "eleven" );
   constraints.push_back( "twelve" );
+    
+  vector< std::string > object_color;
+  constraints.push_back( "na" );
+  constraints.push_back( "red" );
+  constraints.push_back( "blue" );
+  constraints.push_back( "yellow" );
+
   
 
 
@@ -186,6 +194,12 @@ fill_search_spaces( const World* world ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Number( number [ i ] ) ) );
   }
 
+  // add the ? groundings; exhaustively fill the object color symbol space
+  for( unsigned int i = 0; i < object_color.size(); i++ ){
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Color( object_color [ i ] ) ) );
+  }
+    
+    
   return;
 }
 

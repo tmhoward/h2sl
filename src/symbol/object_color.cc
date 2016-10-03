@@ -15,17 +15,15 @@ using namespace h2sl;
  * Object_Color class constructor
  */
 Object_Color::
-Object_Color( const Type& type ) : Grounding(),
-                                      _type( type ) {
-
+Object_Color( const string& object_colorType ) : Grounding() {
+  insert_prop< std::string >( _properties, "object_color_type", object_colorType );
 }
 
 /**
  * Object_Color class copy constructor
  */
 Object_Color::
-Object_Color( const Object_Color& other ) : Grounding( other ),
-                                _type( other._type ) {
+Object_Color( const Object_Color& other ) : Grounding( other ) {
 
 }
 
@@ -43,7 +41,7 @@ Object_Color::
 Object_Color&
 Object_Color::
 operator=( const Object_Color& other ){
-  _type = other._type;
+  _properties = other._properties;
   return (*this);
 }
 
@@ -53,7 +51,7 @@ operator=( const Object_Color& other ){
 bool
 Object_Color::
 operator==( const Object_Color& other )const{
-  if ( _type != other._type ){
+  if ( object_color_type() != other.object_color_type() ){
     return false;
   } else {
     return true;
@@ -118,6 +116,7 @@ from_xml( const string& filename ){
       }
       xmlFreeDoc( doc );
     } else {
+      xmlFreeDoc( doc );
     }
   }
   return;
@@ -129,14 +128,12 @@ from_xml( const string& filename ){
 void
 Object_Color::
 from_xml( xmlNodePtr root ){
-  _type = Type::TYPE_UNKNOWN;
+  object_color_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "type" ) );
-    if( tmp != NULL ){
-      string type_string = ( char* )( tmp );
-      _type = Object_Color::type_from_std_string( type_string );
-      xmlFree( tmp );
-    }
+      pair< bool, string > object_color_type_prop = has_prop< std::string >( root, "object_color_type" );
+      if( object_color_type_prop.first ){
+        object_color_type() = object_color_type_prop.second;
+      }
   }
   return;
 }
@@ -164,13 +161,13 @@ Object_Color::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "object_color" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "type" ), ( const xmlChar* )( Object_Color::type_to_std_string( _type ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_color_type").c_str() ) );
   xmlAddChild( root, node );
   return;
 }
 
 
-string
+/*string
 Object_Color::
 type_to_std_string( const Type& type ){
   switch( type ){
@@ -199,7 +196,7 @@ type_from_std_string( const std::string& arg){
     }
   }
   return Type::TYPE_UNKNOWN;
-}
+}*/
 
 
 namespace h2sl {
@@ -210,7 +207,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Object_Color& other ){
     out << "class:\"Object_Color\" ";
-    out << "type:" << Object_Color::type_to_std_string( other.type() );
+    out << "object_color_type:" << other.object_color_type() << " ";
     return out;
   }
 }

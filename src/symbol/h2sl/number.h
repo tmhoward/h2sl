@@ -45,7 +45,7 @@ namespace h2sl {
     /*static std::string value_to_std_string( const Value& value );
     static Number::Value value_from_std_string( const std::string& arg );*/
 
-    inline std::string& number_value( void ){ get_prop< std::string >( _properties, "number_value" ); };
+    inline std::string& number_value( void ){ return get_prop< std::string >( _properties, "number_value" ); };
     inline const std::string& number_value( void )const{ return get_prop< std::string >( _properties, "number_value" ); };
 
   protected:
