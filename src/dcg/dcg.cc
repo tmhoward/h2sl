@@ -41,6 +41,7 @@
 #include "h2sl/index.h"
 #include "h2sl/number.h"
 #include "h2sl/object_color.h"
+#include "h2sl/object_property.h"
 #include "h2sl/spatial_relation.h"
 #include "h2sl/dcg.h"
 
