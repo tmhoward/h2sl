@@ -38,6 +38,7 @@
 #include "h2sl/grounding_set.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
+#include "h2sl/container.h"
 #include "h2sl/index.h"
 #include "h2sl/number.h"
 #include "h2sl/object_color.h"
@@ -162,6 +163,15 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "side" );
   constraints.push_back( "near" );
   constraints.push_back( "far" );
+  
+    
+  /*Abstract symbols need to be initialized seperately in inference */
+  vector< std::string > container;
+  constraints.push_back( "group" );
+  constraints.push_back( "row" );
+  constraints.push_back( "column" );
+  constraints.push_back( "tower" );
+  /*constraints.push_back( "na" ); let's discuss whether we need "na" */
 
 
 
@@ -211,10 +221,19 @@ fill_search_spaces( const World* world ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Color( object_color [ i ] ) ) );
   }
     
-  // add the ? groundings; exhaustively fill the object color symbol space
+  // add the ? groundings; exhaustively fill the spatial relation symbol space
   for( unsigned int i = 0; i < spatial_relation.size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Spatial_Relation( spatial_relation [ i ] ) ) );
   }
+    
+  // add the ? groundings; exhaustively fill the container symbol space
+  /*
+   This symbol space is not concrete so it needs to be initialized seperately in inference.
+   Comment: if the for loop is uncommented, the code does not compile.
+   
+   for( unsigned int i = 0; i < container.size(); i++ ){
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( container [ i ] ) ) );
+  }*/
     
     
   return;
