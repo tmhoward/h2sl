@@ -35,6 +35,7 @@
 #include <fstream>
 #include <utility>
 
+#include "h2sl/abstract_container.h"
 #include "h2sl/grounding_set.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
@@ -43,6 +44,7 @@
 #include "h2sl/number.h"
 #include "h2sl/object_color.h"
 #include "h2sl/object_property.h"
+/*#include "h2sl/object_type.h"*/
 #include "h2sl/spatial_relation.h"
 #include "h2sl/dcg.h"
 
@@ -163,6 +165,12 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "side" );
   constraints.push_back( "near" );
   constraints.push_back( "far" );
+    
+  /*vector< std::string > object_type;
+  constraints.push_back( "na" );
+  constraints.push_back( "block" );
+  constraints.push_back( "table" );
+  constraints.push_back( "robot" );*/
   
     
   /*Abstract symbols need to be initialized seperately in inference */
@@ -226,6 +234,10 @@ fill_search_spaces( const World* world ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Spatial_Relation( spatial_relation [ i ] ) ) );
   }
     
+  // add the ? groundings; exhaustively fill the object type symbol space
+  // for( unsigned int i = 0; i < object_type.size(); i++ ){
+  //   _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Type( object_type [ i ] ) ) );
+  //}
   // add the ? groundings; exhaustively fill the container symbol space
   /*
    This symbol space is not concrete so it needs to be initialized seperately in inference.
