@@ -41,6 +41,7 @@
 #include "h2sl/index.h"
 #include "h2sl/number.h"
 #include "h2sl/object_color.h"
+#include "h2sl/spatial_relation.h"
 #include "h2sl/dcg.h"
 
 using namespace std;
@@ -149,8 +150,18 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "red" );
   constraints.push_back( "blue" );
   constraints.push_back( "yellow" );
+    
+  vector< std::string > spatial_relation;
+  constraints.push_back( "na" );
+  constraints.push_back( "front" );
+  constraints.push_back( "back" );
+  constraints.push_back( "left" );
+  constraints.push_back( "center" );
+  constraints.push_back( "right" );
+  constraints.push_back( "side" );
+  constraints.push_back( "near" );
+  constraints.push_back( "far" );
 
-  
 
 
   // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
@@ -197,6 +208,11 @@ fill_search_spaces( const World* world ){
   // add the ? groundings; exhaustively fill the object color symbol space
   for( unsigned int i = 0; i < object_color.size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Color( object_color [ i ] ) ) );
+  }
+    
+  // add the ? groundings; exhaustively fill the object color symbol space
+  for( unsigned int i = 0; i < spatial_relation.size(); i++ ){
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Spatial_Relation( spatial_relation [ i ] ) ) );
   }
     
     
