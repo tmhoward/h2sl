@@ -9,7 +9,6 @@ set(GGOS
 
 # HEADER FILES
 set(HDRS
-    h2sl/abstract_container.h
     h2sl/container.h
     h2sl/grounding.h
     h2sl/grounding_set.h
@@ -28,7 +27,6 @@ set(QT_HDRS )
 
 # SOURCE FILES
 set(SRCS
-    abstract_container.cc
     container.cc
     grounding.cc
     grounding_set.cc

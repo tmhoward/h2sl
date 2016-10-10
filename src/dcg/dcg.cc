@@ -35,7 +35,7 @@
 #include <fstream>
 #include <utility>
 
-#include "h2sl/abstract_container.h"
+//#include "h2sl/abstract_container.h"
 #include "h2sl/grounding_set.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
@@ -44,8 +44,9 @@
 #include "h2sl/number.h"
 #include "h2sl/object_color.h"
 #include "h2sl/object_property.h"
-/*#include "h2sl/object_type.h"*/
+//#include "h2sl/object_type.h"
 #include "h2sl/spatial_relation.h"
+//#include "h2sl/region_container.h"
 #include "h2sl/dcg.h"
 
 using namespace std;
@@ -166,7 +167,7 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "near" );
   constraints.push_back( "far" );
     
-  /*vector< std::string > object_type;
+  /*vector< std::string > object;
   constraints.push_back( "na" );
   constraints.push_back( "block" );
   constraints.push_back( "table" );
@@ -180,6 +181,18 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "column" );
   constraints.push_back( "tower" );
   /*constraints.push_back( "na" ); let's discuss whether we need "na" */
+    
+  /*vector< std::string > action;
+  constraints.push_back( "na" );
+  constraints.push_back( "pick" );
+  constraints.push_back( "place" );
+  constraints.push_back( "navigate" );
+    
+  vector< std::string > action_param;
+  constraints.push_back( "na" );
+  constraints.push_back( "pick_object" );
+  constraints.push_back( "place_object" );
+  constraints.push_back( "hand" );*/
 
 
 
@@ -234,10 +247,11 @@ fill_search_spaces( const World* world ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Spatial_Relation( spatial_relation [ i ] ) ) );
   }
     
-  // add the ? groundings; exhaustively fill the object type symbol space
-  // for( unsigned int i = 0; i < object_type.size(); i++ ){
-  //   _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Type( object_type [ i ] ) ) );
-  //}
+ /* // add the ? groundings; exhaustively fill the object type symbol space
+  for( unsigned int i = 0; i < object.size(); i++ ){
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Type( object_type [ i ] ) ) );
+  }/*
+    
   // add the ? groundings; exhaustively fill the container symbol space
   /*
    This symbol space is not concrete so it needs to be initialized seperately in inference.
