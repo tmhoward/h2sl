@@ -16,6 +16,7 @@ set(HDRS
     h2sl/number.h    
     h2sl/object.h
     h2sl/object_color.h
+    h2sl/object_type.h
     h2sl/object_property.h
     h2sl/region.h
     h2sl/spatial_relation.h
@@ -34,6 +35,7 @@ set(SRCS
     number.cc
     object.cc
     object_color.cc
+    object_type.cc
     object_property.cc
     region.cc
     spatial_relation.cc

@@ -44,7 +44,9 @@
 namespace h2sl {
   class Object : public Grounding {
   public:
-    Object( const std::string& name = "na", const std::string& objectType = "na", const Transform& transform = Transform(), const Vector3& linearVelocity = Vector3(), const Vector3& angularVelocity = Vector3() );
+    Object( const std::string& name = "na", const std::string& objectType = "na", 
+            const Transform& transform = Transform(), const Vector3& linearVelocity = Vector3(), 
+            const Vector3& angularVelocity = Vector3() );
     Object( xmlNodePtr root );
     virtual ~Object();
     Object( const Object& other );
