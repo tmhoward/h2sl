@@ -128,44 +128,44 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "outside" );
     
   vector< std::string > index;
-  constraints.push_back( "first" );
-  constraints.push_back( "second" );
-  constraints.push_back( "third" );
-  constraints.push_back( "fourth" );
-  constraints.push_back( "fifth" );
-  constraints.push_back( "na" );
+  index.push_back( "first" );
+  index.push_back( "second" );
+  index.push_back( "third" );
+  index.push_back( "fourth" );
+  index.push_back( "fifth" );
+  index.push_back( "na" );
     
   vector< std::string > number;
-  constraints.push_back( "na" );
-  constraints.push_back( "one" );
-  constraints.push_back( "two" );
-  constraints.push_back( "three" );
-  constraints.push_back( "four" );
-  constraints.push_back( "five" );
-  constraints.push_back( "six" );
-  constraints.push_back( "seven" );
-  constraints.push_back( "eight" );
-  constraints.push_back( "nine" );
-  constraints.push_back( "ten" );
-  constraints.push_back( "eleven" );
-  constraints.push_back( "twelve" );
+  number.push_back( "na" );
+  number.push_back( "one" );
+  number.push_back( "two" );
+  number.push_back( "three" );
+  number.push_back( "four" );
+  number.push_back( "five" );
+  number.push_back( "six" );
+  number.push_back( "seven" );
+  number.push_back( "eight" );
+  number.push_back( "nine" );
+  number.push_back( "ten" );
+  number.push_back( "eleven" );
+  number.push_back( "twelve" );
     
   vector< std::string > object_color;
-  constraints.push_back( "na" );
-  constraints.push_back( "red" );
-  constraints.push_back( "blue" );
-  constraints.push_back( "yellow" );
+  object_color.push_back( "na" );
+  object_color.push_back( "red" );
+  object_color.push_back( "blue" );
+  object_color.push_back( "yellow" );
     
   vector< std::string > spatial_relation;
-  constraints.push_back( "na" );
-  constraints.push_back( "front" );
-  constraints.push_back( "back" );
-  constraints.push_back( "left" );
-  constraints.push_back( "center" );
-  constraints.push_back( "right" );
-  constraints.push_back( "side" );
-  constraints.push_back( "near" );
-  constraints.push_back( "far" );
+  spatial_relation.push_back( "na" );
+  spatial_relation.push_back( "front" );
+  spatial_relation.push_back( "back" );
+  spatial_relation.push_back( "left" );
+  spatial_relation.push_back( "center" );
+  spatial_relation.push_back( "right" );
+  spatial_relation.push_back( "side" );
+  spatial_relation.push_back( "near" );
+  spatial_relation.push_back( "far" );
     
   /*vector< std::string > object;
   constraints.push_back( "na" );
@@ -176,10 +176,10 @@ fill_search_spaces( const World* world ){
     
   /*Abstract symbols need to be initialized seperately in inference */
   vector< std::string > container;
-  constraints.push_back( "group" );
-  constraints.push_back( "row" );
-  constraints.push_back( "column" );
-  constraints.push_back( "tower" );
+  container.push_back( "group" );
+  container.push_back( "row" );
+  container.push_back( "column" );
+  container.push_back( "tower" );
   /*constraints.push_back( "na" ); let's discuss whether we need "na" */
     
   /*vector< std::string > action;
