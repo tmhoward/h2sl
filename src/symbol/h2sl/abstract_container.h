@@ -39,37 +39,39 @@ namespace h2sl {
     bool operator!=( const Abstract_Container& other )const;
     Abstract_Container* dup( void )const;
 
-    inline std::string& abstract_container_object_type( void ){ 
+    inline std::string& object_type( void ){ 
               return get_prop< std::string >( _properties, "object_type" ); };
-    inline const std::string& abstract_container_object_type( void )const{ 
+    inline const std::string& object_type( void )const{ 
               return get_prop< std::string >( _properties, "object_type" ); };
    
-    inline std::string& abstract_container_number_type( void ){ 
+    inline std::string& number_type( void ){ 
               return get_prop< std::string >( _properties, "number_type" ); };
-    inline const std::string& abstract_container_number_type( void )const{ 
+    inline const std::string& number_type( void )const{ 
               return get_prop< std::string >( _properties, "number_type" ); };
  
-    inline std::string& abstract_container_index_type( void ){ 
+    inline std::string& index_type( void ){ 
               return get_prop< std::string >( _properties, "index_type" ); };
-    inline const std::string& abstract_container_index_type( void )const{ 
+    inline const std::string& index_type( void )const{ 
               return get_prop< std::string >( _properties, "index_type" ); };
  
-    inline std::string& abstract_container_color_type( void ){ 
+    inline std::string& object_color_type( void ){ 
               return get_prop< std::string >( _properties, "object_color_type" ); };
-    inline const std::string& abstract_container_color_type( void )const{ 
+    inline const std::string& object_color_type( void )const{ 
               return get_prop< std::string >( _properties, "object_color_type" ); };
- 
-    virtual void from_xml( const std::string& file );
-    virtual void from_xml( xmlNodePtr root );
+    
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    virtual inline Grounding::AC_Type ac_type( void ){
-            return Grounding::AC_Type::ABSTRACT; };
+    virtual void from_xml( const std::string& file );
+    virtual void from_xml( xmlNodePtr root );
 
   protected:
 
   private:
 
   };
+  std::ostream& operator<<( std::ostream& out, const Abstract_Container& other );
+}
+
+#endif /* H2SL_ABSTRACT_CONTAINER_H */
 
