@@ -44,7 +44,7 @@
 #include "h2sl/number.h"
 #include "h2sl/object_color.h"
 #include "h2sl/object_property.h"
-//#include "h2sl/object_type.h"
+#include "h2sl/object_type.h"
 #include "h2sl/spatial_relation.h"
 //#include "h2sl/region_container.h"
 #include "h2sl/dcg.h"
@@ -155,7 +155,16 @@ fill_search_spaces( const World* world ){
   object_color.push_back( "red" );
   object_color.push_back( "blue" );
   object_color.push_back( "yellow" );
-    
+
+  vector< std::string > object_type;
+  object_type.push_back( "na" );
+  object_type.push_back( "block" );
+  object_type.push_back( "table" );
+  object_type.push_back( "robot" );
+  //object_type.push_back( "ycb-can" );
+  //object_type.push_back( "ycb-box" );
+  //object_type.push_back( "ycb-fruit" );
+ 
   vector< std::string > spatial_relation;
   spatial_relation.push_back( "na" );
   spatial_relation.push_back( "front" );

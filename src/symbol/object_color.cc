@@ -83,24 +83,6 @@ dup( void )const{
   return new Object_Color( *this );
 }
 
-/**
- * imports the Object_Color class from a LCM msg
- */
-/*bool
-Object_Color::
-from_msg( const object_color_msg_t * msg ){
-  return true;
-}*/
-
-/**
- * exports the Object_Color class to a LCM msg
- */
-/*void
-Object_Color::
-to_msg( object_color_msg_t * msg )const{
-  return;
-}*/
-
 /** 
  * imports the Object_Color class from an XML file
  */
