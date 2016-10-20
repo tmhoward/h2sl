@@ -263,8 +263,6 @@ Container::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "container" ), NULL );
-  /*stringstream type_string;
-  type_string << type_to_std_string( (Type) _type );*/
   xmlNewProp( node, ( const xmlChar* )( "container_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "container_type").c_str() ) );
   for( unsigned int i = 0; i < _groundings.size(); i++ ){
     if( _groundings[ i ] != NULL ){
@@ -333,39 +331,6 @@ from_xml( xmlNodePtr root ){
   return;
 }
 
-
-/*string
-Container::
-type_to_std_string( const Type type ){
-  switch( type ){
-  case( TYPE_ROW ):
-    return "row";
-    break;
-  case( TYPE_COLUMN ):
-    return "column";
-    break;
-  case( TYPE_TOWER ):
-    return "tower";
-    break;
-  case( TYPE_GROUP ):
-  case( TYPE_NUM_TYPES ):
-  default:
-    return "group";
-  }
-}
-
-Container::Type
-Container::
-type_from_std_string( const std::string& arg){
-  for ( unsigned int i = 0; i < Type::TYPE_NUM_TYPES; i++ ){
-    if( type_to_std_string( ( Type )( i ) ) == arg ){
-      return ( Type )( i );
-    }
-  }
-  return Type::TYPE_GROUP;
-}*/
-
-
 namespace h2sl {
   /**
    * Container class ostream operator
@@ -379,8 +344,6 @@ namespace h2sl {
    for( unsigned int i = 0; i < other.groundings().size(); i++ ){
       if( other.groundings()[ i ] != NULL ){
         out << "(" << *other.groundings()[ i ] << ")";
-//        out << other.container()[ i ]->name();
-//        out << other.container()[ i ];
       }
       if( i != ( other.groundings().size() - 1 ) ){
         out << ",";

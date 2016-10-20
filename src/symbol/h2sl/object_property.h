@@ -17,8 +17,6 @@
 #include "h2sl/object.h"
 #include "h2sl/spatial_relation.h"
 
-/*#include "h2sl_nsf_nri_mvli/object_property_msg_t.hpp"*/
-
 namespace h2sl {
   /**
    * Object_Property class definition
@@ -34,16 +32,10 @@ namespace h2sl {
     bool operator!=( const Object_Property& other )const;
     virtual Object_Property* dup( void )const;
  
-    /*virtual bool from_msg( const object_property_msg_t * msg );
-    virtual void to_msg( object_property_msg_t * msg )const;*/
- 
     virtual void from_xml( const std::string& file );
     virtual void from_xml( xmlNodePtr root );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
-
-    /*static std::string index_to_std_string( const unsigned int& index );
-    static unsigned int index_from_std_string( const std::string& arg );*/
 
     inline std::string& object_type( void ){ return get_prop< std::string >( _properties, "object_type" ); };
     inline const std::string& object_type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
@@ -55,9 +47,6 @@ namespace h2sl {
     inline const std::string& index_type( void )const{ return get_prop< std::string >( _properties, "index_type" ); };
 
   protected:
-    /*unsigned int _object_type;
-    unsigned int _relation_type;
-    unsigned int _index;*/
 
   private:
 

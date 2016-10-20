@@ -13,12 +13,10 @@
 #include <libxml/tree.h>
 
 #include "h2sl/transform.h"
-
 #include "h2sl/grounding.h"
-
 #include "h2sl/object.h"
 
-/*#include "h2sl_nsf_nri_mvli/object_color_msg_t.hpp"*/
+
 
 namespace h2sl {
     /**
@@ -44,7 +42,6 @@ namespace h2sl {
         inline const std::string& object_color_type( void )const{ return get_prop< std::string >( _properties, "object_color_type" ); };
         
     protected:
-        /*Type _type;*/
 
     private:
         

@@ -45,9 +45,6 @@ namespace h2sl {
     virtual void from_xml( xmlNodePtr root );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
-
-    /*static std::string type_to_std_string( const Type type );
-    static Type type_from_std_string( const std::string& arg );*/
     
     inline std::vector< Grounding* >& groundings( void ){ return _groundings; };
     inline const std::vector< Grounding* >& groundings( void )const{ return _groundings; };
@@ -57,7 +54,7 @@ namespace h2sl {
 
   protected:
     std::vector< Grounding* > _groundings;
-    /*unsigned int _type;*/
+      
   private:
 
   };

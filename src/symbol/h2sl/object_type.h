@@ -23,6 +23,7 @@ namespace h2sl {
     public:
         Object_Type( const std::string& objectType = "na" );
         Object_Type( const Object_Type& other );
+        Object_Type( xmlNodePtr root );
         virtual ~Object_Type();
         Object_Type& operator=( const Object_Type& other );
         bool operator==( const Object_Type& other )const;

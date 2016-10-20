@@ -85,24 +85,6 @@ dup( void )const{
   return new Index( *this );
 }
 
-/**
- * imports the Index class from a LCM msg
- */
-/*bool
-Index::
-from_msg( const index_msg_t * msg ){
-  return true;
-}*/
-
-/**
- * exports the Index class to a LCM msg
- */
-/*void
-Index::
-to_msg( index_msg_t * msg )const{
-  return;
-}*/
-
 /** 
  * imports the Index class from an XML file
  */
@@ -174,44 +156,6 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
-
-/*string
-Index::
-type_to_std_string( const Type& type ){
-  switch( type ){
-  case( TYPE_FIRST ):
-    return "first";
-    break;
-  case( TYPE_SECOND ):
-    return "second";
-    break;
-  case( TYPE_THIRD ):
-    return "third";
-    break;
-  case( TYPE_FOURTH ):
-    return "fourth";
-    break;
-  case( TYPE_FIFTH ):
-    return "fifth";
-    break;
-  case( TYPE_UNKNOWN ):
-  case( TYPE_NUM_TYPES ):
-  default:
-    return "na";
-    break;
-  }
-}
-
-Index::Type
-Index::
-type_from_std_string( const string& arg ){
-  for( unsigned int i = Index::TYPE_FIRST; i < Index::TYPE_NUM_TYPES; i++ ){
-    if( type_to_std_string( ( Index::Type )( i ) ) == arg ){
-      return ( Index::Type )( i );
-    }
-  }
-  return TYPE_UNKNOWN;
-}*/
 
 namespace h2sl {
   /** 

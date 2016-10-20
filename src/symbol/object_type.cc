@@ -19,6 +19,14 @@ Object_Type( const string& objectType ) : Grounding() {
   insert_prop< std::string >( _properties, "object_type", objectType );
 }
 
+
+Object_Type::
+Object_Type( xmlNodePtr root ) : Grounding() {
+    insert_prop< std::string >( _properties, "object_type", "na" );
+    from_xml( root );
+}
+
+
 /**
  * Object_Type class copy constructor
  */

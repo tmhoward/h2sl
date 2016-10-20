@@ -84,24 +84,6 @@ dup( void )const{
   return new Number( *this );
 }
 
-/**
- * imports the Number class from a LCM msg
- */
-/*bool
-Number::
-from_msg( const number_msg_t * msg ){
-  return true;
-}*/
-
-/**
- * exports the Number class to a LCM msg
- */
-/*void
-Number::
-to_msg( number_msg_t * msg )const{
-  return;
-}*/
-
 /** 
  * imports the Number class from an XML file
  */
@@ -173,65 +155,6 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
-
-/*string
-Number::
-value_to_std_string( const Value& value ){
-  switch( value ){
-  case( VALUE_ONE ):
-    return "one";
-    break;
-  case( VALUE_TWO ):
-    return "two";
-    break;
-  case( VALUE_THREE ):
-    return "three";
-    break;
-  case( VALUE_FOUR ):
-    return "four";
-    break;
-  case( VALUE_FIVE ):
-    return "five";
-    break;
-  case( VALUE_SIX ):
-    return "six";
-    break;
-  case( VALUE_SEVEN ):
-    return "seven";
-    break;
-  case( VALUE_EIGHT ):
-    return "eight";
-    break;
-  case( VALUE_NINE ):
-    return "nine";
-    break;
-  case( VALUE_TEN ):
-    return "ten";
-    break;
-  case( VALUE_ELEVEN ):
-    return "eleven";
-    break;
-  case( VALUE_TWELVE ):
-    return "twelve";
-    break;
-  case( VALUE_UNKNOWN ):
-  case( VALUE_NUM_VALUES ):
-  default:
-    return "na";
-    break;
-  }
-}
-
-Number::Value
-Number::
-value_from_std_string( const string& arg ){
-  for( unsigned int i = Number::VALUE_ONE; i < Number::VALUE_NUM_VALUES; i++ ){
-    if( value_to_std_string( ( Number::Value )( i ) ) == arg ){
-      return ( Number::Value )( i );
-    }
-  }
-  return VALUE_UNKNOWN;
-}*/
 
 namespace h2sl {
   /** 

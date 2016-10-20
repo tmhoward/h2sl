@@ -96,24 +96,6 @@ dup( void )const{
   return new Object_Property( *this );
 }
 
-/**
- * imports the Object_Property class from a LCM msg
- */
-/*bool
-Object_Property::
-from_msg( const object_property_msg_t * msg ){
-  return true;
-}*/
-
-/**
- * exports the Object_Property class to a LCM msg
- */
-/*void
-Object_Property::
-to_msg( object_property_msg_t * msg )const{
-  return;
-}*/
-
 /** 
  * imports the Object_Property class from an XML file
  */
@@ -195,42 +177,6 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
-
-/*string
-Object_Property::
-index_to_std_string( const unsigned int& index ){
-  switch( index ){
-  case( 0 ):
-    return "first";
-    break;
-  case( 1 ):
-    return "second";
-    break;
-  case( 2 ):
-    return "third";
-    break;
-  case( 3 ):
-    return "fourth";
-    break;
-  case( 4 ):
-    return "fifth";
-    break;
-  default:
-    return "na";
-    break;
-  }
-}
-
-unsigned int
-Object_Property::
-index_from_std_string( const string& arg ){
-  for( unsigned int i = 0; i < 6; i++ ){
-    if( index_to_std_string( i ) == arg ){
-      return i;
-    }
-  }
-  return 0;
-}*/
 
 namespace h2sl {
   /** 

@@ -155,39 +155,6 @@ to_xml( xmlDocPtr doc,
   return;
 }
 
-
-/*string
-Object_Color::
-type_to_std_string( const Type& type ){
-  switch( type ){
-  case( TYPE_RED ):
-    return "red";
-    break;
-  case( TYPE_BLUE ):
-    return "blue";
-    break;
-  case( TYPE_YELLOW ):
-    return "yellow";
-    break;
-  case( TYPE_UNKNOWN ):
-  case( TYPE_NUM_TYPES ):
-  default:
-    return "na";
-  }
-}
-
-Object_Color::Type
-Object_Color::
-type_from_std_string( const std::string& arg){
-  for ( unsigned int i = 0; i < Type::TYPE_NUM_TYPES; i++ ){
-    if( type_to_std_string( ( Type )( i ) ) == arg ){
-      return ( Type )( i );
-    }
-  }
-  return Type::TYPE_UNKNOWN;
-}*/
-
-
 namespace h2sl {
   /** 
    * Object_Color class ostream operator

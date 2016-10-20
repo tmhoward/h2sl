@@ -84,24 +84,6 @@ dup( void )const{
   return new Spatial_Relation( *this );
 }
 
-/**
- * imports the Spatial_Relation class from a LCM msg
- */
-/*bool
-Spatial_Relation::
-from_msg( const spatial_relation_msg_t * msg ){
-  return true;
-}*/
-
-/**
- * exports the Spatial_Relation class to a LCM msg
- */
-/*void
-Spatial_Relation::
-to_msg( spatial_relation_msg_t * msg )const{
-  return;
-}*/
-
 /** 
  * imports the Spatial_Relation class from an XML file
  */
@@ -173,56 +155,6 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
-
-/*string
-Spatial_Relation::
-type_to_std_string( const Type& type ){
-  switch( type ){
-  case( TYPE_FRONT ):
-    return "front";
-    break;
-  case( TYPE_BACK ):
-    return "back";
-    break;
-  case( TYPE_RIGHT ):
-    return "right";
-    break;
-  case( TYPE_LEFT ):
-    return "left";
-    break;
-  case( TYPE_CENTER ):
-    return "center";
-    break;
-  case( TYPE_SIDE ):
-    return "side";
-    break;
-  case( TYPE_NEAR ):
-    return "near";
-    break;
-  case( TYPE_FAR ):
-    return "far";
-    break;
-  case( TYPE_UNKNOWN ):
-    return "na";
-    break;
-  default:
-    assert( false );
-    return "na";
-  }
-}
-
-Spatial_Relation::Type
-Spatial_Relation::
-type_from_std_string( const string& arg ){
-  for( unsigned int i = 0; i < Type::TYPE_NUM_TYPES; i++ ){
-    if( type_to_std_string( ( Type ) ( i ) ) == arg ){
-      return ( Type )( i );
-    }
-  }
-  cout << "arg:\"" << arg << "\"" << endl;
-  assert( false );
-  return Type::TYPE_UNKNOWN;
-}*/
 
 namespace h2sl {
   /** 
