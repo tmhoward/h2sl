@@ -34,6 +34,12 @@
 #include "h2sl/object.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
+#include "h2sl/container.h"
+#include "h2sl/index.h"
+#include "h2sl/number.h"
+#include "h2sl/object_color.h"
+#include "h2sl/object_type.h"
+#include "h2sl/spatial_relation.h"
 
 #include "h2sl/grounding_set.h"
 
@@ -159,7 +165,19 @@ from_xml( xmlNodePtr root ){
           _groundings.push_back( new Region( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint" ) ) == 0 ){
           _groundings.push_back( new Constraint( l1 ) );
-        } 
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "container" ) ) == 0 ){
+          _groundings.push_back( new Container( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "index" ) ) == 0 ){
+          _groundings.push_back( new Index( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "number" ) ) == 0 ){
+          _groundings.push_back( new Number( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_color" ) ) == 0 ){
+          _groundings.push_back( new Object_Color( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_type" ) ) == 0 ){
+          _groundings.push_back( new Object_Type( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "spatial_relation" ) ) == 0 ){
+          _groundings.push_back( new Spatial_Relation( l1 ) );
+        }
       }
     }
   }
