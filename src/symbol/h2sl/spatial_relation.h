@@ -27,6 +27,7 @@ namespace h2sl {
 
     Spatial_Relation( const std::string& spatial_relationType = "na" );
     Spatial_Relation( const Spatial_Relation& other );
+    Spatial_Relation( xmlNodePtr root );
     virtual ~Spatial_Relation();
     Spatial_Relation& operator=( const Spatial_Relation& other );
     bool operator==( const Spatial_Relation& other )const;

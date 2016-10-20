@@ -51,7 +51,19 @@ World::
 
 World::
 World( const World& other ) : _time( other._time ),
-                              _objects( other._objects ){
+                              _objects( other._objects ),
+                              _min_x_sorted_objects( other._min_x_sorted_objects ),
+                              _max_x_sorted_objects( other._max_x_sorted_objects ),
+                              _min_y_sorted_objects( other._min_y_sorted_objects ),
+                              _max_y_sorted_objects( other._max_y_sorted_objects ),
+                              _min_abs_y_sorted_objects( other._min_abs_y_sorted_objects ),
+                              _max_abs_y_sorted_objects( other._max_abs_y_sorted_objects ),
+                              _min_z_sorted_objects( other._min_z_sorted_objects ),
+                              _max_z_sorted_objects( other._max_z_sorted_objects ),
+                              _min_distance_sorted_objects( other._min_distance_sorted_objects ),
+                              _max_distance_sorted_objects( other._max_distance_sorted_objects ),
+                              _min_center_distance_sorted_objects( other._min_center_distance_sorted_objects ),
+                              _max_center_distance_sorted_objects( other._max_center_distance_sorted_objects ) {
 
 }
 
@@ -60,6 +72,18 @@ World::
 operator=( const World& other ) {
   _time = other._time;
   _objects = other._objects;
+  _min_x_sorted_objects = other._min_x_sorted_objects;
+  _max_x_sorted_objects = other._max_x_sorted_objects;
+  _min_y_sorted_objects = other._min_y_sorted_objects;
+  _max_y_sorted_objects = other._max_y_sorted_objects;
+  _min_abs_y_sorted_objects = other._min_abs_y_sorted_objects;
+  _max_abs_y_sorted_objects = other._max_abs_y_sorted_objects;
+  _min_z_sorted_objects = other._min_z_sorted_objects;
+  _max_z_sorted_objects = other._max_z_sorted_objects;
+  _min_distance_sorted_objects = other._min_distance_sorted_objects;
+  _max_distance_sorted_objects = other._max_distance_sorted_objects;
+  _min_center_distance_sorted_objects = other._min_center_distance_sorted_objects;
+  _max_center_distance_sorted_objects = other._max_center_distance_sorted_objects;
   return (*this);
 }
 

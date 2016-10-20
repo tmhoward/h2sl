@@ -21,6 +21,13 @@ Index( const string& indexType ) : Grounding() {
   insert_prop< std::string >( _properties, "index_type", indexType );
 }
 
+Index::
+Index( xmlNodePtr root ) : Grounding() {
+    insert_prop< std::string >( _properties, "index_type", "na" );
+    from_xml( root );
+}
+
+
 /**
  * Index class copy constructor
  */
@@ -213,8 +220,9 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Index& other ){
-    out << "class:\"Index\" ";
-    out << "index_type:" << other.index_type() << " ";
+    out << "Index(";
+    out << "index_type=\"" << other.index_type() << "\",";
+    out << ")";
     return out;
   }
 }

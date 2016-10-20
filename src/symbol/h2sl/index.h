@@ -27,6 +27,7 @@ namespace h2sl {
   public:
     Index( const std::string& indexType = "na" );
     Index( const Index& other );
+    Index( xmlNodePtr root );
     virtual ~Index();
     Index& operator=( const Index& other );
     bool operator==( const Index& other )const;

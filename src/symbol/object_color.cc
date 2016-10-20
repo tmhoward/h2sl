@@ -19,6 +19,13 @@ Object_Color( const string& object_colorType ) : Grounding() {
   insert_prop< std::string >( _properties, "object_color_type", object_colorType );
 }
 
+
+Object_Color::
+Object_Color( xmlNodePtr root ) : Grounding() {
+    insert_prop< std::string >( _properties, "object_color_type", "na" );
+    from_xml( root );
+}
+
 /**
  * Object_Color class copy constructor
  */
@@ -206,8 +213,9 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Object_Color& other ){
-    out << "class:\"Object_Color\" ";
-    out << "object_color_type:" << other.object_color_type() << " ";
+    out << "Object_Color(";
+    out << "object_color_type=\"" << other.object_color_type() << "\",";
+    out << ")";  
     return out;
   }
 }

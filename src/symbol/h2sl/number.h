@@ -28,6 +28,7 @@ namespace h2sl {
 
     Number( const std::string& numberValue = "na" );
     Number( const Number& other );
+    Number( xmlNodePtr root );
     virtual ~Number();
     Number& operator=( const Number& other );
     bool operator==( const Number& other )const;

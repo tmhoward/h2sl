@@ -23,8 +23,9 @@ namespace h2sl {
   class Container : public Grounding {
   public:
 
-    Container( const std::vector< Object* >& container  = std::vector< Object* >(), const std::string& containerType = "group" );
+    Container( const std::vector< Grounding* >& groundings  = std::vector< Grounding* >(), const std::string& containerType = "group" );
     Container( const Container& other );
+    Container( xmlNodePtr root );
     virtual ~Container();
     Container& operator=( const Container& other );
     bool operator==( const Container& other )const;
@@ -48,14 +49,14 @@ namespace h2sl {
     /*static std::string type_to_std_string( const Type type );
     static Type type_from_std_string( const std::string& arg );*/
     
-    inline std::vector< Object* >& container( void ){ return _container; };
-    inline const std::vector< Object* >& container( void )const{ return _container; };
+    inline std::vector< Grounding* >& groundings( void ){ return _groundings; };
+    inline const std::vector< Grounding* >& groundings( void )const{ return _groundings; };
 
     inline std::string& container_type( void ){ return get_prop< std::string >( _properties, "container_type" ); };
     inline const std::string& container_type( void )const{ return get_prop< std::string >( _properties, "container_type" ); };
 
   protected:
-    std::vector< Object* > _container;
+    std::vector< Grounding* > _groundings;
     /*unsigned int _type;*/
   private:
 

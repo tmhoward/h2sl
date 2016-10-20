@@ -21,6 +21,12 @@ Spatial_Relation( const string& spatial_relationType ) : Grounding() {
   insert_prop< std::string >( _properties, "spatial_relation_type", spatial_relationType );
 }
 
+Spatial_Relation::
+Spatial_Relation( xmlNodePtr root ) : Grounding() {
+    insert_prop< std::string >( _properties, "spatial_relation_type", "na" );
+    from_xml( root );
+}
+
 /**
  * Spatial_Relation class copy constructor
  */
@@ -225,8 +231,9 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Spatial_Relation& other ){
-    out << "class:\"Spatial_Relation\" ";
-    out << "spatial_relation_type:" << other.spatial_relation_type() << " ";
+    out << "Spatial_Relation(";
+    out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\",";
+    out << ")";
     return out;
   }
 }

@@ -21,6 +21,12 @@ Number( const string& numberValue ) : Grounding(){
   insert_prop< std::string >( _properties, "number_value", numberValue );
 }
 
+Number::
+Number( xmlNodePtr root ) : Grounding() {
+    insert_prop< std::string >( _properties, "number_value", "na" );
+    from_xml( root );
+}
+
 /**
  * Number class copy constructor
  */
@@ -234,8 +240,9 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Number& other ){
-    out << "class:\"Number\" ";
-    out << "number_value:" << other.number_value() << " ";
+    out << "Number(";
+    out << "number_value=\"" << other.number_value() << "\",";
+    out << ")";
     return out;
   }
 }

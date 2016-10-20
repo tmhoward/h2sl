@@ -27,6 +27,7 @@ namespace h2sl {
   public:
     Object_Property( const std::string& objectType = "na", const std::string& spatial_relationType = "na", const std::string& indexType = "na" );
     Object_Property( const Object_Property& other );
+    Object_Property( xmlNodePtr root );
     virtual ~Object_Property();
     Object_Property& operator=( const Object_Property& other );
     bool operator==( const Object_Property& other )const;

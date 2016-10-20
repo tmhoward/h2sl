@@ -28,6 +28,7 @@ namespace h2sl {
     public:
         Object_Color( const std::string& object_colorType = "na" );
         Object_Color( const Object_Color& other );
+        Object_Color( xmlNodePtr root );
         virtual ~Object_Color();
         Object_Color& operator=( const Object_Color& other );
         bool operator==( const Object_Color& other )const;

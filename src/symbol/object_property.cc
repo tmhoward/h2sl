@@ -26,6 +26,15 @@ Object_Property( const string& objectType,
 
 }
 
+Object_Property::
+Object_Property( xmlNodePtr root ) : Grounding() {
+    insert_prop< std::string >( _properties, "object_type", "na" );
+    insert_prop< std::string >( _properties, "spatial_relation_type", "na" );
+    insert_prop< std::string >( _properties, "index_type", "na" );
+    from_xml( root );
+}
+
+
 /**
  * Object_Property class copy constructor
  */
@@ -230,10 +239,11 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Object_Property& other ){
-    out << "class:\"Object_Property\" ";
-    out << "object_type:" << other.object_type() << " ";
-    out << "spatial_relation_type:" << other.spatial_relation_type() << " ";
-    out << "index_type:" << other.index_type() << " ";
+    out << "Object_Property(";
+    out << "object_type=\"" << other.object_type() << "\",";
+    out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\",";
+    out << "index_type=\"" << other.index_type() << "\",";
+    out << ")";
     return out;
   }
 }

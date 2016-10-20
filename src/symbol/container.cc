@@ -19,18 +19,26 @@ using namespace h2sl;
  * Container class constructor
  */
 Container::
-Container( const vector< Object* >& container,
+Container( const vector< Grounding* >& groundings,
         const string& containerType) : Grounding(),
-                                    _container( container ) {
+                                    _groundings( groundings ) {
   insert_prop< std::string >( _properties, "container_type", containerType );
+}
+
+
+Container::
+Container( xmlNodePtr root ) : Grounding(),
+_groundings() {
+    insert_prop< std::string >( _properties, "container_type", "group" );
+    from_xml( root );
 }
 
 /**
  * Container class copy constructor
  */
 Container::
-Container( const Container& other ) : Grounding(), 
-  				      _container( other._container ) {
+Container( const Container& other ) : Grounding( other ),
+  				      _groundings( other._groundings ) {
   
 }
 
@@ -48,7 +56,7 @@ Container::
 Container&
 Container::
 operator=( const Container& other ){
-  _container = other._container;
+  _groundings = other._groundings;
   _properties = other._properties;
   return (*this);
 }
@@ -61,13 +69,13 @@ Container::
 operator==( const Container& other )const{ 
   if( container_type() != other.container_type() ){
      return false;
-   } else if( _container.size() != other.container().size() ){
+   } else if( _groundings.size() != other.groundings().size() ){
      return false;
    } else {
-     for( unsigned int i = 0; i < _container.size(); i++ ){
+     for( unsigned int i = 0; i < _groundings.size(); i++ ){
        bool found_match = false;
-       for( unsigned int j = 0; j < other.container().size(); j++ ){
-         if( *_container[ i ] == *other.container()[ j ] ){
+       for( unsigned int j = 0; j < other.groundings().size(); j++ ){
+         if( *_groundings[ i ] == *other.groundings()[ j ] ){
            found_match = true;
          }
        }
@@ -101,9 +109,18 @@ dup( void )const{
 bool
 Container::
 has_object( const Object* object )const{
-  for( unsigned int i = 0; i < _container.size(); i++ ){
-    if( _container[ i ] == object ){
-      return true;
+  if( object != NULL ){
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Object* >( _groundings[ i ] ) != NULL ){
+        if( *static_cast< const Object* >( _groundings[ i ] ) == *object ){
+          return true;
+        }
+      } else if ( dynamic_cast< const Container* >( _groundings[ i ] ) != NULL ){
+        // search through child groundings container
+        if( static_cast< const Container* >( _groundings[ i ] )->has_object( object ) ){
+          return true;
+        }
+      }
     }
   }
   return false;
@@ -112,41 +129,49 @@ has_object( const Object* object )const{
 double
 Container::
 min_distance_to_object( const Object& object )const{
-  assert( !_container.empty() );
-  double min_distance = 0.0;
-  for( unsigned int i = 0; i < _container.size(); i++ ){
-    double distance = h2sl::Vector3::distance( _container[ i ]->transform().position(), object.transform().position() );
-    if( ( i == 0 ) || ( distance < min_distance ) ){
-      min_distance = distance;
+    double min_distance = 0.0;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Object* >( _groundings[ i ] ) != NULL ){
+        if( *static_cast< const Object* >( _groundings[ i ] ) == object ){
+          double distance = h2sl::Vector3::distance( static_cast< const Object* >( _groundings[ i ] )->transform().position(), object.transform().position() );
+          if( ( i == 0 ) || ( distance < min_distance ) ){
+            min_distance = distance;
+          }
+        }
+      }
     }
+    return min_distance;
   }
-  return min_distance;
-}
+
 
 h2sl::Vector3
 Container::
 mean_position( void )const{
-  assert( !_container.empty() );
+  assert( !_groundings.empty() );
   h2sl::Vector3 tmp;
-  for( unsigned int i = 0; i < _container.size(); i++ ){
-    tmp += _container[ i ]->transform().position();
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    if( dynamic_cast< const Object* >( _groundings[ i ] ) != NULL ){
+      tmp += static_cast< const Object* >( _groundings[ i ] )->transform().position();
+    }
   }
-  tmp *= ( 1.0 / ( double )( _container.size() ) );
+  tmp *= ( 1.0 / ( double )( _groundings.size() ) );
   return tmp;
 }
 
 h2sl::Vector3
 Container::
 variance_position( void )const{
-  assert( !_container.empty() );
+  assert( !_groundings.empty() );
   h2sl::Vector3 tmp;
   h2sl::Vector3 mean = mean_position();
-  for( unsigned int i = 0; i < _container.size(); i++ ){
-    tmp.x() += pow( _container[ i ]->transform().position().x() - mean.x(), 2.0 );
-    tmp.y() += pow( _container[ i ]->transform().position().y() - mean.y(), 2.0 );
-    tmp.z() += pow( _container[ i ]->transform().position().z() - mean.z(), 2.0 );
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    if( dynamic_cast< const Object* >( _groundings[ i ] ) != NULL ){
+      tmp.x() += pow( static_cast< const Object* >( _groundings[ i ] )->transform().position().x() - mean.x(), 2.0 );
+      tmp.y() += pow( static_cast< const Object* >( _groundings[ i ] )->transform().position().y() - mean.y(), 2.0 );
+      tmp.z() += pow( static_cast< const Object* >( _groundings[ i ] )->transform().position().z() - mean.z(), 2.0 );
+    }
   }
-  tmp *= ( 1.0 / ( double )( _container.size() ) );
+  tmp *= ( 1.0 / ( double )( _groundings.size() ) );
   return tmp;
 }
 
@@ -165,11 +190,13 @@ Container::
 max_deviation( void )const{
   double max_deviation = 0.0;
   pair< Object*, Object* > bounds = this->bounds();
-  for( unsigned int i = 0; i < _container.size(); i++ ){
-    if( ( _container[ i ] != bounds.first ) && ( _container[ i ] != bounds.second ) ){
-      double deviation = this->deviation( *_container[ i ] );
-      if( deviation > max_deviation ){
-        max_deviation = deviation;
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    if( dynamic_cast< const Object* >( _groundings[ i ] ) != NULL ){
+      if( ( static_cast< const Object* >( _groundings[ i ] ) != bounds.first ) && ( static_cast< const Object* >( _groundings[ i ] ) != bounds.second ) ){
+        double deviation = this->deviation( *static_cast< const Object* >( _groundings[ i ] ) );
+        if( deviation > max_deviation ){
+          max_deviation = deviation;
+        }
       }
     }
   }
@@ -179,18 +206,20 @@ max_deviation( void )const{
 pair< Object*, Object* >
 Container::
 bounds( void )const{
-  assert( _container.size() > 1 );
+  assert( _groundings.size() > 1 );
   // return the farthest pair of objects
   double max_distance = 0.0;
   pair< Object*, Object* > tmp( NULL, NULL );
-  for( unsigned int i = 0; i < _container.size(); i++ ){
-    for( unsigned int j = i; j < _container.size(); j++ ){
-      if( i != j ){
-        double distance = h2sl::Vector3::distance( _container[ i ]->transform().position(), _container[ j ]->transform().position() );
-        if( ( distance > max_distance ) || ( ( tmp.first == NULL ) && ( tmp.second == NULL ) ) ){
-          max_distance = distance;
-          tmp.first = _container[ i ];
-          tmp.second = _container[ j ];
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    for( unsigned int j = i; j < _groundings.size(); j++ ){
+      if( dynamic_cast< const Object* >( _groundings[ i ] ) != NULL && dynamic_cast< const Object* >( _groundings[ j ] ) != NULL ){
+        if( i != j ){
+          double distance = h2sl::Vector3::distance( static_cast< const Object* >( _groundings[ i ] )->transform().position(), static_cast< const Object* >( _groundings[ j ] )->transform().position() );
+          if( ( distance > max_distance ) || ( ( tmp.first == NULL ) && ( tmp.second == NULL ) ) ){
+            max_distance = distance;
+              tmp.first = static_cast< Object* >( _groundings[ i ] );
+            tmp.second = static_cast< Object* >( _groundings[ j ] );
+          }
         }
       }
     }
@@ -237,9 +266,9 @@ to_xml( xmlDocPtr doc,
   /*stringstream type_string;
   type_string << type_to_std_string( (Type) _type );*/
   xmlNewProp( node, ( const xmlChar* )( "container_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "container_type").c_str() ) );
-  for( unsigned int i = 0; i < _container.size(); i++ ){
-    if( _container[ i ] != NULL ){
-      _container[ i ]->to_xml( doc, node );
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    if( _groundings[ i ] != NULL ){
+      _groundings[ i ]->to_xml( doc, node );
     }
   }
   xmlAddChild( root, node );
@@ -279,11 +308,11 @@ void
 Container::
 from_xml( xmlNodePtr root ){
   container_type() = "group";
-  for (unsigned int i = 0; i < _container.size(); i++){
-    delete _container[ i ];
-    _container[ i ] = NULL;
+  for (unsigned int i = 0; i < _groundings.size(); i++){
+    delete _groundings[ i ];
+    _groundings[ i ] = NULL;
   }
-  _container.clear();
+  _groundings.clear();
   
   if( root->type == XML_ELEMENT_NODE ){
     pair< bool, string > container_type_prop = has_prop< std::string >( root, "container_type" );
@@ -295,8 +324,8 @@ from_xml( xmlNodePtr root ){
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          _container.push_back( new Object() );
-          _container.back()->from_xml( l1 );
+          _groundings.push_back( new Object() );
+          _groundings.back()->from_xml( l1 );
         }
       }
     }
@@ -344,20 +373,20 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Container& other ){
-   out << "class:\"Container\" ";
-   out << "container_type:" << other.container_type() << " ";
-   out << "objects[" << other.container().size() << "]:{";    
-   for( unsigned int i = 0; i < other.container().size(); i++ ){
-      if( other.container()[ i ] != NULL ){
-        out << "(" << *other.container()[ i ] << ")";
+   out << "Container(";
+   out << "container_type=\"" << other.container_type() << "\",";
+   out << "objects=" << other.groundings().size();
+   for( unsigned int i = 0; i < other.groundings().size(); i++ ){
+      if( other.groundings()[ i ] != NULL ){
+        out << "(" << *other.groundings()[ i ] << ")";
 //        out << other.container()[ i ]->name();
 //        out << other.container()[ i ];
       }
-      if( i != ( other.container().size() - 1 ) ){
+      if( i != ( other.groundings().size() - 1 ) ){
         out << ",";
       }
     }
-    out << "} ";
+    out << ")";
     return out;
   }
 }
