@@ -6,8 +6,8 @@
  * a class that describes the object_type symbol.
  */
 
-#ifndef H2SL_OBJECT_COLOR_H
-#define H2SL_OBJECT_COLOR_H
+#ifndef H2SL_OBJECT_TYPE_H
+#define H2SL_OBJECT_TYPE_H
 
 #include <iostream>
 #include <libxml/tree.h>
