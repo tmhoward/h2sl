@@ -50,10 +50,12 @@ namespace h2sl {
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
-
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
-      
+  
+    virtual void convert_models( xmlNodePtr root );
+    virtual void sort(void);
+    
     static bool min_x_sort( const Object* a, const Object* b );
     static bool max_x_sort( const Object* a, const Object* b );
     static void min_x_sort_objects( std::vector< Object* >& objects );
@@ -108,7 +110,6 @@ namespace h2sl {
     std::vector< std::vector< Object* > > _min_center_distance_sorted_objects;
     std::vector< std::vector< Object* > > _max_center_distance_sorted_objects;
     unsigned long long _time;
-    std::vector< Object* > _objects;
 
   private:
 
