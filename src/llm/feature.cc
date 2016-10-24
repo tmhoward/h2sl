@@ -54,6 +54,7 @@
 #include "h2sl/feature_region_container_matches_child.h"
 //#include "h2sl/feature_action_object_matches_child.h"
 #include "h2sl/feature_spatial_relation_matches_child.h"
+#include "h2sl/feature_is_abstract_container.h"
 
 #include "h2sl/feature.h"
 
@@ -133,6 +134,8 @@ namespace h2sl {
     //    out << *static_cast< const Feature_Action_Object_Matches_Child* >( &other );
     } else if ( dynamic_cast< const Feature_Spatial_Relation_Matches_Child* >( &other ) != NULL ){
         out << *static_cast< const Feature_Spatial_Relation_Matches_Child* >( &other );
+    } else if ( dynamic_cast< const Feature_Is_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Is_Abstract_Container* >( &other );
     } else {
       assert( false );
     } 
