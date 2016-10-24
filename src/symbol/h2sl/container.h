@@ -46,8 +46,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
     
-    inline std::vector< Grounding* >& groundings( void ){ return _groundings; };
-    inline const std::vector< Grounding* >& groundings( void )const{ return _groundings; };
+    inline std::vector< Grounding* >& container( void ){ return _groundings; };
+    inline const std::vector< Grounding* >& container( void )const{ return _groundings; };
 
     inline std::string& container_type( void ){ return get_prop< std::string >( _properties, "container_type" ); };
     inline const std::string& container_type( void )const{ return get_prop< std::string >( _properties, "container_type" ); };

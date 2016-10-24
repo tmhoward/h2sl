@@ -42,9 +42,9 @@ set(HDRS
     h2sl/feature_is_region_container.h
     #h2sl/feature_is_region_abstract_container.h
     h2sl/feature_is_spatial_relation.h
-    #h2sl/feature_container_number.h
+    h2sl/feature_container_number.h
     #h2sl/feature_container_number_equals_world_objects.h
-    #h2sl/feature_container_is_empty.h
+    h2sl/feature_container_is_empty.h
     h2sl/feature_container_type_matches_child_container_type.h
     h2sl/llm.h)
 
@@ -78,9 +78,9 @@ set(SRCS
     feature_is_region_container.cc
     #feature_is_region_abstract_container.cc
     feature_is_spatial_relation.cc
-    #feature_container_number.cc
+    feature_container_number.cc
     #feature_container_number_equals_world_objects.cc
-    #feature_container_is_empty.cc
+    feature_container_is_empty.cc
     feature_container_type_matches_child_container_type.cc
     llm.cc)
 

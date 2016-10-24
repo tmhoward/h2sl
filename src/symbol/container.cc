@@ -69,13 +69,13 @@ Container::
 operator==( const Container& other )const{ 
   if( container_type() != other.container_type() ){
      return false;
-   } else if( _groundings.size() != other.groundings().size() ){
+   } else if( _groundings.size() != other.container().size() ){
      return false;
    } else {
      for( unsigned int i = 0; i < _groundings.size(); i++ ){
        bool found_match = false;
-       for( unsigned int j = 0; j < other.groundings().size(); j++ ){
-         if( *_groundings[ i ] == *other.groundings()[ j ] ){
+       for( unsigned int j = 0; j < other.container().size(); j++ ){
+         if( *_groundings[ i ] == *other.container()[ j ] ){
            found_match = true;
          }
        }
@@ -340,12 +340,12 @@ namespace h2sl {
               const Container& other ){
    out << "Container(";
    out << "container_type=\"" << other.container_type() << "\",";
-   out << "objects=" << other.groundings().size();
-   for( unsigned int i = 0; i < other.groundings().size(); i++ ){
-      if( other.groundings()[ i ] != NULL ){
-        out << "(" << *other.groundings()[ i ] << ")";
+   out << "objects=" << other.container().size();
+   for( unsigned int i = 0; i < other.container().size(); i++ ){
+      if( other.container()[ i ] != NULL ){
+        out << "(" << *other.container()[ i ] << ")";
       }
-      if( i != ( other.groundings().size() - 1 ) ){
+      if( i != ( other.container().size() - 1 ) ){
         out << ",";
       }
     }
