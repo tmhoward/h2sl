@@ -51,6 +51,8 @@
 #include "h2sl/feature_is_abstract_container.h"
 #include "h2sl/feature_is_object.h"
 #include "h2sl/feature_is_container.h"
+#include "h2sl/feature_is_region.h"
+#include "h2sl/feature_is_region_container.h"
 
 using namespace std;
 using namespace h2sl;

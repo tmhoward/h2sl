@@ -57,6 +57,8 @@
 #include "h2sl/feature_is_abstract_container.h"
 #include "h2sl/feature_is_object.h"
 #include "h2sl/feature_is_container.h"
+#include "h2sl/feature_is_region.h"
+#include "h2sl/feature_is_region_container.h"
 
 #include "h2sl/feature.h"
 
@@ -142,6 +144,10 @@ namespace h2sl {
         out << *static_cast< const Feature_Is_Object* >( &other );
     } else if ( dynamic_cast< const Feature_Is_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Is_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Is_Region* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Is_Region* >( &other );
+    } else if ( dynamic_cast< const Feature_Is_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Is_Region_Container* >( &other );
     } else {
       assert( false );
     } 
