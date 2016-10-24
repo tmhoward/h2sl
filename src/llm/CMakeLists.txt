@@ -30,6 +30,7 @@ set(HDRS
     h2sl/feature_constraint_child_is_robot.h
     h2sl/feature_product.h
     h2sl/feature_set.h
+    h2sl/feature_abstract_container_matches_child.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -50,6 +51,7 @@ set(SRCS
     feature_constraint_child_is_robot.cc
     feature_product.cc
     feature_set.cc
+    feature_abstract_container_matches_child.cc
     llm.cc)
 
 # BINARY SOURCE FILES

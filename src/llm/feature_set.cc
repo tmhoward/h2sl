@@ -43,6 +43,7 @@
 #include "h2sl/feature_constraint_parent_is_robot.h"
 #include "h2sl/feature_constraint_child_is_robot.h"
 #include "h2sl/feature_set.h"
+#include "h2sl/feature_abstract_container_matches_child.h"
 
 using namespace std;
 using namespace h2sl;
