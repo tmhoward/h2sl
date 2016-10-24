@@ -56,6 +56,7 @@
 #include "h2sl/feature_spatial_relation_matches_child.h"
 #include "h2sl/feature_is_abstract_container.h"
 #include "h2sl/feature_is_object.h"
+#include "h2sl/feature_is_container.h"
 
 #include "h2sl/feature.h"
 
@@ -139,6 +140,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Is_Abstract_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Is_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Is_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Is_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Is_Container* >( &other );
     } else {
       assert( false );
     } 
