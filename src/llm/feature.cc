@@ -50,6 +50,8 @@
 #include "h2sl/feature_constraint_child_is_robot.h"
 #include "h2sl/feature_grounding_property_value.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
+#include "h2sl/feature_container_matches_child.h"
+#include "h2sl/feature_region_container_matches_child.h"
 
 #include "h2sl/feature.h"
 
@@ -121,6 +123,10 @@ namespace h2sl {
       out << *static_cast< const Feature_Grounding_Property_Value* >( &other );
     } else if ( dynamic_cast< const Feature_Abstract_Container_Matches_Child* >( &other ) != NULL ){
         out << *static_cast< const Feature_Abstract_Container_Matches_Child* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Matches_Child* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Matches_Child* >( &other );
+    } else if ( dynamic_cast< const Feature_Region_Container_Matches_Child* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Region_Container_Matches_Child* >( &other );
     } else {
       assert( false );
     } 

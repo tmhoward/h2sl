@@ -43,6 +43,10 @@
 #include "h2sl/feature_region_object.h"
 #include "h2sl/feature_type.h"
 #include "h2sl/feature_set.h"
+#include "h2sl/feature_abstract_container_matches_child.h"
+#include "h2sl/feature_container_matches_child.h"
+#include "h2sl/feature_region_container_matches_child.h"
+
 #include "feature_set_demo_cmdline.h"
 
 using namespace std;
