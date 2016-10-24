@@ -49,6 +49,7 @@
 //#include "h2sl/feature_action_object_matches_child.h"
 #include "h2sl/feature_spatial_relation_matches_child.h"
 #include "h2sl/feature_is_abstract_container.h"
+#include "h2sl/feature_is_object.h"
 
 #include "feature_set_demo_cmdline.h"
 

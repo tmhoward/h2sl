@@ -36,6 +36,7 @@ set(HDRS
     #h2sl/feature_action_object_matches_child.h
     h2sl/feature_spatial_relation_matches_child.h
     h2sl/feature_is_abstract_container.h
+    h2sl/feature_is_object.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -62,6 +63,7 @@ set(SRCS
     #feature_action_object_matches_child.cc
     feature_spatial_relation_matches_child.cc
     feature_is_abstract_container.cc
+    feature_is_object.cc
     llm.cc)
 
 # BINARY SOURCE FILES
