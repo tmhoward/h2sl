@@ -180,6 +180,9 @@ from_xml( xmlNodePtr root ){
 void
 World::
 sort( void ){
+  /*
+  // IN PROGRESS
+
   for( unsigned int i = 0; i < _min_x_sorted_objects.size(); i++ ){
     _min_x_sorted_objects[ i ].clear();
   }
@@ -309,6 +312,7 @@ sort( void ){
       max_center_distance_sort_objects( _max_center_distance_sorted_objects[ i ] );
     }
   }
+*/
 
   /*
   // Determining the containers is not required right now.

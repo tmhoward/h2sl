@@ -53,7 +53,7 @@ namespace h2sl {
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
   
-    virtual void convert_models( xmlNodePtr root );
+    //virtual void convert_models( xmlNodePtr root );
     virtual void sort(void);
     
     static bool min_x_sort( const Object* a, const Object* b );
