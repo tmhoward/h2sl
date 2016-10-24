@@ -58,6 +58,7 @@
 //#include "h2sl/feature_container_number.h"
 //#include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_container_is_empty.h"
+#include "h2sl/feature_container_type_matches_child_container_type.h"
 
 using namespace std;
 using namespace h2sl;
