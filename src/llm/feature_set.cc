@@ -53,6 +53,8 @@
 #include "h2sl/feature_is_container.h"
 #include "h2sl/feature_is_region.h"
 #include "h2sl/feature_is_region_container.h"
+//#include "h2sl/feature_is_region_abstract_container.h"
+#include "h2sl/feature_is_spatial_relation.h"
 
 using namespace std;
 using namespace h2sl;

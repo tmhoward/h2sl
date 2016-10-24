@@ -61,6 +61,8 @@
 #include "h2sl/feature_is_container.h"
 #include "h2sl/feature_is_region.h"
 #include "h2sl/feature_is_region_container.h"
+//#include "h2sl/feature_is_region_abstract_container.h"
+#include "h2sl/feature_is_spatial_relation.h"
 
 using namespace std;
 using namespace h2sl;
@@ -340,6 +342,12 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_region_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Is_Region_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_region_abstract_container" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Is_Region_Abstract_Container() );
+              //    _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_spatial_relation" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Is_Spatial_Relation() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
