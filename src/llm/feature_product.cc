@@ -54,6 +54,7 @@
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"
 #include "h2sl/feature_region_container_matches_child.h"
+//#include "h2sl/feature_action_object_matches_child.h"
 
 using namespace std;
 using namespace h2sl;
@@ -313,6 +314,9 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_matches_child" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Container_Matches_Child() );
                   _feature_groups.back().back()->from_xml( l2 );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_action_object_matches_child" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Action_Object_Matches_Child() );
+              //    _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
