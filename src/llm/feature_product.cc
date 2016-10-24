@@ -63,6 +63,9 @@
 #include "h2sl/feature_is_region_container.h"
 //#include "h2sl/feature_is_region_abstract_container.h"
 #include "h2sl/feature_is_spatial_relation.h"
+//#include "h2sl/feature_container_number.h"
+//#include "h2sl/feature_container_number_equals_world_objects.h"
+//#include "h2sl/feature_container_is_empty.h"
 
 using namespace std;
 using namespace h2sl;
@@ -349,6 +352,14 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_spatial_relation" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Is_Spatial_Relation() );
                   _feature_groups.back().back()->from_xml( l2 );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Container_Number( l2 ) );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number_equals_world_objects" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Container_Number_Equals_World_Objects() );
+              //    _feature_groups.back().back()->from_xml( l2 );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_is_empty" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Container_Is_Empty() );
+              //    _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );

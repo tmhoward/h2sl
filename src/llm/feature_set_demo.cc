@@ -55,6 +55,9 @@
 #include "h2sl/feature_is_region_container.h"
 //#include "h2sl/feature_is_region_abstract_container.h"
 #include "h2sl/feature_is_spatial_relation.h"
+//#include "h2sl/feature_container_number.h"
+//#include "h2sl/feature_container_number_equals_world_objects.h"
+#include "h2sl/feature_container_is_empty.h"
 
 #include "feature_set_demo_cmdline.h"
 

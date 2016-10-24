@@ -61,6 +61,9 @@
 #include "h2sl/feature_is_region_container.h"
 //#include "h2sl/feature_is_region_abstract_container.h"
 #include "h2sl/feature_is_spatial_relation.h"
+//#include "h2sl/feature_container_number.h"
+//#include "h2sl/feature_container_number_equals_world_objects.h"
+#include "h2sl/feature_container_is_empty.h"
 
 #include "h2sl/feature.h"
 
@@ -154,6 +157,12 @@ namespace h2sl {
     //    out << *static_cast< const Feature_Is_Region_Abstract_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Is_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Is_Spatial_Relation* >( &other );
+    //} else if ( dynamic_cast< const Feature_Container_Number* >( &other ) != NULL ){
+    //    out << *static_cast< const Feature_Container_Number* >( &other );
+    //} else if ( dynamic_cast< const Feature_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
+    //    out << *static_cast< const Feature_Container_Number_Equals_World_Objects* >( &other );
+    //} else if ( dynamic_cast< const Feature_Container_Is_Empty* >( &other ) != NULL ){
+    //    out << *static_cast< const Feature_Container_Is_Empty* >( &other );
     } else {
       assert( false );
     } 
