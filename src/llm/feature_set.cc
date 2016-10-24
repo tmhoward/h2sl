@@ -46,7 +46,8 @@
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"
 #include "h2sl/feature_region_container_matches_child.h"
-#include "h2sl/feature_action_object_matches_child.h"
+//#include "h2sl/feature_action_object_matches_child.h"
+#include "h2sl/feature_spatial_relation_matches_child.h"
 
 using namespace std;
 using namespace h2sl;
