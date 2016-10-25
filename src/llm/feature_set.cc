@@ -62,6 +62,7 @@
 #include "h2sl/feature_object_property_merge_object_property_container.h"
 #include "h2sl/feature_phrase_has_pos_tag.h"
 #include "h2sl/feature_phrase_has_single_pos_tag.h"
+#include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
 
 using namespace std;
 using namespace h2sl;

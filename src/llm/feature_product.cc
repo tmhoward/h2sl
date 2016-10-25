@@ -70,6 +70,7 @@
 #include "h2sl/feature_object_property_merge_object_property_container.h"
 #include "h2sl/feature_phrase_has_pos_tag.h"
 #include "h2sl/feature_phrase_has_single_pos_tag.h"
+#include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
 
 using namespace std;
 using namespace h2sl;
@@ -374,6 +375,8 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().push_back( new Feature_Phrase_Has_POS_Tag( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_has_single_pos_tag" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Phrase_Has_Single_POS_Tag( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_has_ordered_pos_tag_pair" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Phrase_Has_Ordered_POS_Tag_Pair( l2 ) );
               } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
