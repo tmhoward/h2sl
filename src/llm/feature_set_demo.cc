@@ -61,6 +61,7 @@
 #include "h2sl/feature_container_type_matches_child_container_type.h"
 #include "h2sl/feature_object_property_merge_object_property_container.h"
 #include "h2sl/feature_phrase_has_pos_tag.h"
+#include "h2sl/feature_phrase_has_single_pos_tag.h"
 
 #include "feature_set_demo_cmdline.h"
 

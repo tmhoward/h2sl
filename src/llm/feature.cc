@@ -68,6 +68,7 @@
 #include "h2sl/feature_container_type_matches_child_container_type.h"
 #include "h2sl/feature_object_property_merge_object_property_container.h"
 #include "h2sl/feature_phrase_has_pos_tag.h"
+#include "h2sl/feature_phrase_has_single_pos_tag.h"
 
 #include "h2sl/feature.h"
 
@@ -175,6 +176,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Property_Merge_Object_Property_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Phrase_Has_POS_Tag* >( &other ) != NULL ){
         out << *static_cast< const Feature_Phrase_Has_POS_Tag* >( &other );
+    } else if ( dynamic_cast< const Feature_Phrase_Has_Single_POS_Tag* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Phrase_Has_Single_POS_Tag* >( &other );
     } else {
       assert( false );
     } 
