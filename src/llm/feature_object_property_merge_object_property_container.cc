@@ -91,7 +91,7 @@ value( const unsigned int& cv,
         if( ( object_property_child.first->min_word_order() < container_child.first->min_word_order() ) ){
           bool object_type_match = false;
           for( unsigned int i = 0; i < container_child.second->container().size(); i++ ){
-            if( container_child.second->container()[ i ]->container_type() == object_property_child.second->object_type() ){
+            if( container_child.second->container()[ i ]->type() == object_property_child.second->object_type() ){
               object_type_match = true;
             }
           }
