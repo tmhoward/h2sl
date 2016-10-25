@@ -66,6 +66,7 @@
 //#include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_container_is_empty.h"
 #include "h2sl/feature_container_type_matches_child_container_type.h"
+#include "h2sl/feature_object_property_merge_object_property_container.h"
 
 #include "h2sl/feature.h"
 
@@ -169,7 +170,9 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Is_Empty* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Type_Matches_Child_Container_Type* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Type_Matches_Child_Container_Type* >( &other );
-    } else {
+    } else if ( dynamic_cast< const Feature_Object_Property_Merge_Object_Property_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Property_Merge_Object_Property_Container* >( &other );
+    }  else {
       assert( false );
     } 
     return out;
