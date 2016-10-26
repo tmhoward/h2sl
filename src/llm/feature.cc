@@ -73,6 +73,7 @@
 #include "h2sl/feature_object_property_merge_object_property_spatial_relation.h"
 #include "h2sl/feature_container_matches_empty_child_container.h"
 #include "h2sl/feature_container_merge_empty_container_container.h"
+#include "h2sl/feature_container_merge_object_property_container.h"
 
 #include "h2sl/feature.h"
 
@@ -190,6 +191,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Matches_Empty_Child_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Merge_Empty_Container_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Merge_Empty_Container_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Merge_Object_Property_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Merge_Object_Property_Container* >( &other );
     } else {
       assert( false );
     } 
