@@ -65,7 +65,7 @@ value( const unsigned int& cv,
         for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
           const Container * child = dynamic_cast< const Container* >( children[ i ].second[ j ] );
           if( child != NULL ){
-            if( child->container_type() == container->container_type() ){
+            if( child->type() == container->type() ){
               return !_invert;
             }
           }

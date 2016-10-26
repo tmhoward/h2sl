@@ -37,11 +37,11 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-      inline std::string& spatial_relation_type( void ){ return get_prop< std::string >( _properties, "spatial_relation_type" ); };
-      inline const std::string& spatial_relation_type( void )const{ return get_prop< std::string >( _properties, "spatial_relation_type" ); };
+    inline std::string& type( void ){ return get_prop< std::string >( _properties, "spatial_relation_type" ); };
+    inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "spatial_relation_type" ); };
     
-      inline Container& container( void ){ return _container; };
-      inline const Container& container( void )const{ return _container; };
+    inline Container& container( void ){ return _container; };
+    inline const Container& container( void )const{ return _container; };
    
   protected:
       Container _container;

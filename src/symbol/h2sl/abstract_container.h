@@ -39,24 +39,24 @@ namespace h2sl {
     bool operator!=( const Abstract_Container& other )const;
     Abstract_Container* dup( void )const;
 
-    inline std::string& object_type( void ){ 
+    inline std::string& type( void ){ 
               return get_prop< std::string >( _properties, "object_type" ); };
-    inline const std::string& object_type( void )const{ 
+    inline const std::string& type( void )const{ 
               return get_prop< std::string >( _properties, "object_type" ); };
    
-    inline std::string& number_type( void ){ 
+    inline std::string& number( void ){ 
               return get_prop< std::string >( _properties, "number_type" ); };
-    inline const std::string& number_type( void )const{ 
+    inline const std::string& number( void )const{ 
               return get_prop< std::string >( _properties, "number_type" ); };
  
-    inline std::string& index_type( void ){ 
+    inline std::string& index( void ){ 
               return get_prop< std::string >( _properties, "index_type" ); };
-    inline const std::string& index_type( void )const{ 
+    inline const std::string& index( void )const{ 
               return get_prop< std::string >( _properties, "index_type" ); };
  
-    inline std::string& object_color_type( void ){ 
+    inline std::string& type( void ){ 
               return get_prop< std::string >( _properties, "object_color_type" ); };
-    inline const std::string& object_color_type( void )const{ 
+    inline const std::string& type( void )const{ 
               return get_prop< std::string >( _properties, "object_color_type" ); };
     
     virtual void to_xml( const std::string& file )const;
