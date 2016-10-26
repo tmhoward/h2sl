@@ -76,6 +76,7 @@
 #include "h2sl/feature_container_merge_empty_container_container.h"
 #include "h2sl/feature_container_merge_object_property_container.h"
 #include "h2sl/feature_container_merge_container_spatial_relation.h"
+#include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 
 using namespace std;
 using namespace h2sl;
@@ -395,7 +396,10 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().push_back( new Feature_Container_Merge_Object_Property_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_container_spatial_relation" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Container_Merge_Container_Spatial_Relation( l2 ) );
+                  _feature_groups.back().push_back( new Feature_Container_Merge_Container_Spatial_Relation() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_merge_container_spatial_relation" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Container_Merge_Container_Spatial_Relation( l2 ) );
               } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );

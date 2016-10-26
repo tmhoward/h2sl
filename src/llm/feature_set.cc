@@ -68,6 +68,7 @@
 #include "h2sl/feature_container_merge_empty_container_container.h"
 #include "h2sl/feature_container_merge_object_property_container.h"
 #include "h2sl/feature_container_merge_container_spatial_relation.h"
+#include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 
 using namespace std;
 using namespace h2sl;

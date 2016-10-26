@@ -55,6 +55,7 @@ set(HDRS
     h2sl/feature_container_merge_empty_container_container.h
     h2sl/feature_container_merge_object_property_container.h
     h2sl/feature_container_merge_container_spatial_relation.h
+    h2sl/feature_region_container_merge_container_spatial_relation.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -100,6 +101,7 @@ set(SRCS
     feature_container_merge_empty_container_container.cc
     feature_container_merge_object_property_container.cc
     feature_container_merge_container_spatial_relation.cc
+    feature_region_container_merge_container_spatial_relation.cc
     llm.cc)
 
 # BINARY SOURCE FILES
