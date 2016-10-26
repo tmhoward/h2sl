@@ -82,7 +82,7 @@ value( const unsigned int& cv,
       if( ( container_child.first != NULL ) && ( container_child.second != NULL ) && ( spatial_relation_child.first != NULL ) && ( spatial_relation_child.second != NULL ) ){ 
         if( _concept_order ){
           if( container_child.first->min_word_order() < spatial_relation_child.first->min_word_order() ){
-            if( region_container->spatial_relation_type() == spatial_relation_child.second->spatial_relation_type() ){
+            if( region_container->relation_type() == spatial_relation_child.second->relation_type() ){
               if( region_container->container() == *container_child.second ){
                 return !_invert;
               }
@@ -90,7 +90,7 @@ value( const unsigned int& cv,
           }
         } else {
           if( container_child.first->min_word_order() > spatial_relation_child.first->min_word_order() ){
-            if( region_container->spatial_relation_type() == spatial_relation_child.second->spatial_relation_type() ){
+            if( region_container->relation_type() == spatial_relation_child.second->relation_type() ){
               if( region_container->container() == *container_child.second ){
 /*
                 cout << "region_container:" << *region_container << endl;

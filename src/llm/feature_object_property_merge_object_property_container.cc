@@ -94,7 +94,7 @@ value( const unsigned int& cv,
           for( unsigned int i = 0; i < container_child.second->container().size(); i++ ){
             
             const Object* container_child_object = dynamic_cast< const Object* >( container_child.second->container()[ i ]); 
-            if( container_child_object->object_type() == object_property_child.second->object_type() ){
+            if( container_child_object->type() == object_property_child.second->type() ){
             //if( container_child.second->container()[ i ]->type() == object_property_child.second->object_type() ){
               object_type_match = true;
             }

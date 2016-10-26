@@ -67,11 +67,11 @@ operator=( const Object_Property& other ){
 bool
 Object_Property::
 operator==( const Object_Property& other )const{
-  if ( object_type() != other.object_type() ){
+  if ( type() != other.type() ){
     return false;
-  } else if ( spatial_relation_type() != other.spatial_relation_type() ){
+  } else if ( relation_type() != other.relation_type() ){
     return false;
-  } else if ( index_type() != other.index_type() ){
+  } else if ( index() != other.index() ){
     return false;
   } else {
     return true;
@@ -130,19 +130,19 @@ from_xml( const string& filename ){
 void
 Object_Property::
 from_xml( xmlNodePtr root ){
-  object_type() = "na";
+  type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
     pair< bool, string > object_type_prop = has_prop< std::string >( root, "object_type" );
     if( object_type_prop.first ){
-      object_type() = object_type_prop.second;
+      type() = object_type_prop.second;
     }
     pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
     if( spatial_relation_type_prop.first ){
-      spatial_relation_type() = spatial_relation_type_prop.second;
+      relation_type() = spatial_relation_type_prop.second;
     }
     pair< bool, string > index_type_prop = has_prop< std::string >( root, "index_type" );
     if( index_type_prop.first ){
-      index_type() = index_type_prop.second;
+      index() = index_type_prop.second;
     }
   }
   return;
@@ -186,9 +186,9 @@ namespace h2sl {
   operator<<( ostream& out,
               const Object_Property& other ){
     out << "Object_Property(";
-    out << "object_type=\"" << other.object_type() << "\",";
-    out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\",";
-    out << "index_type=\"" << other.index_type() << "\",";
+    out << "object_type=\"" << other.type() << "\",";
+    out << "spatial_relation_type=\"" << other.relation_type() << "\",";
+    out << "index_type=\"" << other.index() << "\",";
     out << ")";
     return out;
   }

@@ -63,8 +63,8 @@ namespace h2sl {
 
     inline std::string& name( void ){ return get_prop< std::string >( _properties, "name" ); };
     inline const std::string& name( void )const{ return get_prop< std::string >( _properties, "name" ); };
-    inline std::string& object_type( void ){ return get_prop< std::string >( _properties, "object_type" ); };
-    inline const std::string& object_type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
+    inline std::string& type( void ){ return get_prop< std::string >( _properties, "object_type" ); };
+    inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
     inline Transform& transform( void ){ return _transform; };
     inline const Transform& transform( void )const{ return _transform; };
     inline Vector3& linear_velocity( void ){ return _linear_velocity; };

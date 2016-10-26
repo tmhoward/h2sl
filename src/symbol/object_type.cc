@@ -59,7 +59,7 @@ operator=( const Object_Type& other ){
 bool
 Object_Type::
 operator==( const Object_Type& other )const{
-  if ( object_type() != other.object_type() ){
+  if ( type() != other.type() ){
     return false;
   } else {
     return true;
@@ -118,11 +118,11 @@ from_xml( const string& filename ){
 void
 Object_Type::
 from_xml( xmlNodePtr root ){
-  object_type() = "na";
+  type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
       pair< bool, string > object_type_prop = has_prop< std::string >( root, "object_type" );
       if( object_type_prop.first ){
-        object_type() = object_type_prop.second;
+        type() = object_type_prop.second;
       }
   }
   return;
@@ -164,7 +164,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Object_Type& other ){
     out << "class:\"Object_Type\" ";
-    out << "object_type:" << other.object_type() << " ";
+    out << "object_type:" << other.type() << " ";
     return out;
   }
 }

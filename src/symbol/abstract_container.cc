@@ -72,13 +72,13 @@ operator=( const Abstract_Container& other ){
 bool
 Abstract_Container::
 operator==( const Abstract_Container& other )const{
-  if ( object_type() != other.object_type() ) {
+  if ( type() != other.type() ) {
     return false;
-  } else if ( number_type() != other.number_type() ) {
+  } else if ( number() != other.number() ) {
     return false;
-  } else if ( index_type() != other.index_type() ) {
+  } else if ( index() != other.index() ) {
     return false;
-  } else if ( object_color_type() != other.object_color_type() ) {
+  } else if ( color() != other.color() ) {
     return false;
   } else {
   return true;
@@ -141,30 +141,30 @@ from_xml( const string& filename ){
 void
 Abstract_Container::
 from_xml( xmlNodePtr root ){
-  object_type() = "na";
-  number_type() = "na";
-  index_type() = "na";
-  object_color_type() = "na";
+  type() = "na";
+  number() = "na";
+  index() = "na";
+  color() = "na";
 
   if ( root->type == XML_ELEMENT_NODE ){
-    pair< bool, string > object_type_prop = has_prop< std::string >( root, "object_type" );
-    if( object_type_prop.first ) {
-      object_type() = object_type_prop.second;
+    pair< bool, string > type_prop = has_prop< std::string >( root, "object_type" );
+    if( type_prop.first ) {
+      type() = type_prop.second;
     }
 
-    pair< bool, string > number_type_prop = has_prop< std::string >( root, "number_type" );
-    if( number_type_prop.first ) {
-      number_type() = number_type_prop.second;
+    pair< bool, string > number_prop = has_prop< std::string >( root, "number_type" );
+    if( number_prop.first ) {
+      number() = number_prop.second;
     }
 
-    pair< bool, string > index_type_prop = has_prop< std::string >( root, "index_type" );
-    if( index_type_prop.first ) {
-      index_type() = index_type_prop.second;
+    pair< bool, string > index_prop = has_prop< std::string >( root, "index_type" );
+    if( index_prop.first ) {
+      index() = index_prop.second;
     }
 
-    pair< bool, string > object_color_type_prop = has_prop< std::string >( root, "object_color_type" );
-    if( object_color_type_prop.first ) {
-      object_color_type() = object_color_type_prop.second;
+    pair< bool, string > color_prop = has_prop< std::string >( root, "object_color_type" );
+    if( color_prop.first ) {
+      color() = color_prop.second;
     }
   }
   return; 
@@ -210,10 +210,10 @@ namespace h2sl {
   operator<<( ostream& out,
               const Abstract_Container& other ){
     out << "Abstract_Container(";
-    out << "object_type=\"" << other.object_type() << "\",";
-    out << "number_type=\"" << other.number_type() << "\",";
-    out << "index_type=\"" << other.index_type()  << "\",";
-    out << "object_color_type=\"" << other.object_color_type()  << "\",";
+    out << "object_type=\"" << other.type() << "\",";
+    out << "number_type=\"" << other.number() << "\",";
+    out << "index_type=\"" << other.index()  << "\",";
+    out << "object_color_type=\"" << other.color()  << "\",";
     out << ")";
    return out;
   }

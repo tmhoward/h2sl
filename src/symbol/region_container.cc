@@ -63,7 +63,7 @@ operator=( const Region_Container& other ) {
 bool
 Region_Container::
 operator==( const Region_Container& other )const{
-  if ( spatial_relation_type() != other.spatial_relation_type() ) {
+  if ( relation_type() != other.relation_type() ) {
     return false;
   } else if ( _container != other._container ) {
     return false;
@@ -151,13 +151,13 @@ from_xml( const string& filename ){
 void
 Region_Container::
 from_xml( xmlNodePtr root ){
-  spatial_relation_type() = "na";
+  relation_type() = "na";
   _container = Container();
 
   if( root->type == XML_ELEMENT_NODE ){
     pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
     if( spatial_relation_type_prop.first ) {
-        spatial_relation_type() = spatial_relation_type_prop.second;
+        relation_type() = spatial_relation_type_prop.second;
     }
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
@@ -181,7 +181,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Region_Container& other ){
     out << "Region_Container(";
-    out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\",";
+    out << "spatial_relation_type=\"" << other.relation_type() << "\",";
       out << "container=" << other.container();
     out << ")";
     return out;

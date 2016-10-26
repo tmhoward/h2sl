@@ -59,7 +59,7 @@ operator=( const Spatial_Relation& other ){
 bool
 Spatial_Relation::
 operator==( const Spatial_Relation& other )const{
-  if ( spatial_relation_type() != other.spatial_relation_type() ){
+  if ( relation_type() != other.relation_type() ){
     return false;
   } else {
     return true;
@@ -118,11 +118,11 @@ from_xml( const string& filename ){
 void
 Spatial_Relation::
 from_xml( xmlNodePtr root ){
-  spatial_relation_type() = "na";
+  relation_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
     pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
     if( spatial_relation_type_prop.first ){
-      spatial_relation_type() = spatial_relation_type_prop.second;
+      relation_type() = spatial_relation_type_prop.second;
     }
   }
   return;
@@ -164,7 +164,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Spatial_Relation& other ){
     out << "Spatial_Relation(";
-    out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\",";
+    out << "spatial_relation_type=\"" << other.relation_type() << "\",";
     out << ")";
     return out;
   }

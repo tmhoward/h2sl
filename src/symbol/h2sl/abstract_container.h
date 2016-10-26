@@ -39,9 +39,9 @@ namespace h2sl {
     bool operator!=( const Abstract_Container& other )const;
     Abstract_Container* dup( void )const;
 
-    inline std::string& type( void ){ 
+    inline std::string& type( void ){
               return get_prop< std::string >( _properties, "object_type" ); };
-    inline const std::string& type( void )const{ 
+    inline const std::string& type( void )const{
               return get_prop< std::string >( _properties, "object_type" ); };
    
     inline std::string& number( void ){ 
@@ -54,9 +54,9 @@ namespace h2sl {
     inline const std::string& index( void )const{ 
               return get_prop< std::string >( _properties, "index_type" ); };
  
-    inline std::string& type( void ){ 
+    inline std::string& color( void ){
               return get_prop< std::string >( _properties, "object_color_type" ); };
-    inline const std::string& type( void )const{ 
+    inline const std::string& color( void )const{
               return get_prop< std::string >( _properties, "object_color_type" ); };
     
     virtual void to_xml( const std::string& file )const;

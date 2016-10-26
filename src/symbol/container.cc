@@ -67,7 +67,7 @@ operator=( const Container& other ){
 bool
 Container::
 operator==( const Container& other )const{ 
-  if( container_type() != other.container_type() ){
+  if( type() != other.type() ){
      return false;
    } else if( _groundings.size() != other.container().size() ){
      return false;
@@ -305,7 +305,7 @@ from_xml( const string& filename ){
 void
 Container::
 from_xml( xmlNodePtr root ){
-  container_type() = "group";
+  type() = "group";
   for (unsigned int i = 0; i < _groundings.size(); i++){
     delete _groundings[ i ];
     _groundings[ i ] = NULL;
@@ -313,9 +313,9 @@ from_xml( xmlNodePtr root ){
   _groundings.clear();
   
   if( root->type == XML_ELEMENT_NODE ){
-    pair< bool, string > container_type_prop = has_prop< std::string >( root, "container_type" );
-    if( container_type_prop.first ){
-      container_type() = container_type_prop.second;
+    pair< bool, string > type_prop = has_prop< std::string >( root, "container_type" );
+    if( type_prop.first ){
+      type() = type_prop.second;
     }
     
     xmlNodePtr l1 = NULL;
@@ -339,7 +339,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Container& other ){
    out << "Container(";
-   out << "container_type=\"" << other.container_type() << "\",";
+   out << "container_type=\"" << other.type() << "\",";
    out << "objects=" << other.container().size();
    for( unsigned int i = 0; i < other.container().size(); i++ ){
       if( other.container()[ i ] != NULL ){
