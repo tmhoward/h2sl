@@ -71,6 +71,7 @@
 #include "h2sl/feature_phrase_has_single_pos_tag.h"
 #include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
 #include "h2sl/feature_object_property_merge_object_property_spatial_relation.h"
+#include "h2sl/feature_container_matches_empty_child_container.h"
 
 #include "h2sl/feature.h"
 
@@ -184,6 +185,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Phrase_Has_Ordered_POS_Tag_Pair* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Property_Merge_Object_Property_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Property_Merge_Object_Property_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Matches_Empty_Child_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Matches_Empty_Child_Container* >( &other );
     } else {
       assert( false );
     } 

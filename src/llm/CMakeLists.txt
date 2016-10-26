@@ -51,6 +51,7 @@ set(HDRS
     h2sl/feature_phrase_has_single_pos_tag.h
     h2sl/feature_phrase_has_ordered_pos_tag_pair.h
     h2sl/feature_object_property_merge_object_property_spatial_relation.h
+    h2sl/feature_container_matches_empty_child_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -92,6 +93,7 @@ set(SRCS
     feature_phrase_has_single_pos_tag.cc
     feature_phrase_has_ordered_pos_tag_pair.cc
     feature_object_property_merge_object_property_spatial_relation.cc
+    feature_container_matches_empty_child_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES
