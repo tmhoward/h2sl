@@ -47,6 +47,16 @@ set(HDRS
     h2sl/feature_container_is_empty.h
     h2sl/feature_container_type_matches_child_container_type.h
     h2sl/feature_object_property_merge_object_property_container.h
+    h2sl/feature_phrase_has_pos_tag.h
+    h2sl/feature_phrase_has_single_pos_tag.h
+    h2sl/feature_phrase_has_ordered_pos_tag_pair.h
+    h2sl/feature_object_property_merge_object_property_spatial_relation.h
+    h2sl/feature_container_matches_empty_child_container.h
+    h2sl/feature_container_merge_empty_container_container.h
+    h2sl/feature_container_merge_object_property_container.h
+    h2sl/feature_container_merge_container_spatial_relation.h
+    h2sl/feature_region_container_merge_container_spatial_relation.h
+    h2sl/feature_region_container_container_matches_child_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -84,6 +94,16 @@ set(SRCS
     feature_container_is_empty.cc
     feature_container_type_matches_child_container_type.cc
     feature_object_property_merge_object_property_container.cc
+    feature_phrase_has_pos_tag.cc
+    feature_phrase_has_single_pos_tag.cc
+    feature_phrase_has_ordered_pos_tag_pair.cc
+    feature_object_property_merge_object_property_spatial_relation.cc
+    feature_container_matches_empty_child_container.cc
+    feature_container_merge_empty_container_container.cc
+    feature_container_merge_object_property_container.cc
+    feature_container_merge_container_spatial_relation.cc
+    feature_region_container_merge_container_spatial_relation.cc
+    feature_region_container_container_matches_child_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES
