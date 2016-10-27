@@ -201,8 +201,8 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "na" );
   constraints.push_back( "pick_object" );
   constraints.push_back( "place_object" );
-  constraints.push_back( "hand" );*/
-    
+  constraints.push_back( "hand" );    
+  
   vector< std::string > spatial_relation;
   region_abstract_container.push_back( "na" );
   region_abstract_container.push_back( "front" );
@@ -213,8 +213,7 @@ fill_search_spaces( const World* world ){
   region_abstract_container.push_back( "side" );
   region_abstract_container.push_back( "near" );
   region_abstract_container.push_back( "far" );
-
-
+  */
 
   // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
