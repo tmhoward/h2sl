@@ -202,6 +202,17 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "pick_object" );
   constraints.push_back( "place_object" );
   constraints.push_back( "hand" );*/
+    
+  vector< std::string > spatial_relation;
+  region_abstract_container.push_back( "na" );
+  region_abstract_container.push_back( "front" );
+  region_abstract_container.push_back( "back" );
+  region_abstract_container.push_back( "left" );
+  region_abstract_container.push_back( "center" );
+  region_abstract_container.push_back( "right" );
+  region_abstract_container.push_back( "side" );
+  region_abstract_container.push_back( "near" );
+  region_abstract_container.push_back( "far" );
 
 
 
