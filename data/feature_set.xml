@@ -91,6 +91,7 @@
         <feature_grounding_property_value invert="0" key="object_type" symbol="marker"/>
         <feature_grounding_property_value invert="0" key="object_type" symbol="tube"/>
         <feature_grounding_property_value invert="0" key="object_type" symbol="tape"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="block"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="na"/>
         <feature_region_object_property_value invert="1" key="object_type" symbol="na"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="robot"/>
@@ -110,6 +111,7 @@
         <feature_region_object_property_value invert="0" key="object_type" symbol="marker"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="tube"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="tape"/>
+        <feature_region_object_property_value invert="0" key="object_type" symbol="block"/>
         <feature_grounding_property_value invert="0" key="region_type" symbol="na"/>
         <feature_grounding_property_value invert="1" key="region_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="region_type" symbol="near"/>
@@ -124,6 +126,47 @@
         <feature_grounding_property_value invert="1" key="constraint_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="constraint_type" symbol="inside"/>
         <feature_grounding_property_value invert="0" key="constraint_type" symbol="outside"/>
+        <feature_grounding_property_value invert="0" key="index_type" symbol="na"/>
+        <feature_grounding_property_value invert="1" key="index_type" symbol="na"/>
+        <feature_grounding_property_value invert="0" key="index_type" symbol="first"/>
+        <feature_grounding_property_value invert="0" key="index_type" symbol="second"/>
+        <feature_grounding_property_value invert="0" key="index_type" symbol="third"/>
+        <feature_grounding_property_value invert="0" key="index_type" symbol="fourth"/>
+        <feature_grounding_property_value invert="0" key="index_type" symbol="fifth"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="na"/>
+        <feature_grounding_property_value invert="1" key="number_value" symbol="na"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="one"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="two"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="three"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="four"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="five"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="six"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="seven"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="eight"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="nine"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="ten"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="eleven"/>
+        <feature_grounding_property_value invert="0" key="number_value" symbol="twelve"/>
+        <feature_grounding_property_value invert="0" key="container_type" symbol="group"/>
+        <feature_grounding_property_value invert="1" key="container_type" symbol="group"/>
+        <feature_grounding_property_value invert="0" key="container_type" symbol="row"/>
+        <feature_grounding_property_value invert="0" key="container_type" symbol="column"/>
+        <feature_grounding_property_value invert="0" key="container_type" symbol="tower"/>
+        <feature_grounding_property_value invert="0" key="object_color_type" symbol="na"/>
+        <feature_grounding_property_value invert="1" key="object_color_type" symbol="na"/>
+        <feature_grounding_property_value invert="0" key="object_color_type" symbol="red"/>
+        <feature_grounding_property_value invert="0" key="object_color_type" symbol="blue"/>
+        <feature_grounding_property_value invert="0" key="object_color_type" symbol="yellow"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="na"/>
+        <feature_grounding_property_value invert="1" key="spatial_relation_type" symbol="na"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="front"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="back"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="left"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="center"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="right"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="side"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="near"/>
+        <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="far"/>
         <feature_object_matches_child_region invert="0"/>
         <feature_object_matches_child_region invert="1"/>
         <feature_matches_child_object invert="0"/>

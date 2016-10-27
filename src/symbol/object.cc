@@ -87,7 +87,7 @@ Object::
 operator==( const Object& other )const{
   if( name() != other.name() ){
     return false;
-  } else if ( object_type() != other.object_type() ){
+  } else if ( type() != other.type() ){
     return false;
   } else {
     return true;
@@ -164,9 +164,9 @@ from_xml( xmlNodePtr root ){
     if( name_prop.first ){
       name() = name_prop.second;
     }
-    pair< bool, string > object_type_prop = has_prop< std::string >( root, "object_type" );
-    if( object_type_prop.first ){
-      object_type() = object_type_prop.second;
+    pair< bool, string > type_prop = has_prop< std::string >( root, "object_type" );
+    if( type_prop.first ){
+      type() = type_prop.second;
     }
   }
   return;
@@ -179,7 +179,7 @@ namespace h2sl {
               const Object& other ) {
     out << "Object(";
     out << "name=\"" << other.name() << "\",";
-    out << "object_type=\"" << other.object_type() << "\"";
+    out << "object_type=\"" << other.type() << "\"";
     if( other.transform().position().norm() > 0.0 ){
       out << ",position=" << other.transform().position();
     }

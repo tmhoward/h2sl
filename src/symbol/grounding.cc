@@ -37,6 +37,14 @@
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
 #include "h2sl/grounding_set.h"
+#include "h2sl/abstract_container.h"
+#include "h2sl/container.h"
+#include "h2sl/index.h"
+#include "h2sl/number.h"
+#include "h2sl/object_color.h"
+#include "h2sl/object_property.h"
+#include "h2sl/object_type.h"
+#include "h2sl/spatial_relation.h"
 
 using namespace std;
 using namespace h2sl;
@@ -124,6 +132,22 @@ namespace h2sl {
       out << *static_cast< const Region* >( &other );
     } else if( dynamic_cast< const Constraint* >( &other ) != NULL ){
       out << *static_cast< const Constraint* >( &other );
+    } else if( dynamic_cast< const Abstract_Container* >( &other ) != NULL ){
+      out << *static_cast< const Abstract_Container* >( &other );
+    } else if( dynamic_cast< const Container* >( &other ) != NULL ){
+      out << *static_cast< const Container* >( &other );
+    } else if( dynamic_cast< const Index* >( &other ) != NULL ){
+      out << *static_cast< const Index* >( &other );
+    } else if( dynamic_cast< const Number* >( &other ) != NULL ){
+      out << *static_cast< const Number* >( &other );
+    } else if( dynamic_cast< const Object_Color* >( &other ) != NULL ){
+      out << *static_cast< const Object_Color* >( &other );
+    } else if( dynamic_cast< const Object_Property* >( &other ) != NULL ){
+      out << *static_cast< const Object_Property* >( &other );
+    } else if( dynamic_cast< const Object_Type* >( &other ) != NULL ){
+      out << *static_cast< const Object_Type* >( &other );
+    } else if( dynamic_cast< const Spatial_Relation* >( &other ) != NULL ){
+      out << *static_cast< const Spatial_Relation* >( &other );
     }
     return out;
   }
