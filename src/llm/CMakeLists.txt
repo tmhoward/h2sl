@@ -30,6 +30,34 @@ set(HDRS
     h2sl/feature_constraint_child_is_robot.h
     h2sl/feature_product.h
     h2sl/feature_set.h
+    h2sl/feature_abstract_container_matches_child.h
+    h2sl/feature_container_matches_child.h
+    h2sl/feature_region_container_matches_child.h
+    #h2sl/feature_action_object_matches_child.h
+    h2sl/feature_spatial_relation_matches_child.h
+    h2sl/feature_is_abstract_container.h
+    h2sl/feature_is_object.h
+    h2sl/feature_is_container.h
+    h2sl/feature_is_region.h
+    h2sl/feature_is_region_container.h
+    #h2sl/feature_is_region_abstract_container.h
+    h2sl/feature_is_spatial_relation.h
+    h2sl/feature_container_number.h
+    #h2sl/feature_container_number_equals_world_objects.h
+    h2sl/feature_container_is_empty.h
+    h2sl/feature_container_type_matches_child_container_type.h
+    h2sl/feature_object_property_merge_object_property_container.h
+    h2sl/feature_phrase_has_pos_tag.h
+    h2sl/feature_phrase_has_single_pos_tag.h
+    h2sl/feature_phrase_has_ordered_pos_tag_pair.h
+    h2sl/feature_object_property_merge_object_property_spatial_relation.h
+    h2sl/feature_container_matches_empty_child_container.h
+    h2sl/feature_container_merge_empty_container_container.h
+    h2sl/feature_container_merge_object_property_container.h
+    h2sl/feature_container_merge_container_spatial_relation.h
+    h2sl/feature_region_container_merge_container_spatial_relation.h
+    h2sl/feature_region_container_container_matches_child_container.h
+    #h2sl/feature_object_property_index.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -50,6 +78,34 @@ set(SRCS
     feature_constraint_child_is_robot.cc
     feature_product.cc
     feature_set.cc
+    feature_abstract_container_matches_child.cc
+    feature_container_matches_child.cc
+    feature_region_container_matches_child.cc
+    #feature_action_object_matches_child.cc
+    feature_spatial_relation_matches_child.cc
+    feature_is_abstract_container.cc
+    feature_is_object.cc
+    feature_is_container.cc
+    feature_is_region.cc
+    feature_is_region_container.cc
+    #feature_is_region_abstract_container.cc
+    feature_is_spatial_relation.cc
+    feature_container_number.cc
+    #feature_container_number_equals_world_objects.cc
+    feature_container_is_empty.cc
+    feature_container_type_matches_child_container_type.cc
+    feature_object_property_merge_object_property_container.cc
+    feature_phrase_has_pos_tag.cc
+    feature_phrase_has_single_pos_tag.cc
+    feature_phrase_has_ordered_pos_tag_pair.cc
+    feature_object_property_merge_object_property_spatial_relation.cc
+    feature_container_matches_empty_child_container.cc
+    feature_container_merge_empty_container_container.cc
+    feature_container_merge_object_property_container.cc
+    feature_container_merge_container_spatial_relation.cc
+    feature_region_container_merge_container_spatial_relation.cc
+    feature_region_container_container_matches_child_container.cc
+    #feature_object_property_index.cc
     llm.cc)
 
 # BINARY SOURCE FILES

@@ -9,11 +9,20 @@ set(GGOS
 
 # HEADER FILES
 set(HDRS
+    h2sl/container.h
     h2sl/grounding.h
     h2sl/grounding_set.h
+    h2sl/index.h
+    h2sl/number.h    
     h2sl/object.h
+    h2sl/object_color.h
+    h2sl/object_type.h
+    h2sl/object_property.h
     h2sl/region.h
+    h2sl/spatial_relation.h
     h2sl/constraint.h
+    h2sl/abstract_container.h
+    h2sl/region_container.h
     h2sl/world.h)
 
 # QT HEADER FILES
@@ -21,11 +30,20 @@ set(QT_HDRS )
 
 # SOURCE FILES
 set(SRCS
+    container.cc
     grounding.cc
     grounding_set.cc
+    index.cc
+    number.cc
     object.cc
+    object_color.cc
+    object_type.cc
+    object_property.cc
     region.cc
+    spatial_relation.cc
     constraint.cc
+    abstract_container.cc
+    region_container.cc
     world.cc)
 
 # BINARY SOURCE FILES

@@ -50,18 +50,66 @@ namespace h2sl {
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
-
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
+  
+    //virtual void convert_models( xmlNodePtr root );
+    virtual void sort(void);
+    
+    static bool min_x_sort( const Object* a, const Object* b );
+    static bool max_x_sort( const Object* a, const Object* b );
+    static void min_x_sort_objects( std::vector< Object* >& objects );
+    static void max_x_sort_objects( std::vector< Object* >& objects );
+    static bool min_y_sort( const Object* a, const Object* b );
+    static bool max_y_sort( const Object* a, const Object* b );
+    static void min_y_sort_objects( std::vector< Object* >& objects );
+    static void max_y_sort_objects( std::vector< Object* >& objects );
+    static bool min_abs_y_sort( const Object* a, const Object* b );
+    static bool max_abs_y_sort( const Object* a, const Object* b );
+    static bool min_z_sort( const Object* a, const Object* b );
+    static bool max_z_sort( const Object* a, const Object* b );
+    static bool min_distance_sort( const Object* a, const Object* b );
+    static bool max_distance_sort( const Object* a, const Object* b );
+    static void min_distance_sort_objects( std::vector< Object* >& objects );
+    static void max_distance_sort_objects( std::vector< Object* >& objects );
+    static void min_center_distance_sort_objects( std::vector< Object* >& objects );
+    static void max_center_distance_sort_objects( std::vector< Object* >& objects );
+      
 
     inline unsigned long long& time( void ){ return _time; };
     inline const unsigned long long& time( void )const{ return _time; };
     inline std::vector< Object* >& objects( void ){ return _objects; };
+    
     inline const std::vector< Object* >& objects( void )const{ return _objects; };
+    inline const std::vector< std::vector< Object* > >& min_x_sorted_objects( void )const{ return _min_x_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& max_x_sorted_objects( void )const{ return _max_x_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& min_y_sorted_objects( void )const{ return _min_y_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& max_y_sorted_objects( void )const{ return _max_y_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& min_abs_y_sorted_objects( void )const{ return _min_abs_y_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& max_abs_y_sorted_objects( void )const{ return _max_abs_y_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& min_z_sorted_objects( void )const{ return _min_z_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& max_z_sorted_objects( void )const{ return _max_z_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& min_distance_sorted_objects( void )const{ return _min_distance_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& max_distance_sorted_objects( void )const{ return _max_distance_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& min_center_distance_sorted_objects( void )const{ return _min_center_distance_sorted_objects; };
+    inline const std::vector< std::vector< Object* > >& max_center_distance_sorted_objects( void )const{ return _max_center_distance_sorted_objects; };
+      
 
   protected:
-    unsigned long long _time;
     std::vector< Object* > _objects;
+    std::vector< std::vector< Object* > > _min_x_sorted_objects;
+    std::vector< std::vector< Object* > > _max_x_sorted_objects;
+    std::vector< std::vector< Object* > > _min_y_sorted_objects;
+    std::vector< std::vector< Object* > > _max_y_sorted_objects;
+    std::vector< std::vector< Object* > > _min_abs_y_sorted_objects;
+    std::vector< std::vector< Object* > > _max_abs_y_sorted_objects;
+    std::vector< std::vector< Object* > > _min_z_sorted_objects;
+    std::vector< std::vector< Object* > > _max_z_sorted_objects;
+    std::vector< std::vector< Object* > > _min_distance_sorted_objects;
+    std::vector< std::vector< Object* > > _max_distance_sorted_objects;
+    std::vector< std::vector< Object* > > _min_center_distance_sorted_objects;
+    std::vector< std::vector< Object* > > _max_center_distance_sorted_objects;
+    unsigned long long _time;
 
   private:
 

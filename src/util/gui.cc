@@ -341,7 +341,7 @@ update_world( void ){
   for( unsigned int i = 0; i < _world->objects().size(); i++ ){
     stringstream item_string;
     item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->name() << " ";
-    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->object_type() << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->type() << " ";
     item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->transform().position().to_std_string() << " ";
     item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->transform().orientation().to_std_string() << " ";
     _list_widget_world->addItem( QString::fromStdString( item_string.str() ) );
