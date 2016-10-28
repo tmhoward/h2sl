@@ -81,6 +81,7 @@
 //#include "h2sl/feature_object_property_index.h"
 #include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_abstract_container_object_type.h"
+#include "h2sl/feature_region_abstract_container_number.h"
 
 using namespace std;
 using namespace h2sl;
@@ -415,7 +416,10 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_object_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Object_Type() );
                   _feature_groups.back().back()->from_xml( l2 );
-              }  else {
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_number" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Number() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
               } 
