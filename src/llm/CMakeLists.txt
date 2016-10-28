@@ -59,6 +59,7 @@ set(HDRS
     h2sl/feature_region_container_container_matches_child_container.h
     #h2sl/feature_object_property_index.h
     h2sl/feature_object_property_type.h
+    h2sl/feature_object_property_relation_type.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -108,6 +109,7 @@ set(SRCS
     feature_region_container_container_matches_child_container.cc
     #feature_object_property_index.cc
     feature_object_property_type.cc
+    feature_object_property_relation_type.cc
     llm.cc)
 
 # BINARY SOURCE FILES
