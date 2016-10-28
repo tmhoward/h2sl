@@ -22,21 +22,9 @@ namespace h2sl {
    */
   class Region_Abstract_Container : public Grounding {
   public:
-    /*enum Type {
-        REGION_ABSTRACT_CONTAINER_TYPE_UNKNOWN,
-        REGION_ABSTRACT_CONTAINER_TYPE_FRONT,
-        REGION_ABSTRACT_CONTAINER_TYPE_BACK,
-        REGION_ABSTRACT_CONTAINER_TYPE_LEFT,
-        REGION_ABSTRACT_CONTAINER_TYPE_CENTER,
-        REGION_ABSTRACT_CONTAINER_TYPE_RIGHT,
-        REGION_ABSTRACT_CONTAINER_TYPE_SIDE,
-        REGION_ABSTRACT_CONTAINER_TYPE_NEAR,
-        REGION_ABSTRACT_CONTAINER_TYPE_FAR,
-        REGION_ABSTRACT_CONTAINER_TYPE_NUM_TYPES
-    };*/
-
     Region_Abstract_Container( const std::string& region_abstract_containerType = "na",
-                               const Abstract_Container& abstract_container = Abstract_Container() );
+                        const Abstract_Container& abstract_container = Abstract_Container() ); 
+
     virtual ~Region_Abstract_Container();
     Region_Abstract_Container( const Region_Abstract_Container& other );
     Region_Abstract_Container( xmlNodePtr root );
@@ -50,9 +38,11 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    inline std::string& region_abstract_container_type( void ){ return get_prop< std::string >( _properties, "region_abstract_container_type" ); };
-    inline const std::string& region_abstract_container_type( void )const{ return get_prop< std::string >( _properties, "region_abstract_container_type" ); };
-    
+    inline std::string& region_abstract_container_type( void ){ 
+              return get_prop< std::string >( _properties, "region_abstract_container_type" ); };
+    inline const std::string& region_abstract_container_type( void )const{ 
+              return get_prop< std::string >( _properties, "region_abstract_container_type" ); };
+  
     inline Abstract_Container& abstract_container( void ){ return _abstract_container; };
     inline const Abstract_Container& abstract_container( void )const{ return _abstract_container; };
       

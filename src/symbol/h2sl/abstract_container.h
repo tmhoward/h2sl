@@ -26,10 +26,10 @@ namespace h2sl {
    */
   class Abstract_Container : public Grounding {
   public:
-    Abstract_Container( const std::string& objectType,
-                        const std::string& numberType,
-                        const std::string& indexType,
-                        const std::string& colorType );                   
+    Abstract_Container( const std::string& objectType = "na",
+                        const std::string& numberType = "na",
+                        const std::string& indexType = "na",
+                        const std::string& colorType = "na" );                   
 
     Abstract_Container( const Abstract_Container& other );
     Abstract_Container( xmlNodePtr root );

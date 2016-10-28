@@ -17,15 +17,29 @@ using namespace h2sl;
  */
 Region_Abstract_Container::
 Region_Abstract_Container( const string& region_abstract_containerType,
-                           const Abstract_Container& abstract_container ) : Grounding(),
-                                                                            _abstract_container( abstract_container ) {
+			   const Abstract_Container& abstract_container ) : Grounding(),
+                                 _abstract_container ( abstract_container ) {
      insert_prop< std::string >( _properties, "region_abstract_container_type", region_abstract_containerType );
 }
 
+/**
+ * region abstract_container constructor from xml node ptr
+ */
+
 Region_Abstract_Container::
-Region_Abstract_Container( xmlNodePtr root ) : Grounding(), _abstract_container() {
+Region_Abstract_Container( xmlNodePtr root ) : Grounding(),
+                                               _abstract_container() {
     insert_prop< std::string >( _properties, "region_abstract_container_type", "na" );
     from_xml( root );
+}
+
+/**
+ * Region_Abstract_Container class copy constructor. 
+ */
+Region_Abstract_Container::
+Region_Abstract_Container( const Region_Abstract_Container& other ) : Grounding( other ),
+                                                                      _abstract_container() {
+
 }
 
 /**
@@ -37,22 +51,13 @@ Region_Abstract_Container::
 }
 
 /**
- * Region_Abstract_Container class copy constructor. 
- */
-Region_Abstract_Container::
-Region_Abstract_Container( const Region_Abstract_Container& other ) : Grounding( other ),
-				_abstract_container( other._abstract_container ) {
-
-}
-
-/**
  * Region_Abstract_Container class assingnment operator. 
  */
 Region_Abstract_Container&
 Region_Abstract_Container::
 operator=( const Region_Abstract_Container& other ) {
   _properties = other._properties;
-  _abstract_container = other._abstract_container;
+  _abstract_container = other.abstract_container(); 
   return (*this);
 }
 
@@ -64,7 +69,7 @@ Region_Abstract_Container::
 operator==( const Region_Abstract_Container& other )const{
   if ( region_abstract_container_type() != other.region_abstract_container_type() ) {
     return false;
-  } else if ( _abstract_container != other._abstract_container ) {
+  } else if ( _abstract_container != other.abstract_container() ) {
     return false;
   } else {
     return true;
@@ -168,58 +173,6 @@ from_xml( xmlNodePtr root ){
   }
   return;
 }
-
-/**
- * Converts Region_Abstract_Container::Type to std::string
- */
-/*string
-Region_Abstract_Container::
-type_to_std_string( const Type type ){
-  switch( type ){
-  case( REGION_ABSTRACT_CONTAINER_TYPE_FRONT ):
-    return "front";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_BACK ):
-    return "back";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_LEFT ):
-    return "left";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_RIGHT ):
-    return "right";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_NEAR ):
-    return "near";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_FAR ):
-    return "far";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_CENTER ):
-    return "center";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_UNKNOWN ):
-    return "na";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_NUM_TYPES ):
-  default:
-    return "na"; 
-  }
-}*/
-
-/**
- * Converts string to Region_Abstract_Container::Type
- */
-
-/*Region_Abstract_Container::Type
-Region_Abstract_Container::
-type_from_std_string( const std::string& arg ){
-  for( unsigned int i = 0; i < Type::REGION_ABSTRACT_CONTAINER_TYPE_NUM_TYPES; i++ ){
-    if( type_to_std_string( ( Type )( i ) ) == arg ){
-      return ( Type )( i );
-    }
-  }
-  return Type::REGION_ABSTRACT_CONTAINER_TYPE_UNKNOWN;
-}*/
 
 namespace h2sl {
 
