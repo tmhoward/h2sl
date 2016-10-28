@@ -77,7 +77,7 @@
 #include "h2sl/feature_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
-//#include "h2sl/feature_object_property_index.h"
+#include "h2sl/feature_object_property_index.h"
 
 #include "h2sl/feature.h"
 
@@ -203,6 +203,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Region_Container_Merge_Container_Spatial_Relation* >( &other );
     //} else if ( dynamic_cast< const Feature_Region_Container_Container_Matches_Child_Container* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Region_Container_Container_Matches_Child_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Property_Index* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Property_Index* >( &other );
     } else {
       assert( false );
     } 
