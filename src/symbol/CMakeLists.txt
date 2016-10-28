@@ -23,6 +23,7 @@ set(HDRS
     h2sl/constraint.h
     h2sl/abstract_container.h
     h2sl/region_container.h
+    h2sl/region_abstract_container.h
     h2sl/world.h)
 
 # QT HEADER FILES
@@ -44,6 +45,7 @@ set(SRCS
     constraint.cc
     abstract_container.cc
     region_container.cc
+    region_abstract_container.cc
     world.cc)
 
 # BINARY SOURCE FILES

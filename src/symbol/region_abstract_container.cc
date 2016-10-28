@@ -7,28 +7,30 @@
  */
 
 #include <sstream>
-#include "h2sl_nsf_nri_mvli/region_abstract_container.h"
+#include "h2sl/region_abstract_container.h"
 
 using namespace std;
-using namespace h2sl_nsf_nri_mvli;
+using namespace h2sl;
 
 /**
  * Region_Abstract_Container class constructor. 
  */
 Region_Abstract_Container::
-Region_Abstract_Container( const unsigned int& type,
-        const Abstract_Container& abstract_container ) : Grounding(),
-				  _type( type ),
-				  _abstract_container( abstract_container ) {
-
+Region_Abstract_Container( const string& region_abstract_containerType,
+			   const Abstract_Container& abstract_container ) : Grounding(),
+                                 _abstract_container ( abstract_container ) {
+     insert_prop< std::string >( _properties, "region_abstract_container_type", region_abstract_containerType );
 }
 
 /**
- * Region_Abstract_Container class destructor. 
+ * region abstract_container constructor from xml node ptr
  */
-Region_Abstract_Container::
-~Region_Abstract_Container() {
 
+Region_Abstract_Container::
+Region_Abstract_Container( xmlNodePtr root ) : Grounding(),
+                                               _abstract_container() {
+    insert_prop< std::string >( _properties, "region_abstract_container_type", "na" );
+    from_xml( root );
 }
 
 /**
@@ -36,8 +38,15 @@ Region_Abstract_Container::
  */
 Region_Abstract_Container::
 Region_Abstract_Container( const Region_Abstract_Container& other ) : Grounding( other ),
-				_type( other._type ),
-				_abstract_container( other._abstract_container ) {
+                                                                      _abstract_container() {
+
+}
+
+/**
+ * Region_Abstract_Container class destructor.
+ */
+Region_Abstract_Container::
+~Region_Abstract_Container() {
 
 }
 
@@ -47,8 +56,8 @@ Region_Abstract_Container( const Region_Abstract_Container& other ) : Grounding(
 Region_Abstract_Container&
 Region_Abstract_Container::
 operator=( const Region_Abstract_Container& other ) {
-  _type = other._type;
-  _abstract_container = other._abstract_container;
+  _properties = other._properties;
+  _abstract_container = other.abstract_container(); 
   return (*this);
 }
 
@@ -58,9 +67,9 @@ operator=( const Region_Abstract_Container& other ) {
 bool
 Region_Abstract_Container::
 operator==( const Region_Abstract_Container& other )const{
-  if ( _type != other._type ) {
+  if ( region_abstract_container_type() != other.region_abstract_container_type() ) {
     return false;
-  } else if ( _abstract_container != other._abstract_container ) {
+  } else if ( _abstract_container != other.abstract_container() ) {
     return false;
   } else {
     return true;
@@ -109,9 +118,7 @@ Region_Abstract_Container::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "region_abstract_container" ), NULL );
-  stringstream type_string;
-  type_string << type_to_std_string( (Type) _type );
-  xmlNewProp( node, ( const xmlChar* )( "type" ), ( const xmlChar* )( type_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "region_abstract_container_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "region_abstract_container_type" ).c_str() ) );
   _abstract_container.to_xml( doc, node );
   xmlAddChild( root, node );
   return;
@@ -147,16 +154,14 @@ from_xml( const string& filename ){
 void
 Region_Abstract_Container::
 from_xml( xmlNodePtr root ){
-  _type = Type::REGION_ABSTRACT_CONTAINER_TYPE_UNKNOWN;
+  region_abstract_container_type() = "na";
   _abstract_container = Abstract_Container();
 
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "type" ) );
-    if( tmp != NULL ){
-      string type_string = ( char* )( tmp );
-      _type = Region_Abstract_Container::type_from_std_string( type_string );
-      xmlFree( tmp );
-    }
+      pair< bool, string > region_abstract_container_type_prop = has_prop< std::string >( root, "region_abstract_container_type" );
+      if( region_abstract_container_type_prop.first ){
+          region_abstract_container_type() = region_abstract_container_type_prop.second;
+      }
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
@@ -169,59 +174,7 @@ from_xml( xmlNodePtr root ){
   return;
 }
 
-/**
- * Converts Region_Abstract_Container::Type to std::string
- */
-string
-Region_Abstract_Container::
-type_to_std_string( const Type type ){
-  switch( type ){
-  case( REGION_ABSTRACT_CONTAINER_TYPE_FRONT ):
-    return "front";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_BACK ):
-    return "back";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_LEFT ):
-    return "left";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_RIGHT ):
-    return "right";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_NEAR ):
-    return "near";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_FAR ):
-    return "far";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_CENTER ):
-    return "center";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_UNKNOWN ):
-    return "na";
-    break;
-  case( REGION_ABSTRACT_CONTAINER_TYPE_NUM_TYPES ):
-  default:
-    return "na"; 
-  }
-}
-
-/**
- * Converts string to Region_Abstract_Container::Type
- */
-
-Region_Abstract_Container::Type
-Region_Abstract_Container::
-type_from_std_string( const std::string& arg ){
-  for( unsigned int i = 0; i < Type::REGION_ABSTRACT_CONTAINER_TYPE_NUM_TYPES; i++ ){
-    if( type_to_std_string( ( Type )( i ) ) == arg ){
-      return ( Type )( i );
-    }
-  }
-  return Type::REGION_ABSTRACT_CONTAINER_TYPE_UNKNOWN;
-}
-
-namespace h2sl_nsf_nri_mvli {
+namespace h2sl {
 
   /**
    * Region_Abstract_Container class ostream operator
@@ -230,10 +183,9 @@ namespace h2sl_nsf_nri_mvli {
   ostream&
   operator<<( ostream& out,
               const Region_Abstract_Container& other ){
-    out << "class:\"Region_Abstract_Container\" ";
-    out << "type:\"" << Region_Abstract_Container::type_to_std_string( (Region_Abstract_Container::Type) other.type() ) << "\"";
-    out << "abstract_container:{";
-    out << other.abstract_container();
+    out << "Region_Abstract_Container(";
+    out << "region_abstract_container_type=\"" << other.region_abstract_container_type() << "\",";
+    out << "abstract_container=" << other.abstract_container();
     out << "} ";
     return out;
   }
