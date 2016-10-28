@@ -79,6 +79,7 @@
 #include "h2sl/feature_region_container_container_matches_child_container.h"
 //#include "h2sl/feature_object_property_index.h"
 #include "h2sl/feature_region_container_type.h"
+#include "h2sl/feature_region_container_container_type.h"
 
 #include "h2sl/feature.h"
 
@@ -206,6 +207,8 @@ namespace h2sl {
     //    out << *static_cast< const Feature_Region_Container_Container_Matches_Child_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Container_Type* >( &other ) != NULL ){
         out << *static_cast< const Feature_Region_Container_Type* >( &other );
+    } else if ( dynamic_cast< const Feature_Region_Container_Container_Type* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Region_Container_Container_Type* >( &other );
     } else {
       assert( false );
     } 
