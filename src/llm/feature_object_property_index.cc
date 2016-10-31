@@ -69,10 +69,8 @@ value( const unsigned int& cv,
         const World* world ){
   const Object_Property* object_property = dynamic_cast< const Object_Property* >( grounding );
   if( object_property != NULL ){
-    if( object_property != NULL ){
-      if( object_property->index() == _index ){
-        return !_invert;
-      }
+    if( object_property->index() == _index ){
+      return !_invert;
     } else {
       return _invert;
     }
