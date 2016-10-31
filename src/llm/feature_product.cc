@@ -80,6 +80,7 @@
 #include "h2sl/feature_region_container_container_matches_child_container.h"
 //#include "h2sl/feature_object_property_index.h"
 #include "h2sl/feature_abstract_container_type.h"
+#include "h2sl/feature_abstract_container_color.h"
 
 using namespace std;
 using namespace h2sl;
@@ -408,8 +409,11 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_index" ) ) == 0 ){
               //    _feature_groups.back().push_back( new Feature_Object_Property_Index( l2 ) );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_spatial_type" ) ) == 0 ){
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Abstract_Container_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_color" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Abstract_Container_Color() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
