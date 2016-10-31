@@ -74,6 +74,7 @@
 #include "h2sl/feature_abstract_container_type.h"
 #include "h2sl/feature_abstract_container_color.h"
 #include "h2sl/feature_abstract_container_number.h"
+#include "h2sl/feature_abstract_container_index.h"
 
 using namespace std;
 using namespace h2sl;

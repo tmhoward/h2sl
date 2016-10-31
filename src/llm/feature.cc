@@ -81,6 +81,7 @@
 #include "h2sl/feature_abstract_container_type.h"
 #include "h2sl/feature_abstract_container_color.h"
 #include "h2sl/feature_abstract_container_number.h"
+#include "h2sl/feature_abstract_container_index.h"
 
 #include "h2sl/feature.h"
 
@@ -212,6 +213,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Abstract_Container_Color* >( &other );
     } else if ( dynamic_cast< const Feature_Abstract_Container_Number* >( &other ) != NULL ){
         out << *static_cast< const Feature_Abstract_Container_Number* >( &other );
+    } else if ( dynamic_cast< const Feature_Abstract_Container_Index* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Abstract_Container_Index* >( &other );
     } else {
       assert( false );
     } 

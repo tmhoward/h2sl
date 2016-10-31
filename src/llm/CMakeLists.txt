@@ -61,6 +61,7 @@ set(HDRS
     h2sl/feature_abstract_container_type.h
     h2sl/feature_abstract_container_color.h
     h2sl/feature_abstract_container_number.h
+    h2sl/feature_abstract_container_index.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -112,6 +113,7 @@ set(SRCS
     feature_abstract_container_type.cc
     feature_abstract_container_color.cc
     feature_abstract_container_number.cc
+    feature_abstract_container_index.cc
     llm.cc)
 
 # BINARY SOURCE FILES

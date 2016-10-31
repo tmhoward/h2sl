@@ -74,6 +74,7 @@
 #include "h2sl/feature_abstract_container_type.h"
 #include "h2sl/feature_abstract_container_color.h"
 #include "h2sl/feature_abstract_container_number.h"
+#include "h2sl/feature_abstract_container_index.h"
 
 #include "feature_set_demo_cmdline.h"
 
