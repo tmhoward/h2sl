@@ -18,9 +18,16 @@ using namespace h2sl;
 /**
  * Feature_Object_Property_Index class constructor
  */
+//Feature_Object_Property_Index::
+//Feature_Object_Property_Index( const bool& invert,
+//                      const unsigned int& index ) : Feature( invert ),
+//                                                          _index( index ) {
+//
+//}
+
 Feature_Object_Property_Index::
 Feature_Object_Property_Index( const bool& invert,
-                      const unsigned int& index ) : Feature( invert ),
+                      const std::string& index ) : Feature( invert ),
                                                           _index( index ) {
 
 }
@@ -62,10 +69,8 @@ value( const unsigned int& cv,
         const World* world ){
   const Object_Property* object_property = dynamic_cast< const Object_Property* >( grounding );
   if( object_property != NULL ){
-    if( object_property != NULL ){
-      if( object_property->index() == _index ){
-        return !_invert;
-      }
+    if( object_property->index() == _index ){
+      return !_invert;
     } else {
       return _invert;
     }
@@ -106,7 +111,7 @@ void
 Feature_Object_Property_Index::
 from_xml( xmlNodePtr root ){
   _invert = false;
-  _index = 0;
+  _index = "na";
   if( root->type == XML_ELEMENT_NODE ){
     xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
     if( tmp != NULL ){
@@ -117,7 +122,7 @@ from_xml( xmlNodePtr root ){
     tmp = xmlGetProp( root, ( const xmlChar* )( "index" ) );
     if( tmp != NULL ){
       string index_string = ( const char* )( tmp );
-      _index = Object_Property::index_from_std_string( index_string ); 
+      _index =  index_string; 
       xmlFree( tmp );
     }
   }
@@ -149,18 +154,18 @@ to_xml( xmlDocPtr doc,
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( Object_Property::index_to_std_string( _index ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( _index.c_str() ) );
   xmlAddChild( root, node );
   return;
 }
 
-unsigned int&
+std::string&
 Feature_Object_Property_Index::
 index( void ){
   return _index;
 }
 
-const unsigned int&
+const std::string&
 Feature_Object_Property_Index::
 index( void )const{
   return _index;
@@ -175,7 +180,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Feature_Object_Property_Index& other ){
     out << "class:\"Feature_Object_Property_Index\" ";
-    out << "index:\"" << Object_Property::index_to_std_string( other.index() ) << "\"";
+    out << "index:\"" << other.index() << "\"";
     return out;
   }
 }
