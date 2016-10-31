@@ -70,8 +70,65 @@
         <feature_word invert="0" pos="VB" text="leave"/>
         <feature_word invert="0" pos="VB" text="exit"/>
         <feature_num_words invert="0" num_words="0"/>
+        <feature_phrase_has_pos_tag invert="0" pos="CD"/>
+        <feature_phrase_has_pos_tag invert="0" pos="JJ"/>
+        <feature_phrase_has_pos_tag invert="0" pos="JJS"/>
+        <feature_phrase_has_pos_tag invert="0" pos="NN"/>
+        <feature_phrase_has_pos_tag invert="0" pos="NNS"/>
+        <feature_phrase_has_single_pos_tag invert="0" pos="NNS"/>
+        <feature_phrase_has_ordered_pos_tag_pair invert="0" pos_1="CD" pos_2="NNS"/>
+        <feature_phrase_has_ordered_pos_tag_pair invert="0" pos_1="JJ" pos_2="NNS"/>
       </feature_group>
       <feature_group>
+        <feature_is_abstract_container invert="0"/>
+        <feature_is_abstract_container invert="1"/>
+        <feature_is_object invert="0"/>
+        <feature_is_object invert="1"/>
+        <feature_is_container invert="0"/>
+        <feature_is_container invert="1"/>
+        <feature_is_region invert="0"/>
+        <feature_is_region invert="1"/>
+        <feature_is_region_container invert="0"/>
+        <feature_is_region_container invert="1"/>
+        <feature_is_spatial_relation invert="0"/>
+        <feature_is_spatial_relation invert="1"/>
+        <feature_object_property_merge_object_property_spatial_relation invert="0"/>
+        <feature_object_property_merge_object_property_spatial_relation invert="1"/>
+        <feature_object_property_merge_object_property_container invert="0"/>
+        <feature_object_property_merge_object_property_container invert="1"/>
+        <feature_spatial_relation_matches_child invert="0"/>
+        <feature_spatial_relation_matches_child invert="1"/>
+        <feature_region_container_matches_child invert="0"/>
+        <feature_region_container_matches_child invert="1"/>
+        <feature_region_container_container_matches_child_container invert="0"/>
+        <feature_region_container_container_matches_child_container invert="1"/>
+        <feature_abstract_container_matches_child invert="0"/>
+        <feature_abstract_container_matches_child invert="1"/>
+        <feature_container_number invert="0" container_number="1"/>
+        <feature_container_number invert="0" container_number="2"/>
+        <feature_container_number invert="0" container_number="3"/>
+        <feature_container_number invert="0" container_number="4"/>
+        <feature_container_number invert="0" container_number="5"/>
+        <feature_container_number invert="0" container_number="6"/>
+        <feature_container_number invert="0" container_number="7"/>
+        <feature_container_number invert="0" container_number="8"/>
+        <feature_container_number invert="0" container_number="9"/>
+        <feature_container_is_empty invert="0"/>
+        <feature_container_is_empty invert="1"/>
+        <feature_container_matches_child invert="0"/>
+        <feature_container_matches_child invert="1"/>
+        <feature_container_type_matches_child_container_type invert="0"/>
+        <feature_container_type_matches_child_container_type invert="1"/>
+        <feature_container_merge_container_spatial_relation invert="0"/>
+        <feature_container_merge_container_spatial_relation invert="1"/>
+        <feature_region_container_merge_container_spatial_relation invert="0" concept_order="0"/>
+        <feature_region_container_merge_container_spatial_relation invert="0" concept_order="1"/>
+        <feature_container_merge_object_property_container invert="0"/>
+        <feature_container_merge_object_property_container invert="1"/>
+        <feature_container_merge_empty_container_container invert="0"/>
+        <feature_container_merge_empty_container_container invert="1"/>
+        <feature_container_matches_empty_child_container invert="0"/>
+        <feature_container_matches_empty_child_container invert="1"/>
         <feature_grounding_property_value invert="0" key="object_type" symbol="na"/>
         <feature_grounding_property_value invert="1" key="object_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="object_type" symbol="robot"/>
