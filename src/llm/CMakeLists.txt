@@ -57,7 +57,7 @@ set(HDRS
     h2sl/feature_container_merge_container_spatial_relation.h
     h2sl/feature_region_container_merge_container_spatial_relation.h
     h2sl/feature_region_container_container_matches_child_container.h
-    #h2sl/feature_object_property_index.h
+    h2sl/feature_object_property_index.h
     h2sl/feature_abstract_container_type.h
     h2sl/feature_abstract_container_color.h
     h2sl/feature_abstract_container_number.h
