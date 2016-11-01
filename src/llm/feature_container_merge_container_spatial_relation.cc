@@ -56,10 +56,21 @@ operator=( const Feature_Container_Merge_Container_Spatial_Relation& other ) {
 bool
 Feature_Container_Merge_Container_Spatial_Relation::
 value( const unsigned int& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
-      const World* world ){
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world ){
+  return value( cv, grounding, children, phrase, world, NULL );
+}
+
+bool
+Feature_Container_Merge_Container_Spatial_Relation::
+value( const unsigned int& cv,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world,
+        const Grounding* context ){
     const Container * container = dynamic_cast< const Container* >( grounding );
     if( ( container != NULL ) && ( !children.empty() ) ){
       pair< const h2sl::Phrase*, const Container* > container_child( NULL, NULL );

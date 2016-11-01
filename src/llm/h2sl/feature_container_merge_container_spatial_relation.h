@@ -25,7 +25,9 @@ namespace h2sl {
         Feature_Container_Merge_Container_Spatial_Relation( const Feature_Container_Merge_Container_Spatial_Relation& other );
         Feature_Container_Merge_Container_Spatial_Relation& operator=( const Feature_Container_Merge_Container_Spatial_Relation& other );
         
-        virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
+        //virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
+        virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
+        virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
         
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
