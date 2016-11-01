@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world time="0">
+    <object name="baxter1-baxter-left_hand" type="robot" position="0.911062,0.829574,1.32531" orientation="-0.275689,0.472792,0.124326,0.827651" color="na"/>
+    <object name="baxter1-baxter-right_hand" type="robot" position="0.313309,-1.18565,1.5722" orientation="0.175547,0.411653,-0.661514,0.601768" color="na"/>
+    <object name="object0-cube-cube-base" type="block" position="0.954122,-0.34879,0.73615" orientation="-0.407449,-0.577916,0.577917,0.407444" color="na"/>
+    <object name="object1-cube-cube-base" type="block" position="0.830884,0.538888,0.73615" orientation="-0.135785,0.693945,-0.693949,0.135788" color="na"/>
+    <object name="object2-cube-cube-base" type="block" position="0.938611,-0.082175,0.73615" orientation="0.53291,-0.464766,0.532912,0.464763" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="0.852216,-0.215158,0.73615" orientation="2.94423e-05,-1.91139e-06,-0.0404775,0.99918" color="na"/>
+    <object name="object4-cube-cube-base" type="block" position="0.88705,0.35802,0.73615" orientation="3.9994e-06,-3.58335e-06,0.328818,0.944393" color="na"/>
+    <object name="object5-cube-cube-base" type="block" position="0.981429,0.289035,0.73615" orientation="-0.664629,-0.241391,0.24139,0.664627" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="1.11917,0.484901,0.73615" orientation="3.00511e-08,6.71696e-06,-0.805684,0.592345" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="0.991728,0.520831,0.73615" orientation="-5.78111e-06,-9.73432e-06,-0.0914874,0.995806" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="1.08654,0.0670497,0.73615" orientation="0.652727,0.272037,-0.65262,0.272085" color="na"/>
+    <object name="object9-cube-cube-base" type="block" position="1.19591,0.533738,0.73615" orientation="-0.149486,-0.691123,0.691125,0.149498" color="na"/>
+    <object name="table-table-table-base" type="table" position="0.999936,5.0659e-05,-0.012225" orientation="-2.63749e-09,9.91989e-10,-5.0612e-05,1" color="na"/>
+  </world>
+</root>

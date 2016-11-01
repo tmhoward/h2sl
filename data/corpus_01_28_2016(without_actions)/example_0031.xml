@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="pick up the farthest red block on the left"/>
+  <image file="world_0006_0002.png"/>
+  <world time="0">
+    <object name="baxter-baxter-left_hand" type="robot" position="0.797293,0.991507,1.22651" orientation="-0.27203,0.658777,0.268108,0.648175" color="na"/>
+    <object name="baxter-baxter-right_hand" type="robot" position="0.794158,-0.992736,1.22819" orientation="0.272825,0.657681,-0.269408,0.648415" color="na"/>
+    <object name="cube1-cube-cube-base" type="block" position="0.549966,-0.500066,0.736325" orientation="7.47266e-06,-1.46251e-05,-0.00150445,0.999999" color="na"/>
+    <object name="cube2-cube-cube-base" type="block" position="0.549834,-0.200081,0.736329" orientation="1.10127e-05,-1.78133e-05,-0.00114804,0.999999" color="na"/>
+    <object name="cube3-cube-cube-base" type="block" position="0.649801,0.199993,0.736339" orientation="7.58526e-06,-1.57228e-05,-0.000447891,1" color="na"/>
+    <object name="cube4-cube-cube-base" type="block" position="0.59922,0.50094,0.736342" orientation="6.99776e-06,-1.46317e-05,-0.00633456,0.99998" color="na"/>
+    <object name="table-table-table-base" type="table" position="0.874642,-0.000231879,-0.0117011" orientation="7.72376e-06,-1.53489e-05,0.000254677,1" color="na"/>
+  </world>
+  <!--S-->
+  <VP>
+    <grounding>
+      <grounding_set>
+        <action type="pick">
+          <parameter pick_object="cube4-cube-cube-base"/>
+        </action>
+      </grounding_set>
+    </grounding>
+    <VB text="pick" order="0"/>
+    <PRT>
+      <grounding>
+        <grounding_set>
+        </grounding_set>
+      </grounding>
+      <RP text="up" order="1"/>
+    </PRT>
+    <NP>
+      <grounding>
+        <grounding_set>
+          <object name="cube4-cube-cube-base" type="block" position="0.59922,0.50094,0.736342" orientation="6.99776e-06,-1.46317e-05,-0.00633456,0.99998" color="na"/>
+        </grounding_set>
+      </grounding>
+      <NP>
+        <grounding>
+          <grounding_set>
+            <object name="cube4-cube-cube-base" type="block" position="0.59922,0.50094,0.736342" orientation="6.99776e-06,-1.46317e-05,-0.00633456,0.99998" color="na"/>
+            <object_property object_type="block" relation_type="far" index="first" color="red"/>
+            <spatial_relation type="far"/>
+            <object_type type="block"/>
+            <object_color type="red"/>
+          </grounding_set>
+        </grounding>
+        <DT text="the" order="2"/>
+        <JJS text="farthest" order="3"/>
+        <JJ text="red" order="4"/>
+        <NN text="block" order="5"/>
+      </NP>
+      <PP>
+        <grounding>
+          <grounding_set>
+            <spatial_relation type="left"/>
+          </grounding_set>
+        </grounding>
+        <IN text="on" order="6"/>
+        <NP>
+          <grounding>
+            <grounding_set>
+              <spatial_relation type="left"/>
+            </grounding_set>
+          </grounding>
+          <DT text="the" order="7"/>
+          <NN text="left" order="8"/>
+        </NP>
+      </PP>
+    </NP> 
+  </VP>
+  <!--/S-->
+</root>
