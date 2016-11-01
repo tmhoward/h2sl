@@ -57,6 +57,8 @@ set(HDRS
     h2sl/feature_container_merge_container_spatial_relation.h
     h2sl/feature_region_container_merge_container_spatial_relation.h
     h2sl/feature_region_container_container_matches_child_container.h
+    h2sl/feature_object_property_type.h
+    h2sl/feature_object_property_relation_type.h
     h2sl/feature_object_property_index.h
     h2sl/feature_region_abstract_container_type.h
     h2sl/feature_region_abstract_container_object_type.h
@@ -108,6 +110,8 @@ set(SRCS
     feature_container_merge_container_spatial_relation.cc
     feature_region_container_merge_container_spatial_relation.cc
     feature_region_container_container_matches_child_container.cc
+    feature_object_property_type.cc
+    feature_object_property_relation_type.cc
     feature_object_property_index.cc
     feature_region_abstract_container_type.cc
     feature_region_abstract_container_object_type.cc
