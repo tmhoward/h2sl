@@ -65,6 +65,8 @@ value( const unsigned int& cv,
   if( abstract_container != NULL ){
     if( abstract_container->type() == _abstract_container_type ){
       return !_invert;
+    } else{
+      return _invert; 
     }
   }
   return false;
