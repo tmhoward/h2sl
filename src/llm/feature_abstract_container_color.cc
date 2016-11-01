@@ -65,6 +65,8 @@ value( const unsigned int& cv,
   if( abstract_container != NULL ){
     if( abstract_container->color() == _abstract_container_color ){
       return !_invert;
+    } else{
+      return _invert;
     }
   }
   return false;
