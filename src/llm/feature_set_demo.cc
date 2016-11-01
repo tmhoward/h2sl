@@ -53,7 +53,7 @@
 #include "h2sl/feature_is_container.h"
 #include "h2sl/feature_is_region.h"
 #include "h2sl/feature_is_region_container.h"
-//#include "h2sl/feature_is_region_abstract_container.h"
+#include "h2sl/feature_is_region_abstract_container.h"
 #include "h2sl/feature_is_spatial_relation.h"
 #include "h2sl/feature_container_number.h"
 //#include "h2sl/feature_container_number_equals_world_objects.h"
@@ -70,9 +70,12 @@
 #include "h2sl/feature_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
-//#include "h2sl/feature_object_property_index.h"
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_object_property_relation_type.h"
+#include "h2sl/feature_object_property_index.h"
+#include "h2sl/feature_region_abstract_container_type.h"
+#include "h2sl/feature_region_abstract_container_object_type.h"
+#include "h2sl/feature_region_abstract_container_number.h"
 
 #include "feature_set_demo_cmdline.h"
 
