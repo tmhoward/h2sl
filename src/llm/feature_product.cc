@@ -61,7 +61,7 @@
 #include "h2sl/feature_is_container.h"
 #include "h2sl/feature_is_region.h"
 #include "h2sl/feature_is_region_container.h"
-//#include "h2sl/feature_is_region_abstract_container.h"
+#include "h2sl/feature_is_region_abstract_container.h"
 #include "h2sl/feature_is_spatial_relation.h"
 #include "h2sl/feature_container_number.h"
 //#include "h2sl/feature_container_number_equals_world_objects.h"
@@ -83,6 +83,14 @@
 #include "h2sl/feature_abstract_container_color.h"
 #include "h2sl/feature_abstract_container_number.h"
 #include "h2sl/feature_abstract_container_index.h"
+#include "h2sl/feature_region_container_type.h"
+#include "h2sl/feature_region_container_container_type.h"
+#include "h2sl/feature_object_property_type.h"
+#include "h2sl/feature_object_property_relation_type.h"
+#include "h2sl/feature_object_property_index.h"
+#include "h2sl/feature_region_abstract_container_type.h"
+#include "h2sl/feature_region_abstract_container_object_type.h"
+#include "h2sl/feature_region_abstract_container_number.h"
 
 using namespace std;
 using namespace h2sl;
@@ -363,9 +371,9 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_region_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Is_Region_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
-              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_region_abstract_container" ) ) == 0 ){
-              //    _feature_groups.back().push_back( new Feature_Is_Region_Abstract_Container() );
-              //    _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_region_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Is_Region_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_spatial_relation" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Is_Spatial_Relation() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -422,6 +430,29 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_index" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Abstract_Container_Index() );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Container_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_container_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Container_Container_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Object_Property_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_relation_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Object_Property_Relation_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_index" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Object_Property_Index() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_object_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Object_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_number" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Number() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
