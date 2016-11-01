@@ -70,6 +70,8 @@
 #include "h2sl/feature_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
+#include "h2sl/feature_region_container_type.h"
+#include "h2sl/feature_region_container_container_type.h"
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_object_property_relation_type.h"
 #include "h2sl/feature_object_property_index.h"

@@ -78,6 +78,8 @@
 #include "h2sl/feature_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
+#include "h2sl/feature_region_container_type.h"
+#include "h2sl/feature_region_container_container_type.h"
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_object_property_relation_type.h"
 #include "h2sl/feature_object_property_index.h"
@@ -410,6 +412,12 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_container_matches_child_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Container_Container_Matches_Child_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Container_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_container_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Region_Container_Container_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Object_Property_Type() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -427,6 +435,7 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_number" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Number() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
