@@ -430,6 +430,7 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_index" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Abstract_Container_Index() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Container_Type() );
                   _feature_groups.back().back()->from_xml( l2 );
