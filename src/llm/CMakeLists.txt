@@ -117,7 +117,7 @@ set(SRCS
     feature_container_merge_container_spatial_relation.cc
     feature_region_container_merge_container_spatial_relation.cc
     feature_region_container_container_matches_child_container.cc
-    #feature_object_property_index.cc
+    feature_object_property_index.cc
     feature_abstract_container_type.cc
     feature_abstract_container_color.cc
     feature_abstract_container_number.cc
