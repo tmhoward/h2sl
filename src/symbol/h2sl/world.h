@@ -36,6 +36,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include "h2sl/object.h"
 
@@ -48,68 +49,100 @@ namespace h2sl {
     World& operator=( const World& other );
     virtual World* dup( void )const;
 
+    // xml read and write functions
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
   
-    //virtual void convert_models( xmlNodePtr root );
-    virtual void sort(void);
-    
+    // Obtain world model objects
+    inline std::vector< Object* >& objects( void ){ return _objects; };
+    inline const std::vector< Object* >& objects( void )const{ return _objects; };
+
+    // Sorting of objects based on spatial characteristics. 
+    virtual void sort_object_collections(void);    
+
+    // Min and max sorting function for objects along x axis.
     static bool min_x_sort( const Object* a, const Object* b );
     static bool max_x_sort( const Object* a, const Object* b );
+
+    // Array sorting for min and max x sorted objects. 
     static void min_x_sort_objects( std::vector< Object* >& objects );
     static void max_x_sort_objects( std::vector< Object* >& objects );
+
+    // Min and max sorting function for objects along y axis.
     static bool min_y_sort( const Object* a, const Object* b );
     static bool max_y_sort( const Object* a, const Object* b );
+
+    // Array sorting for min and max y sorted objects. 
     static void min_y_sort_objects( std::vector< Object* >& objects );
     static void max_y_sort_objects( std::vector< Object* >& objects );
+   
+    // Sorting according to the absolute y coordinate.
     static bool min_abs_y_sort( const Object* a, const Object* b );
     static bool max_abs_y_sort( const Object* a, const Object* b );
+ 
+    // Min and max sorting function for objects along z axis.
     static bool min_z_sort( const Object* a, const Object* b );
     static bool max_z_sort( const Object* a, const Object* b );
+
+    // Min and max sorting function for objects with distance from origin.
     static bool min_distance_sort( const Object* a, const Object* b );
     static bool max_distance_sort( const Object* a, const Object* b );
+
+    // Array sorting for min and max distance sorted objects. 
     static void min_distance_sort_objects( std::vector< Object* >& objects );
     static void max_distance_sort_objects( std::vector< Object* >& objects );
+
+    // Array sorting for min and max distance from center sorted objects. 
     static void min_center_distance_sort_objects( std::vector< Object* >& objects );
     static void max_center_distance_sort_objects( std::vector< Object* >& objects );
       
-
+    // Accessors for the sorted world model objects.
+    inline const std::map< std::string, std::vector< Object* > >& min_x_sorted_objects( void )const{ return _min_x_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& max_x_sorted_objects( void )const{ return _max_x_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& min_y_sorted_objects( void )const{ return _min_y_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& max_y_sorted_objects( void )const{ return _max_y_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& min_abs_y_sorted_objects( void )const{ return _min_abs_y_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& max_abs_y_sorted_objects( void )const{ return _max_abs_y_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& min_z_sorted_objects( void )const{ return _min_z_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& max_z_sorted_objects( void )const{ return _max_z_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& min_distance_sorted_objects( void )const{ return _min_distance_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& max_distance_sorted_objects( void )const{ return _max_distance_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& min_center_distance_sorted_objects( void )const{ return _min_center_distance_sorted_objects; };
+    inline const std::map< std::string, std::vector< Object* > >& max_center_distance_sorted_objects( void )const{ return _max_center_distance_sorted_objects; };
+      
+    // Time stamp for the world model
     inline unsigned long long& time( void ){ return _time; };
     inline const unsigned long long& time( void )const{ return _time; };
-    inline std::vector< Object* >& objects( void ){ return _objects; };
-    
-    inline const std::vector< Object* >& objects( void )const{ return _objects; };
-    inline const std::vector< std::vector< Object* > >& min_x_sorted_objects( void )const{ return _min_x_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& max_x_sorted_objects( void )const{ return _max_x_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& min_y_sorted_objects( void )const{ return _min_y_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& max_y_sorted_objects( void )const{ return _max_y_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& min_abs_y_sorted_objects( void )const{ return _min_abs_y_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& max_abs_y_sorted_objects( void )const{ return _max_abs_y_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& min_z_sorted_objects( void )const{ return _min_z_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& max_z_sorted_objects( void )const{ return _max_z_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& min_distance_sorted_objects( void )const{ return _min_distance_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& max_distance_sorted_objects( void )const{ return _max_distance_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& min_center_distance_sorted_objects( void )const{ return _min_center_distance_sorted_objects; };
-    inline const std::vector< std::vector< Object* > >& max_center_distance_sorted_objects( void )const{ return _max_center_distance_sorted_objects; };
-      
+
+    // Convert model format.
+    virtual void convert_models( xmlNodePtr root );
 
   protected:
-    std::vector< Object* > _objects;
-    std::vector< std::vector< Object* > > _min_x_sorted_objects;
-    std::vector< std::vector< Object* > > _max_x_sorted_objects;
-    std::vector< std::vector< Object* > > _min_y_sorted_objects;
-    std::vector< std::vector< Object* > > _max_y_sorted_objects;
-    std::vector< std::vector< Object* > > _min_abs_y_sorted_objects;
-    std::vector< std::vector< Object* > > _max_abs_y_sorted_objects;
-    std::vector< std::vector< Object* > > _min_z_sorted_objects;
-    std::vector< std::vector< Object* > > _max_z_sorted_objects;
-    std::vector< std::vector< Object* > > _min_distance_sorted_objects;
-    std::vector< std::vector< Object* > > _max_distance_sorted_objects;
-    std::vector< std::vector< Object* > > _min_center_distance_sorted_objects;
-    std::vector< std::vector< Object* > > _max_center_distance_sorted_objects;
-    unsigned long long _time;
+   // World model time instant.
+   unsigned long long _time;
+
+   // World model objects.
+   std::vector< Object* > _objects;
+
+    // Sorted world model objects.
+    // Map of object type string and the vector of objects.
+    std::map< std::string, std::vector< Object* > > _min_x_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _max_x_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _min_y_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _max_y_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _min_abs_y_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _max_abs_y_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _min_z_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _max_z_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _min_distance_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _max_distance_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _min_center_distance_sorted_objects;
+    std::map< std::string, std::vector< Object* > > _max_center_distance_sorted_objects;
+ 
+    // Initialise sorted object collections
+    void initialise_sorted_object_collections( void );
 
   private:
 
