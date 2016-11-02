@@ -55,10 +55,21 @@ operator=( const Feature_Is_Container& other ) {
 bool
 Feature_Is_Container::
 value( const unsigned int& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
-      const World* world ){
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world ){
+  return value( cv, grounding, children, phrase, world, NULL );
+}
+
+bool
+Feature_Is_Container::
+value( const unsigned int& cv,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world,
+        const Grounding* context ){
     const Container * container = dynamic_cast< const Container* >( grounding );
     if( container != NULL ){
       return !_invert;

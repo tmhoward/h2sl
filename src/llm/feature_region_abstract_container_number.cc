@@ -58,10 +58,21 @@ operator=( const Feature_Region_Abstract_Container_Number& other ){
 bool
 Feature_Region_Abstract_Container_Number::
 value( const unsigned int& cv,
-        const h2sl::Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-        const h2sl::Phrase* phrase,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
         const World* world ){
+  return value( cv, grounding, children, phrase, world, NULL );
+}
+
+bool
+Feature_Region_Abstract_Container_Number::
+value( const unsigned int& cv,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world,
+        const Grounding* context ){
   const Region_Abstract_Container* region_abstract_container = dynamic_cast< const Region_Abstract_Container* >( grounding );
   if( region_abstract_container != NULL ){
     if( region_abstract_container->abstract_container().number() == _number ){
