@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the first block on the left in front of the robot"/>
+  <image file="world_0017_0001.png"/>
+  <world time="0">
+    <object name="O1-cube-cube-base" type="block" position="0.896522,-0.30001,0.737719" orientation="5.37899e-06,-1.42139e-05,0.000143625,1" color="na"/>
+    <object name="O2-cube-cube-base" type="block" position="0.876394,-0.150012,0.737721" orientation="5.50096e-06,-1.30916e-05,-3.25299e-06,1" color="na"/>
+    <object name="O3-cube-cube-base" type="block" position="0.829879,-2.70958e-05,0.737721" orientation="5.15668e-06,-1.36157e-05,-0.000141196,1" color="na"/>
+    <object name="O4-cube-cube-base" type="block" position="0.846979,0.149997,0.737723" orientation="5.22809e-06,-1.32212e-05,0.0019314,0.999998" color="na"/>
+    <object name="O5-cube-cube-base" type="block" position="0.818679,0.299984,0.737724" orientation="4.86124e-06,-1.33384e-05,-0.0033131,0.999995" color="na"/>
+    <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+    <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+    <object name="table-table-table-base" type="table" position="0.874999,-1.06244e-07,-0.0117897" orientation="5.48386e-06,-1.36279e-05,4.21669e-07,1" color="na"/>
+  </world>
+  <NP>
+    <grounding>
+      <grounding_set>
+        <object name="O5-cube-cube-base" type="block" position="0.818679,0.299984,0.737724" orientation="4.86124e-06,-1.33384e-05,-0.0033131,0.999995" color="na"/>
+      </grounding_set>
+    </grounding>
+    <NP>
+      <grounding>
+        <grounding_set>
+          <object name="O5-cube-cube-base" type="block" position="0.818679,0.299984,0.737724" orientation="4.86124e-06,-1.33384e-05,-0.0033131,0.999995" color="na"/>
+          <object_property object_type="block" relation_type="left" index="first"/>
+        </grounding_set>
+      </grounding>
+      <NP>
+        <grounding>
+          <grounding_set>
+            <object_property object_type="block" relation_type="na" index="first"/> 
+            <object_type type="block"/>
+            <index type="first"/>
+          </grounding_set>
+        </grounding>
+        <DT text="the" order="0"/>
+        <JJ text="first" order="1"/>
+        <NN text="block" order="2"/>
+      </NP>
+      <PP>
+        <grounding>
+          <grounding_set>
+            <spatial_relation type="left"/>
+          </grounding_set>
+        </grounding>
+        <IN text="on" order="3"/>
+        <NP>
+          <grounding>
+            <grounding_set>
+              <spatial_relation type="left"/>
+            </grounding_set>
+          </grounding>
+          <DT text="the" order="4"/>
+          <NN text="left" order="5"/>
+        </NP>
+      </PP>
+    </NP>
+    <PP>
+      <grounding>
+        <grounding_set>
+          <region_container type="front">
+            <container type="robot">
+              <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+              <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+            </container>
+          </region_container>
+          <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+          <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+        </grounding_set>
+      </grounding>
+      <IN text="in" order="6"/>
+      <NP>
+        <grounding>
+          <grounding_set>
+            <region_container type="front">
+              <container type="robot">
+                <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+                <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+              </container>
+            </region_container>
+            <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+            <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+          </grounding_set>
+        </grounding>
+        <NP>
+          <grounding>
+            <grounding_set>
+              <spatial_relation type="front"/>
+            </grounding_set>
+          </grounding>
+          <NN text="front" order="7"/>
+        </NP>
+        <PP>
+          <grounding>
+            <grounding_set>
+              <container type="robot">
+                <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+                <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+              </container>
+              <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+              <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+            </grounding_set>
+          </grounding>
+          <IN text="of" order="8"/>
+          <NP>
+            <grounding>
+              <grounding_set>
+                <container type="robot">
+                  <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+                  <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+                </container>
+                <object name="baxter1-baxter-left_hand" type="robot" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" color="na"/>
+                <object name="baxter1-baxter-right_hand" type="robot" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" color="na"/>
+              </grounding_set>
+            </grounding>
+            <DT text="the" order="9"/>
+            <NN text="robot" order="10"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>
