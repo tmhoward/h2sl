@@ -1,10 +1,11 @@
 # GENGETOPT FILES
 set(GGOS
+    abstract_container_demo.ggo
+    constraint_demo.ggo
     grounding_demo.ggo
     grounding_set_demo.ggo
     object_demo.ggo
     region_demo.ggo
-    constraint_demo.ggo
     world_demo.ggo)
 
 # HEADER FILES
@@ -50,11 +51,12 @@ set(SRCS
 
 # BINARY SOURCE FILES
 set(BIN_SRCS
+    abstract_container_demo.cc
+    constraint_demo.cc
     grounding_demo.cc
     grounding_set_demo.cc
     object_demo.cc
     region_demo.cc
-    constraint_demo.cc
     world_demo.cc)
 
 # LIBRARY DEPENDENCIES

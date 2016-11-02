@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <abstract_container object_type="na" number_type="na" index_type="na" object_color_type="na"/>
+  <abstract_container object_type="block" number_type="5" index_type="1" object_color_type="red"/>
+  <abstract_container object_type="block" number_type="1" index_type="5" object_color_type="blue"/>
+  <abstract_container object_type="door" number_type="5" index_type="1" object_color_type="red"/>
+  <abstract_container object_type="door" number_type="1" index_type="5" object_color_type="blue"/>
+</root>
