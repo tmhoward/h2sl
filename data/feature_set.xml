@@ -145,7 +145,6 @@
         <feature_abstract_container_type invert="0" abstract_container_type="block"/>
         <feature_abstract_container_type invert="0" abstract_container_type="table"/>
         <feature_abstract_container_type invert="0" abstract_container_type="robot"/>
-        <feature_abstract_container_type invert="0" abstract_container_type="block"/>
         <feature_abstract_container_color invert="0" abstract_container_color="na"/>
         <feature_abstract_container_color invert="0" abstract_container_color="red"/>
         <feature_abstract_container_color invert="0" abstract_container_color="blue"/>
