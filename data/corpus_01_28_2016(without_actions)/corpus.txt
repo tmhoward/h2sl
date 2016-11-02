@@ -21,10 +21,6 @@
 "the farthest two blocks from the robot in the vertical column of four blocks on the right side of the robot."/>
 "all the red blocks on the table in front of the robot"/>
 "all twelve red blocks on the table in front of the robot"/>
-"pick up the farthest red block on the right"/>
-"pick up the farthest red block on the left"/>
-"pick up the furthest red block on the right"/>
-"pick up the red block on the left side of the table"/>
 "the middle block in the row of blocks in front of the robot"/>
 "the middle block in the column of blocks in front of the robot"/>
 "the middle block in the row of blocks in front of the robot"/>
