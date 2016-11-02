@@ -42,6 +42,11 @@
 #define H2SL_COMMON_H
 
 namespace h2sl {
+
+
+
+
+
   /**
    * returns the difference in time
    */
