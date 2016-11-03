@@ -1,5 +1,5 @@
 /**
- * @file feature_max_distance_object_within.cc
+ * @file feature_min_distance_object_within.cc
  *
  * @brief
  *
@@ -8,7 +8,7 @@
 #include <sstream>
 #include <assert.h>
 
-#include "h2sl/feature_max_distance_object_within.h"
+#include "h2sl/feature_min_distance_object_within.h"
 #include "h2sl/object.h"
 #include "h2sl/world.h"
 
@@ -16,38 +16,38 @@ using namespace std;
 using namespace h2sl;
 
 /**
- * Feature_Max_Distance_Object_Within class constructor
+ * Feature_Min_Distance_Object_Within class constructor
  */
-Feature_Max_Distance_Object_Within::
-Feature_Max_Distance_Object_Within( const bool& invert,
+Feature_Min_Distance_Object_Within::
+Feature_Min_Distance_Object_Within( const bool& invert,
                           const unsigned int& number ) : Feature( invert ),
                                                               _number( number ) {
 
 }
 
 /**
- * Feature_Max_Distance_Object_Within class copy constructor
+ * Feature_Min_Distance_Object_Within class copy constructor
  */
-Feature_Max_Distance_Object_Within::
-Feature_Max_Distance_Object_Within( const Feature_Max_Distance_Object_Within& other ) : Feature( other ),
+Feature_Min_Distance_Object_Within::
+Feature_Min_Distance_Object_Within( const Feature_Min_Distance_Object_Within& other ) : Feature( other ),
                                                               _number( other._number ){
 
 }
 
 /**
- * Feature_Max_Distance_Object_Within class destructor
+ * Feature_Min_Distance_Object_Within class destructor
  */
-Feature_Max_Distance_Object_Within::
-~Feature_Max_Distance_Object_Within() {
+Feature_Min_Distance_Object_Within::
+~Feature_Min_Distance_Object_Within() {
 
 }
 
 /** 
- * Feature_Max_Distance_Object_Within class assignment operator
+ * Feature_Min_Distance_Object_Within class assignment operator
  */
-Feature_Max_Distance_Object_Within&
-Feature_Max_Distance_Object_Within::
-operator=( const Feature_Max_Distance_Object_Within& other ){
+Feature_Min_Distance_Object_Within&
+Feature_Min_Distance_Object_Within::
+operator=( const Feature_Min_Distance_Object_Within& other ){
   _invert = other._invert;
   _number = other._number;
   return (*this);
@@ -57,7 +57,7 @@ operator=( const Feature_Max_Distance_Object_Within& other ){
  * returns the value of the feature
  */
 bool
-Feature_Max_Distance_Object_Within::
+Feature_Min_Distance_Object_Within::
 value( const unsigned int& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -66,12 +66,11 @@ value( const unsigned int& cv,
     return value( cv, grounding, children, phrase, world, NULL );
 }
 
-
 /**
  * returns the value of the fature
  */
 bool
-Feature_Max_Distance_Object_Within::
+Feature_Min_Distance_Object_Within::
 value( const unsigned int& cv,
         const h2sl::Grounding* grounding,
         const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
@@ -80,26 +79,26 @@ value( const unsigned int& cv,
         const Grounding* context){
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
   if( object_grounding != NULL ){
-      map< string, vector< Object* > >::const_iterator it = world->max_distance_sorted_objects().find( object_grounding->type() );
-      if ( it != world->max_distance_sorted_objects().end() ) {
+    map< string, vector< Object* > >::const_iterator it = world->min_distance_sorted_objects().find( object_grounding->type() );
+      if ( it != world->min_distance_sorted_objects().end() ) {
         for( unsigned int i = 0; i < _number; i++ ){
           if( _number < it->second.size() ){
-           if( *object_grounding == *(it->second[i]) ){
+            if( *object_grounding == *(it->second[i]) ){
               return !_invert;
             }
           }
-        } // for loop
-       return _invert;
+        }
+        return _invert;
       }
   }
   return false;
 }
 
 /** 
- * imports the Feature_Max_Distance_Object_Within class from an XML file
+ * imports the Feature_Min_Distance_Object_Within class from an XML file
  */
 void
-Feature_Max_Distance_Object_Within::
+Feature_Min_Distance_Object_Within::
 from_xml( const string& filename ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
@@ -110,7 +109,7 @@ from_xml( const string& filename ){
       xmlNodePtr l1 = NULL;
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_max_distance_object_within" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_min_distance_object_within" ) ) == 0 ){
             from_xml( l1 );
           }
         }
@@ -122,10 +121,10 @@ from_xml( const string& filename ){
 }
 
 /** 
- * imports the Feature_Max_Distance_Object_Within class from an XML node pointer
+ * imports the Feature_Min_Distance_Object_Within class from an XML node pointer
  */
 void
-Feature_Max_Distance_Object_Within::
+Feature_Min_Distance_Object_Within::
 from_xml( xmlNodePtr root ){
   _invert = false;
   _number = 0;
@@ -146,10 +145,10 @@ from_xml( xmlNodePtr root ){
 }
 
 /**
- * exports the Feature_Max_Distance_Object_Within class to an XML file
+ * exports the Feature_Min_Distance_Object_Within class to an XML file
  */
 void
-Feature_Max_Distance_Object_Within::
+Feature_Min_Distance_Object_Within::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -161,13 +160,13 @@ to_xml( const string& filename )const{
 }
 
 /**
- * exports the Feature_Max_Distance_Object_Within class to an XML node pointer
+ * exports the Feature_Min_Distance_Object_Within class to an XML node pointer
  */
 void
-Feature_Max_Distance_Object_Within::
+Feature_Min_Distance_Object_Within::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_max_distance_object_within" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_min_distance_object_within" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
@@ -179,25 +178,25 @@ to_xml( xmlDocPtr doc,
 }
 
 unsigned int&
-Feature_Max_Distance_Object_Within::
+Feature_Min_Distance_Object_Within::
 number( void ){
   return _number;
 }
 
 const unsigned int&
-Feature_Max_Distance_Object_Within::
+Feature_Min_Distance_Object_Within::
 number( void )const{
   return _number;
 }
 
 namespace h2sl {
   /** 
-   * Feature_Max_Distance_Object_Within class ostream operator
+   * Feature_Min_Distance_Object_Within class ostream operator
    */
   ostream&
   operator<<( ostream& out,
-              const Feature_Max_Distance_Object_Within& other ){
-    out << "class:\"Feature_Max_Distance_Object_Within\" ";
+              const Feature_Min_Distance_Object_Within& other ){
+    out << "class:\"Feature_Min_Distance_Object_Within\" ";
     out << "number:\"" << other.number() << "\"";
     return out;
   }

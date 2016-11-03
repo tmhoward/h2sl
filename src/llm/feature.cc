@@ -98,6 +98,7 @@
 #include "h2sl/feature_min_distance_object.h"
 #include "h2sl/feature_max_distance_object.h"
 #include "h2sl/feature_max_distance_object_within.h"
+#include "h2sl/feature_min_distance_object_within.h"
 
 #include "h2sl/feature.h"
 
@@ -261,6 +262,10 @@ namespace h2sl {
         out << *static_cast< const Feature_Min_Distance_Object* >( &other );
     } else if ( dynamic_cast< const Feature_Max_Distance_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Max_Distance_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Max_Distance_Object_Within* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Max_Distance_Object_Within* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Distance_Object_Within* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Distance_Object_Within* >( &other );
     } else {
       assert( false );
     } 

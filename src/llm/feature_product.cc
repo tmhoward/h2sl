@@ -99,6 +99,7 @@
 #include "h2sl/feature_min_distance_object.h"
 #include "h2sl/feature_max_distance_object.h"
 #include "h2sl/feature_max_distance_object_within.h"
+#include "h2sl/feature_min_distance_object_within.h"
 
 using namespace std;
 using namespace h2sl;
@@ -483,6 +484,12 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_distance_object" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Max_Distance_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_distance_object_within" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Distance_Object_Within() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_distance_object_within" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_Distance_Object_Within() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;

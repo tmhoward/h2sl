@@ -78,6 +78,7 @@ set(HDRS
     h2sl/feature_min_distance_object.h
     h2sl/feature_max_distance_object.h
     h2sl/feature_max_distance_object_within.h
+    h2sl/feature_min_distance_object_within.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -146,6 +147,7 @@ set(SRCS
     feature_min_distance_object.cc
     feature_max_distance_object.cc
     feature_max_distance_object_within.cc
+    feature_min_distance_object_within.cc
     llm.cc)
 
 # BINARY SOURCE FILES
