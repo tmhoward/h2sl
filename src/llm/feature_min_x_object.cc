@@ -57,15 +57,30 @@ operator=( const Feature_Min_X_Object& other ){
 bool
 Feature_Min_X_Object::
 value( const unsigned int& cv,
+      const Grounding* grounding,
+      const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+      const Phrase* phrase,
+      const World* world ){
+    return value( cv, grounding, children, phrase, world, NULL );
+}
+
+
+/**
+ * returns the value of the fature
+ */
+bool
+Feature_Min_X_Object::
+value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
-        const World* world ){
+        const World* world,
+        const Grounding* context ){
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
   if( object_grounding != NULL ){
-    const World * world = dynamic_cast< const World* >( world );
-    map< string, vector< Object* > >::const_iterator it = world->min_x_sorted_objects().find( object_grounding->type() );
-    if (it != world->min_x_sorted_objects().end()) {
+    const World * _world = dynamic_cast< const World* >( world );
+    map< string, vector< Object* > >::const_iterator it = _world->min_x_sorted_objects().find( object_grounding->type() );
+    if (it != _world->min_x_sorted_objects().end()) {
       if (*object_grounding == *(it->second.front())) {
         return !_invert;
       } else {
@@ -153,7 +168,7 @@ to_xml( xmlDocPtr doc,
   return;
 }
 
-namespace h2sl_nsf_nri_mvli {
+namespace h2sl {
   /** 
    * Feature_Min_X_Object class ostream operator
    */

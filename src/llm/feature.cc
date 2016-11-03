@@ -240,6 +240,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Region_Abstract_Container_Object_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Abstract_Container_Number* >( &other ) != NULL ){
         out << *static_cast< const Feature_Region_Abstract_Container_Number* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_X_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_X_Object* >( &other );
     } else {
       assert( false );
     } 
