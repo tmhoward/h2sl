@@ -25,7 +25,8 @@ namespace h2sl {
     virtual ~Feature_Object_Property_Relation_Type();
     Feature_Object_Property_Relation_Type& operator=( const Feature_Object_Property_Relation_Type& other );
 
-    virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
+    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
+    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
  
     virtual void from_xml( const std::string& file );
     virtual void from_xml( xmlNodePtr root );
