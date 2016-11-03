@@ -87,6 +87,7 @@
 #include "h2sl/feature_max_x_object.h"
 #include "h2sl/feature_max_y_object.h"
 #include "h2sl/feature_min_y_object.h"
+#include "h2sl/feature_max_x_abstract_container.h"
 
 using namespace std;
 using namespace h2sl;
