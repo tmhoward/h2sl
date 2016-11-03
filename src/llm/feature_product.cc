@@ -92,6 +92,7 @@
 #include "h2sl/feature_region_abstract_container_object_type.h"
 #include "h2sl/feature_region_abstract_container_number.h"
 #include "h2sl/feature_min_x_object.h"
+#include "h2sl/feature_max_x_object.h"
 
 using namespace std;
 using namespace h2sl;
@@ -459,7 +460,10 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_object" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Min_X_Object() );
                   _feature_groups.back().back()->from_xml( l2 );
-              }else {
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_x_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_X_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
               } 

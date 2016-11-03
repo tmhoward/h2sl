@@ -244,6 +244,8 @@
         <feature_constraint_child_is_robot invert="1"/>
         <feature_min_x_object invert="0"/>
         <feature_min_x_object invert="1"/>
+        <feature_max_x_object invert="0"/>
+        <feature_max_x_object invert="1"/>
       </feature_group>
     </feature_product>
   </feature_set>
