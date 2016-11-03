@@ -492,7 +492,10 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_distance_object_within" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Max_Distance_Object_Within() );
                   _feature_groups.back().back()->from_xml( l2 );
-              } else {
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_center_distance_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Center_Distance_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              }  else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
               } 
