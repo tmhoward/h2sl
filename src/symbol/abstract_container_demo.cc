@@ -41,7 +41,6 @@ using namespace h2sl;
 
 void
 fill_abstract_containers( vector< Abstract_Container* >& abstract_containers, const string filename ){
-  cout << "in fill_abstract_container" << endl;
   xmlDoc * doc = NULL;
   xmlNode * root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -77,9 +76,13 @@ main( int argc,
   }
 
   if( !abstract_containers.empty() ){
-
+    cout << "Abstract_Container::class_name(): " << Abstract_Container::class_name() << endl;
+    cout << "abstract_containers.back()->class_name(): " << abstract_containers.back()->class_name() << endl;
+    for( unsigned int i = 0; i < abstract_containers.size(); i++ ){
+      cout << "abstract_containers[ " << i << " ]: " << *abstract_containers[ i ] << endl;
+    }
   } else{
-    cout << "the input did not have examples of abstract_container, so we just demo the static functions and ostream operator" << endl;
+    cout << "the input did not have examples of abstract_container, so we just demo the static functions and ostream operator for the default" << endl;
     abstract_containers.push_back( new Abstract_Container() );
     cout << "abstract_container:( " << *abstract_containers.back() << endl;
     cout << "abstract_container->class_name(): " << abstract_containers.back()->class_name() << endl;
@@ -87,9 +90,14 @@ main( int argc,
   }
 
   if( args.output_given ){
+    xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+    xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+    xmlDocSetRootElement( doc, root );
     for( unsigned int i = 0; i < abstract_containers.size(); i++ ){
-      abstract_containers[ i ]->to_xml( args.output_arg );
+      abstract_containers[ i ]->to_xml( doc, root );
     }
+    xmlSaveFormatFileEnc( args.output_arg, doc, "UTF-8", 1 );
+    xmlFreeDoc( doc );
   }
 
   //memory management
