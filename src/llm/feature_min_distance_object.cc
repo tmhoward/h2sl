@@ -77,9 +77,8 @@ value( const unsigned int& cv,
         const Grounding* context ) {
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
   if( object_grounding != NULL ){
-      const World * _world = dynamic_cast< const World* >( world );
-      map< string, vector< Object* > >::const_iterator it = _world->min_distance_sorted_objects().find( object_grounding->type() );
-      if (it != _world->min_distance_sorted_objects().end()) {
+      map< string, vector< Object* > >::const_iterator it = world->min_distance_sorted_objects().find( object_grounding->type() );
+      if (it != world->min_distance_sorted_objects().end()) {
           if (*object_grounding == *(it->second.front())) {
               return !_invert;
           } else {
