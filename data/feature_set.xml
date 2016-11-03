@@ -260,6 +260,8 @@
         <feature_max_distance_object_within invert="0" number="3"/>
         <feature_min_distance_object_within invert="0" number="2"/>
         <feature_min_distance_object_within invert="0" number="3"/>
+        <feature_min_center_distance_object invert="0"/>
+        <feature_min_center_distance_object invert="1"/>
       </feature_group>
     </feature_product>
   </feature_set>

@@ -92,6 +92,7 @@
 #include "h2sl/feature_max_distance_object.h"
 #include "h2sl/feature_max_distance_object_within.h"
 #include "h2sl/feature_min_distance_object_within.h"
+#include "h2sl/feature_min_center_distance_object.h"
 
 using namespace std;
 using namespace h2sl;
