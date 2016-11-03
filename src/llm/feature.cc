@@ -93,6 +93,7 @@
 #include "h2sl/feature_min_x_object.h"
 #include "h2sl/feature_max_x_object.h"
 #include "h2sl/feature_max_y_object.h"
+#include "h2sl/feature_min_y_object.h"
 
 #include "h2sl/feature.h"
 
@@ -248,6 +249,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Max_X_Object* >( &other );
     } else if ( dynamic_cast< const Feature_Max_Y_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Max_Y_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Y_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Y_Object* >( &other );
     } else {
       assert( false );
     } 
