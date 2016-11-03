@@ -22,7 +22,6 @@ using namespace h2sl;
  */
 Feature_Max_X_Abstract_Container::
 Feature_Max_X_Abstract_Container( const bool& invert,
-                          const unsigned int& yIndex,
                             const std::string& relation_type ) : Feature( invert ),
                                                                _relation_type( relation_type ) {
 
@@ -99,11 +98,11 @@ value( const unsigned int& cv,
     if( spatial_relation_child != NULL ){
       if( spatial_relation_child->relation_type() == _relation_type ){
         if( object_grounding != NULL ){
-          const World * _world = dynamic_cast< const World* >( world );
-          map< string, vector< Object* > >::const_iterator it = _world->max_x_sorted_objects().find( abstract_container_child->type() );
+          //const World * _world = dynamic_cast< const World* >( world );
+          map< string, vector< Object* > >::const_iterator it = world->max_x_sorted_objects().find( abstract_container_child->type() );
             //Check this part
-          for( unsigned int i = 0; i < _world->max_x_sorted_objects()[ abstract_container_child->type() ].size(); i++ ){
-            if( *object_grounding == *_world->max_x_sorted_objects()[ abstract_container_child->type() ][ i ] ){
+          for( unsigned int i = 0; i < world->max_x_sorted_objects()[ abstract_container_child->type() ].size(); i++ ){
+            if( *object_grounding == *world->max_x_sorted_objects()[ abstract_container_child->type() ][ i ] ){
               if( i < abstract_container_child->number() ){
                 return !_invert;
               } else {

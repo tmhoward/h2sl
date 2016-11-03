@@ -20,7 +20,7 @@ namespace h2sl {
    */
   class Feature_Max_X_Abstract_Container : public Feature {
   public:
-    Feature_Max_X_Abstract_Container( const bool& invert = false, const unsigned int& yIndex = 0, const std::string& relation_type = "na" );
+    Feature_Max_X_Abstract_Container( const bool& invert = false, const std::string& relation_type = "na" );
     Feature_Max_X_Abstract_Container( const Feature_Max_X_Abstract_Container& other );
     virtual ~Feature_Max_X_Abstract_Container();
     Feature_Max_X_Abstract_Container& operator=( const Feature_Max_X_Abstract_Container& other );
