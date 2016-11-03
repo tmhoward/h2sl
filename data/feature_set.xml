@@ -254,6 +254,8 @@
         <feature_max_x_abstract_container invert="0" relation_type="back"/>
         <feature_min_distance_object invert="0"/>
         <feature_min_distance_object invert="1"/>
+        <feature_max_distance_object invert="0"/>
+        <feature_max_distance_object invert="1"/>
       </feature_group>
     </feature_product>
   </feature_set>
