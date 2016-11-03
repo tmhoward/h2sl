@@ -70,6 +70,7 @@ set(HDRS
     h2sl/feature_region_abstract_container_type.h
     h2sl/feature_region_abstract_container_object_type.h
     h2sl/feature_region_abstract_container_number.h
+    h2sl/feature_min_x_object.h_
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -130,6 +131,7 @@ set(SRCS
     feature_region_abstract_container_type.cc
     feature_region_abstract_container_object_type.cc
     feature_region_abstract_container_number.cc
+    feature_min_x_object.cc
     llm.cc)
 
 # BINARY SOURCE FILES

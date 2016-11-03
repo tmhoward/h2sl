@@ -83,6 +83,7 @@
 #include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_abstract_container_object_type.h"
 #include "h2sl/feature_region_abstract_container_number.h"
+#include "h2sl/feature_min_x_object.h"
 
 using namespace std;
 using namespace h2sl;
