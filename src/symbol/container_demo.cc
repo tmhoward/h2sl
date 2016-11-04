@@ -78,8 +78,58 @@ main( int argc,
   if( !containers.empty() ){
     cout << "Container::class_name(): " << Container::class_name() << endl;
     cout << "containers.back()->class_name(): " << containers.back()->class_name() << endl;
+    cout << "Testing the has_object function by passing in one novel object \"test_object\" (should return '0') and all objects from the container (should return '1')." << endl;
+    const Object * test_object = new Object( "test_object" );
     for( unsigned int i = 0; i < containers.size(); i++ ){
-      cout << "containers[ " << i << " ]: " << *containers[ i ] << endl;
+      cout << "  containers[ " << i << " ]->has_object( test_object ): " << containers[ i ]->has_object( test_object ) << endl;
+      for( unsigned int j = 0; j < containers[ i ]->container().size(); j++ ){
+        if( dynamic_cast< const Object* >( containers [ 0 ]->container()[ j ] ) != NULL ){
+          const Object* tmp = static_cast< const Object* >( containers [ 0 ]->container()[ j ] );
+          cout << "  containers[ " << i << " ]->has_object( containers[ " << i << " ]->container()[ " << j << " ] ): " << containers[ 0 ]->has_object( tmp ) << endl;
+        }
+      }
+      cout << endl;
+    }
+    cout << endl;
+    cout << "Testing the min_distance_to_object function for each object in each container." << endl;
+    for( unsigned int i = 0; i < containers.size(); i++ ){
+      for( unsigned int j = 0; j < containers[ i ]->container().size(); j++ ){
+        if( dynamic_cast< const Object* >( containers [ 0 ]->container()[ j ] ) != NULL ){
+          const Object* tmp = static_cast< const Object* >( containers [ 0 ]->container()[ j ] );
+          cout << "  containers[ " << i << " ]->min_distance_to_object( *containers[ " << i << " ]->container()[ " << j << " ] ): " << containers[ 0 ]->min_distance_to_object( *tmp ) << endl;
+        }
+      }
+      cout << endl;
+    }
+
+    cout << endl;
+    cout << "Testing the deviation function for each object in each container." << endl;
+    for( unsigned int i = 0; i < containers.size(); i++ ){
+      for( unsigned int j = 0; j < containers[ i ]->container().size(); j++ ){
+        if( dynamic_cast< const Object* >( containers [ 0 ]->container()[ j ] ) != NULL ){
+          const Object* tmp = static_cast< const Object* >( containers [ 0 ]->container()[ j ] );
+          cout << "  containers[ " << i << " ]->deviation( *containers[ " << i << " ]->container()[ " << j << " ] ): " << containers[ 0 ]->deviation( *tmp ) << endl;
+        }
+      }
+      cout << endl;
+    }
+
+    cout << endl;
+    cout << "Testing the mean_position(), variance_position(), max_deviation(), bounds(), and principal_axis() functions for each container." << endl;
+    for( unsigned int i = 0; i < containers.size(); i++ ){
+      cout << "  containers[ " << i << " ]->mean_position(): " << containers[ i ]->mean_position() << endl;
+      cout << "  containers[ " << i << " ]->variance_positon(): " << containers[ i ]->variance_position() << endl;
+      cout << "  containers[ " << i << " ]->max_deviation(): " << containers[ i ]->max_deviation() << endl;
+      cout << "  *containers[ " << i << " ]->bounds().first: " << *containers[ i ]->bounds().first << endl;
+      cout << "  *containers[ " << i << " ]->bounds().second: " << *containers[ i ]->bounds().second << endl;
+      cout << "  containers[ " << i << " ]->principal_axis(): " << containers[ i ]->principal_axis() << endl;
+      cout << endl;
+    }
+    
+
+    cout << "Testing the ostream operator for all provided containers" << endl;
+    for( unsigned int i = 0; i < containers.size(); i++ ){
+      cout << "  containers[ " << i << " ]: " << *containers[ i ] << endl;
     }
   } else{
     cout << "the input did not have examples of container, so we just demo the static functions and ostream operator for the default" << endl;
