@@ -96,6 +96,7 @@
 #include "h2sl/feature_max_y_abstract_container.h"
 #include "h2sl/feature_min_y_index_abstract_container_region_container.h"
 #include "h2sl/feature_min_x_abstract_container.h"
+#include "h2sl/feature_min_y_abstract_container.h"
 
 
 #include "feature_set_demo_cmdline.h"
