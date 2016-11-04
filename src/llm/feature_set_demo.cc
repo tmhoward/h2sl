@@ -99,6 +99,7 @@
 #include "h2sl/feature_min_y_abstract_container.h"
 #include "h2sl/feature_min_distance_container.h"
 #include "h2sl/feature_min_distance_abstract_container.h"
+#include "h2sl/feature_min_abs_y_abstract_container.h"
 
 
 #include "feature_set_demo_cmdline.h"
