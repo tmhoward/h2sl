@@ -80,10 +80,10 @@ value( const unsigned int& cv,
         const h2sl::Phrase* phrase,
         const World* world,
         const Grounding* context ) {
-  Abstract_Container* abstract_container_child = NULL;
-  Spatial_Relation* spatial_relation_child = NULL;
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
 
+  Abstract_Container* abstract_container_child = NULL;
+  Spatial_Relation* spatial_relation_child = NULL;
   for( unsigned int i = 0; i < children.size(); i++ ){
     for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
       if( dynamic_cast< Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
@@ -98,24 +98,23 @@ value( const unsigned int& cv,
     if( spatial_relation_child != NULL ){
       if( spatial_relation_child->relation_type() == _relation_type ){
         if( object_grounding != NULL ){
-          //const World * _world = dynamic_cast< const World* >( world );
-          map< string, vector< Object* > >::const_iterator it = world->max_x_sorted_objects().find( abstract_container_child->type() );
-            //Check this part
-          for( unsigned int i = 0; i < world->max_x_sorted_objects()[ abstract_container_child->type() ].size(); i++ ){
-            if( *object_grounding == *world->max_x_sorted_objects()[ abstract_container_child->type() ][ i ] ){
-              if( i < abstract_container_child->number() ){
-                return !_invert;
-              } else {
-                return _invert;
-              }
-            } else {
-                std::cout << "Error: abstract container grounding not found in max_x_sorted_objects" << std::endl;
-                return false;
-          }
-        }
-      }
-    }
-  }
+          map< string, vector< Object* > >::const_iterator it;
+          it  = world->max_x_sorted_objects().find( abstract_container_child->type() );
+          if ( it != world->max_x_sorted_objects().end() ) { 
+            for( unsigned int i = 0; i < it->second.size(); i++ ){
+              if( *object_grounding == *(it->second[ i ]) ){
+                if( i < world->numeric_map()[ abstract_container_child->number() ] ){
+                  return !_invert;
+                } else {
+                  return _invert;
+                }
+              } 
+            }
+          } 
+       }
+     }
+   }
+ }
   return false;
 }
     

@@ -50,7 +50,7 @@ World( const unsigned long long& time,
         const std::vector< Object* >& objects ) : _time( time ),
                                               _objects( objects ) {
   initialise_sorted_object_collections();
-  
+  initialise_numeric_map(); 
 }
 
 /**
@@ -681,6 +681,26 @@ max_center_distance_sort_objects( vector< Object* >& objects ){
     objects[ i ]->transform() = center * objects[ i ]->transform();
   }
   return;
+}
+
+/*
+ * Initialise the numeric map.
+ */
+void 
+World::
+initialise_numeric_map( void ) {
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "one",1 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "two",2 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "three",3 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "four",4 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "five",5 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "six",6 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "seven",7 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "eight",8 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "nine",9 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "ten",10 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "eleven",11 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "twelve",12 )  );
 }
 
 

@@ -60,7 +60,7 @@ namespace h2sl {
     inline const std::vector< Object* >& objects( void )const{ return _objects; };
 
     // Sorting of objects based on spatial characteristics. 
-    virtual void sort_object_collections(void);    
+    virtual void sort_object_collections(void);
 
     // Min and max sorting function for objects along x axis.
     static bool min_x_sort( const Object* a, const Object* b );
@@ -116,6 +116,10 @@ namespace h2sl {
     inline unsigned long long& time( void ){ return _time; };
     inline const unsigned long long& time( void )const{ return _time; };
 
+    // Conversion of number strings to numeric values
+    inline std::map< std::string, unsigned int>& numeric_map( void ){ return _numeric_map; };
+    inline std::map< std::string, unsigned int> numeric_map( void )const{ return _numeric_map; };
+
     // Convert model format.
     virtual void convert_models( xmlNodePtr root );
 
@@ -140,9 +144,15 @@ namespace h2sl {
     std::map< std::string, std::vector< Object* > > _max_distance_sorted_objects;
     std::map< std::string, std::vector< Object* > > _min_center_distance_sorted_objects;
     std::map< std::string, std::vector< Object* > > _max_center_distance_sorted_objects;
+
+    // Nuumeric conversion
+    std::map< std::string, unsigned int> _numeric_map; 
  
     // Initialise sorted object collections
     void initialise_sorted_object_collections( void );
+
+    // Initialise the numeric map
+    void initialise_numeric_map( void );
 
   private:
 
