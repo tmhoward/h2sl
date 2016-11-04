@@ -1,5 +1,5 @@
 /**
- * @file feature_max_y_object.cc
+ * @file feature_min_distance_object.cc
  *
  * @brief
  *
@@ -11,42 +11,42 @@
 
 #include "h2sl/world.h"
 #include "h2sl/spatial_relation.h"
-#include "h2sl/feature_max_y_object.h"
+#include "h2sl/feature_min_distance_object.h"
 #include "h2sl/object.h"
 
 using namespace std;
 using namespace h2sl;
 
 /**
- * Feature_Max_Y_Object class constructor
+ * Feature_Min_Distance_Object class constructor
  */
-Feature_Max_Y_Object::
-Feature_Max_Y_Object( const bool& invert ) : Feature( invert ) {
+Feature_Min_Distance_Object::
+Feature_Min_Distance_Object( const bool& invert ) : Feature( invert ) {
 
 }
 
 /**
- * Feature_Max_Y_Object class copy constructor
+ * Feature_Min_Distance_Object class copy constructor
  */
-Feature_Max_Y_Object::
-Feature_Max_Y_Object( const Feature_Max_Y_Object& other ) : Feature( other ) {
+Feature_Min_Distance_Object::
+Feature_Min_Distance_Object( const Feature_Min_Distance_Object& other ) : Feature( other ) {
 
 }
 
 /**
- * Feature_Max_Y_Object class destructor
+ * Feature_Min_Distance_Object class destructor
  */
-Feature_Max_Y_Object::
-~Feature_Max_Y_Object() {
+Feature_Min_Distance_Object::
+~Feature_Min_Distance_Object() {
 
 }
 
 /** 
- * Feature_Max_Y_Object class assignment operator
+ * Feature_Min_Distance_Object class assignment operator
  */
-Feature_Max_Y_Object&
-Feature_Max_Y_Object::
-operator=( const Feature_Max_Y_Object& other ){
+Feature_Min_Distance_Object&
+Feature_Min_Distance_Object::
+operator=( const Feature_Min_Distance_Object& other ){
   _invert = other._invert;
   return (*this);
 }
@@ -55,38 +55,37 @@ operator=( const Feature_Max_Y_Object& other ){
  * returns the value of the feature
  */
 bool
-Feature_Max_Y_Object::
+Feature_Min_Distance_Object::
 value( const unsigned int& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world ){
-      return value( cv, grounding, children, phrase, world, NULL );
+    return value( cv, grounding, children, phrase, world, NULL );
 }
 
-
 /**
- * returns the value of the feature
+ * returns the value of the fature
  */
 bool
-Feature_Max_Y_Object::
+Feature_Min_Distance_Object::
 value( const unsigned int& cv,
-        const Grounding* grounding,
-        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
-        const Phrase* phrase,
+        const h2sl::Grounding* grounding,
+        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
+        const h2sl::Phrase* phrase,
         const World* world,
-        const Grounding* context ){
+        const Grounding* context ) {
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
   if( object_grounding != NULL ){
-      map< string, vector< Object* > >::const_iterator it = world->max_y_sorted_objects().find( object_grounding->type() );
-      if (it != world->max_y_sorted_objects().end()) {
+      map< string, vector< Object* > >::const_iterator it = world->min_distance_sorted_objects().find( object_grounding->type() );
+      if (it != world->min_distance_sorted_objects().end()) {
           if (*object_grounding == *(it->second.front())) {
               return !_invert;
           } else {
               return _invert;
           }
       } else {
-          std::cout << "Error: object grounding not found in max_y_sorted_objects" << std::endl;
+          std::cout << "Error: object grounding not found in min_distance_sorted_objects" << std::endl;
           return false;
       }
   }
@@ -94,10 +93,10 @@ value( const unsigned int& cv,
 }
 
 /** 
- * imports the Feature_Max_Y_Object class from an XML file
+ * imports the Feature_Min_Distance_Object class from an XML file
  */
 void
-Feature_Max_Y_Object::
+Feature_Min_Distance_Object::
 from_xml( const string& filename ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
@@ -108,7 +107,7 @@ from_xml( const string& filename ){
       xmlNodePtr l1 = NULL;
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_max_y_object" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_min_distance_object" ) ) == 0 ){
             from_xml( l1 );
           }
         }
@@ -120,10 +119,10 @@ from_xml( const string& filename ){
 }
 
 /** 
- * imports the Feature_Max_Y_Object class from an XML node pointer
+ * imports the Feature_Min_Distance_Object class from an XML node pointer
  */
 void
-Feature_Max_Y_Object::
+Feature_Min_Distance_Object::
 from_xml( xmlNodePtr root ){
   _invert = false;
   if( root->type == XML_ELEMENT_NODE ){
@@ -137,10 +136,10 @@ from_xml( xmlNodePtr root ){
 }
 
 /**
- * exports the Feature_Max_Y_Object class to an XML file
+ * exports the Feature_Min_Distance_Object class to an XML file
  */
 void
-Feature_Max_Y_Object::
+Feature_Min_Distance_Object::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -152,13 +151,13 @@ to_xml( const string& filename )const{
 }
 
 /**
- * exports the Feature_Max_Y_Object class to an XML node pointer
+ * exports the Feature_Min_Distance_Object class to an XML node pointer
  */
 void
-Feature_Max_Y_Object::
+Feature_Min_Distance_Object::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_max_y_object" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_min_distance_object" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
@@ -168,12 +167,12 @@ to_xml( xmlDocPtr doc,
 
 namespace h2sl {
   /** 
-   * Feature_Max_Y_Object class ostream operator
+   * Feature_Min_Distance_Object class ostream operator
    */
   ostream&
   operator<<( ostream& out,
-              const Feature_Max_Y_Object& other ){
-    out << "class:\"Feature_Max_Y_Object\" ";
+              const Feature_Min_Distance_Object& other ){
+    out << "class:\"Feature_Min_Distance_Object\" ";
     return out;
   }
 }
