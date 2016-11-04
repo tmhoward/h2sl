@@ -264,6 +264,8 @@
         <feature_min_center_distance_object invert="1"/>
         <feature_max_y_abstract_container invert="0" relation_type="right"/>
         <feature_max_y_abstract_container invert="0" relation_type="left"/>
+        <feature_min_y_index_abstract_container_region_container invert="0" relation_type="right"/>
+        <feature_min_y_index_abstract_container_region_container invert="0" relation_type="left"/>
       </feature_group>
     </feature_product>
   </feature_set>

@@ -119,6 +119,10 @@ namespace h2sl {
     // Conversion of number strings to numeric values
     inline std::map< std::string, unsigned int>& numeric_map( void ){ return _numeric_map; };
     inline std::map< std::string, unsigned int> numeric_map( void )const{ return _numeric_map; };
+      
+    // Conversion of index strings to index values
+    inline std::map< std::string, unsigned int>& index_map( void ){ return _index_map; };
+    inline std::map< std::string, unsigned int> index_map( void )const{ return _index_map; };
 
     // Convert model format.
     virtual void convert_models( xmlNodePtr root );
@@ -145,14 +149,20 @@ namespace h2sl {
     std::map< std::string, std::vector< Object* > > _min_center_distance_sorted_objects;
     std::map< std::string, std::vector< Object* > > _max_center_distance_sorted_objects;
 
-    // Nuumeric conversion
-    std::map< std::string, unsigned int> _numeric_map; 
+    // Numeric conversion
+    std::map< std::string, unsigned int> _numeric_map;
+      
+    // Index conversion
+    std::map< std::string, unsigned int> _index_map;
  
     // Initialise sorted object collections
     void initialise_sorted_object_collections( void );
 
     // Initialise the numeric map
     void initialise_numeric_map( void );
+      
+    // Initialise the index map
+    void initialise_index_map( void );
 
   private:
 

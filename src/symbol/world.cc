@@ -703,6 +703,19 @@ initialise_numeric_map( void ) {
   _numeric_map.insert( std::pair< std::string, unsigned int > ( "twelve",12 )  );
 }
 
+/*
+ * Initialise the index map.
+ */
+void
+World::
+initialise_index_map( void ) {
+    _index_map.insert( std::pair< std::string, unsigned int > ( "first",1 )  );
+    _index_map.insert( std::pair< std::string, unsigned int > ( "second",2 )  );
+    _index_map.insert( std::pair< std::string, unsigned int > ( "third",3 )  );
+    _index_map.insert( std::pair< std::string, unsigned int > ( "fourth",4 )  );
+    _index_map.insert( std::pair< std::string, unsigned int > ( "fifth",5 )  );
+}
+
 
 namespace h2sl {
   /** 

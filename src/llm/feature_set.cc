@@ -94,6 +94,7 @@
 #include "h2sl/feature_min_distance_object_within.h"
 #include "h2sl/feature_min_center_distance_object.h"
 #include "h2sl/feature_max_y_abstract_container.h"
+#include "h2sl/feature_min_y_index_abstract_container_region_container.h"
 
 using namespace std;
 using namespace h2sl;
