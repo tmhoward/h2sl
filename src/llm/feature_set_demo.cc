@@ -93,6 +93,7 @@
 #include "h2sl/feature_max_distance_object_within.h"
 #include "h2sl/feature_min_distance_object_within.h"
 #include "h2sl/feature_min_center_distance_object.h"
+#include "h2sl/feature_max_y_abstract_container.h"
 
 #include "feature_set_demo_cmdline.h"
 
