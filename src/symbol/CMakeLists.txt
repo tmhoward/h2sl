@@ -2,6 +2,7 @@
 set(GGOS
     grounding_demo.ggo
     grounding_set_demo.ggo
+    index_demo.ggo
     object_demo.ggo
     region_demo.ggo
     constraint_demo.ggo
@@ -52,6 +53,7 @@ set(SRCS
 set(BIN_SRCS
     grounding_demo.cc
     grounding_set_demo.cc
+    index_demo.cc
     object_demo.cc
     region_demo.cc
     constraint_demo.cc

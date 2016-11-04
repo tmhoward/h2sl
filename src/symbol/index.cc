@@ -165,7 +165,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Index& other ){
     out << "Index(";
-    out << "index_type=\"" << other.index_type() << "\",";
+    out << "index_type=\"" << other.index_type() << "\"";
     out << ")";
     return out;
   }
