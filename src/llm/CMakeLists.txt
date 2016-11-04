@@ -84,6 +84,7 @@ set(HDRS
     #h2sl/feature_min_y_index_abstract_container_region_container.h
     h2sl/feature_min_x_abstract_container.h
     h2sl/feature_min_y_abstract_container.h
+    #h2sl/feature_min_distance_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -158,6 +159,7 @@ set(SRCS
     #feature_min_y_index_abstract_container_region_container.cc
     feature_min_x_abstract_container.cc
     feature_min_y_abstract_container.cc
+    #feature_min_distance_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES
