@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <abstract_container object_type="na" number_type="na" index_type="na" object_color_type="na"/>
+  <abstract_container object_type="block" number_type="5" index_type="first" object_color_type="red"/>
+  <abstract_container object_type="block" number_type="4" index_type="second" object_color_type="blue"/>
+  <abstract_container object_type="door" number_type="3" index_type="third" object_color_type="red"/>
+  <abstract_container object_type="door" number_type="2" index_type="fourth" object_color_type="blue"/>
+  <abstract_container object_type="gear" number_type="1" index_type="fifth" object_color_type="yellow"/>
+  <!-- Number -->
+  <number number_value="na"/>
+  <number number_value="0"/>
+  <number number_value="1"/>
+  <number number_value="2"/>
+  <number number_value="3"/>
+  <number number_value="4"/>
+  <number number_value="5"/>
+  <number number_value="6"/>
+  <number number_value="7"/>
+  <number number_value="8"/>
+  <number number_value="9"/>
+</root>
