@@ -102,6 +102,7 @@
 #include "h2sl/feature_min_center_distance_object.h"
 #include "h2sl/feature_max_y_abstract_container.h"
 #include "h2sl/feature_min_y_index_abstract_container_region_container.h"
+#include "h2sl/feature_min_x_abstract_container.h"
 
 #include "h2sl/feature.h"
 
@@ -275,6 +276,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Max_Y_Abstract_Container* >( &other );
     //} else if ( dynamic_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_X_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_X_Abstract_Container* >( &other );
     } else {
       assert( false );
     } 
