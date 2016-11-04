@@ -39,6 +39,28 @@
 using namespace std;
 using namespace h2sl;
 
+void
+fill_constraints( vector< Constraint* >& constraints, const string filename ){
+  xmlDoc * doc = NULL;
+  xmlNode * root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint" ) ) == 0 ){
+            constraints.push_back( new Constraint( l1 ) );
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
+
+
 int
 main( int argc,
       char* argv[] ) {
@@ -50,23 +72,47 @@ main( int argc,
     exit(1);
   }
 
-  Constraint * constraint = new Constraint();
+  vector< Constraint* > constraints;
 
   if( args.input_given ){
-    constraint->from_xml( args.input_arg );
+    fill_constraints( constraints, args.input_arg );
   }
 
-  cout << "constraint:(" << *constraint << ")" << endl;
+  if( !constraints.empty() ){
+    cout << "Constraint::class_name(): " << Constraint::class_name() << endl;
+    cout << "constraints.back()->class_name(): " << constraints.back()->class_name() << endl;
+    for( unsigned int i = 0; i < constraints.size(); i++ ){
+      cout << "constraints[ " << i << " ]: " << *constraints[ i ] << endl;
+    }
+  } else{
+    cout << "the input did not have examples of constraint, so we just demo the static functions and ostream operator for the default" << endl;
+    constraints.push_back( new Constraint() );
+    cout << "constraint:( " << *constraints.back() << endl;
+    cout << "constraint->class_name(): " << constraints.back()->class_name() << endl;
+    cout << "Constraint::class_name(): " << Constraint::class_name() << endl;
+  }
 
   if( args.output_given ){
-    constraint->to_xml( args.output_arg );
+    xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+    xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+    xmlDocSetRootElement( doc, root );
+    for( unsigned int i = 0; i < constraints.size(); i++ ){
+      constraints[ i ]->to_xml( doc, root );
+    }
+    xmlSaveFormatFileEnc( args.output_arg, doc, "UTF-8", 1 );
+    xmlFreeDoc( doc );
   }
 
-  if( constraint != NULL ){
-    delete constraint;
-    constraint = NULL;
+  //memory management
+  for( unsigned int i = 0; i < constraints.size(); i++ ){
+    if( constraints[ i ] != NULL ){
+      delete constraints[ i ];
+      constraints[ i ] = NULL;
+    }
   }
 
   cout << "end of Constraint class demo program" << endl;
-  return status;
+  return 0;
+
+
 }
