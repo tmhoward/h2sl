@@ -98,6 +98,7 @@
 #include "h2sl/feature_min_x_abstract_container.h"
 #include "h2sl/feature_min_y_abstract_container.h"
 #include "h2sl/feature_min_distance_container.h"
+#include "h2sl/feature_min_distance_abstract_container.h"
 
 using namespace std;
 using namespace h2sl;
