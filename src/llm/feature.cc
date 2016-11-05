@@ -283,14 +283,14 @@ namespace h2sl {
         out << *static_cast< const Feature_Min_Center_Distance_Object* >( &other );
     } else if ( dynamic_cast< const Feature_Max_Y_Abstract_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Max_Y_Abstract_Container* >( &other );
-    //} else if ( dynamic_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other ) != NULL ){
-    //    out << *static_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Min_X_Abstract_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Min_X_Abstract_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Min_Y_Abstract_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Min_Y_Abstract_Container* >( &other );
-    //} else if ( dynamic_cast< const Feature_Min_Distance_Container* >( &other ) != NULL ){
-    //    out << *static_cast< const Feature_Min_Distance_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Distance_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Distance_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Min_Distance_Abstract_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Min_Distance_Abstract_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Min_Abs_Y_Abstract_Container* >( &other ) != NULL ){
