@@ -112,6 +112,7 @@
 #include "h2sl/feature_container_dominant_z_shape.h"
 #include "h2sl/feature_container_non_dominant_xyz_shape.h"
 #include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
+#include "h2sl/feature_objects_shape_matches_container_type.h"
 
 #include "h2sl/feature.h"
 
@@ -305,6 +306,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Non_Dominant_XYZ_Shape* >( &other );
     } else if ( dynamic_cast< const Feature_Min_X_Container_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Min_X_Container_Abstract_Container_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other );
     } else {
       assert( false );
     } 
