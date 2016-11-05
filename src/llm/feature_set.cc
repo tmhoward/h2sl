@@ -100,6 +100,11 @@
 #include "h2sl/feature_min_distance_container.h"
 #include "h2sl/feature_min_distance_abstract_container.h"
 #include "h2sl/feature_min_abs_y_abstract_container.h"
+#include "h2sl/feature_container_dominant_x_shape.h"
+#include "h2sl/feature_container_dominant_y_shape.h"
+#include "h2sl/feature_container_dominant_z_shape.h"
+#include "h2sl/feature_container_non_dominant_xyz_shape.h"
+
 
 using namespace std;
 using namespace h2sl;

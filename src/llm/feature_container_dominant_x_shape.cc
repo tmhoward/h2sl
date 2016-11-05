@@ -186,6 +186,34 @@ value( const unsigned int& cv,
   return false;
 }
 
+
+/** 
+ * imports the Feature_Container_Spatial_Concept class from an XML file
+ */
+void
+Feature_Container_Dominant_X_Shape::
+from_xml( const string& filename ){
+  xmlDoc * doc = NULL;
+  xmlNodePtr root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      xmlNodePtr l1 = NULL;
+      for( l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_container_dominant_x_shape" ) ) == 0 ){
+            from_xml( l1 );
+          }
+        }
+      }
+      xmlFreeDoc( doc );
+    }
+  }
+  return;
+}
+
+
 /** 
  * imports the Feature_Container_Dominant_X_Shape class from an XML node pointer
  */

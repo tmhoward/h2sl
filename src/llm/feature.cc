@@ -107,6 +107,11 @@
 #include "h2sl/feature_min_distance_container.h"
 #include "h2sl/feature_min_distance_abstract_container.h"
 #include "h2sl/feature_min_abs_y_abstract_container.h"
+#include "h2sl/feature_container_dominant_x_shape.h"
+#include "h2sl/feature_container_dominant_y_shape.h"
+#include "h2sl/feature_container_dominant_z_shape.h"
+#include "h2sl/feature_container_non_dominant_xyz_shape.h"
+
 
 #include "h2sl/feature.h"
 
@@ -290,6 +295,14 @@ namespace h2sl {
         out << *static_cast< const Feature_Min_Distance_Abstract_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Min_Abs_Y_Abstract_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Min_Abs_Y_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Dominant_X_Shape* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Dominant_X_Shape* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Dominant_Y_Shape* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Dominant_Y_Shape* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Dominant_Z_Shape* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Dominant_Z_Shape* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Non_Dominant_XYZ_Shape* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Non_Dominant_XYZ_Shape* >( &other );
     } else {
       assert( false );
     } 

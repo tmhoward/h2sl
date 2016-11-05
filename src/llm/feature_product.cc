@@ -108,6 +108,10 @@
 #include "h2sl/feature_min_distance_container.h"
 #include "h2sl/feature_min_distance_abstract_container.h"
 #include "h2sl/feature_min_abs_y_abstract_container.h"
+#include "h2sl/feature_container_dominant_x_shape.h"
+#include "h2sl/feature_container_dominant_y_shape.h"
+#include "h2sl/feature_container_dominant_z_shape.h"
+#include "h2sl/feature_container_non_dominant_xyz_shape.h"
 
 using namespace std;
 using namespace h2sl;
@@ -523,6 +527,18 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_abs_y_abstract_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Min_Abs_Y_Abstract_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_dominant_x_shape" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Dominant_X_Shape() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_dominant_y_shape" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Dominant_Y_Shape() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_dominant_z_shape" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Dominant_Z_Shape() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_non_dominant_xyz_shape" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Non_Dominant_XYZ_Shape() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
@@ -539,6 +555,7 @@ from_xml( xmlNodePtr root ){
   }
   return;
 }
+
 
 unsigned int
 Feature_Product::

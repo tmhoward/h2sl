@@ -185,6 +185,34 @@ value( const unsigned int& cv,
   return false;
 }
 
+
+/** 
+ * imports the Feature Container Dominant Z Shape class from an XML file
+ */
+void
+Feature_Container_Dominant_Z_Shape::
+from_xml( const string& filename ){
+  xmlDoc * doc = NULL;
+  xmlNodePtr root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      xmlNodePtr l1 = NULL;
+      for( l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_container_dominant_z_shape" ) ) == 0 ){
+            from_xml( l1 );
+          }
+        }
+      }
+      xmlFreeDoc( doc );
+    }
+  }
+  return;
+}
+
+
 /** 
  * imports the Feature_Container_Dominant_Z_Shape class from an XML node pointer
  */

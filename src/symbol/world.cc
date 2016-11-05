@@ -240,12 +240,11 @@ from_xml( xmlNodePtr root ){
  * Function for converting the object names from the simulator
  * to the object names in the data set. 
  * Commenting this out right now as the object types are not hard-coded now.
- * ToDo. 
+ * This is specific to the ealier adcg data set.
  */
 void
 World::
 convert_models( xmlNodePtr root ){
-  /*
   if( root->type == XML_ELEMENT_NODE ){
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
@@ -253,8 +252,8 @@ convert_models( xmlNodePtr root ){
           for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
             if( l2->type == XML_ELEMENT_NODE ){
               if( xmlStrcmp( l2->name, ( const xmlChar* )( "body" ) ) == 0 ){
-                _nsf_nri_mvli_objects.push_back( new Object() );
-                Object * object = _nsf_nri_mvli_objects.back();
+                _objects.push_back( new Object() );
+                Object * object = _objects.back();
                 // modify object to match information contained in body xmlNode
 
                 // get body->id and set it to object->name()
@@ -269,15 +268,15 @@ convert_models( xmlNodePtr root ){
                 //assign object->type() from object->name()
                 if( !object->name().empty() ){
                   if( object->name().find( "baxter-left_hand" ) != std::string::npos ){
-                    object->type() = Object_Type::TYPE_ROBOT;
+                    object->type() = std::string( "robot" );
                   } else if( object->name().find( "baxter-right_hand" ) != std::string::npos ){
-                    object->type() = Object_Type::TYPE_ROBOT;
+                    object->type() = std::string( "robot" );
                   } else if( object->name().find( "cube-cube-base" ) != std::string::npos ){
-                    object->type() = Object_Type::TYPE_BLOCK;
+                    object->type() = std::string( "block" );
                   } else if( object->name().find( "table-table-table" ) != std::string::npos ){
-                    object->type() = Object_Type::TYPE_TABLE;
+                    object->type() = std::string( "table" );
                   } else{
-                    object->type() = Object_Type::TYPE_UNKNOWN;
+                    object->type() = std::string( "na" );
                   }
                 }
 
@@ -286,7 +285,7 @@ convert_models( xmlNodePtr root ){
                 if( tmp != NULL ){
                   string xyz_string = ( char* )( tmp );
                   string tmp_string = xyz_string.c_str();
-                  for( int i = 0; i < tmp_string.length(); ++i ){
+                  for( unsigned int i = 0; i < tmp_string.length(); ++i ){
                     if( tmp_string[ i ] == char( 32 ) ){
                       tmp_string[ i ] = char( 44 );
                     }
@@ -305,14 +304,16 @@ convert_models( xmlNodePtr root ){
                   string tmp_string = rpy_string.c_str();
                   vector< string > data_strings;
                   boost::split( data_strings, tmp_string, boost::is_any_of( " " ) );
-                  object->transform().orientation().from_rpy( strtof( data_strings[ 0 ].c_str(), NULL ), strtof( data_strings[ 1 ].c_str(), NULL ), strtof( data_strings[ 2 ].c_str(), NULL ) ) ;
+                  object->transform().orientation().from_rpy( strtof( data_strings[ 0 ].c_str(), NULL ), 
+                                                              strtof( data_strings[ 1 ].c_str(), NULL ), 
+                                                              strtof( data_strings[ 2 ].c_str(), NULL ) ) ;
                   xmlFree( tmp );
                   rpy_string.clear();
                   tmp_string.clear();
                 }
 
                 //get object color info
-                //to do
+                //ToDo.
               }
             }
           }
@@ -320,9 +321,8 @@ convert_models( xmlNodePtr root ){
       }
     }
   }
-*/
   // Sort the object collections.
-  //sort_object_collections();
+  sort_object_collections();
   return;
 }
 

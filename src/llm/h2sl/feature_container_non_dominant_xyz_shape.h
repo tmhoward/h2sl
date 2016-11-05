@@ -3,7 +3,7 @@
  * 
  * @brief
  * 
- * Class used to describe the feature container_dominant_y_shape
+ * Class used to describe the feature non dominant xyz shape 
  */
 
 #ifndef H2SL_FEATURE_CONTAINER_NON_DOMINANT_XYZ_SHAPE_H
