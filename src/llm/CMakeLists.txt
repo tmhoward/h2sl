@@ -80,6 +80,10 @@ set(HDRS
     h2sl/feature_max_distance_object_within.h
     h2sl/feature_min_distance_object_within.h
     h2sl/feature_min_center_distance_object.h
+    h2sl/feature_container_dominant_y_shape.h
+    h2sl/feature_container_dominant_x_shape.h
+    h2sl/feature_container_dominant_z_shape.h
+    h2sl/feature_container_non_dominant_xyz_shape.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -150,6 +154,10 @@ set(SRCS
     feature_max_distance_object_within.cc
     feature_min_distance_object_within.cc
     feature_min_center_distance_object.cc
+    feature_container_dominant_y_shape.cc
+    feature_container_dominant_x_shape.cc
+    feature_container_dominant_z_shape.cc
+    feature_container_non_dominant_xyz_shape.cc
     llm.cc)
 
 # BINARY SOURCE FILES
