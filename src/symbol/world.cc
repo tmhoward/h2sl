@@ -689,18 +689,19 @@ max_center_distance_sort_objects( vector< Object* >& objects ){
 void 
 World::
 initialise_numeric_map( void ) {
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "one",1 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "two",2 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "three",3 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "four",4 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "five",5 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "six",6 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "seven",7 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "eight",8 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "nine",9 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "ten",10 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "eleven",11 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "twelve",12 )  );
+// Values are used as indices. Hence subtracting one.
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "one",0 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "two",1 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "three",2 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "four",3 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "five",4 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "six",5 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "seven",6 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "eight",7 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "nine",8 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "ten",9 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "eleven",10 )  );
+  _numeric_map.insert( std::pair< std::string, unsigned int > ( "twelve",11 )  );
 }
 
 /*
@@ -709,11 +710,12 @@ initialise_numeric_map( void ) {
 void
 World::
 initialise_index_map( void ) {
-    _index_map.insert( std::pair< std::string, unsigned int > ( "first",1 )  );
-    _index_map.insert( std::pair< std::string, unsigned int > ( "second",2 )  );
-    _index_map.insert( std::pair< std::string, unsigned int > ( "third",3 )  );
-    _index_map.insert( std::pair< std::string, unsigned int > ( "fourth",4 )  );
-    _index_map.insert( std::pair< std::string, unsigned int > ( "fifth",5 )  );
+// Values are used as indices. Hence subtracting one.
+    _index_map.insert( std::pair< std::string, unsigned int > ( "first",0 )  );
+    _index_map.insert( std::pair< std::string, unsigned int > ( "second",1 )  );
+    _index_map.insert( std::pair< std::string, unsigned int > ( "third",2 )  );
+    _index_map.insert( std::pair< std::string, unsigned int > ( "fourth",3 )  );
+    _index_map.insert( std::pair< std::string, unsigned int > ( "fifth",4 )  );
 }
 
 

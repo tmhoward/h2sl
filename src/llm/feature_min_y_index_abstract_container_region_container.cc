@@ -75,9 +75,9 @@ value( const unsigned int& cv,
 bool
 Feature_Min_Y_Index_Abstract_Container_Region_Container::
 value( const unsigned int& cv,
-        const h2sl::Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-        const h2sl::Phrase* phrase,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
         const World* world,
         const Grounding* context ) {
   Abstract_Container* abstract_container_child = NULL;
@@ -99,17 +99,21 @@ value( const unsigned int& cv,
       if( region_container_child != NULL ){
         if( region_container_child->relation_type() == _relation_type ){
           if( object_grounding != NULL ){
+
             map< string, vector< Object* > >::const_iterator it;
-            it = world->min_y_sorted_objects().find( abstract_container_child->index() );
+            it = world->min_y_sorted_objects().find( abstract_container_child->type() );
+
             if ( it != world->min_y_sorted_objects().end() ) {
-              if( abstract_container_child->index() < it->second.size() ){
-                if( *object_grounding == *world->index_map()[ abstract_container_child->index() ] ){
+              unsigned int index_val = world->index_map()[ abstract_container_child->index() ]; 
+              if( index_val < it->second.size() ){
+                if( *object_grounding == *it->second[ index_val ] ){
                   return !_invert;
                 } else {
                   return _invert;
                 }
               }
             }
+
           }
         }
       }

@@ -68,10 +68,6 @@ operator=( const Feature_Container_Dominant_X_Shape& other ){
 /**
  * Helper function for min_y_sorting 
  */
-//bool
-//min_y_sort_container_spatial_concept( Object* a, Object* b ){
-//  return a->transform().position().y() < b->transform().position().y();
-//}
 bool
 min_x_sort_container_spatial_concept( Grounding* a, Grounding* b ){
 

@@ -17,9 +17,14 @@ using namespace std;
 using namespace h2sl;
 
 bool 
-min_distance_sort_container( Object* a,
-        Object* b ){
-  return ( a->transform().position().norm() < b->transform().position().norm() );
+min_distance_sort_container( Grounding* a, Grounding* b ){
+ if ((dynamic_cast< const Object* >(a) != NULL) && (dynamic_cast< const Object* >(b) != NULL)) {
+   return ( ((dynamic_cast< const Object* >(a))->transform().position().norm()) <
+          ((dynamic_cast< const Object* >(b))->transform().position().norm()) );
+  } else {
+    cout << "Cannot cast container entity into Object" << endl;
+    return false;
+  }
 }
 
 /**
@@ -80,8 +85,8 @@ bool
 Feature_Min_Distance_Container::
 value( const unsigned int& cv,
         const h2sl::Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-        const h2sl::Phrase* phrase,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
         const World* world,
         const Grounding* context ) {
   Container* container_child = NULL;
@@ -98,17 +103,15 @@ value( const unsigned int& cv,
     }
   } 
  
-  if( container_child != NULL ){
-    if( spatial_relation_child != NULL ){
-      if( spatial_relation_child->relation_type() == _relation_type ){
-        if( object_grounding != NULL ){
-          if( !container_child->container().empty() ){
-            //vector< Object* > objects = container_child->container();
-            //sort( objects.begin(), objects.end(), min_distance_sort_container );
-            map< string, vector< Object* > >::const_iterator it;
-            it  = world->min_distance_sort_objects().find( container_child->container() );
-            if (it != world->min_distance_sort_objects().end() ) {
-              if( *object_grounding == *(it->second[ 0 ]) ){
+  if (container_child != NULL) {
+    if (spatial_relation_child != NULL ) {
+      if (spatial_relation_child->relation_type() == _relation_type ) {
+        if (object_grounding != NULL ){
+          if (dynamic_cast< const Object* >(container_child->container().front()) != NULL) {
+            if (!container_child->container().empty()) {
+              vector< Grounding* > container_child_objects = container_child->container();
+              sort( container_child_objects.begin(), container_child_objects.end(), min_distance_sort_container );
+              if( *object_grounding == *dynamic_cast< const Object* >(container_child_objects.front()) ){
                 return !_invert;
               } else {
                 return _invert;

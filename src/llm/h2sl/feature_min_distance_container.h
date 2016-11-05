@@ -25,8 +25,17 @@ namespace h2sl {
     virtual ~Feature_Min_Distance_Container();
     Feature_Min_Distance_Container& operator=( const Feature_Min_Distance_Container& other );
  
-    virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
-    virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world, const Grounding* context );
+    virtual bool value( const unsigned int& cv, 
+                        const Grounding* grounding, 
+                        const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, 
+                        const h2sl::Phrase* phrase, 
+                        const World* world );
+    virtual bool value( const unsigned int& cv, 
+                        const Grounding* grounding, 
+                        const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, 
+                        const Phrase* phrase, 
+                        const World* world, 
+                        const Grounding* context );
     
     virtual void from_xml( const std::string& file );
     virtual void from_xml( xmlNodePtr root );
@@ -36,7 +45,7 @@ namespace h2sl {
     std::string& relation_type( void );
     const std::string& relation_type( void )const;
 
-    virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
+    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
   protected:
     std::string _relation_type;
