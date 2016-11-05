@@ -74,7 +74,7 @@ set(HDRS
     h2sl/feature_max_x_object.h
     h2sl/feature_max_y_object.h
     h2sl/feature_min_y_object.h
-    #h2sl/feature_max_x_abstract_container.h
+    h2sl/feature_max_x_abstract_container.h
     h2sl/feature_min_distance_object.h
     h2sl/feature_max_distance_object.h
     h2sl/feature_max_distance_object_within.h
@@ -84,6 +84,13 @@ set(HDRS
     h2sl/feature_container_dominant_x_shape.h
     h2sl/feature_container_dominant_z_shape.h
     h2sl/feature_container_non_dominant_xyz_shape.h
+    h2sl/feature_max_y_abstract_container.h
+    #h2sl/feature_min_y_index_abstract_container_region_container.h
+    h2sl/feature_min_x_abstract_container.h
+    h2sl/feature_min_y_abstract_container.h
+    #h2sl/feature_min_distance_container.h
+    h2sl/feature_min_distance_abstract_container.h
+    h2sl/feature_min_abs_y_abstract_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -148,7 +155,7 @@ set(SRCS
     feature_max_x_object.cc
     feature_max_y_object.cc
     feature_min_y_object.cc
-    #feature_max_x_abstract_container.cc
+    feature_max_x_abstract_container.cc
     feature_min_distance_object.cc
     feature_max_distance_object.cc
     feature_max_distance_object_within.cc
@@ -158,6 +165,13 @@ set(SRCS
     feature_container_dominant_x_shape.cc
     feature_container_dominant_z_shape.cc
     feature_container_non_dominant_xyz_shape.cc
+    feature_max_y_abstract_container.cc
+    #feature_min_y_index_abstract_container_region_container.cc
+    feature_min_x_abstract_container.cc
+    feature_min_y_abstract_container.cc
+    #feature_min_distance_container.cc
+    feature_min_distance_abstract_container.cc
+    feature_min_abs_y_abstract_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES

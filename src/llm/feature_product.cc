@@ -101,6 +101,13 @@
 #include "h2sl/feature_max_distance_object_within.h"
 #include "h2sl/feature_min_distance_object_within.h"
 #include "h2sl/feature_min_center_distance_object.h"
+#include "h2sl/feature_max_y_abstract_container.h"
+#include "h2sl/feature_min_y_index_abstract_container_region_container.h"
+#include "h2sl/feature_min_x_abstract_container.h"
+#include "h2sl/feature_min_y_abstract_container.h"
+#include "h2sl/feature_min_distance_container.h"
+#include "h2sl/feature_min_distance_abstract_container.h"
+#include "h2sl/feature_min_abs_y_abstract_container.h"
 
 using namespace std;
 using namespace h2sl;
@@ -477,9 +484,9 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_y_object" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Min_Y_Object() );
                   _feature_groups.back().back()->from_xml( l2 );
-              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_x_abstract_container" ) ) == 0 ){
-              //    _feature_groups.back().push_back( new Feature_Max_X_Abstract_Container() );
-              //    _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_x_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_X_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_distance_object" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Min_Distance_Object() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -495,7 +502,28 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_center_distance_object" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Min_Center_Distance_Object() );
                   _feature_groups.back().back()->from_xml( l2 );
-              }  else {
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_y_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_Y_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_y_index_abstract_container_region_container" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Min_Y_Index_Abstract_Container_Region_Container() );
+              //    _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_X_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_y_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Y_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_distance_container" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Min_Distance_Container() );
+              //    _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_distance_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Distance_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_abs_y_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Abs_Y_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
               } 

@@ -1,5 +1,5 @@
 /**
- * @file feature_max_x_abstract_container.cc
+ * @file feature_min_abs_y_abstract_container.cc
  *
  * @brief
  *
@@ -11,45 +11,45 @@
 
 #include "h2sl/world.h"
 #include "h2sl/spatial_relation.h"
-#include "h2sl/feature_max_x_abstract_container.h"
+#include "h2sl/feature_min_abs_y_abstract_container.h"
 #include "h2sl/abstract_container.h"
 
 using namespace std;
 using namespace h2sl;
 
 /**
- * Feature_Max_X_Abstract_Container class constructor
+ * Feature_Min_Abs_Y_Abstract_Container class constructor
  */
-Feature_Max_X_Abstract_Container::
-Feature_Max_X_Abstract_Container( const bool& invert,
-                            const std::string& relation_type ) : Feature( invert ),
-                                                               _relation_type( relation_type ) {
+Feature_Min_Abs_Y_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container( const bool& invert,
+                          const std::string& relation_type ) : Feature( invert ),
+                                                                          _relation_type( relation_type ) {
 
 }
 
 /**
- * Feature_Max_X_Abstract_Container class copy constructor
+ * Feature_Min_Abs_Y_Abstract_Container class copy constructor
  */
-Feature_Max_X_Abstract_Container::
-Feature_Max_X_Abstract_Container( const Feature_Max_X_Abstract_Container& other ) : Feature( other ),
+Feature_Min_Abs_Y_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container( const Feature_Min_Abs_Y_Abstract_Container& other ) : Feature( other ),
                                                               _relation_type( other._relation_type ) {
 
 }
 
 /**
- * Feature_Max_X_Abstract_Container class destructor
+ * Feature_Min_Abs_Y_Abstract_Container class destructor
  */
-Feature_Max_X_Abstract_Container::
-~Feature_Max_X_Abstract_Container() {
+Feature_Min_Abs_Y_Abstract_Container::
+~Feature_Min_Abs_Y_Abstract_Container() {
 
 }
 
 /** 
- * Feature_Max_X_Abstract_Container class assignment operator
+ * Feature_Min_Abs_Y_Abstract_Container class assignment operator
  */
-Feature_Max_X_Abstract_Container&
-Feature_Max_X_Abstract_Container::
-operator=( const Feature_Max_X_Abstract_Container& other ){
+Feature_Min_Abs_Y_Abstract_Container&
+Feature_Min_Abs_Y_Abstract_Container::
+operator=( const Feature_Min_Abs_Y_Abstract_Container& other ){
   _invert = other._invert;
   _relation_type = other._relation_type;
   return (*this);
@@ -59,7 +59,7 @@ operator=( const Feature_Max_X_Abstract_Container& other ){
  * returns the value of the feature
  */
 bool
-Feature_Max_X_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container::
 value( const unsigned int& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -68,30 +68,29 @@ value( const unsigned int& cv,
     return value( cv, grounding, children, phrase, world, NULL );
 }
 
-
 /**
  * returns the value of the fature
  */
 bool
-Feature_Max_X_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container::
 value( const unsigned int& cv,
         const h2sl::Grounding* grounding,
         const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
         const h2sl::Phrase* phrase,
         const World* world,
         const Grounding* context ) {
-  const Object* object_grounding = dynamic_cast< const Object* >( grounding );
-
   Abstract_Container* abstract_container_child = NULL;
   Spatial_Relation* spatial_relation_child = NULL;
+  const Object* object_grounding = dynamic_cast< const Object* >( grounding );
+
   for( unsigned int i = 0; i < children.size(); i++ ){
     for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
       if( dynamic_cast< Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
         abstract_container_child = static_cast< Abstract_Container* >( children[ i ].second[ j ] );
       } else if ( dynamic_cast< Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
         spatial_relation_child = static_cast< Spatial_Relation* >( children[ i ].second[ j ] );
-      }
-    } 
+      } 
+    }
   } 
  
   if( abstract_container_child != NULL ){
@@ -99,8 +98,8 @@ value( const unsigned int& cv,
       if( spatial_relation_child->relation_type() == _relation_type ){
         if( object_grounding != NULL ){
           map< string, vector< Object* > >::const_iterator it;
-          it  = world->max_x_sorted_objects().find( abstract_container_child->type() );
-          if ( it != world->max_x_sorted_objects().end() ) { 
+          it  = world->min_abs_y_sorted_objects().find( abstract_container_child->type() );
+          if (it != world->min_abs_y_sorted_objects().end() ) {
             for( unsigned int i = 0; i < it->second.size(); i++ ){
               if( *object_grounding == *(it->second[ i ]) ){
                 if( i < world->numeric_map()[ abstract_container_child->number() ] ){
@@ -108,21 +107,21 @@ value( const unsigned int& cv,
                 } else {
                   return _invert;
                 }
-              } 
+              }
             }
-          } 
-       }
-     }
-   }
- }
+          }
+        }
+      }
+    }
+  }
   return false;
 }
 
 /** 
- * imports the Feature_Max_X_Abstract_Container class from an XML file
+ * imports the Feature_Min_Abs_Y_Abstract_Container class from an XML file
  */
 void
-Feature_Max_X_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container::
 from_xml( const string& filename ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
@@ -133,7 +132,7 @@ from_xml( const string& filename ){
       xmlNodePtr l1 = NULL;
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_max_x_abstract_container" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "feature_min_abs_y_abstract_container" ) ) == 0 ){
             from_xml( l1 );
           }
         }
@@ -145,10 +144,10 @@ from_xml( const string& filename ){
 }
 
 /** 
- * imports the Feature_Max_X_Abstract_Container class from an XML node pointer
+ * imports the Feature_Min_Abs_Y_Abstract_Container class from an XML node pointer
  */
 void
-Feature_Max_X_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container::
 from_xml( xmlNodePtr root ){
   _invert = false;
   _relation_type = "na";
@@ -166,14 +165,13 @@ from_xml( xmlNodePtr root ){
       xmlFree( tmp );
     }
   }
-  return;
 }
 
 /**
- * exports the Feature_Max_X_Abstract_Container class to an XML file
+ * exports the Feature_Min_Abs_Y_Abstract_Container class to an XML file
  */
 void
-Feature_Max_X_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -185,13 +183,13 @@ to_xml( const string& filename )const{
 }
 
 /**
- * exports the Feature_Max_X_Abstract_Container class to an XML node pointer
+ * exports the Feature_Min_Abs_Y_Abstract_Container class to an XML node pointer
  */
 void
-Feature_Max_X_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_max_x_abstract_container" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_min_abs_y_abstract_container" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
@@ -201,26 +199,26 @@ to_xml( xmlDocPtr doc,
 }
 
 std::string&
-Feature_Max_X_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container::
 relation_type( void ){
   return _relation_type;
 }
 
 const std::string&
-Feature_Max_X_Abstract_Container::
+Feature_Min_Abs_Y_Abstract_Container::
 relation_type( void )const{
   return _relation_type;
 }
 
 namespace h2sl {
   /** 
-   * Feature_Max_X_Abstract_Container class ostream operator
+   * Feature_Min_Abs_Y_Abstract_Container class ostream operator
    */
   ostream&
   operator<<( ostream& out,
-              const Feature_Max_X_Abstract_Container& other ){
-    out << "class:\"Feature_Max_X_Abstract_Container\" ";
-    out << "relation_type:\"" << other.relation_type() << "\"";
+              const Feature_Min_Abs_Y_Abstract_Container& other ){
+    out << "class:\"Feature_Min_Abs_Y_Abstract_Container\" ";
+    out << "relation_type:\"" << other.relation_type() << "\" ";
     return out;
   }
 }
