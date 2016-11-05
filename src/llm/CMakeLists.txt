@@ -95,6 +95,7 @@ set(HDRS
     h2sl/feature_container_dominant_y_shape.h
     h2sl/feature_container_dominant_z_shape.h
     h2sl/feature_container_non_dominant_xyz_shape.h
+    h2sl/feature_min_x_container_abstract_container_spatial_relation.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -180,6 +181,7 @@ set(SRCS
     feature_container_dominant_y_shape.cc
     feature_container_dominant_z_shape.cc
     feature_container_non_dominant_xyz_shape.cc
+    feature_min_x_container_abstract_container_spatial_relation.cc
     llm.cc)
 
 # BINARY SOURCE FILES

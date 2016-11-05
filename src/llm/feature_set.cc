@@ -104,7 +104,7 @@
 #include "h2sl/feature_container_dominant_y_shape.h"
 #include "h2sl/feature_container_dominant_z_shape.h"
 #include "h2sl/feature_container_non_dominant_xyz_shape.h"
-
+#include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
 
 using namespace std;
 using namespace h2sl;
