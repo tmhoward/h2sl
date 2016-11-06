@@ -563,7 +563,7 @@ _fill_factors( Factor_Set* node,
 /*
  * scrape examples function.
  */ 
-
+/*
 void
 ADCG_Base::
 scrape_examples( const string& filename,
@@ -605,7 +605,7 @@ scrape_examples( const string& filename,
   }
   return;
 }
-
+*/
 
 namespace h2sl {
   ostream&
