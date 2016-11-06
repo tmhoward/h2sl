@@ -7,7 +7,8 @@ set(GGOS
 # HEADER FILES
 set(HDRS
     h2sl/factor_set.h
-    h2sl/dcg.h)
+    h2sl/dcg.h
+    h2sl/adcg_base.h)
 
 # QT HEADER FILES
 set(QT_HDRS )
@@ -15,7 +16,8 @@ set(QT_HDRS )
 # SOURCE FILES
 set(SRCS
     factor_set.cc
-    dcg.cc)
+    dcg.cc
+    adcg_base.cc)
 
 # BINARY SOURCE FILES
 set(BIN_SRCS

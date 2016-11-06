@@ -35,18 +35,13 @@
 #include <fstream>
 #include <utility>
 
-//#include "h2sl/abstract_container.h"
 #include "h2sl/grounding_set.h"
+#include "h2sl/object.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
-#include "h2sl/container.h"
-#include "h2sl/index.h"
-#include "h2sl/number.h"
-#include "h2sl/object_color.h"
-#include "h2sl/object_property.h"
-#include "h2sl/object_type.h"
-#include "h2sl/spatial_relation.h"
-//#include "h2sl/region_container.h"
+#include "h2sl/world.h"
+
+
 #include "h2sl/dcg.h"
 
 using namespace std;
@@ -127,94 +122,7 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "inside" );
   constraints.push_back( "outside" );
     
-  vector< std::string > index;
-  index.push_back( "first" );
-  index.push_back( "second" );
-  index.push_back( "third" );
-  index.push_back( "fourth" );
-  index.push_back( "fifth" );
-  index.push_back( "na" );
-    
-  vector< std::string > number;
-  number.push_back( "na" );
-  number.push_back( "one" );
-  number.push_back( "two" );
-  number.push_back( "three" );
-  number.push_back( "four" );
-  number.push_back( "five" );
-  number.push_back( "six" );
-  number.push_back( "seven" );
-  number.push_back( "eight" );
-  number.push_back( "nine" );
-  number.push_back( "ten" );
-  number.push_back( "eleven" );
-  number.push_back( "twelve" );
-    
-  vector< std::string > object_color;
-  object_color.push_back( "na" );
-  object_color.push_back( "red" );
-  object_color.push_back( "blue" );
-  object_color.push_back( "yellow" );
-
-  vector< std::string > object_type;
-  object_type.push_back( "na" );
-  object_type.push_back( "block" );
-  object_type.push_back( "table" );
-  object_type.push_back( "robot" );
-  //object_type.push_back( "ycb-can" );
-  //object_type.push_back( "ycb-box" );
-  //object_type.push_back( "ycb-fruit" );
- 
-  vector< std::string > spatial_relation;
-  spatial_relation.push_back( "na" );
-  spatial_relation.push_back( "front" );
-  spatial_relation.push_back( "back" );
-  spatial_relation.push_back( "left" );
-  spatial_relation.push_back( "center" );
-  spatial_relation.push_back( "right" );
-  spatial_relation.push_back( "side" );
-  spatial_relation.push_back( "near" );
-  spatial_relation.push_back( "far" );
-    
-  /*vector< std::string > object;
-  constraints.push_back( "na" );
-  constraints.push_back( "block" );
-  constraints.push_back( "table" );
-  constraints.push_back( "robot" );*/
-  
-    
-  /*Abstract symbols need to be initialized seperately in inference */
-  vector< std::string > container;
-  container.push_back( "group" );
-  container.push_back( "row" );
-  container.push_back( "column" );
-  container.push_back( "tower" );
-  /*constraints.push_back( "na" ); let's discuss whether we need "na" */
-    
-  /*vector< std::string > action;
-  constraints.push_back( "na" );
-  constraints.push_back( "pick" );
-  constraints.push_back( "place" );
-  constraints.push_back( "navigate" );
-    
-  vector< std::string > action_param;
-  constraints.push_back( "na" );
-  constraints.push_back( "pick_object" );
-  constraints.push_back( "place_object" );
-  constraints.push_back( "hand" );    
-  
-  vector< std::string > spatial_relation;
-  region_abstract_container.push_back( "na" );
-  region_abstract_container.push_back( "front" );
-  region_abstract_container.push_back( "back" );
-  region_abstract_container.push_back( "left" );
-  region_abstract_container.push_back( "center" );
-  region_abstract_container.push_back( "right" );
-  region_abstract_container.push_back( "side" );
-  region_abstract_container.push_back( "near" );
-  region_abstract_container.push_back( "far" );
-  */
-
+   
   // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( "na", *world->objects()[ i ] ) ) );
@@ -244,42 +152,6 @@ fill_search_spaces( const World* world ){
       }
     }
   }
-    
-  // add the ? groundings; exhaustively fill the index symbol space
-  for( unsigned int i = 0; i < index.size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Index( index [ i ] ) ) );
-  }
-    
-  
-  // add the ? groundings; exhaustively fill the number symbol space
-  for( unsigned int i = 0; i < number.size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Number( number [ i ] ) ) );
-  }
-
-  // add the ? groundings; exhaustively fill the object color symbol space
-  for( unsigned int i = 0; i < object_color.size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Color( object_color [ i ] ) ) );
-  }
-    
-  // add the ? groundings; exhaustively fill the spatial relation symbol space
-  for( unsigned int i = 0; i < spatial_relation.size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Spatial_Relation( spatial_relation [ i ] ) ) );
-  }
-    
- /* // add the ? groundings; exhaustively fill the object type symbol space
-  for( unsigned int i = 0; i < object.size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Type( object_type [ i ] ) ) );
-  }/*
-    
-  // add the ? groundings; exhaustively fill the container symbol space
-  /*
-   This symbol space is not concrete so it needs to be initialized seperately in inference.
-   Comment: if the for loop is uncommented, the code does not compile.
-   
-   for( unsigned int i = 0; i < container.size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( container [ i ] ) ) );
-  }*/
-    
     
   return;
 }
