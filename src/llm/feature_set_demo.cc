@@ -108,6 +108,7 @@
 #include "h2sl/feature_objects_shape_matches_container_type.h"
 #include "h2sl/feature_min_y_container_abstract_container.h"
 #include "h2sl/feature_max_y_container_abstract_container.h"
+#include "h2sl/feature_min_abs_y_container_abstract_container.h"
 
 #include "feature_set_demo_cmdline.h"
 

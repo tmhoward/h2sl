@@ -99,6 +99,7 @@ set(HDRS
     h2sl/feature_objects_shape_matches_container_type.h
     h2sl/feature_min_y_container_abstract_container.h
     h2sl/feature_max_y_container_abstract_container.h
+    h2sl/feature_min_abs_y_container_abstract_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -188,6 +189,7 @@ set(SRCS
     feature_objects_shape_matches_container_type.cc
     feature_min_y_container_abstract_container.cc
     feature_max_y_container_abstract_container.cc
+    feature_min_abs_y_container_abstract_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES

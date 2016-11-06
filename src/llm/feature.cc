@@ -115,6 +115,7 @@
 #include "h2sl/feature_objects_shape_matches_container_type.h"
 #include "h2sl/feature_min_y_container_abstract_container.h"
 #include "h2sl/feature_max_y_container_abstract_container.h"
+#include "h2sl/feature_min_abs_y_container_abstract_container.h"
 
 #include "h2sl/feature.h"
 
@@ -314,6 +315,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Min_Y_Container_Abstract_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Max_Y_Container_Abstract_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Max_Y_Container_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Abs_Y_Container_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Abs_Y_Container_Abstract_Container* >( &other );
     } else {
       assert( false );
     } 
