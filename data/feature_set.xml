@@ -280,6 +280,8 @@
         <feature_min_distance_abstract_container invert="0" relation_type="right"/>
         <feature_min_abs_y_abstract_container invert="0" relation_type="front"/>
         <feature_min_abs_y_abstract_container invert="0" relation_type="back"/>
+        <feature_min_y_container_abstract_container invert="0" relation_type="left"/>
+        <feature_min_y_container_abstract_container invert="1" relation_type="left"/>
       </feature_group>
     </feature_product>
   </feature_set>

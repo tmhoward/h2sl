@@ -114,6 +114,7 @@
 #include "h2sl/feature_container_non_dominant_xyz_shape.h"
 #include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
+#include "h2sl/feature_min_y_container_abstract_container.h"
 
 using namespace std;
 using namespace h2sl;
@@ -546,6 +547,9 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_objects_shape_matches_container_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Objects_Shape_Matches_Container_Type() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_y_container_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Y_Container_Abstract_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
