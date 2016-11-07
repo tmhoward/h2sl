@@ -217,9 +217,7 @@ from_xml( xmlNodePtr root ){
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          Object * object = new Object();
-          object->from_xml( l1 );
-          _objects.push_back( object );
+          _objects.push_back( new Object( l1 ) );
         }
       }
     }
