@@ -4,6 +4,8 @@ set(GGOS
     grounding_set_demo.ggo
     object_demo.ggo
     region_demo.ggo
+    region_abstract_container_demo.ggo
+    region_container_demo.ggo
     constraint_demo.ggo
     world_demo.ggo)
 
@@ -54,6 +56,8 @@ set(BIN_SRCS
     grounding_set_demo.cc
     object_demo.cc
     region_demo.cc
+    region_abstract_container_demo.cc
+    region_container_demo.cc
     constraint_demo.cc
     world_demo.cc)
 
