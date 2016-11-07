@@ -207,11 +207,6 @@ from_xml( xmlNodePtr root ){
     _objects[ i ] = NULL;
   }
   _objects.clear();
-  for( unsigned int i = 0; i < _objects.size(); i++ ){
-    delete _objects[ i ];
-    _objects[ i ] = NULL;
-  }
-  _objects.clear();
   if( root->type == XML_ELEMENT_NODE ){
     xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "time" ) );
     if( tmp != NULL ){
