@@ -563,7 +563,6 @@ _fill_factors( Factor_Set* node,
 /*
  * scrape examples function.
  */ 
-/*
 void
 ADCG_Base::
 scrape_examples( const string& filename,
@@ -605,7 +604,78 @@ scrape_examples( const string& filename,
   }
   return;
 }
-*/
+
+/** 
+ * imports the DCG class from an XML file
+ */
+bool
+ADCG_Base::
+from_xml( const string& filename ){
+  xmlDoc * doc = NULL;
+  xmlNodePtr root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      xmlNodePtr l1 = NULL;
+      for( l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "adcg_base" ) ) == 0 ){
+            from_xml( l1 );
+          }
+        }
+      }
+      xmlFreeDoc( doc );
+      return true;
+    } else {
+      xmlFreeDoc( doc );
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
+/** 
+ * imports the class from an XML node pointer
+ */
+bool
+ADCG_Base::
+from_xml( xmlNodePtr root ){
+  if( root->type == XML_ELEMENT_NODE ){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
+ * exports the class to an XML file
+ */
+void
+ADCG_Base::
+to_xml( const string& filename )const{
+  xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+  xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+  xmlDocSetRootElement( doc, root );
+  to_xml( doc, root );
+  xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
+  xmlFreeDoc( doc );
+  return;
+}
+
+/**
+ * exports the DCG class to an XML node pointer
+ */
+void
+ADCG_Base::
+to_xml( xmlDocPtr doc,
+        xmlNodePtr root )const{
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "adcg_base" ), NULL );
+  xmlAddChild( root, node );
+  return;
+}
+
 
 namespace h2sl {
   ostream&

@@ -76,6 +76,11 @@ namespace h2sl {
                                  const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
                                  std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
 
+    virtual bool from_xml( const std::string& file );
+    virtual bool from_xml( xmlNodePtr root );
+    virtual void to_xml( const std::string& file )const;
+    virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
+
   protected:
     virtual void _find_leaf( Factor_Set* node, Factor_Set*& leaf );
     virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );

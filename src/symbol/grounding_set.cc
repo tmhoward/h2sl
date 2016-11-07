@@ -31,15 +31,25 @@
  * The implementation of a class used to describe a set of groundings
  */
 
+#include <assert.h>
+
+#include "h2sl/cv.h"
+
 #include "h2sl/object.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
-#include "h2sl/container.h"
+#include "h2sl/spatial_relation.h"
+#include "h2sl/object_property.h"
+#include "h2sl/object_type.h"
+#include "h2sl/object_color.h"
 #include "h2sl/index.h"
 #include "h2sl/number.h"
-#include "h2sl/object_color.h"
-#include "h2sl/object_type.h"
+#include "h2sl/container.h"
+#include "h2sl/abstract_container.h"
+#include "h2sl/region_abstract_container.h"
+#include "h2sl/region_container.h"
 #include "h2sl/spatial_relation.h"
+//#include "h2sl/action.h"
 
 #include "h2sl/grounding_set.h"
 
@@ -101,6 +111,162 @@ clear( void ){
   _groundings.clear();
   return;
 }
+
+
+unsigned int
+Grounding_Set::
+evaluate_cv( const Grounding* grounding )const{
+  unsigned int cv = CV_UNKNOWN;
+  if( dynamic_cast< const Object* >( grounding ) != NULL ){
+    const Object * object_grounding = static_cast< const Object* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Object* >( _groundings[ i ] ) ){
+        if( *object_grounding == *static_cast< const Object* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Region* >( grounding ) != NULL ){
+    const Region * region_grounding = static_cast< const Region* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Region* >( _groundings[ i ] ) ){
+        if( *region_grounding == *static_cast< const Region* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Constraint* >( grounding ) != NULL ){
+    const Constraint * constraint_grounding = static_cast< const Constraint* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Constraint* >( _groundings[ i ] ) ){
+        if( *constraint_grounding == *static_cast< const Constraint* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Object_Property* >( grounding ) != NULL ){
+    const Object_Property * object_property_grounding = static_cast< const Object_Property* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Object_Property* >( _groundings[ i ] ) ){
+        if( *object_property_grounding == *static_cast< const Object_Property* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Object_Type* >( grounding ) != NULL ){
+    const Object_Type * object_type_grounding = static_cast< const Object_Type* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Object_Type* >( _groundings[ i ] ) ){
+        if( *object_type_grounding == *static_cast< const Object_Type* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Object_Color* >( grounding ) != NULL ){
+    const Object_Color * object_color_grounding = static_cast< const Object_Color* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Object_Color* >( _groundings[ i ] ) ){
+        if( *object_color_grounding == *static_cast< const Object_Color* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Index* >( grounding ) != NULL ){
+    const Index * index_grounding = static_cast< const Index* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Index* >( _groundings[ i ] ) ){
+        if( *index_grounding == *static_cast< const Index* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Number* >( grounding ) != NULL ){
+    const Number * number_grounding = static_cast< const Number* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Number* >( _groundings[ i ] ) ){
+        if( *number_grounding == *static_cast< const Number* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if ( dynamic_cast< const Spatial_Relation* >( grounding ) != NULL ){
+    const Spatial_Relation* spatial_relation_grounding = static_cast< const Spatial_Relation* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Spatial_Relation* >( _groundings[ i ] ) ){
+        if( *spatial_relation_grounding == *static_cast< const Spatial_Relation* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if ( dynamic_cast< const Container* >( grounding ) != NULL ){
+    const Container* container_grounding = static_cast< const Container* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Container* >( _groundings[ i ] ) ){
+        if( *container_grounding == *static_cast< const Container* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if ( dynamic_cast< const Abstract_Container* >( grounding ) != NULL ){
+    const Abstract_Container* abstract_container_grounding = static_cast< const Abstract_Container* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Abstract_Container* >( _groundings[ i ] ) ){
+        if( *abstract_container_grounding == *static_cast< const Abstract_Container* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if ( dynamic_cast< const Region_Abstract_Container* >( grounding ) != NULL ){
+    const Region_Abstract_Container* region_abstract_container_grounding = static_cast< const Region_Abstract_Container* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Region_Abstract_Container* >( _groundings[ i ] ) ){
+        if( *region_abstract_container_grounding == *static_cast< const Region_Abstract_Container* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+ // } else if( dynamic_cast< const Action* >( grounding ) != NULL ){
+    //const Action* action_grounding = static_cast< const Action* >( grounding );
+    //cv = CV_FALSE;
+    //for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      //if( dynamic_cast< const Action* >( _groundings[ i ] ) ){
+       // if( *action_grounding == *static_cast< const Action* >( _groundings[ i ] ) ){
+       //   cv = CV_TRUE;
+       // }
+    //  }
+  //  }
+  } else if( dynamic_cast< const Region_Container* >( grounding ) != NULL ){
+    const Region_Container* region_container_grounding = static_cast< const Region_Container* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Region_Container* >( _groundings[ i ] ) ){
+        if( *region_container_grounding == *static_cast< const Region_Container* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else {
+    cout << "grounding:" << *grounding << endl;
+    assert( false );
+  }
+
+  return cv;
+}
+
+
+
 
 void
 Grounding_Set::
