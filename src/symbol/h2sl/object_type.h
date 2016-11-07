@@ -37,6 +37,8 @@ namespace h2sl {
         
         inline std::string& type( void ){ return get_prop< std::string >( _properties, "object_type" ); };
         inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
+
+        static std::string class_name( void ){ return "object_type"; };
         
     protected:
 
