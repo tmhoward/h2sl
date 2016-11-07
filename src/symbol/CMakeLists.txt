@@ -3,6 +3,9 @@ set(GGOS
     grounding_demo.ggo
     grounding_set_demo.ggo
     object_demo.ggo
+    object_color_demo.ggo
+    object_property_demo.ggo
+    object_type_demo.ggo
     region_demo.ggo
     constraint_demo.ggo
     world_demo.ggo)
@@ -53,6 +56,9 @@ set(BIN_SRCS
     grounding_demo.cc
     grounding_set_demo.cc
     object_demo.cc
+    object_color_demo.cc
+    object_property_demo.cc
+    object_type_demo.cc
     region_demo.cc
     constraint_demo.cc
     world_demo.cc)
