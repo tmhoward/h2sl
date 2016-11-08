@@ -29,4 +29,46 @@
     <object name="object6-cube-cube-base" type="block" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" color="na"/>
     <object name="object3-cube-cube-base" type="block" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" color="na"/>
   </container>
+  <!-- Constraint -->
+  <constraint constraint_type="na">
+    <parent>
+      <region region_type="na">
+        <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </parent>
+    <child>
+      <region region_type="na">
+        <object name="o1" object_type="box" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </child>
+  </constraint>
+  <constraint constraint_type="inside">
+    <parent>
+      <region region_type="na">
+        <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </parent>
+    <child>
+      <region region_type="na">
+        <object name="o1" object_type="box" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </child>
+  </constraint>
+  <!-- Object_Color -->
+  <object_color object_color_type="na"/>
+  <object_color object_color_type="red"/>
+  <object_color object_color_type="blue"/>
+  <object_color object_color_type="yellow"/>
+  <!-- Object_Property -->
+  <object_property object_type="na" spatial_relation_type="na" index_type="na"/>
+  <object_property object_type="block" spatial_relation_type="center" index_type="first"/>
+  <object_property object_type="block" spatial_relation_type="left" index_type="second"/>
+  <object_property object_type="door" spatial_relation_type="right" index_type="third"/>
+  <object_property object_type="door" spatial_relation_type="front" index_type="fourth"/>
+  <object_property object_type="gear" spatial_relation_type="back" index_type="fifth"/>
+  <!-- Object_Type -->
+  <object_type object_type="na"/> 
+  <object_type object_type="block"/> 
+  <object_type object_type="door"/> 
+  <object_type object_type="gear"/> 
 </root>
