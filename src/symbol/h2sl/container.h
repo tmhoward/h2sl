@@ -52,6 +52,8 @@ namespace h2sl {
     inline std::string& type( void ){ return get_prop< std::string >( _properties, "container_type" ); };
     inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "container_type" ); };
 
+    static std::string class_name( void ){ return "container"; };
+
   protected:
     std::vector< Grounding* > _groundings;
       

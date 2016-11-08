@@ -65,6 +65,8 @@ namespace h2sl {
     virtual void from_xml( const std::string& file );
     virtual void from_xml( xmlNodePtr root );
 
+    static std::string class_name( void ){ return "abstract_container"; };
+
   protected:
 
   private:
