@@ -91,6 +91,28 @@
 #include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_abstract_container_object_type.h"
 #include "h2sl/feature_region_abstract_container_number.h"
+#include "h2sl/feature_min_x_object.h"
+#include "h2sl/feature_max_x_object.h"
+#include "h2sl/feature_max_y_object.h"
+#include "h2sl/feature_min_y_object.h"
+#include "h2sl/feature_max_x_abstract_container.h"
+#include "h2sl/feature_min_distance_object.h"
+#include "h2sl/feature_max_distance_object.h"
+#include "h2sl/feature_max_distance_object_within.h"
+#include "h2sl/feature_min_distance_object_within.h"
+#include "h2sl/feature_min_center_distance_object.h"
+#include "h2sl/feature_max_y_abstract_container.h"
+#include "h2sl/feature_min_y_index_abstract_container_region_container.h"
+#include "h2sl/feature_min_x_abstract_container.h"
+#include "h2sl/feature_min_y_abstract_container.h"
+#include "h2sl/feature_min_distance_container.h"
+#include "h2sl/feature_min_distance_abstract_container.h"
+#include "h2sl/feature_min_abs_y_abstract_container.h"
+#include "h2sl/feature_container_dominant_x_shape.h"
+#include "h2sl/feature_container_dominant_y_shape.h"
+#include "h2sl/feature_container_dominant_z_shape.h"
+#include "h2sl/feature_container_non_dominant_xyz_shape.h"
+#include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
 
 using namespace std;
 using namespace h2sl;
@@ -455,6 +477,72 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_number" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Number() );
                   _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_X_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_x_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_X_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_y_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_Y_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_y_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Y_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_x_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_X_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_distance_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Distance_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_distance_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_Distance_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_distance_object_within" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Distance_Object_Within() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_distance_object_within" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_Distance_Object_Within() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_center_distance_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Center_Distance_Object() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_y_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Max_Y_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_y_index_abstract_container_region_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Y_Index_Abstract_Container_Region_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_X_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_y_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Y_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_distance_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Distance_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_distance_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Distance_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_abs_y_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_Abs_Y_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_dominant_x_shape" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Dominant_X_Shape() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_dominant_y_shape" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Dominant_Y_Shape() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_dominant_z_shape" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Dominant_Z_Shape() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_non_dominant_xyz_shape" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Non_Dominant_XYZ_Shape() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_container_abstract_container_spatial_relation" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_X_Container_Abstract_Container_Spatial_Relation() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
@@ -471,6 +559,7 @@ from_xml( xmlNodePtr root ){
   }
   return;
 }
+
 
 unsigned int
 Feature_Product::

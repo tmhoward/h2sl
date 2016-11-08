@@ -1,0 +1,8 @@
+package "object_color_demo"
+version "0.0.1"
+purpose "A program used to demonstrate the h2sl::Object_Color class."
+
+option "input" i "input string" string optional
+option "output" o "output file" string optional
+
+text ""
