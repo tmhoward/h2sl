@@ -82,6 +82,8 @@ endif()
 include(${QT_USE_FILE})
 include_directories(${QT_INCLUDE_DIR})
 
+# search for the GLIB package, exit if not found
+
 # function for installing headers
 function(process_hdrs)
   cmake_parse_arguments(PROCESS_HDRS "" "" "HDRS;QT_HDRS" ${ARGN})
@@ -170,6 +172,7 @@ install(FILES
         ${CMAKE_BINARY_DIR}/Find${PROJECT_NAME}.cmake
         DESTINATION
         ${CMAKE_INSTALL_PREFIX}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/)
+configure_file(${PROJECT_SOURCE_DIR}/cmake/FindGLib.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/FindGLib.cmake @ONLY)
 
 # add the source directories
 foreach(dir ${DIRS})
