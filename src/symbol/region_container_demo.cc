@@ -1,5 +1,5 @@
 /**
- * @file    region_demo.cc
+ * @file    region_container_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,19 +28,19 @@
  *
  * @section DESCRIPTION
  *
- * An Region class demo program
+ * An Region_Container class demo program
  */
 
 #include <iostream>
 #include <cstdlib>
-#include "h2sl/region.h"
-#include "region_demo_cmdline.h"
+#include "h2sl/region_container.h"
+#include "region_container_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
 
 void
-fill_regions( vector< Region* >& regions, const string filename ){
+fill_region_containers( vector< Region_Container* >& region_containers, const string filename ){
   xmlDoc * doc = NULL;
   xmlNode * root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -49,8 +49,8 @@ fill_regions( vector< Region* >& regions, const string filename ){
     if( root->type == XML_ELEMENT_NODE ){
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
-            regions.push_back( new Region( l1 ) );
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "region_container" ) ) == 0 ){
+            region_containers.push_back( new Region_Container( l1 ) );
           }
         }
       }
@@ -62,52 +62,52 @@ fill_regions( vector< Region* >& regions, const string filename ){
 int
 main( int argc,
       char* argv[] ) {
-  cout << "start of Region class demo program" << endl;
+  cout << "start of Region_Container class demo program" << endl;
 
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
     exit(1);
   }
 
-  vector< Region* > regions;
+  vector< Region_Container* > region_containers;
 
   if( args.input_given ){
-    fill_regions( regions, args.input_arg );
+    fill_region_containers( region_containers, args.input_arg );
   }
 
-  if( !regions.empty() ){
-    cout << "Region::class_name(): " << Region::class_name() << endl;
-    cout << "regions.back()->class_name(): " << regions.back()->class_name() << endl;
-    for( unsigned int i = 0; i < regions.size(); i++ ){
-      cout << "regions[ " << i << " ]: " << *regions[ i ] << endl;
+  if( !region_containers.empty() ){
+    cout << "Region_Container::class_name(): " << Region_Container::class_name() << endl;
+    cout << "region_containers.back()->class_name(): " << region_containers.back()->class_name() << endl;
+    for( unsigned int i = 0; i < region_containers.size(); i++ ){
+      cout << "region_containers[ " << i << " ]: " << *region_containers[ i ] << endl;
     }
   } else{
-    cout << "the input did not have examples of region, so we just demo the static functions and ostream operator for the default" << endl;
-    regions.push_back( new Region() );
-    cout << "region:( " << *regions.back() << endl;
-    cout << "region->class_name(): " << regions.back()->class_name() << endl;
-    cout << "Region::class_name(): " << Region::class_name() << endl;
+    cout << "the input did not have examples of region_container, so we just demo the static functions and ostream operator for the default" << endl;
+    region_containers.push_back( new Region_Container() );
+    cout << "region_container:( " << *region_containers.back() << endl;
+    cout << "region_container->class_name(): " << region_containers.back()->class_name() << endl;
+    cout << "Region_Container::class_name(): " << Region_Container::class_name() << endl;
   }
 
   if( args.output_given ){
     xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
     xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
     xmlDocSetRootElement( doc, root );
-    for( unsigned int i = 0; i < regions.size(); i++ ){
-      regions[ i ]->to_xml( doc, root );
+    for( unsigned int i = 0; i < region_containers.size(); i++ ){
+      region_containers[ i ]->to_xml( doc, root );
     }
     xmlSaveFormatFileEnc( args.output_arg, doc, "UTF-8", 1 );
     xmlFreeDoc( doc );
   }
 
   //memory management
-  for( unsigned int i = 0; i < regions.size(); i++ ){
-    if( regions[ i ] != NULL ){
-      delete regions[ i ];
-      regions[ i ] = NULL;
+  for( unsigned int i = 0; i < region_containers.size(); i++ ){
+    if( region_containers[ i ] != NULL ){
+      delete region_containers[ i ];
+      region_containers[ i ] = NULL;
     }
   }
 
-  cout << "end of Region class demo program" << endl;
+  cout << "end of Region_Container class demo program" << endl;
   return 0;
 }
