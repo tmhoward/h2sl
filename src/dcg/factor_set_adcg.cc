@@ -156,7 +156,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         }
       }
   
-
+      // Prob. of individual factors. Context of child groundings.
       for( unsigned int k = 0; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
         double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], 
                                   searchSpace[ j ].second, 
@@ -170,7 +170,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
           solutions_vector.back()[ k * num_solutions + l ].pygx *= value;
         }
       }
-
+      // Most probable set. Trim.
       sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_sh_solution_sort );
 
       if( solutions_vector.back().size() > beamWidth ){
@@ -272,6 +272,8 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
             }
           }
         }
+
+        // Looking for pairs of objects. If there is only one then do not.
         if( observed_object_vectors.back().size() < 2 ){
           observed_object_vectors.pop_back();
         }
@@ -327,7 +329,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
       }
     }
 
-   /* 
+   
     // Handle number of observed objects.
     if( world != NULL ){
       for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
@@ -341,7 +343,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         }
       }
     }
-    */
+   
 
   // TODO: NEED TO ACCOUNT FOR OTHER EXPRESSIONS OF THE CONTAINERS HERE, ADD TO ALL SOLUTIONS
     // fill search space
