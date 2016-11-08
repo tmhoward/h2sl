@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+  <!-- Abstract_Container -->
   <abstract_container object_type="na" number_type="na" index_type="na" object_color_type="na"/>
   <abstract_container object_type="block" number_type="5" index_type="first" object_color_type="red"/>
   <abstract_container object_type="block" number_type="4" index_type="second" object_color_type="blue"/>
@@ -17,4 +18,75 @@
   <object name="object7-cube-cube-base" type="block" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" color="na"/>
   <object name="object6-cube-cube-base" type="block" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" color="na"/>
   <object name="object3-cube-cube-base" type="block" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" color="na"/-->
+  <!-- Index -->
+  <index index_type="na"/>
+  <index index_type="first"/>
+  <index index_type="second"/>
+  <index index_type="third"/>
+  <index index_type="fourth"/>
+  <index index_type="fifth"/>
+  <!-- Container -->
+  <container container_type="row">
+    <object name="object9-cube-cube-base" type="block" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" color="na"/>
+  </container>
+  <container container_type="column">
+    <object name="object9-cube-cube-base" type="block" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" color="na"/>
+  </container>
+  <container container_type="group">
+    <object name="object9-cube-cube-base" type="block" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" color="na"/>
+  </container>
+  <!-- Constraint -->
+  <constraint constraint_type="na">
+    <parent>
+      <region region_type="na">
+        <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </parent>
+    <child>
+      <region region_type="na">
+        <object name="o1" object_type="box" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </child>
+  </constraint>
+  <constraint constraint_type="inside">
+    <parent>
+      <region region_type="na">
+        <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </parent>
+    <child>
+      <region region_type="na">
+        <object name="o1" object_type="box" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </child>
+  </constraint>
+  <!-- Object_Color -->
+  <object_color object_color_type="na"/>
+  <object_color object_color_type="red"/>
+  <object_color object_color_type="blue"/>
+  <object_color object_color_type="yellow"/>
+  <!-- Object_Property -->
+  <object_property object_type="na" spatial_relation_type="na" index_type="na"/>
+  <object_property object_type="block" spatial_relation_type="center" index_type="first"/>
+  <object_property object_type="block" spatial_relation_type="left" index_type="second"/>
+  <object_property object_type="door" spatial_relation_type="right" index_type="third"/>
+  <object_property object_type="door" spatial_relation_type="front" index_type="fourth"/>
+  <object_property object_type="gear" spatial_relation_type="back" index_type="fifth"/>
+  <!-- Object_Type -->
+  <object_type object_type="na"/> 
+  <object_type object_type="block"/> 
+  <object_type object_type="door"/> 
+  <object_type object_type="gear"/> 
 </root>
