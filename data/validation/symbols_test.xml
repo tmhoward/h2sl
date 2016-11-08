@@ -32,4 +32,21 @@
       </region>
     </child>
   </constraint>
+  <!-- Object_Color -->
+  <object_color object_color_type="na"/>
+  <object_color object_color_type="red"/>
+  <object_color object_color_type="blue"/>
+  <object_color object_color_type="yellow"/>
+  <!-- Object_Property -->
+  <object_property object_type="na" spatial_relation_type="na" index_type="na"/>
+  <object_property object_type="block" spatial_relation_type="center" index_type="first"/>
+  <object_property object_type="block" spatial_relation_type="left" index_type="second"/>
+  <object_property object_type="door" spatial_relation_type="right" index_type="third"/>
+  <object_property object_type="door" spatial_relation_type="front" index_type="fourth"/>
+  <object_property object_type="gear" spatial_relation_type="back" index_type="fifth"/>
+  <!-- Object_Type -->
+  <object_type object_type="na"/> 
+  <object_type object_type="block"/> 
+  <object_type object_type="door"/> 
+  <object_type object_type="gear"/> 
 </root>
