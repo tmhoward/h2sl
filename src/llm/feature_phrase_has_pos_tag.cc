@@ -59,10 +59,21 @@ operator=( const Feature_Phrase_Has_POS_Tag& other ) {
 bool
 Feature_Phrase_Has_POS_Tag::
 value( const unsigned int& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
-      const World* world ){
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world ){
+  return value( cv, grounding, children, phrase, world, NULL );
+}
+
+bool
+Feature_Phrase_Has_POS_Tag::
+value( const unsigned int& cv,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world,
+        const Grounding* context ){
     if( phrase != NULL ){
       for( unsigned int i = 0; i < phrase->words().size(); i++ ){
         if( phrase->words()[ i ].pos() == _pos ){

@@ -54,10 +54,21 @@ operator=( const Feature_Spatial_Relation_Matches_Child& other ) {
 bool
 Feature_Spatial_Relation_Matches_Child::
 value( const unsigned int& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
-      const World* world ){
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world ){
+  return value( cv, grounding, children, phrase, world, NULL );
+}
+
+bool
+Feature_Spatial_Relation_Matches_Child::
+value( const unsigned int& cv,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world,
+        const Grounding* context ){
     const Spatial_Relation * spatial_relation = dynamic_cast< const Spatial_Relation* >( grounding );
     if( ( spatial_relation != NULL ) && ( !children.empty() ) ){
       for( unsigned int i = 0; i < children.size(); i++ ){

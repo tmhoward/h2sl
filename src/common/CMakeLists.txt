@@ -19,7 +19,8 @@ set(QT_HDRS )
 set(SRCS
     vector3.cc
     unit_quaternion.cc
-    transform.cc)
+    transform.cc
+    common.cc)
 
 # BINARY SOURCE FILES
 set(BIN_SRCS
@@ -29,7 +30,7 @@ set(BIN_SRCS
     transform_demo.cc)
 
 # LIBRARY DEPENDENCIES
-set(DEPS ${LIBXML2_LIBRARIES})
+set(DEPS ${LIBXML2_LIBRARIES} ${GLIB_LIBRARIES})
 
 # LIBRARY NAME
 set(LIB h2sl-common)

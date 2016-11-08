@@ -46,6 +46,8 @@ namespace h2sl {
     inline std::string& index( void ){ return get_prop< std::string >( _properties, "index_type" ); };
     inline const std::string& index( void )const{ return get_prop< std::string >( _properties, "index_type" ); };
 
+    static std::string class_name( void ){ return "object_property"; };
+
 
   protected:
 

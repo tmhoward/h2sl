@@ -25,7 +25,8 @@ namespace h2sl {
         Feature_Is_Region_Abstract_Container( const Feature_Is_Region_Abstract_Container& other );
         Feature_Is_Region_Abstract_Container& operator=( const Feature_Is_Region_Abstract_Container& other );
         
-        virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
+        virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
+        virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
         
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
