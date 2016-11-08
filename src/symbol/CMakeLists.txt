@@ -5,6 +5,7 @@ set(GGOS
     container_demo.ggo
     grounding_demo.ggo
     grounding_set_demo.ggo
+    index_demo.ggo
     object_demo.ggo
     object_color_demo.ggo
     object_property_demo.ggo
@@ -60,6 +61,7 @@ set(BIN_SRCS
     container_demo.cc
     grounding_demo.cc
     grounding_set_demo.cc
+    index_demo.cc
     object_demo.cc
     object_color_demo.cc
     object_property_demo.cc
