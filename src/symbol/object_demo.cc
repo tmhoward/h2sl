@@ -28,7 +28,7 @@
  *
  * @section DESCRIPTION
  *
- * A Object class demo program
+ * An Object class demo program
  */
 
 #include <iostream>
@@ -39,34 +39,75 @@
 using namespace std;
 using namespace h2sl;
 
+void
+fill_objects( vector< Object* >& objects, const string filename ){
+  xmlDoc * doc = NULL;
+  xmlNode * root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
+            objects.push_back( new Object( l1 ) );
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
 int
 main( int argc,
       char* argv[] ) {
-  int status = 0;
   cout << "start of Object class demo program" << endl;
- 
+
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
     exit(1);
   }
- 
-  Object * object = new Object();
+
+  vector< Object* > objects;
 
   if( args.input_given ){
-    object->from_xml( args.input_arg );
+    fill_objects( objects, args.input_arg );
   }
 
-  cout << "object:(" << *object << ")" << endl;
+  if( !objects.empty() ){
+    cout << "Object::class_name(): " << Object::class_name() << endl;
+    cout << "objects.back()->class_name(): " << objects.back()->class_name() << endl;
+    for( unsigned int i = 0; i < objects.size(); i++ ){
+      cout << "objects[ " << i << " ]: " << *objects[ i ] << endl;
+    }
+  } else{
+    cout << "the input did not have examples of object, so we just demo the static functions and ostream operator for the default" << endl;
+    objects.push_back( new Object() );
+    cout << "object:( " << *objects.back() << endl;
+    cout << "object->class_name(): " << objects.back()->class_name() << endl;
+    cout << "Object::class_name(): " << Object::class_name() << endl;
+  }
 
   if( args.output_given ){
-    object->to_xml( args.output_arg );
+    xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+    xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+    xmlDocSetRootElement( doc, root );
+    for( unsigned int i = 0; i < objects.size(); i++ ){
+      objects[ i ]->to_xml( doc, root );
+    }
+    xmlSaveFormatFileEnc( args.output_arg, doc, "UTF-8", 1 );
+    xmlFreeDoc( doc );
   }
 
-  if( object != NULL ){
-    delete object;
-    object = NULL;
-  }   
+  //memory management
+  for( unsigned int i = 0; i < objects.size(); i++ ){
+    if( objects[ i ] != NULL ){
+      delete objects[ i ];
+      objects[ i ] = NULL;
+    }
+  }
 
   cout << "end of Object class demo program" << endl;
-  return status;
+  return 0;
 }
