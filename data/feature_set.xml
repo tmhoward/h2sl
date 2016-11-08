@@ -292,6 +292,12 @@
         <feature_min_abs_y_container_abstract_container invert="1" relation_type="front"/>
         <feature_min_abs_y_container_abstract_container invert="0" relation_type="back"/>
         <feature_min_abs_y_container_abstract_container invert="1" relation_type="back"/>
+        <feature_min_x_container_region_abstract_container invert="0" relation_type="front"/>
+        <feature_min_x_container_region_abstract_container invert="1" relation_type="front"/>
+        <feature_min_x_container_region_abstract_container invert="0" relation_type="back"/>
+        <feature_min_x_container_region_abstract_container invert="1" relation_type="back"/>
+        <feature_min_x_container_region_abstract_container invert="0" relation_type="center"/>
+        <feature_min_x_container_region_abstract_container invert="1" relation_type="center"/>
       </feature_group>
     </feature_product>
   </feature_set>
