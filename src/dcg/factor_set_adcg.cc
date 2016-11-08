@@ -188,12 +188,20 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     // look for the expressed symbols for objects, indices
     vector< vector< unsigned int > > observed_true_solution_vectors;
     vector< vector< Object* > > observed_object_vectors;
+    vector< string > observed_spatial_relations( 1, string( "na" ) );
+    vector< string > observed_object_types( 1, string( "na" ) );
+    vector< string > observed_object_colors( 1, string( "na") );
+    vector< string > observed_indices( 1, "first" );
+    vector< string > observed_numbers; 
+    /*
     vector< Spatial_Relation::Type > observed_spatial_relations( 1, Spatial_Relation::TYPE_UNKNOWN );
     vector< Object_Type::Type > observed_object_types( 1, Object_Type::TYPE_UNKNOWN );
     vector< Object_Color::Type > observed_object_colors( 1, Object_Color::TYPE_UNKNOWN );
     vector< Index::Type > observed_indices( 1, Index::TYPE_FIRST );
     vector< Number::Value > observed_numbers;
-    
+    */
+  
+    // Collect the solutions at the concrete level. 
     for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
       // look for a new observed_new_solution_vector
       bool new_true_solution_vector = true;
@@ -205,6 +213,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
       if( new_true_solution_vector ){
         observed_true_solution_vectors.push_back( solutions_vector.back()[ k ].cv[ CV_TRUE ] );
         observed_object_vectors.push_back( vector< Object* >() );
+
         for( unsigned int m = 0; m < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); m++ ){
           if( dynamic_cast< Object* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
             observed_object_vectors.back().push_back( static_cast< Object* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) );
@@ -251,11 +260,13 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
             if( find( observed_indices.begin(), observed_indices.end(), tmp_index ) == observed_indices.end() ){
               observed_indices.push_back( tmp_index );
             }
-            Object_Type::Type tmp_object_type = ( Object_Type::Type )( tmp_abstract_container->type() );
+            //Object_Type::Type tmp_object_type = ( Object_Type::Type )( tmp_abstract_container->type() );
+            string tmp_object_type = ( Object_Type::Type )( tmp_abstract_container->type() );
             if( find( observed_object_types.begin(), observed_object_types.end(), tmp_object_type ) == observed_object_types.end() ){
               observed_object_types.push_back( tmp_object_type );
             }
-            Object_Color::Type tmp_object_color = ( Object_Color::Type )( tmp_abstract_container->color() );
+            //Object_Color::Type tmp_object_color = ( Object_Color::Type )( tmp_abstract_container->color() );
+            string tmp_object_color = ( Object_Color::Type )( tmp_abstract_container->color() );
             if( find( observed_object_colors.begin(), observed_object_colors.end(), tmp_object_color ) == observed_object_colors.end() ){
               observed_object_colors.push_back( tmp_object_color );
             }
@@ -273,37 +284,42 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         }
       }
     }
-   
 
     // add in the observed indices from the children
     for( unsigned int j = 0; j < child_groundings.size(); j++ ){
       for( unsigned int k = 0; k < child_groundings[ j ].second.size(); k++ ){
         if( dynamic_cast< Index* >( child_groundings[ j ].second[ k ] ) != NULL ){
-          Index::Type tmp = static_cast< Index* >( child_groundings[ j ].second[ k ] )->type();
+          //Index::Type tmp = static_cast< Index* >( child_groundings[ j ].second[ k ] )->type();
+          string tmp = static_cast< Index* >( child_groundings[ j ].second[ k ] )->index_type();
           if( find( observed_indices.begin(), observed_indices.end(), tmp ) == observed_indices.end() ){
             observed_indices.push_back( tmp );
           }
         } else if ( dynamic_cast< Object_Property* >( child_groundings[ j ].second[ k ] ) != NULL ){
           Object_Property* tmp_object_property = static_cast< Object_Property* >( child_groundings[ j ].second[ k ] );
-          Index::Type tmp_index = ( Index::Type )( tmp_object_property->index() );
+          //Index::Type tmp_index = ( Index::Type )( tmp_object_property->index() );
+          string tmp_index = tmp_object_property->index_type();
           if( find( observed_indices.begin(), observed_indices.end(), tmp_index ) == observed_indices.end() ){
             observed_indices.push_back( tmp_index );
           }
-          Object_Type::Type tmp_object_type = ( Object_Type::Type )( tmp_object_property->object_type() );
+          //Object_Type::Type tmp_object_type = ( Object_Type::Type )( tmp_object_property->object_type() );
+          string tmp_object_type = tmp_object_property->type();
           if( find( observed_object_types.begin(), observed_object_types.end(), tmp_object_type ) == observed_object_types.end() ){
             observed_object_types.push_back( tmp_object_type );
           }
-          Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( tmp_object_property->relation_type() );
+          //Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( tmp_object_property->relation_type() );
+          string tmp_spatial_relation = tmp_object_property->relation_type();
           if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
             observed_spatial_relations.push_back( tmp_spatial_relation );
           }
         } else if ( dynamic_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] ) != NULL ){
-          Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( static_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] )->type() );
+          //Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( static_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] )->type() );
+          string tmp_spatial_relation = static_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] )->relation_type();
           if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
             observed_spatial_relations.push_back( tmp_spatial_relation );
           }
         } else if ( dynamic_cast< Region_Container* >( child_groundings[ j ].second[ k ] ) != NULL ){
-          Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( static_cast< Region_Container* >( child_groundings[ j ].second[ k ] )->type() );
+          //Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( static_cast< Region_Container* >( child_groundings[ j ].second[ k ] )->type() );
+          string tmp_spatial_relation = static_cast< Region_Container* >( child_groundings[ j ].second[ k ] )->relation_type();
           if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
             observed_spatial_relations.push_back( tmp_spatial_relation );
           }
@@ -311,6 +327,8 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
       }
     }
 
+   /* 
+    // Handle number of observed objects.
     if( world != NULL ){
       for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
         if( observed_object_types[ j ] < world->min_x_sorted_objects().size() ){
@@ -323,6 +341,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         }
       }
     }
+    */
 
   // TODO: NEED TO ACCOUNT FOR OTHER EXPRESSIONS OF THE CONTAINERS HERE, ADD TO ALL SOLUTIONS
     // fill search space
