@@ -124,10 +124,8 @@ from_xml( const string& filename ){
           }
         }
       }
-      xmlFreeDoc( doc );
-    } else {
-      xmlFreeDoc( doc );
     }
+    xmlFreeDoc( doc );
   }
   return;
 }

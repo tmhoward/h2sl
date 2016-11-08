@@ -189,6 +189,41 @@ namespace h2sl {
     return tmp.str();
   }
 
+  /**
+   * safely deletes a pointer of type C
+   */
+  template< typename C >
+  inline void delete_ptr( C*& arg ){
+    if( arg != NULL ){
+      delete arg;
+      arg = NULL;
+    }
+    return;
+  };
+
+  /**
+   * safely deletes the map pointers of type std::string and C
+   */
+  template< typename C >
+  inline void delete_vector_ptrs( std::vector< C* >& vector ){
+    for( typename std::vector< C* >::iterator it = vector.begin(); it != vector.end(); it++ ){
+      delete_ptr< C >( *it );
+    }
+    return;
+  }
+
+  /**
+   * safely deletes the map pointers of type std::string and C
+   */
+  template< typename C >
+  inline void delete_map_ptrs( std::map< std::string, C* >& map ){
+    for( typename std::map< std::string, C* >::iterator it = map.begin(); it != map.end(); it++ ){
+      delete_ptr< C >( it->second );
+    }
+    return;
+  }
+
+
 }
 
 #endif /* H2SL_COMMON_H */
