@@ -95,14 +95,23 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Container* container = dynamic_cast< const Container* >( grounding );
   if (container != NULL) {
+    // Cast the container contents into Objects
+    vector< Object* > object_container;
+    for( unsigned int i = 0; i < container->container().size(); i++ ){
+      if( dynamic_cast< Object* >( container->container()[ i ] ) != NULL ){
+        object_container.push_back( static_cast< Object* >( container->container()[ i ] ) );
+      } else{
+        return false; 
+      }
+    }
     // Check if there is dominant X, Y or Z structure.
-    if (Feature_Container_Dominant_X_Shape::container_expresses_dominant_x_structure ( container->container(), 
+    if (Feature_Container_Dominant_X_Shape::container_expresses_dominant_x_structure ( object_container, 
                                  _model_deviation_tolerance, _adjacent_distance_tolerance, _min_num_elements)) {
       return false;
-    } else if (Feature_Container_Dominant_Y_Shape::container_expresses_dominant_y_structure ( container->container(), 
+    } else if (Feature_Container_Dominant_Y_Shape::container_expresses_dominant_y_structure ( object_container, 
                                  _model_deviation_tolerance, _adjacent_distance_tolerance, _min_num_elements)) {
       return false;
-    } else if (Feature_Container_Dominant_Z_Shape::container_expresses_dominant_z_structure ( container->container(), 
+    } else if (Feature_Container_Dominant_Z_Shape::container_expresses_dominant_z_structure ( object_container, 
                                  _model_deviation_tolerance, _adjacent_distance_tolerance, _min_num_elements)) {
       return false;
     } else {
@@ -113,18 +122,20 @@ value( const unsigned int& cv,
       }
 
       // Check if there is an element within the distance bound. 
-       bool found_element_within_distance_bound = false;
-       double distance_pairwise = 0.0;
-       for( unsigned int i = 0; i < container->container().size(); i++ ){
-         for ( unsigned int j = 0; j < container->container().size(); j++ ){
-         if ( i != j ){
+      bool found_element_within_distance_bound = false;
+      double distance_pairwise = 0.0;
+      //for( unsigned int i = 0; i < container->container().size(); i++ ){
+        //for ( unsigned int j = 0; j < container->container().size(); j++ ){
+      for( unsigned int i = 0; i < object_container.size(); i++ ){
+        for( unsigned int j = 0; j < object_container.size(); j++ ){
+          if( i != j ){
             distance_pairwise = 0.0;
-            distance_pairwise +=  pow( ( dynamic_cast< const Object* >(container->container()[ i ])->transform().position().x() - 
-                                         dynamic_cast< const Object* >(container->container()[ j ])->transform().position().x() ), 2.0 );
-            distance_pairwise +=  pow( ( dynamic_cast< const Object* >(container->container()[ i ])->transform().position().y() - 
-                                         dynamic_cast< const Object* >(container->container()[ j ])->transform().position().y() ), 2.0 );
-            distance_pairwise +=  pow( ( dynamic_cast< const Object* >(container->container()[ i ])->transform().position().z() - 
-                                         dynamic_cast< const Object* >(container->container()[ j ])->transform().position().z() ), 2.0 );
+            distance_pairwise +=  pow( ( object_container[ i ]->transform().position().x() - 
+                                         object_container[ j ]->transform().position().x() ), 2.0 );
+            distance_pairwise +=  pow( ( object_container[ i ]->transform().position().y() - 
+                                         object_container[ j ]->transform().position().y() ), 2.0 );
+            distance_pairwise +=  pow( ( object_container[ i ]->transform().position().z() - 
+                                         object_container[ j ]->transform().position().z() ), 2.0 );
             if( distance_pairwise < _adjacent_distance_tolerance ){
               found_element_within_distance_bound = true;
             }
@@ -132,7 +143,7 @@ value( const unsigned int& cv,
         }
         if ( !found_element_within_distance_bound ) {
           return false;
-       } 
+        }
       }
 
       // Check average distance of all pairwise within bound.
@@ -141,12 +152,12 @@ value( const unsigned int& cv,
       for( unsigned int i = 0; i < container->container().size(); i++ ){
         for( unsigned int j = (i + 1); j < container->container().size(); j++ ){
           double norm_squared = 0.0;
-          norm_squared += pow( ( dynamic_cast< const Object* >(container->container()[ i ])->transform().position().x() -
-                                 dynamic_cast< const Object* >(container->container()[ j ])->transform().position().x() ), 2.0 );
-          norm_squared += pow( ( dynamic_cast< const Object* >(container->container()[ i ])->transform().position().y() - 
-                                 dynamic_cast< const Object* >(container->container()[ j ])->transform().position().y() ), 2.0 );
-          norm_squared += pow( ( dynamic_cast< const Object* >(container->container()[ i ])->transform().position().z() - 
-                                 dynamic_cast< const Object* >(container->container()[ j ])->transform().position().z() ), 2.0 );
+          norm_squared += pow( ( object_container[ i ]->transform().position().x() -
+                                 object_container[ j ]->transform().position().x() ), 2.0 );
+          norm_squared += pow( ( object_container[ i ]->transform().position().y() - 
+                                 object_container[ j ]->transform().position().y() ), 2.0 );
+          norm_squared += pow( ( object_container[ i ]->transform().position().z() - 
+                                 object_container[ j ]->transform().position().z() ), 2.0 );
           distance_normalised = norm_squared; // linear kernel.
         }
       }

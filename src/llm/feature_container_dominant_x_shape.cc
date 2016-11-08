@@ -70,13 +70,12 @@ operator=( const Feature_Container_Dominant_X_Shape& other ){
  */
 bool
 min_x_sort_container_spatial_concept( Grounding* a, Grounding* b ){
-
-  if ((dynamic_cast< const Object* >(a) != NULL) && (dynamic_cast< const Object* >(b) != NULL)) {
-  return ( ((dynamic_cast< const Object* >(a))->transform().position().x()) < 
-          ((dynamic_cast< const Object* >(b))->transform().position().x()) );
+  if( ( dynamic_cast< const Object* >( a ) != NULL ) && ( dynamic_cast< const Object* >( b ) != NULL ) ){
+    return ( ( ( static_cast< const Object* >( a ) )->transform().position().x() ) < 
+             ( ( static_cast< const Object* >( b ) )->transform().position().x() ) );
   } else { 
-  cout << "Cannot cast container entity into Object" << endl;
-  return false;
+    cout << "Cannot cast container entity into Object" << endl;
+    return false;
   }
 }
 
@@ -87,63 +86,55 @@ min_x_sort_container_spatial_concept( Grounding* a, Grounding* b ){
  */
 bool
 Feature_Container_Dominant_X_Shape::
-container_expresses_dominant_x_structure( const std::vector < Grounding* >& container, 
+container_expresses_dominant_x_structure( const std::vector < Object* >& container, 
                                           const double& model_deviation_tolerance, 
                                           const double& adjacent_distance_tolerance, 
                                           const unsigned int& min_num_elements ) {
 
-  if ( dynamic_cast< const Object* >(container.front()) != NULL ) {
-
-    // Check: if the container has at least the min. number of entities. 
-    if ( container.size() < min_num_elements ){
-      return false;
-    }
-
-    // Check: y-deviation is within bound.
-    double mean_y = 0.0;
-    for ( unsigned int i = 0; i < container.size(); i++ ){
-      mean_y += dynamic_cast< const Object* >(container[ i ])->transform().position().y();
-    }
-    mean_y /= container.size();
-    double rmse_y = 0.0;
-    for ( unsigned int i = 0; i < container.size(); i++ ){
-      rmse_y += pow( ( dynamic_cast< const Object* >(container[ i ])->transform().position().y() - mean_y ), 2.0 );
-    }
-    rmse_y /= container.size();
-    rmse_y = sqrt( rmse_y );
-    if ( rmse_y > model_deviation_tolerance ) {
-      return false;
-    }
-
-    // Check: z-deviation is within bound. 
-    double mean_z = 0.0;
-    for ( unsigned int i = 0; i < container.size(); i++ ){
-      mean_z += dynamic_cast< const Object* >(container[ i ])->transform().position().z();
-    }
-    mean_z /= container.size();
-    double rmse_z = 0.0;
-    for ( unsigned int i = 0; i < container.size(); i++ ){
-      rmse_z += pow( ( dynamic_cast< const Object* >(container[ i ])->transform().position().z() - mean_z ), 2.0 );
-    }
-    rmse_z = sqrt( rmse_z );
-    if ( rmse_z > model_deviation_tolerance ) {
-      return false;
-    }
-
-   // Check inter-element adjacent distance tolerance.
-    vector < Grounding* > sorted_container ( container );
-    sort( sorted_container.begin(), sorted_container.end(), min_x_sort_container_spatial_concept );
-    for( unsigned int i = 0; i < (sorted_container.size() - 1); i++ ){
-      if( abs( dynamic_cast< const Object* >(sorted_container[ (i + 1) ])->transform().position().x() - 
-               dynamic_cast< const Object* >(sorted_container[ i ])->transform().position().x() ) > adjacent_distance_tolerance ){
-        return false;
-      }
-    }
-  
-  } else {
+  // Check: if the container has at least the min. number of entities. 
+  if ( container.size() < min_num_elements ){
     return false;
   }
 
+  // Check: y-deviation is within bound.
+  double mean_y = 0.0;
+  for ( unsigned int i = 0; i < container.size(); i++ ){
+    mean_y += container[ i ]->transform().position().y();
+  }
+  mean_y /= container.size();
+  double rmse_y = 0.0;
+  for( unsigned int i = 0; i < container.size(); i++ ){
+      rmse_y += pow( ( container[ i ]->transform().position().y() - mean_y ), 2.0 );
+    }
+  rmse_y /= container.size();
+  rmse_y = sqrt( rmse_y );
+  if ( rmse_y > model_deviation_tolerance ) {
+    return false;
+  }
+
+  // Check: z-deviation is within bound. 
+  double mean_z = 0.0;
+  for ( unsigned int i = 0; i < container.size(); i++ ){
+    mean_z += container[ i ]->transform().position().z();
+  }
+  mean_z /= container.size();
+  double rmse_z = 0.0;
+  for ( unsigned int i = 0; i < container.size(); i++ ){
+    rmse_z += pow( ( container[ i ]->transform().position().z() - mean_z ), 2.0 );
+  }
+  rmse_z = sqrt( rmse_z );
+  if ( rmse_z > model_deviation_tolerance ) {
+    return false;
+  }
+
+ // Check inter-element adjacent distance tolerance.
+  vector < Object* > sorted_container ( container );
+  sort( sorted_container.begin(), sorted_container.end(), min_x_sort_container_spatial_concept );
+  for( unsigned int i = 0; i < (sorted_container.size() - 1); i++ ){
+    if( abs( sorted_container[ ( i + 1 ) ]->transform().position().x() - sorted_container[ i ]->transform().position().x() ) > adjacent_distance_tolerance ){
+      return false;
+    }
+  }
   return true;
 }
 
@@ -174,10 +165,18 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Container* container = dynamic_cast< const Container* >( grounding );
   if (container != NULL) {
-    if (container_expresses_dominant_x_structure(container->container(), 
-                                                 _model_deviation_tolerance, 
-                                                 _adjacent_distance_tolerance, 
-                                                 _min_num_elements)) {
+    vector< Object* > object_container;
+    for( unsigned int i = 0; i < container->container().size(); i++ ){
+      if( dynamic_cast< Object* >( container->container()[ i ] ) != NULL ){
+        object_container.push_back( static_cast< Object* >( container->container()[ i ] ) );
+      } else{
+        return false;
+      }
+    }
+    if( container_expresses_dominant_x_structure(  object_container, 
+                                                  _model_deviation_tolerance, 
+                                                  _adjacent_distance_tolerance, 
+                                                  _min_num_elements) ){
       return !_invert; 
     } else {
       return _invert;
