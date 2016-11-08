@@ -15,6 +15,7 @@ set(GGOS
     region_abstract_container_demo.ggo
     region_container_demo.ggo
     constraint_demo.ggo
+    spatial_relation_demo.ggo
     world_demo.ggo)
 
 # HEADER FILES
@@ -75,6 +76,7 @@ set(BIN_SRCS
     region_abstract_container_demo.cc
     region_container_demo.cc
     constraint_demo.cc
+    spatial_relation_demo.cc
     world_demo.cc)
 
 # LIBRARY DEPENDENCIES

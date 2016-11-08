@@ -146,4 +146,11 @@
   <object_type object_type="block"/> 
   <object_type object_type="door"/> 
   <object_type object_type="gear"/> 
+  <!-- Spatial_Relation -->
+  <spatial_relation spatial_relation_type="na"/>
+  <spatial_relation spatial_relation_type="left"/>
+  <spatial_relation spatial_relation_type="right"/>
+  <spatial_relation spatial_relation_type="front"/>
+  <spatial_relation spatial_relation_type="back"/>
+  <spatial_relation spatial_relation_type="near"/>
 </root>
