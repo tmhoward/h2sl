@@ -70,11 +70,12 @@ void
 Factor_Set_ADCG::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
+        const map< string, vector< string > >& symbolTypes,
         const World* world,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
-  _search_physical( searchSpace, correspondenceVariables, world, llm, beamWidth, debug );
+  _search_physical( searchSpace, correspondenceVariables, symbolTypes, world, llm, beamWidth, debug );
   return;
 }
 
@@ -82,9 +83,8 @@ void
 Factor_Set_ADCG::
 _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
                   const vector< vector< unsigned int > >& correspondenceVariables,
+                  const map< string, vector< string> >& symbolTypes,
                   const World* world, LLM* llm, const unsigned int beamWidth, const bool& debug ){
-
-  
   if( debug ){
     cout << " Factor Set ADCG: Beginning of physical search" << endl;
   }
@@ -156,7 +156,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         }
       }
   
-      // Prob. of individual factors. Context of child groundings.
+      // Prob. of individual factors. Context of child groundings. Multiply with the child groundings.
       for( unsigned int k = 0; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
         double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], 
                                   searchSpace[ j ].second, 
@@ -166,13 +166,12 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
         for( unsigned int l = 0; l < num_solutions; l++ ){
           solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j );
-
           solutions_vector.back()[ k * num_solutions + l ].pygx *= value;
         }
       }
-      // Most probable set. Trim.
-      sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_sh_solution_sort );
 
+      // Most probable set. Trim the solutions.
+      sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_adcg_solution_sort );
       if( solutions_vector.back().size() > beamWidth ){
         solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
       }
@@ -184,22 +183,15 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         }
       }
     }
-
+  
     // look for the expressed symbols for objects, indices
     vector< vector< unsigned int > > observed_true_solution_vectors;
     vector< vector< Object* > > observed_object_vectors;
     vector< string > observed_spatial_relations( 1, string( "na" ) );
     vector< string > observed_object_types( 1, string( "na" ) );
     vector< string > observed_object_colors( 1, string( "na") );
-    vector< string > observed_indices( 1, "first" );
+    vector< string > observed_indices( 1, string( "first" ) );
     vector< string > observed_numbers; 
-    /*
-    vector< Spatial_Relation::Type > observed_spatial_relations( 1, Spatial_Relation::TYPE_UNKNOWN );
-    vector< Object_Type::Type > observed_object_types( 1, Object_Type::TYPE_UNKNOWN );
-    vector< Object_Color::Type > observed_object_colors( 1, Object_Color::TYPE_UNKNOWN );
-    vector< Index::Type > observed_indices( 1, Index::TYPE_FIRST );
-    vector< Number::Value > observed_numbers;
-    */
   
     // Collect the solutions at the concrete level. 
     for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
@@ -218,55 +210,45 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
           if( dynamic_cast< Object* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
             observed_object_vectors.back().push_back( static_cast< Object* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) );
           } else if ( dynamic_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            //Index::Type tmp = static_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->type();
             string tmp = static_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->index_type();
             if( find( observed_indices.begin(), observed_indices.end(), tmp ) == observed_indices.end() ){
               observed_indices.push_back( tmp );
             }
           } else if ( dynamic_cast< Number* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            //Number::Value tmp_number = static_cast< Number* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->value();
             string tmp_number = static_cast< Number* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->number_value();
             if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
               observed_numbers.push_back( tmp_number );
             }
           } else if ( dynamic_cast< Object_Type* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            //Object_Type::Type tmp_object_type = static_cast< Object_Type* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->type();
             string tmp_object_type = static_cast< Object_Type* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->type();
             if( find( observed_object_types.begin(), observed_object_types.end(), tmp_object_type ) == observed_object_types.end() ){
               observed_object_types.push_back( tmp_object_type );
             }
           } else if ( dynamic_cast< Object_Color* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            //Object_Color::Type tmp_object_color = static_cast< Object_Color* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->type();
             string tmp_object_color = static_cast< Object_Color* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->object_color_type();
             if( find( observed_object_colors.begin(), observed_object_colors.end(), tmp_object_color ) == observed_object_colors.end() ){
               observed_object_colors.push_back( tmp_object_color );
             }
           } else if ( dynamic_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            //Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type ) static_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->type();
             string tmp_spatial_relation = static_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->relation_type();
             if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
               observed_spatial_relations.push_back( tmp_spatial_relation );
             }
           } else if ( dynamic_cast< Abstract_Container* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            //Abstract_Container* tmp_abstract_container = static_cast< Abstract_Container* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second );
             Abstract_Container* tmp_abstract_container = static_cast< Abstract_Container* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second );
-            //Number::Value tmp_number = ( Number::Value )( tmp_abstract_container->num() );
             string tmp_number =  tmp_abstract_container->number() ;
             if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
               observed_numbers.push_back( tmp_number );
             }
-            //Index::Type tmp_index = ( Index::Type )( tmp_abstract_container->index() );
             string tmp_index =  tmp_abstract_container->index();
             if( find( observed_indices.begin(), observed_indices.end(), tmp_index ) == observed_indices.end() ){
               observed_indices.push_back( tmp_index );
             }
-            //Object_Type::Type tmp_object_type = ( Object_Type::Type )( tmp_abstract_container->type() );
-            string tmp_object_type = ( Object_Type::Type )( tmp_abstract_container->type() );
+            string tmp_object_type = tmp_abstract_container->type();
             if( find( observed_object_types.begin(), observed_object_types.end(), tmp_object_type ) == observed_object_types.end() ){
               observed_object_types.push_back( tmp_object_type );
             }
-            //Object_Color::Type tmp_object_color = ( Object_Color::Type )( tmp_abstract_container->color() );
-            string tmp_object_color = ( Object_Color::Type )( tmp_abstract_container->color() );
+            string tmp_object_color = tmp_abstract_container->color();
             if( find( observed_object_colors.begin(), observed_object_colors.end(), tmp_object_color ) == observed_object_colors.end() ){
               observed_object_colors.push_back( tmp_object_color );
             }
@@ -277,6 +259,8 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         if( observed_object_vectors.back().size() < 2 ){
           observed_object_vectors.pop_back();
         }
+   
+        // If the solution vectors are identical, remove them. 
         if( observed_object_vectors.size() > 1 ){
           for( unsigned m = 0; m < ( observed_object_vectors.size() - 1 ); m++ ){
             if( observed_object_vectors[ m ] == observed_object_vectors.back() ){
@@ -291,36 +275,30 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     for( unsigned int j = 0; j < child_groundings.size(); j++ ){
       for( unsigned int k = 0; k < child_groundings[ j ].second.size(); k++ ){
         if( dynamic_cast< Index* >( child_groundings[ j ].second[ k ] ) != NULL ){
-          //Index::Type tmp = static_cast< Index* >( child_groundings[ j ].second[ k ] )->type();
           string tmp = static_cast< Index* >( child_groundings[ j ].second[ k ] )->index_type();
           if( find( observed_indices.begin(), observed_indices.end(), tmp ) == observed_indices.end() ){
             observed_indices.push_back( tmp );
           }
         } else if ( dynamic_cast< Object_Property* >( child_groundings[ j ].second[ k ] ) != NULL ){
           Object_Property* tmp_object_property = static_cast< Object_Property* >( child_groundings[ j ].second[ k ] );
-          //Index::Type tmp_index = ( Index::Type )( tmp_object_property->index() );
-          string tmp_index = tmp_object_property->index_type();
+          string tmp_index = tmp_object_property->index();
           if( find( observed_indices.begin(), observed_indices.end(), tmp_index ) == observed_indices.end() ){
             observed_indices.push_back( tmp_index );
           }
-          //Object_Type::Type tmp_object_type = ( Object_Type::Type )( tmp_object_property->object_type() );
           string tmp_object_type = tmp_object_property->type();
           if( find( observed_object_types.begin(), observed_object_types.end(), tmp_object_type ) == observed_object_types.end() ){
             observed_object_types.push_back( tmp_object_type );
           }
-          //Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( tmp_object_property->relation_type() );
           string tmp_spatial_relation = tmp_object_property->relation_type();
           if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
             observed_spatial_relations.push_back( tmp_spatial_relation );
           }
         } else if ( dynamic_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] ) != NULL ){
-          //Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( static_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] )->type() );
           string tmp_spatial_relation = static_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] )->relation_type();
           if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
             observed_spatial_relations.push_back( tmp_spatial_relation );
           }
         } else if ( dynamic_cast< Region_Container* >( child_groundings[ j ].second[ k ] ) != NULL ){
-          //Spatial_Relation::Type tmp_spatial_relation = ( Spatial_Relation::Type )( static_cast< Region_Container* >( child_groundings[ j ].second[ k ] )->type() );
           string tmp_spatial_relation = static_cast< Region_Container* >( child_groundings[ j ].second[ k ] )->relation_type();
           if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
             observed_spatial_relations.push_back( tmp_spatial_relation );
@@ -329,22 +307,57 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
       }
     }
 
-   
-    // Handle number of observed objects.
-    if( world != NULL ){
-      for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
-        if( observed_object_types[ j ] < world->min_x_sorted_objects().size() ){
-          if( world->min_x_sorted_objects()[ observed_object_types[ j ] ].size() < Number::VALUE_NUM_VALUES ){
-            Number::Value tmp_number = ( Number::Value )( world->min_x_sorted_objects()[ observed_object_types[ j ] ].size() );
-            if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
-              observed_numbers.push_back( tmp_number );
-            }
-          }
+    if ( world != NULL) {
+      for ( unsigned int j = 0; j < observed_object_types.size(); j++ ) {
+        if ( symbolTypes.find( string( "object_type" ) ) != symbolTypes.end() ) {
+          map< string, vector< Grounding* > >::iterator it1 =  world->min_x_sorted_objects().find( observed_object_types[ j ] );
+          /*
+          if ( it1 < world->min_x_sorted_objects().end() ) {
+            map< string, vector< string> >::const_iterator it2 = symbolTypes.find( string( "object_type" ) );
+            if ( it2 < symbolTypes.end() ) {
+              if ( it1->second.size() < it2->second.size() ) {
+                string tmp_number = "na";
+                for( map< string, unsigned int>::const_iterator it = world->numeric_map().begin(); it != world->numeric_map().end(); ++it ) {
+                  if( it->second == world->min_x_sorted_objects()[ observed_object_types[ j ] ].size() ) {
+                    tmp_number = it->first; 
+                  }
+                }
+                if ( !tmp_number.compare(string( "na")) ) {
+                  if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
+                    observed_numbers.push_back( tmp_number );
+                  }
+                }
+              }
+            } 
+            */
+          }  
         }
-      }
-    }
-   
+      }   
 
+   /*
+    // Handle number of observed objects.
+    if( world != NULL ) {
+      for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
+          if( find( symbolTypes[ "object_type" ].begin(), symbolTypes[ "object_types" ].end(), observed_object_types[ j ] ) != symbolTypes[ "object_type" ].end() ) {
+            if( world->min_x_sorted_objects()[ observed_object_types[ j ] ].size() < symbolTypes[ "number" ].size() ) {
+              string tmp_number = "na";
+              for( map< string, unsigned int>::const_iterator it = world->numeric_map().begin(); it != world->numeric_map().end(); ++it ) {
+                if( it->second == world->min_x_sorted_objects()[ observed_object_types[ j ] ].size() ) {
+                  tmp_number = it->first; 
+                }
+              }
+              if ( !tmp_number.compare(string( "na")) ) {
+                if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
+                  observed_numbers.push_back( tmp_number );
+                }
+              }
+            }  
+       }
+     }
+   }
+*/
+
+  /*
   // TODO: NEED TO ACCOUNT FOR OTHER EXPRESSIONS OF THE CONTAINERS HERE, ADD TO ALL SOLUTIONS
     // fill search space
 
@@ -381,6 +394,8 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
       }
     }
 
+  */
+
     // search
 
     for( unsigned int j = 0; j < _abstract_search_spaces[ i ].size(); j++ ){
@@ -396,13 +411,11 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
         for( unsigned int l = 0; l < num_solutions; l++ ){
           solutions_vector.back()[ k * num_solutions + l ].cv[ _abstract_correspondence_variables[ _abstract_search_spaces[ i ][ j ].first ][ k ] ].push_back( searchSpace.size() + j );
-
           solutions_vector.back()[ k * num_solutions + l ].pygx *= value;
         }
       }
 
-      sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_sh_solution_sort );
-
+      sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_adcg_solution_sort );
       if( solutions_vector.back().size() > beamWidth ){
         solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
       }
@@ -419,7 +432,6 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
           }
         }
       }
-
     }
 
   }
@@ -435,7 +447,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     cout << "  sorting through " << _solutions.size() << " solutions for \"" << _phrase->words_to_std_string() << "\"" << endl;
   }
 
-  sort( _solutions.begin(), _solutions.end(), factor_set_sh_solution_sort );
+  sort( _solutions.begin(), _solutions.end(), factor_set_adcg_solution_sort );
   if( _solutions.size() > beamWidth ){
     _solutions.erase( _solutions.begin() + beamWidth, _solutions.end() );
   }

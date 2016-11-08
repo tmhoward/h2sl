@@ -89,6 +89,7 @@ namespace h2sl {
 
     std::vector< std::pair< unsigned int, Grounding* > > _search_spaces;
     std::vector< std::vector< unsigned int > > _correspondence_variables;
+    std::map < std::string, std::vector< std::string> > _symbol_types;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
   

@@ -25,7 +25,7 @@ set(SRCS
 
 # BINARY SOURCE FILES
 set(BIN_SRCS
-    factor_set_demo.cc
+#    factor_set_demo.cc
     dcg_demo.cc
     dcg_test.cc)
 
