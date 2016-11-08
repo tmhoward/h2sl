@@ -2,6 +2,7 @@
 set(GGOS
     abstract_container_demo.ggo
     constraint_demo.ggo
+    container_demo.ggo
     grounding_demo.ggo
     grounding_set_demo.ggo
     object_demo.ggo
@@ -56,6 +57,7 @@ set(SRCS
 set(BIN_SRCS
     abstract_container_demo.cc
     constraint_demo.cc
+    container_demo.cc
     grounding_demo.cc
     grounding_set_demo.cc
     object_demo.cc

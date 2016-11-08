@@ -7,6 +7,28 @@
   <abstract_container object_type="door" number_type="3" index_type="third" object_color_type="red"/>
   <abstract_container object_type="door" number_type="2" index_type="fourth" object_color_type="blue"/>
   <abstract_container object_type="gear" number_type="1" index_type="fifth" object_color_type="yellow"/>
+  <!-- Container -->
+  <container container_type="row">
+    <object name="object9-cube-cube-base" type="block" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" color="na"/>
+  </container>
+  <container container_type="column">
+    <object name="object9-cube-cube-base" type="block" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" color="na"/>
+  </container>
+  <container container_type="group">
+    <object name="object9-cube-cube-base" type="block" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" color="na"/>
+  </container>
   <!-- Constraint -->
   <constraint constraint_type="na">
     <parent>
