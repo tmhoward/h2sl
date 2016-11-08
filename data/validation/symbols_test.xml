@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
+  <!-- Abstract_Container -->
   <abstract_container object_type="na" number_type="na" index_type="na" object_color_type="na"/>
   <abstract_container object_type="block" number_type="5" index_type="first" object_color_type="red"/>
   <abstract_container object_type="block" number_type="4" index_type="second" object_color_type="blue"/>
   <abstract_container object_type="door" number_type="3" index_type="third" object_color_type="red"/>
   <abstract_container object_type="door" number_type="2" index_type="fourth" object_color_type="blue"/>
   <abstract_container object_type="gear" number_type="1" index_type="fifth" object_color_type="yellow"/>
+  <!-- Constraint -->
+  <constraint constraint_type="na">
+    <parent>
+      <region region_type="na">
+        <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </parent>
+    <child>
+      <region region_type="na">
+        <object name="o1" object_type="box" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </child>
+  </constraint>
+  <constraint constraint_type="inside">
+    <parent>
+      <region region_type="na">
+        <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </parent>
+    <child>
+      <region region_type="na">
+        <object name="o1" object_type="box" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </region>
+    </child>
+  </constraint>
   <!-- Object_Color -->
   <object_color object_color_type="na"/>
   <object_color object_color_type="red"/>
