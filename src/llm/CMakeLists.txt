@@ -70,6 +70,32 @@ set(HDRS
     h2sl/feature_region_abstract_container_type.h
     h2sl/feature_region_abstract_container_object_type.h
     h2sl/feature_region_abstract_container_number.h
+    h2sl/feature_min_x_object.h
+    h2sl/feature_max_x_object.h
+    h2sl/feature_max_y_object.h
+    h2sl/feature_min_y_object.h
+    h2sl/feature_max_x_abstract_container.h
+    h2sl/feature_min_distance_object.h
+    h2sl/feature_max_distance_object.h
+    h2sl/feature_max_distance_object_within.h
+    h2sl/feature_min_distance_object_within.h
+    h2sl/feature_min_center_distance_object.h
+    h2sl/feature_container_dominant_y_shape.h
+    h2sl/feature_container_dominant_x_shape.h
+    h2sl/feature_container_dominant_z_shape.h
+    h2sl/feature_container_non_dominant_xyz_shape.h
+    h2sl/feature_max_y_abstract_container.h
+    h2sl/feature_min_y_index_abstract_container_region_container.h
+    h2sl/feature_min_x_abstract_container.h
+    h2sl/feature_min_y_abstract_container.h
+    h2sl/feature_min_distance_container.h
+    h2sl/feature_min_distance_abstract_container.h
+    h2sl/feature_min_abs_y_abstract_container.h
+    h2sl/feature_container_dominant_x_shape.h
+    h2sl/feature_container_dominant_y_shape.h
+    h2sl/feature_container_dominant_z_shape.h
+    h2sl/feature_container_non_dominant_xyz_shape.h
+    h2sl/feature_min_x_container_abstract_container_spatial_relation.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -130,6 +156,32 @@ set(SRCS
     feature_region_abstract_container_type.cc
     feature_region_abstract_container_object_type.cc
     feature_region_abstract_container_number.cc
+    feature_min_x_object.cc
+    feature_max_x_object.cc
+    feature_max_y_object.cc
+    feature_min_y_object.cc
+    feature_max_x_abstract_container.cc
+    feature_min_distance_object.cc
+    feature_max_distance_object.cc
+    feature_max_distance_object_within.cc
+    feature_min_distance_object_within.cc
+    feature_min_center_distance_object.cc
+    feature_container_dominant_y_shape.cc
+    feature_container_dominant_x_shape.cc
+    feature_container_dominant_z_shape.cc
+    feature_container_non_dominant_xyz_shape.cc
+    feature_max_y_abstract_container.cc
+    feature_min_y_index_abstract_container_region_container.cc
+    feature_min_x_abstract_container.cc
+    feature_min_y_abstract_container.cc
+    feature_min_distance_container.cc
+    feature_min_distance_abstract_container.cc
+    feature_min_abs_y_abstract_container.cc
+    feature_container_dominant_x_shape.cc
+    feature_container_dominant_y_shape.cc
+    feature_container_dominant_z_shape.cc
+    feature_container_non_dominant_xyz_shape.cc
+    feature_min_x_container_abstract_container_spatial_relation.cc
     llm.cc)
 
 # BINARY SOURCE FILES

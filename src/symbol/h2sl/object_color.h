@@ -40,6 +40,8 @@ namespace h2sl {
         
         inline std::string& object_color_type( void ){ return get_prop< std::string >( _properties, "object_color_type" ); };
         inline const std::string& object_color_type( void )const{ return get_prop< std::string >( _properties, "object_color_type" ); };
+
+        static std::string class_name( void ){ return "object_color"; };
         
     protected:
 

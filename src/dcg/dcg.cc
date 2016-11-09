@@ -196,6 +196,7 @@ leaf_search( const Phrase* phrase,
     while( leaf != NULL ){
       leaf->search( _search_spaces,
                     _correspondence_variables,
+                    _symbol_types,
                     world,
                     context,
                     llm,

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <abstract_container object_type="na" number_type="na" index_type="na" object_color_type="na"/>
+  <abstract_container object_type="block" number_type="5" index_type="first" object_color_type="red"/>
+  <abstract_container object_type="block" number_type="4" index_type="second" object_color_type="blue"/>
+  <abstract_container object_type="door" number_type="3" index_type="third" object_color_type="red"/>
+  <abstract_container object_type="door" number_type="2" index_type="fourth" object_color_type="blue"/>
+  <abstract_container object_type="gear" number_type="1" index_type="fifth" object_color_type="yellow"/>
+  <!-- Object_Color -->
+  <object_color object_color_type="na"/>
+  <object_color object_color_type="red"/>
+  <object_color object_color_type="blue"/>
+  <object_color object_color_type="yellow"/>
+  <!-- Object_Property -->
+  <object_property object_type="na" spatial_relation_type="na" index_type="na"/>
+  <object_property object_type="block" spatial_relation_type="center" index_type="first"/>
+  <object_property object_type="block" spatial_relation_type="left" index_type="second"/>
+  <object_property object_type="door" spatial_relation_type="right" index_type="third"/>
+  <object_property object_type="door" spatial_relation_type="front" index_type="fourth"/>
+  <object_property object_type="gear" spatial_relation_type="back" index_type="fifth"/>
+  <!-- Object_Type -->
+  <object_type object_type="na"/> 
+  <object_type object_type="block"/> 
+  <object_type object_type="door"/> 
+  <object_type object_type="gear"/> 
+</root>
