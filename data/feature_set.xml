@@ -312,6 +312,8 @@
         <feature_max_x_region_abstract_container invert="1" relation_type="near"/>
         <feature_max_x_region_abstract_container invert="0" relation_type="far"/>
         <feature_max_x_region_abstract_container invert="1" relation_type="far"/>
+        <feature_container_number_equals_world_objects invert="0"/>
+        <feature_container_number_equals_world_objects invert="1"/>
       </feature_group>
     </feature_product>
   </feature_set>
