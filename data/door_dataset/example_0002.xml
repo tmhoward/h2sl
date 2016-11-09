@@ -2,26 +2,25 @@
 <root>
   <instruction text="the second door from the right"/>
   <world time="0">
-    <object name="baxter1-baxter-left_hand" type="robot" position="0.349619,1.16126,1.60794" orientation="-0.0904007,0.391826,0.720737,0.564657" color="na"/>
-    <object name="baxter1-baxter-right_hand" type="robot" position="0.689825,-0.961224,1.07318" orientation="0.575972,0.471578,-0.0219704,0.667374" color="na"/>
-    <object name="ground-plane-plane-base" type="na" position="0,0,0" orientation="0,0,0,1" color="na"/>
-    <object name="object0-door-door-base" type="door" position="0.0,0.0,1.0" orientation="0.0,0.0,0.0,0.0" color="na"/>
-    <object name="object1-door-door-base" type="door" position="0.0,-0.5,1.0" orientation="0.0,0.0,0.0,0.0" color="na"/>
-    <object name="object2-door-door-base" type="door" position="0.0,0.5,1.0" orientation="0.0,0.0,0.0,0.0" color="na"/>
+    <object name="generic_robot" object_type="robot" object_color="na" position="0.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
   </world>
   <NP>
     <grounding>
       <grounding_set>
-        <object name="object1-door-door-base" type="door" position="0.0,-0.5,1.0" orientation="0.0,0.0,0.0,0.0" color="na"/>
-        <object_property object_type="door" relation_type="right" index="second"/>
+        <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+        <object_property object_type="door" spatial_relation_type="na" index_type="second"/> 
       </grounding_set>
     </grounding>
     <NP>
       <grounding>
         <grounding_set>
-          <object_property object_type="door" relation_type="na" index="second"/> 
-          <object_type type="door"/>
-          <index type="second"/>
+          <object_property object_type="door" spatial_relation_type="na" index_type="second"/> 
+          <object_type object_type="door"/>
+          <index index_type="second"/>
         </grounding_set>
       </grounding>
       <DT text="the" order="0"/>
@@ -31,14 +30,14 @@
     <PP>
       <grounding>
         <grounding_set>
-          <spatial_relation type="right"/>
+          <spatial_relation spatial_relation_type="right"/>
         </grounding_set>
       </grounding>
       <IN text="from" order="3"/>
       <NP>
         <grounding>
           <grounding_set>
-            <spatial_relation type="right"/>
+            <spatial_relation spatial_relation_type="right"/>
           </grounding_set>
         </grounding>
         <DT text="the" order="4"/>
