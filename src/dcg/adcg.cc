@@ -143,14 +143,17 @@ fill_search_spaces( const World* world ){
   constraint.push_back( "inside" );
   constraint.push_back( "outside" );
 
-  // AADCG SYMBOLS. 
-
+  //Constraints::payload
+  vector< std::string > payload;
+  payload.push_back( "generic-robot" );
+  
   // Object_Type
   vector< std::string > object_type;
   object_type.push_back( "na" );
   object_type.push_back( "block" );
   object_type.push_back( "table" );
-  object_type.push_back( "robot" );
+  object_type.push_back( "generic-robot" );
+  object_type.push_back( "door" );
   //object_type.push_back( "ycb-can" );
   //object_type.push_back( "ycb-box" );
   //object_type.push_back( "ycb-fruit" );
@@ -184,7 +187,6 @@ fill_search_spaces( const World* world ){
   index.push_back( "third" );
   index.push_back( "fourth" );
   index.push_back( "fifth" );
-  index.push_back( "na" );
   
   // Number
   // Note: not starting from "na"
@@ -220,7 +222,7 @@ fill_search_spaces( const World* world ){
   container.push_back( "group" );
   container.push_back( "row" );
   container.push_back( "column" );
-  container.push_back( "tower" );
+  //container.push_back( "tower" );
  
   // Actions and action params. 
   vector< std::string > action;

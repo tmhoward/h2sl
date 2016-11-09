@@ -125,19 +125,6 @@ fill_search_spaces( const World* world ){
 
   // ADCG_Base SYMBOLS
 
-  // Regions
-  vector< std::string > regions;
-  regions.push_back( "na" );
-  regions.push_back( "near" );
-  regions.push_back( "far" );
-  regions.push_back( "left" );
-  regions.push_back( "right" );
-  regions.push_back( "front" );
-  regions.push_back( "back" );
-  regions.push_back( "above" );
-  regions.push_back( "below" );
-
-
   // Constraints
   vector< std::string > constraints;
   constraints.push_back( "inside" );
@@ -145,7 +132,7 @@ fill_search_spaces( const World* world ){
 
   // Constraints::payload
   vector< std::string > payload;
-  payload.push_back( "robot" ); 
+  payload.push_back( "generic-robot" ); 
 
   // AADCG_Base SYMBOLS 
 
@@ -154,7 +141,8 @@ fill_search_spaces( const World* world ){
   object_type.push_back( "na" );
   object_type.push_back( "block" );
   object_type.push_back( "table" );
-  object_type.push_back( "robot" );
+  object_type.push_back( "generic-robot" );
+  object_type.push_back( "door" );
   //object_type.push_back( "ycb-can" );
   //object_type.push_back( "ycb-box" );
   //object_type.push_back( "ycb-fruit" );
@@ -170,6 +158,8 @@ fill_search_spaces( const World* world ){
   spatial_relation.push_back( "side" );
   spatial_relation.push_back( "near" );
   spatial_relation.push_back( "far" );
+  spatial_relation.push_back( "above" );
+  spatial_relation.push_back( "below" );
   
   // Index
   // Note: not starting from "na"
@@ -179,7 +169,6 @@ fill_search_spaces( const World* world ){
   index.push_back( "third" );
   index.push_back( "fourth" );
   index.push_back( "fifth" );
-  index.push_back( "na" );
   
   // Number
   // Note: not starting from "na"
@@ -222,33 +211,37 @@ fill_search_spaces( const World* world ){
   container_type.push_back( "row" );
   container_type.push_back( "column" );
   //container.push_back( "tower" );
- 
-  /*
-  // Actions and action params. 
-  vector< std::string > action_type;
-  action_type.push_back( "na" );
-  action_type.push_back( "pick" );
-  action_type.push_back( "place" );
-  action_type.push_back( "navigate" );
-    
-  vector< std::string > action_param;
-  action_param.push_back( "na" );
-  action_param.push_back( "pick_object" );
-  action_param.push_back( "place_object" );
-  action_param.push_back( "hand" );     
- */
 
-  // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
+  // Actions and action params. 
+  vector< std::string > action;
+  action.push_back( "na" );
+  action.push_back( "pick" );
+  action.push_back( "place" );
+  action.push_back( "navigate" );
+
+  // Map of symbolic representation.
+  //map < string, vector<string> > symbols;
+  _symbol_types.insert( pair< string, vector< string > >( string("object_type"), object_type ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("object_color"), object_color ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("number"), number ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("index"), index ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("spatial_relation"), spatial_relation ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("container"), container ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("constraint"), constraint ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("region_abstract_container"), region_abstract_container ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("action"), action ) );
+
+  // Objects
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( "na", *world->objects()[ i ] ) ) );
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, world->objects()[ i ]->dup() ) );
   }
 
-  // add the PP groundings; exhaustively fill the region symbol space (does no duplicate the above loop)
-  for( unsigned int i = 0; i < regions.size(); i++ ){
-    if( regions[ i ] != "na" ){
-      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( regions[ i ], Object() ) ) );
+  // Regions. Do not create an "na" region
+  for( unsigned int i = 0; i < spatial_relation.size(); i++ ){
+    if( spatial_relation[ i ] != "na" ){
+      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( spatial_relation[ i ], Object() ) ) );
       for( unsigned int j = 0; j < world->objects().size(); j++ ){
-        _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( regions[ i ], *world->objects()[ j ] ) ) );
+        _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( spatial_relation[ i ], *world->objects()[ j ] ) ) );
       }   
     }
   }
@@ -268,12 +261,6 @@ fill_search_spaces( const World* world ){
     } 
   }
   
-  // Fill AADCG_Base Symbol Space.
-
-  // Objects
-  for( unsigned int i = 0; i < world->objects().size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, world->objects()[ i ]->dup() ) );
-  }
 
   // Object_Type
   for (unsigned int i = 0; i < object_type.size(); i++) {

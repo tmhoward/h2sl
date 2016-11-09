@@ -10,21 +10,26 @@
 #include "h2sl/cv.h"
 #include "h2sl/llm.h"
 #include "h2sl/phrase.h"
+#include "h2sl/world.h"
 
 #include "h2sl/adcg_base.h"
 #include "h2sl/grounding_set.h"
 #include "h2sl/feature.h"
 #include "h2sl/feature_set.h"
 
+#include "h2sl/object.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
-#include "h2sl/object.h"
 #include "h2sl/spatial_relation.h"
-#include "h2sl/world.h"
 #include "h2sl/container.h"
 #include "h2sl/region_container.h"
 #include "h2sl/abstract_container.h"
 #include "h2sl/region_abstract_container.h"
+#include "h2sl/object_property.h"
+#include "h2sl/index.h"
+#include "h2sl/number.h"
+#include "h2sl/object_type.h"
+#include "h2sl/object_color.h"
 
 #include "llm_train_adcg_cmdline.h"
 
