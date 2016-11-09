@@ -118,6 +118,7 @@
 #include "h2sl/feature_min_abs_y_container_abstract_container.h"
 #include "h2sl/feature_min_x_container_region_abstract_container.h"
 #include "h2sl/feature_min_x_region_abstract_container.h"
+#include "h2sl/feature_max_x_region_abstract_container.h"
 
 #include "h2sl/feature.h"
 
@@ -323,6 +324,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Min_X_Container_Region_Abstract_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Min_X_Region_Abstract_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Min_X_Region_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Max_X_Region_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Max_X_Region_Abstract_Container* >( &other );
     } else {
       assert( false );
     } 

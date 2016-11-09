@@ -306,6 +306,12 @@
         <feature_min_x_region_abstract_container invert="1" relation_type="near"/>
         <feature_min_x_region_abstract_container invert="0" relation_type="far"/>
         <feature_min_x_region_abstract_container invert="1" relation_type="far"/>
+        <feature_max_x_region_abstract_container invert="0" relation_type="front"/>
+        <feature_max_x_region_abstract_container invert="0" relation_type="back"/>
+        <feature_max_x_region_abstract_container invert="0" relation_type="near"/>
+        <feature_max_x_region_abstract_container invert="1" relation_type="near"/>
+        <feature_max_x_region_abstract_container invert="0" relation_type="far"/>
+        <feature_max_x_region_abstract_container invert="1" relation_type="far"/>
       </feature_group>
     </feature_product>
   </feature_set>
