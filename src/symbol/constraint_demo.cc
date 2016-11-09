@@ -86,17 +86,19 @@ main( int argc,
     }
   } else{
     cout << "the input did not have examples of constraint, so we just demo the static functions and ostream operator for the default" << endl;
-    constraints.push_back( new Constraint() );
+    constraints.push_back( new Constraint( "inside", "robot", "box", "near" ) );
     cout << "constraint:( " << *constraints.back() << endl;
     cout << "constraint->class_name(): " << constraints.back()->class_name() << endl;
     cout << "Constraint::class_name(): " << Constraint::class_name() << endl;
   }
 
   if( args.output_given ){
+    cout << "writing constraints to \"" << args.output_arg << "\"" << endl;
     xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
     xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
     xmlDocSetRootElement( doc, root );
     for( unsigned int i = 0; i < constraints.size(); i++ ){
+      cout << "  writing constraint(" << *constraints[ i ] << ")" << endl;
       constraints[ i ]->to_xml( doc, root );
     }
     xmlSaveFormatFileEnc( args.output_arg, doc, "UTF-8", 1 );

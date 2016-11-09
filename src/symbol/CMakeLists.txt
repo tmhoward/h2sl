@@ -14,7 +14,6 @@ set(GGOS
     region_demo.ggo
     region_abstract_container_demo.ggo
     region_container_demo.ggo
-    constraint_demo.ggo
     spatial_relation_demo.ggo
     world_demo.ggo)
 
@@ -75,7 +74,6 @@ set(BIN_SRCS
     region_demo.cc
     region_abstract_container_demo.cc
     region_container_demo.cc
-    constraint_demo.cc
     spatial_relation_demo.cc
     world_demo.cc)
 

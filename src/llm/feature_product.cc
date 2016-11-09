@@ -48,8 +48,8 @@
 #include "h2sl/feature_region_merge_partially_known_regions.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
-#include "h2sl/feature_constraint_parent_is_robot.h"
-#include "h2sl/feature_constraint_child_is_robot.h"
+#include "h2sl/feature_constraint_payload_type.h"
+#include "h2sl/feature_constraint_reference_type.h"
 #include "h2sl/feature_product.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"
@@ -357,11 +357,11 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_child_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Constraint_Child_Matches_Child_Region() );
                 _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_parent_is_robot" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Constraint_Parent_Is_Robot() );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_payload_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Constraint_Payload_Type() );
                 _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_child_is_robot" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Constraint_Child_Is_Robot() );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_reference_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Constraint_Reference_Type() );
                 _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_matches_child" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Abstract_Container_Matches_Child() );

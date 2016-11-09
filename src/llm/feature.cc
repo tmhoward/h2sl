@@ -47,8 +47,8 @@
 #include "h2sl/feature_region_object_property_value.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
-#include "h2sl/feature_constraint_parent_is_robot.h"
-#include "h2sl/feature_constraint_child_is_robot.h"
+#include "h2sl/feature_constraint_payload_type.h"
+#include "h2sl/feature_constraint_reference_type.h"
 #include "h2sl/feature_grounding_property_value.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"
@@ -175,10 +175,10 @@ namespace h2sl {
       out << *static_cast< const Feature_Constraint_Parent_Matches_Child_Region* >( &other );
     } else if( dynamic_cast< const Feature_Constraint_Child_Matches_Child_Region* >( &other ) != NULL ){
       out << *static_cast< const Feature_Constraint_Child_Matches_Child_Region* >( &other );
-    } else if( dynamic_cast< const Feature_Constraint_Parent_Is_Robot* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Constraint_Parent_Is_Robot* >( &other );
-    } else if( dynamic_cast< const Feature_Constraint_Child_Is_Robot* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Constraint_Child_Is_Robot* >( &other );
+    } else if( dynamic_cast< const Feature_Constraint_Payload_Type* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Constraint_Payload_Type* >( &other );
+    } else if( dynamic_cast< const Feature_Constraint_Reference_Type* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Constraint_Reference_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Grounding_Property_Value* >( &other ) != NULL ){
       out << *static_cast< const Feature_Grounding_Property_Value* >( &other );
     } else if ( dynamic_cast< const Feature_Abstract_Container_Matches_Child* >( &other ) != NULL ){

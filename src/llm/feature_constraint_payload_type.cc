@@ -1,5 +1,5 @@
 /**
- * @file    feature_constraint_parent_is_robot.cc
+ * @file    feature_constraint_payload_type.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -35,35 +35,39 @@
 
 #include "h2sl/constraint.h"
 #include "h2sl/region.h"
-#include "h2sl/feature_constraint_parent_is_robot.h"
+#include "h2sl/feature_constraint_payload_type.h"
 
 using namespace std;
 using namespace h2sl;
 
-Feature_Constraint_Parent_Is_Robot::
-Feature_Constraint_Parent_Is_Robot( const bool& invert ) : Feature( invert ) {
+Feature_Constraint_Payload_Type::
+Feature_Constraint_Payload_Type( const bool& invert,
+                                  const string& payloadType ) : Feature( invert ),
+                                                                _payload_type( payloadType ) {
 
 }
 
-Feature_Constraint_Parent_Is_Robot::
-~Feature_Constraint_Parent_Is_Robot() {
+Feature_Constraint_Payload_Type::
+~Feature_Constraint_Payload_Type() {
 
 }
 
-Feature_Constraint_Parent_Is_Robot::
-Feature_Constraint_Parent_Is_Robot( const Feature_Constraint_Parent_Is_Robot& other ) : Feature( other ) {
+Feature_Constraint_Payload_Type::
+Feature_Constraint_Payload_Type( const Feature_Constraint_Payload_Type& other ) : Feature( other ),
+                                                                                  _payload_type( other._payload_type ) {
 
 }
 
-Feature_Constraint_Parent_Is_Robot&
-Feature_Constraint_Parent_Is_Robot::
-operator=( const Feature_Constraint_Parent_Is_Robot& other ) {
+Feature_Constraint_Payload_Type&
+Feature_Constraint_Payload_Type::
+operator=( const Feature_Constraint_Payload_Type& other ) {
   _invert = other._invert;
+  _payload_type = other._payload_type;
   return (*this);
 }
 
 bool
-Feature_Constraint_Parent_Is_Robot::
+Feature_Constraint_Payload_Type::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -73,7 +77,7 @@ value( const unsigned int& cv,
 }
 
 bool
-Feature_Constraint_Parent_Is_Robot::
+Feature_Constraint_Payload_Type::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -82,46 +86,68 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
   if( constraint != NULL ){
-    if( constraint->payload() == "robot" ){
-      return !_invert;
-    } else {
-      return _invert;
+    for( vector< Object* >::const_iterator it = world->objects().begin(); it != world->objects().end(); it++ ){
+      if( (*it) != NULL ){
+        if( (*it)->name() == constraint->payload() ){
+          if( (*it)->type() == _payload_type ){
+            return !_invert;
+          } else {
+            return _invert;
+          }
+        }
+      }
     }
   }
   return false;
 }
 
 void
-Feature_Constraint_Parent_Is_Robot::
+Feature_Constraint_Payload_Type::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_constraint_parent_is_robot" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_constraint_payload_type" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "payload_type" ), ( const xmlChar* )( _payload_type.c_str() ) );
   xmlAddChild( root, node );
   return;
 }
 
 void
-Feature_Constraint_Parent_Is_Robot::
+Feature_Constraint_Payload_Type::
 from_xml( xmlNodePtr root ){
   _invert = false;
+  _payload_type = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( char* )( tmp );
-      _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
+    pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
+    if( invert_prop.first ){
+      _invert = invert_prop.second;
+    } 
+    pair< bool, string > payload_type_prop = has_prop< std::string >( root, "payload_type" );
+    if( payload_type_prop.first ){
+      _payload_type = payload_type_prop.second;
     }
   }
   return;
 }
 
+string&
+Feature_Constraint_Payload_Type::
+payload_type( void ){
+  return _payload_type;
+}
+
+const string&
+Feature_Constraint_Payload_Type::
+payload_type( void )const{
+  return _payload_type;
+}
+
 namespace h2sl {
   ostream&
   operator<<( ostream& out,
-              const Feature_Constraint_Parent_Is_Robot& other ) {
-    out << "Feature_Constraint_Parent_Is_Robot:(invert:(" << other.invert() << "))";
+              const Feature_Constraint_Payload_Type& other ) {
+    out << "Feature_Constraint_Payload_Type:(invert:(" << other.invert() << "),payload_type=\"" << other.payload_type() << "\")";
     return out;
   }
 

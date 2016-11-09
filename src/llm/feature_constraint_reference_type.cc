@@ -1,5 +1,5 @@
 /**
- * @file    feature_constraint_child_is_robot.cc
+ * @file    feature_constraint_reference_type.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -35,35 +35,39 @@
 
 #include "h2sl/constraint.h"
 #include "h2sl/region.h"
-#include "h2sl/feature_constraint_child_is_robot.h"
+#include "h2sl/feature_constraint_reference_type.h"
 
 using namespace std;
 using namespace h2sl;
 
-Feature_Constraint_Child_Is_Robot::
-Feature_Constraint_Child_Is_Robot( const bool& invert ) : Feature( invert ) {
+Feature_Constraint_Reference_Type::
+Feature_Constraint_Reference_Type( const bool& invert,
+                                    const string& referenceType ) : Feature( invert ),
+                                                                    _reference_type( referenceType ) {
 
 }
 
-Feature_Constraint_Child_Is_Robot::
-~Feature_Constraint_Child_Is_Robot() {
+Feature_Constraint_Reference_Type::
+~Feature_Constraint_Reference_Type() {
 
 }
 
-Feature_Constraint_Child_Is_Robot::
-Feature_Constraint_Child_Is_Robot( const Feature_Constraint_Child_Is_Robot& other ) : Feature( other ) {
+Feature_Constraint_Reference_Type::
+Feature_Constraint_Reference_Type( const Feature_Constraint_Reference_Type& other ) : Feature( other ), 
+                                                                                      _reference_type( other._reference_type ) {
 
 }
 
-Feature_Constraint_Child_Is_Robot&
-Feature_Constraint_Child_Is_Robot::
-operator=( const Feature_Constraint_Child_Is_Robot& other ) {
+Feature_Constraint_Reference_Type&
+Feature_Constraint_Reference_Type::
+operator=( const Feature_Constraint_Reference_Type& other ) {
   _invert = other._invert;
+  _reference_type = other._reference_type;
   return (*this);
 }
 
 bool
-Feature_Constraint_Child_Is_Robot::
+Feature_Constraint_Reference_Type::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -73,7 +77,7 @@ value( const unsigned int& cv,
 }
 
 bool
-Feature_Constraint_Child_Is_Robot::
+Feature_Constraint_Reference_Type::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -82,46 +86,68 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
   if( constraint != NULL ){
-    if( constraint->reference() == "robot" ){
-      return !_invert;
-    } else {
-      return _invert;
+    for( vector< Object* >::const_iterator it = world->objects().begin(); it != world->objects().end(); it++ ){
+      if( (*it) != NULL ){
+        if( (*it)->name() == constraint->reference() ){
+          if( (*it)->type() == _reference_type ){
+            return !_invert;
+          } else {
+            return _invert;
+          }
+        }
+      }
     }
   }
   return false;
 }
 
 void
-Feature_Constraint_Child_Is_Robot::
+Feature_Constraint_Reference_Type::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_constraint_child_is_robot" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_constraint_reference_type" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "reference_type" ), ( const xmlChar* )( _reference_type.c_str() ) );
   xmlAddChild( root, node );
   return;
 }
 
 void
-Feature_Constraint_Child_Is_Robot::
+Feature_Constraint_Reference_Type::
 from_xml( xmlNodePtr root ){
   _invert = false;
+  _reference_type = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( char* )( tmp );
-      _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
+    pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
+    if( invert_prop.first ){
+      _invert = invert_prop.second;
+    }
+    pair< bool, string > reference_type_prop = has_prop< std::string >( root, "reference_type" );
+    if( reference_type_prop.first ){
+      _reference_type = reference_type_prop.second;
     }
   }
   return;
 }
 
+string&
+Feature_Constraint_Reference_Type::
+reference_type( void ){
+  return _reference_type;
+}
+
+const string&
+Feature_Constraint_Reference_Type::
+reference_type( void )const{
+  return _reference_type;
+}
+
 namespace h2sl {
   ostream&
   operator<<( ostream& out,
-              const Feature_Constraint_Child_Is_Robot& other ) {
-    out << "Feature_Constraint_Child_Is_Robot:(invert:(" << other.invert() << "))";
+              const Feature_Constraint_Reference_Type& other ) {
+    out << "Feature_Constraint_Reference_Type:(invert:(" << other.invert() << "),reference_type=\"" << other.reference_type() << "\")";
     return out;
   }
 

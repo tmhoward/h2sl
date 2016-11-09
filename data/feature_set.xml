@@ -238,10 +238,10 @@
         <feature_constraint_parent_matches_child_region invert="1"/>
         <feature_constraint_child_matches_child_region invert="0"/>
         <feature_constraint_child_matches_child_region invert="1"/>
-        <feature_constraint_parent_is_robot invert="0"/>
-        <feature_constraint_parent_is_robot invert="1"/>
-        <feature_constraint_child_is_robot invert="0"/>
-        <feature_constraint_child_is_robot invert="1"/>
+        <feature_constraint_payload_type invert="0" payload_type="robot"/>
+        <feature_constraint_payload_type invert="1" payload_type="robot"/>
+        <feature_constraint_reference_type invert="0" reference_type="robot"/>
+        <feature_constraint_reference_type invert="1" reference_type="robot"/>
         <feature_min_x_object invert="0"/>
         <feature_min_x_object invert="1"/>
         <feature_max_x_object invert="0"/>

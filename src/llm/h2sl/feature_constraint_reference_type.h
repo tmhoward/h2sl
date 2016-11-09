@@ -1,5 +1,5 @@
 /**
- * @file    feature_constraint_parent_is_robot.h
+ * @file    feature_constraint_reference_type.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -31,20 +31,20 @@
  * The interface for a class used to check for a match between a grounding region's object and a child region object
  */
 
-#ifndef H2SL_FEATURE_CONSTRAINT_PARENT_IS_ROBOT_H
-#define H2SL_FEATURE_CONSTRAINT_PARENT_IS_ROBOT_H
+#ifndef H2SL_FEATURE_CONSTRAINT_REFERENCE_TYPE_H
+#define H2SL_FEATURE_CONSTRAINT_REFERENCE_TYPE_H
 
 #include <iostream>
 
 #include <h2sl/feature.h>
 
 namespace h2sl {
-  class Feature_Constraint_Parent_Is_Robot: public Feature {
+  class Feature_Constraint_Reference_Type: public Feature {
   public:
-    Feature_Constraint_Parent_Is_Robot( const bool& invert = false );
-    virtual ~Feature_Constraint_Parent_Is_Robot();
-    Feature_Constraint_Parent_Is_Robot( const Feature_Constraint_Parent_Is_Robot& other );
-    Feature_Constraint_Parent_Is_Robot& operator=( const Feature_Constraint_Parent_Is_Robot& other );
+    Feature_Constraint_Reference_Type( const bool& invert = false, const std::string& referenceType = "na" );
+    virtual ~Feature_Constraint_Reference_Type();
+    Feature_Constraint_Reference_Type( const Feature_Constraint_Reference_Type& other );
+    Feature_Constraint_Reference_Type& operator=( const Feature_Constraint_Reference_Type& other );
 
     virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
     virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
@@ -53,14 +53,18 @@ namespace h2sl {
 
     virtual void from_xml( xmlNodePtr root );
 
+    std::string& reference_type( void );
+    const std::string& reference_type( void )const;
+
     virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
   protected:
+    std::string _reference_type;
 
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const Feature_Constraint_Parent_Is_Robot& other );
+  std::ostream& operator<<( std::ostream& out, const Feature_Constraint_Reference_Type& other );
 }
 
-#endif /* H2SL_FEATURE_CONSTRAINT_PARENT_IS_ROBOT_H */
+#endif /* H2SL_FEATURE_CONSTRAINT_REFERENCE_TYPE_H */

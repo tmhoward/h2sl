@@ -1,5 +1,5 @@
 /**
- * @file    feature_constraint_child_is_robot.h
+ * @file    feature_constraint_parent_is_robot.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -31,20 +31,20 @@
  * The interface for a class used to check for a match between a grounding region's object and a child region object
  */
 
-#ifndef H2SL_FEATURE_CONSTRAINT_CHILD_IS_ROBOT_H
-#define H2SL_FEATURE_CONSTRAINT_CHILD_IS_ROBOT_H
+#ifndef H2SL_FEATURE_CONSTRAINT_PAYLOAD_TYPE_H
+#define H2SL_FEATURE_CONSTRAINT_PAYLOAD_TYPE_H
 
 #include <iostream>
 
 #include <h2sl/feature.h>
 
 namespace h2sl {
-  class Feature_Constraint_Child_Is_Robot: public Feature {
+  class Feature_Constraint_Payload_Type: public Feature {
   public:
-    Feature_Constraint_Child_Is_Robot( const bool& invert = false );
-    virtual ~Feature_Constraint_Child_Is_Robot();
-    Feature_Constraint_Child_Is_Robot( const Feature_Constraint_Child_Is_Robot& other );
-    Feature_Constraint_Child_Is_Robot& operator=( const Feature_Constraint_Child_Is_Robot& other );
+    Feature_Constraint_Payload_Type( const bool& invert = false, const std::string& payloadType = "na" );
+    virtual ~Feature_Constraint_Payload_Type();
+    Feature_Constraint_Payload_Type( const Feature_Constraint_Payload_Type& other );
+    Feature_Constraint_Payload_Type& operator=( const Feature_Constraint_Payload_Type& other );
 
     virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
     virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
@@ -52,14 +52,19 @@ namespace h2sl {
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( xmlNodePtr root );
+
+    std::string& payload_type( void );
+    const std::string& payload_type( void )const;
+
     virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
   protected:
+    std::string _payload_type;
 
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const Feature_Constraint_Child_Is_Robot& other );
+  std::ostream& operator<<( std::ostream& out, const Feature_Constraint_Payload_Type& other );
 }
 
-#endif /* H2SL_FEATURE_CONSTRAINT_CHILD_IS_ROBOT_H */
+#endif /* H2SL_FEATURE_CONSTRAINT_PAYLOAD_TYPE_H */

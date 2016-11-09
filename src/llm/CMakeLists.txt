@@ -26,8 +26,8 @@ set(HDRS
     h2sl/feature_region_merge_partially_known_regions.h
     h2sl/feature_constraint_parent_matches_child_region.h
     h2sl/feature_constraint_child_matches_child_region.h
-    h2sl/feature_constraint_parent_is_robot.h
-    h2sl/feature_constraint_child_is_robot.h
+    h2sl/feature_constraint_payload_type.h
+    h2sl/feature_constraint_reference_type.h
     h2sl/feature_product.h
     h2sl/feature_set.h
     h2sl/feature_abstract_container_matches_child.h
@@ -111,9 +111,10 @@ set(SRCS
     feature_region_object_property_value.cc
     feature_region_merge_partially_known_regions.cc
     feature_constraint_parent_matches_child_region.cc
+    feature_constraint_payload_type.cc
     feature_constraint_child_matches_child_region.cc
-    feature_constraint_parent_is_robot.cc
-    feature_constraint_child_is_robot.cc
+    feature_constraint_payload_type.cc
+    feature_constraint_reference_type.cc
     feature_product.cc
     feature_set.cc
     feature_abstract_container_matches_child.cc
