@@ -1,0 +1,13 @@
+package "h2sl-llm-train-adcg"
+version "0.0.1"
+purpose "A program used to train a log-linear model using the adcg symbol space"
+
+option "input" - "input file" string optional
+option "feature_set" - "feature_set file" string required
+option "threads" - "number of threads" int default="8" optional
+option "max_iterations" - "max iterations" int default="50" optional
+option "lambda" - "lambda" double default="0.001" optional
+option "epsilon" - "epsilon" double default="0.0001" optional
+option "output" - "output file" string default="llm.xml" optional
+
+text ""
