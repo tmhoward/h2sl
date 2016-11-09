@@ -41,7 +41,8 @@
 namespace h2sl {
   class Constraint: public Grounding {
   public:
-    Constraint( const std::string& constraintType = "na", const Region& parent = Region(), const Region& child = Region() );
+    Constraint( const std::string& constraintType = "na", const std::string& payload = "na", const std::string& reference = "na", const std::string& referenceRelation = "na" );
+    Constraint( const std::string& constraintType, const std::string& payload, const std::string& payloadRelation, const std::string& reference, const std::string& referenceRelation );
     Constraint( xmlNodePtr root );
     virtual ~Constraint();
     Constraint( const Constraint& other );
@@ -58,16 +59,18 @@ namespace h2sl {
 
     inline std::string& constraint_type( void ){ return get_prop< std::string >( _properties, "constraint_type" ); };
     inline const std::string& constraint_type( void )const{ return get_prop< std::string >( _properties, "constraint_type" ); };
-    inline Region& parent( void ){ return _parent; };
-    inline const Region& parent( void )const{ return _parent; };
-    inline Region& child( void ){ return _child; };
-    inline const Region& child( void )const{ return _child; };
+    inline std::string& payload( void ){ return get_prop< std::string >( _properties, "payload" ); };
+    inline const std::string& payload( void )const{ return get_prop< std::string >( _properties, "payload" ); };
+    inline std::string& payload_relation( void ){ return get_prop< std::string >( _properties, "payload_relation" ); };
+    inline const std::string& payload_relation( void )const{ return get_prop< std::string >( _properties, "payload_relation" ); };
+    inline std::string& reference( void ){ return get_prop< std::string >( _properties, "reference" ); };
+    inline const std::string& reference( void )const{ return get_prop< std::string >( _properties, "reference" ); };
+    inline std::string& reference_relation( void ){ return get_prop< std::string >( _properties, "reference_relation" ); };
+    inline const std::string& reference_relation( void )const{ return get_prop< std::string >( _properties, "reference_relation" ); };
 
     static std::string class_name( void ){ return "constraint"; };
 
   protected:
-    Region _parent;
-    Region _child;
 
   private:
 

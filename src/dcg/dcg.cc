@@ -143,10 +143,8 @@ fill_search_spaces( const World* world ){
     for( unsigned int j = 0; j < world->objects().size(); j++ ){
       for( unsigned int k = 0; k < regions.size(); k++ ){
         for( unsigned int l = 0; l < world->objects().size(); l++ ){
-          for( unsigned int m = 0; m < regions.size(); m++ ){
-            if( ( j != l ) || ( k != m ) ){
-              _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraints[ i ], Region( regions[ k ], *world->objects()[ j ] ), Region( regions[ m ], *world->objects()[ l ] ) ) ) );
-            }
+          if( j != l ){
+            _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraints[ i ], world->objects()[ j ]->name(), world->objects()[ l ]->name(), regions[ k ] ) ) );
           }
         }
       }
