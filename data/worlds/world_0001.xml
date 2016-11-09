@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world time="0">
+    <object name="baxter1-baxter-left_hand" type="robot" position="0.142854,1.19839,0.957253" orientation="-0.549491,0.731964,0.332955,0.22678" color="na"/>
+    <object name="baxter1-baxter-right_hand" type="robot" position="0.920661,-0.673788,1.5824" orientation="0.283103,0.425877,0.0411236,0.858365" color="na"/>
+    <object name="object0-cube-cube-base" type="block" position="1.17944,-0.427886,0.73615" orientation="2.93449e-07,2.98515e-06,-0.353919,0.935276" color="na"/>
+    <object name="object1-cube-cube-base" type="block" position="0.821698,0.349521,0.73615" orientation="0.566683,-0.422687,0.56694,0.422831" color="na"/>
+    <object name="object2-cube-cube-base" type="block" position="0.908539,0.20324,0.73615" orientation="1.88049e-06,-3.64203e-05,-0.0104208,0.999946" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="0.774183,-0.251886,0.73615" orientation="-0.676936,-0.203833,-0.677244,0.203838" color="na"/>
+    <object name="object4-cube-cube-base" type="block" position="0.996622,-0.0634606,0.73615" orientation="-1.68905e-06,-6.07961e-07,0.00559877,0.999984" color="na"/>
+    <object name="object5-cube-cube-base" type="block" position="0.927737,-0.332794,0.73615" orientation="0.592273,-0.386277,-0.386278,0.592277" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="1.05213,0.515082,0.73615" orientation="-0.700309,-0.0976077,-0.700309,0.0980223" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="0.910862,0.00680389,0.73615" orientation="-0.0795175,0.70262,0.0795201,0.702623" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="0.96925,0.527563,0.73615" orientation="-1.16355e-06,-5.00612e-06,-0.813535,0.581516" color="na"/>
+    <object name="object9-cube-cube-base" type="block" position="1.11856,0.661358,0.73615" orientation="6.64398e-08,1.21497e-06,-0.0392197,0.999231" color="na"/>
+    <object name="table-table-table-base" type="table" position="0.99998,7.53728e-05,-0.012225" orientation="-1.05075e-09,7.58762e-10,-5.4477e-05,1" color="na"/>
+  </world>
+</root>

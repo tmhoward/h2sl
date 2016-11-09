@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the fourth nearest block in a column of five blocks in front of the robot"/>
+  <image file="world_0011_0001.png"/>
+  <world time="0">
+    <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+    <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+    <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+    <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+    <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+    <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+    <object name="table-table-table-base" type="table" position="0.875016,1.41993e-06,-0.0117897" orientation="-5.483e-06,1.36336e-05,-1.08889e-05,1" color="na"/>
+  </world>
+  <NP>
+    <grounding>
+      <grounding_set>
+        <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+      </grounding_set>
+    </grounding>
+    <NP>
+      <grounding>
+        <grounding_set>
+          <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+          <object_property object_type="block" relation_type="near" index="fourth"/>
+          <index type="fourth"/>
+          <spatial_relation type="near"/>
+          <object_type type="block"/>
+        </grounding_set>
+      </grounding>
+      <DT text="the" order="0"/>
+      <JJ text="fourth" order="1"/>
+      <JJS text="nearest" order="2"/>
+      <NN text="block" order="3"/>
+    </NP>
+    <PP>
+      <grounding>
+        <grounding_set>
+          <container type="column">
+            <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+            <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+            <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+            <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+            <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+          </container>
+          <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+          <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+          <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+          <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+          <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+        </grounding_set>
+      </grounding>
+      <IN text="in" order="4"/>
+      <NP>
+        <grounding>
+          <grounding_set>
+            <container type="column">
+              <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+              <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+              <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+              <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+              <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+            </container>
+            <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+            <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+            <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+            <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+            <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+          </grounding_set>
+        </grounding>
+        <NP>
+          <grounding>
+            <grounding_set>
+              <container type="column"/>
+            </grounding_set>
+          </grounding>
+          <DT text="a" order="5"/>
+          <NN text="column" order="6"/>
+        </NP>
+        <PP>
+          <grounding>
+            <grounding_set>
+              <container type="column">
+                <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+                <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+                <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+                <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+                <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+              </container>
+              <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+              <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+              <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+              <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+              <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+            </grounding_set>
+          </grounding>
+          <IN text="of" order="7"/>
+          <NP>
+            <grounding>
+              <grounding_set>
+                <container type="column">
+                  <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+                  <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+                  <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+                  <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+                  <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+                </container>
+                <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+                <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+                <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+                <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+                <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+              </grounding_set>
+            </grounding>
+            <NP>
+              <grounding>
+                <grounding_set>
+                  <container type="column">
+                    <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+                    <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+                    <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+                    <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+                    <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+                  </container>
+                  <object name="object0-cube-cube-base" type="block" position="0.573425,0.0608799,0.73773" orientation="-6.34809e-06,1.2209e-05,-0.00211945,0.999998" color="na"/>
+                  <object name="object1-cube-cube-base" type="block" position="0.733622,0.0703224,0.737725" orientation="-5.13367e-06,1.44601e-05,0.00514893,0.999987" color="na"/>
+                  <object name="object2-cube-cube-base" type="block" position="0.898326,0.0110149,0.737722" orientation="-4.39749e-06,1.72692e-05,-0.000119483,1" color="na"/>
+                  <object name="object3-cube-cube-base" type="block" position="1.04809,-0.00764687,0.737718" orientation="-6.25752e-06,1.48334e-05,0.0208957,0.999782" color="na"/>
+                  <object name="object4-cube-cube-base" type="block" position="1.17687,0.0269996,0.737714" orientation="-5.89119e-06,9.89081e-06,-0.174885,0.984589" color="na"/>
+                  <abstract_container type="block" num="5" index="first" color="na"/>
+                  <object_type type="block"/>
+                  <number value="five"/>
+                </grounding_set>
+              </grounding>
+              <CD text="five" order="8"/>
+              <NNS text="blocks" order="9"/>
+            </NP>
+            <PP>
+              <grounding>
+                <grounding_set>
+                  <region_container type="front">
+                    <container type="robot">
+                      <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+                      <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+                    </container>
+                  </region_container>
+                  <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+                  <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+                </grounding_set>
+              </grounding>
+              <IN text="in" order="10"/>
+              <NP>
+                <grounding>
+                  <grounding_set>
+                    <region_container type="front">
+                      <container type="robot">
+                        <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+                        <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+                      </container>
+                    </region_container>
+                    <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+                    <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+                  </grounding_set>
+                </grounding>
+                <NP>
+                  <grounding>
+                    <grounding_set>
+                      <spatial_relation type="front"/>
+                    </grounding_set>
+                  </grounding>
+                  <NN text="front" order="11"/>
+                </NP>
+                <PP>
+                  <grounding>
+                    <grounding_set>
+                      <container type="robot">
+                        <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+                        <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+                      </container>
+                      <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+                      <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+                    </grounding_set>
+                  </grounding>
+                  <IN text="of" order="12"/>
+                  <NP>
+                    <grounding>
+                      <grounding_set>
+                        <container type="robot">
+                          <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+                          <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+                        </container>
+                        <object name="baxter1-baxter-left_hand" type="robot" position="0.823206,1.02853,1.22719" orientation="-0.263219,0.66204,0.259655,0.651918" color="na"/>
+                        <object name="baxter1-baxter-right_hand" type="robot" position="0.767828,-0.955009,1.22895" orientation="0.281331,0.653735,-0.278057,0.645111" color="na"/>
+                      </grounding_set>
+                    </grounding>
+                    <DT text="the" order="13"/>
+                    <NN text="robot" order="14"/>
+                  </NP>
+                </PP>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>

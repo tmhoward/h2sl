@@ -1,0 +1,134 @@
+"middle block of the row of five blocks on the right"/>
+"the column of three blocks on the leftmost"/>
+"the nearest two blocks in the front"/>
+"the farthest block of the column of three blocks on the right"/>
+"the two blocks on the leftmost"/>
+"the group of four blocks on the right"/>
+"group of eight blocks in the front"/>
+"all the blocks in front"/>
+"the three farthest blocks on the left"/>
+"the two blocks on the rightmost"/>
+"the two nearest blocks from the robot in the column of four blocks on the righthand side of the robot"/>
+"the column of four red blocks on the table in front of the robot"/>
+"the vertical column of four red blocks on one end of the table in front of the robot"/>
+"a horizontal line of four red blocks"/>
+"all of the red blocks on the table in front of the robot"/>
+"the column of red blocks in front of the robot on the righthand side of the table"/>
+"the farthest block from the robot in the column of four blocks on the right of the robot"/>
+"the two blocks nearest the robot in the vertical column of four blocks on the right of the robot."/>
+"the two nearest blocks from the robot in the column of four blocks on the right of the robot."/>
+"the farthest two blocks from the robot in the column of four blocks to the right of the robot."/>
+"the farthest two blocks from the robot in the vertical column of four blocks on the right side of the robot."/>
+"all the red blocks on the table in front of the robot"/>
+"all twelve red blocks on the table in front of the robot"/>
+"pick up the farthest red block on the right"/>
+"pick up the farthest red block on the left"/>
+"pick up the furthest red block on the right"/>
+"pick up the red block on the left side of the table"/>
+"the middle block in the row of blocks in front of the robot"/>
+"the middle block in the column of blocks in front of the robot"/>
+"the middle block in the row of blocks in front of the robot"/>
+"the second closest block in the column of blocks in front of the robot"/>
+"the second block from the right in the row of blocks in front of the robot"/>
+"the third nearest block in front of the robot"/>
+"the fourth farthest block in the column of blocks in front of the robot"/>
+"the fifth block from the left in the row of seven blocks in front of the robot"/>
+"the second block from the left in the row of five blocks in front of the robot"/>
+"the second farthest block to the left in the row of blocks in front of the robot"/>
+"the second block from the right in a row of seven red blocks in front of the robot"/>
+"the third block from the left in the row of blocks in front of the robot"/>
+"the fourth nearest block in a column of five blocks in front of the robot"/>
+"the row of seven blocks in front of the robot"/>
+"seven blocks in a row in front of the robot"/>
+"a row of seven blocks in front of the robot"/>
+"the second block from the left in the line of five blocks in front of the robot"/>
+"the second block from the left in the line of blocks in front of the robot"/>
+"the second block from the bottom in the column of blocks in front of the robot"/>
+"the second block from the bottom in a column of five red blocks in front of the robot"/>
+"the leftmost block in the line of blocks in front of the robot"/>
+"the first block on the left in the row of blocks in front of the robot"/>
+"the leftmost block in the row of blocks in front of the robot"/>
+"the first block on the left in a horizontal line of five blocks in front of the robot"/>
+"the second farthest block to the left in the row of blocks in front of the robot"/>
+"the second block from the left in the row of five blocks in front of the robot"/>
+"the second block from the left in the row of blocks in front of the robot"/>
+"the middle block in the column of blocks in front of the robot"/>
+"the center block in the column of blocks in front of the robot"/>
+"the middle block in a vertical line of blocks in front of the robot"/>
+"the first block on the right in the row of blocks in front of the robot"/>
+"the farthest block to the right in a row of blocks in front of the robot"/>
+"the farthest right block in the row of blocks in front of the robot"/>
+"the farthest block on the left in the row of blocks in front of the robot"/>
+"the first block on the left in the row of blocks in front of the robot"/>
+"the fourth nearest block to the robot in the column of blocks in front of the robot"/>
+"the second block from the top in the column of blocks in front of the robot"/>
+"the second farthest block in the column of blocks in front of the robot"/>
+"the second block from the bottom in a column of five red blocks in front of the robot"/>
+"the second nearest block in the column of blocks in front of the robot"/>
+"the second closest block in the column of blocks in front of the robot"/>
+"the second block from the left in the line of blocks in front of the robot"/>
+"the second block from the left in the row of blocks in front of the robot"/>
+"the second farthest block on the left in the row of blocks in front of the robot"/>
+"the leftmost block in the row of five blocks in front of the robot"/>
+"the farthest block to the left in the row of blocks in front of the robot"/>
+"the third block from the left in front of the robot"/>
+"the third block from the left in the row of blocks in front of the robot"/>
+"the block third from the left in front of the robot"/>
+"the third red block from the left in the horizontal row of red blocks in front of the robot"/>
+"the third block from the right in the row of blocks in front of the robot"/>
+"the block third from the right in front of the robot"/>
+"the third block from the right in the row of blocks in front of the robot"/>
+"the third red block from the right in a horizontal row of red blocks in front of the robot"/>
+"the third block from the right in the row of blocks in front of the robot"/>
+"the third nearest block in front of the robot"/>
+"the third box from the left in front of the robot"/>
+"the third block from the left in front of the robot"/>
+"the third block from the left in the row of blocks in front of the robot"/>
+"the third block from the left in front of the robot"/>
+"the third block from the left in the line of blocks in front of the robot"/>
+"the third red box from the left in the horizontal row of red blocks in front of the robot"/>
+"the third leftmost block in front of the robot"/>
+"the third red block from the left in a horizontal row of red blocks in front of the robot"/>
+"the third block from the left in the row of seven blocks in front of the robot"/>
+"the third block from the left in the row of blocks in front of the robot"/>
+"the third farthest block to the right in the row of blocks in front of the robot"/>
+"the third farthest block to the right in the row of blocks in front of the robot"/>
+"the third red block from the right in a horizontal row of red blocks in front of the robot"/>
+"the third block from the right in the row of blocks in front of the robot"/>
+"the block third from the right in front of the robot"/>
+"the third red block from the right in a horizontal row of red blocks in front of the robot"/>
+"the third block from the right in front of the robot"/>
+"the block third from the left of the robot"/>
+"the third block from the left in the row of blocks in front of the robot"/>
+"the third red block from the left in a horizontal row of red blocks in front of the robot"/>
+"the third farthest block to the left in the row of blocks in front of the robot"/>
+"the third block from the left in the row of blocks in front of the robot"/>
+"the first block from the left in front of the robot"/>
+"the first block in front of the robot"/>
+"the first block on the left in front of the robot"/>
+"the first block on the bottom of the column of blocks in front of the robot"/>
+"the first block on the left in the row of blocks in front of the robot"/>
+"the first block from the right in front of the robot"/>
+"the first block on the right in front of the robot"/>
+"the first block on the left in front of the robot"/>
+"the first block from the left in front of the robot"/>
+"the first block from the left in front of the robot"/>
+"the first block from the right in front of the robot"/>
+"the first block from the right in front of the robot"/>
+"the first block from the right in front of the robot"/>
+"the first block from the left in front of the robot"/>
+"the first block on the right in front of the robot"/>
+"the first block from the left in front of the robot"/>
+"the fourth block from the left in the row of seven blocks in front of the robot"/>
+"the fourth box from the left in the row of boxes in front of the robot"/>
+"the fourth block from the left in the row of blocks in front of the robot"/>
+"the fourth block from the left in the row of blocks in front of the robot"/>
+"the block in the middle in front of the robot"/>
+"the block in the center"/>
+"the middle block in front of the robot"/>
+"the middle red block in a horizontal row of red blocks in front of the robot"/>
+"the block in the center"/>
+"the middle block in front of the robot"/>
+"the middle block in the row of blocks in front of the robot"/>
+"the block in the center"/>
+"the center block in the row of seven blocks in front of the robot"/>

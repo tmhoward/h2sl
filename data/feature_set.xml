@@ -90,20 +90,107 @@
         <feature_is_region invert="1"/>
         <feature_is_region_container invert="0"/>
         <feature_is_region_container invert="1"/>
+        <feature_is_region_abstract_container invert="0"/>
+        <feature_is_region_abstract_container invert="1"/>
         <feature_is_spatial_relation invert="0"/>
         <feature_is_spatial_relation invert="1"/>
+        <feature_object_type_type invert="0" type="na"/>
+        <feature_object_type_type invert="0" type="block"/>
+        <feature_object_type_type invert="0" type="table"/>
+        <feature_object_type_type invert="0" type="robot"/>
+        <feature_object_property_type invert="0" object_type="na"/>
+        <feature_object_property_type invert="0" object_type="block"/>
+        <feature_object_property_type invert="0" object_type="table"/>
+        <feature_object_property_type invert="0" object_type="robot"/>
         <feature_object_property_merge_object_property_spatial_relation invert="0"/>
         <feature_object_property_merge_object_property_spatial_relation invert="1"/>
         <feature_object_property_merge_object_property_container invert="0"/>
         <feature_object_property_merge_object_property_container invert="1"/>
+        <feature_object_property_relation_type invert="0" relation_type="na"/>
+        <feature_object_property_relation_type invert="0" relation_type="front"/>
+        <feature_object_property_relation_type invert="0" relation_type="back"/>
+        <feature_object_property_relation_type invert="0" relation_type="left"/>
+        <feature_object_property_relation_type invert="0" relation_type="center"/>
+        <feature_object_property_relation_type invert="0" relation_type="right"/>
+        <feature_object_property_relation_type invert="0" relation_type="side"/>
+        <feature_object_property_relation_type invert="0" relation_type="near"/>
+        <feature_object_property_relation_type invert="0" relation_type="far"/>
+        <feature_object_property_index invert="0" index="na"/>
+        <feature_object_property_index invert="0" index="first"/>
+        <feature_object_property_index invert="0" index="second"/>
+        <feature_object_property_index invert="0" index="third"/>
+        <feature_object_property_index invert="0" index="fourth"/>
+        <feature_object_property_index invert="0" index="fifth"/>
+        <feature_object_type_matches_child_abstract_container invert="0"/>
+        <feature_object_type_matches_child_abstract_container invert="1"/>
         <feature_spatial_relation_matches_child invert="0"/>
         <feature_spatial_relation_matches_child invert="1"/>
+        <feature_region_container_type invert="0" region_container_type="na"/>
+        <feature_region_container_type invert="0" region_container_type="front"/>
+        <feature_region_container_type invert="0" region_container_type="back"/>
+        <feature_region_container_type invert="0" region_container_type="left"/>
+        <feature_region_container_type invert="0" region_container_type="right"/>
+        <feature_region_container_type invert="0" region_container_type="near"/>
+        <feature_region_container_type invert="0" region_container_type="far"/>
+        <feature_region_container_type invert="0" region_container_type="center"/>
         <feature_region_container_matches_child invert="0"/>
         <feature_region_container_matches_child invert="1"/>
+        <feature_region_container_container_type invert="0" container_type="group"/>
+        <feature_region_container_container_type invert="0" container_type="row"/>
+        <feature_region_container_container_type invert="0" container_type="column"/>
+        <feature_region_container_container_type invert="0" container_type="tower"/>
         <feature_region_container_container_matches_child_container invert="0"/>
         <feature_region_container_container_matches_child_container invert="1"/>
+        <feature_abstract_container_type invert="0" abstract_container_type="na"/>
+        <feature_abstract_container_type invert="0" abstract_container_type="block"/>
+        <feature_abstract_container_type invert="0" abstract_container_type="table"/>
+        <feature_abstract_container_type invert="0" abstract_container_type="robot"/>
+        <feature_abstract_container_color invert="0" abstract_container_color="na"/>
+        <feature_abstract_container_color invert="0" abstract_container_color="red"/>
+        <feature_abstract_container_color invert="0" abstract_container_color="blue"/>
+        <feature_abstract_container_color invert="0" abstract_container_color="yellow"/>
         <feature_abstract_container_matches_child invert="0"/>
         <feature_abstract_container_matches_child invert="1"/>
+        <feature_region_abstract_container_type invert="0" region_abstract_container_type="na"/>
+        <feature_region_abstract_container_type invert="0" region_abstract_container_type="front"/>
+        <feature_region_abstract_container_type invert="0" region_abstract_container_type="back"/>
+        <feature_region_abstract_container_type invert="0" region_abstract_container_type="left"/>
+        <feature_region_abstract_container_type invert="0" region_abstract_container_type="right"/>
+        <feature_region_abstract_container_type invert="0" region_abstract_container_type="near"/>
+        <feature_region_abstract_container_type invert="0" region_abstract_container_type="far"/>
+        <feature_region_abstract_container_type invert="0" region_abstract_container_type="center"/>
+        <feature_region_abstract_container_object_type invert="0" object_type="na"/>
+        <feature_region_abstract_container_object_type invert="0" object_type="block"/>
+        <feature_region_abstract_container_object_type invert="0" object_type="table"/>
+        <feature_region_abstract_container_object_type invert="0" object_type="robot"/>
+        <feature_region_abstract_container_number invert="0" number="one"/>
+        <feature_region_abstract_container_number invert="0" number="two"/>
+        <feature_region_abstract_container_number invert="0" number="three"/>
+        <feature_region_abstract_container_number invert="0" number="four"/>
+        <feature_region_abstract_container_number invert="0" number="five"/>
+        <feature_region_abstract_container_number invert="0" number="six"/>
+        <feature_region_abstract_container_number invert="0" number="seven"/>
+        <feature_region_abstract_container_number invert="0" number="eight"/>
+        <feature_region_abstract_container_number invert="0" number="nine"/>
+        <feature_region_abstract_container_number invert="0" number="ten"/>
+        <feature_region_abstract_container_number invert="0" number="na"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="one"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="two"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="three"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="four"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="five"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="six"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="seven"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="eight"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="nine"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="ten"/>
+        <feature_abstract_container_number invert="0" abstract_container_number="na"/>
+        <feature_abstract_container_index invert="0" abstract_container_index="na"/>
+        <feature_abstract_container_index invert="0" abstract_container_index="first"/>
+        <feature_abstract_container_index invert="0" abstract_container_index="second"/>
+        <feature_abstract_container_index invert="0" abstract_container_index="third"/>
+        <feature_abstract_container_index invert="0" abstract_container_index="fourth"/>
+        <feature_abstract_container_index invert="0" abstract_container_index="fifth"/>
         <feature_container_number invert="0" container_number="1"/>
         <feature_container_number invert="0" container_number="2"/>
         <feature_container_number invert="0" container_number="3"/>
@@ -113,6 +200,11 @@
         <feature_container_number invert="0" container_number="7"/>
         <feature_container_number invert="0" container_number="8"/>
         <feature_container_number invert="0" container_number="9"/>
+        <feature_container_type invert="0" container_type="group"/>
+        <feature_container_type invert="0" container_type="row"/>
+        <feature_container_type invert="0" container_type="column"/>
+        <feature_container_type invert="0" container_type="tower"/>
+        <feature_container_type invert="0" container_type="robot"/>
         <feature_container_is_empty invert="0"/>
         <feature_container_is_empty invert="1"/>
         <feature_container_matches_child invert="0"/>
