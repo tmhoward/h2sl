@@ -230,6 +230,8 @@ from_xml( xmlNodePtr root ){
             if( l2->type == XML_ELEMENT_NODE ){
               if( xmlStrcmp( l2->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
                 _grounding = new Grounding_Set( l2 );
+              } else{
+                cout << "could not load" << l2->name << endl;
               }
             }
           }
@@ -295,6 +297,97 @@ min_word_order( void )const{
 
   return min_order;
 }
+
+/**
+ * Function to return the number of child phrases
+ */
+unsigned int
+Phrase::
+num_phrases( void )const{
+  return num_phrases( this );
+}
+
+unsigned int
+Phrase::
+num_phrases( const Phrase* phrase )const{
+  unsigned int tmp = 1;
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    tmp += num_phrases( phrase->children()[ i ] );
+  }
+  return tmp;
+}
+
+/**
+ * Function to return the number of words in the phrase and child phrases
+ */
+unsigned int
+Phrase::
+num_words( void )const{
+  return num_words( this );
+}
+
+unsigned int
+Phrase::
+num_words( const Phrase* phrase )const{
+
+  unsigned int tmp = phrase->words().size();
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    tmp += num_words( phrase->children()[ i ] );
+  }
+  return tmp;
+}
+
+/**
+ * Function to output the phrase as a tikz figure
+ */
+void
+Phrase::
+to_tikz( const string& filename,
+          const string& caption,
+          const string& label ){
+  ofstream outfile;
+  outfile.open( filename );
+
+  outfile << "\\begin{figure}[!htb]" << endl;
+  outfile << "\\begin{center}" << endl;
+  outfile << "\\begin{tikzpicture}[textnode/.style={anchor=mid,font=\\tiny},nodeknown/.style={circle,draw=black!80,fill=black!10,minimum size=6mm,font=\\tiny,top color=white,bottom color=black!20},nodeunknown/.style={circle,draw=black!80,fill=white,minimum size=6mm,font=\\tiny},factor/.style={rectangle,draw=black!80,fill=black!80,minimum size=3mm,font=\\tiny,text=white}]" << endl;
+
+  map< string, pair< double, double > > nodes;
+
+  outfile << to_tikz( this, nodes );
+
+  outfile << "\\end{tikzpicture}" << endl;
+  outfile << "\\end{center}" << endl;
+  outfile << "\\caption{" << caption << "}" << endl;
+  outfile << "\\label{" << label << "}" << endl;
+  outfile << "\\end{figure}" << endl;
+
+  outfile.close();
+
+  return;
+}
+
+string
+Phrase::
+to_tikz( const h2sl::Phrase* phrase,
+          map< string, pair< double, double > >& nodes )const{
+  stringstream tmp;
+  for( unsigned int i = 0; i < phrase->words().size(); i++ ){
+    stringstream word_name;
+    word_name << "W" << phrase->words()[ i ].order();
+    pair< double, double > word_position( phrase->words()[ i ].order() * 1.0, 0.0 );
+    tmp << "\\node[anchor=mid, align=center](" << word_name.str() << ") at (" << word_position.first << "," << word_position.second << ") {\\footnotesize{\\textit{" << phrase->words()[ i ].text() << "}}};" << endl;
+//    nodes.insert( pair< string, pair< double, double > >( word_name, word_position ) );
+  }
+
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    tmp << to_tikz( phrase->children()[ i ], nodes );
+  }
+
+  return tmp.str();
+}
+
+
 
 string
 Phrase::

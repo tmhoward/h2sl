@@ -78,6 +78,14 @@ namespace h2sl {
     bool has_word( const Word& word )const;
     bool has_words( const std::vector< Word >& words )const;
     unsigned int min_word_order( void )const;
+
+    unsigned int num_phrases( void )const;
+    unsigned int num_phrases( const Phrase* phrase )const;
+    unsigned int num_words( void )const;
+    unsigned int num_words( const Phrase* phrase )const;
+
+    virtual void to_tikz( const std::string& filename, const std::string& caption = "tbd", const std::string& lavel = "fig:tbd" );
+    virtual std::string to_tikz( const Phrase* phrase, std::map< std::string, std::pair< double, double > >& nodes )const;
     
     std::string words_to_std_string( void )const;
 
