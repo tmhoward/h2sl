@@ -340,54 +340,89 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
   // TODO: NEED TO ACCOUNT FOR OTHER EXPRESSIONS OF THE CONTAINERS HERE, ADD TO ALL SOLUTIONS
     // fill search space
      
-    map< string, vector< string> >::const_iterator it = symbolTypes.find( "container" );
-    if ( it != symbolTypes.end() ) {
-      for( unsigned int j = 0; j < it->second.size(); j++ ) {
+    map< string, vector< string> >::const_iterator it1;
+    map< string, vector< string> >::const_iterator it2;
+ 
+    it1  = symbolTypes.find( string( "container" ) );
+    if ( it1 != symbolTypes.end() ) {
+      for( unsigned int j = 0; j < it1->second.size(); j++ ) {
         for( unsigned int k = 0; k < observed_object_vectors.size(); k++ ) {
-          _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Container( observed_object_vectors[ k ], it->second[ j ] ) ) );
+          vector< vector <Grounding* > > observed_object_grounding_vectors;
+          for ( unsigned int m = 0; m < observed_object_vectors.size(); m++ ) {
+            if ( dynamic_cast< Grounding* >( observed_object_vectors[ k ][ m ] ) != NULL ) {
+             observed_object_grounding_vectors[ k ].push_back( static_cast< Grounding* >( observed_object_vectors[ k ][ m ] ) );
+            }
+          }
+          _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Container( 
+                                                                                             observed_object_grounding_vectors[ k ], 
+                                                                                             it1->second[ j ] ) ) );
         }
       }  
     }
 
- /*
-    for( unsigned int j = Container::TYPE_GROUP; j < Container::TYPE_NUM_TYPES; j++ ){
-      for( unsigned int k = 0; k < observed_object_vectors.size(); k++ ){
-        _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Container( observed_object_vectors[ k ], Container::Type( j ) ) ) );
-      }
-    }
-
-
-    for( unsigned int j = 0; j < observed_spatial_relations.size(); j++ ){
-      for( unsigned int k = Container::TYPE_GROUP; k < Container::TYPE_NUM_TYPES; k++ ){
-        for( unsigned int l = 0; l < observed_object_vectors.size(); l++ ){
-          _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Region_Container( observed_spatial_relations[ j ], Container( observed_object_vectors[ l ], Container::Type( k ) ) ) ) );
+    // Create the space of abstract containers.
+    it1 = symbolTypes.find( string( "spatial_relation" ) );
+    it2 = symbolTypes.find( string( "container" ) );
+    if ( it1 != symbolTypes.end() && it2 != symbolTypes.end() )  {
+      // Iterate over spatial relation
+      //for( unsigned int j = 0; j < it1->second.size(); j++ ) {
+      for( unsigned int j = 0; j < observed_spatial_relations.size(); j++ ) {
+        // Iterate over container types
+        for( unsigned int k = 0; k < it2->second.size(); k++ ) {
+          for( unsigned int l = 0; l < observed_object_vectors.size(); l++ ) {
+            vector< vector < Grounding* > > observed_object_grounding_vectors;
+            for ( unsigned int m = 0; m < observed_object_vectors.size(); m++ ) {
+              if ( dynamic_cast< Grounding* >( observed_object_vectors[ l ][ m ]) != NULL ) {
+                observed_object_grounding_vectors[ l ].push_back( static_cast< Grounding* >( observed_object_vectors[ l ][ m ] ) );
+              }
+            }
+            _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Region_Container( 
+                                                                                               observed_spatial_relations [ j ], 
+                                                                                               Container( observed_object_grounding_vectors [ l ], 
+                                                                                                          it2->second[ k ] ) ) ) );
+          } 
         }
-      }
+      }   
     }
 
+   // Create the space of Object Property symbols.
     for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
       for( unsigned int k = 0; k < observed_spatial_relations.size(); k++ ){
         for( unsigned int l = 0; l < observed_indices.size(); l++ ){
-          _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Object_Property( observed_object_types[ j ], observed_spatial_relations[ k ], observed_indices[ l ] ) ) );
+          _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Object_Property( 
+                                                                                             observed_object_types[ j ], 
+                                                                                             observed_spatial_relations[ k ], 
+                                                                                             observed_indices[ l ] ) ) );
         }
       }
     }
 
-    for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
-      for( unsigned int k = 0; k < observed_numbers.size(); k++ ){
-        for( unsigned int l = 0; l < observed_object_colors.size(); l++ ){
-          _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Abstract_Container( observed_object_types[ j ], observed_numbers[ k ], Index::TYPE_FIRST, observed_object_colors[ l ] ) ) );
-          for( unsigned int m = 0; m < observed_spatial_relations.size(); m++ ){
-            _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( Region_Abstract_Container::Type( m ), Abstract_Container( observed_object_types[ j ], observed_numbers[ k ], Index::TYPE_FIRST, observed_object_colors[ l ] ) ) ) );
+    // Create the space of Abstract Containers and Region Abstract Containers.
+    it1 = symbolTypes.find( string( "index" ) );
+    if ( it1 != symbolTypes.end() ) {
+      for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
+        for( unsigned int k = 0; k < observed_numbers.size(); k++ ){
+          for( unsigned int l = 0; l < observed_object_colors.size(); l++ ){
+            _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Abstract_Container( 
+                                                                                               observed_object_types[ j ], 
+                                                                                               observed_numbers[ k ], 
+                                                                                               it1->second.front(), //Index::TYPE_FIRST, 
+                                                                                               observed_object_colors[ l ] ) ) );
+            for( unsigned int m = 0; m < observed_spatial_relations.size(); m++ ){
+              _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( 
+                                                                                               //Region_Abstract_Container::Type( m ), 
+                                                                                               observed_spatial_relations[ m ], 
+                                                                                               Abstract_Container( observed_object_types[ j ], 
+                                                                                                                   observed_numbers[ k ], 
+                                                                                                                   it1->second.front(), //Index::TYPE_FIRST, 
+                                                                                                                   observed_object_colors[ l ] ) ) ) );
+            }
           }
         }
       }
     }
  
-   */
-
     // search
-
     for( unsigned int j = 0; j < _abstract_search_spaces[ i ].size(); j++ ){
       unsigned int num_solutions = solutions_vector.back().size();
       for( unsigned int k = 1; k < _abstract_correspondence_variables[ _abstract_search_spaces[ i ][ j ].first ].size(); k++ ){
@@ -456,7 +491,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Factor_Set_ADCG& other ){
-/*
+
     for( unsigned int i = 0; i < other.solutions().size(); i++ ){
       out << "solutions[" << i << "] TRUE [" << other.solutions()[ i ].cv[ CV_TRUE ].size() << "]:{";
       for( unsigned int j = 0; j < other.solutions()[ i ].cv[ CV_TRUE ].size(); j++ ){
@@ -489,7 +524,7 @@ namespace h2sl {
     for( unsigned int i = 0; i < other.abstract_search_spaces().size(); i++ ){
       out << "abstract_search_space[" << i << "] size:" << other.abstract_search_spaces()[ i ].size() << endl;
     }
- */
+  
     return out;
 
   }
