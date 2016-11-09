@@ -106,7 +106,7 @@
 #include "h2sl/feature_container_non_dominant_xyz_shape.h"
 #include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
-#include "h2sl/feature_min_y_container_abstract_container.h"
+#include "h2sl/feature_min_y_container_abstract_container_spatial_relation.h"
 #include "h2sl/feature_max_y_container_abstract_container.h"
 #include "h2sl/feature_min_abs_y_container_abstract_container.h"
 #include "h2sl/feature_min_x_container_region_abstract_container.h"
