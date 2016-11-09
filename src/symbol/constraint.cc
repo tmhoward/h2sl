@@ -38,18 +38,30 @@ using namespace h2sl;
 
 Constraint::
 Constraint( const string& constraintType,
-            const Region& parent,
-            const Region& child ) : Grounding(),
-                                    _parent( parent ),
-                                    _child( child ) {
+            const string& payload,
+            const string& reference,
+            const string& referenceRelation ) : Grounding() {
   insert_prop< std::string >( _properties, "constraint_type", constraintType );
+  insert_prop< std::string >( _properties, "payload", payload );
+  insert_prop< std::string >( _properties, "reference", reference );
+  insert_prop< std::string >( _properties, "reference_relation", referenceRelation );
 }
 
 Constraint::
-Constraint( xmlNodePtr root ) : Grounding(),
-                                _parent(),
-                                _child() {
-  insert_prop< std::string >( _properties, "constraint_type", "na" );
+Constraint( const string& constraintType,
+            const string& payload,
+            const string& payloadRelation,
+            const string& reference,
+            const string& referenceRelation ) : Grounding() {
+  insert_prop< std::string >( _properties, "constraint_type", constraintType );
+  insert_prop< std::string >( _properties, "payload", payload );
+  insert_prop< std::string >( _properties, "payload_relation", payloadRelation );
+  insert_prop< std::string >( _properties, "reference", reference );
+  insert_prop< std::string >( _properties, "reference_relation", referenceRelation );
+}
+
+Constraint::
+Constraint( xmlNodePtr root ) : Grounding() {
   from_xml( root );
 }
 
@@ -59,9 +71,7 @@ Constraint::
 }
 
 Constraint::
-Constraint( const Constraint& other ) : Grounding( other ),
-                                        _parent( other._parent ),
-                                        _child( other._child ){
+Constraint( const Constraint& other ) : Grounding( other ) {
 
 }
 
@@ -69,8 +79,6 @@ Constraint&
 Constraint::
 operator=( const Constraint& other ) {
   _properties = other._properties;
-  _parent = other._parent;
-  _child = other._child;
   return (*this);
 }
 
@@ -79,9 +87,11 @@ Constraint::
 operator==( const Constraint& other )const{
   if( constraint_type() != other.constraint_type() ){
     return false;
-  } else if ( _parent != other._parent ){
+  } else if ( payload() != other.payload() ){
     return false;
-  } else if ( _child != other._child ){
+  } else if ( reference() != other.reference() ){
+    return false; 
+  } else if ( reference_relation() != other.reference_relation() ){
     return false; 
   } else {
     return true;
@@ -118,13 +128,15 @@ to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "constraint" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "constraint_type" ), ( const xmlChar* )( constraint_type().c_str() ) );
-  xmlNodePtr parent = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "parent" ), NULL );
-  _parent.to_xml( doc, parent );
-  xmlAddChild( node, parent );
-  xmlNodePtr child = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "child" ), NULL );
-  _child.to_xml( doc, child );
-  xmlAddChild( node, child );
-  xmlAddChild( root, node );
+  xmlNodePtr properties_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "properties" ), NULL );
+  for( map< string, string >::const_iterator it = _properties.begin(); it != _properties.end(); it++ ){
+    if( it->first != "constraint_type" ){
+      xmlNodePtr property_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "property" ), NULL );
+      xmlNewProp( node, ( const xmlChar* )( it->first.c_str() ), ( const xmlChar* )( it->second.c_str() ) );
+      xmlAddChild( properties_node, property_node );
+    }
+  }  
+  xmlAddChild( root, properties_node );
   return;
 }
 
@@ -155,31 +167,10 @@ void
 Constraint::
 from_xml( xmlNodePtr root ){
   constraint_type() = "na";
-  _parent = Region();
-  _child = Region();
   if( root->type == XML_ELEMENT_NODE ){
     pair< bool, string > constraint_type_prop = has_prop< std::string >( root, "constraint_type" );
     if( constraint_type_prop.first ){
       constraint_type() = constraint_type_prop.second;
-    }
-    pair< bool, string > type_prop = has_prop< std::string >( root, "type" );
-    if( type_prop.first ){
-      constraint_type() = type_prop.second;
-    }
-    for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
-      if( matches_name( l1, "parent" ) ) {
-        for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
-          if( matches_name( l2, "region" ) ){
-            _parent.from_xml( l2 );
-          }
-        } 
-      } else if( matches_name( l1, "child" ) ) {
-        for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
-          if( matches_name( l2, "region" ) ){
-            _child.from_xml( l2 );
-          }
-        } 
-      }
     }
   }
   return;
@@ -191,8 +182,9 @@ namespace h2sl {
               const Constraint& other ) {
     out << "Constraint(";
     out << "type=\"" << other.constraint_type() << "\",";
-    out << "parent=" << other.parent() << ",";
-    out << "child=" << other.child();
+    out << "payload=\"" << other.payload() << "\",";
+    out << "reference=\"" << other.reference() << "\",";
+    out << "reference_relation=\"" << other.reference_relation() << "\"";
     out << ")";
     return out;
   }

@@ -23,7 +23,9 @@ namespace h2sl {
   class Container : public Grounding {
   public:
 
-    Container( const std::vector< Grounding* >& groundings  = std::vector< Grounding* >(), const std::string& containerType = "group" );
+    Container( const std::vector< Grounding* >& groundings  = std::vector< Grounding* >(), 
+               const std::string& containerType = "group" );
+
     Container( const Container& other );
     Container( xmlNodePtr root );
     virtual ~Container();

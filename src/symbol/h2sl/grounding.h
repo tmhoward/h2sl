@@ -55,6 +55,7 @@ namespace h2sl {
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
+    inline std::map< std::string, std::string >& properties( void ){ return _properties; };
     inline const std::map< std::string, std::string >& properties( void )const{ return _properties; };
 
   protected:

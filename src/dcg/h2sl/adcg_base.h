@@ -1,5 +1,5 @@
 /**
- * @file    dcg.h
+ * @file    fadcg.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -32,12 +32,12 @@
  *   Graph
  */
 
-#ifndef H2SL_DCG_H
-#define H2SL_DCG_H
+#ifndef H2SL_ADCG_BASE_H
+#define H2SL_ADCG_BASE_H
 
 #include <iostream>
+#include <libxml/tree.h>
 #include <vector>
-#include <map>
 
 #include "h2sl/phrase.h"
 #include "h2sl/world.h"
@@ -45,24 +45,42 @@
 #include "h2sl/factor_set.h"
 
 namespace h2sl {
-  class DCG {
+  class ADCG_Base {
   public:
-    DCG();
-    virtual ~DCG();
-    DCG( const DCG& other );
-    DCG& operator=( const DCG& other );
+    ADCG_Base();
+    virtual ~ADCG_Base();
+    ADCG_Base( const ADCG_Base& other );
+    ADCG_Base& operator=( const ADCG_Base& other );
 
     virtual void fill_search_spaces( const World* world );
-    virtual bool leaf_search( const Phrase* phrase, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
-    virtual bool leaf_search( const Phrase* phrase, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
+    virtual bool leaf_search( const Phrase* phrase, 
+                              const World* world, LLM* llm, 
+                              const unsigned int beamWidth = 4, 
+                              const bool& debug = false );
+
+    virtual bool leaf_search( const Phrase* phrase, 
+                              const World* world, 
+                              const Grounding* context, LLM* llm, 
+                              const unsigned int beamWidth = 4, 
+                              const bool& debug = false );
 
     virtual void to_latex( const std::string& filename )const;
 
     inline const std::vector< std::vector< unsigned int > >& correspondence_variables( void )const{ return _correspondence_variables; };
     inline const std::vector< std::pair< unsigned int, Grounding* > >& search_spaces( void )const{ return _search_spaces; };
-    inline const std::map< std::string, std::vector< std::string > >& symbol_types( void )const{ return _symbol_types; };
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
     inline const Factor_Set* root( void )const{ return _root; };
+
+    static void scrape_examples( const std::string& filename, 
+                                 const Phrase* phrase, const World* world, 
+                                 const std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, 
+                                 const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
+                                 std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
+
+    virtual bool from_xml( const std::string& file );
+    virtual bool from_xml( xmlNodePtr root );
+    virtual void to_xml( const std::string& file )const;
+    virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
   protected:
     virtual void _find_leaf( Factor_Set* node, Factor_Set*& leaf );
@@ -71,14 +89,14 @@ namespace h2sl {
 
     std::vector< std::pair< unsigned int, Grounding* > > _search_spaces;
     std::vector< std::vector< unsigned int > > _correspondence_variables;
-    std::map< std::string, std::vector< std::string > > _symbol_types;
+    std::map < std::string, std::vector< std::string> > _symbol_types;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
   
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const DCG& other );
+  std::ostream& operator<<( std::ostream& out, const ADCG_Base& other );
 }
 
-#endif /* H2SL_DCG_H */
+#endif /* H2SL_ADCG_BASE_H */

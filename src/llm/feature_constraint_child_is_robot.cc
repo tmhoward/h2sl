@@ -82,7 +82,7 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
   if( constraint != NULL ){
-    if( ( constraint->child().region_type() == "na" ) && ( constraint->child().object().type() == "robot" ) ){
+    if( constraint->reference() == "robot" ){
       return !_invert;
     } else {
       return _invert;
