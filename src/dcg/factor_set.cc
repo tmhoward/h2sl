@@ -169,13 +169,11 @@ search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
 */    
     for( unsigned int j = 0; j < searchSpace.size(); j++ ){
       unsigned int num_solutions = solutions_vector.back().size();
-      cout << "num_solutions: " << num_solutions << endl;
       for( unsigned int k = 1; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
         for( unsigned int l = 0; l < num_solutions; l++ ){
           solutions_vector.back().push_back( solutions_vector.back()[ l ] );
         } 
       }
-      cout << "solutions_vector.back().size(): " << solutions_vector.back().size() << endl;
       for( unsigned int k = 0; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
         double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], searchSpace[ j ].second, child_groundings, _phrase, world, context, correspondenceVariables[ searchSpace[ j ].first ], evaluate_feature_types );
         evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
