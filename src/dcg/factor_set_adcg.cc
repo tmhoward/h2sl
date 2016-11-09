@@ -310,16 +310,18 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     if ( world != NULL) {
       for ( unsigned int j = 0; j < observed_object_types.size(); j++ ) {
         if ( symbolTypes.find( string( "object_type" ) ) != symbolTypes.end() ) {
-          map< string, vector< Grounding* > >::iterator it1 =  world->min_x_sorted_objects().find( observed_object_types[ j ] );
-          /*
-          if ( it1 < world->min_x_sorted_objects().end() ) {
+          map< string, vector< Object* > >::const_iterator it1 =  world->min_x_sorted_objects().find( observed_object_types[ j ] );
+          if ( it1 !=  world->min_x_sorted_objects().end() ) {
             map< string, vector< string> >::const_iterator it2 = symbolTypes.find( string( "object_type" ) );
-            if ( it2 < symbolTypes.end() ) {
+            if ( it2 != symbolTypes.end() ) {
               if ( it1->second.size() < it2->second.size() ) {
                 string tmp_number = "na";
-                for( map< string, unsigned int>::const_iterator it = world->numeric_map().begin(); it != world->numeric_map().end(); ++it ) {
-                  if( it->second == world->min_x_sorted_objects()[ observed_object_types[ j ] ].size() ) {
-                    tmp_number = it->first; 
+                for( map< string, unsigned int>::const_iterator it3 = world->numeric_map().begin(); it3 != world->numeric_map().end(); ++it3 ) {
+                  map< string, vector< Object* > >::const_iterator it4 = world->min_x_sorted_objects().find( observed_object_types[ j ]  );
+                  if( it4 != world->min_x_sorted_objects().end() ) {
+                    if( it3->second == it4->second.size() ) {
+                      tmp_number = it3->first; 
+                    }
                   }
                 }
                 if ( !tmp_number.compare(string( "na")) ) {
@@ -329,43 +331,31 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
                 }
               }
             } 
-            */
           }  
         }
-      }   
+      }
+    }   
 
-   /*
-    // Handle number of observed objects.
-    if( world != NULL ) {
-      for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
-          if( find( symbolTypes[ "object_type" ].begin(), symbolTypes[ "object_types" ].end(), observed_object_types[ j ] ) != symbolTypes[ "object_type" ].end() ) {
-            if( world->min_x_sorted_objects()[ observed_object_types[ j ] ].size() < symbolTypes[ "number" ].size() ) {
-              string tmp_number = "na";
-              for( map< string, unsigned int>::const_iterator it = world->numeric_map().begin(); it != world->numeric_map().end(); ++it ) {
-                if( it->second == world->min_x_sorted_objects()[ observed_object_types[ j ] ].size() ) {
-                  tmp_number = it->first; 
-                }
-              }
-              if ( !tmp_number.compare(string( "na")) ) {
-                if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
-                  observed_numbers.push_back( tmp_number );
-                }
-              }
-            }  
-       }
-     }
-   }
-*/
 
-  /*
   // TODO: NEED TO ACCOUNT FOR OTHER EXPRESSIONS OF THE CONTAINERS HERE, ADD TO ALL SOLUTIONS
     // fill search space
+     
+    map< string, vector< string> >::const_iterator it = symbolTypes.find( "container" );
+    if ( it != symbolTypes.end() ) {
+      for( unsigned int j = 0; j < it->second.size(); j++ ) {
+        for( unsigned int k = 0; k < observed_object_vectors.size(); k++ ) {
+          _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Container( observed_object_vectors[ k ], it->second[ j ] ) ) );
+        }
+      }  
+    }
 
+ /*
     for( unsigned int j = Container::TYPE_GROUP; j < Container::TYPE_NUM_TYPES; j++ ){
       for( unsigned int k = 0; k < observed_object_vectors.size(); k++ ){
         _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Container( observed_object_vectors[ k ], Container::Type( j ) ) ) );
       }
     }
+
 
     for( unsigned int j = 0; j < observed_spatial_relations.size(); j++ ){
       for( unsigned int k = Container::TYPE_GROUP; k < Container::TYPE_NUM_TYPES; k++ ){
@@ -393,8 +383,8 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         }
       }
     }
-
-  */
+ 
+   */
 
     // search
 

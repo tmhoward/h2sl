@@ -100,7 +100,7 @@ namespace h2sl {
       
     // Accessors for the sorted world model objects.
     inline const std::map< std::string, std::vector< Object* > >& min_x_sorted_objects( void )const{ return _min_x_sorted_objects; };
-    inline std::map< std::string, std::vector< Object* > >& min_x_sorted_objects( void ){ return _min_x_sorted_objects; };
+    //inline std::map< std::string, std::vector< Object* > >& min_x_sorted_objects( void ){ return _min_x_sorted_objects; };
     inline const std::map< std::string, std::vector< Object* > >& max_x_sorted_objects( void )const{ return _max_x_sorted_objects; };
     inline const std::map< std::string, std::vector< Object* > >& min_y_sorted_objects( void )const{ return _min_y_sorted_objects; };
     inline const std::map< std::string, std::vector< Object* > >& max_y_sorted_objects( void )const{ return _max_y_sorted_objects; };

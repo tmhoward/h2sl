@@ -270,6 +270,7 @@ fill_search_spaces( const World* world ){
     }
   }
 
+  /*
   // Constraints
   // add the VP groundings; exhaustively fill the constraint symbol space
   for( unsigned int i = 0; i < _symbol_types[ string( "constraint" ) ].size(); i++ ){
@@ -288,6 +289,8 @@ fill_search_spaces( const World* world ){
       }
     }
   }
+  */
+ 
 
   // Object_Type
   for (unsigned int i = 0; i < _symbol_types[ string( "object_type" ) ].size(); i++) {
