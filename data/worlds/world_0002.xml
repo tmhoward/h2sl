@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world time="0">
+    <object name="baxter1-baxter-left_hand" type="robot" position="0.584959,1.08514,1.41966" orientation="-0.324953,0.378217,0.366589,0.785474" color="na"/>
+    <object name="baxter1-baxter-right_hand" type="robot" position="1.03085,-0.566315,1.35665" orientation="0.177299,0.726623,-0.016616,0.663557" color="na"/>
+    <object name="object0-cube-cube-base" type="block" position="1.14996,0.244552,0.73615" orientation="-3.4078e-06,1.84657e-06,-0.447457,0.894306" color="na"/>
+    <object name="object1-cube-cube-base" type="block" position="0.863214,0.264301,0.73615" orientation="1.02625e-06,-1.24774e-07,-0.932406,0.361412" color="na"/>
+    <object name="object2-cube-cube-base" type="block" position="0.847578,-0.607726,0.73615" orientation="-1.62628e-06,-4.51126e-06,0.901434,0.432917" color="na"/>
+    <object name="object3-cube-cube-base" type="block" position="1.0897,-0.335123,0.73615" orientation="1.08569e-05,-1.3439e-05,-0.0231614,0.999732" color="na"/>
+    <object name="object4-cube-cube-base" type="block" position="1.19811,0.188847,0.73615" orientation="2.22177e-07,4.40445e-06,-0.699069,0.715054" color="na"/>
+    <object name="object5-cube-cube-base" type="block" position="0.980659,0.546017,0.73615" orientation="-3.44496e-09,-2.63895e-06,-0.527615,0.849484" color="na"/>
+    <object name="object6-cube-cube-base" type="block" position="0.889083,0.479437,0.73615" orientation="0.598968,-0.375864,-0.375838,0.598923" color="na"/>
+    <object name="object7-cube-cube-base" type="block" position="0.816975,-0.372529,0.73615" orientation="-0.700278,-0.0980324,-0.700279,0.0980281" color="na"/>
+    <object name="object8-cube-cube-base" type="block" position="1.1392,-0.418383,0.73615" orientation="1.03891e-06,-4.83987e-07,0.237246,0.97145" color="na"/>
+    <object name="object9-cube-cube-base" type="block" position="1.02711,0.250359,0.73615" orientation="-0.704594,-0.0595514,-0.704595,0.0595557" color="na"/>
+    <object name="table-table-table-base" type="table" position="1.00008,5.56677e-05,-0.012225" orientation="-8.89402e-10,1.33426e-08,-4.63025e-05,1" color="na"/>
+  </world>
+</root>
