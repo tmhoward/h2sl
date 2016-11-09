@@ -143,7 +143,11 @@ fill_search_spaces( const World* world ){
   constraints.push_back( "inside" );
   constraints.push_back( "outside" );
 
-  // AADCG_Base SYMBOLS. 
+  // Constraints::payload
+  vector< std::string > payload;
+  payload.push_back( "robot" ); 
+
+  // AADCG_Base SYMBOLS 
 
   // Object_Type
   vector< std::string > object_type;
@@ -249,23 +253,21 @@ fill_search_spaces( const World* world ){
     }
   }
 
-  // add the VP groundings; exhaustively fill the constraint symbol space
-  for( unsigned int i = 0; i < constraints.size(); i++ ){
-    for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      for( unsigned int k = 0; k < regions.size(); k++ ){
-        for( unsigned int l = 0; l < world->objects().size(); l++ ){
-          for( unsigned int m = 0; m < regions.size(); m++ ){
-            if( ( j != l ) || ( k != m ) ){
-              _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( 
-                                    constraints[ i ], Region( regions[ k ], *world->objects()[ j ] ), Region( regions[ m ], *world->objects()[ l ] ) ) ) );
-            }
-          }
-        }
-      }
-    }
+  // Constraints
+  for( unsigned int i = 0; i < constraints.size(); i++ ) {
+    for( unsigned int j = 0; j < payload.size(); j++ ) {
+      for( unsigned int k = 0; j < spatial_relation.size(); k++ ) {
+        for( unsigned int l = 0; l < world->objects().size(); l++ ) {
+          for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
+            _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Constraint( constraints[ i ], 
+  											   payload[ j ], spatial_relation[ k ], 
+											   world->objects()[ l ]->name(), spatial_relation[ m ] ) ) );  
+          }  
+        } 
+      }  
+    } 
   }
-
-
+  
   // Fill AADCG_Base Symbol Space.
 
   // Objects

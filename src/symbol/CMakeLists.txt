@@ -7,7 +7,7 @@ set(GGOS
     object_property_demo.ggo
     object_type_demo.ggo
     region_demo.ggo
-    constraint_demo.ggo
+    #constraint_demo.ggo
     world_demo.ggo)
 
 # HEADER FILES
@@ -60,7 +60,7 @@ set(BIN_SRCS
     object_property_demo.cc
     object_type_demo.cc
     region_demo.cc
-    constraint_demo.cc
+    #constraint_demo.cc
     world_demo.cc)
 
 # LIBRARY DEPENDENCIES
