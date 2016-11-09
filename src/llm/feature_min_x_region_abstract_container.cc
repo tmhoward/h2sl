@@ -39,7 +39,7 @@ min_x_region_abstract_container_sort (Grounding* a, Grounding* b) {
 Feature_Min_X_Region_Abstract_Container::
 Feature_Min_X_Region_Abstract_Container( const bool& invert,
                                         const std::string& relation_type ) : Feature( invert ),
-                                                                          _relation_type( relation_yype ) {
+                                                                          _relation_type( relation_type ) {
 
 }
 
@@ -110,7 +110,31 @@ value( const unsigned int& cv,
       }
     } 
   } 
- 
+    
+  if( region_abstract_container_child != NULL ){
+    if( spatial_relation_child != NULL ){
+        if( spatial_relation_child->relation_type() == _relation_type ){
+            if( object_grounding != NULL ){
+              map< string, vector< Object* > >::const_iterator it;
+              it  = world->min_x_sorted_objects().find( region_abstract_container_child->abstract_container().type() );
+              if (it != world->min_x_sorted_objects().end() ) {
+                for (unsigned int i = 0; i < it->second.size(); i++ ) {
+                  if ( *object_grounding == *(it->second[ i ]) ) {
+                    if( i < world->numeric_map()[ region_abstract_container_child->abstract_container().number() ] ){
+                        return !_invert;
+                    } else {
+                        return _invert;
+                    }
+                  }
+                }
+              }
+            }
+        }
+    }
+  }
+  return false;
+}
+
     
 
     
