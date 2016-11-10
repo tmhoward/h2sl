@@ -31,7 +31,7 @@
  */
 
 #include <cmath>
-//#include <glib.h>
+#include <glib.h>
 
 #include "h2sl/common.h"
 
@@ -41,12 +41,12 @@ namespace h2sl {
   /** 
    * returns the current time
    */
-/*  int64_t
+  int64_t
   current_time( void ){
     GTimeVal tmp;
     g_get_current_time( &tmp );
     return ( int64_t )( tmp.tv_sec * 1000000 + tmp.tv_usec ); 
-  }*/
+  }
 
   /**
    * bounds the value within a particular range

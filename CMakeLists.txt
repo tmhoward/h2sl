@@ -22,6 +22,11 @@ elseif(UNIX)
   add_definitions(-Wall -Wno-unused-but-set-variable -g -O3)
 endif()
 
+#add configure_file for GLib
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_BINARY_DIR}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/)
+configure_file(${CMAKE_BINARY_DIR}/../cmake/FindGLib.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/FindGLib.cmake @ONLY)
+
+
 # add the include directories to the build
 set(DIRS src/common
           src/symbol
@@ -50,6 +55,16 @@ function(generate_ggo)
   )
 endfunction(generate_ggo)
 
+message("CMAKE_MODULE_PATH:${CMAKE_MODULE_PATH}")
+
+# search for the glib package, exit if not found
+find_package(GLib)
+if( NOT glib_FOUND )
+  message( FATAL_ERROR "glib not found\n" )
+  return()
+endif()
+include_directories(${GLIB_INCLUDE_DIRS})
+
 # search for the libxml2 package, exit if not found
 find_package(LibXml2)
 if( NOT LIBXML2_FOUND )
@@ -66,8 +81,8 @@ if( NOT Boost_FOUND )
 endif()
 include_directories(${Boost_INCLUDE_DIR})
 
-set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} /home/rohanpaul/code/thirdparty/liblbfgs-1.10/lib)
-set(CMAKE_INCLUDE_PATH ${CMAKE_LIBRARY_PATH} /home/rohanpaul/code/thirdparty/liblbfgs-1.10/include/)
+#set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} /home/rohanpaul/code/thirdparty/liblbfgs-1.10/lib)
+#set(CMAKE_INCLUDE_PATH ${CMAKE_LIBRARY_PATH} /home/rohanpaul/code/thirdparty/liblbfgs-1.10/include/)
 
 find_library(LBFGS_LIBRARY NAMES liblbfgs lbfgs HINTS ${CMAKE_BINARY_DIR}/lib /usr/lib /usr/local/lib /opt/local/lib)
 if( NOT LBFGS_LIBRARY )
@@ -174,7 +189,6 @@ install(FILES
         ${CMAKE_BINARY_DIR}/Find${PROJECT_NAME}.cmake
         DESTINATION
         ${CMAKE_INSTALL_PREFIX}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/)
-configure_file(${PROJECT_SOURCE_DIR}/cmake/FindGLib.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/FindGLib.cmake @ONLY)
 
 # add the source directories
 foreach(dir ${DIRS})
