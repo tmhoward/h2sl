@@ -86,7 +86,7 @@ value( const unsigned int& cv,
       for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
         const Region * child = dynamic_cast< const Region* >( children[ i ].second[ j ] );
         if( child != NULL ){
-          if( constraint->parent() == *child ){
+          if( constraint->payload() == child->object().name() ){
             return !_invert;
           }
         }

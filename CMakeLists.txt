@@ -66,7 +66,9 @@ if( NOT Boost_FOUND )
 endif()
 include_directories(${Boost_INCLUDE_DIR})
 
-# search for the LBFGS libraries
+set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} /home/rohanpaul/code/thirdparty/liblbfgs-1.10/lib)
+set(CMAKE_INCLUDE_PATH ${CMAKE_LIBRARY_PATH} /home/rohanpaul/code/thirdparty/liblbfgs-1.10/include/)
+
 find_library(LBFGS_LIBRARY NAMES liblbfgs lbfgs HINTS ${CMAKE_BINARY_DIR}/lib /usr/lib /usr/local/lib /opt/local/lib)
 if( NOT LBFGS_LIBRARY )
   message( FATAL_ERROR "lbfgs not found\n")
@@ -81,6 +83,8 @@ if( NOT Qt4_FOUND )
 endif()
 include(${QT_USE_FILE})
 include_directories(${QT_INCLUDE_DIR})
+
+# search for the GLIB package, exit if not found
 
 # function for installing headers
 function(process_hdrs)
@@ -170,6 +174,7 @@ install(FILES
         ${CMAKE_BINARY_DIR}/Find${PROJECT_NAME}.cmake
         DESTINATION
         ${CMAKE_INSTALL_PREFIX}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/)
+configure_file(${PROJECT_SOURCE_DIR}/cmake/FindGLib.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/FindGLib.cmake @ONLY)
 
 # add the source directories
 foreach(dir ${DIRS})

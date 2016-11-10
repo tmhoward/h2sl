@@ -50,6 +50,8 @@ namespace h2sl {
     virtual Grounding_Set* dup( void )const;
 
     void clear( void );
+ 
+    virtual unsigned int evaluate_cv( const h2sl::Grounding* grounding )const;
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

@@ -139,6 +139,24 @@ namespace h2sl {
   }
 
   /**
+   * checks if the xmlNodePtr has a property with a particular name
+   */
+  template<>
+  inline std::pair< bool, bool >
+  has_prop< bool >( const xmlNodePtr& node, const std::string& string ){
+    std::pair< bool, bool > ret( false, false );
+    if( node->type == XML_ELEMENT_NODE ){
+      xmlChar* tmp = xmlGetProp( node, ( const xmlChar* )( string.c_str() ) );
+      if( tmp != NULL ){
+        ret.first = true;
+        ret.second = ( bool )( strtol( ( char* )( tmp ), NULL, 10 ) );
+        xmlFree( tmp );
+      }
+    }
+    return ret;
+  }
+
+  /**
    * safely inserts a property 
    */
   template< typename C >
@@ -193,6 +211,41 @@ namespace h2sl {
     }
     return tmp.str();
   }
+
+  /**
+   * safely deletes a pointer of type C
+   */
+  template< typename C >
+  inline void delete_ptr( C*& arg ){
+    if( arg != NULL ){
+      delete arg;
+      arg = NULL;
+    }
+    return;
+  };
+
+  /**
+   * safely deletes the map pointers of type std::string and C
+   */
+  template< typename C >
+  inline void delete_vector_ptrs( std::vector< C* >& vector ){
+    for( typename std::vector< C* >::iterator it = vector.begin(); it != vector.end(); it++ ){
+      delete_ptr< C >( *it );
+    }
+    return;
+  }
+
+  /**
+   * safely deletes the map pointers of type std::string and C
+   */
+  template< typename C >
+  inline void delete_map_ptrs( std::map< std::string, C* >& map ){
+    for( typename std::map< std::string, C* >::iterator it = map.begin(); it != map.end(); it++ ){
+      delete_ptr< C >( it->second );
+    }
+    return;
+  }
+
 
 }
 

@@ -107,11 +107,12 @@ void
 Factor_Set::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
+        const map< string, vector< string > >& symbolTypes,
         const World* world,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
-  search( searchSpace, correspondenceVariables, world, NULL, llm, beamWidth, debug );
+  search( searchSpace, correspondenceVariables, symbolTypes, world, NULL, llm, beamWidth, debug );
   return;
 }
 
@@ -119,6 +120,7 @@ void
 Factor_Set::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
+        const map< string, vector< string > >& symbolTypes,
         const World* world, 
         const Grounding* context, 
         LLM* llm,
@@ -172,7 +174,6 @@ search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
           solutions_vector.back().push_back( solutions_vector.back()[ l ] );
         } 
       }
-  
       for( unsigned int k = 0; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
         double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], searchSpace[ j ].second, child_groundings, _phrase, world, context, correspondenceVariables[ searchSpace[ j ].first ], evaluate_feature_types );
         evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
@@ -224,6 +225,14 @@ search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
       }
       cout << "} ";
       cout << "groundings[" << _solutions[ i ].groundings.size() << "]:{";
+      // Added the printing on the groundings with each.
+      for( unsigned int j = 0; j < _solutions[ i ].groundings.size(); j++ ){
+        cout << *(_solutions[ i ].groundings[ j ]);
+        if( j != ( _solutions[ i ].groundings.size() - 1 ) ){
+          cout << ",";
+        }
+      }
+
       cout << "} ";
       cout << "children[" << _solutions[ i ].children.size() << "]:{";
       for( unsigned int j = 0; j < _solutions[ i ].children.size(); j++ ){

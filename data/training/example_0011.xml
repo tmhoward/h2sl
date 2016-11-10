@@ -11,16 +11,11 @@
     <grounding>
       <grounding_set>
         <constraint constraint_type="inside">
-          <parent>
-            <region region_type="na">
-              <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            </region>
-          </parent>
-          <child>
-            <region region_type="na">
-              <object name="o1" object_type="hammer" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            </region>
-          </child>
+          <properties>
+            <property payload="o0"/>
+            <property reference="o1"/>
+            <property reference_relation="na"/>
+          </properties>
         </constraint>
       </grounding_set>
     </grounding>

@@ -55,8 +55,8 @@ evaluate_model( LLM* llm,
   for( unsigned int i = 0; i < examples.size(); i++ ){
     vector< pair< vector< Feature* >, unsigned int > > features;
     double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-//    if( pygx < 0.75 ){
-    if( examples[ i ].first == CV_TRUE ){
+    if( pygx < 0.75 ){
+//    if( examples[ i ].first == CV_TRUE ){
       cout << "example " << i << " had pygx " << pygx << endl;
       cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
       cout << "         cv:" << examples[ i ].first << endl;
@@ -175,12 +175,15 @@ main( int argc,
     cout << "reading file " << args.inputs[ i ] << endl;
     filenames[ i ] = args.inputs[ i ];
 
+    cout << "loading world" << endl;
     worlds[ i ] = new World();
     worlds[ i ]->from_xml( args.inputs[ i ] ); 
   
+    cout << "loading phrase" << endl;
     phrases[ i ] = new Phrase();
     phrases[ i ]->from_xml( args.inputs[ i ] ); 
 
+    cout << "loading DCG" << endl;
     dcgs[ i ] = new DCG();
     dcgs[ i ]->fill_search_spaces( worlds[ i ] );
     

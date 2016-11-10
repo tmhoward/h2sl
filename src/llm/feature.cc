@@ -47,8 +47,8 @@
 #include "h2sl/feature_region_object_property_value.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
-#include "h2sl/feature_constraint_parent_is_robot.h"
-#include "h2sl/feature_constraint_child_is_robot.h"
+#include "h2sl/feature_constraint_payload_type.h"
+#include "h2sl/feature_constraint_reference_type.h"
 #include "h2sl/feature_grounding_property_value.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"
@@ -90,6 +90,28 @@
 #include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_abstract_container_object_type.h"
 #include "h2sl/feature_region_abstract_container_number.h"
+#include "h2sl/feature_min_x_object.h"
+#include "h2sl/feature_max_x_object.h"
+#include "h2sl/feature_max_y_object.h"
+#include "h2sl/feature_min_y_object.h"
+#include "h2sl/feature_max_x_abstract_container.h"
+#include "h2sl/feature_min_distance_object.h"
+#include "h2sl/feature_max_distance_object.h"
+#include "h2sl/feature_max_distance_object_within.h"
+#include "h2sl/feature_min_distance_object_within.h"
+#include "h2sl/feature_min_center_distance_object.h"
+#include "h2sl/feature_max_y_abstract_container.h"
+#include "h2sl/feature_min_y_index_abstract_container_region_container.h"
+#include "h2sl/feature_min_x_abstract_container.h"
+#include "h2sl/feature_min_y_abstract_container.h"
+#include "h2sl/feature_min_distance_container.h"
+#include "h2sl/feature_min_distance_abstract_container.h"
+#include "h2sl/feature_min_abs_y_abstract_container.h"
+#include "h2sl/feature_container_dominant_x_shape.h"
+#include "h2sl/feature_container_dominant_y_shape.h"
+#include "h2sl/feature_container_dominant_z_shape.h"
+#include "h2sl/feature_container_non_dominant_xyz_shape.h"
+#include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
 
 #include "h2sl/feature.h"
 
@@ -153,10 +175,10 @@ namespace h2sl {
       out << *static_cast< const Feature_Constraint_Parent_Matches_Child_Region* >( &other );
     } else if( dynamic_cast< const Feature_Constraint_Child_Matches_Child_Region* >( &other ) != NULL ){
       out << *static_cast< const Feature_Constraint_Child_Matches_Child_Region* >( &other );
-    } else if( dynamic_cast< const Feature_Constraint_Parent_Is_Robot* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Constraint_Parent_Is_Robot* >( &other );
-    } else if( dynamic_cast< const Feature_Constraint_Child_Is_Robot* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Constraint_Child_Is_Robot* >( &other );
+    } else if( dynamic_cast< const Feature_Constraint_Payload_Type* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Constraint_Payload_Type* >( &other );
+    } else if( dynamic_cast< const Feature_Constraint_Reference_Type* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Constraint_Reference_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Grounding_Property_Value* >( &other ) != NULL ){
       out << *static_cast< const Feature_Grounding_Property_Value* >( &other );
     } else if ( dynamic_cast< const Feature_Abstract_Container_Matches_Child* >( &other ) != NULL ){
@@ -239,6 +261,50 @@ namespace h2sl {
         out << *static_cast< const Feature_Region_Abstract_Container_Object_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Abstract_Container_Number* >( &other ) != NULL ){
         out << *static_cast< const Feature_Region_Abstract_Container_Number* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_X_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_X_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Max_X_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Max_X_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Max_Y_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Max_Y_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Y_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Y_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Max_X_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Max_X_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Distance_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Distance_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Max_Distance_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Max_Distance_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Max_Distance_Object_Within* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Max_Distance_Object_Within* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Distance_Object_Within* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Distance_Object_Within* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Center_Distance_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Center_Distance_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Max_Y_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Max_Y_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_X_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_X_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Y_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Y_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Distance_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Distance_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Distance_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Distance_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_Abs_Y_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_Abs_Y_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Dominant_X_Shape* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Dominant_X_Shape* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Dominant_Y_Shape* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Dominant_Y_Shape* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Dominant_Z_Shape* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Dominant_Z_Shape* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Non_Dominant_XYZ_Shape* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Non_Dominant_XYZ_Shape* >( &other );
+    } else if ( dynamic_cast< const Feature_Min_X_Container_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Min_X_Container_Abstract_Container_Spatial_Relation* >( &other );
     } else {
       assert( false );
     } 
