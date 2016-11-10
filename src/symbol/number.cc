@@ -164,7 +164,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Number& other ){
     out << "Number(";
-    out << "number_value=\"" << other.number_value() << "\",";
+    out << "number_value=\"" << other.number_value() << "\"";
     out << ")";
     return out;
   }

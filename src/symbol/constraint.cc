@@ -62,6 +62,10 @@ Constraint( const string& constraintType,
 
 Constraint::
 Constraint( xmlNodePtr root ) : Grounding() {
+  insert_prop< std::string >( _properties, "constraint_type", "na" );
+  insert_prop< std::string >( _properties, "payload", "na" );
+  insert_prop< std::string >( _properties, "reference", "na" );
+  insert_prop< std::string >( _properties, "reference_relation", "na" );
   from_xml( root );
 }
 
@@ -132,11 +136,12 @@ to_xml( xmlDocPtr doc,
   for( map< string, string >::const_iterator it = _properties.begin(); it != _properties.end(); it++ ){
     if( it->first != "constraint_type" ){
       xmlNodePtr property_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "property" ), NULL );
-      xmlNewProp( node, ( const xmlChar* )( it->first.c_str() ), ( const xmlChar* )( it->second.c_str() ) );
+      xmlNewProp( property_node, ( const xmlChar* )( it->first.c_str() ), ( const xmlChar* )( it->second.c_str() ) );
       xmlAddChild( properties_node, property_node );
     }
   }  
-  xmlAddChild( root, properties_node );
+  xmlAddChild( node, properties_node );
+  xmlAddChild( root, node );
   return;
 }
 
@@ -171,6 +176,26 @@ from_xml( xmlNodePtr root ){
     pair< bool, string > constraint_type_prop = has_prop< std::string >( root, "constraint_type" );
     if( constraint_type_prop.first ){
       constraint_type() = constraint_type_prop.second;
+    }
+    for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
+      if( matches_name( l1, "properties" ) ){
+        for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+          if( matches_name( l2, "property" ) ){
+            pair< bool, string > payload_prop = has_prop< std::string >( l2, "payload" );
+            if( payload_prop.first ){
+              payload() = payload_prop.second;
+            }
+            pair< bool, string > reference_prop = has_prop< std::string >( l2, "reference" );
+            if( reference_prop.first ){
+              reference() = reference_prop.second;
+            }
+            pair< bool, string > reference_relation_prop = has_prop< std::string >( l2, "reference_relation" );
+            if( reference_relation_prop.first ){
+              reference_relation() = reference_relation_prop.second;
+            } 
+          }
+        }       
+      }
     }
   }
   return;

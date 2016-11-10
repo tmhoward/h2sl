@@ -40,6 +40,8 @@ namespace h2sl {
     inline std::string& number_value( void ){ return get_prop< std::string >( _properties, "number_value" ); };
     inline const std::string& number_value( void )const{ return get_prop< std::string >( _properties, "number_value" ); };
 
+    static std::string class_name( void ){ return "number"; };
+
   protected:
 
   private:

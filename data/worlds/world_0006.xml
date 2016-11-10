@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world time="0">
+    <object name="baxter-baxter-left_hand" type="robot" position="0.797649,0.990645,1.22651" orientation="-0.271836,0.658857,0.267916,0.648254" color="na"/>
+    <object name="baxter-baxter-right_hand" type="robot" position="0.793352,-0.99359,1.2282" orientation="0.273015,0.657602,-0.269596,0.648337" color="na"/>
+    <object name="cube1-cube-cube-base" type="block" position="0.549972,-0.500006,0.736325" orientation="7.88118e-06,-1.46711e-05,-0.00092187,1" color="na"/>
+    <object name="cube2-cube-cube-base" type="block" position="0.54994,-0.200026,0.736329" orientation="1.01057e-05,-1.75492e-05,-0.00253998,0.999997" color="na"/>
+    <object name="cube3-cube-cube-base" type="block" position="0.649801,0.200019,0.736339" orientation="7.8677e-06,-1.55861e-05,-0.000301533,1" color="na"/>
+    <object name="cube4-cube-cube-base" type="block" position="0.599221,0.50094,0.736342" orientation="6.84085e-06,-1.47121e-05,-0.00436171,0.99999" color="na"/>
+    <object name="table-table-table-base" type="table" position="0.874642,-0.000230978,-0.0117011" orientation="7.72372e-06,-1.53484e-05,0.000255417,1" color="na"/>
+  </world>
+</root>

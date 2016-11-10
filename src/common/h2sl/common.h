@@ -134,6 +134,24 @@ namespace h2sl {
   }
 
   /**
+   * checks if the xmlNodePtr has a property with a particular name
+   */
+  template<>
+  inline std::pair< bool, bool >
+  has_prop< bool >( const xmlNodePtr& node, const std::string& string ){
+    std::pair< bool, bool > ret( false, false );
+    if( node->type == XML_ELEMENT_NODE ){
+      xmlChar* tmp = xmlGetProp( node, ( const xmlChar* )( string.c_str() ) );
+      if( tmp != NULL ){
+        ret.first = true;
+        ret.second = ( bool )( strtol( ( char* )( tmp ), NULL, 10 ) );
+        xmlFree( tmp );
+      }
+    }
+    return ret;
+  }
+
+  /**
    * safely inserts a property 
    */
   template< typename C >

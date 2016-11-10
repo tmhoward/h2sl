@@ -39,6 +39,8 @@ namespace h2sl {
     inline std::string& relation_type( void ){ return get_prop< std::string >( _properties, "spatial_relation_type" ); };
     inline const std::string& relation_type( void )const{ return get_prop< std::string >( _properties, "spatial_relation_type" ); };
 
+    static std::string class_name( void ){ return "spatial_relation"; };
+
   protected:
 
   private:

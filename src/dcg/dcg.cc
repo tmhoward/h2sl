@@ -121,8 +121,7 @@ fill_search_spaces( const World* world ){
   vector< std::string > constraints;
   constraints.push_back( "inside" );
   constraints.push_back( "outside" );
-    
-   
+
   // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( "na", *world->objects()[ i ] ) ) );

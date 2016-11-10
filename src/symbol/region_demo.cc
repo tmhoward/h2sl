@@ -28,7 +28,7 @@
  *
  * @section DESCRIPTION
  *
- * A Region class demo program
+ * An Region class demo program
  */
 
 #include <iostream>
@@ -39,10 +39,29 @@
 using namespace std;
 using namespace h2sl;
 
+void
+fill_regions( vector< Region* >& regions, const string filename ){
+  xmlDoc * doc = NULL;
+  xmlNode * root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
+            regions.push_back( new Region( l1 ) );
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
 int
 main( int argc,
       char* argv[] ) {
-  int status = 0;
   cout << "start of Region class demo program" << endl;
 
   gengetopt_args_info args;
@@ -50,23 +69,45 @@ main( int argc,
     exit(1);
   }
 
-  Region * region = new Region();
+  vector< Region* > regions;
 
   if( args.input_given ){
-    region->from_xml( args.input_arg );
+    fill_regions( regions, args.input_arg );
   }
 
-  cout << "region:(" << *region << ")" << endl;
+  if( !regions.empty() ){
+    cout << "Region::class_name(): " << Region::class_name() << endl;
+    cout << "regions.back()->class_name(): " << regions.back()->class_name() << endl;
+    for( unsigned int i = 0; i < regions.size(); i++ ){
+      cout << "regions[ " << i << " ]: " << *regions[ i ] << endl;
+    }
+  } else{
+    cout << "the input did not have examples of region, so we just demo the static functions and ostream operator for the default" << endl;
+    regions.push_back( new Region() );
+    cout << "region:( " << *regions.back() << endl;
+    cout << "region->class_name(): " << regions.back()->class_name() << endl;
+    cout << "Region::class_name(): " << Region::class_name() << endl;
+  }
 
   if( args.output_given ){
-    region->to_xml( args.output_arg );
+    xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+    xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+    xmlDocSetRootElement( doc, root );
+    for( unsigned int i = 0; i < regions.size(); i++ ){
+      regions[ i ]->to_xml( doc, root );
+    }
+    xmlSaveFormatFileEnc( args.output_arg, doc, "UTF-8", 1 );
+    xmlFreeDoc( doc );
   }
 
-  if( region != NULL ){
-    delete region;
-    region = NULL;
+  //memory management
+  for( unsigned int i = 0; i < regions.size(); i++ ){
+    if( regions[ i ] != NULL ){
+      delete regions[ i ];
+      regions[ i ] = NULL;
+    }
   }
 
   cout << "end of Region class demo program" << endl;
-  return status;
+  return 0;
 }
