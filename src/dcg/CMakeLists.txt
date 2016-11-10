@@ -2,6 +2,7 @@
 set(GGOS
     factor_set_demo.ggo
     dcg_demo.ggo
+    adcg_demo.ggo
     dcg_test.ggo)
 
 # HEADER FILES
@@ -27,6 +28,7 @@ set(SRCS
 set(BIN_SRCS
 #    factor_set_demo.cc
     dcg_demo.cc
+    adcg_demo.cc
     dcg_test.cc)
 
 # LIBRARY DEPENDENCIES
