@@ -30,18 +30,60 @@
  *
  * The implementation of a class used for the graphical user interface for h2sl
  */
-
-#include <assert.h>
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <map>
-#include <libxml/tree.h>
-
 #ifndef H2SL_COMMON_H
 #define H2SL_COMMON_H
 
+#include <iostream>
+#include <iomanip>
+#include <assert.h>
+#include <sstream>
+#include <vector>
+#include <map>
+#include <sys/time.h>
+#include <libxml/tree.h>
+//#include <h2sl/empty_msg_t.hpp>
+//#include <lcm/lcm-cpp.hpp>
+
+
 namespace h2sl {
+
+  /**
+   * return the current time
+   */
+  int64_t current_time( void );
+
+  /**
+   * bound a value within a particular range
+   */
+  double bound( const double& value, const std::pair< double, double >& limits );
+
+  /**
+   * radians to degrees
+   */
+  double radians_to_degrees( const double& radians );
+
+  /**
+   * degrees to radians
+   */
+  double degrees_to_radian( const double& degrees );
+
+  /**
+   * bounded random
+   */
+  inline double bounded_random( const double& min, const double& max, const unsigned int randomMax  = 100000 ){
+    return min + ( max - min ) * ( double )( rand() % randomMax ) / ( double )( randomMax );
+  }
+
+  /**
+   * interpolates a value
+   */
+  int interpolate( const double& value, const double& minValue, const double& maxValue, const int& minIndex, const int& maxIndex );
+
+  /**
+   * interpolate a value
+   */
+  double interpolate( const int& valueIndex, const double& minValue, const double& maxValue, const int& minIndex, const int& maxIndex );
+
   /**
    * returns the difference in time
    */
@@ -54,6 +96,34 @@ namespace h2sl {
       return ( ( double )( endTime.tv_sec - startTime.tv_sec ) + ( double )( endTime.tv_usec - startTime.tv_usec ) / 1000000.0 );
     }
   }
+
+  /**
+   * time difference in milliseconds
+   */ 
+  int64_t diff_time( const int64_t& start, const int64_t& end );
+
+  /**
+   * time difference in microseconds
+   */
+  unsigned int diff_time( const struct timeval& start, const struct timeval& end );
+
+  /**
+   * converts microseconds to seconds
+   */
+  double microseconds_to_seconds( const unsigned int& microseconds );
+
+  /**
+   * templated swap function
+   */
+/*
+  template< typename C >
+  inline void swap( C& a, C& b ){
+    C tmp = a;
+    a = b;
+    b = tmp;
+    return;
+  }
+*/
 
   /** 
     * returns the cartesian power of a set of vectors 
@@ -81,24 +151,6 @@ namespace h2sl {
     }
   }
 
-  /**
-   * checks if the xmlNodePtr has a property with a particular name
-   */
-  template< typename C >
-  inline std::pair< bool, C >
-  has_prop( const xmlNodePtr& node, const std::string& string ){
-    std::pair< bool, std::string > ret( false, "" );
-    if( node->type == XML_ELEMENT_NODE ){
-      xmlChar* tmp = xmlGetProp( node, ( const xmlChar* )( string.c_str() ) );
-      if( tmp != NULL ){
-        ret.first = true;
-        ret.second = ( C )( tmp );
-        xmlFree( tmp );
-      }
-    }
-    return ret;
-  }
-
   /** 
    * checks if the name of the xmlNodePtr matches a string
    */
@@ -118,6 +170,25 @@ namespace h2sl {
   /**
    * checks if the xmlNodePtr has a property with a particular name
    */
+  template< typename C >
+  inline std::pair< bool, C >
+  has_prop( const xmlNodePtr& node, const std::string& string ){
+    std::pair< bool, std::string > ret( false, "" );
+    if( node->type == XML_ELEMENT_NODE ){
+      xmlChar* tmp = xmlGetProp( node, ( const xmlChar* )( string.c_str() ) );
+      if( tmp != NULL ){
+        ret.first = true;
+        ret.second = ( C )( tmp );
+        xmlFree( tmp );
+      }
+    }
+    return ret;
+  }
+
+
+  /**
+   * checks if the xmlNodePtr has a property with a particular name
+   */
   template<>
   inline std::pair< bool, std::string >
   has_prop< std::string >( const xmlNodePtr& node, const std::string& string ){
@@ -132,6 +203,62 @@ namespace h2sl {
     }
     return ret;
   }
+
+  /**
+   * checks if the xmlNodePtr has a property with a particular name
+   */
+  template<>
+  inline std::pair< bool, double >
+  has_prop< double >( const xmlNodePtr& node, const std::string& string ){
+    std::pair< bool, double > ret( false, 0.0 );
+    if( node->type == XML_ELEMENT_NODE ){
+      xmlChar* tmp = xmlGetProp( node, ( const xmlChar* )( string.c_str() ) );
+      if( tmp != NULL ){
+        ret.first = true;
+        std::string tmp_string = ( char* )( tmp );
+        ret.second = strtod( tmp_string.c_str(), NULL );
+        xmlFree( tmp );
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * checks if the xmlNodePtr has a property with a particular name
+   */
+  template<>
+  inline std::pair< bool, unsigned short >
+  has_prop< unsigned short >( const xmlNodePtr& node, const std::string& string ){
+    std::pair< bool, unsigned short > ret( false, 0 );
+    if( node->type == XML_ELEMENT_NODE ){
+      xmlChar* tmp = xmlGetProp( node, ( const xmlChar* )( string.c_str() ) );
+      if( tmp != NULL ){
+        ret.first = true;
+        ret.second = ( unsigned short )( strtol( ( char* )( tmp ), NULL, 10 ) );
+        xmlFree( tmp );
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * checks if the xmlNodePtr has a property with a particular name
+   */
+  template<>
+  inline std::pair< bool, unsigned int >
+  has_prop< unsigned int >( const xmlNodePtr& node, const std::string& string ){
+    std::pair< bool, unsigned int > ret( false, 0 );
+    if( node->type == XML_ELEMENT_NODE ){
+      xmlChar* tmp = xmlGetProp( node, ( const xmlChar* )( string.c_str() ) );
+      if( tmp != NULL ){
+        ret.first = true;
+        ret.second = strtol( ( char* )( tmp ), NULL, 10 );
+        xmlFree( tmp );
+      }
+    }
+    return ret;
+  }
+
 
   /**
    * checks if the xmlNodePtr has a property with a particular name
@@ -194,16 +321,98 @@ namespace h2sl {
     return it->second;
   }
 
+  /**
+   * converts double to string
+   */
+  inline std::string to_std_string( const double& arg, const unsigned int& precision = 4 ){
+    std::stringstream tmp;
+    tmp << std::setprecision( precision ) << arg;
+    return tmp.str();
+  }
+
+  /**
+   * std:vector string formatted
+   */
+  template< typename C >
+  inline std::string std_vector_to_std_string( const std::vector< C >& vector ){
+    std::stringstream tmp;
+    tmp << "[" << vector.size() << "]:{";
+    for( typename std::vector< C >::const_iterator it = vector.begin(); it != vector.end(); it++ ){
+      tmp << *it;
+      if( next( it ) != vector.end() ){
+        tmp << ",";
+      }
+    }
+    tmp << "}";
+    return tmp.str();
+  };
+
+  /**
+   * std:vector string formatted
+   */
+  template< typename C >
+  inline std::string std_vector_to_std_string( const std::vector< std::pair< C, bool > >& vector ){
+    std::stringstream tmp;
+    tmp << "[" << vector.size() << "]:{";
+    for( typename std::vector< std::pair< C, bool > >::const_iterator it = vector.begin(); it != vector.end(); it++ ){
+      tmp << it->first;
+      if( next( it ) != vector.end() ){
+        tmp << ",";
+      }
+    }
+    tmp << "}";
+    return tmp.str();
+  };
+
+  /**
+   * std:vector string formatted
+   */
+  template< typename C >
+  inline std::string std_vector_to_std_string( const std::vector< C* >& vector ){
+    std::stringstream tmp;
+    tmp << "[" << vector.size() << "]:{";
+    for( typename std::vector< C* >::const_iterator it = vector.begin(); it != vector.end(); it++ ){
+      tmp << *(*it);
+      if( next( it ) != vector.end() ){
+        tmp << ",";
+      }
+    }
+    tmp << "}";
+    return tmp.str();
+  };
+
+  /** 
+   * std::map string formatted
+   */
   template< typename C >
   inline std::string
-  map_to_std_string( const std::map< std::string, C >& map ){
+  std_map_to_std_string( const std::map< std::string, C >& map ){
     std::stringstream tmp;
+    tmp << "[" << map.size() << "]:{";
     for( typename std::map< std::string, C >::const_iterator it = map.begin(); it != map.end(); it++ ){
-      tmp << "(" << it->first << "," << it->second << ")";
+      tmp << "\"" << it->first << "\":\"" << it->second << "\"";
       if( next( it ) != map.end() ){
         tmp << ",";
       }
     }
+    tmp << "}";
+    return tmp.str();
+  };
+
+  /**
+   * array string formatted
+   */
+  template< typename C >
+  inline std::string array_to_std_string( const C* array, unsigned int size ){
+    std::stringstream tmp;
+    tmp << "[" << size << "]:{";
+    for( unsigned int i = 0; i < size; i++ ){
+      tmp << array[ i ];
+      if( i != ( size - 1 ) ){
+        tmp << ",";
+      }
+    }
+    tmp << "}";
     return tmp.str();
   }
 
@@ -241,7 +450,177 @@ namespace h2sl {
     return;
   }
 
+    /**
+   * safely creates a new instance of type C
+   */
+  template< typename C >
+  inline void new_ptr( C*& arg ){
+    delete_ptr< C >( arg );
+    arg = new C();
+    return;
+  };
 
+  /**
+   * reverse lookup in map
+   */
+  template< typename C >
+  inline void reverse_lookup( const std::map< std::string, C* >& map,
+                              const C* value,
+                              std::string& index ){
+    for( typename std::map< std::string, C* >::const_iterator it = map.begin(); it != map.end(); it++ ){
+      if( it->second == value ){
+        index = it->first;
+        return;
+      }
+    }
+    assert( true );
+  }
+
+  /** 
+   * reads the channels from an xml file
+   */
+  inline std::map< std::string, std::string > channels_from_xml( const std::string& filename ){
+    std::map< std::string, std::string > tmp;
+    xmlDoc * doc = xmlReadFile( filename.c_str(), NULL, 0 );
+    if( doc != NULL ){
+      xmlNodePtr root = xmlDocGetRootElement( doc );
+      if( root->type == XML_ELEMENT_NODE ){
+        for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
+          if( matches_name( l1, "channels" ) ){
+            for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+              if( matches_name( l2, "channel" ) ){
+                std::pair< bool, std::string > name_prop = has_prop< std::string >( l2, "name" );
+                std::pair< bool, std::string > value_prop = has_prop< std::string >( l2, "value" );
+                if( name_prop.first && value_prop.first ){
+                  tmp.insert( std::pair< std::string, std::string >( name_prop.second, value_prop.second ) );
+                }
+              }
+            }
+          }
+        }
+      }
+      xmlFreeDoc( doc );
+    }
+    return tmp;
+  };
+
+/*
+  template< class MessageType, class MessageHandlerClass >
+  inline bool lcm_subscribe( lcm::LCM* lcm,
+                              const std::string& channel,
+                              const std::map< std::string, std::string >& channels,
+                              void ( MessageHandlerClass::*handlerMethod)( const lcm::ReceiveBuffer* rbuf,
+                                                                                const std::string& channel,
+                                                                                const MessageType* msg ),
+                              MessageHandlerClass* handler,
+                              const unsigned int& queueCapacity ){
+    std::map< std::string, std::string >::const_iterator it_channel = channels.find( channel );
+    if( it_channel == channels.end() ){
+      std::cout << "could not subscribe to \"" << channel << "\" (channels" << std_map_to_std_string< std::string >( channels ) <<")" << std::endl;
+      return false;
+    }
+
+    if( lcm != NULL ){
+      lcm::Subscription * subscription = lcm->subscribe( it_channel->second, handlerMethod, handler );
+      if( subscription != NULL ){
+        std::cout << "subscribed to \"" << it_channel->second << "\"" << std::endl;
+        subscription->setQueueCapacity( queueCapacity );
+        return true;
+      } else {
+        std::cout << "failed to subscribe to channel \"" << it_channel->second << "\"" << std::endl;
+        return false;
+      }
+    } else {
+      std::cout << "could not subscribe to \"" << channel << "\" due to lcm == NULL" << std::endl;
+      return false;
+    }
+  }
+
+  template< class MessageType >
+  inline bool lcm_publish_msg( lcm::LCM* lcm,
+                                const std::string& channel,
+                                const std::map< std::string, std::string >& channels,
+                                const MessageType* msg ){
+    if( lcm != NULL ){
+      std::map< std::string, std::string >::const_iterator it_channel = channels.find( channel );
+      if( it_channel == channels.end() ){
+        std::cout << "could not publish on \"" << channel << "\" (channels" << std_map_to_std_string< std::string >( channels ) <<")" << std::endl;
+        return false;
+      } else {
+        if( lcm->publish( it_channel->second, msg ) == 0 ){
+          return true;
+        } else {
+          return false;
+        }
+      }
+    } else {
+      return false;
+    }
+  }
+
+  inline bool lcm_publish_empty_msg( lcm::LCM* lcm,
+                                      const std::string& channel,
+                                      const std::map< std::string, std::string >& channels ){
+    empty_msg_t * msg = new empty_msg_t();
+    msg->timestamp = current_time();
+    bool ret = lcm_publish_msg( lcm, channel, channels, msg );
+    delete_ptr< empty_msg_t >( msg );
+    return ret;
+  }
+
+  template< class C, class MessageType >
+  inline bool lcm_publish_class( lcm::LCM* lcm,
+                                  const std::string& channel,
+                                  const std::map< std::string, std::string >& channels,
+                                  const C* arg ){
+    if( lcm != NULL ) {
+      if( arg != NULL ){
+        MessageType * msg = new MessageType();
+        arg->to_msg( msg );
+        bool ret = lcm_publish_msg< MessageType >( lcm, channel, channels, msg );
+        delete_ptr< MessageType >( msg );
+        return ret;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  inline bool lcm_log_event( lcm::LCM* lcm,
+                              const lcm::ReceiveBuffer* buffer,
+                              const std::string& channel,
+                              lcm::LogFile* logfile = NULL ){
+    if( logfile ){
+      lcm::LogEvent* event = new lcm::LogEvent();
+      event->timestamp = buffer->recv_utime;
+      event->channel = channel;
+      event->data = buffer->data;
+      event->datalen = buffer->data_size;
+      bool ret = ( logfile->writeEvent( event ) == 0 );
+      delete_ptr< lcm::LogEvent >( event );
+      return ret;
+    }
+    return true;
+  }
+
+  inline void log_event( lcm::LogFile* logfile,
+                          const lcm::ReceiveBuffer* buffer,
+                          const std::string& channel ){
+    if( logfile ){
+      std::cout << "logging event on channel \"" << channel << "\"" << std::endl;
+      lcm::LogEvent * event = new lcm::LogEvent();
+      event->timestamp = buffer->recv_utime;
+      event->channel = channel;
+      event->data = buffer->data;
+      event->datalen = buffer->data_size;
+      assert( logfile->writeEvent( event ) == 0 );
+      delete_ptr< lcm::LogEvent >( event );
+    }
+    return;
+  }
+*/
 }
 
 #endif /* H2SL_COMMON_H */
