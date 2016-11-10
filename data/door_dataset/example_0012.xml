@@ -19,7 +19,7 @@
             <property reference="door2"/>
             <property reference_relation="na"/>
           </properties>
-        </constriant>
+        </constraint>
       </grounding_set>
     </grounding>
     <VB text="go"/>

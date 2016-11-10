@@ -42,6 +42,18 @@
       </grounding>
       <IN text="in" order="3"/>
       <NP>
+        <grounding>
+          <grounding_set>
+            <container container_type="row">
+              <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+              <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+              <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+            </container>
+            <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+            <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+            <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+          </grounding_set>
+        </grounding>
         <NP>
           <grounding>
             <grounding_set>
