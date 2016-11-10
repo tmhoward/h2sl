@@ -104,7 +104,8 @@ set(HDRS
     h2sl/feature_min_x_region_abstract_container_spatial_relation.h
     h2sl/feature_max_x_region_abstract_container.h
     #h2sl/feature_object_matches_child.h
-    h2sl/feature_container_min_distance.h
+    #h2sl/feature_container_min_distance.h
+    h2sl/feature_object_matches_child_container_object.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -199,7 +200,8 @@ set(SRCS
     feature_min_x_region_abstract_container_spatial_relation.cc
     feature_max_x_region_abstract_container.cc
     #feature_object_matches_child.cc
-    feature_container_min_distance.cc
+    #feature_container_min_distance.cc
+    feature_object_matches_child_container_object.cc
     llm.cc)
 
 # BINARY SOURCE FILES

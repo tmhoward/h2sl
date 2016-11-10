@@ -122,6 +122,7 @@
 #include "h2sl/feature_max_x_region_abstract_container.h"
 #include "h2sl/feature_object_matches_child.h"
 #include "h2sl/feature_container_min_distance.h"
+#include "h2sl/feature_object_matches_child_container_object.h"
 
 using namespace std;
 using namespace h2sl;
@@ -576,8 +577,11 @@ from_xml( xmlNodePtr root ){
               //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child" ) ) == 0 ){
               //    _feature_groups.back().push_back( new Feature_Object_Matches_Child() );
               //    _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_min_distance" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Container_Min_Distance() );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_min_distance" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Container_Min_Distance() );
+              //    _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child_container_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Object_Matches_Child_Container_Object() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;

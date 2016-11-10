@@ -114,6 +114,7 @@
 #include "h2sl/feature_max_x_region_abstract_container.h"
 #include "h2sl/feature_object_matches_child.h"
 #include "h2sl/feature_container_min_distance.h"
+#include "h2sl/feature_object_matches_child_container_object.h"
 
 using namespace std;
 using namespace h2sl;
