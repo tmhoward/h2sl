@@ -81,9 +81,6 @@ if( NOT Boost_FOUND )
 endif()
 include_directories(${Boost_INCLUDE_DIR})
 
-#set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} /home/rohanpaul/code/thirdparty/liblbfgs-1.10/lib)
-#set(CMAKE_INCLUDE_PATH ${CMAKE_LIBRARY_PATH} /home/rohanpaul/code/thirdparty/liblbfgs-1.10/include/)
-
 find_library(LBFGS_LIBRARY NAMES liblbfgs lbfgs HINTS ${CMAKE_BINARY_DIR}/lib /usr/lib /usr/local/lib /opt/local/lib)
 if( NOT LBFGS_LIBRARY )
   message( FATAL_ERROR "lbfgs not found\n")
