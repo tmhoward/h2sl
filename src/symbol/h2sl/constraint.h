@@ -42,7 +42,7 @@ namespace h2sl {
   class Constraint: public Grounding {
   public:
     Constraint( const std::string& constraintType = "na", const std::string& payload = "na", const std::string& reference = "na", const std::string& referenceRelation = "na" );
-    Constraint( const std::string& constraintType, const std::string& payload, const std::string& payloadRelation, const std::string& reference, const std::string& referenceRelation );
+    Constraint( const std::string& constraintType,  const std::string& payload, const std::string& payloadRelation, const std::string& reference, const std::string& referenceRelation);
     Constraint( xmlNodePtr root );
     virtual ~Constraint();
     Constraint( const Constraint& other );

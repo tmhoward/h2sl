@@ -125,32 +125,24 @@ fill_search_spaces( const World* world ){
 
   // ADCG_Base SYMBOLS
 
-  // Regions
-  vector< std::string > regions;
-  regions.push_back( "na" );
-  regions.push_back( "near" );
-  regions.push_back( "far" );
-  regions.push_back( "left" );
-  regions.push_back( "right" );
-  regions.push_back( "front" );
-  regions.push_back( "back" );
-  regions.push_back( "above" );
-  regions.push_back( "below" );
-
-
   // Constraints
-  vector< std::string > constraints;
-  constraints.push_back( "inside" );
-  constraints.push_back( "outside" );
+  vector< std::string > constraint;
+  constraint.push_back( "inside" );
+  constraint.push_back( "outside" );
 
-  // AADCG_Base SYMBOLS. 
+  // Constraints::payload
+  vector< std::string > payload;
+  payload.push_back( "generic-robot" ); 
+
+  // AADCG_Base SYMBOLS 
 
   // Object_Type
   vector< std::string > object_type;
   object_type.push_back( "na" );
   object_type.push_back( "block" );
   object_type.push_back( "table" );
-  object_type.push_back( "robot" );
+  object_type.push_back( "generic-robot" );
+  object_type.push_back( "door" );
   //object_type.push_back( "ycb-can" );
   //object_type.push_back( "ycb-box" );
   //object_type.push_back( "ycb-fruit" );
@@ -166,6 +158,8 @@ fill_search_spaces( const World* world ){
   spatial_relation.push_back( "side" );
   spatial_relation.push_back( "near" );
   spatial_relation.push_back( "far" );
+  spatial_relation.push_back( "above" );
+  spatial_relation.push_back( "below" );
   
   // Index
   // Note: not starting from "na"
@@ -175,7 +169,6 @@ fill_search_spaces( const World* world ){
   index.push_back( "third" );
   index.push_back( "fourth" );
   index.push_back( "fifth" );
-  index.push_back( "na" );
   
   // Number
   // Note: not starting from "na"
@@ -201,78 +194,64 @@ fill_search_spaces( const World* world ){
   object_color.push_back( "yellow" );
 
   // Region abstract container type.
-  vector< std::string > region_abstract_container_type; 
-  region_abstract_container_type.push_back( "na" );
-  region_abstract_container_type.push_back( "front" );
-  region_abstract_container_type.push_back( "back" );
-  region_abstract_container_type.push_back( "left" );
-  region_abstract_container_type.push_back( "center" );
-  region_abstract_container_type.push_back( "right" );
-  region_abstract_container_type.push_back( "side" );
-  region_abstract_container_type.push_back( "near" );
-  region_abstract_container_type.push_back( "far" );
+  vector< std::string > region_abstract_container; 
+  region_abstract_container.push_back( "front" );
+  region_abstract_container.push_back( "back" );
+  region_abstract_container.push_back( "left" );
+  region_abstract_container.push_back( "center" );
+  region_abstract_container.push_back( "right" );
+  region_abstract_container.push_back( "side" );
+  region_abstract_container.push_back( "near" );
+  region_abstract_container.push_back( "far" );
+  region_abstract_container.push_back( "above" );
+  region_abstract_container.push_back( "below" );
    
   // Abstract symbols need to be initialized seperately in inference 
-  vector< std::string > container_type;
-  container_type.push_back( "group" );
-  container_type.push_back( "row" );
-  container_type.push_back( "column" );
-  //container.push_back( "tower" );
- 
-  /*
-  // Actions and action params. 
-  vector< std::string > action_type;
-  action_type.push_back( "na" );
-  action_type.push_back( "pick" );
-  action_type.push_back( "place" );
-  action_type.push_back( "navigate" );
-    
-  vector< std::string > action_param;
-  action_param.push_back( "na" );
-  action_param.push_back( "pick_object" );
-  action_param.push_back( "place_object" );
-  action_param.push_back( "hand" );     
- */
+  vector< std::string > container;
+  container.push_back( "group" );
+  container.push_back( "row" );
+  container.push_back( "column" );
 
-  // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
-  for( unsigned int i = 0; i < world->objects().size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( "na", *world->objects()[ i ] ) ) );
-  }
-
-  // add the PP groundings; exhaustively fill the region symbol space (does no duplicate the above loop)
-  for( unsigned int i = 0; i < regions.size(); i++ ){
-    if( regions[ i ] != "na" ){
-      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( regions[ i ], Object() ) ) );
-      for( unsigned int j = 0; j < world->objects().size(); j++ ){
-        _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( regions[ i ], *world->objects()[ j ] ) ) );
-      }   
-    }
-  }
-
-  // add the VP groundings; exhaustively fill the constraint symbol space
-  for( unsigned int i = 0; i < constraints.size(); i++ ){
-    for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      for( unsigned int k = 0; k < regions.size(); k++ ){
-        for( unsigned int l = 0; l < world->objects().size(); l++ ){
-          for( unsigned int m = 0; m < regions.size(); m++ ){
-            if( ( j != l ) || ( k != m ) ){
-              _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( 
-                                    constraints[ i ], Region( regions[ k ], *world->objects()[ j ] ), Region( regions[ m ], *world->objects()[ l ] ) ) ) );
-            }
-          }
-        }
-      }
-    }
-  }
-
-
-  // Fill AADCG_Base Symbol Space.
+  // Map of symbolic representation.
+  _symbol_types.insert( pair< string, vector< string > >( string("object_type"), object_type ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("object_color"), object_color ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("number"), number ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("index"), index ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("spatial_relation"), spatial_relation ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("container"), container ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("constraint"), constraint ) );
+  _symbol_types.insert( pair< string, vector< string > >( string("region_abstract_container"), region_abstract_container ) );
 
   // Objects
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, world->objects()[ i ]->dup() ) );
   }
 
+  // Regions. Do not create an "na" region
+  for( unsigned int i = 0; i < spatial_relation.size(); i++ ){
+    if( spatial_relation[ i ] != "na" ){
+      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( spatial_relation[ i ], Object() ) ) );
+      for( unsigned int j = 0; j < world->objects().size(); j++ ){
+        _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( spatial_relation[ i ], *world->objects()[ j ] ) ) );
+      }   
+    }
+  }
+
+  // Constraints
+  for( unsigned int i = 0; i < constraint.size(); i++ ) {
+    for( unsigned int j = 0; j < payload.size(); j++ ) {
+      for( unsigned int k = 0; j < spatial_relation.size(); k++ ) {
+        for( unsigned int l = 0; l < world->objects().size(); l++ ) {
+          for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
+            _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Constraint( constraint[ i ], 
+  											   payload[ j ], spatial_relation[ k ], 
+											   world->objects()[ l ]->name(), spatial_relation[ m ] ) ) );  
+          }  
+        } 
+      }  
+    } 
+  }
+  
   // Object_Type
   for (unsigned int i = 0; i < object_type.size(); i++) {
     _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Object_Type( object_type[ i ] ) ) );
@@ -288,6 +267,16 @@ fill_search_spaces( const World* world ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Index( index[ i ] ) ) );
   }
 
+  // Number
+  for (unsigned int i = 0; i < number.size(); i++) {
+    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Number( number[ i ] ) ) );
+  }
+ 
+  // Object_Color
+  for (unsigned int i = 0; i < object_color.size(); i++) {
+    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Object_Color( object_color[ i ] ) ) );
+  }
+
   // Object_Property
   for( unsigned int i = 0; i < object_type.size(); i++ ){
     for( unsigned int j = 0; j < spatial_relation.size(); j++ ){
@@ -298,17 +287,6 @@ fill_search_spaces( const World* world ){
     }
   }
 
-  // Number
-  for (unsigned int i = 0; i < number.size(); i++) {
-    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Number( number[ i ] ) ) );
-  }
- 
-  // Object_Color
-  for (unsigned int i = 0; i < object_color.size(); i++) {
-    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Object_Color( object_color[ i ] ) ) );
-  }
- 
-
   // Abstract Containers and Region Abstract Containers
   // Note: the index in abstract container is constrainted to be the first.
   // Region abstract containers are constrcuted with abstract containers associated 
@@ -318,9 +296,9 @@ fill_search_spaces( const World* world ){
       for( unsigned int l = 0; l < object_color.size(); l++ ){
         _search_spaces.push_back( 
                  pair< unsigned int, Grounding* >( 0, new Abstract_Container( object_type[ i ], number[ j ], index[ 0 ], object_color[ l ] ) ) );
-        for( unsigned int k = 0; k < region_abstract_container_type.size(); k++ ){
+        for( unsigned int k = 0; k < region_abstract_container.size(); k++ ){
           _search_spaces.push_back( 
-                   pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( region_abstract_container_type[ k ], 
+                   pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( region_abstract_container[ k ], 
 								               Abstract_Container( object_type[ i ] , number[ j ], index[ 0 ], object_color[ l ] ) ) ) );
         }
       }
@@ -329,9 +307,8 @@ fill_search_spaces( const World* world ){
 
   // Container. 
   // Assign the container type with empty list of object groundings.   
-  for( unsigned int i = 0; i < container_type.size(); i++ ){
-    //_search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( vector< Object* >(), container_type[ i ] ) ) );
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( vector< Grounding* >(), container_type[ i ] ) ) );
+  for( unsigned int i = 0; i < container.size(); i++ ){
+    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( vector< Grounding* >(), container[ i ] ) ) );
   }
 
   // Containers. Create the power set of objects. 
@@ -347,46 +324,32 @@ fill_search_spaces( const World* world ){
     // Determine the power set.
     const unsigned int num_sets = pow(2,( objects.size() ) );
     for( unsigned int j = 0; j < num_sets; j++ ){
-      //vector< Object* > container_objects;
       vector< Grounding* > container_objects;
 
       for( unsigned int k = 0; k < objects.size(); k++ ){
         int mask = 1 << k;
         if( mask & j ){
-          //container_objects.push_back( objects[ k ] );
           container_objects.push_back( dynamic_cast< Grounding* >( objects[ k ] ) );
         }
       }
       if( container_objects.size() > 1 ){
         // add container to search spaces
-        for( unsigned int k = 0; k < container_type.size(); k++ ){
-          _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( container_objects, container_type[ k ] ) ) );
+        for( unsigned int k = 0; k < container.size(); k++ ){
+          _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( container_objects, container[ k ] ) ) );
         }
         // add region container. 
         // Note: spatial relation starting from FRONT, not na. Hence 1.
         // Note: the container type is starting from group. Hence 0.
         for( unsigned int k = 1; k < spatial_relation.size(); k++ ){
-          for( unsigned int l = 0; l < container_type.size() ; l++ ){
+          for( unsigned int l = 0; l < container.size() ; l++ ){
             _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region_Container( spatial_relation[ k ], 
- 												 Container( container_objects, container_type[ l ] ) ) ) );
+ 												 Container( container_objects, container[ l ] ) ) ) );
           }
         }
       }
     }
   }
 
-  /*
-  // Actions.
-  // Parameterising with picking up of all the objects in the world. 
-  for( unsigned int i = 0; i < action_type.size() ; i++ ){
-    for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      Action * action = new Action( action_type [ i ] );
-      action->params().insert( pair< string, string >( "pick_object", world->objects()[ j ]->name() ) );
-      _search_spaces.push_back( pair< unsigned int, h2sl::Grounding* >( 0, action ) );
-    }
-  }
- */
- 
   return;
 }
 

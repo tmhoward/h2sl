@@ -12,6 +12,7 @@ set(GGOS
     object_property_demo.ggo
     object_type_demo.ggo
     region_demo.ggo
+    #constraint_demo.ggo
     region_abstract_container_demo.ggo
     region_container_demo.ggo
     spatial_relation_demo.ggo
@@ -72,6 +73,7 @@ set(BIN_SRCS
     object_property_demo.cc
     object_type_demo.cc
     region_demo.cc
+    #constraint_demo.cc
     region_abstract_container_demo.cc
     region_container_demo.cc
     spatial_relation_demo.cc
