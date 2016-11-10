@@ -120,6 +120,7 @@
 #include "h2sl/feature_min_x_container_region_abstract_container.h"
 #include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
 #include "h2sl/feature_max_x_region_abstract_container.h"
+#include "h2sl/feature_object_matches_child.h"
 
 using namespace std;
 using namespace h2sl;
@@ -571,6 +572,9 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_x_region_abstract_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Max_X_Region_Abstract_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Object_Matches_Child() );
+              //    _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );

@@ -19,7 +19,9 @@ namespace h2sl {
   /**
    * Feature_Object_Matches_Child class definition
    */
+  //What is this template line?
   template< class T, class O >
+  //----------------------------
   class Feature_Object_Matches_Child : public Feature {
   public:
     Feature_Object_Matches_Child( const bool& invert = false );
