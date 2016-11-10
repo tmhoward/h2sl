@@ -126,9 +126,9 @@ fill_search_spaces( const World* world ){
   // ADCG_Base SYMBOLS
 
   // Constraints
-  vector< std::string > constraints;
-  constraints.push_back( "inside" );
-  constraints.push_back( "outside" );
+  vector< std::string > constraint;
+  constraint.push_back( "inside" );
+  constraint.push_back( "outside" );
 
   // Constraints::payload
   vector< std::string > payload;
@@ -195,32 +195,24 @@ fill_search_spaces( const World* world ){
 
   // Region abstract container type.
   vector< std::string > region_abstract_container_type; 
-  region_abstract_container_type.push_back( "na" );
-  region_abstract_container_type.push_back( "front" );
-  region_abstract_container_type.push_back( "back" );
-  region_abstract_container_type.push_back( "left" );
-  region_abstract_container_type.push_back( "center" );
-  region_abstract_container_type.push_back( "right" );
-  region_abstract_container_type.push_back( "side" );
-  region_abstract_container_type.push_back( "near" );
-  region_abstract_container_type.push_back( "far" );
+  region_abstract_container.push_back( "front" );
+  region_abstract_container.push_back( "back" );
+  region_abstract_container.push_back( "left" );
+  region_abstract_container.push_back( "center" );
+  region_abstract_container.push_back( "right" );
+  region_abstract_container.push_back( "side" );
+  region_abstract_container.push_back( "near" );
+  region_abstract_container.push_back( "far" );
+  region_abstract_container.push_back( "above" );
+  region_abstract_container.push_back( "below" );
    
   // Abstract symbols need to be initialized seperately in inference 
   vector< std::string > container_type;
-  container_type.push_back( "group" );
-  container_type.push_back( "row" );
-  container_type.push_back( "column" );
-  //container.push_back( "tower" );
-
-  // Actions and action params. 
-  vector< std::string > action;
-  action.push_back( "na" );
-  action.push_back( "pick" );
-  action.push_back( "place" );
-  action.push_back( "navigate" );
+  container.push_back( "group" );
+  container.push_back( "row" );
+  container.push_back( "column" );
 
   // Map of symbolic representation.
-  //map < string, vector<string> > symbols;
   _symbol_types.insert( pair< string, vector< string > >( string("object_type"), object_type ) );
   _symbol_types.insert( pair< string, vector< string > >( string("object_color"), object_color ) );
   _symbol_types.insert( pair< string, vector< string > >( string("number"), number ) );

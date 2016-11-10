@@ -158,13 +158,7 @@ fill_search_spaces( const World* world ){
   //object_type.push_back( "ycb-box" );
   //object_type.push_back( "ycb-fruit" );
 
-  // Object_Color   
-  vector< std::string > object_color;
-  object_color.push_back( "na" );
-  object_color.push_back( "red" );
-  object_color.push_back( "blue" );
-  object_color.push_back( "yellow" );
- 
+
   // Spatial_Relation
   vector< std::string > spatial_relation;
   spatial_relation.push_back( "na" );
@@ -203,6 +197,13 @@ fill_search_spaces( const World* world ){
   number.push_back( "ten" );
   number.push_back( "eleven" );
   number.push_back( "twelve" );
+
+  // Object_Color   
+  vector< std::string > object_color;
+  object_color.push_back( "na" );
+  object_color.push_back( "red" );
+  object_color.push_back( "blue" );
+  object_color.push_back( "yellow" );
  
   // Region abstract container type. Disallow na type.
   vector< std::string > region_abstract_container; 
@@ -222,26 +223,8 @@ fill_search_spaces( const World* world ){
   container.push_back( "group" );
   container.push_back( "row" );
   container.push_back( "column" );
-  //container.push_back( "tower" );
- 
-  // Actions and action params. 
-  vector< std::string > action;
-  action.push_back( "na" );
-  action.push_back( "pick" );
-  action.push_back( "place" );
-  action.push_back( "navigate" );
-  
-  /*
-  // Decide on the action parameters.  
-  vector< std::string > action_param;
-  action_param.push_back( "na" );
-  action_param.push_back( "pick_object" );
-  action_param.push_back( "place_object" );
-  action_param.push_back( "hand" );     
- */
 
   // Map of symbolic representation.
-  //map < string, vector<string> > symbols;
   _symbol_types.insert( pair< string, vector< string > >( string("object_type"), object_type ) );
   _symbol_types.insert( pair< string, vector< string > >( string("object_color"), object_color ) );
   _symbol_types.insert( pair< string, vector< string > >( string("number"), number ) );
@@ -262,6 +245,8 @@ fill_search_spaces( const World* world ){
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( "na", *world->objects()[ i ] ) ) );
   }
+
+
   // add the PP groundings; exhaustively fill the region symbol space (does no duplicate the above loop)
   for( unsigned int i = 0; i < _symbol_types[ string( "spatial_relation") ].size(); i++ ){
     if( _symbol_types[ string( "spatial_relation") ][ i ] != "na" ){
