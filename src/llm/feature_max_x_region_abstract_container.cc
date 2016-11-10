@@ -106,8 +106,8 @@ value( const unsigned int& cv,
   }
     
   if( region_abstract_container_child != NULL ){
-    if( spatial_relation_child != NULL ){
-      if( spatial_relation_child->relation_type() == _relation_type ){
+    if( container_child != NULL ){
+      if( container_child->type() == _relation_type ){
         if( object_grounding != NULL ){
           map< string, vector< Object* > >::const_iterator it;
           it  = world->max_x_sorted_objects().find( region_abstract_container_child->abstract_container().type() );

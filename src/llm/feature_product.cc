@@ -118,7 +118,7 @@
 #include "h2sl/feature_max_y_container_abstract_container.h"
 #include "h2sl/feature_min_abs_y_container_abstract_container.h"
 #include "h2sl/feature_min_x_container_region_abstract_container.h"
-#include "h2sl/feature_min_x_region_abstract_container.h"
+#include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
 #include "h2sl/feature_max_x_region_abstract_container.h"
 
 using namespace std;
@@ -408,9 +408,9 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Container_Number( l2 ) );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number_equals_world_objects" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Container_Number_Equals_World_Objects() );
-                  _feature_groups.back().back()->from_xml( l2 );
+              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number_equals_world_objects" ) ) == 0 ){
+              //    _feature_groups.back().push_back( new Feature_Container_Number_Equals_World_Objects() );
+              //    _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_is_empty" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Container_Is_Empty() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -565,8 +565,8 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_container_region_abstract_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Min_X_Container_Region_Abstract_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_region_abstract_container" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Min_X_Region_Abstract_Container() );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_region_abstract_container_spatial_relation" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Min_X_Region_Abstract_Container_Spatial_Relation() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_max_x_region_abstract_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Max_X_Region_Abstract_Container() );

@@ -110,7 +110,7 @@
 #include "h2sl/feature_max_y_container_abstract_container.h"
 #include "h2sl/feature_min_abs_y_container_abstract_container.h"
 #include "h2sl/feature_min_x_container_region_abstract_container.h"
-#include "h2sl/feature_min_x_region_abstract_container.h"
+#include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
 #include "h2sl/feature_max_x_region_abstract_container.h"
 
 using namespace std;
