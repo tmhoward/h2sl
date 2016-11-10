@@ -67,24 +67,5 @@
     <grammar_non_terminal root="NP" children="CD,NNS"/>
     <grammar_non_terminal root="NP" children="DT,X1"/><!--Placeholder node for the above, commented-out rules -->
     <grammar_non_terminal root="X1" children="JJ,NN"/>
-
-
-    <!--grammar_non_terminal root="NP" children="NP,PP"/>
-    <grammar_non_terminal root="NP" children="DT[the],JJ[middle],NN[door]"/>
-    <grammar_non_terminal root="PP" children="IN[in],NP"/>
-    <grammar_non_terminal root="NP" children="DT[the],NN[row]"/>
-    <grammar_non_terminal root="PP" children="IN[of],NP"/>
-    <grammar_non_terminal root="NP" children="CD[three],NNS[doors]"/>
-    <grammar_non_terminal root="NP" children="DT[the],JJ[second],NN[door]"/> 
-    <grammar_non_terminal root="PP" children="IN[from],NP"/>
-    <grammar_non_terminal root="NP" children="DT[the],NN[left]"/>
-    <grammar_non_terminal root="NP" children="DT[the],NN[right]"/>
-    <grammar_non_terminal root="VP" children="VB[go],PP"/>
-    <grammar_non_terminal root="PP" children="IN[to],NP"/>
-    <grammar_non_terminal root="VP" children="VB[walk],PP"/>
-    <grammar_non_terminal root="PP" children="IN[near],NP"/>
-    <grammar_non_terminal root="PP" children="IN[behind],NP"/>
-    <grammar_non_terminal root="VP" children="VB[drive],PP"/>
-    <grammar_non_terminal root="NP" children="CD[five],NNS[doors]"/-->
   </grammar>
 </root>
