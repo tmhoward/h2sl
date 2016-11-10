@@ -113,6 +113,7 @@
 #include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
 #include "h2sl/feature_max_x_region_abstract_container.h"
 #include "h2sl/feature_object_matches_child.h"
+#include "h2sl/feature_container_min_distance.h"
 
 #include "feature_set_demo_cmdline.h"
 

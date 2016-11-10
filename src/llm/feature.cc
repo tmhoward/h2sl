@@ -120,6 +120,7 @@
 #include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
 #include "h2sl/feature_max_x_region_abstract_container.h"
 #include "h2sl/feature_object_matches_child.h"
+#include "h2sl/feature_container_min_distance.h"
 
 
 #include "h2sl/feature.h"
@@ -330,7 +331,9 @@ namespace h2sl {
         out << *static_cast< const Feature_Max_X_Region_Abstract_Container* >( &other );
     //} else if ( dynamic_cast< const Feature_Object_Matches_Child* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Object_Matches_Child* >( &other );
-    }  else {
+    } else if ( dynamic_cast< const Feature_Container_Min_Distance* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Min_Distance* >( &other );
+    } else {
       assert( false );
     } 
     return out;
