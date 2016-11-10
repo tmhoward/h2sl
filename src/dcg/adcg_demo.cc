@@ -46,7 +46,7 @@ main( int argc,
     llm->from_xml( args.llm_arg );
   }
 
-  int64_t start_time = current_time();
+  //int64_t start_time = current_time();
 
   ADCG* adcg = new ADCG();
 
@@ -130,8 +130,8 @@ main( int argc,
     }
   }
 
-  int64_t end_time = current_time();
-  cout << "ADCG time taken: " << microseconds_to_seconds(end_time-start_time) << " seconds" << endl;
+//  int64_t end_time = current_time();
+//  cout << "ADCG time taken: " << microseconds_to_seconds(end_time-start_time) << " seconds" << endl;
 
   if( adcg != NULL ){
     delete adcg;
