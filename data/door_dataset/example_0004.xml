@@ -62,6 +62,18 @@
           </grounding>
           <IN text="in" order="3"/>
           <NP>
+            <grounding>
+              <grounding_set>
+                <container container_type="row">
+                  <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                  <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                  <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                </container>
+                <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+              </grounding_set>
+            </grounding>
             <NP>
               <grounding>
                 <grounding_set>
@@ -88,10 +100,6 @@
               <NP>
                 <grounding>
                   <grounding_set>
-                    <!-- these groundings would be used if "three doors" was ambigious due to the world having more than three doors>
-                    <abstract_container object_type="door" number_type="3" index_type="first" object_color_type="na"/>
-                    <number number_value="three">
-                    <object_type object_type="door"/-->
                     <container container_type="row">
                       <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
                       <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
@@ -110,4 +118,5 @@
         </PP>
       </NP>
     </PP>
+  </VP>
 </root>
