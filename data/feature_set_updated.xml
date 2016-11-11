@@ -126,6 +126,9 @@
         <feature_abstract_container_number invert="1" abstract_container_number="ten"/>
         <feature_abstract_container_number invert="1" abstract_container_number="eleven"/>
         <feature_abstract_container_number invert="1" abstract_container_number="twelve"/>
+        <!-- feature_abstract_container_number_equals_world_objects -->
+        <feature_abstract_container_number_equals_world_objects invert="0"/>
+        <feature_abstract_container_number_equals_world_objects invert="1"/>
         <!-- feature_abstract_container_type -->
         <feature_abstract_container_type invert="0" abstract_container_type="na"/>
         <feature_abstract_container_type invert="0" abstract_container_type="block"/>
@@ -795,8 +798,8 @@
         <feature_object_matches_child invert="0"/>
         <feature_object_matches_child invert="1"/>
         <!-- feature_object_matches_child_container_object -->
-        <feature_object_matches_child_containe_object invert="0"/>
-        <feature_object_matches_child_containe_object invert="1"/>
+        <feature_object_matches_child_container_object invert="0"/>
+        <feature_object_matches_child_container_object invert="1"/>
         <!-- feature_object_number_matches_world_object_number -->
         <feature_object_number_matches_world_object_number invert="0"/>
         <feature_object_number_matches_world_object_number invert="1"/>
@@ -980,22 +983,6 @@
         <feature_grounding_property_value invert="1" key="object_type" symbol="block"/>
         <feature_grounding_property_value invert="1" key="object_type" symbol="generic-robot"/>
         <feature_grounding_property_value invert="1" key="object_type" symbol="door"/>
-        <!--feature_grounding_property_value invert="0" key="object_type" symbol="box"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="chair"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="couch"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="sink"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="mug"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="bottle"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="can"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="fridge"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="hammer"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="screwdriver"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="pipe"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="newspaper"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="marker"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="tube"/>
-        <feature_grounding_property_value invert="0" key="object_type" symbol="tape"/-->
-
         <!-- feature for any symbol with property "region_type" (currently only region.cc)-->
         <feature_grounding_property_value invert="0" key="region_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="region_type" symbol="front"/>
