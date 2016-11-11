@@ -108,6 +108,19 @@
 #include "h2sl/feature_object_number_matches_world_object_number.h"
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
+#include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
+#include "h2sl/feature_container_merge_abstract_container_region_container.h"
+#include "h2sl/feature_container_merge_container_pair.h"
+#include "h2sl/feature_object_merge_container_pair.h"
+#include "h2sl/feature_object_merge_abstract_container_region_container.h"
+#include "h2sl/feature_object_merge_object_property_spatial_relation.h"
+#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
+#include "h2sl/feature_object_merge_object_container.h"
+#include "h2sl/feature_object_merge_single_object_different_container.h"
+#include "h2sl/feature_object_merge_object_different_container.h"
+#include "h2sl/feature_object_merge_object_property_container.h"
+#include "h2sl/feature_object_merge_object_property_region_container.h"
+#include "h2sl/feature_object_merge_object_region_container.h"
 
 using namespace std;
 using namespace h2sl;

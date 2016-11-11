@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/derya/Desktop/codes/h2sl/build/src/util/llm_train_adcg_cmdline.c
+config.h
+/Users/derya/Desktop/codes/h2sl/build/src/util/config.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+getopt.h
+-
+llm_train_adcg_cmdline.h
+/Users/derya/Desktop/codes/h2sl/build/src/util/llm_train_adcg_cmdline.h
+
+/Users/derya/Desktop/codes/h2sl/build/src/util/llm_train_adcg_cmdline.h
+config.h
+/Users/derya/Desktop/codes/h2sl/build/src/util/config.h
+stdio.h
+-
+

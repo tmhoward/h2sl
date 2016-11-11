@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/language/h2sl/pos.h
+iostream
+-
+cstring
+-
+
+/Users/derya/Desktop/codes/h2sl/src/language/pos_demo.cc
+iostream
+-
+h2sl/pos.h
+-
+

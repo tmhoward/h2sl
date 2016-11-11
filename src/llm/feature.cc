@@ -126,6 +126,19 @@
 #include "h2sl/feature_object_number_matches_world_object_number.h"
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
+#include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
+#include "h2sl/feature_container_merge_abstract_container_region_container.h"
+#include "h2sl/feature_container_merge_container_pair.h"
+#include "h2sl/feature_object_merge_container_pair.h"
+#include "h2sl/feature_object_merge_abstract_container_region_container.h"
+#include "h2sl/feature_object_merge_object_property_spatial_relation.h"
+#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
+#include "h2sl/feature_object_merge_object_container.h"
+#include "h2sl/feature_object_merge_single_object_different_container.h"
+#include "h2sl/feature_object_merge_object_different_container.h"
+#include "h2sl/feature_object_merge_object_property_container.h"
+#include "h2sl/feature_object_merge_object_property_region_container.h"
+#include "h2sl/feature_object_merge_object_region_container.h"
 
 #include "h2sl/feature.h"
 
@@ -345,7 +358,33 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Number_Equals_World_Objects* >( &other );
     } else if ( dynamic_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other ) != NULL ){
         out << *static_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other );
-    }  else {
+    } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Index_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Abstract_Container_Index_Region_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Merge_Abstract_Container_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Merge_Abstract_Container_Region_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Merge_Container_Pair* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Merge_Container_Pair* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Container_Pair* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Container_Pair* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Abstract_Container_Region_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Single_Object_Different_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Single_Object_Different_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Different_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Different_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Property_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Property_Region_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Region_Container* >( &other );
+    } else {
       assert( false );
     } 
     return out;

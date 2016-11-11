@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/common/h2sl/vector3.h
+iostream
+-
+vector
+-
+
+/Users/derya/Desktop/codes/h2sl/src/common/h2sl/unit_quaternion.h
+iostream
+-
+vector
+-
+h2sl/vector3.h
+/Users/derya/Desktop/codes/h2sl/src/common/h2sl/h2sl/vector3.h
+
+/Users/derya/Desktop/codes/h2sl/src/common/unit_quaternion_demo.cc
+iostream
+-
+cstdlib
+-
+h2sl/unit_quaternion.h
+/Users/derya/Desktop/codes/h2sl/src/common/h2sl/unit_quaternion.h
+unit_quaternion_demo_cmdline.h
+/Users/derya/Desktop/codes/h2sl/src/common/unit_quaternion_demo_cmdline.h
+
+src/common/unit_quaternion_demo_cmdline.h
+config.h
+src/common/config.h
+stdio.h
+-
+

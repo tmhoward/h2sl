@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/derya/Desktop/codes/h2sl/build/src/dcg/factor_set_demo_cmdline.c
+config.h
+/Users/derya/Desktop/codes/h2sl/build/src/dcg/config.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+getopt.h
+-
+factor_set_demo_cmdline.h
+/Users/derya/Desktop/codes/h2sl/build/src/dcg/factor_set_demo_cmdline.h
+
+/Users/derya/Desktop/codes/h2sl/build/src/dcg/factor_set_demo_cmdline.h
+config.h
+/Users/derya/Desktop/codes/h2sl/build/src/dcg/config.h
+stdio.h
+-
+

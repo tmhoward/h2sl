@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/derya/Desktop/codes/h2sl/src/common/h2sl/vector3.h
+iostream
+-
+vector
+-
+
+/Users/derya/Desktop/codes/h2sl/src/common/vector3_demo.cc
+iostream
+-
+cstdlib
+-
+h2sl/vector3.h
+/Users/derya/Desktop/codes/h2sl/src/common/h2sl/vector3.h
+vector3_demo_cmdline.h
+/Users/derya/Desktop/codes/h2sl/src/common/vector3_demo_cmdline.h
+
+src/common/vector3_demo_cmdline.h
+config.h
+src/common/config.h
+stdio.h
+-
+

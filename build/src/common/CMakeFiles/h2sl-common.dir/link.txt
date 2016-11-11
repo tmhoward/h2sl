@@ -1,0 +1,2 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc ../../lib/libh2sl-common.a  CMakeFiles/h2sl-common.dir/vector3.cc.o CMakeFiles/h2sl-common.dir/unit_quaternion.cc.o CMakeFiles/h2sl-common.dir/transform.cc.o CMakeFiles/h2sl-common.dir/common.cc.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib ../../lib/libh2sl-common.a

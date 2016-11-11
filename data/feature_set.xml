@@ -410,6 +410,36 @@
         <feature_min_x_container_abstract_container_spatial_relation invert="1" relation_type="front"/>
         <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="back"/>
         <feature_min_x_container_abstract_container_spatial_relation invert="1" relation_type="back"/>
+        <feature_object_merge_abstract_container_index_region_container invert="0"/>
+        <feature_object_merge_abstract_container_index_region_container invert="1"/>
+        <feature_container_merge_abstract_container_region_container invert="0"/>
+        <feature_container_merge_abstract_container_region_container invert="1"/>
+        <feature_container_merge_container_pair invert="0"/>
+        <feature_container_merge_container_pair invert="1"/>
+        <feature_object_merge_container_pair invert="0"/>
+        <feature_object_merge_container_pair invert="1"/>
+        <feature_object_merge_abstract_container_region_container invert="0"/>
+        <feature_object_merge_abstract_container_region_container invert="1"/>
+        <feature_object_merge_object_property_spatial_relation invert="0"/>
+        <feature_object_merge_object_property_spatial_relation invert="1"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="1"/>
+        <feature_object_merge_object_container invert="0"/>
+        <feature_object_merge_object_container invert="1"/>
+        <feature_object_merge_single_object_different_container invert="0"/>
+        <feature_object_merge_single_object_different_container invert="1"/>
+        <feature_object_merge_object_different_container invert="0"/>
+        <feature_object_merge_object_different_container invert="1"/>
+        <feature_object_merge_object_property_container invert="0" object_match="0"/>
+        <feature_object_merge_object_property_container invert="1" object_match="0"/>
+        <feature_object_merge_object_property_container invert="0" object_match="1"/>
+        <feature_object_merge_object_property_container invert="1" object_match="1"/>
+        <feature_object_merge_object_property_region_container invert="0" object_match="0"/>
+        <feature_object_merge_object_property_region_container invert="1" object_match="0"/>
+        <feature_object_merge_object_property_region_container invert="0" object_match="1"/>
+        <feature_object_merge_object_property_region_container invert="1" object_match="1"/>
+        <feature_object_merge_object_region_container invert="0"/>
+        <feature_object_merge_object_region_container invert="1"/>
       </feature_group>
     </feature_product>
   </feature_set>
