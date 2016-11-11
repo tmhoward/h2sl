@@ -113,8 +113,12 @@
 #include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
 #include "h2sl/feature_max_x_region_abstract_container.h"
 #include "h2sl/feature_object_matches_child.h"
-#include "h2sl/feature_container_min_distance.h"
 #include "h2sl/feature_object_matches_child_container_object.h"
+#include "h2sl/feature_container_min_distance.h"
+#include "h2sl/feature_container_max_distance.h"
+#include "h2sl/feature_object_number_matches_world_object_number.h"
+#include "h2sl/feature_container_number_equals_world_objects.h"
+#include "h2sl/feature_objects_shape_matches_container_type.h"
 
 #include "feature_set_demo_cmdline.h"
 

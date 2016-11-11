@@ -120,9 +120,12 @@
 #include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
 #include "h2sl/feature_max_x_region_abstract_container.h"
 #include "h2sl/feature_object_matches_child.h"
-#include "h2sl/feature_container_min_distance.h"
 #include "h2sl/feature_object_matches_child_container_object.h"
-
+#include "h2sl/feature_container_min_distance.h"
+#include "h2sl/feature_container_max_distance.h"
+#include "h2sl/feature_object_number_matches_world_object_number.h"
+#include "h2sl/feature_container_number_equals_world_objects.h"
+#include "h2sl/feature_objects_shape_matches_container_type.h"
 
 #include "h2sl/feature.h"
 
@@ -332,9 +335,17 @@ namespace h2sl {
         out << *static_cast< const Feature_Max_X_Region_Abstract_Container* >( &other );
     //} else if ( dynamic_cast< const Feature_Object_Matches_Child* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Object_Matches_Child* >( &other );
-    //} else if ( dynamic_cast< const Feature_Container_Min_Distance* >( &other ) != NULL ){
-    //    out << *static_cast< const Feature_Container_Min_Distance* >( &other );
-    } else {
+    } else if ( dynamic_cast< const Feature_Container_Min_Distance* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Min_Distance* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Max_Distance* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Max_Distance* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Number_Matches_World_Object_Number* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Number_Matches_World_Object_Number* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Number_Equals_World_Objects* >( &other );
+    } else if ( dynamic_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other );
+    }  else {
       assert( false );
     } 
     return out;

@@ -140,6 +140,20 @@ from_xml( xmlNodePtr root ){
   }
 }
 
+/**
+ * exports the Feature_Object_Number_Matches_World_Object_Number class to an XML file
+ */
+void
+Feature_Object_Number_Matches_World_Object_Number::
+to_xml( const string& filename )const{
+  xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+  xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+  xmlDocSetRootElement( doc, root );
+  to_xml( doc, root );
+  xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
+  xmlFreeDoc( doc );
+  return;
+}
 
 /**
  * exports the Feature_Object_Number_Matches_World_Object_Number class to an XML node pointer
@@ -159,19 +173,7 @@ to_xml( xmlDocPtr doc,
   return;
 }
 
-unsigned int&
-Feature_Object_Number_Matches_World_Object_Number::
-object_number( void ){
-  return _object_number;
-}
-
-const unsigned int&
-Feature_Object_Number_Matches_World_Object_Number::
-object_number( void )const{
-  return _object_number;
-}
-
-namespace h2sl_nsf_nri_mvli {
+namespace h2sl {
   /** 
    * Feature_Object_Number_Matches_World_Object_Number class ostream operator
    */
@@ -184,6 +186,3 @@ namespace h2sl_nsf_nri_mvli {
   }
 }
                        
-
-
-

@@ -42,8 +42,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    unsigned int& object_number( void );
-    const unsigned int& object_number( void )const;
+    inline unsigned int& object_number( void ){ return _object_number; };
+    inline const unsigned int& object_number( void )const{ return _object_number; };
 
     virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
