@@ -107,6 +107,7 @@ set(HDRS
     h2sl/feature_container_max_distance.h
     h2sl/feature_object_matches_child_container_object.h
     h2sl/feature_object_number_matches_world_object_number.h
+    h2sl/feature_abstract_container_number_equals_world_objects.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -206,6 +207,7 @@ set(SRCS
     feature_container_max_distance.cc
     feature_object_matches_child_container_object.cc
     feature_object_number_matches_world_object_number.cc
+    feature_abstract_container_number_equals_world_objects.cc
     llm.cc)
 
 # BINARY SOURCE FILES

@@ -410,6 +410,22 @@
         <feature_min_x_container_abstract_container_spatial_relation invert="1" relation_type="front"/>
         <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="back"/>
         <feature_min_x_container_abstract_container_spatial_relation invert="1" relation_type="back"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="1"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="2"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="3"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="4"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="5"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="6"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="7"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="8"/>
+        <feature_object_number_matches_world_object_number invert="0" object_number="9"/>
+        <feature_container_min_distance invert="0"/>
+        <feature_container_min_distance invert="1"/>
+        <feature_container_max_distance invert="0"/>
+        <feature_container_max_distance invert="1"/>
+        <feature_object_matches_child_container_object invert="0"/>
+        <feature_object_matches_child_container_object invert="1"/>
+        <feature_objects_shape_matches_container_type invert="0"/>
       </feature_group>
     </feature_product>
   </feature_set>
