@@ -222,11 +222,11 @@ fill_search_spaces( const World* world ){
   _symbol_types.insert( pair< string, vector< string > >( string("constraint"), constraint ) );
   _symbol_types.insert( pair< string, vector< string > >( string("region_abstract_container"), region_abstract_container ) );
 
+  
   // Objects
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, world->objects()[ i ]->dup() ) );
   }
-
   // Regions. Do not create an "na" region
   for( unsigned int i = 0; i < spatial_relation.size(); i++ ){
     if( spatial_relation[ i ] != "na" ){
@@ -236,11 +236,11 @@ fill_search_spaces( const World* world ){
       }   
     }
   }
-
+  
   // Constraints
   for( unsigned int i = 0; i < constraint.size(); i++ ) {
     for( unsigned int j = 0; j < payload.size(); j++ ) {
-      for( unsigned int k = 0; j < spatial_relation.size(); k++ ) {
+      for( unsigned int k = 0; k < spatial_relation.size(); k++ ) {
         for( unsigned int l = 0; l < world->objects().size(); l++ ) {
           for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
             _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Constraint( constraint[ i ], 
@@ -251,6 +251,7 @@ fill_search_spaces( const World* world ){
       }  
     } 
   }
+
   
   // Object_Type
   for (unsigned int i = 0; i < object_type.size(); i++) {

@@ -147,8 +147,8 @@
         <feature_constraint_parent_matches_child_region invert="0"/>
         <feature_constraint_parent_matches_child_region invert="1"/>
         <!-- feature_constraint_payload_type -->
-        <feature_constraint_paylaod_type invert="0" payload_type="generic-robot"/>
-        <feature_constraint_paylaod_type invert="1" payload_type="generic-robot"/>
+        <feature_constraint_payload_type invert="0" payload_type="generic-robot"/>
+        <feature_constraint_payload_type invert="1" payload_type="generic-robot"/>
         <!-- feature_constraint_reference_type -->
         <feature_constraint_reference_type invert="0" reference_type="na"/>
         <feature_constraint_reference_type invert="0" reference_type="front"/>
@@ -346,12 +346,12 @@
         <feature_container_number_equals_world_objects invert="0"/>
         <feature_container_number_equals_world_objects invert="1"/>
         <!-- feature_container_type (NOTE: USING TEMPLATE)-->
-        <feature_container_type invert="0" container_type="group"/>
+        <!--feature_container_type invert="0" container_type="group"/>
         <feature_container_type invert="0" container_type="row"/>
         <feature_container_type invert="0" container_type="column"/>
         <feature_container_type invert="1" container_type="group"/>
         <feature_container_type invert="1" container_type="row"/>
-        <feature_container_type invert="1" container_type="colun"/>
+        <feature_container_type invert="1" container_type="colun"/-->
         <!-- feature_container_type_matches_child_container_type -->
         <feature_container_type_matches_child_container_type invert="0"/>
         <feature_container_type_matches_child_container_type invert="1"/>
@@ -795,8 +795,8 @@
         <feature_min_y_object invert="0"/>
         <feature_min_y_object invert="1"/>
         <!-- feature_object_matches_child (NOTE: USING TEMPLATE) -->
-        <feature_object_matches_child invert="0"/>
-        <feature_object_matches_child invert="1"/>
+        <!--feature_object_matches_child invert="0"/>
+        <feature_object_matches_child invert="1"/-->
         <!-- feature_object_matches_child_container_object -->
         <feature_object_matches_child_container_object invert="0"/>
         <feature_object_matches_child_container_object invert="1"/>
@@ -1107,8 +1107,8 @@
         <feature_region_object_property_value invert="0" key="object_type" symbol="tape"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="block"/>
         <!-- feature_matches_child features --> 
-        <feature_matches_child_abstract_container invert="0"/>
-        <feature_matches_child_abstract_container invert="1"/>
+        <!--feature_matches_child_abstract_container invert="0"/>
+        <feature_matches_child_abstract_container invert="1"/-->
         <feature_matches_child_constraint invert="0"/>
         <feature_matches_child_constraint invert="1"/>
         <feature_matches_child_container invert="0"/>
@@ -1119,10 +1119,10 @@
         <feature_matches_child_object_property invert="1"/>
         <feature_matches_child_region invert="0"/>
         <feature_matches_child_region invert="1"/>
-        <feature_matches_child_region_abstract_container invert="0"/>
-        <feature_matches_child_region_abstract_container invert="1"/>
-        <feature_matches_child_region_container invert="0"/>
-        <feature_matches_child_region_container invert="1"/>
+        <!--feature_matches_child_region_abstract_container invert="0"/>
+        <feature_matches_child_region_abstract_container invert="1"/-->
+        <!--feature_matches_child_region_container invert="0"/>
+        <feature_matches_child_region_container invert="1"/-->
         <feature_matches_child_spatial_relation invert="0"/>
         <feature_matches_child_spatial_relation invert="1"/>
         <!-- FEATURES THAT HAVE NO CLASS OR TEMPLATE -->

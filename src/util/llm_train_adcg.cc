@@ -145,10 +145,8 @@ main( int argc,
   } else {
     for( unsigned int i = 0; i < args.inputs_num; i++ ){
       filenames[ i ] = args.inputs[ i ];
-      cout << "reading file " << args.inputs[ i ] << endl;
       worlds[ i ] = new World();
       worlds[ i ]->from_xml( args.inputs[ i ] );
-
       phrases[ i ] = new Phrase();
       phrases[ i ]->from_xml( args.inputs[ i ] );
 

@@ -34,8 +34,11 @@
 #include <assert.h>
 
 #include "h2sl/object.h"
+#include "h2sl/object_property.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
+#include "h2sl/container.h"
+#include "h2sl/spatial_relation.h"
 
 #include "h2sl/feature_word.h"
 #include "h2sl/feature_num_words.h"
@@ -356,10 +359,16 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Region_Object_Property_Value( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object_property" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Object_Property >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Region >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_constraint" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Constraint >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_container" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Container >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_spatial_relation" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Spatial_Relation >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Object_Matches_Child< Region, Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_merge_partially_known_regions" ) ) == 0 ){
