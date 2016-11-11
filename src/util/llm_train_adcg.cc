@@ -90,7 +90,6 @@ main( int argc,
   vector< Phrase* > phrases( args.inputs_num, NULL );
   vector< World* > worlds( args.inputs_num, NULL );
   vector< string > filenames( args.inputs_num );
-
   vector< pair< unsigned int, h2sl::LLM_X > > examples;
 
 
@@ -114,11 +113,14 @@ main( int argc,
                   if( xmlStrcmp( l2->name, ( const xmlChar* )( "filename" ) ) == 0 ){
                     xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "text" ) );
                     if( tmp != NULL ){
-                      string filename = ( char* )( tmp );
+
+
+                     string filename = ( char* )( tmp );
                       cout << "loading \"" << filename << "\"" << endl;
                       filenames.push_back( filename );
                       worlds.push_back( new World() );
                       worlds.back()->from_xml( filenames.back() );
+
 
                       phrases.push_back( new Phrase() );
                       phrases.back()->from_xml( filenames.back() );
@@ -146,15 +148,20 @@ main( int argc,
     for( unsigned int i = 0; i < args.inputs_num; i++ ){
       filenames[ i ] = args.inputs[ i ];
       cout << "reading file " << args.inputs[ i ] << endl;
-      worlds[ i ] = new World();
+      worlds[ i ] = new World(); 
       worlds[ i ]->from_xml( args.inputs[ i ] );
-
+      cout << *worlds[ i ] << endl;
+ 
       phrases[ i ] = new Phrase();
       phrases[ i ]->from_xml( args.inputs[ i ] );
 
-      // Symbol grounding model used.
+     // Symbol grounding model used.
       dcgs[ i ] = new ADCG_Base();
+      cout << "before getting the world" << endl; 
+      assert(false);
+
       dcgs[ i ]->fill_search_spaces( worlds[ i ] );
+
 
       ADCG_Base::scrape_examples( filenames[ i ], phrases[ i ], worlds[ i ], dcgs[ i ]->search_spaces(), dcgs[ i ]->correspondence_variables(), examples );
     }
