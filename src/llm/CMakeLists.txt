@@ -21,8 +21,8 @@ set(HDRS
     h2sl/feature_matches_child.ipp
     h2sl/feature_grounding_property_value.h
     h2sl/feature_region_object_property_value.h
-    h2sl/feature_object_matches_child.h
-    h2sl/feature_object_matches_child.ipp
+    #h2sl/feature_object_matches_child.ipp
+    #h2sl/feature_object_matches_child.h
     h2sl/feature_region_merge_partially_known_regions.h
     h2sl/feature_constraint_parent_matches_child_region.h
     h2sl/feature_constraint_child_matches_child_region.h
@@ -43,7 +43,7 @@ set(HDRS
     h2sl/feature_is_region_abstract_container.h
     h2sl/feature_is_spatial_relation.h
     h2sl/feature_container_number.h
-    #h2sl/feature_container_number_equals_world_objects.h
+    h2sl/feature_container_number_equals_world_objects.h
     h2sl/feature_container_is_empty.h
     h2sl/feature_container_type_matches_child_container_type.h
     h2sl/feature_object_property_merge_object_property_container.h
@@ -103,9 +103,10 @@ set(HDRS
     h2sl/feature_min_x_container_region_abstract_container.h
     h2sl/feature_min_x_region_abstract_container_spatial_relation.h
     h2sl/feature_max_x_region_abstract_container.h
-    #h2sl/feature_object_matches_child.h
-    #h2sl/feature_container_min_distance.h
+    h2sl/feature_container_min_distance.h
+    h2sl/feature_container_max_distance.h
     h2sl/feature_object_matches_child_container_object.h
+    h2sl/feature_object_number_matches_world_object_number.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -140,7 +141,7 @@ set(SRCS
     feature_is_region_abstract_container.cc
     feature_is_spatial_relation.cc
     feature_container_number.cc
-    #feature_container_number_equals_world_objects.cc
+    feature_container_number_equals_world_objects.cc
     feature_container_is_empty.cc
     feature_container_type_matches_child_container_type.cc
     feature_object_property_merge_object_property_container.cc
@@ -201,8 +202,10 @@ set(SRCS
     feature_min_x_region_abstract_container_spatial_relation.cc
     feature_max_x_region_abstract_container.cc
     #feature_object_matches_child.cc
-    #feature_container_min_distance.cc
+    feature_container_min_distance.cc
+    feature_container_max_distance.cc
     feature_object_matches_child_container_object.cc
+    feature_object_number_matches_world_object_number.cc
     llm.cc)
 
 # BINARY SOURCE FILES

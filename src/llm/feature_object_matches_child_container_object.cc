@@ -70,9 +70,9 @@ value( const unsigned int& cv,
 bool
 Feature_Object_Matches_Child_Container_Object::
 value( const unsigned int& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
+      const Grounding* grounding,
+      const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+      const Phrase* phrase,
       const World* world,
       const Grounding* context ){
     const Object * object = dynamic_cast< const Object* >( grounding );
@@ -83,15 +83,17 @@ value( const unsigned int& cv,
           const Container* container_child = dynamic_cast< Container* >( children[ i ].second[ j ] );
           if( container_child != NULL ){
             for( unsigned int k = 0; k < container_child->container().size(); k++ ){
-              //Can you check the line 87? error: invalid operands to binary expression
-              if( *object == *container_child->container()[ k ] ){
-                return !_invert;
+              if( dynamic_cast< Object* >( container_child->container()[ k ] ) != NULL ) {
+                if( *object == *static_cast< Object* >( container_child->container()[ k ] ) ) { 
+                  return !_invert;
+                } else {
+                  return _invert;
+                }
               }
             }
           }
         }
       }
-      return _invert;
     }
     return false;
 }

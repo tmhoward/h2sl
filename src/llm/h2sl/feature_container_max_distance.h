@@ -1,13 +1,12 @@
 /**
- * @file feature_min_distance_abstract_container.h
+ * @file feature_container_max_distance 
  * 
  * @brief
  * 
- * Class used to describe a feature of the abstract_container number
  */
 
-#ifndef H2SL_FEATURE_CONTAINER_MIN_DISTANCE_H
-#define H2SL_FEATURE_CONTAINER_MIN_DISTANCE_H
+#ifndef H2SL_FEATURE_CONTAINER_MAX_DISTANCE_H
+#define H2SL_FEATURE_CONTAINER_MAX_DISTANCE_H
 
 #include <iostream>
 #include <libxml/tree.h>
@@ -16,14 +15,14 @@
 
 namespace h2sl {
   /**
-   * Feature_Container_Min_Distance class definition
+   * Feature_Container_Max_Distance class definition
    */
-  class Feature_Container_Min_Distance : public Feature {
+  class Feature_Container_Max_Distance : public Feature {
   public:
-    Feature_Container_Min_Distance( const bool& invert = false );
-    Feature_Container_Min_Distance( const Feature_Container_Min_Distance& other );
-    virtual ~Feature_Container_Min_Distance();
-    Feature_Container_Min_Distance& operator=( const Feature_Container_Min_Distance& other );
+    Feature_Container_Max_Distance( const bool& invert = false );
+    Feature_Container_Max_Distance( const Feature_Container_Max_Distance& other );
+    virtual ~Feature_Container_Max_Distance();
+    Feature_Container_Max_Distance& operator=( const Feature_Container_Max_Distance& other );
  
     virtual bool value( const unsigned int& cv, 
                         const Grounding* grounding, 
@@ -52,9 +51,9 @@ namespace h2sl {
   };
 
   /** 
-   * Feature_Container_Min_Distance class ostream operator
+   * Feature_Container_Max_Distance class ostream operator
    */
-  std::ostream& operator<<( std::ostream& out, const Feature_Container_Min_Distance& other );
+  std::ostream& operator<<( std::ostream& out, const Feature_Container_Max_Distance& other );
 }
 
-#endif /* H2SL_FEATURE_CONTAINER_MIN_DISTANCE_H */
+#endif /* H2SL_FEATURE_CONTAINER_MAX_DISTANCE_H */

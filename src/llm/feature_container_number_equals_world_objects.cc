@@ -48,19 +48,6 @@ operator=( const Feature_Container_Number_Equals_World_Objects& other ){
 }
 
 /**
- * returns the value of the feature
- */
-bool
-Feature_Container_Number_Equals_World_Objects::
-value( const unsigned int& cv,
-      const Grounding* grounding,
-      const vector< pair< const Phrase*, vector< Grounding* > > >& children,
-      const Phrase* phrase,
-      const World* world ){
-    return value( cv, grounding, children, phrase, world, NULL );
-}
-
-/**
  * returns the value of the fature
  */
 bool
@@ -84,52 +71,24 @@ value( const unsigned int& cv,
   const Container* container = dynamic_cast< const Container* >( grounding );
   if( container != NULL ){
     if( container->container().size() > 0 ){
-      //Can you check this part?
       vector< Object* > objects;
-      for( unsigned int i = 0; i < static_cast< Object* >(world->_objects().size()); i++ ){
-        if( static_cast< Object* >(world->_objects()[ i ]->type()) == container->container().front()->type() ){
-          objects.push_back( static_cast< Object* >(world->_objects()[ i ]) );
+      if ( dynamic_cast< Object* >( container->container().front() ) != NULL ) {
+        const Object* container_front_object = static_cast< Object* >( container->container().front());
+        for ( unsigned int i = 0; i < world->objects().size(); i++ ) {
+          if ( world->objects()[ i ]->type() == container_front_object->type() ) {
+            objects.push_back( world->objects()[ i ] );
+          }
         }
-      }
-      //-------------------------------------
-      if( container->container().size() == objects.size() ){
-        return !_invert;
-      } else {
-        return _invert;
+        if ( container->container().size() == objects.size() ) {
+          return !_invert;
+        } else {
+          return _invert;
+        }
       }
     }
   }
   return false;
 }
-
-//Original code
-/*
- bool
- Feature_Container_Number_Equals_World_Objects::
- value( const unsigned int& cv,
-        const h2sl::Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-        const h2sl::Phrase* phrase,
-        const World* world ){
-   const Container* container = dynamic_cast< const Container* >( grounding );
-   if( container != NULL ){
-     if( container->container().size() > 0 ){
-       vector< Object* > objects;
-       for( unsigned int i = 0; i < world->nsf_nri_mvli_objects().size(); i++ ){
-         if( world->nsf_nri_mvli_objects()[ i ]->type() == container->container().front()->type() ){
-           objects.push_back( world->nsf_nri_mvli_objects()[ i ] );
-         }
-     }
-     if( container->container().size() == objects.size() ){
-       return !_invert;
-     } else {
-       return _invert;
-     }
-   }
-  }
- return false;
- }
-*/
 
 /**
  * imports the Feature_Container_Number_Equals_World_Objects class from an XML file
