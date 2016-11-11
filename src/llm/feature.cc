@@ -126,6 +126,7 @@
 #include "h2sl/feature_object_number_matches_world_object_number.h"
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
+#include "h2sl/feature_abstract_container_number_equals_world_objects.h"
 
 #include "h2sl/feature.h"
 
@@ -345,7 +346,11 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Number_Equals_World_Objects* >( &other );
     } else if ( dynamic_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other ) != NULL ){
         out << *static_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other );
-    }  else {
+    } else if ( dynamic_cast< const Feature_Object_Matches_Child_Container_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Matches_Child_Container_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other );
+    } else {
       assert( false );
     } 
     return out;

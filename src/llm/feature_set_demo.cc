@@ -119,6 +119,7 @@
 #include "h2sl/feature_object_number_matches_world_object_number.h"
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
+#include "h2sl/feature_abstract_container_number_equals_world_objects.h"
 
 #include "feature_set_demo_cmdline.h"
 
