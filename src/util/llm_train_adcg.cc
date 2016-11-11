@@ -151,7 +151,8 @@ main( int argc,
       worlds[ i ] = new World(); 
       worlds[ i ]->from_xml( args.inputs[ i ] );
       cout << *worlds[ i ] << endl;
- 
+      worlds[ i ] = new World();
+      worlds[ i ]->from_xml( args.inputs[ i ] );
       phrases[ i ] = new Phrase();
       phrases[ i ]->from_xml( args.inputs[ i ] );
 
