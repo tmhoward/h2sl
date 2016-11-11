@@ -62,30 +62,32 @@ value( const unsigned int& cv,
     return value( cv, grounding, children, phrase, world, NULL );
 }
 
+/**
+ * returns the value of the fature
+ */
 bool
 Feature_Abstract_Container_Number_Equals_World_Objects::
 value( const unsigned int& cv,
-        const h2sl::Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-        const h2sl::Phrase* phrase,
-        const World* world,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world, 
         const Grounding* context ){
   const Abstract_Container* abstract_container = dynamic_cast< const Abstract_Container* >( grounding );
   if( abstract_container != NULL ){
-    if( abstract_container->type().size() > 0 ){
-      vector< Object* > objects;
-      if ( dynamic_cast< Object* >( abstract_container->type().front() ) != NULL ) {
-        const Object* abstract_container_front_object = static_cast< Object* >( abstract_container->type().front());
-        for ( unsigned int i = 0; i < world->objects().size(); i++ ) {
-          if ( world->objects()[ i ]->type() == abstract_container_front_object->type() ) {
-            objects.push_back( world->objects()[ i ] );
-          }
-        }
-        if ( abstract_container->number().size() == objects.size() ) {
-          return !_invert;
-        } else {
-          return _invert;
-        }
+    vector< const Object* > objects;
+    for( unsigned int i = 0; i < world->objects().size(); i++ ){
+      if( world->objects()[ i ]->type() == abstract_container->type() ){
+        objects.push_back( world->objects()[ i ] );
+      }
+    }
+    map< string, unsigned int>::const_iterator it;
+    it = world->numeric_map().find( abstract_container->number() ); 
+    if( it != world->numeric_map().end() ) {
+      if ( it->second == objects.size() ){
+        return !_invert;
+      } else {
+        return _invert;
       }
     }
   }
@@ -165,7 +167,7 @@ to_xml( xmlDocPtr doc,
   return;
 }
 
-namespace h2sl_nsf_nri_mvli {
+namespace h2sl {
   /** 
    * Feature_Abstract_Container_Number_Equals_World_Objects class ostream operator
    */
