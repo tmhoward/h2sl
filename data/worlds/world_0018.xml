@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world time="0">
+    <object name="O1-cube-cube-base" type="block" position="0.900572,-0.548803,0.737727" orientation="-5.32959e-06,1.50954e-05,6.89256e-05,1" color="na"/>
+    <object name="O2-cube-cube-base" type="block" position="0.88194,-0.331471,0.737726" orientation="-6.41358e-06,1.31296e-05,-0.00206624,0.999998" color="na"/>
+    <object name="O3-cube-cube-base" type="block" position="0.87448,0.0325412,0.737722" orientation="-5.5134e-06,1.27593e-05,7.08546e-05,1" color="na"/>
+    <object name="O4-cube-cube-base" type="block" position="0.889044,0.290238,0.737719" orientation="-7.57663e-06,1.26706e-05,-0.00609361,0.999981" color="na"/>
+    <object name="O5-cube-cube-base" type="block" position="0.912148,0.603481,0.737715" orientation="-6.37216e-06,1.30978e-05,-0.0102712,0.999947" color="na"/>
+    <object name="baxter1-baxter-left_hand" type="robot" position="0.842162,0.910204,1.22719" orientation="-0.244549,0.669158,0.241274,0.658946" color="na"/>
+    <object name="baxter1-baxter-right_hand" type="robot" position="0.675669,-1.0671,1.22895" orientation="0.299552,0.645589,-0.296038,0.63706" color="na"/>
+    <object name="table-table-table-base" type="table" position="0.874999,-4.16404e-07,-0.0117897" orientation="-5.48331e-06,1.36339e-05,4.49701e-07,1" color="na"/>
+  </world>
+</root>

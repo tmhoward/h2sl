@@ -31,17 +31,6 @@
  * The implementation of a class used to describe a set of features
  */
 
-#include "h2sl/feature_word.h"
-#include "h2sl/feature_num_words.h"
-#include "h2sl/feature_cv.h"
-#include "h2sl/feature_type.h"
-#include "h2sl/feature_matches_child.h"
-#include "h2sl/feature_region_object.h"
-#include "h2sl/feature_region_merge_partially_known_regions.h"
-#include "h2sl/feature_constraint_parent_matches_child_region.h"
-#include "h2sl/feature_constraint_child_matches_child_region.h"
-#include "h2sl/feature_constraint_parent_is_robot.h"
-#include "h2sl/feature_constraint_child_is_robot.h"
 #include "h2sl/feature_set.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"

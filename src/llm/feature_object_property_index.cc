@@ -63,10 +63,21 @@ operator=( const Feature_Object_Property_Index& other ){
 bool
 Feature_Object_Property_Index::
 value( const unsigned int& cv,
-        const h2sl::Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-        const h2sl::Phrase* phrase,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
         const World* world ){
+  return value( cv, grounding, children, phrase, world, NULL );
+}
+
+bool
+Feature_Object_Property_Index::
+value( const unsigned int& cv,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world,
+        const Grounding* context ){
   const Object_Property* object_property = dynamic_cast< const Object_Property* >( grounding );
   if( object_property != NULL ){
     if( object_property->index() == _index ){

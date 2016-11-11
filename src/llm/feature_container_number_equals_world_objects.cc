@@ -67,7 +67,17 @@ bool
 Feature_Container_Number_Equals_World_Objects::
 value( const unsigned int& cv,
         const Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< Grounding* > > >& children,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
+        const World* world ){
+  return value( cv, grounding, children, phrase, world, NULL );
+}
+
+bool
+Feature_Container_Number_Equals_World_Objects::
+value( const unsigned int& cv,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
         const World* world,
         const Grounding* context ){

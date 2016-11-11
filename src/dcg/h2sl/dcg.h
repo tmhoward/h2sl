@@ -37,6 +37,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include "h2sl/phrase.h"
 #include "h2sl/world.h"
@@ -59,6 +60,7 @@ namespace h2sl {
 
     inline const std::vector< std::vector< unsigned int > >& correspondence_variables( void )const{ return _correspondence_variables; };
     inline const std::vector< std::pair< unsigned int, Grounding* > >& search_spaces( void )const{ return _search_spaces; };
+    inline const std::map< std::string, std::vector< std::string > >& symbol_types( void )const{ return _symbol_types; };
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
     inline const Factor_Set* root( void )const{ return _root; };
 
@@ -69,6 +71,7 @@ namespace h2sl {
 
     std::vector< std::pair< unsigned int, Grounding* > > _search_spaces;
     std::vector< std::vector< unsigned int > > _correspondence_variables;
+    std::map< std::string, std::vector< std::string > > _symbol_types;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
   

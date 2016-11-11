@@ -25,7 +25,9 @@ Container( const vector< Grounding* >& groundings,
   insert_prop< std::string >( _properties, "container_type", containerType );
 }
 
-
+ /**
+ * Container class constructor using xml
+ */
 Container::
 Container( xmlNodePtr root ) : Grounding(),
 _groundings() {

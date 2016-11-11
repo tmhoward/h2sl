@@ -207,11 +207,6 @@ from_xml( xmlNodePtr root ){
     _objects[ i ] = NULL;
   }
   _objects.clear();
-  for( unsigned int i = 0; i < _objects.size(); i++ ){
-    delete _objects[ i ];
-    _objects[ i ] = NULL;
-  }
-  _objects.clear();
   if( root->type == XML_ELEMENT_NODE ){
     xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "time" ) );
     if( tmp != NULL ){
@@ -222,9 +217,7 @@ from_xml( xmlNodePtr root ){
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          Object * object = new Object();
-          object->from_xml( l1 );
-          _objects.push_back( object );
+          _objects.push_back( new Object( l1 ) );
         }
       }
     }
@@ -335,6 +328,7 @@ convert_models( xmlNodePtr root ){
 void
 World::
 sort_object_collections( void ){ 
+
   // Clear the sorted object containers if they exist.
   for( unsigned int i = 0; i < _objects.size(); i++ ){
     
@@ -410,7 +404,7 @@ sort_object_collections( void ){
       _max_center_distance_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
     }
   } 
-  
+
   // Fill in the object pointers according to the object type. 
   for( unsigned int i = 0; i < _objects.size(); i++ ){
     _min_x_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
@@ -493,7 +487,7 @@ sort_object_collections( void ){
    }
  }
 
- for( map< string, vector< Object* > >::iterator it = _max_center_distance_sorted_objects.begin(); it != _min_center_distance_sorted_objects.end(); ++it ){
+ for( map< string, vector< Object* > >::iterator it = _max_center_distance_sorted_objects.begin(); it != _max_center_distance_sorted_objects.end(); ++it ){
    if ( it->second.size() > 1){
      sort( it->second.begin(), it->second.end(), World::max_distance_sort );
    }

@@ -44,7 +44,7 @@
 namespace h2sl {
   class Object : public Grounding {
   public:
-    Object( const std::string& name = "na", const std::string& objectType = "na", 
+    Object( const std::string& name = "na", const std::string& objectType = "na", const std::string& objectColor = "na", 
             const Transform& transform = Transform(), const Vector3& linearVelocity = Vector3(), 
             const Vector3& angularVelocity = Vector3() );
     Object( xmlNodePtr root );
@@ -65,6 +65,8 @@ namespace h2sl {
     inline const std::string& name( void )const{ return get_prop< std::string >( _properties, "name" ); };
     inline std::string& type( void ){ return get_prop< std::string >( _properties, "object_type" ); };
     inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
+    inline std::string& color( void ){ return get_prop< std::string >( _properties, "object_color" ); };
+    inline const std::string& color( void )const{ return get_prop< std::string >( _properties, "object_color" ); };
     inline Transform& transform( void ){ return _transform; };
     inline const Transform& transform( void )const{ return _transform; };
     inline Vector3& linear_velocity( void ){ return _linear_velocity; };

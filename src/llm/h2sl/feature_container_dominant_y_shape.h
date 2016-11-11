@@ -57,7 +57,7 @@ namespace h2sl {
     inline const unsigned int& min_num_elements (void)const {return _min_num_elements;};
 
     // Main structure finding function.
-    static bool container_expresses_dominant_y_structure( const std::vector < Grounding* >& container, 
+    static bool container_expresses_dominant_y_structure( const std::vector < Object* >& container, 
                                                           const double& model_deviation_tolerance = 0.1, 
                                                           const double& adjacent_distance_tolerance = 0.1, 
                                                           const unsigned int& min_num_elements = 2 );

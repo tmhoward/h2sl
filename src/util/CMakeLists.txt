@@ -2,6 +2,7 @@
 set(GGOS
     rewrite_examples.ggo
     llm_train.ggo
+    llm_train_adcg.ggo
     grammar_generator.ggo
     gui_demo.ggo)
 
@@ -21,6 +22,7 @@ set(SRCS
 set(BIN_SRCS
     rewrite_examples.cc
     llm_train.cc
+    llm_train_adcg.cc
     grammar_generator.cc
     gui_demo.cc )
 

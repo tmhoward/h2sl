@@ -25,8 +25,9 @@ namespace h2sl {
         Feature_Region_Container_Container_Matches_Child_Container( const Feature_Region_Container_Container_Matches_Child_Container& other );
         Feature_Region_Container_Container_Matches_Child_Container& operator=( const Feature_Region_Container_Container_Matches_Child_Container& other );
         
-        virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
-        
+        virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
+        virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
+            
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
         virtual void from_xml( xmlNodePtr root );
