@@ -372,6 +372,44 @@
         <feature_min_distance_abstract_container invert="0" relation_type="right"/>
         <feature_min_abs_y_abstract_container invert="0" relation_type="front"/>
         <feature_min_abs_y_abstract_container invert="0" relation_type="back"/>
+        <feature_min_y_container_abstract_container_spatial_relation invert="0" relation_type="left"/>
+        <feature_min_y_container_abstract_container_spatial_relation invert="1" relation_type="left"/>
+        <feature_min_y_container_abstract_container_spatial_relation invert="0" relation_type="right"/>
+        <feature_min_y_container_abstract_container_spatial_relation invert="1" relation_type="right"/>
+        <feature_max_y_container_abstract_container invert="0" relation_type="left"/>
+        <feature_max_y_container_abstract_container invert="1" relation_type="left"/>
+        <feature_max_y_container_abstract_container invert="0" relation_type="right"/>
+        <feature_max_y_container_abstract_container invert="1" relation_type="right"/>
+        <feature_min_abs_y_container_abstract_container invert="0" relation_type="front"/>
+        <feature_min_abs_y_container_abstract_container invert="1" relation_type="front"/>
+        <feature_min_abs_y_container_abstract_container invert="0" relation_type="back"/>
+        <feature_min_abs_y_container_abstract_container invert="1" relation_type="back"/>
+        <feature_min_x_container_region_abstract_container invert="0" relation_type="front"/>
+        <feature_min_x_container_region_abstract_container invert="1" relation_type="front"/>
+        <feature_min_x_container_region_abstract_container invert="0" relation_type="back"/>
+        <feature_min_x_container_region_abstract_container invert="1" relation_type="back"/>
+        <feature_min_x_container_region_abstract_container invert="0" relation_type="center"/>
+        <feature_min_x_container_region_abstract_container invert="1" relation_type="center"/>
+        <feature_min_x_region_abstract_container invert="0" relation_type="front"/>
+        <feature_min_x_region_abstract_container invert="1" relation_type="front"/>
+        <feature_min_x_region_abstract_container invert="0" relation_type="back"/>
+        <feature_min_x_region_abstract_container invert="1" relation_type="back"/>
+        <feature_min_x_region_abstract_container invert="0" relation_type="near"/>
+        <feature_min_x_region_abstract_container invert="1" relation_type="near"/>
+        <feature_min_x_region_abstract_container invert="0" relation_type="far"/>
+        <feature_min_x_region_abstract_container invert="1" relation_type="far"/>
+        <feature_max_x_region_abstract_container invert="0" relation_type="front"/>
+        <feature_max_x_region_abstract_container invert="0" relation_type="back"/>
+        <feature_max_x_region_abstract_container invert="0" relation_type="near"/>
+        <feature_max_x_region_abstract_container invert="1" relation_type="near"/>
+        <feature_max_x_region_abstract_container invert="0" relation_type="far"/>
+        <feature_max_x_region_abstract_container invert="1" relation_type="far"/>
+        <feature_container_number_equals_world_objects invert="0"/>
+        <feature_container_number_equals_world_objects invert="1"/>
+        <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="front"/>
+        <feature_min_x_container_abstract_container_spatial_relation invert="1" relation_type="front"/>
+        <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="back"/>
+        <feature_min_x_container_abstract_container_spatial_relation invert="1" relation_type="back"/>
       </feature_group>
     </feature_product>
   </feature_set>

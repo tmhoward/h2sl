@@ -85,9 +85,9 @@ operator=( const Feature_Min_X_Container_Abstract_Container_Spatial_Relation& ot
 bool
 Feature_Min_X_Container_Abstract_Container_Spatial_Relation::
 value( const unsigned int& cv,
-        const h2sl::Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-        const h2sl::Phrase* phrase,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
         const World* world) { 
         return value( cv, grounding, children, phrase, world, NULL );
 
@@ -99,9 +99,9 @@ value( const unsigned int& cv,
 bool
 Feature_Min_X_Container_Abstract_Container_Spatial_Relation::
 value( const unsigned int& cv,
-        const h2sl::Grounding* grounding,
-        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-        const h2sl::Phrase* phrase,
+        const Grounding* grounding,
+        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+        const Phrase* phrase,
         const World* world, 
         const Grounding* context ){
   // The grounding under consideration is the container.

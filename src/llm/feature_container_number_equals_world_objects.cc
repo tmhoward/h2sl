@@ -72,22 +72,25 @@ value( const unsigned int& cv,
   if( container != NULL ){
     if( container->container().size() > 0 ){
       vector< Object* > objects;
-      for( unsigned int i = 0; i < world->_objects().size(); i++ ){
-        if( world->_objects()[ i ]->type() == container->container().front()->type() ){
-          objects.push_back( world->_objects()[ i ] );
+      if ( dynamic_cast< Object* >( container->container().front() ) != NULL ) {
+        const Object* container_front_object = static_cast< Object* >( container->container().front());
+        for ( unsigned int i = 0; i < world->objects().size(); i++ ) {
+          if ( world->objects()[ i ]->type() == container_front_object->type() ) {
+            objects.push_back( world->objects()[ i ] );
+          }
         }
-      }
-      if( container->container().size() == objects.size() ){
-        return !_invert;
-      } else {
-        return _invert;
+        if ( container->container().size() == objects.size() ) {
+          return !_invert;
+        } else {
+          return _invert;
+        }
       }
     }
   }
   return false;
 }
 
-/** 
+/**
  * imports the Feature_Container_Number_Equals_World_Objects class from an XML file
  */
 void
