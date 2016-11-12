@@ -108,6 +108,11 @@ set(HDRS
     h2sl/feature_object_matches_child_container_object.h
     h2sl/feature_object_number_matches_world_object_number.h
     h2sl/feature_abstract_container_number_equals_world_objects.h
+    h2sl/feature_object_adj_is_color.h
+    h2sl/feature_center_region_abstract_container.h
+    h2sl/feature_is_in_a_container.h
+    h2sl/feature_container_spatial_concept.h
+    h2sl/feature_container_extend_spatial.concept.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -208,6 +213,11 @@ set(SRCS
     feature_object_matches_child_container_object.cc
     feature_object_number_matches_world_object_number.cc
     feature_abstract_container_number_equals_world_objects.cc
+    feature_object_adj_is_color.cc
+    feature_center_region_abstract_container.cc
+    feature_is_in_a_container.cc
+    feature_container_spatial_concept.cc
+    feature_container_extend_spatial.concept.cc
     llm.cc)
 
 # BINARY SOURCE FILES
