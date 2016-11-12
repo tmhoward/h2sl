@@ -130,6 +130,11 @@
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
 #include "h2sl/feature_abstract_container_number_equals_world_objects.h"
+#include "h2sl/feature_object_adj_is_color.h"
+#include "h2sl/feature_center_region_abstract_container.h"
+#include "h2sl/feature_is_in_a_container.h"
+#include "h2sl/feature_container_spatial_concept.h"
+#include "h2sl/feature_container_extend_spatial_concept.h"
 
 using namespace std;
 using namespace h2sl;
@@ -610,6 +615,21 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_number_equals_world_objects" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_adj_is_color" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Object_Adj_Is_Color() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_center_region_abstract_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Center_Region_Abstract_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_in_a_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Is_In_A_Container() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_spatial_concept" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Spatial_Concept() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_extend_spatial_concept" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Extend_Spatial_Concept() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;

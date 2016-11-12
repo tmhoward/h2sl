@@ -127,6 +127,11 @@
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
 #include "h2sl/feature_abstract_container_number_equals_world_objects.h"
+#include "h2sl/feature_object_adj_is_color.h"
+#include "h2sl/feature_center_region_abstract_container.h"
+#include "h2sl/feature_is_in_a_container.h"
+#include "h2sl/feature_container_spatial_concept.h"
+#include "h2sl/feature_container_extend_spatial_concept.h"
 
 #include "h2sl/feature.h"
 
@@ -348,8 +353,18 @@ namespace h2sl {
         out << *static_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Matches_Child_Container_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Matches_Child_Container_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
+    }  else if ( dynamic_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
         out << *static_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Adj_Is_Color* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Adj_Is_Color* >( &other );
+    } else if ( dynamic_cast< const Feature_Center_Region_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Center_Region_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Is_In_A_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Is_In_A_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Spatial_Concept* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Spatial_Concept* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Extend_Spatial_Concept* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Extend_Spatial_Concept* >( &other );
     } else {
       assert( false );
     } 
