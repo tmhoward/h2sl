@@ -38,7 +38,7 @@ using namespace h2sl;
 
 void
 evaluate_model( h2sl::LLM* llm,
-                vector< pair< unsigned int, h2sl::LLM_X > >& examples ){
+                vector< pair< unsigned int, LLM_X > >& examples ){
   vector< unsigned int > cvs;
   cvs.push_back( h2sl::CV_FALSE );
   cvs.push_back( h2sl::CV_TRUE );
@@ -148,23 +148,24 @@ main( int argc,
     for( unsigned int i = 0; i < args.inputs_num; i++ ){
       filenames[ i ] = args.inputs[ i ];
       cout << "reading file " << args.inputs[ i ] << endl;
+
       worlds[ i ] = new World(); 
       worlds[ i ]->from_xml( args.inputs[ i ] );
-      cout << *worlds[ i ] << endl;
+
       worlds[ i ] = new World();
       worlds[ i ]->from_xml( args.inputs[ i ] );
+
       phrases[ i ] = new Phrase();
       phrases[ i ]->from_xml( args.inputs[ i ] );
 
      // Symbol grounding model used.
       dcgs[ i ] = new ADCG_Base();
-      cout << "before getting the world" << endl; 
-      assert(false);
-
       dcgs[ i ]->fill_search_spaces( worlds[ i ] );
 
-
-      ADCG_Base::scrape_examples( filenames[ i ], phrases[ i ], worlds[ i ], dcgs[ i ]->search_spaces(), dcgs[ i ]->correspondence_variables(), examples );
+      ADCG_Base::scrape_examples( filenames[ i ], phrases[ i ], worlds[ i ], 
+                                 dcgs[ i ]->search_spaces(), 
+                                 dcgs[ i ]->correspondence_variables(), 
+                                 examples );
     }
 
   }
@@ -175,24 +176,28 @@ main( int argc,
   for( unsigned int i = 0; i < (unsigned int) args.threads_arg; i++ ){
     feature_sets.push_back( new Feature_Set() );
     feature_sets.back()->from_xml( args.feature_set_arg );
-    cout << "num_features:"  << feature_sets.back()->size() << endl;
+    //cout << "num_features:"  << feature_sets.back()->size() << endl;
   }
 
-  vector< h2sl::LLM* > llms;
+   if( !feature_sets.empty() ){
+    cout << "num features:" << feature_sets.front()->size() << endl;
+  }
+
+  vector< LLM* > llms;
   for( unsigned int i = 0; i < ( unsigned int) args.threads_arg; i++ ){
-    llms.push_back( new h2sl::LLM( feature_sets[ i ] ) );
+    llms.push_back( new LLM( feature_sets[ i ] ) );
     llms.back()->weights().resize( llms.back()->feature_set()->size() );
   }
 
-  h2sl::LLM_Train* llm_train = new h2sl::LLM_Train( llms );
+  LLM_Train* llm_train = new LLM_Train( llms );
 
   llm_train->train( examples, args.max_iterations_arg, args.lambda_arg, args.epsilon_arg );
+
+  //evaluate_model( llms.front(), examples );
 
   if( args.output_given ){
     llms.front()->to_xml( args.output_arg );
   }
-
-  evaluate_model( llms.front(), examples );
 
   for( unsigned int i = 0; i < llms.size(); i++ ){
     if( llms[ i ] != NULL ){
