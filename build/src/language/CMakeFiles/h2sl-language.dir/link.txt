@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc ../../lib/libh2sl-language.a  CMakeFiles/h2sl-language.dir/word.cc.o CMakeFiles/h2sl-language.dir/phrase.cc.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib ../../lib/libh2sl-language.a

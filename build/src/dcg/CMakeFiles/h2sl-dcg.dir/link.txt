@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc ../../lib/libh2sl-dcg.a  CMakeFiles/h2sl-dcg.dir/factor_set.cc.o CMakeFiles/h2sl-dcg.dir/factor_set_adcg.cc.o CMakeFiles/h2sl-dcg.dir/dcg.cc.o CMakeFiles/h2sl-dcg.dir/adcg_base.cc.o CMakeFiles/h2sl-dcg.dir/adcg.cc.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib ../../lib/libh2sl-dcg.a

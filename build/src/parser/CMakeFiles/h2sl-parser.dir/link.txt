@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc ../../lib/libh2sl-parser.a  CMakeFiles/h2sl-parser.dir/grammar_terminal.cc.o CMakeFiles/h2sl-parser.dir/grammar_non_terminal.cc.o CMakeFiles/h2sl-parser.dir/grammar_unit_production.cc.o CMakeFiles/h2sl-parser.dir/grammar.cc.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib ../../lib/libh2sl-parser.a

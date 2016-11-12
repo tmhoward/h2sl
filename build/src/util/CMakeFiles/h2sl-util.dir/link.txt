@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc ../../lib/libh2sl-util.a  CMakeFiles/h2sl-util.dir/gui.cc.o CMakeFiles/h2sl-util.dir/moc_gui.cxx.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib ../../lib/libh2sl-util.a
