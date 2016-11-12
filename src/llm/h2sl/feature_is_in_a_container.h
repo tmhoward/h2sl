@@ -20,7 +20,7 @@ namespace h2sl {
    */
   class Feature_Is_In_A_Container : public Feature {
   public:
-    Feature_Is_In_A_Container( const bool& invert = false, const unsigned int& containerType = 0 );
+    Feature_Is_In_A_Container( const bool& invert = false, const std::string& container_type = "na" );
     Feature_Is_In_A_Container( const Feature_Is_In_A_Container& other );
     virtual ~Feature_Is_In_A_Container();
     Feature_Is_In_A_Container& operator=( const Feature_Is_In_A_Container& other );
@@ -39,8 +39,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    unsigned int& container_type( void );
-    const unsigned int& container_type( void )const;
+    std::string& container_type( void );
+    const std::string& container_type( void )const;
     
     bool& is_a_container( void );
     const bool& is_a_container( void )const;
@@ -59,7 +59,7 @@ namespace h2sl {
   protected:
     const double _rho;
     const double _theta;
-    unsigned int _container_type;
+    std::string _container_type;
     unsigned int _max_object_count;
     bool _direction;
     bool _is_a_container;
