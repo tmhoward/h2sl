@@ -408,7 +408,7 @@ train( vector< pair< unsigned int, LLM_X > >& examples,
         const double& lambda,
         const double& epsilon ){
 
-  cout << "llm_train called" << en << endll;
+  cout << "llm_train called" << endl;
   _examples = &examples;
 
   if( _llms.front()->feature_set()->size() != _llms.front()->weights().size() ){
