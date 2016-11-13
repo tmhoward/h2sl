@@ -43,7 +43,7 @@ Abstract_Container( xmlNodePtr root ) {
  * abstract_container class copy constructor
  */
 Abstract_Container::
-Abstract_Container( const Abstract_Container& other ) : Grounding() {
+Abstract_Container( const Abstract_Container& other ) : Grounding( other ) {
 
 }
 
