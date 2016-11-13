@@ -87,14 +87,18 @@ value( const unsigned int& cv,
   const Container * container = dynamic_cast< const Container* >( grounding );
   // Extract the objects from the container.
   vector< Object* > objects; 
-  for (unsigned int i = 0; i < container->container().size(); i++) {
-    if (dynamic_cast< Object* >(container->container()[ i ]) != NULL) {    
-      objects.push_back(static_cast< Object* >(container->container()[ i ])); 
-    } else {
-      return false;
-    }
-  } 
+  if( container != NULL ){
+    for( unsigned int i = 0; i < container->container().size(); i++ ){
+      Object * object = dynamic_cast< Object* >( container->container()[ i ] );
+      if( object != NULL){
+        objects.push_back( object ); 
+      } else {
+        return false;
+      }
+    } 
+  }
  
+  
   //check if the grounding is a container, the container type is not unknown, and the container has objects
   if( ( container != NULL ) && ( container->type() != "group" ) && ( !objects.empty() ) ){
     if (container->type() == std::string("row")) {
