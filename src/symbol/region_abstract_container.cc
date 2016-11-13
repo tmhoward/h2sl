@@ -38,7 +38,7 @@ Region_Abstract_Container( xmlNodePtr root ) : Grounding(),
  */
 Region_Abstract_Container::
 Region_Abstract_Container( const Region_Abstract_Container& other ) : Grounding( other ),
-                                                                      _abstract_container() {
+                                                                      _abstract_container( other._abstract_container ) {
 
 }
 
@@ -57,7 +57,7 @@ Region_Abstract_Container&
 Region_Abstract_Container::
 operator=( const Region_Abstract_Container& other ) {
   _properties = other._properties;
-  _abstract_container = other.abstract_container(); 
+  _abstract_container = other._abstract_container; 
   return (*this);
 }
 
@@ -69,7 +69,7 @@ Region_Abstract_Container::
 operator==( const Region_Abstract_Container& other )const{
   if ( region_abstract_container_type() != other.region_abstract_container_type() ) {
     return false;
-  } else if ( _abstract_container != other.abstract_container() ) {
+  } else if ( _abstract_container != other._abstract_container ) {
     return false;
   } else {
     return true;
