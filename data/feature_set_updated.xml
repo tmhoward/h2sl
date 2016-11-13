@@ -141,11 +141,11 @@
         <feature_abstract_container_type invert="1" abstract_container_type="generic-robot"/>
         <feature_abstract_container_type invert="1" abstract_container_type="door"/>
         <!-- feature_constraint_child_matches_child_region -->
-        <feature_constraint_child_matches_child_region invert="0"/>
-        <feature_constraint_child_matches_child_region invert="1"/>
+        <!--feature_constraint_child_matches_child_region invert="0"/>
+        <feature_constraint_child_matches_child_region invert="1"/-->
         <!-- feature_constraint_parent_matches_child_region -->
-        <feature_constraint_parent_matches_child_region invert="0"/>
-        <feature_constraint_parent_matches_child_region invert="1"/>
+        <!--feature_constraint_parent_matches_child_region invert="0"/>
+        <feature_constraint_parent_matches_child_region invert="1"/-->
         <!-- feature_constraint_payload_type -->
         <feature_constraint_payload_type invert="0" payload_type="generic-robot"/>
         <feature_constraint_payload_type invert="1" payload_type="generic-robot"/>
