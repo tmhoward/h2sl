@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <feature_set>
+    <feature_product>
+      <feature_group>
+        <feature_cv invert="0" cv="1"/>
+        <feature_cv invert="0" cv="2"/>
+      </feature_group>
+      <feature_group>
+        <feature_word invert="0" pos="CC" text="and"/>
+        <feature_word invert="0" pos="IN" text="near"/>
+        <feature_word invert="0" pos="IN" text="behind"/>
+        <feature_word invert="0" pos="IN" text="at"/>
+        <feature_word invert="0" pos="IN" text="toward"/>
+        <feature_word invert="0" pos="IN" text="towards"/>
+        <feature_word invert="0" pos="IN" text="by"/>
+        <feature_word invert="0" pos="IN" text="for"/>
+        <feature_word invert="0" pos="IN" text="of"/>
+        <feature_word invert="0" pos="IN" text="in"/>
+        <feature_word invert="0" pos="IN" text="from"/>
+        <feature_word invert="0" pos="IN" text="behind"/>
+        <feature_word invert="0" pos="IN" text="on"/>
+        <feature_word invert="0" pos="NN" text="robot"/>
+        <feature_word invert="0" pos="NN" text="box"/>
+        <feature_word invert="0" pos="NN" text="bottle"/>
+        <feature_word invert="0" pos="NN" text="package"/>
+        <feature_word invert="0" pos="NN" text="crate"/>
+        <feature_word invert="0" pos="NN" text="table"/>
+        <feature_word invert="0" pos="NN" text="counter"/>
+        <feature_word invert="0" pos="NN" text="car"/>
+        <feature_word invert="0" pos="NN" text="tree"/>
+        <feature_word invert="0" pos="NN" text="desk"/>
+        <feature_word invert="0" pos="NN" text="chair"/>
+        <feature_word invert="0" pos="NN" text="seat"/>
+        <feature_word invert="0" pos="NN" text="stool"/>
+        <feature_word invert="0" pos="NN" text="couch"/>
+        <feature_word invert="0" pos="NN" text="sofa"/>
+        <feature_word invert="0" pos="NN" text="desk"/>
+        <feature_word invert="0" pos="NN" text="seat"/>
+        <feature_word invert="0" pos="NN" text="stool"/>
+        <feature_word invert="0" pos="NN" text="sink"/>
+        <feature_word invert="0" pos="NN" text="mug"/>
+        <feature_word invert="0" pos="NN" text="cup"/>
+        <feature_word invert="0" pos="NN" text="glass"/>
+        <feature_word invert="0" pos="NN" text="left"/>
+        <feature_word invert="0" pos="NN" text="right"/>
+        <feature_word invert="0" pos="NN" text="front"/>
+        <feature_word invert="0" pos="NN" text="back"/>
+        <feature_word invert="0" pos="NN" text="can"/>
+        <feature_word invert="0" pos="NN" text="fridge"/>
+        <feature_word invert="0" pos="NN" text="refrigerator"/>
+        <feature_word invert="0" pos="NN" text="hammer"/>
+        <feature_word invert="0" pos="NN" text="mallet"/>
+        <feature_word invert="0" pos="NN" text="screwdriver"/>
+        <feature_word invert="0" pos="NN" text="pipe"/>
+        <feature_word invert="0" pos="NN" text="tube"/>
+        <feature_word invert="0" pos="NN" text="newspaper"/>
+        <feature_word invert="0" pos="NN" text="marker"/>
+        <feature_word invert="0" pos="NN" text="pen"/>
+        <feature_word invert="0" pos="NN" text="tape"/>
+        <feature_word invert="0" pos="NN" text="bone"/>
+        <feature_word invert="0" pos="TO" text="to"/>
+        <feature_word invert="0" pos="VB" text="proceed"/>
+        <feature_word invert="0" pos="VB" text="drive"/>
+        <feature_word invert="0" pos="VB" text="move"/>
+        <feature_word invert="0" pos="VB" text="walk"/>
+        <feature_word invert="0" pos="VB" text="push"/>
+        <feature_word invert="0" pos="VB" text="go"/>
+        <feature_word invert="0" pos="VB" text="approach"/>
+        <feature_word invert="0" pos="VB" text="leave"/>
+        <feature_word invert="0" pos="VB" text="exit"/>
+        <feature_num_words invert="0" num_words="0"/>
+        <feature_phrase_has_pos_tag invert="0" pos="CD"/>
+        <feature_phrase_has_pos_tag invert="0" pos="JJ"/>
+        <feature_phrase_has_pos_tag invert="0" pos="JJS"/>
+        <feature_phrase_has_pos_tag invert="0" pos="NN"/>
+        <feature_phrase_has_pos_tag invert="0" pos="NNS"/>
+        <feature_phrase_has_single_pos_tag invert="0" pos="NNS"/>
+        <feature_phrase_has_ordered_pos_tag_pair invert="0" pos_1="CD" pos_2="NNS"/>
+        <feature_phrase_has_ordered_pos_tag_pair invert="0" pos_1="JJ" pos_2="NNS"/>
+      </feature_group>
+   </feature_product>
+  </feature_set>
+</root>

@@ -160,6 +160,7 @@ main( int argc,
 
      // Symbol grounding model used.
       dcgs[ i ] = new ADCG_Base();
+
       dcgs[ i ]->fill_search_spaces( worlds[ i ] );
 
       ADCG_Base::scrape_examples( filenames[ i ], phrases[ i ], worlds[ i ], 
@@ -190,10 +191,10 @@ main( int argc,
   }
 
   LLM_Train* llm_train = new LLM_Train( llms );
-
+ 
   llm_train->train( examples, args.max_iterations_arg, args.lambda_arg, args.epsilon_arg );
-
-  //evaluate_model( llms.front(), examples );
+ 
+  evaluate_model( llms.front(), examples );
 
   if( args.output_given ){
     llms.front()->to_xml( args.output_arg );

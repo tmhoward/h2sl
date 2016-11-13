@@ -408,7 +408,6 @@ train( vector< pair< unsigned int, LLM_X > >& examples,
         const double& lambda,
         const double& epsilon ){
 
-  cout << "llm_train called" << endl;
   _examples = &examples;
 
   if( _llms.front()->feature_set()->size() != _llms.front()->weights().size() ){
@@ -427,18 +426,14 @@ train( vector< pair< unsigned int, LLM_X > >& examples,
   param.epsilon = epsilon;
   param.max_iterations = maxIterations;
 
-  cout << "compute indices"<< endl;
   compute_indices();
 
-  cout << "lbfgs"<< endl;
   lbfgs( _llms.front()->weights().size(), x, &fx, evaluate, progress, ( void* )( this ), &param );
 
-  cout << "after lbfgs"<< endl;
   for( unsigned int i = 0; i < _llms.front()->weights().size(); i++ ){
     _llms.front()->weights()[ i ] = x[ i ];
   }
 
-  cout << "before free"<< endl;
   lbfgs_free( x );
 
   return;
@@ -694,6 +689,7 @@ compute_indices_thread( vector< LLM_Index_Map_Cell >& cells, LLM* llm ){
     for( unsigned int k = 0; k < cells[ i ].llm_x().cvs().size(); k++ ){
       cells[ i ].indices().push_back( vector< unsigned int >() );
       vector< Feature* > features;
+
 
       llm->feature_set()->indices( cells[ i ].llm_x().cvs()[ k ],
                                               cells[ i ].llm_x().grounding(),
