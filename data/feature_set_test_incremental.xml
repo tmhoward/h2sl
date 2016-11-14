@@ -37,20 +37,16 @@
         <feature_phrase_has_ordered_pos_tag_pair invert="0" pos_1="JJ" pos_2="NNS"/>
       </feature_group>
       <feature_group>
-        <!-- feature_abstract_container_color -->
         <feature_abstract_container_color invert="0" abstract_container_color="red"/>
         <feature_abstract_container_color invert="0" abstract_container_color="blue"/>
         <feature_abstract_container_color invert="0" abstract_container_color="yellow"/>
-        <!-- feature_abstract_container_index -->
         <feature_abstract_container_index invert="0" abstract_container_index="first"/>
         <feature_abstract_container_index invert="0" abstract_container_index="second"/>
         <feature_abstract_container_index invert="0" abstract_container_index="third"/>
         <feature_abstract_container_index invert="0" abstract_container_index="fourth"/>
         <feature_abstract_container_index invert="0" abstract_container_index="fifth"/>
-        <!-- feature_abstract_container_matches_child (NOTE: USING TEMPLATE)-->
         <feature_abstract_container_matches_child invert="0"/>
         <feature_abstract_container_matches_child invert="1"/>
-        <!-- feature_abstract_container_number -->
         <feature_abstract_container_number invert="0" abstract_container_number="one"/>
         <feature_abstract_container_number invert="0" abstract_container_number="two"/>
         <feature_abstract_container_number invert="0" abstract_container_number="three"/>
@@ -63,31 +59,23 @@
         <feature_abstract_container_number invert="0" abstract_container_number="ten"/>
         <feature_abstract_container_number invert="0" abstract_container_number="eleven"/>
         <feature_abstract_container_number invert="0" abstract_container_number="twelve"/>
-        <!-- feature_abstract_container_number_equals_world_objects -->
         <feature_abstract_container_number_equals_world_objects invert="0"/>
         <feature_abstract_container_number_equals_world_objects invert="1"/>
-        <!-- feature_abstract_container_type -->
         <feature_abstract_container_type invert="0" abstract_container_type="na"/>
         <feature_abstract_container_type invert="0" abstract_container_type="block"/>
         <feature_abstract_container_type invert="0" abstract_container_type="table"/>
         <feature_abstract_container_type invert="0" abstract_container_type="generic-robot"/>
         <feature_abstract_container_type invert="0" abstract_container_type="door"/>
-        <!-- feature_constraint_payload_type -->
         <feature_constraint_payload_type invert="0" payload_type="robot"/>
         <feature_constraint_payload_type invert="1" payload_type="robot"/>
-        <!-- feature_constraint_reference_type -->
         <feature_constraint_reference_type invert="0" reference_type="robot"/>
         <feature_constraint_reference_type invert="1" reference_type="robot"/>
-        <!--feature_constraint_parent_matches_child_region -->
         <feature_constraint_parent_matches_child_region invert="0"/>
         <feature_constraint_parent_matches_child_region invert="1"/>
-        <!--feature_constraint_child_matches_child_region -->
         <feature_constraint_child_matches_child_region invert="0"/>
         <feature_constraint_child_matches_child_region invert="1"/>
-        <!--feature_constraint_child_matches_child_object -->
         <feature_constraint_child_matches_child_object invert="0"/>
         <feature_constraint_child_matches_child_object invert="1"/>
-        <!-- feature_container_dominant_x_shape -->
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -118,7 +106,6 @@
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-   <!-- feature_container_dominant_y_shape -->
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -149,7 +136,6 @@
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <!-- feature_container_dominant_z_shape -->
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -180,7 +166,6 @@
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-     <!-- feature_container_non_dominant_xyz -->
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -211,76 +196,56 @@
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <!-- feature_container_is_empty -->
         <feature_container_is_empty invert="0"/>
         <feature_container_is_empty invert="1"/>
-        <!-- feature_container_matches_child -->
         <feature_container_matches_child invert="0"/>
         <feature_container_matches_child invert="1"/>
-        <!-- feature_container_matches_empty_child_container -->
         <feature_container_matches_empty_child_container invert="0"/>
         <feature_container_matches_empty_child_container invert="1"/>
-        <!-- feature_container_merge_container_spatial_relation -->
         <feature_container_merge_container_spatial_relation invert="0"/>
         <feature_container_merge_container_spatial_relation invert="1"/>
-        <!-- feature_container_merge_object_property_container -->
         <feature_container_merge_object_property_container invert="0"/>
         <feature_container_merge_object_property_container invert="1"/>
-        <!-- feature_container_min_distance -->
         <feature_container_min_distance invert="0"/>
         <feature_container_min_distance invert="1"/>
-        <!-- feature_container_max_distance -->
         <feature_container_max_distance invert="0"/>
         <feature_container_max_distance invert="1"/>
-        <!-- feature_container_number -->
-        <feature_container_number invert="0" container_number="one"/>
-        <feature_container_number invert="0" container_number="two"/>
-        <feature_container_number invert="0" container_number="three"/>
-        <feature_container_number invert="0" container_number="four"/>
-        <feature_container_number invert="0" container_number="five"/>
-        <feature_container_number invert="0" container_number="six"/>
-        <feature_container_number invert="0" container_number="seven"/>
-        <feature_container_number invert="0" container_number="eight"/>
-        <feature_container_number invert="0" container_number="nine"/>
-        <feature_container_number invert="0" container_number="ten"/>
-        <feature_container_number invert="0" container_number="eleven"/>
-        <feature_container_number invert="0" container_number="twelve"/>
-        <!-- feature_container_number_equals_world_objects -->
+        <feature_container_number invert="0" container_number="1"/>
+        <feature_container_number invert="0" container_number="2"/>
+        <feature_container_number invert="0" container_number="3"/>
+        <feature_container_number invert="0" container_number="4"/>
+        <feature_container_number invert="0" container_number="5"/>
+        <feature_container_number invert="0" container_number="6"/>
+        <feature_container_number invert="0" container_number="7"/>
+        <feature_container_number invert="0" container_number="8"/>
+        <feature_container_number invert="0" container_number="9"/>
+        <feature_container_number invert="0" container_number="10"/>
+        <feature_container_number invert="0" container_number="11"/>
+        <feature_container_number invert="0" container_number="12"/>
         <feature_container_number_equals_world_objects invert="0"/>
         <feature_container_number_equals_world_objects invert="1"/>
-       <!-- feature_container_type_matches_child_container_type -->
         <feature_container_type_matches_child_container_type invert="0"/>
         <feature_container_type_matches_child_container_type invert="1"/>
-        <!-- feature_is_abstract_container -->
         <feature_is_abstract_container invert="0"/>
         <feature_is_abstract_container invert="1"/>
-        <!-- feature_is_object -->
         <feature_is_object invert="0"/>
         <feature_is_object invert="1"/>
-        <!-- feature_is_container -->
         <feature_is_container invert="0"/>
         <feature_is_container invert="1"/>
-        <!-- feature_is_region -->
         <feature_is_region invert="0"/>
         <feature_is_region invert="1"/>
-        <!-- feature_is_region_abstract_container -->
         <feature_is_region_abstract_container invert="0"/>
         <feature_is_region_abstract_container invert="1"/>
-        <!-- feature_is_region_container -->
         <feature_is_region_container invert="0"/>
         <feature_is_region_container invert="1"/>
-        <!-- feature_is_spatial_relation-->
         <feature_is_spatial_relation invert="0"/>
         <feature_is_spatial_relation invert="1"/>
-        <!-- feature_max_distance_object -->
         <feature_max_distance_object invert="0"/>
         <feature_max_distance_object invert="1"/>
-        <!-- feature_max_distance_object_within -->
         <feature_max_distance_object_within invert="0" number="2"/>
         <feature_max_distance_object_within invert="0" number="3"/>
         <feature_max_distance_object_within invert="1" number="2"/>
         <feature_max_distance_object_within invert="1" number="3"/>
-        <!-- feature_max_x_abstract_container -->
         <feature_max_x_abstract_container invert="0" relation_type="na"/>
         <feature_max_x_abstract_container invert="0" relation_type="front"/>
         <feature_max_x_abstract_container invert="0" relation_type="back"/>
@@ -292,10 +257,8 @@
         <feature_max_x_abstract_container invert="0" relation_type="far"/>
         <feature_max_x_abstract_container invert="0" relation_type="above"/>
         <feature_max_x_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_max_x_object -->
         <feature_max_x_object invert="0"/>
         <feature_max_x_object invert="1"/>
-        <!-- feature_max_x_region_abstract_container -->
         <feature_max_x_region_abstract_container invert="0" relation_type="na"/>
         <feature_max_x_region_abstract_container invert="0" relation_type="front"/>
         <feature_max_x_region_abstract_container invert="0" relation_type="back"/>
@@ -307,7 +270,6 @@
         <feature_max_x_region_abstract_container invert="0" relation_type="far"/>
         <feature_max_x_region_abstract_container invert="0" relation_type="above"/>
         <feature_max_x_region_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_max_y_abstract_container -->
         <feature_max_y_abstract_container invert="0" relation_type="na"/>
         <feature_max_y_abstract_container invert="0" relation_type="front"/>
         <feature_max_y_abstract_container invert="0" relation_type="back"/>
@@ -319,7 +281,6 @@
         <feature_max_y_abstract_container invert="0" relation_type="far"/>
         <feature_max_y_abstract_container invert="0" relation_type="above"/>
         <feature_max_y_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_max_y_container_abstract_container -->
         <feature_max_y_container_abstract_container invert="0" relation_type="na"/>
         <feature_max_y_container_abstract_container invert="0" relation_type="front"/>
         <feature_max_y_container_abstract_container invert="0" relation_type="back"/>
@@ -331,10 +292,8 @@
         <feature_max_y_container_abstract_container invert="0" relation_type="far"/>
         <feature_max_y_container_abstract_container invert="0" relation_type="above"/>
         <feature_max_y_container_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_max_y_object -->
         <feature_max_y_object invert="0"/>
         <feature_max_y_object invert="1"/>
-        <!-- feature_min_abs_y_abstract_container -->
         <feature_min_abs_y_abstract_container invert="0" relation_type="na"/>
         <feature_min_abs_y_abstract_container invert="0" relation_type="front"/>
         <feature_min_abs_y_abstract_container invert="0" relation_type="back"/>
@@ -346,10 +305,8 @@
         <feature_min_abs_y_abstract_container invert="0" relation_type="far"/>
         <feature_min_abs_y_abstract_container invert="0" relation_type="above"/>
         <feature_min_abs_y_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_min_center_distance_object -->
         <feature_min_center_distance_object invert="0"/>
         <feature_min_center_distance_object invert="1"/>
-        <!-- feature_min_distance_abstract_container -->
         <feature_min_distance_abstract_container invert="0" relation_type="na"/>
         <feature_min_distance_abstract_container invert="0" relation_type="front"/>
         <feature_min_distance_abstract_container invert="0" relation_type="back"/>
@@ -361,7 +318,6 @@
         <feature_min_distance_abstract_container invert="0" relation_type="far"/>
         <feature_min_distance_abstract_container invert="0" relation_type="above"/>
         <feature_min_distance_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_min_distance_container -->
         <feature_min_distance_container invert="0" relation_type="na"/>
         <feature_min_distance_container invert="0" relation_type="front"/>
         <feature_min_distance_container invert="0" relation_type="back"/>
@@ -373,23 +329,20 @@
         <feature_min_distance_container invert="0" relation_type="far"/>
         <feature_min_distance_container invert="0" relation_type="above"/>
         <feature_min_distance_container invert="0" relation_type="below"/>
-        <!-- feature_min_distance_object -->
         <feature_min_distance_object invert="0"/>
         <feature_min_distance_object invert="1"/>
-        <!-- feature_min_distance_object_within -->
-        <feature_min_distance_object_within invert="0" number="one"/>
-        <feature_min_distance_object_within invert="0" number="two"/>
-        <feature_min_distance_object_within invert="0" number="three"/>
-        <feature_min_distance_object_within invert="0" number="four"/>
-        <feature_min_distance_object_within invert="0" number="five"/>
-        <feature_min_distance_object_within invert="0" number="six"/>
-        <feature_min_distance_object_within invert="0" number="seven"/>
-        <feature_min_distance_object_within invert="0" number="eight"/>
-        <feature_min_distance_object_within invert="0" number="nine"/>
-        <feature_min_distance_object_within invert="0" number="ten"/>
-        <feature_min_distance_object_within invert="0" number="eleven"/>
-        <feature_min_distance_object_within invert="0" number="twelve"/>
-        <!-- feature_min_x_abstract_container -->
+        <feature_min_distance_object_within invert="0" number="1"/>
+        <feature_min_distance_object_within invert="0" number="2"/>
+        <feature_min_distance_object_within invert="0" number="3"/>
+        <feature_min_distance_object_within invert="0" number="4"/>
+        <feature_min_distance_object_within invert="0" number="5"/>
+        <feature_min_distance_object_within invert="0" number="6"/>
+        <feature_min_distance_object_within invert="0" number="7"/>
+        <feature_min_distance_object_within invert="0" number="8"/>
+        <feature_min_distance_object_within invert="0" number="9"/>
+        <feature_min_distance_object_within invert="0" number="10"/>
+        <feature_min_distance_object_within invert="0" number="11"/>
+        <feature_min_distance_object_within invert="0" number="12"/>
         <feature_min_x_abstract_container invert="0" relation_type="na"/>
         <feature_min_x_abstract_container invert="0" relation_type="front"/>
         <feature_min_x_abstract_container invert="0" relation_type="back"/>
@@ -401,7 +354,6 @@
         <feature_min_x_abstract_container invert="0" relation_type="far"/>
         <feature_min_x_abstract_container invert="0" relation_type="above"/>
         <feature_min_x_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_min_x_container_abstract_container_spatial_relation -->
         <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="na"/>
         <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="front"/>
         <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="back"/>
@@ -413,7 +365,6 @@
         <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="far"/>
         <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="above"/>
         <feature_min_x_container_abstract_container_spatial_relation invert="0" relation_type="below"/>
-        <!-- feature_min_x_container_region_abstract_container -->
         <feature_min_x_container_region_abstract_container invert="0" relation_type="na"/>
         <feature_min_x_container_region_abstract_container invert="0" relation_type="front"/>
         <feature_min_x_container_region_abstract_container invert="0" relation_type="back"/>
@@ -425,10 +376,8 @@
         <feature_min_x_container_region_abstract_container invert="0" relation_type="far"/>
         <feature_min_x_container_region_abstract_container invert="0" relation_type="above"/>
         <feature_min_x_container_region_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_min_x_object -->
         <feature_min_x_object invert="0"/>
         <feature_min_x_object invert="1"/>
-        <!-- feature_min_x_region_abstract_container_spatial_relation -->
         <feature_min_x_region_abstract_container_spatial_relation invert="0" relation_type="na"/>
         <feature_min_x_region_abstract_container_spatial_relation invert="0" relation_type="front"/>
         <feature_min_x_region_abstract_container_spatial_relation invert="0" relation_type="back"/>
@@ -440,7 +389,6 @@
         <feature_min_x_region_abstract_container_spatial_relation invert="0" relation_type="far"/>
         <feature_min_x_region_abstract_container_spatial_relation invert="0" relation_type="above"/>
         <feature_min_x_region_abstract_container_spatial_relation invert="0" relation_type="below"/>
-        <!-- feature_min_y_abstract_container -->
         <feature_min_y_abstract_container invert="0" relation_type="na"/>
         <feature_min_y_abstract_container invert="0" relation_type="front"/>
         <feature_min_y_abstract_container invert="0" relation_type="back"/>
@@ -452,7 +400,6 @@
         <feature_min_y_abstract_container invert="0" relation_type="far"/>
         <feature_min_y_abstract_container invert="0" relation_type="above"/>
         <feature_min_y_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_min_abs_y_container_abstract_container -->
         <feature_min_abs_y_container_abstract_container invert="0" relation_type="na"/>
         <feature_min_abs_y_container_abstract_container invert="0" relation_type="front"/>
         <feature_min_abs_y_container_abstract_container invert="0" relation_type="back"/>
@@ -464,7 +411,6 @@
         <feature_min_abs_y_container_abstract_container invert="0" relation_type="far"/>
         <feature_min_abs_y_container_abstract_container invert="0" relation_type="above"/>
         <feature_min_abs_y_container_abstract_container invert="0" relation_type="below"/>
-        <!-- feature_min_y_container_abstract_container_spatial_relation -->
         <feature_min_y_container_abstract_container_spatial_relation invert="0" relation_type="na"/>
         <feature_min_y_container_abstract_container_spatial_relation invert="0" relation_type="front"/>
         <feature_min_y_container_abstract_container_spatial_relation invert="0" relation_type="back"/>
@@ -476,7 +422,6 @@
         <feature_min_y_container_abstract_container_spatial_relation invert="0" relation_type="far"/>
         <feature_min_y_container_abstract_container_spatial_relation invert="0" relation_type="above"/>
         <feature_min_y_container_abstract_container_spatial_relation invert="0" relation_type="below"/>
-        <!-- feature_min_y_index_abstract_container_region_container -->
         <feature_min_y_index_abstract_container_region_container invert="0" relation_type="na"/>
         <feature_min_y_index_abstract_container_region_container invert="0" relation_type="front"/>
         <feature_min_y_index_abstract_container_region_container invert="0" relation_type="back"/>
@@ -488,34 +433,25 @@
         <feature_min_y_index_abstract_container_region_container invert="0" relation_type="far"/>
         <feature_min_y_index_abstract_container_region_container invert="0" relation_type="above"/>
         <feature_min_y_index_abstract_container_region_container invert="0" relation_type="below"/>
-        <!-- feature_min_y_object -->
         <feature_min_y_object invert="0"/>
         <feature_min_y_object invert="1"/>
-        <!-- feature_object_merge_object_property_spatial_relation -->
         <feature_object_merge_object_property_spatial_relation invert="0"/>
         <feature_object_merge_object_property_spatial_relation invert="1"/>
-        <!-- feature_object_merge_object_property_index_spatial_relation -->
         <feature_object_merge_object_property_index_spatial_relation invert="0"/>
         <feature_object_merge_object_property_index_spatial_relation invert="1"/>
-        <!-- feature_object_matches_child_container_object -->
         <feature_object_matches_child_container_object invert="0"/>
         <feature_object_matches_child_container_object invert="1"/>
-        <!-- feature_object_number_matches_world_object_number -->
-        <feature_object_number_matches_world_object_number invert="0"/>
-        <feature_object_number_matches_world_object_number invert="1"/>
-        <!-- feature_object_property_index -->
+        <feature_object_number_matches_world_object_number invert="0" object_number="0"/>
+        <feature_object_number_matches_world_object_number invert="1" object_number="0"/>
         <feature_object_property_index invert="0" index="first"/>
         <feature_object_property_index invert="0" index="second"/>
         <feature_object_property_index invert="0" index="third"/>
         <feature_object_property_index invert="0" index="fourth"/>
         <feature_object_property_index invert="0" index="fifth"/>
-        <!-- feature_object_property_merge_object_property_container -->
         <feature_object_property_merge_object_property_container invert="0"/>
         <feature_object_property_merge_object_property_container invert="1"/>
-        <!-- feature_object_property_merge_object_property_spatial_relation -->
         <feature_object_property_merge_object_property_spatial_relation invert="0"/>
         <feature_object_property_merge_object_property_spatial_relation invert="1"/>
-        <!-- feature_object_property_relation_type -->
         <feature_object_property_relation_type invert="0" relation_type="na"/>
         <feature_object_property_relation_type invert="0" relation_type="front"/>
         <feature_object_property_relation_type invert="0" relation_type="back"/>
@@ -527,57 +463,6 @@
         <feature_object_property_relation_type invert="0" relation_type="far"/>
         <feature_object_property_relation_type invert="0" relation_type="above"/>
         <feature_object_property_relation_type invert="0" relation_type="below"/>
-        <!-- feature_object_property_type -->
-        <!--feature_object_property_type invert="0" object_type="na"/>
-        <feature_object_property_type invert="0" object_type="block"/>
-        <feature_object_property_type invert="0" object_type="table"/>
-        <feature_object_property_type invert="0" object_type="robot"/>
-        <feature_object_property_type invert="0" object_type="door"/>
-        <feature_object_property_type invert="1" object_type="na"/>
-        <feature_object_property_type invert="1" object_type="block"/>
-        <feature_object_property_type invert="1" object_type="table"/>
-        <feature_object_property_type invert="1" object_type="robot"/>
-        <feature_object_property_type invert="1" object_type="door"/-->
-        <!-- feature_objects_shape_matches_container_type -->
-        <!--feature_objects_shape_matches_container_type invert="0"/>
-        <feature_objects_shape_matches_container_type invert="1"/-->
-         <!-- feature_region_abstract_container_number -->
-        <!--feature_region_abstract_container_number invert="0" number="one"/>
-        <feature_region_abstract_container_number invert="0" number="two"/>
-        <feature_region_abstract_container_number invert="0" number="three"/>
-        <feature_region_abstract_container_number invert="0" number="four"/>
-        <feature_region_abstract_container_number invert="0" number="five"/>
-        <feature_region_abstract_container_number invert="0" number="six"/>
-        <feature_region_abstract_container_number invert="0" number="seven"/>
-        <feature_region_abstract_container_number invert="0" number="eight"/>
-        <feature_region_abstract_container_number invert="0" number="nine"/>
-        <feature_region_abstract_container_number invert="0" number="ten"/>
-        <feature_region_abstract_container_number invert="0" number="eleven"/>
-        <feature_region_abstract_container_number invert="0" number="twelve"/>
-        <feature_region_abstract_container_number invert="1" number="one"/>
-        <feature_region_abstract_container_number invert="1" number="two"/>
-        <feature_region_abstract_container_number invert="1" number="three"/>
-        <feature_region_abstract_container_number invert="1" number="four"/>
-        <feature_region_abstract_container_number invert="1" number="five"/>
-        <feature_region_abstract_container_number invert="1" number="six"/>
-        <feature_region_abstract_container_number invert="1" number="seven"/>
-        <feature_region_abstract_container_number invert="1" number="eight"/>
-        <feature_region_abstract_container_number invert="1" number="nine"/>
-        <feature_region_abstract_container_number invert="1" number="ten"/>
-        <feature_region_abstract_container_number invert="1" number="eleven"/>
-        <feature_region_abstract_container_number invert="1" number="twelve"/-->
-        <!-- feature_region_abstract_container_object_type -->
-        <!--feature_region_abstract_container_object_type invert="0" object_type="na"/>
-        <feature_region_abstract_container_object_type invert="0" object_type="block"/>
-        <feature_region_abstract_container_object_type invert="0" object_type="table"/>
-        <feature_region_abstract_container_object_type invert="0" object_type="robot"/>
-        <feature_region_abstract_container_object_type invert="0" object_type="door"/>
-        <feature_region_abstract_container_object_type invert="1" object_type="na"/>
-        <feature_region_abstract_container_object_type invert="1" object_type="block"/>
-        <feature_region_abstract_container_object_type invert="1" object_type="table"/>
-        <feature_region_abstract_container_object_type invert="1" object_type="robot"/>
-        <feature_region_abstract_container_object_type invert="1" object_type="door"/-->
-        <!-- feature_region_abstract_container_type -->
         <feature_region_abstract_container_type invert="0" region_abstract_container_type="front"/>
         <feature_region_abstract_container_type invert="0" region_abstract_container_type="back"/>
         <feature_region_abstract_container_type invert="0" region_abstract_container_type="left"/>
@@ -588,18 +473,14 @@
         <feature_region_abstract_container_type invert="0" region_abstract_container_type="far"/>
         <feature_region_abstract_container_type invert="0" region_abstract_container_type="above"/>
         <feature_region_abstract_container_type invert="0" region_abstract_container_type="below"/>
-        <!-- feature_region_container_container_matches_child_container -->
         <feature_region_container_container_matches_child_container invert="0"/>
         <feature_region_container_container_matches_child_container invert="1"/>
-        <!-- feature_region_container_matches_child -->
         <feature_region_container_matches_child invert="0"/>
         <feature_region_container_matches_child invert="1"/>
-        <!-- feature_region_container_merge_container_spatial_relation -->
         <feature_region_container_merge_container_spatial_relation invert="0" concept_order="0"/>
         <feature_region_container_merge_container_spatial_relation invert="0" concept_order="1"/>
         <feature_region_container_merge_container_spatial_relation invert="1" concept_order="0"/>
         <feature_region_container_merge_container_spatial_relation invert="1" concept_order="1"/>
-        <!-- feature_region_container_type -->
         <feature_region_container_type invert="0" region_container_type="front"/>
         <feature_region_container_type invert="0" region_container_type="back"/>
         <feature_region_container_type invert="0" region_container_type="left"/>
@@ -610,34 +491,25 @@
         <feature_region_container_type invert="0" region_container_type="far"/>
         <feature_region_container_type invert="0" region_container_type="above"/>
         <feature_region_container_type invert="0" region_container_type="below"/>
-        <!-- feature_region_merge_partially_known_regions -->
         <feature_region_merge_partially_known_regions invert="0"/>
         <feature_region_merge_partially_known_regions invert="1"/>
-        <!-- feature_region_object_matches_child -->
         <feature_region_object_matches_child invert="0"/>
         <feature_region_object_matches_child invert="1"/>
-      <!-- feature_region_object_property_value -->
         <feature_region_object_property_value invert="0" key="object_type" symbol="na"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="block"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="table"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="robot"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="door"/>
-        <!-- feature_spatial_relation_matches_child -->
         <feature_spatial_relation_matches_child invert="0"/>
         <feature_spatial_relation_matches_child invert="1"/>
-
-        <!-- feature_grounding_property_value -->
-        <!-- feature for any symbol with property 'container_type' (currently only container.cc) -->
         <feature_grounding_property_value invert="0" key="container_type" symbol="group"/>
         <feature_grounding_property_value invert="0" key="container_type" symbol="row"/>
         <feature_grounding_property_value invert="0" key="container_type" symbol="column"/>
-        <!-- feature for any symbol with property 'object_type' (currently abstract_container.cc, object.cc, object_type.cc, and object_property.cc) -->
         <feature_grounding_property_value invert="0" key="object_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="object_type" symbol="table"/>
         <feature_grounding_property_value invert="0" key="object_type" symbol="block"/>
         <feature_grounding_property_value invert="0" key="object_type" symbol="robot"/>
         <feature_grounding_property_value invert="0" key="object_type" symbol="door"/>
-        <!-- feature for any symbol with property "region_type" (currently only region.cc)-->
         <feature_grounding_property_value invert="0" key="region_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="region_type" symbol="front"/>
         <feature_grounding_property_value invert="0" key="region_type" symbol="back"/>
@@ -649,18 +521,15 @@
         <feature_grounding_property_value invert="0" key="region_type" symbol="far"/>
         <feature_grounding_property_value invert="0" key="region_type" symbol="above"/>
         <feature_grounding_property_value invert="0" key="region_type" symbol="below"/>
-        <!-- feature for any symbol with property "constraint_type" (currently only constraint.cc-->
-     <feature_grounding_property_value invert="0" key="constraint_type" symbol="na"/>
+        <feature_grounding_property_value invert="0" key="constraint_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="constraint_type" symbol="inside"/>
         <feature_grounding_property_value invert="0" key="constraint_type" symbol="outside"/>
-        <!-- feature for any symbol with the property "index_type" (currently abstract_container.cc, index.cc and object_property.cc) -->
         <feature_grounding_property_value invert="0" key="index_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="index_type" symbol="first"/>
         <feature_grounding_property_value invert="0" key="index_type" symbol="second"/>
         <feature_grounding_property_value invert="0" key="index_type" symbol="third"/>
         <feature_grounding_property_value invert="0" key="index_type" symbol="fourth"/>
         <feature_grounding_property_value invert="0" key="index_type" symbol="fifth"/>
-        <!-- feature for any symbo with the property "number_value" (currently abstract_container.cc, number.cc and object_property.cc) -->
         <feature_grounding_property_value invert="0" key="number_value" symbol="na"/>
         <feature_grounding_property_value invert="0" key="number_value" symbol="one"/>
         <feature_grounding_property_value invert="0" key="number_value" symbol="two"/>
@@ -674,12 +543,10 @@
         <feature_grounding_property_value invert="0" key="number_value" symbol="ten"/>
         <feature_grounding_property_value invert="0" key="number_value" symbol="eleven"/>
         <feature_grounding_property_value invert="0" key="number_value" symbol="twelve"/>
-        <!-- feature  for any symbol with the property "object_color_type" (abstract_container.cc, and object_color.cc-->
         <feature_grounding_property_value invert="0" key="object_color_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="object_color_type" symbol="red"/>
         <feature_grounding_property_value invert="0" key="object_color_type" symbol="blue"/>
         <feature_grounding_property_value invert="0" key="object_color_type" symbol="yellow"/>
-      <!-- feature for any symbol with the property "spatial_relation_type" (object_property.cc and spatial_relation.cc)-->
         <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="na"/>
         <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="front"/>
         <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="back"/>
@@ -691,7 +558,6 @@
         <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="far"/>
         <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="above"/>
         <feature_grounding_property_value invert="0" key="spatial_relation_type" symbol="below"/>
-    <!-- feature_region_object_property_value -->
         <feature_region_object_property_value invert="0" key="object_type" symbol="na"/>
         <feature_region_object_property_value invert="1" key="object_type" symbol="na"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="robot"/>
@@ -712,9 +578,6 @@
         <feature_region_object_property_value invert="0" key="object_type" symbol="tube"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="tape"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="block"/>
-        <!-- feature_matches_child features -->
-        <!--feature_matches_child_abstract_container invert="0"/>
-        <feature_matches_child_abstract_container invert="1"/-->
         <feature_matches_child_constraint invert="0"/>
         <feature_matches_child_constraint invert="1"/>
         <feature_matches_child_container invert="0"/>
@@ -725,25 +588,8 @@
         <feature_matches_child_object_property invert="1"/>
         <feature_matches_child_region invert="0"/>
         <feature_matches_child_region invert="1"/>
-        <!--feature_matches_child_region_abstract_container invert="0"/>
-        <feature_matches_child_region_abstract_container invert="1"/-->
-        <!--feature_matches_child_region_container invert="0"/>
-        <feature_matches_child_region_container invert="1"/-->
         <feature_matches_child_spatial_relation invert="0"/>
         <feature_matches_child_spatial_relation invert="1"/>
-        <!-- FEATURES THAT HAVE NO CLASS OR TEMPLATE -->
-        <!--feature_object_type_type invert="0" type="na"/>
-        <feature_object_type_type invert="0" type="block"/>
-        <feature_object_type_type invert="0" type="table"/>
-        <feature_object_type_type invert="0" type="generic-robot"/>
-        <feature_object_type_type invert="0" type="door"/>
-        <feature_object_type_type invert="1" type="na"/>
-        <feature_object_type_type invert="1" type="block"/>
-        <feature_object_type_type invert="1" type="table"/>
-        <feature_object_type_type invert="1" type="generic-robot"/>
-        <feature_object_type_type invert="1" type="door"/-->
-        <!--feature_object_type_matches_child_abstract_container invert="0"/>
-        <feature_object_type_matches_child_abstract_container invert="1"/-->
       </feature_group>
     </feature_product>
   </feature_set>
