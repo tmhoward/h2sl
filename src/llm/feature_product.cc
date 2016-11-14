@@ -123,7 +123,7 @@
 #include "h2sl/feature_spatial_relation_matches_child.h"
 #include "h2sl/feature_grounding_property_value.h"
 #include "h2sl/feature_matches_child.h"
-
+#include "h2sl/feature_object_merge_object_property_spatial_relation.h"
 
 #include "h2sl/feature_type.h"
 #include "h2sl/feature_object_matches_child.h"
@@ -621,7 +621,10 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_number_equals_world_objects" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects() );
                   _feature_groups.back().back()->from_xml( l2 );
-              } else {
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_property_spatial_relation" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Object_Property_Merge_Object_Property_Spatial_Relation() );
+                  _feature_groups.back().back()->from_xml( l2 );
+	      } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
               } 

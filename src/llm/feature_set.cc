@@ -117,6 +117,7 @@
 #include "h2sl/feature_spatial_relation_matches_child.h"
 #include "h2sl/feature_grounding_property_value.h"
 #include "h2sl/feature_matches_child.h"
+#include "h2sl/feature_object_merge_object_property_spatial_relation.h"
 
 #include "h2sl/feature_type.h"
 #include "h2sl/feature_object_matches_child.h"
