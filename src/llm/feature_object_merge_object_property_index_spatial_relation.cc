@@ -1,5 +1,5 @@
 /**
- * @file feature_object_merge_object_property_spatial_relation.cc
+ * @file feature_object_merge_object_property_index_spatial_relation.cc
  *
  * @brief
  *
@@ -10,7 +10,7 @@
 #include <sstream>
 #include <algorithm>
 
-#include "h2sl/feature_object_merge_object_property_spatial_relation.h"
+#include "h2sl/feature_object_merge_object_property_index_spatial_relation.h"
 //#include "h2sl/object_property.h"
 #include "h2sl/object_property.h"
 #include "h2sl/spatial_relation.h"
@@ -21,35 +21,35 @@ using namespace std;
 using namespace h2sl;
 
 /**
- * Feature_Object_Merge_Object_Property_Spatial_Relation class constructor
+ * Feature_Object_Merge_Object_Property_Index_Spatial_Relation class constructor
  */
-Feature_Object_Merge_Object_Property_Spatial_Relation::
-Feature_Object_Merge_Object_Property_Spatial_Relation( const bool& invert ) : Feature( invert ) {
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation( const bool& invert ) : Feature( invert ) {
     
 }
 
 /**
- * Feature_Object_Merge_Object_Property_Spatial_Relation class destructor
+ * Feature_Object_Merge_Object_Property_Index_Spatial_Relation class destructor
  */
-Feature_Object_Merge_Object_Property_Spatial_Relation::
-~Feature_Object_Merge_Object_Property_Spatial_Relation() {
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
+~Feature_Object_Merge_Object_Property_Index_Spatial_Relation() {
     
 }
 
 /**
- * Feature_Object_Merge_Object_Property_Spatial_Relation class copy constructor
+ * Feature_Object_Merge_Object_Property_Index_Spatial_Relation class copy constructor
  */
-Feature_Object_Merge_Object_Property_Spatial_Relation::
-Feature_Object_Merge_Object_Property_Spatial_Relation( const Feature_Object_Merge_Object_Property_Spatial_Relation& other ) : Feature( other ) {
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation( const Feature_Object_Merge_Object_Property_Index_Spatial_Relation& other ) : Feature( other ) {
     
 }
 
 /**
- * Feature_Object_Merge_Object_Property_Spatial_Relation class assignment operator
+ * Feature_Object_Merge_Object_Property_Index_Spatial_Relation class assignment operator
  */
-Feature_Object_Merge_Object_Property_Spatial_Relation&
-Feature_Object_Merge_Object_Property_Spatial_Relation::
-operator=( const Feature_Object_Merge_Object_Property_Spatial_Relation& other ) {
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation&
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
+operator=( const Feature_Object_Merge_Object_Property_Index_Spatial_Relation& other ) {
     _invert = other._invert;
     return (*this);
 }
@@ -58,7 +58,7 @@ operator=( const Feature_Object_Merge_Object_Property_Spatial_Relation& other ) 
  * returns the value of the feature.
  */
 bool
-Feature_Object_Merge_Object_Property_Spatial_Relation::
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
 value( const unsigned int& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -68,7 +68,7 @@ value( const unsigned int& cv,
 }
 
 bool
-Feature_Object_Merge_Object_Property_Spatial_Relation::
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
 value( const unsigned int& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -110,11 +110,9 @@ value( const unsigned int& cv,
                     it2 = world->index_map().find( object_property_child.second->index() );
                     
                     if( it2->second < it1->second.size() ){
-                        for( unsigned int i = 0; i < it2->second; i++ ){
-                            if( *object == *it1->second[ i ] ){
+                            if( *object == *it1->second[ it2->second ] ){
                                 return !_invert;
                             }
-                        }
                     }
 
                 } else if ( spatial_relation_child.second->relation_type() == string( "far" ) ){
@@ -125,11 +123,9 @@ value( const unsigned int& cv,
                     it2 = world->index_map().find( object_property_child.second->index() );
                     
                     if( it2->second < it1->second.size() ){
-                        for( unsigned int i = 0; i < it2->second; i++ ){
-                            if( *object == *it1->second[ i ] ){
+                            if( *object == *it1->second[ it2->second ] ){
                                 return !_invert;
                             }
-                        }
                     }
 
                 } else if ( spatial_relation_child.second->relation_type() == string( "near" ) ){
@@ -140,26 +136,22 @@ value( const unsigned int& cv,
                     it2 = world->index_map().find( object_property_child.second->index() );
                     
                     if( it2->second < it1->second.size() ){
-                        for( unsigned int i = 0; i < it2->second; i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
+                          if( *object == *it1->second[ it2->second ] ){
+                              return !_invert;
+                          }
                     }
 
                 } else if ( spatial_relation_child.second->relation_type() == string( "left" ) ){
-                    map< string, vector< Object* > >::const_iterator it1 = world->min_y_sorted_objects().find( object_property_child.second->type() );
-                    assert( it1 != world->min_y_sorted_objects().end() );
+                    map< string, vector< Object* > >::const_iterator it1 = world->max_y_sorted_objects().find( object_property_child.second->type() );
+                    assert( it1 != world->max_y_sorted_objects().end() );
 
                     map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
                     assert( it2 != world->index_map().end() );
  
                     if( it2->second < it1->second.size() ){
-                        for( unsigned int i = 0; i < it2->second; i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
+                          if( *object == *it1->second[ it2->second ] ){
+                              return !_invert;
+                          }
                     }
 
                 } else if ( spatial_relation_child.second->relation_type() == string( "right" ) ){
@@ -170,10 +162,8 @@ value( const unsigned int& cv,
                     assert( it2 != world->index_map().end() );                   
  
                     if( it2->second < it1->second.size() ){
-                        for( unsigned int i = 0; i < it2->second; i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
+                        if( *object == *it1->second[ it2->second ] ){
+                          return !_invert;
                         }
                     }
                 } else if ( spatial_relation_child.second->relation_type() == string( "back") ){
@@ -184,11 +174,9 @@ value( const unsigned int& cv,
                     it2 = world->index_map().find( object_property_child.second->index() );
 
                     if( it2->second < it1->second.size() ){
-                        for( unsigned int i = 0; i < it2->second; i++ ){
-                            if( *object == *it1->second[ i ] ){
+                            if( *object == *it1->second[ it2->second ] ){
                                 return !_invert;
                             }
-                        }
                     }
 
                 } else if ( spatial_relation_child.second->relation_type() == string( "front" ) ){
@@ -199,11 +187,9 @@ value( const unsigned int& cv,
                     it2 = world->index_map().find( object_property_child.second->index() );
                     
                     if( it2->second < it1->second.size() ){
-                        for( unsigned int i = 0; i < it2->second; i++ ){
-                            if( *object == *it1->second[ i ] ){
+                            if( *object == *it1->second[ it2->second ] ){
                                 return !_invert;
                             }
-                        }
                     }
                }
                return _invert;
@@ -214,12 +200,12 @@ value( const unsigned int& cv,
 }
 
 /**
- * exports the Feature_Object_Merge_Object_Property_Spatial_Relation class to an XML file
+ * exports the Feature_Object_Merge_Object_Property_Index_Spatial_Relation class to an XML file
  */
 void
-Feature_Object_Merge_Object_Property_Spatial_Relation::
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-    xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_merge_object_property_spatial_relation" ), NULL );
+    xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_merge_object_property_index_spatial_relation" ), NULL );
     stringstream invert_string;
     invert_string << _invert;
     xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
@@ -228,10 +214,10 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
 }
 
 /**
- * imports the Feature_Object_Merge_Object_Property_Spatial_Relation class from an XML file
+ * imports the Feature_Object_Merge_Object_Property_Index_Spatial_Relation class from an XML file
  */
 void
-Feature_Object_Merge_Object_Property_Spatial_Relation::
+Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
 from_xml( xmlNodePtr root ){
     _invert = false;
     if( root->type == XML_ELEMENT_NODE ){
@@ -247,12 +233,12 @@ from_xml( xmlNodePtr root ){
 
 namespace h2sl {
     /**
-     * Feature_Object_Merge_Object_Property_Spatial_Relation class ostream operator
+     * Feature_Object_Merge_Object_Property_Index_Spatial_Relation class ostream operator
      */
     ostream&
     operator<<( ostream& out,
-               const Feature_Object_Merge_Object_Property_Spatial_Relation& other ) {
-        out << "class:\"Feature_Object_Merge_Object_Property_Spatial_Relation\" ";
+               const Feature_Object_Merge_Object_Property_Index_Spatial_Relation& other ) {
+        out << "class:\"Feature_Object_Merge_Object_Property_Index_Spatial_Relation\" ";
         return out;
     }
     

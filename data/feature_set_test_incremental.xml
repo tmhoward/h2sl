@@ -494,6 +494,9 @@
         <!-- feature_object_merge_object_property_spatial_relation -->
         <feature_object_merge_object_property_spatial_relation invert="0"/>
         <feature_object_merge_object_property_spatial_relation invert="1"/>
+        <!-- feature_object_merge_object_property_index_spatial_relation -->
+        <feature_object_merge_object_property_index_spatial_relation invert="0"/>
+        <feature_object_merge_object_property_index_spatial_relation invert="1"/>
         <!-- feature_object_matches_child_container_object -->
         <feature_object_matches_child_container_object invert="0"/>
         <feature_object_matches_child_container_object invert="1"/>
@@ -610,6 +613,9 @@
         <!-- feature_region_merge_partially_known_regions -->
         <feature_region_merge_partially_known_regions invert="0"/>
         <feature_region_merge_partially_known_regions invert="1"/>
+        <!-- feature_region_object_matches_child -->
+        <feature_region_object_matches_child invert="0"/>
+        <feature_region_object_matches_child invert="1"/>
       <!-- feature_region_object_property_value -->
         <feature_region_object_property_value invert="0" key="object_type" symbol="na"/>
         <feature_region_object_property_value invert="0" key="object_type" symbol="block"/>

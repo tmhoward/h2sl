@@ -30,14 +30,14 @@
     <PP>
       <grounding>
         <grounding_set>
-          <spatial_relation spatial_type="left"/>
+          <spatial_relation spatial_relation_type="left"/>
         </grounding_set>
       </grounding>
       <IN text="from" order="3"/>
       <NP>
         <grounding>
           <grounding_set>
-            <spatial_relation spatial_type="left"/>
+            <spatial_relation spatial_relation_type="left"/>
           </grounding_set>
         </grounding>
         <DT text="the" order="4"/>
