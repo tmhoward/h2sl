@@ -112,6 +112,7 @@ set(HDRS
     h2sl/feature_abstract_container_number_equals_world_objects.h
     h2sl/feature_object_merge_object_property_spatial_relation.h
     h2sl/feature_object_merge_object_property_index_spatial_relation.h
+    h2sl/feature_object_merge_object_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -216,6 +217,7 @@ set(SRCS
     feature_abstract_container_number_equals_world_objects.cc
     feature_object_merge_object_property_spatial_relation.cc
     feature_object_merge_object_property_index_spatial_relation.cc
+    feature_object_merge_object_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES

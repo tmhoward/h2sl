@@ -126,6 +126,7 @@
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_object_merge_object_property_spatial_relation.h"
 #include "h2sl/feature_object_merge_object_property_index_spatial_relation.h"
+#include "h2sl/feature_object_merge_object_container.h"
 
 #include "h2sl/feature_type.h"
 #include "h2sl/feature_object_matches_child.h"
@@ -630,6 +631,9 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_property_index_spatial_relation" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Index_Spatial_Relation() );
+                  _feature_groups.back().back()->from_xml( l2 );
+	      } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_container" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Object_Merge_Object_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
 	      } else {
                 cout << "could not load feature " << l2->name << endl;
