@@ -142,8 +142,8 @@ value( const unsigned int& cv,
                     }
 
                 } else if ( spatial_relation_child.second->relation_type() == string( "left" ) ){
-                    map< string, vector< Object* > >::const_iterator it1 = world->max_y_sorted_objects().find( object_property_child.second->type() );
-                    assert( it1 != world->max_y_sorted_objects().end() );
+                    map< string, vector< Object* > >::const_iterator it1 = world->min_y_sorted_objects().find( object_property_child.second->type() );
+                    assert( it1 != world->min_y_sorted_objects().end() );
 
                     map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
                     assert( it2 != world->index_map().end() );
