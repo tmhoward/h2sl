@@ -622,7 +622,7 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_property_spatial_relation" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Object_Property_Merge_Object_Property_Spatial_Relation() );
+                  _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation() );
                   _feature_groups.back().back()->from_xml( l2 );
 	      } else {
                 cout << "could not load feature " << l2->name << endl;

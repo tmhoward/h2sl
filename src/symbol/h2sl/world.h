@@ -119,11 +119,11 @@ namespace h2sl {
 
     // Conversion of number strings to numeric values
     inline std::map< std::string, unsigned int>& numeric_map( void ){ return _numeric_map; };
-    inline std::map< std::string, unsigned int> numeric_map( void )const{ return _numeric_map; };
+    inline const std::map< std::string, unsigned int>& numeric_map( void )const{ return _numeric_map; };
       
     // Conversion of index strings to index values
     inline std::map< std::string, unsigned int>& index_map( void ){ return _index_map; };
-    inline std::map< std::string, unsigned int> index_map( void )const{ return _index_map; };
+    inline const std::map< std::string, unsigned int>& index_map( void )const{ return _index_map; };
 
     // Convert model format.
     virtual void convert_models( xmlNodePtr root );

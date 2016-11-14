@@ -48,9 +48,12 @@ using namespace h2sl;
 World::
 World( const unsigned long long& time,
         const std::vector< Object* >& objects ) : _time( time ),
-                                              _objects( objects ) {
+                                              _objects( objects ),
+                                              _numeric_map(),
+                                              _index_map() {
   initialise_sorted_object_collections();
   initialise_numeric_map(); 
+  initialise_index_map(); 
 }
 
 /**
@@ -101,7 +104,9 @@ World( const World& other ) : _time( other._time ),
                               _min_distance_sorted_objects( other._min_distance_sorted_objects ),
                               _max_distance_sorted_objects( other._max_distance_sorted_objects ),
                               _min_center_distance_sorted_objects( other._min_center_distance_sorted_objects ),
-                              _max_center_distance_sorted_objects( other._max_center_distance_sorted_objects ) {
+                              _max_center_distance_sorted_objects( other._max_center_distance_sorted_objects ),
+                              _numeric_map( other._numeric_map ),
+                              _index_map( other._index_map ) {
 
 }
 
@@ -126,6 +131,8 @@ operator=( const World& other ) {
   _max_distance_sorted_objects = other._max_distance_sorted_objects;
   _min_center_distance_sorted_objects = other._min_center_distance_sorted_objects;
   _max_center_distance_sorted_objects = other._max_center_distance_sorted_objects;
+  _numeric_map = other._numeric_map;
+  _index_map = other._index_map;
   return (*this);
 }
 
@@ -684,6 +691,7 @@ void
 World::
 initialise_numeric_map( void ) {
 // Values are used as indices. Hence subtracting one.
+  _numeric_map.clear();
   _numeric_map.insert( std::pair< std::string, unsigned int > ( "one",0 )  );
   _numeric_map.insert( std::pair< std::string, unsigned int > ( "two",1 )  );
   _numeric_map.insert( std::pair< std::string, unsigned int > ( "three",2 )  );
@@ -704,6 +712,7 @@ initialise_numeric_map( void ) {
 void
 World::
 initialise_index_map( void ) {
+  _index_map.clear();
 // Values are used as indices. Hence subtracting one.
     _index_map.insert( std::pair< std::string, unsigned int > ( "first",0 )  );
     _index_map.insert( std::pair< std::string, unsigned int > ( "second",1 )  );

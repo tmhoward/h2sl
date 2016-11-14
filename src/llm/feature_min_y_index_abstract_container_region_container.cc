@@ -104,9 +104,10 @@ value( const unsigned int& cv,
             it = world->min_y_sorted_objects().find( abstract_container_child->type() );
 
             if ( it != world->min_y_sorted_objects().end() ) {
-              unsigned int index_val = world->index_map()[ abstract_container_child->index() ]; 
-              if( index_val < it->second.size() ){
-                if( *object_grounding == *it->second[ index_val ] ){
+              map< string, unsigned int >::const_iterator itindex = world->index_map().find( abstract_container_child->index() );
+              assert( itindex != world->index_map().end() );
+              if( itindex->second < it->second.size() ){
+                if( *object_grounding == *it->second[ itindex->second ] ){
                   return !_invert;
                 } else {
                   return _invert;

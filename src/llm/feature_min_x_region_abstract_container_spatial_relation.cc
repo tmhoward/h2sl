@@ -119,7 +119,9 @@ value( const unsigned int& cv,
           if (it != world->min_x_sorted_objects().end() ) {
             for (unsigned int i = 0; i < it->second.size(); i++ ) {
               if ( *object_grounding == *(it->second[ i ]) ) {
-                if( i < world->numeric_map()[ region_abstract_container_child->abstract_container().number() ] ){
+                map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( region_abstract_container_child->abstract_container().number() );
+                assert( itnum != world->numeric_map().end() );
+                if( i < itnum->second ){
                   return !_invert;
                 } else {
                   return _invert;

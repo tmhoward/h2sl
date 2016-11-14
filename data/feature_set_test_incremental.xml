@@ -491,6 +491,9 @@
         <!-- feature_min_y_object -->
         <feature_min_y_object invert="0"/>
         <feature_min_y_object invert="1"/>
+        <!-- feature_object_merge_object_property_spatial_relation -->
+        <feature_object_merge_object_property_spatial_relation invert="0"/>
+        <feature_object_merge_object_property_spatial_relation invert="1"/>
         <!-- feature_object_matches_child_container_object -->
         <feature_object_matches_child_container_object invert="0"/>
         <feature_object_matches_child_container_object invert="1"/>
