@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(h2sl)
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR} CACHE PATH "default install prefix" FORCE)
+endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
 OPTION(BUILD_SHARED_LIBS "build dynamic libraries" OFF)
 
@@ -22,9 +25,11 @@ elseif(UNIX)
   add_definitions(-Wall -Wno-unused-but-set-variable -g -O3)
 endif()
 
+message("PROJECT_SOURCE_DIR:${PROJECT_SOURCE_DIR}")
+
 #add configure_file for GLib
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_BINARY_DIR}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/)
-configure_file(${CMAKE_BINARY_DIR}/../cmake/FindGLib.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/FindGLib.cmake @ONLY)
+configure_file(${PROJECT_SOURCE_DIR}/cmake/FindGLib.cmake.in ${CMAKE_INSTALL_PREFIX}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules/FindGLib.cmake @ONLY)
 
 
 # add the include directories to the build
