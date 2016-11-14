@@ -6,7 +6,7 @@
     <grammar_terminal symbol="DT" words="the"/>
     <grammar_terminal symbol="EX" words=""/>
     <grammar_terminal symbol="FW" words=""/>
-    <grammar_terminal symbol="IN" words="in,of,from,to,near,behind"/>
+    <grammar_terminal symbol="IN" words="in,of,from,near,behind"/>
     <grammar_terminal symbol="JJ" words="middle,second"/>
     <grammar_terminal symbol="JJR" words=""/>
     <grammar_terminal symbol="JJS" words=""/>
@@ -25,7 +25,7 @@
     <grammar_terminal symbol="RBS" words=""/>
     <grammar_terminal symbol="RP" words=""/>
     <grammar_terminal symbol="SYM" words=""/>
-    <grammar_terminal symbol="TO" words=""/>
+    <grammar_terminal symbol="TO" words="to"/>
     <grammar_terminal symbol="UH" words=""/>
     <grammar_terminal symbol="VB" words="go,walk,drive"/>
     <grammar_terminal symbol="VBD" words=""/>
@@ -62,7 +62,7 @@
     <grammar_non_terminal root="PP" children="IN,NP"/>
     <grammar_non_terminal root="VP" children="VB,PP"/>
     <grammar_non_terminal root="PP" children="IN,NP"/>
-    <grammar_non_terminal root="PP" children="IN,NP"/>
+    <grammar_non_terminal root="PP" children="TO,NP"/>
     <grammar_non_terminal root="VP" children="VB,PP"/>
     <grammar_non_terminal root="NP" children="CD,NNS"/>
     <grammar_non_terminal root="NP" children="DT,X1"/><!--Placeholder node for the above, commented-out rules -->

@@ -80,7 +80,21 @@ compare_phrases( const Phrase* first,
     if( ( first_grounding_set != NULL ) && ( second_grounding_set != NULL ) ){
       if( first_grounding_set->groundings().size() == second_grounding_set->groundings().size() ){
         for( unsigned int i = 0; i < first_grounding_set->groundings().size(); i++ ){
-          if( dynamic_cast< const Constraint* >( first_grounding_set->groundings()[ i ] ) != NULL ){
+          if( dynamic_cast< const Object* >( first_grounding_set->groundings()[ i ] ) != NULL ){
+            const Object* first_grounding_object = static_cast< const Object* >( first_grounding_set->groundings()[ i ] );
+            bool found_match = false;
+            for( unsigned int j = 0; j < second_grounding_set->groundings().size(); j++ ){
+              if( dynamic_cast< const Object* >( second_grounding_set->groundings()[ j ] ) != NULL ){
+                const Object* second_grounding_object = static_cast< const Object* >( second_grounding_set->groundings()[ j ] );
+                if( *first_grounding_object == *second_grounding_object ){
+                  found_match = true;
+                }
+              }
+            }
+            if( !found_match ){
+              return false;
+            }
+          } else if( dynamic_cast< const Constraint* >( first_grounding_set->groundings()[ i ] ) != NULL ){
             const Constraint* first_grounding_constraint = static_cast< const Constraint* >( first_grounding_set->groundings()[ i ] );
             bool found_match = false;
             for( unsigned int j = 0; j < second_grounding_set->groundings().size(); j++ ){
