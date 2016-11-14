@@ -167,7 +167,7 @@
         <feature_constraint_reference_type invert="1" reference_type="above"/>
         <feature_constraint_reference_type invert="1" reference_type="below"/>
         <!-- feature_container_dominant_x_shape -->
-        <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+        <!--feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -196,9 +196,9 @@
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
+        <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/-->
    <!-- feature_container_dominant_y_shape -->
-        <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+        <!--feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -227,9 +227,9 @@
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
+        <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/-->
         <!-- feature_container_dominant_z_shape -->
-        <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+        <!--feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -258,9 +258,9 @@
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
+        <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/-->
      <!-- feature_container_non_dominant_xyz -->
-        <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+        <!--feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -289,7 +289,7 @@
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
+        <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/-->
         <!-- feature_container_is_empty -->
         <feature_container_is_empty invert="0"/>
         <feature_container_is_empty invert="1"/>
