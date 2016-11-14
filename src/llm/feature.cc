@@ -128,6 +128,9 @@
 #include "h2sl/feature_abstract_container_number_equals_world_objects.h"
 #include "h2sl/feature_object_merge_object_property_spatial_relation.h"
 
+#include "h2sl/feature_object_merge_object_container.h"
+
+
 #include "h2sl/feature.h"
 
 using namespace std;
@@ -350,6 +353,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Container* >( &other );
     } else {
       assert( false );
     } 

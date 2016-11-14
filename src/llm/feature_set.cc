@@ -131,6 +131,8 @@
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_abstract_container_number_equals_world_objects.h"
 
+#include "h2sl/feature_object_merge_object_container.h"
+
 using namespace std;
 using namespace h2sl;
 

@@ -74,7 +74,89 @@ value( const unsigned int& cv,
       const h2sl::Phrase* phrase,
       const World* world,
       const Grounding* context ){
-    
+      const Object * object = dynamic_cast< const Object* >( grounding );
+
+    if( ( object != NULL ) && ( !children.empty() ) ){
+      pair< const Phrase*, const Object* > object_child( NULL, NULL );
+      pair< const Phrase*, const Container* > container_child( NULL, NULL );
+      
+      for( unsigned int i = 0; i < children.size(); i++ ){
+        for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+          if ( dynamic_cast< const Container* >( children[ i ].second[ j ] ) != NULL ){
+            container_child.first = children[ i ].first;
+            container_child.second = static_cast< const Container* >( children[ i ].second[ j ] );
+          }
+        }
+      }
+
+      for( unsigned int i = 0; i < children.size(); i++ ){
+        if( children[ i ].first != container_child.first ){
+          for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+            if( dynamic_cast< const Object* >( children[ i ].second[ j ] ) != NULL ){
+              object_child.first = children[ i ].first;
+              object_child.second = static_cast< const Object* >( children[ i ].second[ j ] );
+            }
+          }
+        }
+      }
+
+      if( ( object_child.first != NULL ) && ( object_child.second != NULL ) && ( container_child.first != NULL ) && ( container_child.second != NULL ) ){ 
+        if( ( object_child.first->min_word_order() < container_child.first->min_word_order() ) && ( !container_child.second->container().empty() ) ){
+
+          vector< Grounding* >sorted_objects_grounding = container_child.second->container();
+          vector< Object* > sorted_objects; 
+          for ( unsigned int i = 0; i < sorted_objects_grounding.size(); ++i ) {
+            if ( dynamic_cast< Object* >( sorted_objects_grounding[ i ]) != NULL ) {
+              sorted_objects.push_back( dynamic_cast< Object* >( sorted_objects_grounding[ i ]) );
+            } 
+          }
+
+          map< string, vector< Object* > >::const_iterator it;
+ 
+          it = world->max_distance_sorted_objects().find( object_child.second->type() );
+          if ( it != world->max_distance_sorted_objects().end() ) {
+            if( *object_child.second == *it->second[ 0 ] ) {
+              std::sort( sorted_objects.begin(), sorted_objects.end(), World::max_distance_sort );
+              // look for the max distance object from within the container
+              if( *object == *sorted_objects[ 0 ] ){
+                return !_invert;
+              }
+            }
+
+            if( *object_child.second == *it->second[ 1 ] ) {
+              std::sort( sorted_objects.begin(), sorted_objects.end(), World::max_distance_sort );
+              // look for the max distance object from within the container
+              if( *object == *sorted_objects[ 1 ] ){
+                return !_invert;
+              }
+            }
+
+          }  
+
+          it = world->min_distance_sorted_objects().find( object_child.second->type() );
+          if ( it != world->min_distance_sorted_objects().end() ) {
+            if( *object_child.second == *it->second[ 0 ] ) {
+              std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_distance_sort );
+              // look for the min distance object from within the container
+              if( *object == *sorted_objects[ 0 ] ){
+                return !_invert;
+              }
+            }
+
+            if( *object_child.second == *it->second[ 1 ] ) {
+              std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_distance_sort );
+              // look for the min distance object from within the container
+              if( *object == *sorted_objects[ 1 ] ){
+                return !_invert;
+              }
+            }
+
+          }   
+        }
+        return _invert;
+      }
+    }
+    return false;    
 }
 
 /*bool
@@ -111,26 +193,26 @@ value( const unsigned int& cv,
       if( ( object_child.first != NULL ) && ( object_child.second != NULL ) && ( container_child.first != NULL ) && ( container_child.second != NULL ) ){ 
         if( ( object_child.first->min_word_order() < container_child.first->min_word_order() ) && ( !container_child.second->container().empty() ) ){
           vector< Object* > sorted_objects = container_child.second->container();
-          const World * h2sl_nsf_nri_mvli_world = dynamic_cast< const World* >( world );
-          if( *object_child.second == *h2sl_nsf_nri_mvli_world->max_distance_sorted_objects()[ object_child.second->type() ][ 0 ] ){
+          const World * world = dynamic_cast< const World* >( world );
+          if( *object_child.second == *world->max_distance_sorted_objects()[ object_child.second->type() ][ 0 ] ){
             std::sort( sorted_objects.begin(), sorted_objects.end(), World::max_distance_sort );
             // look for the max distance object from within the container
             if( *object == *sorted_objects[ 0 ] ){
               return !_invert;
             }
-          } else if( *object_child.second == *h2sl_nsf_nri_mvli_world->max_distance_sorted_objects()[ object_child.second->type() ][ 1 ] ){
+          } else if( *object_child.second == *world->max_distance_sorted_objects()[ object_child.second->type() ][ 1 ] ){
             std::sort( sorted_objects.begin(), sorted_objects.end(), World::max_distance_sort );
             // look for the max distance object from within the container
             if( *object == *sorted_objects[ 1 ] ){
               return !_invert;
             }
-          } else if( *object_child.second == *h2sl_nsf_nri_mvli_world->min_distance_sorted_objects()[ object_child.second->type() ][ 0 ] ){
+          } else if( *object_child.second == *world->min_distance_sorted_objects()[ object_child.second->type() ][ 0 ] ){
             std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_distance_sort );
             // look for the max distance object from within the container
             if( *object == *sorted_objects[ 0 ] ){
               return !_invert;
             }
-          } else if( *object_child.second == *h2sl_nsf_nri_mvli_world->min_distance_sorted_objects()[ object_child.second->type() ][ 1 ] ){
+          } else if( *object_child.second == *world->min_distance_sorted_objects()[ object_child.second->type() ][ 1 ] ){
             std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_distance_sort );
             // look for the max distance object from within the container
             if( *object == *sorted_objects[ 1 ] ){
