@@ -1100,6 +1100,18 @@
         <feature_object_type_type invert="1" type="door"/-->
         <!--feature_object_type_matches_child_abstract_container invert="0"/>
         <feature_object_type_matches_child_abstract_container invert="1"/-->
+        <feature_object_matches_child_region invert="0"/>
+        <feature_object_matches_child_region invert="1"/>
+        <feature_matches_child_object invert="0"/>
+        <feature_matches_child_object invert="1"/>
+        <feature_constraint_parent_matches_child_region invert="0"/>
+        <feature_constraint_parent_matches_child_region invert="1"/>
+        <feature_constraint_child_matches_child_region invert="0"/>
+        <feature_constraint_child_matches_child_region invert="1"/>
+        <feature_constraint_parent_is_robot invert="0"/>
+        <feature_constraint_parent_is_robot invert="1"/>
+        <feature_constraint_child_is_robot invert="0"/>
+        <feature_constraint_child_is_robot invert="1"/>
       </feature_group>
     </feature_product>
   </feature_set>
