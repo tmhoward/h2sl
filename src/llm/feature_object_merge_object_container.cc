@@ -107,7 +107,7 @@ value( const unsigned int& cv,
           vector< Object* > sorted_objects; 
           for ( unsigned int i = 0; i < sorted_objects_grounding.size(); ++i ) {
             if ( dynamic_cast< Object* >( sorted_objects_grounding[ i ]) != NULL ) {
-              sorted_objects.push_back( dynamic_cast< Object* >( sorted_objects_grounding[ i ]) );
+              sorted_objects.push_back( static_cast< Object* >( sorted_objects_grounding[ i ]) );
             } 
           }
 
