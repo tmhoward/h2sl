@@ -107,14 +107,16 @@ value( const unsigned int& cv,
     if (container_child != NULL) {
       if (spatial_relation_child != NULL ) {
         if (spatial_relation_child->relation_type() == _relation_type ) {
-          if (dynamic_cast< const Object* >(container_child->container().front()) != NULL) {
-            if (!container_child->container().empty()) {
-              vector< Grounding* > container_child_objects = container_child->container();
-              sort( container_child_objects.begin(), container_child_objects.end(), min_distance_sort_container );
-              if( *object_grounding == *dynamic_cast< const Object* >(container_child_objects.front()) ){
-                return !_invert;
-              } else {
-                return _invert;
+          if( !container_child->container().empty() ){
+            if (dynamic_cast< const Object* >(container_child->container().front()) != NULL) {
+              if (!container_child->container().empty()) {
+                vector< Grounding* > container_child_objects = container_child->container();
+                sort( container_child_objects.begin(), container_child_objects.end(), min_distance_sort_container );
+                if( *object_grounding == *dynamic_cast< const Object* >(container_child_objects.front()) ){
+                  return !_invert;
+                } else {
+                  return _invert;
+                }
               }
             }
           }

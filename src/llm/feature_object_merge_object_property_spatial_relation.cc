@@ -112,7 +112,6 @@ value( const unsigned int& cv,
                     if( it2->second < it1->second.size() ){
                         for( unsigned int i = 0; i < it2->second; i++ ){
                             if( *object == *it1->second[ i ] ){
-                                assert( false );
                                 return !_invert;
                             }
                         }
