@@ -590,6 +590,8 @@
         <feature_matches_child_region invert="1"/>
         <feature_matches_child_spatial_relation invert="0"/>
         <feature_matches_child_spatial_relation invert="1"/>
+        <feature_object_merge_object_container invert="0"/>
+        <feature_object_merge_object_container invert="1"/>
       </feature_group>
     </feature_product>
   </feature_set>

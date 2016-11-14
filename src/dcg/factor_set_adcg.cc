@@ -223,12 +223,10 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         observed_true_solution_vectors.push_back( solutions_vector.back()[ k ].cv[ CV_TRUE ] );
         observed_object_vectors.push_back( vector< Object* >() );
 
-        cout << "solutions_vector.back()[" << k << "].cv[ CV_TRUE ].size():" << solutions_vector.back()[ k ].cv[ CV_TRUE ].size() << endl;
         for( unsigned int m = 0; m < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); m++ ){
           if( dynamic_cast< Object* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
             observed_object_vectors.back().push_back( static_cast< Object* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) );
           } else if ( dynamic_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            cout << "found Index:" << *static_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) << endl;
             string tmp = static_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->index_type();
             if( find( observed_indices.begin(), observed_indices.end(), tmp ) == observed_indices.end() ){
               observed_indices.push_back( tmp );
@@ -239,7 +237,6 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
               observed_numbers.push_back( tmp_number );
             }
           } else if ( dynamic_cast< Object_Type* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            cout << "found Object_Type:" << *static_cast< Object_Type* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) << endl;
             string tmp_object_type = static_cast< Object_Type* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->type();
             if( find( observed_object_types.begin(), observed_object_types.end(), tmp_object_type ) == observed_object_types.end() ){
               observed_object_types.push_back( tmp_object_type );
@@ -250,7 +247,6 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
               observed_object_colors.push_back( tmp_object_color );
             }
           } else if ( dynamic_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            cout << "found Spatial_Relation:" << *static_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) << endl;
             string tmp_spatial_relation = static_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->relation_type();
             if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
               observed_spatial_relations.push_back( tmp_spatial_relation );
@@ -405,33 +401,6 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         }
       }   
     }
-
-    cout << "observed_object_types[" << observed_object_types.size() << "]:{";
-    for( unsigned int i = 0; i < observed_object_types.size(); i++ ){
-      cout << observed_object_types[ i ];
-      if( i != ( observed_object_types.size() - 1 ) ){
-        cout << ",";
-      }
-    }
-    cout << "}" << endl;
-
-    cout << "observed_spatial_relations[" << observed_spatial_relations.size() << "]:{";
-    for( unsigned int i = 0; i < observed_spatial_relations.size(); i++ ){
-      cout << observed_spatial_relations[ i ];
-      if( i != ( observed_spatial_relations.size() - 1 ) ){
-        cout << ",";
-      }
-    }
-    cout << "}" << endl;
-
-    cout << "observed_indices[" << observed_indices.size() << "]:{";
-    for( unsigned int i = 0; i < observed_indices.size(); i++ ){
-      cout << observed_indices[ i ];
-      if( i != ( observed_indices.size() - 1 ) ){
-        cout << ",";
-      }
-    }
-    cout << "}" << endl;
 
    // Create the space of Object Property symbols.
     for( unsigned int j = 0; j < observed_object_types.size(); j++ ){

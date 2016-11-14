@@ -240,15 +240,13 @@ fill_search_spaces( const World* world ){
   // Constraints
   for( unsigned int i = 0; i < constraint.size(); i++ ) {
     for( unsigned int j = 0; j < payload.size(); j++ ) {
-      for( unsigned int k = 0; k < spatial_relation.size(); k++ ) {
-        for( unsigned int l = 0; l < world->objects().size(); l++ ) {
-          for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
-            _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraint[ i ], 
-  											   payload[ j ], spatial_relation[ k ], 
-											   world->objects()[ l ]->name(), spatial_relation[ m ] ) ) );  
-          }  
-        } 
-      }  
+      for( unsigned int l = 0; l < world->objects().size(); l++ ) {
+        for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
+          _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraint[ i ], 
+  											   payload[ j ], 
+											   world->objects()[ l ]->name(), spatial_relation[ m ] ) ) ); 
+        }  
+      } 
     } 
   }
 
