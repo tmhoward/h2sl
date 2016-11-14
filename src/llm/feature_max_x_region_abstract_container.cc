@@ -91,24 +91,23 @@ value( const unsigned int& cv,
         const h2sl::Phrase* phrase,
         const World* world,
         const Grounding* context ){
-  Region_Abstract_Container* region_abstract_container_child = NULL;
-  Container* container_child = NULL;
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
-
-  for( unsigned int i = 0; i < children.size(); i++ ){
-    for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-      if( dynamic_cast< Region_Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
-        region_abstract_container_child = static_cast< Region_Abstract_Container* >( children[ i ].second[ j ] );
-      } else if ( dynamic_cast< Container* >( children[ i ].second[ j ] ) != NULL ){
-        container_child = static_cast< Container* >( children[ i ].second[ j ] );
+  if( object_grounding != NULL ){
+    Region_Abstract_Container* region_abstract_container_child = NULL;
+    Container* container_child = NULL;
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if( dynamic_cast< Region_Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
+          region_abstract_container_child = static_cast< Region_Abstract_Container* >( children[ i ].second[ j ] );
+        } else if ( dynamic_cast< Container* >( children[ i ].second[ j ] ) != NULL ){
+          container_child = static_cast< Container* >( children[ i ].second[ j ] );
+        }
       }
     }
-  }
     
-  if( region_abstract_container_child != NULL ){
-    if( container_child != NULL ){
-      if( container_child->type() == _relation_type ){
-        if( object_grounding != NULL ){
+    if( region_abstract_container_child != NULL ){
+      if( container_child != NULL ){
+        if( container_child->type() == _relation_type ){
           map< string, vector< Object* > >::const_iterator it;
           it  = world->max_x_sorted_objects().find( region_abstract_container_child->abstract_container().type() );
           if (it != world->max_x_sorted_objects().end() ) {

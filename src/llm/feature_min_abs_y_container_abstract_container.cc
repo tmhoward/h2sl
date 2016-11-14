@@ -98,66 +98,68 @@ value( const unsigned int& cv,
         const h2sl::Phrase* phrase,
         const World* world,
         const Grounding* context ){
-  Abstract_Container* abstract_container_child = NULL;
-  Spatial_Relation* spatial_relation_child = NULL;
   const Container* container = dynamic_cast< const Container* >( grounding );
+  if( container != NULL ){
+    Abstract_Container* abstract_container_child = NULL;
+    Spatial_Relation* spatial_relation_child = NULL;
 
-  for( unsigned int i = 0; i < children.size(); i++ ){
-    for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-      if( dynamic_cast< Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
-        abstract_container_child = static_cast< Abstract_Container* >( children[ i ].second[ j ] );
-      } else if ( dynamic_cast< Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
-        spatial_relation_child = static_cast< Spatial_Relation* >( children[ i ].second[ j ] );
-      }
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if( dynamic_cast< Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
+          abstract_container_child = static_cast< Abstract_Container* >( children[ i ].second[ j ] );
+        } else if ( dynamic_cast< Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
+          spatial_relation_child = static_cast< Spatial_Relation* >( children[ i ].second[ j ] );
+        }
+      } 
     } 
-  } 
     
-  // Check all the conditions where the feature does not apply.a
-  // Return false.
-  if ((abstract_container_child == NULL) || (spatial_relation_child == NULL)
-     || (container == NULL) || ( dynamic_cast< const Object* >(container->container().front()) == NULL )
-     || (spatial_relation_child->relation_type() != _relation_type)) {
-    return false;
-  }
-    
-  // Create vector.
-  // Fill in objects from the world that match AC object type.
-  vector< Object* > type_matched_obj;
-  for( unsigned int i = 0; i < world->objects().size(); i++ ) {
-    if( world->objects()[ i ]->type() == abstract_container_child->type() ) {
-        type_matched_obj.push_back( world->objects()[ i ] );
+    // Check all the conditions where the feature does not apply.a
+    // Return false.
+    if ((abstract_container_child == NULL) || (spatial_relation_child == NULL)
+      || ( dynamic_cast< const Object* >(container->container().front()) == NULL )
+      || (spatial_relation_child->relation_type() != _relation_type)) {
+      return false;
     }
-  }
     
-  // Sort according to the y-coordinate.
-  // Different types of sort functions imply different predictors.
-  sort( type_matched_obj.begin(), type_matched_obj.end(),
+    // Create vector.
+    // Fill in objects from the world that match AC object type.
+    vector< Object* > type_matched_obj;
+    for( unsigned int i = 0; i < world->objects().size(); i++ ) {
+      if( world->objects()[ i ]->type() == abstract_container_child->type() ) {
+        type_matched_obj.push_back( world->objects()[ i ] );
+      }
+    }
+    
+    // Sort according to the y-coordinate.
+    // Different types of sort functions imply different predictors.
+    sort( type_matched_obj.begin(), type_matched_obj.end(),
          min_abs_y_sort_container_abstract_container );
     
-  // Check upto the number of elements implied by the AC in the object match array.
-  // if they match with any of the objects in the container grounding.
-  unsigned int ac_number_value = world->numeric_map()[ abstract_container_child->number() ];
-  if (container->container().size() == ac_number_value) {
-    bool allObjectsFound = true;
-    bool isEqual = false;
-    for (unsigned int i = 0; i < ac_number_value; ++i) {
-      isEqual = false;
-      for (unsigned int j = 0; j < container->container().size(); j++) {
-        if (*type_matched_obj[ i ] == *dynamic_cast< const Object* >(container->container()[ j ])) {
-          isEqual = true;
+    // Check upto the number of elements implied by the AC in the object match array.
+    // if they match with any of the objects in the container grounding.
+    unsigned int ac_number_value = world->numeric_map()[ abstract_container_child->number() ];
+    if (container->container().size() == ac_number_value) {
+      bool allObjectsFound = true;
+      bool isEqual = false;
+      for (unsigned int i = 0; i < ac_number_value; ++i) {
+        isEqual = false;
+        for (unsigned int j = 0; j < container->container().size(); j++) {
+          if (*type_matched_obj[ i ] == *dynamic_cast< const Object* >(container->container()[ j ])) {
+            isEqual = true;
+          }
+        }
+        // If an object is not found in the container
+        // Then set the flag to false.
+        if (!isEqual) {
+          allObjectsFound = false;
         }
       }
-      // If an object is not found in the container
-      // Then set the flag to false.
-      if (!isEqual) {
-        allObjectsFound = false;
-      }
-    }
-    // The feature fires if all the objects are found.
-    if (allObjectsFound) {
+      // The feature fires if all the objects are found.
+      if (allObjectsFound) {
         return !_invert;
-    } else {
+      } else {
         return _invert;
+      }
     }
   }
   return false;
