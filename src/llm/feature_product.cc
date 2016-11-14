@@ -438,7 +438,8 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().push_back( new Feature_Is_Spatial_Relation() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Container_Number( l2 ) );
+                  _feature_groups.back().push_back( new Feature_Container_Number() );
+                  _feature_groups.back().back()->from_xml( l2 );
               //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number_equals_world_objects" ) ) == 0 ){
               //    _feature_groups.back().push_back( new Feature_Container_Number_Equals_World_Objects() );
               //    _feature_groups.back().back()->from_xml( l2 );
@@ -452,11 +453,14 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().push_back( new Feature_Object_Property_Merge_Object_Property_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_has_pos_tag" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Phrase_Has_POS_Tag( l2 ) );
+                  _feature_groups.back().push_back( new Feature_Phrase_Has_POS_Tag() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_has_single_pos_tag" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Phrase_Has_Single_POS_Tag( l2 ) );
+                  _feature_groups.back().push_back( new Feature_Phrase_Has_Single_POS_Tag() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_has_ordered_pos_tag_pair" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Phrase_Has_Ordered_POS_Tag_Pair( l2 ) );
+                  _feature_groups.back().push_back( new Feature_Phrase_Has_Ordered_POS_Tag_Pair() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_merge_object_property_spatial_relation" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Object_Property_Merge_Object_Property_Spatial_Relation() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -473,7 +477,8 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().push_back( new Feature_Container_Merge_Container_Spatial_Relation() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_merge_container_spatial_relation" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Region_Container_Merge_Container_Spatial_Relation( l2 ) );
+                  _feature_groups.back().push_back( new Feature_Region_Container_Merge_Container_Spatial_Relation() );
+                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_container_matches_child_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Container_Container_Matches_Child_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
