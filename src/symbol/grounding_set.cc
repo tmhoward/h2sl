@@ -237,16 +237,6 @@ evaluate_cv( const Grounding* grounding )const{
         }
       }
     }
- // } else if( dynamic_cast< const Action* >( grounding ) != NULL ){
-    //const Action* action_grounding = static_cast< const Action* >( grounding );
-    //cv = CV_FALSE;
-    //for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      //if( dynamic_cast< const Action* >( _groundings[ i ] ) ){
-       // if( *action_grounding == *static_cast< const Action* >( _groundings[ i ] ) ){
-       //   cv = CV_TRUE;
-       // }
-    //  }
-  //  }
   } else if( dynamic_cast< const Region_Container* >( grounding ) != NULL ){
     const Region_Container* region_container_grounding = static_cast< const Region_Container* >( grounding );
     cv = CV_FALSE;

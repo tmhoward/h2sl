@@ -152,7 +152,7 @@ fill_search_spaces( const World* world ){
   object_type.push_back( "na" );
   object_type.push_back( "block" );
   object_type.push_back( "table" );
-  object_type.push_back( "generic-robot" );
+  object_type.push_back( "robot" );
   object_type.push_back( "door" );
   //object_type.push_back( "ycb-can" );
   //object_type.push_back( "ycb-box" );
@@ -252,10 +252,10 @@ fill_search_spaces( const World* world ){
   // Constraints
   for( unsigned int i = 0; i < _symbol_types[ string( "constraint") ].size(); i++ ) {
     for( unsigned int j = 0; j < _symbol_types[ string( "payload" ) ].size(); j++ ) {
-      for( unsigned int k = 0; j < _symbol_types[ string( "spatial_relation" ) ].size(); k++ ) {
+      for( unsigned int k = 0; k < _symbol_types[ string( "spatial_relation" ) ].size(); k++ ) {
         for( unsigned int l = 0; l < world->objects().size(); l++ ) {
           for( unsigned int m = 0; m < _symbol_types[ string( "spatial_relation" ) ].size(); m++ ) {
-            _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Constraint( _symbol_types[ string( "constraint" ) ][ i ] ,
+            _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( _symbol_types[ string( "constraint" ) ][ i ] ,
                                                                                            _symbol_types[ string( "payload" ) ][ j ], 
                                                                                            _symbol_types[ string( "spatial_relation" ) ][ k ],
                                                                                            world->objects()[ l ]->name(), 

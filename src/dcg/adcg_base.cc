@@ -141,7 +141,7 @@ fill_search_spaces( const World* world ){
   object_type.push_back( "na" );
   object_type.push_back( "block" );
   object_type.push_back( "table" );
-  object_type.push_back( "generic-robot" );
+  object_type.push_back( "robot" );
   object_type.push_back( "door" );
   //object_type.push_back( "ycb-can" );
   //object_type.push_back( "ycb-box" );
@@ -222,11 +222,11 @@ fill_search_spaces( const World* world ){
   _symbol_types.insert( pair< string, vector< string > >( string("constraint"), constraint ) );
   _symbol_types.insert( pair< string, vector< string > >( string("region_abstract_container"), region_abstract_container ) );
 
+  
   // Objects
   for( unsigned int i = 0; i < world->objects().size(); i++ ){
     _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, world->objects()[ i ]->dup() ) );
   }
-
   // Regions. Do not create an "na" region
   for( unsigned int i = 0; i < spatial_relation.size(); i++ ){
     if( spatial_relation[ i ] != "na" ){
@@ -236,14 +236,14 @@ fill_search_spaces( const World* world ){
       }   
     }
   }
-
+  
   // Constraints
   for( unsigned int i = 0; i < constraint.size(); i++ ) {
     for( unsigned int j = 0; j < payload.size(); j++ ) {
-      for( unsigned int k = 0; j < spatial_relation.size(); k++ ) {
+      for( unsigned int k = 0; k < spatial_relation.size(); k++ ) {
         for( unsigned int l = 0; l < world->objects().size(); l++ ) {
           for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
-            _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Constraint( constraint[ i ], 
+            _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraint[ i ], 
   											   payload[ j ], spatial_relation[ k ], 
 											   world->objects()[ l ]->name(), spatial_relation[ m ] ) ) );  
           }  
@@ -251,7 +251,7 @@ fill_search_spaces( const World* world ){
       }  
     } 
   }
-  
+
   // Object_Type
   for (unsigned int i = 0; i < object_type.size(); i++) {
     _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Object_Type( object_type[ i ] ) ) );
@@ -276,7 +276,6 @@ fill_search_spaces( const World* world ){
   for (unsigned int i = 0; i < object_color.size(); i++) {
     _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Object_Color( object_color[ i ] ) ) );
   }
-
   // Object_Property
   for( unsigned int i = 0; i < object_type.size(); i++ ){
     for( unsigned int j = 0; j < spatial_relation.size(); j++ ){
@@ -293,13 +292,18 @@ fill_search_spaces( const World* world ){
   // with a type declared above.
   for( unsigned int i = 0; i < object_type.size() ; i++ ){
     for( unsigned int j = 0; j < number.size(); j++ ){
-      for( unsigned int l = 0; l < object_color.size(); l++ ){
+      for( unsigned int k = 0; k < object_color.size(); k++ ){
+          cout << "object_type: " << object_type[ i ] << endl; 
+          cout << "number: " << number[ j ] << endl; 
+          cout << "index: " << index[ 0 ] << endl; 
+          cout << "object_color: " << object_color[ k ] << endl; 
         _search_spaces.push_back( 
-                 pair< unsigned int, Grounding* >( 0, new Abstract_Container( object_type[ i ], number[ j ], index[ 0 ], object_color[ l ] ) ) );
-        for( unsigned int k = 0; k < region_abstract_container.size(); k++ ){
+                 pair< unsigned int, Grounding* >( 0, new Abstract_Container( object_type[ i ], number[ j ], index[ 0 ], object_color[ k ] ) ) );
+        for( unsigned int l = 0; l < region_abstract_container.size(); l++ ){
+          cout << "region_abstract_container: " << region_abstract_container[ l ] << endl; 
           _search_spaces.push_back( 
-                   pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( region_abstract_container[ k ], 
-								               Abstract_Container( object_type[ i ] , number[ j ], index[ 0 ], object_color[ l ] ) ) ) );
+                   pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( region_abstract_container[ l ], 
+								               Abstract_Container( object_type[ i ] , number[ j ], index[ 0 ], object_color[ k ] ) ) ) );
         }
       }
     }

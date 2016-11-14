@@ -65,7 +65,9 @@ main( int argc,
     if( parser->parse( *grammar, args.command_arg, phrases ) ){
       for( unsigned int i = 0; i < phrases.size(); i++ ){
         if( phrases[ i ] != NULL ){
-          //cout << "phrases[" << i << "]:" << *phrases[ i ] << endl;
+          cout << "phrases[" << i << "]:" << *phrases[ i ] << endl;
+          // ADCG leaf_search
+          cout << "ADCG leaf search" << endl;
           adcg->leaf_search( phrases[ i ], world, llm, args.beam_width_arg, true );
 
 

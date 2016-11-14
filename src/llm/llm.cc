@@ -690,6 +690,7 @@ compute_indices_thread( vector< LLM_Index_Map_Cell >& cells, LLM* llm ){
       cells[ i ].indices().push_back( vector< unsigned int >() );
       vector< Feature* > features;
 
+
       llm->feature_set()->indices( cells[ i ].llm_x().cvs()[ k ],
                                               cells[ i ].llm_x().grounding(),
                                               cells[ i ].llm_x().children(),

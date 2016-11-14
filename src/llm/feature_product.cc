@@ -34,28 +34,43 @@
 #include <assert.h>
 
 #include "h2sl/object.h"
+#include "h2sl/object_property.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
+#include "h2sl/container.h"
+#include "h2sl/spatial_relation.h"
 
+#include "h2sl/feature_cv.h"
 #include "h2sl/feature_word.h"
 #include "h2sl/feature_num_words.h"
-#include "h2sl/feature_cv.h"
-#include "h2sl/feature_type.h"
-#include "h2sl/feature_grounding_property_value.h"
-#include "h2sl/feature_region_object_property_value.h"
-#include "h2sl/feature_matches_child.h"
-#include "h2sl/feature_object_matches_child.h"
-#include "h2sl/feature_region_merge_partially_known_regions.h"
-#include "h2sl/feature_constraint_parent_matches_child_region.h"
-#include "h2sl/feature_constraint_child_matches_child_region.h"
+#include "h2sl/feature_phrase_has_pos_tag.h"
+#include "h2sl/feature_phrase_has_single_pos_tag.h"
+#include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
+
+#include "h2sl/feature_abstract_container_type.h"
+#include "h2sl/feature_abstract_container_color.h"
+#include "h2sl/feature_abstract_container_number.h"
+#include "h2sl/feature_abstract_container_index.h"
+#include "h2sl/feature_abstract_container_matches_child.h"
+
 #include "h2sl/feature_constraint_payload_type.h"
 #include "h2sl/feature_constraint_reference_type.h"
-#include "h2sl/feature_product.h"
-#include "h2sl/feature_abstract_container_matches_child.h"
+
+#include "h2sl/feature_container_dominant_x_shape.h"
+#include "h2sl/feature_container_dominant_y_shape.h"
+#include "h2sl/feature_container_dominant_z_shape.h"
+#include "h2sl/feature_container_non_dominant_xyz_shape.h"
+#include "h2sl/feature_container_is_empty.h"
 #include "h2sl/feature_container_matches_child.h"
-#include "h2sl/feature_region_container_matches_child.h"
-//#include "h2sl/feature_action_object_matches_child.h"
-#include "h2sl/feature_spatial_relation_matches_child.h"
+#include "h2sl/feature_container_matches_empty_child_container.h"
+#include "h2sl/feature_container_merge_empty_container_container.h"
+#include "h2sl/feature_container_merge_object_property_container.h"
+#include "h2sl/feature_container_min_distance.h"
+#include "h2sl/feature_container_max_distance.h"
+#include "h2sl/feature_container_number.h"
+#include "h2sl/feature_container_number_equals_world_objects.h"
+#include "h2sl/feature_container_type_matches_child_container_type.h"
+
 #include "h2sl/feature_is_abstract_container.h"
 #include "h2sl/feature_is_object.h"
 #include "h2sl/feature_is_container.h"
@@ -63,69 +78,40 @@
 #include "h2sl/feature_is_region_container.h"
 #include "h2sl/feature_is_region_abstract_container.h"
 #include "h2sl/feature_is_spatial_relation.h"
-#include "h2sl/feature_container_number.h"
-#include "h2sl/feature_container_number_equals_world_objects.h"
-#include "h2sl/feature_container_is_empty.h"
-#include "h2sl/feature_container_type_matches_child_container_type.h"
-#include "h2sl/feature_object_property_merge_object_property_container.h"
-#include "h2sl/feature_phrase_has_pos_tag.h"
-#include "h2sl/feature_phrase_has_single_pos_tag.h"
-#include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
-#include "h2sl/feature_object_property_merge_object_property_spatial_relation.h"
-#include "h2sl/feature_container_matches_empty_child_container.h"
-#include "h2sl/feature_container_merge_empty_container_container.h"
-#include "h2sl/feature_container_merge_object_property_container.h"
-#include "h2sl/feature_container_merge_container_spatial_relation.h"
-#include "h2sl/feature_region_container_merge_container_spatial_relation.h"
-#include "h2sl/feature_region_container_container_matches_child_container.h"
-//#include "h2sl/feature_object_property_index.h"
-#include "h2sl/feature_abstract_container_type.h"
-#include "h2sl/feature_abstract_container_color.h"
-#include "h2sl/feature_abstract_container_number.h"
-#include "h2sl/feature_abstract_container_index.h"
-#include "h2sl/feature_region_container_type.h"
-#include "h2sl/feature_region_container_container_type.h"
-#include "h2sl/feature_object_property_type.h"
-#include "h2sl/feature_object_property_relation_type.h"
-#include "h2sl/feature_object_property_index.h"
-#include "h2sl/feature_region_abstract_container_type.h"
-#include "h2sl/feature_region_abstract_container_object_type.h"
-#include "h2sl/feature_region_abstract_container_number.h"
-#include "h2sl/feature_min_x_object.h"
-#include "h2sl/feature_max_x_object.h"
-#include "h2sl/feature_max_y_object.h"
-#include "h2sl/feature_min_y_object.h"
-#include "h2sl/feature_max_x_abstract_container.h"
-#include "h2sl/feature_min_distance_object.h"
+
 #include "h2sl/feature_max_distance_object.h"
 #include "h2sl/feature_max_distance_object_within.h"
-#include "h2sl/feature_min_distance_object_within.h"
-#include "h2sl/feature_min_center_distance_object.h"
-#include "h2sl/feature_max_y_abstract_container.h"
-#include "h2sl/feature_min_y_index_abstract_container_region_container.h"
-#include "h2sl/feature_min_x_abstract_container.h"
-#include "h2sl/feature_min_y_abstract_container.h"
-#include "h2sl/feature_min_distance_container.h"
-#include "h2sl/feature_min_distance_abstract_container.h"
-#include "h2sl/feature_min_abs_y_abstract_container.h"
-#include "h2sl/feature_container_dominant_x_shape.h"
-#include "h2sl/feature_container_dominant_y_shape.h"
-#include "h2sl/feature_container_dominant_z_shape.h"
-#include "h2sl/feature_container_non_dominant_xyz_shape.h"
-#include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
-#include "h2sl/feature_min_y_container_abstract_container_spatial_relation.h"
-#include "h2sl/feature_max_y_container_abstract_container.h"
-#include "h2sl/feature_min_abs_y_container_abstract_container.h"
-#include "h2sl/feature_min_x_container_region_abstract_container.h"
-#include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
+#include "h2sl/feature_max_x_abstract_container.h"
+#include "h2sl/feature_max_x_object.h"
 #include "h2sl/feature_max_x_region_abstract_container.h"
-#include "h2sl/feature_object_matches_child.h"
+
+#include "h2sl/feature_max_y_abstract_container.h"
+#include "h2sl/feature_max_y_container_abstract_container.h"
+#include "h2sl/feature_max_y_object.h"
+#include "h2sl/feature_min_abs_y_abstract_container.h"
+#include "h2sl/feature_min_center_distance_object.h"
+#include "h2sl/feature_min_distance_abstract_container.h"
+#include "h2sl/feature_min_distance_container.h"
+#include "h2sl/feature_min_distance_object.h"
+#include "h2sl/feature_min_distance_object_within.h"
+#include "h2sl/feature_min_x_abstract_container.h"
+#include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
+#include "h2sl/feature_min_x_container_region_abstract_container.h"
+#include "h2sl/feature_min_x_object.h"
+#include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
+#include "h2sl/feature_min_y_abstract_container.h"
+#include "h2sl/feature_min_abs_y_container_abstract_container.h"
+#include "h2sl/feature_min_y_index_abstract_container_region_container.h"
+#include "h2sl/feature_min_y_object.h"
 #include "h2sl/feature_object_matches_child_container_object.h"
-#include "h2sl/feature_container_min_distance.h"
-#include "h2sl/feature_container_max_distance.h"
 #include "h2sl/feature_object_number_matches_world_object_number.h"
-#include "h2sl/feature_container_number_equals_world_objects.h"
+#include "h2sl/feature_object_property_index.h"
+#include "h2sl/feature_object_property_merge_object_property_container.h"
+#include "h2sl/feature_object_property_merge_object_property_spatial_relation.h"
+#include "h2sl/feature_object_property_relation_type.h"
+#include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
+
 #include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
 #include "h2sl/feature_container_merge_abstract_container_region_container.h"
 #include "h2sl/feature_container_merge_container_pair.h"
@@ -139,6 +125,32 @@
 #include "h2sl/feature_object_merge_object_property_container.h"
 #include "h2sl/feature_object_merge_object_property_region_container.h"
 #include "h2sl/feature_object_merge_object_region_container.h"
+
+#include "h2sl/feature_region_abstract_container_number.h"
+#include "h2sl/feature_region_abstract_container_object_type.h"
+#include "h2sl/feature_region_abstract_container_type.h"
+#include "h2sl/feature_region_container_container_matches_child_container.h"
+#include "h2sl/feature_region_container_matches_child.h"
+#include "h2sl/feature_region_container_merge_container_spatial_relation.h"
+#include "h2sl/feature_region_container_type.h"
+#include "h2sl/feature_region_merge_partially_known_regions.h"
+#include "h2sl/feature_region_object_property_value.h"
+#include "h2sl/feature_spatial_relation_matches_child.h"
+#include "h2sl/feature_grounding_property_value.h"
+#include "h2sl/feature_matches_child.h"
+
+
+#include "h2sl/feature_type.h"
+#include "h2sl/feature_object_matches_child.h"
+#include "h2sl/feature_constraint_parent_matches_child_region.h"
+#include "h2sl/feature_constraint_child_matches_child_region.h"
+#include "h2sl/feature_product.h"
+#include "h2sl/feature_container_merge_container_spatial_relation.h"
+#include "h2sl/feature_region_container_container_type.h"
+#include "h2sl/feature_min_y_container_abstract_container_spatial_relation.h"
+#include "h2sl/feature_object_matches_child.h"
+#include "h2sl/feature_container_number_equals_world_objects.h"
+#include "h2sl/feature_abstract_container_number_equals_world_objects.h"
 
 using namespace std;
 using namespace h2sl;
@@ -368,10 +380,16 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Region_Object_Property_Value( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object_property" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Object_Property >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Region >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_constraint" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Constraint >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_container" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Container >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_spatial_relation" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Spatial_Relation >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Object_Matches_Child< Region, Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_merge_partially_known_regions" ) ) == 0 ){
@@ -611,6 +629,7 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_objects_shape_matches_container_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Objects_Shape_Matches_Container_Type() );
                   _feature_groups.back().back()->from_xml( l2 );
+<<<<<<< HEAD
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_abstract_container_index_region_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Object_Merge_Abstract_Container_Index_Region_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -649,6 +668,10 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_region_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Object_Merge_Object_Region_Container() );
+=======
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_number_equals_world_objects" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects() );
+>>>>>>> adcg
                   _feature_groups.back().back()->from_xml( l2 );
               } else {
                 cout << "could not load feature " << l2->name << endl;
