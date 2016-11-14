@@ -56,7 +56,7 @@
 #include "h2sl/region_abstract_container.h"
 
 #include "h2sl/adcg.h"
-//#include "h2sl/factor_set_adcg.h"
+#include "h2sl/factor_set_adcg.h"
 
 using namespace std;
 using namespace h2sl;
@@ -340,7 +340,7 @@ leaf_search( const Phrase* phrase,
       _root = NULL;
     }
 
-    _root = new Factor_Set( phrase->dup() );
+    _root = new Factor_Set_ADCG( phrase->dup() );
     _fill_factors( _root, _root->phrase() );  
 
     Factor_Set * leaf = NULL;
@@ -464,7 +464,7 @@ _fill_factors( Factor_Set* node,
                 const Phrase* phrase, 
                 const bool& fill ){
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    node->children().push_back( new Factor_Set( phrase->children()[ i ] ) );
+    node->children().push_back( new Factor_Set_ADCG( phrase->children()[ i ] ) );
     _fill_factors( node->children().back(), phrase->children()[ i ] );
   } 
   return;
