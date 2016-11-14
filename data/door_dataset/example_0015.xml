@@ -29,7 +29,7 @@
           <object name="door2" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
         </grounding_set>
       </grounding>
-      <IN text="to"/>
+      <TO text="to"/>
       <NP>
         <grounding>
           <grounding_set>

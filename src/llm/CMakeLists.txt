@@ -26,6 +26,7 @@ set(HDRS
     h2sl/feature_region_merge_partially_known_regions.h
     h2sl/feature_constraint_parent_matches_child_region.h
     h2sl/feature_constraint_child_matches_child_region.h
+    h2sl/feature_constraint_child_matches_child_object.h
     h2sl/feature_constraint_payload_type.h
     h2sl/feature_constraint_reference_type.h
     h2sl/feature_product.h
@@ -125,6 +126,7 @@ set(SRCS
     feature_constraint_parent_matches_child_region.cc
     feature_constraint_payload_type.cc
     feature_constraint_child_matches_child_region.cc
+    feature_constraint_child_matches_child_object.cc
     feature_constraint_payload_type.cc
     feature_constraint_reference_type.cc
     feature_product.cc

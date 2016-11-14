@@ -129,6 +129,7 @@
 #include "h2sl/feature_object_matches_child.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
+#include "h2sl/feature_constraint_child_matches_child_object.h"
 #include "h2sl/feature_product.h"
 #include "h2sl/feature_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_container_type.h"
@@ -385,6 +386,9 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_child_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Constraint_Child_Matches_Child_Region() );
+                _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_child_matches_child_object" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Constraint_Child_Matches_Child_Object() );
                 _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_constraint_payload_type" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Constraint_Payload_Type() );
