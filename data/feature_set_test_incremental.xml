@@ -1112,6 +1112,21 @@
         <feature_constraint_parent_is_robot invert="1"/>
         <feature_constraint_child_is_robot invert="0"/>
         <feature_constraint_child_is_robot invert="1"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="box"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="chair"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="couch"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="sink"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="mug"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="bottle"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="can"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="fridge"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="hammer"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="screwdriver"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="pipe"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="newspaper"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="marker"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="tube"/>
+        <feature_grounding_property_value invert="0" key="object_type" symbol="tape"/>
       </feature_group>
     </feature_product>
   </feature_set>
