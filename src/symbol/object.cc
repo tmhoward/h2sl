@@ -42,13 +42,15 @@ Object( const string& name,
         const string& objectColor,
         const Transform& transform,
         const Vector3& linearVelocity,
-        const Vector3& angularVelocity ) : Grounding(),   
+        const Vector3& angularVelocity,
+        const string& objectId ) : Grounding(),   
                                             _transform( transform ),  
                                             _linear_velocity( linearVelocity ),
                                             _angular_velocity( angularVelocity ) {
    insert_prop< std::string >( _properties, "name", name ); 
    insert_prop< std::string >( _properties, "object_type", objectType ); 
    insert_prop< std::string >( _properties, "object_color", objectColor ); 
+   insert_prop< std::string >( _properties, "object_id", objectId ); 
 }
 
 Object::
@@ -59,6 +61,7 @@ Object( xmlNodePtr root ) : Grounding(),
   insert_prop< std::string >( _properties, "name", "na" );
   insert_prop< std::string >( _properties, "object_type", "na" );
   insert_prop< std::string >( _properties, "object_color", "na" );
+  insert_prop< std::string >( _properties, "object_id", "0" );
   from_xml( root );
 }
 
@@ -93,6 +96,8 @@ operator==( const Object& other )const{
   } else if ( type() != other.type() ){
     return false;
   } else if ( color() != other.color() ){
+    return false;
+  }else if ( id() != other.id() ){
     return false;
   } else {
     return true;
@@ -135,6 +140,7 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "orientation" ), ( const xmlChar* )( _transform.orientation().to_std_string().c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "linear_velocity" ), ( const xmlChar* )( _linear_velocity.to_std_string().c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "angular_velocity" ), ( const xmlChar* )( _angular_velocity.to_std_string().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_id" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_id" ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -178,6 +184,10 @@ from_xml( xmlNodePtr root ){
     if( color_prop.first ){
       color() = color_prop.second;
     }
+    pair< bool, string > id_prop = has_prop< std::string >( root, "object_id" );
+    if( id_prop.first ){
+      id() = id_prop.second;
+    }
     pair< bool, string > position_prop = has_prop< std::string >( root, "position" );
     if( position_prop.first ){
       _transform.position().from_std_string( position_prop.second );
@@ -207,6 +217,7 @@ namespace h2sl {
     out << "name=\"" << other.name() << "\",";
     out << "object_type=\"" << other.type() << "\"";
     out << "object_color=\"" << other.color() << "\"";
+    out << "object_id=\"" << other.id() << "\"";
     if( other.transform().position().norm() > 0.0 ){
       out << ",position=" << other.transform().position();
     }

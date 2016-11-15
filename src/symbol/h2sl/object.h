@@ -46,7 +46,7 @@ namespace h2sl {
   public:
     Object( const std::string& name = "na", const std::string& objectType = "na", const std::string& objectColor = "na", 
             const Transform& transform = Transform(), const Vector3& linearVelocity = Vector3(), 
-            const Vector3& angularVelocity = Vector3() );
+            const Vector3& angularVelocity = Vector3(), const std::string& id = "0" );
     Object( xmlNodePtr root );
     virtual ~Object();
     Object( const Object& other );
@@ -67,6 +67,8 @@ namespace h2sl {
     inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
     inline std::string& color( void ){ return get_prop< std::string >( _properties, "object_color" ); };
     inline const std::string& color( void )const{ return get_prop< std::string >( _properties, "object_color" ); };
+    inline std::string& id( void ){ return get_prop< std::string >( _properties, "object_id" ); };
+    inline const std::string& id( void )const{ return get_prop< std::string >( _properties, "object_id" ); };
     inline Transform& transform( void ){ return _transform; };
     inline const Transform& transform( void )const{ return _transform; };
     inline Vector3& linear_velocity( void ){ return _linear_velocity; };
