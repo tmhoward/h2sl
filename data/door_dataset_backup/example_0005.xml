@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="walk near the second door from the left"/>
+  <world time="0">
+    <object name="generic_robot" object_type="robot" object_color="na" position="0.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+  </world>
+  <VP>
+    <grounding>
+      <grounding_set>
+        <constraint constraint_type="inside">
+          <properties>
+            <property payload="generic-robot"/>
+            <property reference="door1"/>
+            <property reference_relation="near"/>
+          </properties>
+        </constraint>
+      </grounding_set>
+    </grounding>
+    <VB text="walk"/>
+    <PP>
+      <grounding>
+        <grounding_set>
+          <region region_type="near">
+            <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+          </region>
+        </grounding_set>
+      </grounding>
+      <IN text="near"/>
+      <NP>
+        <grounding>
+          <grounding_set>
+            <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+            <object_property object_type="door" spatial_relation_type="na" index_type="second"/> 
+          </grounding_set>
+        </grounding>
+        <NP>
+          <grounding>
+            <grounding_set>
+              <object_property object_type="door" spatial_relation_type="na" index_type="second"/> 
+              <object_type object_type="door"/>
+              <index index_type="second"/>
+            </grounding_set>
+          </grounding>
+          <DT text="the" order="0"/>
+          <JJ text="second" order="1"/>
+          <NN text="door" order="2"/>
+        </NP>
+        <PP>
+          <grounding>
+            <grounding_set>
+              <spatial_relation spatial_relation_type="left"/>
+            </grounding_set>
+          </grounding>
+          <IN text="from" order="3"/>
+          <NP>
+            <grounding>
+              <grounding_set>
+                <spatial_relation spatial_relation_type="left"/>
+              </grounding_set>
+            </grounding>
+            <DT text="the" order="4"/>
+            <NN text="left" order="5"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </VP>
+</root>
