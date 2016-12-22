@@ -78,7 +78,7 @@ value( const unsigned int& cv,
 }
 
 
-/*bool
+bool
 Feature_Object_Merge_Abstract_Container_Spatial_Relation::
 value( const unsigned int& cv,
       const h2sl::Grounding* grounding,
@@ -175,7 +175,7 @@ value( const unsigned int& cv,
       }
     }
     return false;
-}*/
+}
 
 /**
  * exports the Feature_Object_Merge_Abstract_Container_Spatial_Relation class to an XML file

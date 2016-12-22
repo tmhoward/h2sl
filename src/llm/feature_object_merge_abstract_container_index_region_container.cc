@@ -76,45 +76,102 @@ value( const unsigned int& cv,
        const World* world,
        const Grounding* context ){
     
-}
+    if ( children.empty() ) {
+      return false; 
+    }
 
-/*bool
-Feature_Object_Merge_Abstract_Container_Index_Region_Container::
-value( const unsigned int& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
-      const World* world ){
     const Object * object = dynamic_cast< const Object* >( grounding );
-    if( ( object != NULL ) && ( !children.empty() ) ){
-      pair< const h2sl::Phrase*, const Abstract_Container* > abstract_container_child( NULL, NULL );
-      pair< const h2sl::Phrase*, const Region_Container* > region_container_child( NULL, NULL );
-      for( unsigned int i = 0; i < children.size(); i++ ){
-        for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-          if( dynamic_cast< const Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
-            abstract_container_child.first = children[ i ].first;
-            abstract_container_child.second = static_cast< const Abstract_Container* >( children[ i ].second[ j ] );
-          }
+    if( object == NULL) {
+      return false;
+    }
+
+    pair< const h2sl::Phrase*, const Abstract_Container* > abstract_container_child( NULL, NULL );
+    pair< const h2sl::Phrase*, const Region_Container* > region_container_child( NULL, NULL );
+
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if( dynamic_cast< const Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
+          abstract_container_child.first = children[ i ].first;
+          abstract_container_child.second = static_cast< const Abstract_Container* >( children[ i ].second[ j ] );
         }
       }
-      for( unsigned int i = 0; i < children.size(); i++ ){
-        for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-          if ( dynamic_cast< const Region_Container* >( children[ i ].second[ j ] ) != NULL ){
-            region_container_child.first = children[ i ].first;
-            region_container_child.second = static_cast< const Region_Container* >( children[ i ].second[ j ] );
-          }
+    }
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if ( dynamic_cast< const Region_Container* >( children[ i ].second[ j ] ) != NULL ){
+          region_container_child.first = children[ i ].first;
+          region_container_child.second = static_cast< const Region_Container* >( children[ i ].second[ j ] );
         }
       }
+    }
+
+    if( ( abstract_container_child.first == NULL ) || ( abstract_container_child.second == NULL ) 
+          || ( region_container_child.first == NULL ) || ( region_container_child.second == NULL ) ){ 
+      return false;
+    } 
       
+    unsigned int num_matching_objects = 0;
+    for( unsigned int i = 0; i < region_container_child.second->container().container().size(); i++ ){
+      const object * region_container_object = dynamic_cast< const Object* >( region_container_child.second->container().container()[ i ] );
+      if( region_container_object != NULL ) {
+        if( abstract_container_child.second->type() == region_container_object->type() ){
+          num_matching_objects++;
+        }
+      }
+    }  
+
+    if( ( abstract_container_child.first->min_word_order() < region_container_child.first->min_word_order() ) && 
+          ( num_matching_objects >= abstract_container_child.second->num() ) ){
+
+      if( ( abstract_container_child.second->number() == 1 ) && 
+          ( abstract_container_child.second->index() < abstract_container_child.second->number() ) && 
+          ( abstract_container_child.second->index() < region_container_child.second->container().container().size() ) ){
+        
+        vector< Object* > objects;
+        for( unsigned int i = 0; i < region_container_child.second->container().container().size(); i++ ){
+          const object * region_container_object = dynamic_cast< const Object* >( region_container_child.second->container().container()[ i ] );
+          if( region_container_object->type() == abstract_container_child.second->type() ){
+            objects.push_back( region_container_object );
+          }
+        }
+
+        if( region_container_child.second->type() == string( "left" ) ){
+          std::sort( objects.begin(), objects.end(), World::max_y_sort );
+          if( ( abstract_container_child.second->index() ) < objects.size() ){
+            if( *object == *objects[ world->index_map()[ abstract_container_child.second->index() ] ] ){
+              return !_invert;
+            }
+          }
+        } else if( region_container_child.second->type() == string( "right" ) ){
+          std::sort( objects.begin(), objects.end(), World::min_y_sort );
+          if( ( abstract_container_child.second->index() ) < objects.size() ){
+            if( *object == *objects[ world->index_map()[ abstract_container_child.second->index() ] ] ){
+              return !_invert;
+            }
+          }
+        } else if ( region_container_child.second->type() == string( "front" ) ){
+          std::sort( objects.begin(), objects.end(), World::min_x_sort );
+          if( ( abstract_container_child.second->index() ) < objects.size() ){
+            if( *object == *objects[ world->index_map()[ abstract_container_child.second->index() ] ] ){
+              return !_invert;
+            }
+          }
+        } else if ( region_container_child.second->type() == string( "back" ) ){
+          std::sort( objects.begin(), objects.end(), World::max_x_sort );
+          if( ( abstract_container_child.second->index() ) < objects.size() ){
+            if( *object == *objects[ world->index_map()[ abstract_container_child.second->index() ] ] ){
+              return !_invert;
+            }
+          }
+        }
+      }
+    }
+    return _invert;
+}
+/*
 
       if( ( abstract_container_child.first != NULL ) && ( abstract_container_child.second != NULL ) && ( region_container_child.first != NULL ) && ( region_container_child.second != NULL ) ){ 
         unsigned int num_matching_objects = 0;
-        for( unsigned int i = 0; i < region_container_child.second->container().container().size(); i++ ){
-          if( abstract_container_child.second->type() == region_container_child.second->container().container()[ i ]->type() ){
-            num_matching_objects++;
-          }
-        }
-
 
         if( ( abstract_container_child.first->min_word_order() < region_container_child.first->min_word_order() ) && ( num_matching_objects >= abstract_container_child.second->num() ) ){
           if( ( abstract_container_child.second->num() == 1 ) && ( abstract_container_child.second->index() < abstract_container_child.second->num() ) && ( abstract_container_child.second->index() < region_container_child.second->container().container().size() ) ){
