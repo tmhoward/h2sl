@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="go to the middle door in the row of three doors"/>
+  <world time="0">
+    <object name="generic-robot" object_type="robot" object_color="na" position="0.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+    <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+  </world>
+  <VP>
+    <grounding>
+      <grounding_set>
+        <constraint constraint_type="inside">
+          <properties>
+            <property payload="generic-robot"/>
+            <property reference="door1"/>
+            <property reference_relation="na"/>
+          </properties>
+        </constraint>
+      </grounding_set>
+    </grounding>
+    <VB text="go"/>
+    <PP>
+      <grounding>
+        <grounding_set>
+          <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+        </grounding_set>
+      </grounding>
+      <TO text="to"/>
+      <NP>
+        <grounding>
+          <grounding_set>
+            <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+          </grounding_set>
+        </grounding>
+        <NP>
+          <grounding>
+            <grounding_set>
+              <object_property object_type="door" spatial_relation_type="center" index_type="first"/>
+              <spatial_relation spatial_relation_type="center"/>
+              <object_type object_type="door"/>
+              <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+            </grounding_set>
+          </grounding>
+          <DT text="the" order="0"/>
+          <JJ text="middle" order="1"/>
+          <NN text="door" order="2"/>
+        </NP>
+        <PP>
+          <grounding>
+            <grounding_set>
+              <container container_type="row">
+                <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+              </container>
+              <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+              <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+              <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+            </grounding_set>
+          </grounding>
+          <IN text="in" order="3"/>
+          <NP>
+            <grounding>
+              <grounding_set>
+                <container container_type="row">
+                  <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                  <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                  <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                </container>
+                <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+              </grounding_set>
+            </grounding>
+            <NP>
+              <grounding>
+                <grounding_set>
+                  <container container_type="row"/>
+                </grounding_set>
+              </grounding>
+              <DT text="the" order="4"/>
+              <NN text="row" order="5"/>
+            </NP>
+            <PP>
+              <grounding>
+                <grounding_set>
+                  <container container_type="row">
+                    <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                    <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                    <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                  </container>
+                  <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                  <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                  <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                </grounding_set>
+              </grounding>
+              <IN text="of" order="6"/>
+              <NP>
+                <grounding>
+                  <grounding_set>
+                    <container container_type="row">
+                      <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                      <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                      <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                    </container>
+                    <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                    <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                    <object name="door2" object_type="door" object_color="na" position="1.0,1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+                  </grounding_set>
+                </grounding>
+                <CD text="three" order="7"/>
+                <NNS text="doors" order="8"/>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </VP>
+</root>

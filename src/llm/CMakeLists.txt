@@ -21,11 +21,13 @@ set(HDRS
     h2sl/feature_matches_child.ipp
     h2sl/feature_grounding_property_value.h
     h2sl/feature_region_object_property_value.h
+    h2sl/feature_region_object_matches_child.h
     #h2sl/feature_object_matches_child.ipp
     #h2sl/feature_object_matches_child.h
     h2sl/feature_region_merge_partially_known_regions.h
     h2sl/feature_constraint_parent_matches_child_region.h
     h2sl/feature_constraint_child_matches_child_region.h
+    h2sl/feature_constraint_child_matches_child_object.h
     h2sl/feature_constraint_payload_type.h
     h2sl/feature_constraint_reference_type.h
     h2sl/feature_product.h
@@ -108,6 +110,9 @@ set(HDRS
     h2sl/feature_object_matches_child_container_object.h
     h2sl/feature_object_number_matches_world_object_number.h
     h2sl/feature_abstract_container_number_equals_world_objects.h
+    h2sl/feature_object_merge_object_property_spatial_relation.h
+    h2sl/feature_object_merge_object_property_index_spatial_relation.h
+    h2sl/feature_object_merge_object_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -121,10 +126,12 @@ set(SRCS
     feature_num_words.cc
     feature_grounding_property_value.cc
     feature_region_object_property_value.cc
+    feature_region_object_matches_child.cc
     feature_region_merge_partially_known_regions.cc
     feature_constraint_parent_matches_child_region.cc
     feature_constraint_payload_type.cc
     feature_constraint_child_matches_child_region.cc
+    feature_constraint_child_matches_child_object.cc
     feature_constraint_payload_type.cc
     feature_constraint_reference_type.cc
     feature_product.cc
@@ -208,6 +215,9 @@ set(SRCS
     feature_object_matches_child_container_object.cc
     feature_object_number_matches_world_object_number.cc
     feature_abstract_container_number_equals_world_objects.cc
+    feature_object_merge_object_property_spatial_relation.cc
+    feature_object_merge_object_property_index_spatial_relation.cc
+    feature_object_merge_object_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES

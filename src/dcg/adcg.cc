@@ -56,7 +56,7 @@
 #include "h2sl/region_abstract_container.h"
 
 #include "h2sl/adcg.h"
-//#include "h2sl/factor_set_adcg.h"
+#include "h2sl/factor_set_adcg.h"
 
 using namespace std;
 using namespace h2sl;
@@ -225,6 +225,7 @@ fill_search_spaces( const World* world ){
   container.push_back( "column" );
 
   // Map of symbolic representation.
+  _symbol_types.insert( pair< string, vector< string > >( string("payload"), payload ) );
   _symbol_types.insert( pair< string, vector< string > >( string("object_type"), object_type ) );
   _symbol_types.insert( pair< string, vector< string > >( string("object_color"), object_color ) );
   _symbol_types.insert( pair< string, vector< string > >( string("number"), number ) );
@@ -252,16 +253,13 @@ fill_search_spaces( const World* world ){
   // Constraints
   for( unsigned int i = 0; i < _symbol_types[ string( "constraint") ].size(); i++ ) {
     for( unsigned int j = 0; j < _symbol_types[ string( "payload" ) ].size(); j++ ) {
-      for( unsigned int k = 0; k < _symbol_types[ string( "spatial_relation" ) ].size(); k++ ) {
         for( unsigned int l = 0; l < world->objects().size(); l++ ) {
           for( unsigned int m = 0; m < _symbol_types[ string( "spatial_relation" ) ].size(); m++ ) {
             _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( _symbol_types[ string( "constraint" ) ][ i ] ,
                                                                                            _symbol_types[ string( "payload" ) ][ j ], 
-                                                                                           _symbol_types[ string( "spatial_relation" ) ][ k ],
                                                                                            world->objects()[ l ]->name(), 
  											   _symbol_types[ string( "spatial_relation" ) ][ m ] ) ) );
           }
-        }
       }
     }
   }
@@ -340,7 +338,7 @@ leaf_search( const Phrase* phrase,
       _root = NULL;
     }
 
-    _root = new Factor_Set( phrase->dup() );
+    _root = new Factor_Set_ADCG( phrase->dup() );
     _fill_factors( _root, _root->phrase() );  
 
     Factor_Set * leaf = NULL;
@@ -464,7 +462,7 @@ _fill_factors( Factor_Set* node,
                 const Phrase* phrase, 
                 const bool& fill ){
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    node->children().push_back( new Factor_Set( phrase->children()[ i ] ) );
+    node->children().push_back( new Factor_Set_ADCG( phrase->children()[ i ] ) );
     _fill_factors( node->children().back(), phrase->children()[ i ] );
   } 
   return;

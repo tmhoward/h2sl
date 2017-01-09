@@ -80,33 +80,34 @@ value( const unsigned int& cv,
         const Phrase* phrase,
         const World* world,
         const Grounding* context ) {
-  Abstract_Container* abstract_container_child = NULL;
-  Region_Container* region_container_child = NULL;
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
+  if( object_grounding != NULL ){
+    Abstract_Container* abstract_container_child = NULL;
+    Region_Container* region_container_child = NULL;
 
-  for( unsigned int i = 0; i < children.size(); i++ ){
-    for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-      if( dynamic_cast< Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
-        abstract_container_child = static_cast< Abstract_Container* >( children[ i ].second[ j ] );
-      } else if ( dynamic_cast< Region_Container* >( children[ i ].second[ j ] ) != NULL ){
-        region_container_child = static_cast< Region_Container* >( children[ i ].second[ j ] );
-      }
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if( dynamic_cast< Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
+          abstract_container_child = static_cast< Abstract_Container* >( children[ i ].second[ j ] );
+        } else if ( dynamic_cast< Region_Container* >( children[ i ].second[ j ] ) != NULL ){
+          region_container_child = static_cast< Region_Container* >( children[ i ].second[ j ] );
+        }
+      } 
     } 
-  } 
 
-  if( abstract_container_child != NULL ){
-    if( abstract_container_child->index() != "na" ){
-      if( region_container_child != NULL ){
-        if( region_container_child->relation_type() == _relation_type ){
-          if( object_grounding != NULL ){
+    if( abstract_container_child != NULL ){
+      if( abstract_container_child->index() != "na" ){
+        if( region_container_child != NULL ){
+          if( region_container_child->relation_type() == _relation_type ){
 
             map< string, vector< Object* > >::const_iterator it;
             it = world->min_y_sorted_objects().find( abstract_container_child->type() );
 
             if ( it != world->min_y_sorted_objects().end() ) {
-              unsigned int index_val = world->index_map()[ abstract_container_child->index() ]; 
-              if( index_val < it->second.size() ){
-                if( *object_grounding == *it->second[ index_val ] ){
+              map< string, unsigned int >::const_iterator itindex = world->index_map().find( abstract_container_child->index() );
+              assert( itindex != world->index_map().end() );
+              if( itindex->second < it->second.size() ){
+                if( *object_grounding == *it->second[ itindex->second ] ){
                   return !_invert;
                 } else {
                   return _invert;

@@ -11,7 +11,7 @@
   <NP>
     <grounding>
       <grounding_set>
-        <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+        <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
         <object_property object_type="door" spatial_relation_type="na" index_type="second"/> 
       </grounding_set>
     </grounding>

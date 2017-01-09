@@ -79,42 +79,44 @@ value( const unsigned int& cv,
         const h2sl::Phrase* phrase,
         const World* world,
         const Grounding* context ) {
-  Abstract_Container* abstract_container_child = NULL;
-  Spatial_Relation* spatial_relation_child = NULL;
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
+  if( object_grounding != NULL ){
+    Abstract_Container* abstract_container_child = NULL;
+    Spatial_Relation* spatial_relation_child = NULL;
 
-  for( unsigned int i = 0; i < children.size(); i++ ){
-    for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-      if( dynamic_cast< Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
-        abstract_container_child = static_cast< Abstract_Container* >( children[ i ].second[ j ] );
-      } else if ( dynamic_cast< Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
-        spatial_relation_child = static_cast< Spatial_Relation* >( children[ i ].second[ j ] );
-      } 
-    }
-  } 
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if( dynamic_cast< Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
+          abstract_container_child = static_cast< Abstract_Container* >( children[ i ].second[ j ] );
+        } else if ( dynamic_cast< Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
+          spatial_relation_child = static_cast< Spatial_Relation* >( children[ i ].second[ j ] );
+        } 
+      }
+    } 
  
-  if( abstract_container_child != NULL ){
-    if( spatial_relation_child != NULL ){
-      if( spatial_relation_child->relation_type() == _relation_type ){
-        if( object_grounding != NULL ){
-            map< string, vector< Object* > >::const_iterator it;
-            it  = world->min_y_sorted_objects().find( abstract_container_child->type() );
-            if ( it != world->min_y_sorted_objects().end() ) {
-                for( unsigned int i = 0; i < it->second.size(); i++ ){
-                    if( *object_grounding == *(it->second[ i ]) ){
-                        if( i < world->numeric_map()[ abstract_container_child->number() ] ){
-                            return !_invert;
-                        } else {
-                            return _invert;
-                        }
-                    }
+    if( abstract_container_child != NULL ){
+      if( spatial_relation_child != NULL ){
+        if( spatial_relation_child->relation_type() == _relation_type ){
+          map< string, vector< Object* > >::const_iterator it;
+          it  = world->min_y_sorted_objects().find( abstract_container_child->type() );
+          if ( it != world->min_y_sorted_objects().end() ) {
+            for( unsigned int i = 0; i < it->second.size(); i++ ){
+              if( *object_grounding == *(it->second[ i ]) ){
+                map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( abstract_container_child->number() );
+                assert( itnum != world->numeric_map().end() );
+                if( i < itnum->second ){
+                  return !_invert;
+                } else {
+                  return _invert;
                 }
-            } 
+              }
+            }
+          } 
         }
       }
     }
   }
-    return false;
+  return false;
 }
 
 /** 

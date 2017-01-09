@@ -240,15 +240,13 @@ fill_search_spaces( const World* world ){
   // Constraints
   for( unsigned int i = 0; i < constraint.size(); i++ ) {
     for( unsigned int j = 0; j < payload.size(); j++ ) {
-      for( unsigned int k = 0; k < spatial_relation.size(); k++ ) {
-        for( unsigned int l = 0; l < world->objects().size(); l++ ) {
-          for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
-            _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraint[ i ], 
-  											   payload[ j ], spatial_relation[ k ], 
-											   world->objects()[ l ]->name(), spatial_relation[ m ] ) ) );  
-          }  
-        } 
-      }  
+      for( unsigned int l = 0; l < world->objects().size(); l++ ) {
+        for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
+          _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraint[ i ], 
+  											   payload[ j ], 
+											   world->objects()[ l ]->name(), spatial_relation[ m ] ) ) ); 
+        }  
+      } 
     } 
   }
 
@@ -293,14 +291,9 @@ fill_search_spaces( const World* world ){
   for( unsigned int i = 0; i < object_type.size() ; i++ ){
     for( unsigned int j = 0; j < number.size(); j++ ){
       for( unsigned int k = 0; k < object_color.size(); k++ ){
-          cout << "object_type: " << object_type[ i ] << endl; 
-          cout << "number: " << number[ j ] << endl; 
-          cout << "index: " << index[ 0 ] << endl; 
-          cout << "object_color: " << object_color[ k ] << endl; 
         _search_spaces.push_back( 
                  pair< unsigned int, Grounding* >( 0, new Abstract_Container( object_type[ i ], number[ j ], index[ 0 ], object_color[ k ] ) ) );
         for( unsigned int l = 0; l < region_abstract_container.size(); l++ ){
-          cout << "region_abstract_container: " << region_abstract_container[ l ] << endl; 
           _search_spaces.push_back( 
                    pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( region_abstract_container[ l ], 
 								               Abstract_Container( object_type[ i ] , number[ j ], index[ 0 ], object_color[ k ] ) ) ) );

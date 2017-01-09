@@ -89,32 +89,34 @@ value( const unsigned int& cv,
         const Phrase* phrase,
         const World* world,
         const Grounding* context ) {
-  Container* container_child = NULL;
-  Spatial_Relation* spatial_relation_child = NULL;
   const Object* object_grounding = dynamic_cast< const Object* >( grounding );
+  if( object_grounding != NULL ){
+    Container* container_child = NULL;
+    Spatial_Relation* spatial_relation_child = NULL;
 
-  for( unsigned int i = 0; i < children.size(); i++ ){
-    for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-      if( dynamic_cast< Container* >( children[ i ].second[ j ] ) != NULL ){
-        container_child = static_cast< Container* >( children[ i ].second[ j ] );
-      } else if ( dynamic_cast< Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
-        spatial_relation_child = static_cast< Spatial_Relation* >( children[ i ].second[ j ] );
-      } 
-    }
-  } 
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if( dynamic_cast< Container* >( children[ i ].second[ j ] ) != NULL ){
+          container_child = static_cast< Container* >( children[ i ].second[ j ] );
+        } else if ( dynamic_cast< Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
+          spatial_relation_child = static_cast< Spatial_Relation* >( children[ i ].second[ j ] );
+        } 
+      }
+    } 
  
-  if (container_child != NULL) {
-    if (spatial_relation_child != NULL ) {
-      if (spatial_relation_child->relation_type() == _relation_type ) {
-        if (object_grounding != NULL ){
-          if (dynamic_cast< const Object* >(container_child->container().front()) != NULL) {
-            if (!container_child->container().empty()) {
-              vector< Grounding* > container_child_objects = container_child->container();
-              sort( container_child_objects.begin(), container_child_objects.end(), min_distance_sort_container );
-              if( *object_grounding == *dynamic_cast< const Object* >(container_child_objects.front()) ){
-                return !_invert;
-              } else {
-                return _invert;
+    if (container_child != NULL) {
+      if (spatial_relation_child != NULL ) {
+        if (spatial_relation_child->relation_type() == _relation_type ) {
+          if( !container_child->container().empty() ){
+            if (dynamic_cast< const Object* >(container_child->container().front()) != NULL) {
+              if (!container_child->container().empty()) {
+                vector< Grounding* > container_child_objects = container_child->container();
+                sort( container_child_objects.begin(), container_child_objects.end(), min_distance_sort_container );
+                if( *object_grounding == *dynamic_cast< const Object* >(container_child_objects.front()) ){
+                  return !_invert;
+                } else {
+                  return _invert;
+                }
               }
             }
           }

@@ -14,7 +14,7 @@
         <constraint constraint_type="inside">
           <properties>
             <property payload="generic-robot"/>
-            <property reference="door1"/>
+            <property reference="door0"/>
             <property reference_relation="na"/>
           </properties>
         </constraint>
@@ -24,14 +24,14 @@
     <PP>
       <grounding>
         <grounding_set>
-          <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+          <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
         </grounding_set>
       </grounding>
-      <IN text="to"/>
+      <TO text="to"/>
       <NP>
         <grounding>
           <grounding_set>
-            <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+            <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
           </grounding_set>
         </grounding>
         <NP>
@@ -40,7 +40,7 @@
               <object_property object_type="door" spatial_relation_type="center" index_type="first"/>
               <spatial_relation spatial_relation_type="center"/>
               <object_type object_type="door"/>
-              <object name="door1" object_type="door" object_color="na" position="1.0,-1.5,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
+              <object name="door0" object_type="door" object_color="na" position="1.0,0.0,0.0" orientation="0.0,0.0,0.0,1.0" linear_velocity="0.0" angular_velocity="0.0"/>
             </grounding_set>
           </grounding>
           <DT text="the" order="0"/>
