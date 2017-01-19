@@ -132,6 +132,7 @@
 
 #include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
 #include "h2sl/feature_object_merge_container_pair.h"
+#include "h2sl/feature_object_merge_object_different_container.h"
 
 
 #include "h2sl/feature.h"
@@ -362,6 +363,8 @@ namespace h2sl {
     //    out << *static_cast< const Feature_Object_Merge_Abstract_Container_Index_Region_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Container_Pair* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Container_Pair* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Different_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Different_Container* >( &other );
     } else {
       assert( false );
     } 

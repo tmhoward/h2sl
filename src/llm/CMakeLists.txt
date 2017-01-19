@@ -115,6 +115,7 @@ set(HDRS
     h2sl/feature_object_merge_object_container.h
     #h2sl/feature_object_merge_abstract_container_index_region_container.h
     h2sl/feature_object_merge_container_pair.h
+    h2sl/feature_object_merge_object_different_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -222,6 +223,7 @@ set(SRCS
     feature_object_merge_object_container.cc
     #feature_object_merge_abstract_container_index_region_container.cc
     feature_object_merge_container_pair.cc
+    feature_object_merge_object_different_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES
