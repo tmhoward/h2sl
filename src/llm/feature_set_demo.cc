@@ -125,6 +125,7 @@
 #include "h2sl/feature_object_merge_container_pair.h"
 #include "h2sl/feature_object_merge_object_different_container.h"
 #include "h2sl/feature_object_merge_object_property_region_container.h"
+#include "h2sl/feature_object_merge_object_region_container.h"
 
 #include "feature_set_demo_cmdline.h"
 
