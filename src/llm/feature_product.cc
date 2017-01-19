@@ -141,6 +141,8 @@
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_abstract_container_number_equals_world_objects.h"
 
+#include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
+
 using namespace std;
 using namespace h2sl;
 
@@ -640,7 +642,10 @@ from_xml( xmlNodePtr root ){
 	      } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Object_Merge_Object_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
-	      } else {
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_abstract_container_index_region_container" ) ) == 0 ){
+              _feature_groups.back().push_back( new Feature_Object_Merge_Abstract_Container_Index_Region_Container() );
+              _feature_groups.back().back()->from_xml( l2 );
+          } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );
               } 

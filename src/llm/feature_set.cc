@@ -133,6 +133,8 @@
 
 #include "h2sl/feature_object_merge_object_container.h"
 
+#include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
+
 using namespace std;
 using namespace h2sl;
 
