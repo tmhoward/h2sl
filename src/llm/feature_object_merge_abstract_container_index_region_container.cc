@@ -112,7 +112,7 @@ value( const unsigned int& cv,
       
     unsigned int num_matching_objects = 0;
     for( unsigned int i = 0; i < region_container_child.second->container().container().size(); i++ ){
-      const object * region_container_object = dynamic_cast< const Object* >( region_container_child.second->container().container()[ i ] );
+      const Object * region_container_object = dynamic_cast< const Object* >( region_container_child.second->container().container()[ i ] );
       if( region_container_object != NULL ) {
         if( abstract_container_child.second->type() == region_container_object->type() ){
           num_matching_objects++;
