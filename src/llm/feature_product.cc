@@ -144,6 +144,7 @@
 #include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
 #include "h2sl/feature_object_merge_container_pair.h"
 #include "h2sl/feature_object_merge_object_different_container.h"
+#include "h2sl/feature_object_merge_object_property_region_container.h"
 
 using namespace std;
 using namespace h2sl;
@@ -652,6 +653,9 @@ from_xml( xmlNodePtr root ){
               _feature_groups.back().back()->from_xml( l2 );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_different_container" ) ) == 0 ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Object_Different_Container() );
+              _feature_groups.back().back()->from_xml( l2 );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_property_region_container" ) ) == 0 ){
+              _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Region_Container() );
               _feature_groups.back().back()->from_xml( l2 );
           } else {
                 cout << "could not load feature " << l2->name << endl;
