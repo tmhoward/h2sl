@@ -113,13 +113,14 @@ set(HDRS
     h2sl/feature_object_merge_object_property_spatial_relation.h
     h2sl/feature_object_merge_object_property_index_spatial_relation.h
     h2sl/feature_object_merge_object_container.h
-    #h2sl/feature_object_merge_abstract_container_index_region_container.h
+    h2sl/feature_object_merge_abstract_container_index_region_container.h
     h2sl/feature_object_merge_container_pair.h
     h2sl/feature_object_merge_object_different_container.h
     h2sl/feature_object_merge_object_property_region_container.h
     h2sl/feature_object_merge_object_region_container.h
     h2sl/feature_object_merge_single_object_different_container.h
     h2sl/feature_object_merge_abstract_container_region_container.h
+    h2sl/feature_object_merge_abstract_container_spatial_relation.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -225,13 +226,14 @@ set(SRCS
     feature_object_merge_object_property_spatial_relation.cc
     feature_object_merge_object_property_index_spatial_relation.cc
     feature_object_merge_object_container.cc
-    #feature_object_merge_abstract_container_index_region_container.cc
+    feature_object_merge_abstract_container_index_region_container.cc
     feature_object_merge_container_pair.cc
     feature_object_merge_object_different_container.cc
     feature_object_merge_object_property_region_container.cc
     feature_object_merge_object_region_container.cc
     feature_object_merge_single_object_different_container.cc
     feature_object_merge_abstract_container_region_container.cc
+    feature_object_merge_abstract_container_spatial_relation.cc
     llm.cc)
 
 # BINARY SOURCE FILES

@@ -70,6 +70,18 @@ value( const unsigned int& cv,
 bool
 Feature_Object_Merge_Abstract_Container_Index_Region_Container::
 value( const unsigned int& cv,
+      const h2sl::Grounding* grounding,
+      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
+      const h2sl::Phrase* phrase,
+      const World* world,
+      const Grounding* context ){
+    
+}
+
+
+/*bool
+Feature_Object_Merge_Abstract_Container_Index_Region_Container::
+value( const unsigned int& cv,
        const h2sl::Grounding* grounding,
        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
        const h2sl::Phrase* phrase,
@@ -167,7 +179,8 @@ value( const unsigned int& cv,
       }
     }
     return _invert;
-}
+}*/
+
 /*
 
       if( ( abstract_container_child.first != NULL ) && ( abstract_container_child.second != NULL ) && ( region_container_child.first != NULL ) && ( region_container_child.second != NULL ) ){ 
