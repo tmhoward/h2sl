@@ -138,6 +138,8 @@
 #include "h2sl/feature_object_merge_object_different_container.h"
 #include "h2sl/feature_object_merge_object_property_region_container.h"
 #include "h2sl/feature_object_merge_object_region_container.h"
+#include "h2sl/feature_object_merge_single_object_different_container.h"
+#include "h2sl/feature_object_merge_abstract_container_region_container.h"
 
 using namespace std;
 using namespace h2sl;
