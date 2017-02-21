@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world>
+    <object name="barrel0" object_type="barrel" object_color="red" position="5.62275 -2.64419 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="5.51946 -6.34805 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="4.98681 -2.79217 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="3.70782 -2.61123 0.270293" orientation="0,0,0,1"/>
+    <object name="chair0" object_type="chair" object_color="white" position="-1.97061 5.88572 0.01" orientation="0,0,0,1"/>
+    <object name="chair1" object_type="chair" object_color="white" position="-0.840578 4.1327 0.01" orientation="0,0,0,1"/>
+    <object name="chair2" object_type="chair" object_color="white" position="1.2138 5.96826 0.01" orientation="0,0,0,1"/>
+    <object name="chair3" object_type="chair" object_color="white" position="3.09775 4.65536 0.01" orientation="0,0,0,1"/>
+    <object name="cone0" object_type="cone" object_color="orange" position="-7.89016 -5.92041 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-7.93586 -2.27813 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-6.7438 0.489606 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-7.28794 2.31193 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone4" object_type="cone" object_color="orange" position="-6.52956 5.39707 0.00962007" orientation="0,0,0,1"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
+    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+  </world>
+</root>

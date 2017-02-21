@@ -1,0 +1,56 @@
+This document is meant to provide a simple way to find example instructions and which world model is associated with each instruction
+
+row_col_group:
+  row_col_group_0000
+    "four white chairs the the side of the robot"
+    "a row of charis at the left side of the robot"
+    "four chairs at the left side of the robot"
+
+  row_col_group_0001
+    "the group of drums at the right side in front of the robot"
+    "four drums at the right side in front of the robot"
+    "the four red barrels on the right side of the robot"
+
+  row_col_group_0002
+    "the four druns far away on the right side at front of the robot"
+    "group of drums at right side front of the robot"
+    "the four red barrels beside the robot"
+
+  row_col_group_0003
+    "the five cones that are behind the robot"
+    "the row of cones behind the robot"
+    "the fives cones near the back of the robot"
+
+  row_col_group_0004
+    "the four white chairs to the robot's left"
+    "the row of chairs at the left side of the robot"
+    "four chairs at the left side of the robot"
+
+  row_col_group_0005
+    "the four barrels beside the robot"
+    "group of drums at right side at front of the robot"
+    "four drums at right side in front of the robot"
+
+  row_col_group_0006
+    "the five cones behind the robot"
+    "the five cones located behind the robot"
+    "the five cones near the back of the robot"
+
+  row_col_group_0007
+    "the four white chairs to the robot's left"
+    "the four chairs beside the robot"
+    "the four chairs at the left side of the robot"
+    "the four chairs near the left side of the robot"
+
+  row_col_group_0008
+    "row of chairs at the left side of the robot"
+    "four chairs near the left side of the robot"
+    "the white chairs beside the robot"
+
+  row_col_group_0009
+    "the five cones behind the robot"
+    "the row of cones behind the robot"
+    "the five cones near the back of the robot"
+  
+
+
