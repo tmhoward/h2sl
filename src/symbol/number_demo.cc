@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !numbers.empty() ){
-    cout << "Number::class_name(): " << Number::class_name() << endl;
     cout << "numbers.back()->class_name(): " << numbers.back()->class_name() << endl;
     for( unsigned int i = 0; i < numbers.size(); i++ ){
       cout << "numbers[ " << i << " ]: " << *numbers[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     numbers.push_back( new Number() );
     cout << "number:( " << *numbers.back() << endl;
     cout << "number->class_name(): " << numbers.back()->class_name() << endl;
-    cout << "Number::class_name(): " << Number::class_name() << endl;
   }
 
   if( args.output_given ){

@@ -7,6 +7,7 @@
  */
 
 #include "h2sl/object_color.h"
+#include "h2sl/world.h"
 
 using namespace std;
 using namespace h2sl;
@@ -16,13 +17,13 @@ using namespace h2sl;
  */
 Object_Color::
 Object_Color( const string& object_colorType ) : Grounding() {
-  insert_prop< std::string >( _properties, "object_color_type", object_colorType );
+  insert_prop< std::string >( _string_properties, "object_color_type", object_colorType );
 }
 
 
 Object_Color::
 Object_Color( xmlNodePtr root ) : Grounding() {
-    insert_prop< std::string >( _properties, "object_color_type", "na" );
+    insert_prop< std::string >( _string_properties, "object_color_type", "na" );
     from_xml( root );
 }
 
@@ -48,7 +49,8 @@ Object_Color::
 Object_Color&
 Object_Color::
 operator=( const Object_Color& other ){
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -81,6 +83,33 @@ Object_Color*
 Object_Color::
 dup( void )const{
   return new Object_Color( *this );
+}
+
+void
+Object_Color::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+
+  map< string, vector< string > >::const_iterator it_object_color_types = symbolDictionary.string_types().find( "object_color" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( SYMBOL_TYPE_ALL ):
+    if( it_object_color_types != symbolDictionary.string_types().end() ){
+      for( unsigned int i = 0; i < it_object_color_types->second.size(); i++ ){
+        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Color( it_object_color_types->second[ i ] ) ) );
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
 }
 
 /** 
@@ -150,7 +179,7 @@ Object_Color::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "object_color" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_color_type").c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color_type").c_str() ) );
   xmlAddChild( root, node );
   return;
 }

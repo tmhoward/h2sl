@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !region_abstract_containers.empty() ){
-    cout << "Region_Abstract_Container::class_name(): " << Region_Abstract_Container::class_name() << endl;
     cout << "region_abstract_containers.back()->class_name(): " << region_abstract_containers.back()->class_name() << endl;
     for( unsigned int i = 0; i < region_abstract_containers.size(); i++ ){
       cout << "region_abstract_containers[ " << i << " ]: " << *region_abstract_containers[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     region_abstract_containers.push_back( new Region_Abstract_Container() );
     cout << "region_abstract_container:( " << *region_abstract_containers.back() << endl;
     cout << "region_abstract_container->class_name(): " << region_abstract_containers.back()->class_name() << endl;
-    cout << "Region_Abstract_Container::class_name(): " << Region_Abstract_Container::class_name() << endl;
   }
 
   if( args.output_given ){

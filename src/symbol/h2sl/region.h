@@ -51,14 +51,17 @@ namespace h2sl {
     bool operator!=( const Region& other )const;
     virtual Grounding* dup( void )const;
 
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "region" ); };
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
+
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline std::string& region_type( void ){ return get_prop< std::string >( _properties, "region_type" ); };
-    inline const std::string& region_type( void )const{ return get_prop< std::string >( _properties, "region_type" ); };
+    inline std::string& region_type( void ){ return get_prop< std::string >( _string_properties, "region_type" ); };
+    inline const std::string& region_type( void )const{ return get_prop< std::string >( _string_properties, "region_type" ); };
     inline Object& object( void ){ return _object; };
     inline const Object& object( void )const{ return _object; };
 

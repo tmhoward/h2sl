@@ -47,10 +47,6 @@
 #include "h2sl/feature_phrase_has_single_pos_tag.h"
 #include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
 
-#include "h2sl/feature_abstract_container_type.h"
-#include "h2sl/feature_abstract_container_color.h"
-#include "h2sl/feature_abstract_container_number.h"
-#include "h2sl/feature_abstract_container_index.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 
 #include "h2sl/feature_constraint_payload_type.h"
@@ -111,7 +107,6 @@
 #include "h2sl/feature_object_property_relation_type.h"
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
-#include "h2sl/feature_region_abstract_container_number.h"
 #include "h2sl/feature_region_abstract_container_object_type.h"
 #include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
@@ -119,10 +114,11 @@
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_type.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
-#include "h2sl/feature_region_object_property_value.h"
+#include "h2sl/feature_region_object_string_property_value.h"
 #include "h2sl/feature_region_object_matches_child.h"
 #include "h2sl/feature_spatial_relation_matches_child.h"
-#include "h2sl/feature_grounding_property_value.h"
+#include "h2sl/feature_grounding_string_property_value.h"
+#include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_object_merge_object_property_spatial_relation.h"
 #include "h2sl/feature_object_merge_object_property_index_spatial_relation.h"
@@ -372,10 +368,12 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_num_words" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Num_Words() );
                 _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_property_value" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Grounding_Property_Value( l2 ) );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object_property_value" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_Region_Object_Property_Value( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_string_property_value" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Grounding_String_Property_Value( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_int_property_value" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Grounding_Int_Property_Value( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object_string_property_value" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Region_Object_String_Property_Value( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object_matches_child" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Region_Object_Matches_Child( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object" ) ) == 0 ){
@@ -491,20 +489,6 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_container_matches_child_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Container_Container_Matches_Child_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
-              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_index" ) ) == 0 ){
-              //    _feature_groups.back().push_back( new Feature_Object_Property_Index( l2 ) );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_type" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Abstract_Container_Type() );
-                  _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_color" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Abstract_Container_Color() );
-                  _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_number" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Abstract_Container_Number() );
-                  _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_index" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Abstract_Container_Index() );
-                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_container_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Container_Type() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -525,9 +509,6 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_object_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Object_Type() );
-                  _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_number" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Number() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_object" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Min_X_Object() );

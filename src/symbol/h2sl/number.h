@@ -23,7 +23,7 @@ namespace h2sl {
   class Number : public Grounding {
   public:
 
-    Number( const std::string& numberValue = "na" );
+    Number( const int& value = 0 );
     Number( const Number& other );
     Number( xmlNodePtr root );
     virtual ~Number();
@@ -31,14 +31,17 @@ namespace h2sl {
     bool operator==( const Number& other )const;
     bool operator!=( const Number& other )const;
     virtual Number* dup( void )const;
+
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "number" ); };
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
  
     virtual void from_xml( const std::string& file );
     virtual void from_xml( xmlNodePtr root );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    inline std::string& number_value( void ){ return get_prop< std::string >( _properties, "number_value" ); };
-    inline const std::string& number_value( void )const{ return get_prop< std::string >( _properties, "number_value" ); };
+    inline int& value( void ){ return get_prop< int >( _int_properties, "value" ); };
+    inline const int& value( void )const{ return get_prop< int >( _int_properties, "value" ); };
 
     static std::string class_name( void ){ return "number"; };
 

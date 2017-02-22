@@ -1,5 +1,5 @@
 /**
- * @file    grounding_demo.cc
+ * @file    symbol_dictionary_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,14 +28,13 @@
  *
  * @section DESCRIPTION
  *
- * A Grounding class demo program
+ * A Symbol_Dictionary class demo program
  */
 
 #include <iostream>
-#include <cstdlib>
-#include "h2sl/grounding.h"
-#include "h2sl/object.h"
-#include "grounding_demo_cmdline.h"
+#include <iomanip>
+#include "h2sl/symbol_dictionary.h"
+#include "symbol_dictionary_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -44,30 +43,29 @@ int
 main( int argc,
       char* argv[] ) {
   int status = 0;
-  cout << "start of Grounding class demo program" << endl;
-
+  cout << "start of Symbol_Dictionary class demo program" << endl;
+  
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
     exit(1);
   }
 
-  Grounding * grounding = new Object();
+  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary();
+  if( symbol_dictionary != NULL ){
+    if( args.input_given ){
+      symbol_dictionary->from_xml( args.input_arg );
+    } 
 
-  if( args.input_given ){
-    grounding->from_xml( args.input_arg );
+    cout << "symbol_dictionary:(" << *symbol_dictionary << ")" << endl;
+
+    if( args.output_given ){
+      symbol_dictionary->to_xml( args.output_arg );
+    }
+
+    delete symbol_dictionary;
+    symbol_dictionary = NULL;
   }
 
-  cout << "grounding:(" << *grounding << ")" << endl;
-
-  if( args.output_given ){
-    grounding->to_xml( args.output_arg );
-  }
-
-  if( grounding != NULL ){
-    delete grounding;
-    grounding = NULL;
-  }
-
-  cout << "end of Grounding class demo program" << endl;
+  cout << "end of Symbol_Dictionary class demo program" << endl;
   return status;
 }

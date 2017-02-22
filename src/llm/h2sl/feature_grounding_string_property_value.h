@@ -1,5 +1,5 @@
 /**
- * @file    feature_grounding_property_value.h
+ * @file    feature_grounding_string_property_value.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -31,21 +31,21 @@
  * The interface for a class to check a grounding's property
  */
 
-#ifndef H2SL_FEATURE_GROUNDING_PROPERTY_VALUE_H
-#define H2SL_FEATURE_GROUNDING_PROPERTY_VALUE_H
+#ifndef H2SL_FEATURE_GROUNDING_STRING_PROPERTY_VALUE_H
+#define H2SL_FEATURE_GROUNDING_STRING_PROPERTY_VALUE_H
 
 #include <iostream>
 
 #include <h2sl/feature.h>
 
 namespace h2sl {
-  class Feature_Grounding_Property_Value: public Feature {
+  class Feature_Grounding_String_Property_Value: public Feature {
   public:
-    Feature_Grounding_Property_Value( const bool& invert = false, const std::string& propertyKey = "na", const std::string& propertySymbol = "na" );
-    Feature_Grounding_Property_Value( xmlNodePtr root );
-    virtual ~Feature_Grounding_Property_Value();
-    Feature_Grounding_Property_Value( const Feature_Grounding_Property_Value& other );
-    Feature_Grounding_Property_Value& operator=( const Feature_Grounding_Property_Value& other );
+    Feature_Grounding_String_Property_Value( const bool& invert = false, const std::string& className = "na", const std::string& propertyKey = "na", const std::string& propertySymbol = "na" );
+    Feature_Grounding_String_Property_Value( xmlNodePtr root );
+    virtual ~Feature_Grounding_String_Property_Value();
+    Feature_Grounding_String_Property_Value( const Feature_Grounding_String_Property_Value& other );
+    Feature_Grounding_String_Property_Value& operator=( const Feature_Grounding_String_Property_Value& other );
 
     virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
     virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
@@ -55,6 +55,8 @@ namespace h2sl {
 
     virtual void from_xml( xmlNodePtr root );
 
+    std::string& class_name( void );
+    const std::string& class_name( void )const;
     std::string& key( void );
     const std::string& key( void )const;
     std::string& symbol( void );
@@ -63,13 +65,14 @@ namespace h2sl {
     virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
   protected:
+    std::string _class_name;
     std::string _key;
     std::string _symbol;
 
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const Feature_Grounding_Property_Value& other );
+  std::ostream& operator<<( std::ostream& out, const Feature_Grounding_String_Property_Value& other );
 }
 
-#endif /* H2SL_FEATURE_GROUNDING_PROPERTY_VALUE_H */
+#endif /* H2SL_FEATURE_GROUNDING_STRING_PROPERTY_VALUE_H */

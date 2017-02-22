@@ -40,10 +40,6 @@
 #include "h2sl/feature_phrase_has_single_pos_tag.h"
 #include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
 
-#include "h2sl/feature_abstract_container_type.h"
-#include "h2sl/feature_abstract_container_color.h"
-#include "h2sl/feature_abstract_container_number.h"
-#include "h2sl/feature_abstract_container_index.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 
 #include "h2sl/feature_constraint_payload_type.h"
@@ -105,7 +101,6 @@
 #include "h2sl/feature_object_property_relation_type.h"
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
-#include "h2sl/feature_region_abstract_container_number.h"
 #include "h2sl/feature_region_abstract_container_object_type.h"
 #include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
@@ -113,9 +108,10 @@
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_type.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
-#include "h2sl/feature_region_object_property_value.h"
+#include "h2sl/feature_region_object_string_property_value.h"
 #include "h2sl/feature_spatial_relation_matches_child.h"
-#include "h2sl/feature_grounding_property_value.h"
+#include "h2sl/feature_grounding_string_property_value.h"
+#include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_object_merge_object_property_spatial_relation.h"
 

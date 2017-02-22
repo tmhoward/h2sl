@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !objects.empty() ){
-    cout << "Object::class_name(): " << Object::class_name() << endl;
     cout << "objects.back()->class_name(): " << objects.back()->class_name() << endl;
     for( unsigned int i = 0; i < objects.size(); i++ ){
       cout << "objects[ " << i << " ]: " << *objects[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     objects.push_back( new Object() );
     cout << "object:( " << *objects.back() << endl;
     cout << "object->class_name(): " << objects.back()->class_name() << endl;
-    cout << "Object::class_name(): " << Object::class_name() << endl;
   }
 
   if( args.output_given ){

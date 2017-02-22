@@ -18,12 +18,12 @@ using namespace h2sl;
  */
 Spatial_Relation::
 Spatial_Relation( const string& spatial_relationType ) : Grounding() {
-  insert_prop< std::string >( _properties, "spatial_relation_type", spatial_relationType );
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", spatial_relationType );
 }
 
 Spatial_Relation::
 Spatial_Relation( xmlNodePtr root ) : Grounding() {
-    insert_prop< std::string >( _properties, "spatial_relation_type", "na" );
+    insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
     from_xml( root );
 }
 
@@ -49,7 +49,8 @@ Spatial_Relation::
 Spatial_Relation&
 Spatial_Relation::
 operator=( const Spatial_Relation& other ){
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -82,6 +83,33 @@ Spatial_Relation*
 Spatial_Relation::
 dup( void )const{
   return new Spatial_Relation( *this );
+}
+
+void
+Spatial_Relation::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+
+  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( SYMBOL_TYPE_ALL ):
+    if( it_spatial_relation_type_types != symbolDictionary.string_types().end() ){
+      for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
+        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Spatial_Relation( it_spatial_relation_type_types->second[ i ] ) ) );
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
 }
 
 /** 
@@ -151,7 +179,7 @@ Spatial_Relation::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "spatial_relation" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "spatial_relation_type").c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "spatial_relation_type").c_str() ) );
   xmlAddChild( root, node );
   return;
 }

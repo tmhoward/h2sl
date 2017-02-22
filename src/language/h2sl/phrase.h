@@ -38,8 +38,8 @@
 #include <vector>
 #include <libxml/tree.h>
 
-#include <h2sl/grounding.h>
-#include <h2sl/word.h>
+#include "h2sl/word.h"
+#include "h2sl/grounding.h"
 
 namespace h2sl {
   typedef enum {
@@ -58,7 +58,7 @@ namespace h2sl {
     NUM_PHRASE_TYPES
   } phrase_type_t;  
 
-  class Phrase : public Grounding {
+  class Phrase {
   public:
     Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase* >& children = std::vector< Phrase* >(), Grounding* grounding = NULL );
     virtual ~Phrase();

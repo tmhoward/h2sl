@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <symbol_dictionary>
+    <string_property key="constraint_type" value="inside,outside"/>
+    <string_property key="payload_type" value="generic-robot"/>
+    <string_property key="object_type" value="na,block,table,robot,door"/>
+    <string_property key="spatial_relation_type" value="na,front,back,left,right,center,side,near,far,above,below"/>
+    <int_property key="index_value" value="1,2,3,4,5"/>
+    <int_property key="number_value" value="1,2,3,4,5,6,7,8,9,10,11,12"/>
+    <string_property key="object_color_type" value="na,red,blue,yellow,green"/>
+    <string_property key="container_type" value="group,row,column"/>
+  </symbol_dictionary>
+</root>

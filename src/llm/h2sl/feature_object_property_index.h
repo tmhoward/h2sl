@@ -20,8 +20,7 @@ namespace h2sl {
    */
   class Feature_Object_Property_Index : public Feature {
   public:
-    //Feature_Object_Property_Index( const bool& invert = false, const unsigned int& index = 0 );
-    Feature_Object_Property_Index( const bool& invert = false, const std::string& index = "na" );
+    Feature_Object_Property_Index( const bool& invert = false, const int& index = 0 );
     
     Feature_Object_Property_Index( const Feature_Object_Property_Index& other );
     virtual ~Feature_Object_Property_Index();
@@ -35,17 +34,13 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    //unsigned int& index( void );
-    //const unsigned int& index( void )const;
-
-    std::string& index( void );
-    const std::string& index( void )const;
+    int& index( void );
+    const int& index( void )const;
 
     virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
 
   protected:
-    //unsigned int _index;
-    std::string _index;
+    int _index;
 
   private:
 

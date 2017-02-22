@@ -32,14 +32,17 @@ namespace h2sl {
         bool operator==( const Object_Color& other )const;
         bool operator!=( const Object_Color& other )const;
         virtual Object_Color* dup( void )const;
-        
+       
+        virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "object_color" ); };
+        static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType ); 
+   
         virtual void from_xml( const std::string& file );
         virtual void from_xml( xmlNodePtr root );
         virtual void to_xml( const std::string& file )const;
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
-        inline std::string& object_color_type( void ){ return get_prop< std::string >( _properties, "object_color_type" ); };
-        inline const std::string& object_color_type( void )const{ return get_prop< std::string >( _properties, "object_color_type" ); };
+        inline std::string& object_color_type( void ){ return get_prop< std::string >( _string_properties, "object_color_type" ); };
+        inline const std::string& object_color_type( void )const{ return get_prop< std::string >( _string_properties, "object_color_type" ); };
 
         static std::string class_name( void ){ return "object_color"; };
         

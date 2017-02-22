@@ -23,7 +23,7 @@ namespace h2sl {
    */
   class Object_Property : public Grounding {
   public:
-    Object_Property( const std::string& objectType = "na", const std::string& spatial_relationType = "na", const std::string& indexType = "na" );
+    Object_Property( const std::string& objectType = "na", const std::string& spatial_relationType = "na", const int& index = 0 );
     Object_Property( const Object_Property& other );
     Object_Property( xmlNodePtr root );
     virtual ~Object_Property();
@@ -31,20 +31,23 @@ namespace h2sl {
     bool operator==( const Object_Property& other )const;
     bool operator!=( const Object_Property& other )const;
     virtual Object_Property* dup( void )const;
+
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "object_property" ); };
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
  
     virtual void from_xml( const std::string& file );
     virtual void from_xml( xmlNodePtr root );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    inline std::string& type( void ){ return get_prop< std::string >( _properties, "object_type" ); };
-    inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
+    inline std::string& type( void ){ return get_prop< std::string >( _string_properties, "object_type" ); };
+    inline const std::string& type( void )const{ return get_prop< std::string >( _string_properties, "object_type" ); };
     
-    inline std::string& relation_type( void ){ return get_prop< std::string >( _properties, "spatial_relation_type" ); };
-    inline const std::string& relation_type( void )const{ return get_prop< std::string >( _properties, "spatial_relation_type" ); };
+    inline std::string& relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+    inline const std::string& relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
     
-    inline std::string& index( void ){ return get_prop< std::string >( _properties, "index_type" ); };
-    inline const std::string& index( void )const{ return get_prop< std::string >( _properties, "index_type" ); };
+    inline int& index( void ){ return get_prop< int >( _int_properties, "index" ); };
+    inline const int& index( void )const{ return get_prop< int >( _int_properties, "index" ); };
 
     static std::string class_name( void ){ return "object_property"; };
 

@@ -27,8 +27,8 @@ namespace h2sl {
   class Abstract_Container : public Grounding {
   public:
     Abstract_Container( const std::string& objectType = "na",
-                        const std::string& numberType = "na",
-                        const std::string& indexType = "na",
+                        const int& number = 0,
+                        const int& index = 0,
                         const std::string& colorType = "na" );                   
 
     Abstract_Container( const Abstract_Container& other );
@@ -39,25 +39,28 @@ namespace h2sl {
     bool operator!=( const Abstract_Container& other )const;
     Abstract_Container* dup( void )const;
 
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "abstract_container" ); };
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
+
     inline std::string& type( void ){
-              return get_prop< std::string >( _properties, "object_type" ); };
+              return get_prop< std::string >( _string_properties, "object_type" ); };
     inline const std::string& type( void )const{
-              return get_prop< std::string >( _properties, "object_type" ); };
+              return get_prop< std::string >( _string_properties, "object_type" ); };
    
-    inline std::string& number( void ){ 
-              return get_prop< std::string >( _properties, "number_type" ); };
-    inline const std::string& number( void )const{ 
-              return get_prop< std::string >( _properties, "number_type" ); };
+    inline int& number( void ){ 
+              return get_prop< int >( _int_properties, "number" ); };
+    inline const int& number( void )const{ 
+              return get_prop< int >( _int_properties, "number" ); };
  
-    inline std::string& index( void ){ 
-              return get_prop< std::string >( _properties, "index_type" ); };
-    inline const std::string& index( void )const{ 
-              return get_prop< std::string >( _properties, "index_type" ); };
+    inline int& index( void ){ 
+              return get_prop< int >( _int_properties, "index" ); };
+    inline const int& index( void )const{ 
+              return get_prop< int >( _int_properties, "index" ); };
  
     inline std::string& color( void ){
-              return get_prop< std::string >( _properties, "object_color_type" ); };
+              return get_prop< std::string >( _string_properties, "object_color_type" ); };
     inline const std::string& color( void )const{
-              return get_prop< std::string >( _properties, "object_color_type" ); };
+              return get_prop< std::string >( _string_properties, "object_color_type" ); };
     
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

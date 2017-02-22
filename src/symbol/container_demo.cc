@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !containers.empty() ){
-    cout << "Container::class_name(): " << Container::class_name() << endl;
     cout << "containers.back()->class_name(): " << containers.back()->class_name() << endl;
     cout << "Testing the has_object function by passing in one novel object \"test_object\" (should return '0') and all objects from the container (should return '1')." << endl;
     const Object * test_object = new Object( "test_object" );
@@ -136,7 +135,6 @@ main( int argc,
     containers.push_back( new Container() );
     cout << "container:( " << *containers.back() << endl;
     cout << "container->class_name(): " << containers.back()->class_name() << endl;
-    cout << "Container::class_name(): " << Container::class_name() << endl;
   }
 
   if( args.output_given ){

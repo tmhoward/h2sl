@@ -107,12 +107,12 @@ void
 Factor_Set::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
-        const map< string, vector< string > >& symbolTypes,
+        const Symbol_Dictionary& symbolDictionary,
         const World* world,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
-  search( searchSpace, correspondenceVariables, symbolTypes, world, NULL, llm, beamWidth, debug );
+  search( searchSpace, correspondenceVariables, symbolDictionary, world, NULL, llm, beamWidth, debug );
   return;
 }
 
@@ -120,7 +120,7 @@ void
 Factor_Set::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
-        const map< string, vector< string > >& symbolTypes,
+        const Symbol_Dictionary& symbolDictionary,
         const World* world, 
         const Grounding* context, 
         LLM* llm,

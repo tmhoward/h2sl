@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !regions.empty() ){
-    cout << "Region::class_name(): " << Region::class_name() << endl;
     cout << "regions.back()->class_name(): " << regions.back()->class_name() << endl;
     for( unsigned int i = 0; i < regions.size(); i++ ){
       cout << "regions[ " << i << " ]: " << *regions[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     regions.push_back( new Region() );
     cout << "region:( " << *regions.back() << endl;
     cout << "region->class_name(): " << regions.back()->class_name() << endl;
-    cout << "Region::class_name(): " << Region::class_name() << endl;
   }
 
   if( args.output_given ){

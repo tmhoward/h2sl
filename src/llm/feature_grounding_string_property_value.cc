@@ -1,5 +1,5 @@
 /**
- * @file    feature_grounding_property_value.cc
+ * @file    feature_grounding_string_property_value.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -34,50 +34,54 @@
 #include <sstream>
 
 #include "h2sl/region.h"
-#include "h2sl/feature_grounding_property_value.h"
+#include "h2sl/feature_grounding_string_property_value.h"
 
 using namespace std;
 using namespace h2sl;
 
-Feature_Grounding_Property_Value::
-Feature_Grounding_Property_Value( const bool& invert,
+Feature_Grounding_String_Property_Value::
+Feature_Grounding_String_Property_Value( const bool& invert,
+                        const string& className,
                         const string& key,
                         const string& symbol ) : Feature( invert ),
+                                                        _class_name( className ),
                                                         _key( key ),
                                                         _symbol( symbol ) {
 
 }
 
-Feature_Grounding_Property_Value::
-Feature_Grounding_Property_Value( xmlNodePtr root ) : Feature(),
+Feature_Grounding_String_Property_Value::
+Feature_Grounding_String_Property_Value( xmlNodePtr root ) : Feature(),
                                                       _key( "na" ),
                                                       _symbol( "na" ) {
   from_xml( root );
 }
 
-Feature_Grounding_Property_Value::
-~Feature_Grounding_Property_Value() {
+Feature_Grounding_String_Property_Value::
+~Feature_Grounding_String_Property_Value() {
 
 }
 
-Feature_Grounding_Property_Value::
-Feature_Grounding_Property_Value( const Feature_Grounding_Property_Value& other ) : Feature( other ),
+Feature_Grounding_String_Property_Value::
+Feature_Grounding_String_Property_Value( const Feature_Grounding_String_Property_Value& other ) : Feature( other ),
+                                                                _class_name( other._class_name ),
                                                                 _key( other._key ),
                                                                 _symbol( other._symbol ) {
 
 }
 
-Feature_Grounding_Property_Value&
-Feature_Grounding_Property_Value::
-operator=( const Feature_Grounding_Property_Value& other ) {
+Feature_Grounding_String_Property_Value&
+Feature_Grounding_String_Property_Value::
+operator=( const Feature_Grounding_String_Property_Value& other ) {
   _invert = other._invert;
+  _class_name = other._class_name;
   _key = other._key;
   _symbol = other._symbol;
   return (*this);
 }
 
 bool
-Feature_Grounding_Property_Value::
+Feature_Grounding_String_Property_Value::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -87,7 +91,7 @@ value( const unsigned int& cv,
 }
 
 bool
-Feature_Grounding_Property_Value::
+Feature_Grounding_String_Property_Value::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -95,12 +99,14 @@ value( const unsigned int& cv,
         const World* world,
         const Grounding* context ){
   if( grounding != NULL ){
-    map< std::string, std::string >::const_iterator it = grounding->properties().find( _key );
-    if( it != grounding->properties().end() ){
-      if( it->second == _symbol ){
-        return !_invert;
-      } else {
-        return _invert;
+    if( grounding->matches_class_name( _class_name ) ){
+      map< std::string, std::string >::const_iterator it = grounding->string_properties().find( _key );
+      if( it != grounding->string_properties().end() ){
+        if( it->second == _symbol ){
+          return !_invert;
+        } else {
+          return _invert;
+        }
       } 
     }
   }
@@ -108,12 +114,13 @@ value( const unsigned int& cv,
 }
 
 void
-Feature_Grounding_Property_Value::
+Feature_Grounding_String_Property_Value::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_grounding_property_value" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_grounding_string_property_value" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "class_name" ), ( const xmlChar* )( _class_name.c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "key" ), ( const xmlChar* )( _key.c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "symbol" ), ( const xmlChar* )( _symbol.c_str() ) );
   xmlAddChild( root, node );
@@ -121,52 +128,68 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
 }
 
 void
-Feature_Grounding_Property_Value::
+Feature_Grounding_String_Property_Value::
 from_xml( xmlNodePtr root ){
   _invert = false;
+  _class_name = "na";
   _key = "na";
   _symbol = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( char* )( tmp );
-      _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
+    pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
+    if( invert_prop.first ) {
+      _invert = invert_prop.second;
     }
-    tmp = xmlGetProp( root, ( const xmlChar* )( "key" ) );
-    if( tmp != NULL ){
-      _key = ( char* )( tmp );
-      xmlFree( tmp );
-    } 
-    tmp = xmlGetProp( root, ( const xmlChar* )( "symbol" ) );
-    if( tmp != NULL ){
-      _symbol = ( char* )( tmp );
-      xmlFree( tmp );
+
+    pair< bool, std::string > class_name_prop = has_prop< std::string >( root, "class_name" );
+    if( class_name_prop.first ) {
+      _class_name = class_name_prop.second;
+    }
+
+    pair< bool, std::string > key_prop = has_prop< std::string >( root, "key" );
+    if( key_prop.first ) {
+      _key = key_prop.second;
+    }
+
+    pair< bool, std::string > symbol_prop = has_prop< std::string >( root, "symbol" );
+    if( symbol_prop.first ) {
+      _symbol = symbol_prop.second;
     }
   }
   return;
 }
 
+std::string&
+Feature_Grounding_String_Property_Value::
+class_name( void ){
+  return _class_name;
+};
+
+const std::string&
+Feature_Grounding_String_Property_Value::
+class_name( void )const{
+  return _class_name;
+};
+
 std::string& 
-Feature_Grounding_Property_Value::
+Feature_Grounding_String_Property_Value::
 key( void ){ 
   return _key; 
 };
 
 const std::string& 
-Feature_Grounding_Property_Value::
+Feature_Grounding_String_Property_Value::
 key( void )const{ 
   return _key; 
 };
 
 std::string&
-Feature_Grounding_Property_Value::
+Feature_Grounding_String_Property_Value::
 symbol( void ){ 
 return _symbol;
 };
 
 const std::string& 
-Feature_Grounding_Property_Value::
+Feature_Grounding_String_Property_Value::
 symbol( void )const{ 
   return _symbol; 
 }
@@ -174,9 +197,8 @@ symbol( void )const{
 namespace h2sl {
   ostream&
   operator<<( ostream& out,
-              const Feature_Grounding_Property_Value& other ) {
-    out << "Feature_Grounding_Property_Value:(invert:(" << other.invert() << ") key:(" << other.key() << ") symbol:(" << other.symbol() << "))";
+              const Feature_Grounding_String_Property_Value& other ) {
+    out << "Feature_Grounding_String_Property_Value:(invert:(" << other.invert() << ") class:(" << other.class_name() << ") key:(" << other.key() << ") symbol:(" << other.symbol() << "))";
     return out;
   }
-
 }

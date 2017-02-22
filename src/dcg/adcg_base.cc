@@ -123,229 +123,19 @@ fill_search_spaces( const World* world ){
   _correspondence_variables.push_back( binary_cvs );
   _correspondence_variables.push_back( ternary_cvs );
 
-  // ADCG_Base SYMBOLS
-
-  // Constraints
-  vector< std::string > constraint;
-  constraint.push_back( "inside" );
-  constraint.push_back( "outside" );
-
-  // Constraints::payload
-  vector< std::string > payload;
-  payload.push_back( "generic-robot" ); 
-
-  // AADCG_Base SYMBOLS 
-
-  // Object_Type
-  vector< std::string > object_type;
-  object_type.push_back( "na" );
-  object_type.push_back( "block" );
-  object_type.push_back( "table" );
-  object_type.push_back( "robot" );
-  object_type.push_back( "door" );
-  //object_type.push_back( "ycb-can" );
-  //object_type.push_back( "ycb-box" );
-  //object_type.push_back( "ycb-fruit" );
- 
-  // Spatial_Relation
-  vector< std::string > spatial_relation;
-  spatial_relation.push_back( "na" );
-  spatial_relation.push_back( "front" );
-  spatial_relation.push_back( "back" );
-  spatial_relation.push_back( "left" );
-  spatial_relation.push_back( "center" );
-  spatial_relation.push_back( "right" );
-  spatial_relation.push_back( "side" );
-  spatial_relation.push_back( "near" );
-  spatial_relation.push_back( "far" );
-  spatial_relation.push_back( "above" );
-  spatial_relation.push_back( "below" );
-  
-  // Index
-  // Note: not starting from "na"
-  vector< std::string > index;
-  index.push_back( "first" );
-  index.push_back( "second" );
-  index.push_back( "third" );
-  index.push_back( "fourth" );
-  index.push_back( "fifth" );
-  
-  // Number
-  // Note: not starting from "na"
-  vector< std::string > number;
-  number.push_back( "one" );
-  number.push_back( "two" );
-  number.push_back( "three" );
-  number.push_back( "four" );
-  number.push_back( "five" );
-  number.push_back( "six" );
-  number.push_back( "seven" );
-  number.push_back( "eight" );
-  number.push_back( "nine" );
-  number.push_back( "ten" );
-  number.push_back( "eleven" );
-  number.push_back( "twelve" );
- 
-  // Object_Color   
-  vector< std::string > object_color;
-  object_color.push_back( "na" );
-  object_color.push_back( "red" );
-  object_color.push_back( "blue" );
-  object_color.push_back( "yellow" );
-
-  // Region abstract container type.
-  vector< std::string > region_abstract_container; 
-  region_abstract_container.push_back( "front" );
-  region_abstract_container.push_back( "back" );
-  region_abstract_container.push_back( "left" );
-  region_abstract_container.push_back( "center" );
-  region_abstract_container.push_back( "right" );
-  region_abstract_container.push_back( "side" );
-  region_abstract_container.push_back( "near" );
-  region_abstract_container.push_back( "far" );
-  region_abstract_container.push_back( "above" );
-  region_abstract_container.push_back( "below" );
-   
-  // Abstract symbols need to be initialized seperately in inference 
-  vector< std::string > container;
-  container.push_back( "group" );
-  container.push_back( "row" );
-  container.push_back( "column" );
-
-  // Map of symbolic representation.
-  _symbol_types.insert( pair< string, vector< string > >( string("object_type"), object_type ) );
-  _symbol_types.insert( pair< string, vector< string > >( string("object_color"), object_color ) );
-  _symbol_types.insert( pair< string, vector< string > >( string("number"), number ) );
-  _symbol_types.insert( pair< string, vector< string > >( string("index"), index ) );
-  _symbol_types.insert( pair< string, vector< string > >( string("spatial_relation"), spatial_relation ) );
-  _symbol_types.insert( pair< string, vector< string > >( string("container"), container ) );
-  _symbol_types.insert( pair< string, vector< string > >( string("constraint"), constraint ) );
-  _symbol_types.insert( pair< string, vector< string > >( string("region_abstract_container"), region_abstract_container ) );
-
-  
-  // Objects
-  for( unsigned int i = 0; i < world->objects().size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, world->objects()[ i ]->dup() ) );
-  }
-  // Regions. Do not create an "na" region
-  for( unsigned int i = 0; i < spatial_relation.size(); i++ ){
-    if( spatial_relation[ i ] != "na" ){
-      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( spatial_relation[ i ], Object() ) ) );
-      for( unsigned int j = 0; j < world->objects().size(); j++ ){
-        _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( spatial_relation[ i ], *world->objects()[ j ] ) ) );
-      }   
-    }
-  }
-  
-  // Constraints
-  for( unsigned int i = 0; i < constraint.size(); i++ ) {
-    for( unsigned int j = 0; j < payload.size(); j++ ) {
-      for( unsigned int l = 0; l < world->objects().size(); l++ ) {
-        for( unsigned int m = 0; m < spatial_relation.size(); m++ ) {
-          _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraint[ i ], 
-  											   payload[ j ], 
-											   world->objects()[ l ]->name(), spatial_relation[ m ] ) ) ); 
-        }  
-      } 
-    } 
-  }
-
-  // Object_Type
-  for (unsigned int i = 0; i < object_type.size(); i++) {
-    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Object_Type( object_type[ i ] ) ) );
-  }
-
-  // Spatial_Relation
-  for (unsigned int i = 0; i < spatial_relation.size(); i++) {
-    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Spatial_Relation( spatial_relation[ i ] ) ) );
-  }
-
-  // Index 
-  for (unsigned int i = 0; i < index.size(); i++) {
-    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Index( index[ i ] ) ) );
-  }
-
-  // Number
-  for (unsigned int i = 0; i < number.size(); i++) {
-    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Number( number[ i ] ) ) );
-  }
- 
-  // Object_Color
-  for (unsigned int i = 0; i < object_color.size(); i++) {
-    _search_spaces.push_back( pair< unsigned int, Grounding* >(0, new Object_Color( object_color[ i ] ) ) );
-  }
-  // Object_Property
-  for( unsigned int i = 0; i < object_type.size(); i++ ){
-    for( unsigned int j = 0; j < spatial_relation.size(); j++ ){
-      for( unsigned int k = 0; k < index.size(); k++ ){
-        _search_spaces.push_back( 
-                  pair< unsigned int, Grounding* >( 0, new Object_Property( object_type[ i ] , spatial_relation[ j ], index[ k ] ) ) );
-      }
-    }
-  }
-
-  // Abstract Containers and Region Abstract Containers
-  // Note: the index in abstract container is constrainted to be the first.
-  // Region abstract containers are constrcuted with abstract containers associated 
-  // with a type declared above.
-  for( unsigned int i = 0; i < object_type.size() ; i++ ){
-    for( unsigned int j = 0; j < number.size(); j++ ){
-      for( unsigned int k = 0; k < object_color.size(); k++ ){
-        _search_spaces.push_back( 
-                 pair< unsigned int, Grounding* >( 0, new Abstract_Container( object_type[ i ], number[ j ], index[ 0 ], object_color[ k ] ) ) );
-        for( unsigned int l = 0; l < region_abstract_container.size(); l++ ){
-          _search_spaces.push_back( 
-                   pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( region_abstract_container[ l ], 
-								               Abstract_Container( object_type[ i ] , number[ j ], index[ 0 ], object_color[ k ] ) ) ) );
-        }
-      }
-    }
-  }
-
-  // Container. 
-  // Assign the container type with empty list of object groundings.   
-  for( unsigned int i = 0; i < container.size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( vector< Grounding* >(), container[ i ] ) ) );
-  }
-
-  // Containers. Create the power set of objects. 
-  // Create corresponding set of containers. 
-  // Extract out the objects matching type from the world model.
-  for( unsigned int i = 0 ; i < object_type.size(); i++ ){
-    vector< Object* > objects;
-    for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      if( world->objects()[ j ]->type() == object_type[ i ] ){
-        objects.push_back( world->objects()[ j ] );
-      }
-    }
-    // Determine the power set.
-    const unsigned int num_sets = pow(2,( objects.size() ) );
-    for( unsigned int j = 0; j < num_sets; j++ ){
-      vector< Grounding* > container_objects;
-
-      for( unsigned int k = 0; k < objects.size(); k++ ){
-        int mask = 1 << k;
-        if( mask & j ){
-          container_objects.push_back( dynamic_cast< Grounding* >( objects[ k ] ) );
-        }
-      }
-      if( container_objects.size() > 1 ){
-        // add container to search spaces
-        for( unsigned int k = 0; k < container.size(); k++ ){
-          _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( container_objects, container[ k ] ) ) );
-        }
-        // add region container. 
-        // Note: spatial relation starting from FRONT, not na. Hence 1.
-        // Note: the container type is starting from group. Hence 0.
-        for( unsigned int k = 1; k < spatial_relation.size(); k++ ){
-          for( unsigned int l = 0; l < container.size() ; l++ ){
-            _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region_Container( spatial_relation[ k ], 
- 												 Container( container_objects, container[ l ] ) ) ) );
-          }
-        }
-      }
-    }
-  }
+  Object::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Object_Type::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Object_Color::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Object_Property::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Number::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Index::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Region::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Spatial_Relation::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Constraint::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Region_Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Region_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
 
   return;
 }
@@ -399,7 +189,7 @@ leaf_search( const Phrase* phrase,
     while( leaf != NULL ){
       leaf->search( _search_spaces,
                     _correspondence_variables,
-                    _symbol_types,
+                    _symbol_dictionary,
                     world,
                     context,
                     llm,

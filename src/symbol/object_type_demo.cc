@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !object_types.empty() ){
-    cout << "Object_Type::class_name(): " << Object_Type::class_name() << endl;
     cout << "object_types.back()->class_name(): " << object_types.back()->class_name() << endl;
     for( unsigned int i = 0; i < object_types.size(); i++ ){
       cout << "object_types[ " << i << " ]: " << *object_types[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     object_types.push_back( new Object_Type() );
     cout << "object_type:( " << *object_types.back() << endl;
     cout << "object_type->class_name(): " << object_types.back()->class_name() << endl;
-    cout << "Object_Type::class_name(): " << Object_Type::class_name() << endl;
   }
 
   if( args.output_given ){

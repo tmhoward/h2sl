@@ -17,14 +17,14 @@ using namespace h2sl;
  * Number class constructor
  */
 Number::
-Number( const string& numberValue ) : Grounding(){
-  insert_prop< std::string >( _properties, "number_value", numberValue );
+Number( const int& value ) : Grounding(){
+  insert_prop< int >( _int_properties, "value", value );
 }
 
 Number::
 Number( xmlNodePtr root ) : Grounding() {
-    insert_prop< std::string >( _properties, "number_value", "na" );
-    from_xml( root );
+  insert_prop< int >( _int_properties, "value", 0 );
+  from_xml( root );
 }
 
 /**
@@ -49,7 +49,8 @@ Number::
 Number&
 Number::
 operator=( const Number& other ){
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -59,7 +60,7 @@ operator=( const Number& other ){
 bool
 Number::
 operator==( const Number& other )const{
-  if ( number_value() != other.number_value() ){
+  if ( value() != other.value() ){
     return false;
   } else {
     return true;
@@ -82,6 +83,33 @@ Number*
 Number::
 dup( void )const{
   return new Number( *this );
+}
+
+void
+Number::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+
+  map< string, vector< int > >::const_iterator it_number_value_types = symbolDictionary.int_types().find( "number_value" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( SYMBOL_TYPE_ALL ):
+    if( it_number_value_types != symbolDictionary.int_types().end() ){
+      for( unsigned int i = 0; i < it_number_value_types->second.size(); i++ ){
+        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Number( it_number_value_types->second[ i ] ) ) );
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
 }
 
 /** 
@@ -118,11 +146,11 @@ from_xml( const string& filename ){
 void
 Number::
 from_xml( xmlNodePtr root ){
-  number_value() = "na";
+  value() = 0;
   if( root->type == XML_ELEMENT_NODE ){
-    pair< bool, string > number_value_prop = has_prop< std::string >( root, "number_value" );
-    if( number_value_prop.first ){
-      number_value() = number_value_prop.second;
+    pair< bool, int > value_prop = has_prop< int >( root, "value" );
+    if( value_prop.first ){
+      value() = value_prop.second;
     }
   }
   return;
@@ -151,7 +179,7 @@ Number::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "number" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "number_value" ), ( const xmlChar* )( get_prop< std::string >( _properties, "number_value").c_str()  ) );
+  xmlNewProp( node, ( const xmlChar* )( "value" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "value" ) ).c_str()  ) );
   xmlAddChild( root, node );
   return;
 }
@@ -164,7 +192,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Number& other ){
     out << "Number(";
-    out << "number_value=\"" << other.number_value() << "\"";
+    out << "value=\"" << other.value() << "\"";
     out << ")";
     return out;
   }

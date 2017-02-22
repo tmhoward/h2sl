@@ -44,12 +44,13 @@
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_object_matches_child.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
-#include "h2sl/feature_region_object_property_value.h"
+#include "h2sl/feature_region_object_string_property_value.h"
 #include "h2sl/feature_constraint_parent_matches_child_region.h"
 #include "h2sl/feature_constraint_child_matches_child_region.h"
 #include "h2sl/feature_constraint_payload_type.h"
 #include "h2sl/feature_constraint_reference_type.h"
-#include "h2sl/feature_grounding_property_value.h"
+#include "h2sl/feature_grounding_string_property_value.h"
+#include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"
 #include "h2sl/feature_region_container_matches_child.h"
@@ -78,10 +79,6 @@
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
 #include "h2sl/feature_object_property_index.h"
-#include "h2sl/feature_abstract_container_type.h"
-#include "h2sl/feature_abstract_container_color.h"
-#include "h2sl/feature_abstract_container_number.h"
-#include "h2sl/feature_abstract_container_index.h"
 #include "h2sl/feature_region_container_type.h"
 #include "h2sl/feature_region_container_container_type.h"
 #include "h2sl/feature_object_property_type.h"
@@ -89,7 +86,6 @@
 #include "h2sl/feature_object_property_index.h"
 #include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_abstract_container_object_type.h"
-#include "h2sl/feature_region_abstract_container_number.h"
 #include "h2sl/feature_min_x_object.h"
 #include "h2sl/feature_max_x_object.h"
 #include "h2sl/feature_max_y_object.h"
@@ -206,12 +202,14 @@ namespace h2sl {
       out << *static_cast< const Feature_Constraint_Payload_Type* >( &other );
     } else if( dynamic_cast< const Feature_Constraint_Reference_Type* >( &other ) != NULL ){
       out << *static_cast< const Feature_Constraint_Reference_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Grounding_Property_Value* >( &other ) != NULL ){
-      out << *static_cast< const Feature_Grounding_Property_Value* >( &other );
+    } else if ( dynamic_cast< const Feature_Grounding_String_Property_Value* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Grounding_String_Property_Value* >( &other );
+    } else if ( dynamic_cast< const Feature_Grounding_Int_Property_Value* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Grounding_Int_Property_Value* >( &other );
     } else if ( dynamic_cast< const Feature_Abstract_Container_Matches_Child* >( &other ) != NULL ){
         out << *static_cast< const Feature_Abstract_Container_Matches_Child* >( &other );
-    } else if ( dynamic_cast< const Feature_Region_Object_Property_Value* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Region_Object_Property_Value* >( &other );
+    } else if ( dynamic_cast< const Feature_Region_Object_String_Property_Value* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Region_Object_String_Property_Value* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Matches_Child* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Matches_Child* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Container_Matches_Child* >( &other ) != NULL ){
@@ -264,14 +262,6 @@ namespace h2sl {
         out << *static_cast< const Feature_Region_Container_Merge_Container_Spatial_Relation* >( &other );
     //} else if ( dynamic_cast< const Feature_Region_Container_Container_Matches_Child_Container* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Region_Container_Container_Matches_Child_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Abstract_Container_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Abstract_Container_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Abstract_Container_Color* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Abstract_Container_Color* >( &other );
-    } else if ( dynamic_cast< const Feature_Abstract_Container_Number* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Abstract_Container_Number* >( &other );
-    } else if ( dynamic_cast< const Feature_Abstract_Container_Index* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Abstract_Container_Index* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Container_Type* >( &other ) != NULL ){
         out << *static_cast< const Feature_Region_Container_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Container_Container_Type* >( &other ) != NULL ){
@@ -286,8 +276,6 @@ namespace h2sl {
         out << *static_cast< const Feature_Region_Abstract_Container_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Abstract_Container_Object_Type* >( &other ) != NULL ){
         out << *static_cast< const Feature_Region_Abstract_Container_Object_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Region_Abstract_Container_Number* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Region_Abstract_Container_Number* >( &other );
     } else if ( dynamic_cast< const Feature_Min_X_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Min_X_Object* >( &other );
     } else if ( dynamic_cast< const Feature_Max_X_Object* >( &other ) != NULL ){

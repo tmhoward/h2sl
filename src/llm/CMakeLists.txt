@@ -19,8 +19,9 @@ set(HDRS
     h2sl/feature_type.ipp
     h2sl/feature_matches_child.h
     h2sl/feature_matches_child.ipp
-    h2sl/feature_grounding_property_value.h
-    h2sl/feature_region_object_property_value.h
+    h2sl/feature_grounding_string_property_value.h
+    h2sl/feature_grounding_int_property_value.h
+    h2sl/feature_region_object_string_property_value.h
     h2sl/feature_region_object_matches_child.h
     #h2sl/feature_object_matches_child.ipp
     #h2sl/feature_object_matches_child.h
@@ -60,10 +61,6 @@ set(HDRS
     h2sl/feature_region_container_merge_container_spatial_relation.h
     h2sl/feature_region_container_container_matches_child_container.h
     h2sl/feature_object_property_index.h
-    h2sl/feature_abstract_container_type.h
-    h2sl/feature_abstract_container_color.h
-    h2sl/feature_abstract_container_number.h
-    h2sl/feature_abstract_container_index.h
     h2sl/feature_region_container_type.h
     h2sl/feature_region_container_container_type.h
     h2sl/feature_object_property_type.h
@@ -71,7 +68,6 @@ set(HDRS
     h2sl/feature_object_property_index.h
     h2sl/feature_region_abstract_container_type.h
     h2sl/feature_region_abstract_container_object_type.h
-    h2sl/feature_region_abstract_container_number.h
     h2sl/feature_min_x_object.h
     h2sl/feature_max_x_object.h
     h2sl/feature_max_y_object.h
@@ -132,8 +128,9 @@ set(SRCS
     feature_cv.cc
     feature_word.cc
     feature_num_words.cc
-    feature_grounding_property_value.cc
-    feature_region_object_property_value.cc
+    feature_grounding_string_property_value.cc
+    feature_grounding_int_property_value.cc
+    feature_region_object_string_property_value.cc
     feature_region_object_matches_child.cc
     feature_region_merge_partially_known_regions.cc
     feature_constraint_parent_matches_child_region.cc
@@ -172,10 +169,6 @@ set(SRCS
     feature_region_container_merge_container_spatial_relation.cc
     feature_region_container_container_matches_child_container.cc
     feature_object_property_index.cc
-    feature_abstract_container_type.cc
-    feature_abstract_container_color.cc
-    feature_abstract_container_number.cc
-    feature_abstract_container_index.cc
     feature_region_container_type.cc
     feature_region_container_container_type.cc
     feature_object_property_type.cc
@@ -183,7 +176,6 @@ set(SRCS
     feature_object_property_index.cc
     feature_region_abstract_container_type.cc
     feature_region_abstract_container_object_type.cc
-    feature_region_abstract_container_number.cc
     feature_min_x_object.cc
     feature_max_x_object.cc
     feature_max_y_object.cc

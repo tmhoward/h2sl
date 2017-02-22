@@ -101,9 +101,10 @@ value( const unsigned int& cv,
           if (it != world->min_abs_y_sorted_objects().end() ) {
             for( unsigned int i = 0; i < it->second.size(); i++ ){
               if( *object_grounding == *(it->second[ i ]) ){
-                map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( abstract_container_child->number() );
-                assert( itnum != world->numeric_map().end() );
-                if( i < itnum->second ){
+//                map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( abstract_container_child->number() );
+//                assert( itnum != world->numeric_map().end() );
+//                if( i < itnum->second ){
+                if( i < abstract_container_child->number() ){
                   return !_invert;
                 } else {
                   return _invert;
