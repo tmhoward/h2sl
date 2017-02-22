@@ -32,16 +32,19 @@ namespace h2sl {
     bool operator==( const Region_Abstract_Container& other )const;
     bool operator!=( const Region_Abstract_Container& other )const;
     virtual Region_Abstract_Container* dup( void )const;
-    
+   
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "region_abstract_container" ); };
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType ); 
+
     virtual void from_xml( const std::string& file );
     virtual void from_xml( xmlNodePtr root );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     inline std::string& region_abstract_container_type( void ){ 
-              return get_prop< std::string >( _properties, "region_abstract_container_type" ); };
+              return get_prop< std::string >( _string_properties, "region_abstract_container_type" ); };
     inline const std::string& region_abstract_container_type( void )const{ 
-              return get_prop< std::string >( _properties, "region_abstract_container_type" ); };
+              return get_prop< std::string >( _string_properties, "region_abstract_container_type" ); };
   
     inline Abstract_Container& abstract_container( void ){ return _abstract_container; };
     inline const Abstract_Container& abstract_container( void )const{ return _abstract_container; };

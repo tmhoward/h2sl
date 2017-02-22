@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !object_propertys.empty() ){
-    cout << "Object_Property::class_name(): " << Object_Property::class_name() << endl;
     cout << "object_propertys.back()->class_name(): " << object_propertys.back()->class_name() << endl;
     for( unsigned int i = 0; i < object_propertys.size(); i++ ){
       cout << "object_propertys[ " << i << " ]: " << *object_propertys[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     object_propertys.push_back( new Object_Property() );
     cout << "object_property:( " << *object_propertys.back() << endl;
     cout << "object_property->class_name(): " << object_propertys.back()->class_name() << endl;
-    cout << "Object_Property::class_name(): " << Object_Property::class_name() << endl;
   }
 
   if( args.output_given ){

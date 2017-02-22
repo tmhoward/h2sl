@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !spatial_relations.empty() ){
-    cout << "Spatial_Relation::class_name(): " << Spatial_Relation::class_name() << endl;
     cout << "spatial_relations.back()->class_name(): " << spatial_relations.back()->class_name() << endl;
     for( unsigned int i = 0; i < spatial_relations.size(); i++ ){
       cout << "spatial_relations[ " << i << " ]: " << *spatial_relations[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     spatial_relations.push_back( new Spatial_Relation() );
     cout << "spatial_relation:( " << *spatial_relations.back() << endl;
     cout << "spatial_relation->class_name(): " << spatial_relations.back()->class_name() << endl;
-    cout << "Spatial_Relation::class_name(): " << Spatial_Relation::class_name() << endl;
   }
 
   if( args.output_given ){

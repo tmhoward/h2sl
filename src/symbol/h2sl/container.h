@@ -34,6 +34,9 @@ namespace h2sl {
     bool operator!=( const Container& other )const;
     Container* dup( void )const;    
 
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "container" ); };
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
+
     bool has_object( const Object* object )const;
     double min_distance_to_object( const Object& object )const;
     h2sl::Vector3 mean_position( void )const;
@@ -51,8 +54,8 @@ namespace h2sl {
     inline std::vector< Grounding* >& container( void ){ return _groundings; };
     inline const std::vector< Grounding* >& container( void )const{ return _groundings; };
 
-    inline std::string& type( void ){ return get_prop< std::string >( _properties, "container_type" ); };
-    inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "container_type" ); };
+    inline std::string& type( void ){ return get_prop< std::string >( _string_properties, "container_type" ); };
+    inline const std::string& type( void )const{ return get_prop< std::string >( _string_properties, "container_type" ); };
 
     static std::string class_name( void ){ return "container"; };
 

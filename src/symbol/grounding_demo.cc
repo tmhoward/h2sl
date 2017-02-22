@@ -34,6 +34,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "h2sl/grounding.h"
+#include "h2sl/object.h"
 #include "grounding_demo_cmdline.h"
 
 using namespace std;
@@ -50,7 +51,7 @@ main( int argc,
     exit(1);
   }
 
-  Grounding * grounding = new Grounding();
+  Grounding * grounding = new Object();
 
   if( args.input_given ){
     grounding->from_xml( args.input_arg );

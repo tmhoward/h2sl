@@ -78,7 +78,7 @@ Grounding_Set( const Grounding_Set& other ) : Grounding( other ),
                                         _groundings(){
   _groundings.resize( other._groundings.size(), NULL );
   for( unsigned int i = 0; i < other._groundings.size(); i++ ){
-    _groundings[ i ] = other._groundings[ i ]->dup();
+    _groundings[ i ] = other._groundings[ i ];
   }   
 }
 
@@ -88,7 +88,7 @@ operator=( const Grounding_Set& other ) {
   clear();
   _groundings.resize( other._groundings.size(), NULL );
   for( unsigned int i = 0; i < other._groundings.size(); i++ ){
-    _groundings[ i ] = other._groundings[ i ]->dup();
+    _groundings[ i ] = other._groundings[ i ];
   }
   return (*this);
 }

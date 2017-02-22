@@ -32,6 +32,7 @@
  */
 
 #include "h2sl/constraint.h"
+#include "h2sl/world.h"
 
 using namespace std;
 using namespace h2sl;
@@ -41,10 +42,10 @@ Constraint( const string& constraintType,
             const string& payload,
             const string& reference,
             const string& referenceRelation ) : Grounding() {
-  insert_prop< std::string >( _properties, "constraint_type", constraintType );
-  insert_prop< std::string >( _properties, "payload", payload );
-  insert_prop< std::string >( _properties, "reference", reference );
-  insert_prop< std::string >( _properties, "reference_relation", referenceRelation );
+  insert_prop< std::string >( _string_properties, "constraint_type", constraintType );
+  insert_prop< std::string >( _string_properties, "payload", payload );
+  insert_prop< std::string >( _string_properties, "reference", reference );
+  insert_prop< std::string >( _string_properties, "reference_relation", referenceRelation );
 }
 
 Constraint::
@@ -53,19 +54,19 @@ Constraint( const string& constraintType,
             const string& payloadRelation,
             const string& reference,
             const string& referenceRelation ) : Grounding() {
-  insert_prop< std::string >( _properties, "constraint_type", constraintType );
-  insert_prop< std::string >( _properties, "payload", payload );
-  insert_prop< std::string >( _properties, "payload_relation", payloadRelation );
-  insert_prop< std::string >( _properties, "reference", reference );
-  insert_prop< std::string >( _properties, "reference_relation", referenceRelation );
+  insert_prop< std::string >( _string_properties, "constraint_type", constraintType );
+  insert_prop< std::string >( _string_properties, "payload", payload );
+  insert_prop< std::string >( _string_properties, "payload_relation", payloadRelation );
+  insert_prop< std::string >( _string_properties, "reference", reference );
+  insert_prop< std::string >( _string_properties, "reference_relation", referenceRelation );
 }
 
 Constraint::
 Constraint( xmlNodePtr root ) : Grounding() {
-  insert_prop< std::string >( _properties, "constraint_type", "na" );
-  insert_prop< std::string >( _properties, "payload", "na" );
-  insert_prop< std::string >( _properties, "reference", "na" );
-  insert_prop< std::string >( _properties, "reference_relation", "na" );
+  insert_prop< std::string >( _string_properties, "constraint_type", "na" );
+  insert_prop< std::string >( _string_properties, "payload", "na" );
+  insert_prop< std::string >( _string_properties, "reference", "na" );
+  insert_prop< std::string >( _string_properties, "reference_relation", "na" );
   from_xml( root );
 }
 
@@ -82,7 +83,8 @@ Constraint( const Constraint& other ) : Grounding( other ) {
 Constraint&
 Constraint::
 operator=( const Constraint& other ) {
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -116,6 +118,42 @@ dup( void )const{
 
 void
 Constraint::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+
+  map< string, vector< string > >::const_iterator it_constraint_type_types = symbolDictionary.string_types().find( "constraint_type" );
+  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( SYMBOL_TYPE_ALL ):
+    if( ( it_constraint_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) ){
+      for( unsigned int i = 0; i < it_constraint_type_types->second.size(); i++ ){
+        for( unsigned int j = 0; j < world->objects().size(); j++ ){
+          for( unsigned int k = 0; k < it_spatial_relation_type_types->second.size(); k++ ){
+            for( unsigned int l = 0; l < world->objects().size(); l++ ){
+              if( j != l ){
+                searchSpaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( it_constraint_type_types->second[ i ], world->objects()[ j ]->name(), world->objects()[ l ]->name(), it_spatial_relation_type_types->second[ k ] ) ) );
+              }
+            }
+          }
+        }
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
+}
+
+void
+Constraint::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -133,7 +171,7 @@ to_xml( xmlDocPtr doc,
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "constraint" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "constraint_type" ), ( const xmlChar* )( constraint_type().c_str() ) );
   xmlNodePtr properties_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "properties" ), NULL );
-  for( map< string, string >::const_iterator it = _properties.begin(); it != _properties.end(); it++ ){
+  for( map< string, string >::const_iterator it = _string_properties.begin(); it != _string_properties.end(); it++ ){
     if( it->first != "constraint_type" ){
       xmlNodePtr property_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "property" ), NULL );
       xmlNewProp( property_node, ( const xmlChar* )( it->first.c_str() ), ( const xmlChar* )( it->second.c_str() ) );

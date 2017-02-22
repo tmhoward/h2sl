@@ -32,6 +32,7 @@
  */
 
 #include "h2sl/region.h"
+#include "h2sl/world.h"
 
 using namespace std;
 using namespace h2sl;
@@ -40,13 +41,13 @@ Region::
 Region( const string& regionType,
         const Object& object ) : Grounding(),
                                   _object( object ) {
-  insert_prop< std::string >( _properties, "region_type", regionType );
+  insert_prop< std::string >( _string_properties, "region_type", regionType );
 }
 
 Region::
 Region( xmlNodePtr root ) : Grounding(),
                             _object() {
-  insert_prop< std::string >( _properties, "region_type", "na" );
+  insert_prop< std::string >( _string_properties, "region_type", "na" );
   from_xml( root );
 }
 
@@ -64,7 +65,8 @@ Region( const Region& other ) : Grounding( other ),
 Region&
 Region::
 operator=( const Region& other ) {
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   _object = other._object;
   return (*this);
 }
@@ -95,6 +97,40 @@ dup( void )const{
 
 void
 Region::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+    
+  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( SYMBOL_TYPE_ALL ):
+    if( it_spatial_relation_type_types != symbolDictionary.string_types().end() ){
+      for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
+        if( it_spatial_relation_type_types->second[ i ] != "na" ){
+          searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( it_spatial_relation_type_types->second[ i ], Object() ) ) );
+          if( world != NULL ){
+            for( unsigned int j = 0; j < world->objects().size(); j++ ){
+              searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( it_spatial_relation_type_types->second[ i ], *world->objects()[ j ] ) ) );
+            }
+          }   
+        }
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
+}
+
+void
+Region::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -110,7 +146,7 @@ Region::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "region" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "region_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "region_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "region_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "region_type" ).c_str() ) );
   _object.to_xml( doc, node );
   xmlAddChild( root, node );
   return;

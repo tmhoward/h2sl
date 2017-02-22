@@ -38,16 +38,22 @@
 #include <libxml/tree.h>
 #include <map>
 
+#include "h2sl/symbol_dictionary.h"
+
 namespace h2sl {
+  class World;
+
   class Grounding {
   public:
-    Grounding( const std::map< std::string, std::string >& properties = std::map< std::string, std::string >() );
+    Grounding( const std::map< std::string, std::string >& stringProperties = std::map< std::string, std::string >(), const std::map< std::string, int >& intProperties = std::map< std::string, int >() );
     virtual ~Grounding();
     Grounding( const Grounding& other );
     Grounding& operator=( const Grounding& other );
     bool operator==( const Grounding& other )const;
     bool operator!=( const Grounding& other )const;
-    virtual Grounding* dup( void )const;
+    virtual Grounding* dup( void )const = 0;
+
+    virtual bool matches_class_name( const std::string& arg )const = 0;
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -55,13 +61,16 @@ namespace h2sl {
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline std::map< std::string, std::string >& properties( void ){ return _properties; };
-    inline const std::map< std::string, std::string >& properties( void )const{ return _properties; };
+    inline std::map< std::string, std::string >& string_properties( void ){ return _string_properties; };
+    inline const std::map< std::string, std::string >& string_properties( void )const{ return _string_properties; };
+    inline std::map< std::string, int >& int_properties( void ){ return _int_properties; };
+    inline const std::map< std::string, int >& int_properties( void )const{ return _int_properties; };
 
   protected:
     virtual bool _equals( const Grounding& other )const;
-  
-    std::map< std::string, std::string > _properties;
+
+    std::map< std::string, std::string > _string_properties;
+    std::map< std::string, int > _int_properties;  
 
   private:
 

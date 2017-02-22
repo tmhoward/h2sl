@@ -55,20 +55,23 @@ namespace h2sl {
     bool operator!=( const Object& other )const;
     virtual Object* dup( void )const;
 
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "object" ); };
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
+
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline std::string& name( void ){ return get_prop< std::string >( _properties, "name" ); };
-    inline const std::string& name( void )const{ return get_prop< std::string >( _properties, "name" ); };
-    inline std::string& type( void ){ return get_prop< std::string >( _properties, "object_type" ); };
-    inline const std::string& type( void )const{ return get_prop< std::string >( _properties, "object_type" ); };
-    inline std::string& color( void ){ return get_prop< std::string >( _properties, "object_color" ); };
-    inline const std::string& color( void )const{ return get_prop< std::string >( _properties, "object_color" ); };
-    inline std::string& id( void ){ return get_prop< std::string >( _properties, "object_id" ); };
-    inline const std::string& id( void )const{ return get_prop< std::string >( _properties, "object_id" ); };
+    inline std::string& name( void ){ return get_prop< std::string >( _string_properties, "name" ); };
+    inline const std::string& name( void )const{ return get_prop< std::string >( _string_properties, "name" ); };
+    inline std::string& type( void ){ return get_prop< std::string >( _string_properties, "object_type" ); };
+    inline const std::string& type( void )const{ return get_prop< std::string >( _string_properties, "object_type" ); };
+    inline std::string& color( void ){ return get_prop< std::string >( _string_properties, "object_color" ); };
+    inline const std::string& color( void )const{ return get_prop< std::string >( _string_properties, "object_color" ); };
+    inline std::string& id( void ){ return get_prop< std::string >( _string_properties, "object_id" ); };
+    inline const std::string& id( void )const{ return get_prop< std::string >( _string_properties, "object_id" ); };
     inline Transform& transform( void ){ return _transform; };
     inline const Transform& transform( void )const{ return _transform; };
     inline Vector3& linear_velocity( void ){ return _linear_velocity; };
@@ -77,7 +80,7 @@ namespace h2sl {
     inline const Vector3& angular_velocity( void )const{ return _angular_velocity; };
 
     static std::string class_name( void ){ return "object"; };
-
+  
   protected:
     Transform _transform;
     Vector3 _linear_velocity;

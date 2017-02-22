@@ -39,10 +39,9 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <boost/algorithm/string.hpp>
 #include <sys/time.h>
 #include <libxml/tree.h>
-//#include <h2sl/empty_msg_t.hpp>
-//#include <lcm/lcm-cpp.hpp>
 
 
 namespace h2sl {
@@ -111,19 +110,6 @@ namespace h2sl {
    * converts microseconds to seconds
    */
   double microseconds_to_seconds( const unsigned int& microseconds );
-
-  /**
-   * templated swap function
-   */
-/*
-  template< typename C >
-  inline void swap( C& a, C& b ){
-    C tmp = a;
-    a = b;
-    b = tmp;
-    return;
-  }
-*/
 
   /** 
     * returns the cartesian power of a set of vectors 
@@ -259,7 +245,24 @@ namespace h2sl {
     return ret;
   }
 
-
+  /**
+   * checks if the xmlNodePtr has a property with a particular name
+   */
+  template<>
+  inline std::pair< bool, int >
+  has_prop< int >( const xmlNodePtr& node, const std::string& string ){
+    std::pair< bool, int > ret( false, 0 );
+    if( node->type == XML_ELEMENT_NODE ){
+      xmlChar* tmp = xmlGetProp( node, ( const xmlChar* )( string.c_str() ) );
+      if( tmp != NULL ){
+        ret.first = true;
+        ret.second = strtol( ( char* )( tmp ), NULL, 10 );
+        xmlFree( tmp );
+      }
+    }
+    return ret;
+  }
+ 
   /**
    * checks if the xmlNodePtr has a property with a particular name
    */
@@ -330,6 +333,15 @@ namespace h2sl {
     return tmp.str();
   }
 
+  /** 
+   * converts int to string
+   */
+  inline std::string to_std_string( const int& arg ){
+    std::stringstream tmp;
+    tmp << arg;
+    return tmp.str();
+  }
+
   /**
    * std:vector string formatted
    */
@@ -346,6 +358,27 @@ namespace h2sl {
     tmp << "}";
     return tmp.str();
   };
+
+  /** 
+   * std::vector from std::string
+   */
+  template< class C >
+  inline std::vector< C > std_vector_from_std_string( const std::string& arg ){
+    std::vector< C > tmp;
+    boost::split( tmp, arg, boost::is_any_of( "," ) );
+    return tmp;
+  };
+
+  template<>
+  inline std::vector< int > std_vector_from_std_string( const std::string& arg ){
+    std::vector< std::string > tmp_string;
+    boost::split( tmp_string, arg, boost::is_any_of( "," ) );
+    std::vector< int > tmp( tmp_string.size() );
+    for( unsigned int i = 0; i < tmp.size(); i++ ){
+      tmp[ i ] = strtol( tmp_string[ i ].c_str(), NULL, 10 );
+    }
+    return tmp;
+  }   
 
   /**
    * std:vector string formatted
@@ -503,124 +536,6 @@ namespace h2sl {
     }
     return tmp;
   };
-
-/*
-  template< class MessageType, class MessageHandlerClass >
-  inline bool lcm_subscribe( lcm::LCM* lcm,
-                              const std::string& channel,
-                              const std::map< std::string, std::string >& channels,
-                              void ( MessageHandlerClass::*handlerMethod)( const lcm::ReceiveBuffer* rbuf,
-                                                                                const std::string& channel,
-                                                                                const MessageType* msg ),
-                              MessageHandlerClass* handler,
-                              const unsigned int& queueCapacity ){
-    std::map< std::string, std::string >::const_iterator it_channel = channels.find( channel );
-    if( it_channel == channels.end() ){
-      std::cout << "could not subscribe to \"" << channel << "\" (channels" << std_map_to_std_string< std::string >( channels ) <<")" << std::endl;
-      return false;
-    }
-
-    if( lcm != NULL ){
-      lcm::Subscription * subscription = lcm->subscribe( it_channel->second, handlerMethod, handler );
-      if( subscription != NULL ){
-        std::cout << "subscribed to \"" << it_channel->second << "\"" << std::endl;
-        subscription->setQueueCapacity( queueCapacity );
-        return true;
-      } else {
-        std::cout << "failed to subscribe to channel \"" << it_channel->second << "\"" << std::endl;
-        return false;
-      }
-    } else {
-      std::cout << "could not subscribe to \"" << channel << "\" due to lcm == NULL" << std::endl;
-      return false;
-    }
-  }
-
-  template< class MessageType >
-  inline bool lcm_publish_msg( lcm::LCM* lcm,
-                                const std::string& channel,
-                                const std::map< std::string, std::string >& channels,
-                                const MessageType* msg ){
-    if( lcm != NULL ){
-      std::map< std::string, std::string >::const_iterator it_channel = channels.find( channel );
-      if( it_channel == channels.end() ){
-        std::cout << "could not publish on \"" << channel << "\" (channels" << std_map_to_std_string< std::string >( channels ) <<")" << std::endl;
-        return false;
-      } else {
-        if( lcm->publish( it_channel->second, msg ) == 0 ){
-          return true;
-        } else {
-          return false;
-        }
-      }
-    } else {
-      return false;
-    }
-  }
-
-  inline bool lcm_publish_empty_msg( lcm::LCM* lcm,
-                                      const std::string& channel,
-                                      const std::map< std::string, std::string >& channels ){
-    empty_msg_t * msg = new empty_msg_t();
-    msg->timestamp = current_time();
-    bool ret = lcm_publish_msg( lcm, channel, channels, msg );
-    delete_ptr< empty_msg_t >( msg );
-    return ret;
-  }
-
-  template< class C, class MessageType >
-  inline bool lcm_publish_class( lcm::LCM* lcm,
-                                  const std::string& channel,
-                                  const std::map< std::string, std::string >& channels,
-                                  const C* arg ){
-    if( lcm != NULL ) {
-      if( arg != NULL ){
-        MessageType * msg = new MessageType();
-        arg->to_msg( msg );
-        bool ret = lcm_publish_msg< MessageType >( lcm, channel, channels, msg );
-        delete_ptr< MessageType >( msg );
-        return ret;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-
-  inline bool lcm_log_event( lcm::LCM* lcm,
-                              const lcm::ReceiveBuffer* buffer,
-                              const std::string& channel,
-                              lcm::LogFile* logfile = NULL ){
-    if( logfile ){
-      lcm::LogEvent* event = new lcm::LogEvent();
-      event->timestamp = buffer->recv_utime;
-      event->channel = channel;
-      event->data = buffer->data;
-      event->datalen = buffer->data_size;
-      bool ret = ( logfile->writeEvent( event ) == 0 );
-      delete_ptr< lcm::LogEvent >( event );
-      return ret;
-    }
-    return true;
-  }
-
-  inline void log_event( lcm::LogFile* logfile,
-                          const lcm::ReceiveBuffer* buffer,
-                          const std::string& channel ){
-    if( logfile ){
-      std::cout << "logging event on channel \"" << channel << "\"" << std::endl;
-      lcm::LogEvent * event = new lcm::LogEvent();
-      event->timestamp = buffer->recv_utime;
-      event->channel = channel;
-      event->data = buffer->data;
-      event->datalen = buffer->data_size;
-      assert( logfile->writeEvent( event ) == 0 );
-      delete_ptr< lcm::LogEvent >( event );
-    }
-    return;
-  }
-*/
 }
 
 #endif /* H2SL_COMMON_H */

@@ -43,6 +43,7 @@
 #include "h2sl/world.h"
 #include "h2sl/llm.h"
 #include "h2sl/factor_set.h"
+#include "h2sl/symbol_dictionary.h"
 
 namespace h2sl {
   class ADCG_Base {
@@ -87,9 +88,10 @@ namespace h2sl {
     virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
+    Symbol_Dictionary _symbol_dictionary; 
+ 
     std::vector< std::pair< unsigned int, Grounding* > > _search_spaces;
     std::vector< std::vector< unsigned int > > _correspondence_variables;
-    std::map < std::string, std::vector< std::string> > _symbol_types;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
   

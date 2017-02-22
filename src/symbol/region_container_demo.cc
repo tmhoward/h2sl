@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !region_containers.empty() ){
-    cout << "Region_Container::class_name(): " << Region_Container::class_name() << endl;
     cout << "region_containers.back()->class_name(): " << region_containers.back()->class_name() << endl;
     for( unsigned int i = 0; i < region_containers.size(); i++ ){
       cout << "region_containers[ " << i << " ]: " << *region_containers[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     region_containers.push_back( new Region_Container() );
     cout << "region_container:( " << *region_containers.back() << endl;
     cout << "region_container->class_name(): " << region_containers.back()->class_name() << endl;
-    cout << "Region_Container::class_name(): " << Region_Container::class_name() << endl;
   }
 
   if( args.output_given ){

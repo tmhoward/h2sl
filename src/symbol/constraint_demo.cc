@@ -79,7 +79,6 @@ main( int argc,
   }
 
   if( !constraints.empty() ){
-    cout << "Constraint::class_name(): " << Constraint::class_name() << endl;
     cout << "constraints.back()->class_name(): " << constraints.back()->class_name() << endl;
     for( unsigned int i = 0; i < constraints.size(); i++ ){
       cout << "constraints[ " << i << " ]: " << *constraints[ i ] << endl;
@@ -89,7 +88,6 @@ main( int argc,
     constraints.push_back( new Constraint( "inside", "robot", "box", "near" ) );
     cout << "constraint:( " << *constraints.back() << endl;
     cout << "constraint->class_name(): " << constraints.back()->class_name() << endl;
-    cout << "Constraint::class_name(): " << Constraint::class_name() << endl;
   }
 
   if( args.output_given ){

@@ -49,6 +49,8 @@ namespace h2sl {
     Grounding_Set& operator=( const Grounding_Set& other );
     virtual Grounding_Set* dup( void )const;
 
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "grounding_set" ); };
+
     void clear( void );
  
     virtual unsigned int evaluate_cv( const h2sl::Grounding* grounding )const;
@@ -61,6 +63,8 @@ namespace h2sl {
 
     inline std::vector< Grounding* >& groundings( void ){ return _groundings; };
     inline const std::vector< Grounding* >& groundings( void )const{ return _groundings; };
+
+    static std::string class_name( void ){ return "grounding_set"; };
 
   protected:
     std::vector< Grounding* > _groundings;

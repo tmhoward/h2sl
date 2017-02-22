@@ -22,7 +22,7 @@ namespace h2sl {
    */
   class Index : public Grounding {
   public:
-    Index( const std::string& indexType = "na" );
+    Index( const int& value = 0 );
     Index( const Index& other );
     Index( xmlNodePtr root );
     virtual ~Index();
@@ -30,16 +30,19 @@ namespace h2sl {
     bool operator==( const Index& other )const;
     bool operator!=( const Index& other )const;
     virtual Index* dup( void )const;
+
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "index" ); };
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
  
     virtual void from_xml( const std::string& file );
     virtual void from_xml( xmlNodePtr root );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    inline std::string& index_type( void ){ return get_prop< std::string >( _properties, "index_type" ); };
-    inline const std::string& index_type( void )const{ return get_prop< std::string >( _properties, "index_type" ); };
+    inline int& value( void ){ return get_prop< int >( _int_properties, "value" ); };
+    inline const int& value( void )const{ return get_prop< int >( _int_properties, "value" ); };
 
-    static std::string class_name( void){ return "index"; };
+    static std::string class_name( void ){ return "index"; };
 
   protected:
 

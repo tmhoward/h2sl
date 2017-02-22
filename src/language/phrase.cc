@@ -46,8 +46,7 @@ Phrase( const phrase_type_t& type,
         const string& text,
         const vector< Word >& words,
         const vector< Phrase* >& children,
-        Grounding* grounding ) : Grounding(),
-                                              _type( type ),
+        Grounding* grounding ) : _type( type ),
                                               _text( text ),
                                               _words( words ),
                                               _children( children ),
@@ -61,8 +60,7 @@ Phrase::
 }
 
 Phrase::
-Phrase( const Phrase& other ) : Grounding( other ),
-                                _type( other._type ),
+Phrase( const Phrase& other ) : _type( other._type ),
                                 _text( other._text ),
                                 _words( other._words ),
                                 _children(),

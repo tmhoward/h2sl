@@ -214,8 +214,8 @@ mousePressEvent( QGraphicsSceneMouseEvent * event ){
     comment_string << *static_cast< const Region* >( _grounding );
   } else if ( dynamic_cast< const Constraint* >( _grounding ) != NULL ){
     comment_string << *static_cast< const Constraint* >( _grounding );
-  } else if ( dynamic_cast< const Phrase* >( _grounding ) != NULL ){
-    comment_string << *static_cast< const Phrase* >( _grounding );
+  } else if ( dynamic_cast< const Object* >( _grounding ) != NULL ){
+    comment_string << *static_cast< const Object* >( _grounding );
   }
   emit comment( comment_string.str(), false );
   return;
@@ -234,6 +234,87 @@ hoverEnterEvent( QGraphicsSceneHoverEvent * event ){
 
 void
 QGraphicsItem_Grounding::
+hoverLeaveEvent( QGraphicsSceneHoverEvent * event ){
+  _highlight = false;
+  for( unsigned int i = 0; i < _qgraphicslineitems.size(); i++ ){
+    _qgraphicslineitems[ i ]->setPen( QPen( Qt::black, 2.0 ) );
+  }
+  update();
+  return;
+}
+
+QGraphicsItem_Phrase::
+QGraphicsItem_Phrase( const Phrase * phrase,
+                         QGraphicsItem * parent ) : QObject(),
+                                                    QGraphicsItem(),
+                                                    _phrase( phrase ),
+                                                    _highlight( false ),
+                                                    _qgraphicslineitems(){
+  setAcceptHoverEvents( true );
+}
+
+QGraphicsItem_Phrase::
+~QGraphicsItem_Phrase() {
+
+}
+
+QRectF
+QGraphicsItem_Phrase::
+boundingRect( void )const{
+  return QRect( -32, -32, 64, 64 );
+}
+
+void
+QGraphicsItem_Phrase::
+paint( QPainter * painter,
+        const QStyleOptionGraphicsItem* option,
+        QWidget * widget ){
+  if( _highlight ){
+    painter->setBrush( Qt::yellow );
+    painter->setPen( Qt::NoPen );
+    painter->drawEllipse( -32, -32, 64, 64 );
+  }
+
+  QRadialGradient gradient( -8, -8, 8 );
+  gradient.setColorAt( 0, QColor( 255, 255, 255 ) );
+  gradient.setColorAt( 1, QColor( 224, 224, 224 ) );
+  painter->setBrush( gradient );
+  painter->setPen( QPen( Qt::black, 2.0 ) );
+  painter->drawEllipse( -24, -24, 48, 48 );
+
+  if( _phrase != NULL ){
+    painter->setPen( QPen( Qt::black, 2.0 ) );
+    painter->setFont( QFont( QApplication::font().defaultFamily(), 12, QFont::Bold ) );
+    painter->drawText( QRect( -24, -24, 48, 48 ), QString::fromStdString( Phrase::phrase_type_t_to_std_string( _phrase->type() ) ), QTextOption( Qt::AlignCenter ) );
+  }
+
+  return;
+}
+
+void
+QGraphicsItem_Phrase::
+mousePressEvent( QGraphicsSceneMouseEvent * event ){
+  stringstream comment_string;
+  if( _phrase != NULL ){
+    comment_string << *_phrase;
+  }
+  emit comment( comment_string.str(), false );
+  return;
+}
+
+void
+QGraphicsItem_Phrase::
+hoverEnterEvent( QGraphicsSceneHoverEvent * event ){
+  _highlight = true;
+  for( unsigned int i = 0; i < _qgraphicslineitems.size(); i++ ){
+    _qgraphicslineitems[ i ]->setPen( QPen( Qt::yellow, 5.0 ) );
+  }
+  update();
+  return;
+}
+
+void
+QGraphicsItem_Phrase::
 hoverLeaveEvent( QGraphicsSceneHoverEvent * event ){
   _highlight = false;
   for( unsigned int i = 0; i < _qgraphicslineitems.size(); i++ ){
@@ -465,7 +546,7 @@ _add_factor_set_graphics_items( const Factor_Set* factorSet,
   vector< QGraphicsItem_Factor* > factors;
 
   // add the phrase
-  QGraphicsItem_Grounding * qgraphicsitem_phrase = new QGraphicsItem_Grounding( factorSet->phrase() );
+  QGraphicsItem_Phrase * qgraphicsitem_phrase = new QGraphicsItem_Phrase( factorSet->phrase() );
   _graphics_items.back().push_back( qgraphicsitem_phrase );
   _graphics_items.back().back()->setPos( 128.0 * ( double )( _graphics_items.size() - 1 ), 0.0 );
   connect( qgraphicsitem_phrase, SIGNAL( comment( const std::string&, const bool& ) ), this, SLOT( _receive_comment( const std::string&, const bool& ) ) );

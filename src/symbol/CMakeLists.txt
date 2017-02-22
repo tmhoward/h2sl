@@ -1,5 +1,6 @@
 # GENGETOPT FILES
 set(GGOS
+    symbol_dictionary_demo.ggo
     abstract_container_demo.ggo
     constraint_demo.ggo
     container_demo.ggo
@@ -20,6 +21,7 @@ set(GGOS
 
 # HEADER FILES
 set(HDRS
+    h2sl/symbol_dictionary.h
     h2sl/container.h
     h2sl/grounding.h
     h2sl/grounding_set.h
@@ -42,6 +44,7 @@ set(QT_HDRS )
 
 # SOURCE FILES
 set(SRCS
+    symbol_dictionary.cc
     container.cc
     grounding.cc
     grounding_set.cc
@@ -61,6 +64,7 @@ set(SRCS
 
 # BINARY SOURCE FILES
 set(BIN_SRCS
+    symbol_dictionary_demo.cc
     abstract_container_demo.cc
     constraint_demo.cc
     container_demo.cc

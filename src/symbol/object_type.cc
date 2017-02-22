@@ -7,6 +7,7 @@
  */
 
 #include "h2sl/object_type.h"
+#include "h2sl/world.h"
 
 using namespace std;
 using namespace h2sl;
@@ -16,13 +17,13 @@ using namespace h2sl;
  */
 Object_Type::
 Object_Type( const string& objectType ) : Grounding() {
-  insert_prop< std::string >( _properties, "object_type", objectType );
+  insert_prop< std::string >( _string_properties, "object_type", objectType );
 }
 
 
 Object_Type::
 Object_Type( xmlNodePtr root ) : Grounding() {
-    insert_prop< std::string >( _properties, "object_type", "na" );
+    insert_prop< std::string >( _string_properties, "object_type", "na" );
     from_xml( root );
 }
 
@@ -49,7 +50,8 @@ Object_Type::
 Object_Type&
 Object_Type::
 operator=( const Object_Type& other ){
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -82,6 +84,33 @@ Object_Type*
 Object_Type::
 dup( void )const{
   return new Object_Type( *this );
+}
+
+void
+Object_Type::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+
+  map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( SYMBOL_TYPE_ALL ):
+    if( it_object_type_types != symbolDictionary.string_types().end() ){
+      for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
+        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Type( it_object_type_types->second[ i ] ) ) );
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
 }
 
 /** 
@@ -151,7 +180,7 @@ Object_Type::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "object_type" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_type").c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_type").c_str() ) );
   xmlAddChild( root, node );
   return;
 }
