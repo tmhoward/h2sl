@@ -107,8 +107,6 @@
 #include "h2sl/feature_object_property_relation_type.h"
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
-#include "h2sl/feature_region_abstract_container_object_type.h"
-#include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
 #include "h2sl/feature_region_container_matches_child.h"
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
@@ -503,12 +501,6 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_index" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Object_Property_Index() );
-                  _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_type" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Type() );
-                  _feature_groups.back().back()->from_xml( l2 );
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_abstract_container_object_type" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Region_Abstract_Container_Object_Type() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_min_x_object" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Min_X_Object() );

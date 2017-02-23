@@ -115,14 +115,14 @@ value( const unsigned int& cv,
       if( spatial_relation_child != NULL ){
         if( spatial_relation_child->relation_type() == _relation_type ){
           map< string, vector< Object* > >::const_iterator it;
-          it  = world->min_x_sorted_objects().find( region_abstract_container_child->abstract_container().type() );
+          it  = world->min_x_sorted_objects().find( region_abstract_container_child->spatial_relation_type() );
           if (it != world->min_x_sorted_objects().end() ) {
             for (unsigned int i = 0; i < it->second.size(); i++ ) {
               if ( *object_grounding == *(it->second[ i ]) ) {
-//                map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( region_abstract_container_child->abstract_container().number() );
+//                map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( region_abstract_container_child->number() );
 //                assert( itnum != world->numeric_map().end() );
 //                if( i < itnum->second ){
-                if( i < region_abstract_container_child->abstract_container().number() ){
+                if( i < region_abstract_container_child->number() ){
                   return !_invert;
                 } else {
                   return _invert;
@@ -146,14 +146,14 @@ value( const unsigned int& cv,
         if( object_grounding != NULL ){
           vector< Object* > objects;
           for( unsigned int i = 0; i < world->nsf_nri_mvli_objects().size(); i++ ){
-            if( world->nsf_nri_mvli_objects()[ i ]->type() == region_abstract_container_child->type() ){
+            if( world->nsf_nri_mvli_objects()[ i ]->type() == region_abstract_container_child->spatial_relation_type() ){
               objects.push_back( world->nsf_nri_mvli_objects()[ i ] );
             }
           } 
           sort( objects.begin(), objects.end(), min_x_region_abstract_container_sort );
           for( unsigned int i = 0; i < objects.size(); i++ ){
             if( *object_grounding == *objects[ i ] ){
-              if( i < region_abstract_container_child->abstract_container().num() ){
+              if( i < region_abstract_container_child->num() ){
                 return !_invert;
               } else {
                 return _invert;

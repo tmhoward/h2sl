@@ -141,9 +141,8 @@ from_xml( xmlNodePtr root ){
     }
 
     pair< bool, std::string > class_name_prop = has_prop< std::string >( root, "class_name" );
-    if( class_name_prop.first ) {
-      _class_name = class_name_prop.second;
-    }
+    assert( class_name_prop.first );
+    _class_name = class_name_prop.second;
 
     pair< bool, std::string > key_prop = has_prop< std::string >( root, "key" );
     if( key_prop.first ) {

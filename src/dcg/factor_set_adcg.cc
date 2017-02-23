@@ -437,10 +437,10 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
             for( unsigned int m = 0; m < observed_spatial_relations.size(); m++ ){
               _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( 
                                                                                                observed_spatial_relations[ m ], 
-                                                                                               Abstract_Container( observed_object_types[ j ], 
+                                                                                               observed_object_types[ j ], 
                                                                                                                    observed_numbers[ k ], 
                                                                                                                    it_symbol_dictionary_index->second.front(), //Index::TYPE_FIRST, 
-                                                                                                                   observed_object_colors[ l ] ) ) ) );
+                                                                                                                   observed_object_colors[ l ] ) ) );
             }
           }
         }

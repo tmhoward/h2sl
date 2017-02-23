@@ -132,7 +132,7 @@ value( const unsigned int& cv,
   // Fill in objects from the world that match AC object type.
   vector< Object* > type_matched_obj;
   for( unsigned int i = 0; i < world->objects().size(); i++ ) {
-    if( world->objects()[ i ]->type() == region_abstract_container_child->abstract_container().type() ) {
+    if( world->objects()[ i ]->type() == region_abstract_container_child->spatial_relation_type() ) {
         type_matched_obj.push_back( world->objects()[ i ] );
     }
   }
@@ -143,10 +143,10 @@ value( const unsigned int& cv,
     
   // Check upto the number of elements implied by the AC in the object match array.
   // if they match with any of the objects in the container grounding.
-  if (container->container().size() == region_abstract_container_child->abstract_container().number()) {
+  if (container->container().size() == region_abstract_container_child->number()) {
     bool allObjectsFound = true;
     bool isEqual = false;
-    for (unsigned int i = 0; i < region_abstract_container_child->abstract_container().number(); ++i) {
+    for (unsigned int i = 0; i < region_abstract_container_child->number(); ++i) {
         isEqual = false;
         for (unsigned int j = 0; j < container->container().size(); j++) {
             if (*type_matched_obj[ i ] == *dynamic_cast< const Object* >(container->container()[ j ])) {
@@ -175,7 +175,7 @@ value( const unsigned int& cv,
         if( container_grounding != NULL ){
           vector< Object* > objects;
           for( unsigned int i = 0; i < world->nsf_nri_mvli_objects().size(); i++ ){
-            if( world->nsf_nri_mvli_objects()[ i ]->type() == region_abstract_container_child->abstract_container().type() ){
+            if( world->nsf_nri_mvli_objects()[ i ]->type() == region_abstract_container_child->spatial_relation_type() ){
               objects.push_back( world->nsf_nri_mvli_objects()[ i ] );
             }
           }
@@ -184,7 +184,7 @@ value( const unsigned int& cv,
           
             
             
-          objects.resize( region_abstract_container_child->abstract_container().num() );
+          objects.resize( region_abstract_container_child->num() );
           vector< Object* > container_objects = container_grounding->container();
           for( unsigned int i = 0; i < container_grounding->container().size(); i++ ){
             container_objects.push_back( container_grounding->container()[ i ] );

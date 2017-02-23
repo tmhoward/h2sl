@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
   <symbol_dictionary>
+    <string_property key="constraint_payload_type" value="robot"/>
+    <string_property key="constraint_reference_type" value="na,box,table,chair,block"/>
     <string_property key="constraint_type" value="inside,outside"/>
     <string_property key="object_type" value="na,block,table,robot,door,couch,chair"/>
     <string_property key="spatial_relation_type" value="na,front,back,left,right,center,side,near,far,above,below"/>

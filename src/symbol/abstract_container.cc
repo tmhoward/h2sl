@@ -62,6 +62,7 @@ Abstract_Container&
 Abstract_Container::
 operator=( const Abstract_Container& other ){
   _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -230,7 +231,6 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "number" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "number" ) ).c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color_type" ).c_str() ) );
-
   xmlAddChild( root, node );
   return;
 }

@@ -185,6 +185,7 @@ main( int argc,
 
     cout << "loading DCG" << endl;
     dcgs[ i ] = new DCG();
+    dcgs[ i ]->symbol_dictionary().from_xml( args.symbol_dictionary_arg );
     dcgs[ i ]->fill_search_spaces( worlds[ i ] );
     
     scrape_examples( filenames[ i ], phrases[ i ], worlds[ i ], dcgs[ i ]->search_spaces(), dcgs[ i ]->correspondence_variables(), examples );  

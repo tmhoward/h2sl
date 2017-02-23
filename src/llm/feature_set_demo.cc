@@ -76,8 +76,6 @@
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_object_property_relation_type.h"
 #include "h2sl/feature_object_property_index.h"
-#include "h2sl/feature_region_abstract_container_type.h"
-#include "h2sl/feature_region_abstract_container_object_type.h"
 #include "h2sl/feature_min_x_object.h"
 #include "h2sl/feature_max_x_object.h"
 #include "h2sl/feature_max_y_object.h"

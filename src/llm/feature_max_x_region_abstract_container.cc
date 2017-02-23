@@ -109,14 +109,14 @@ value( const unsigned int& cv,
       if( container_child != NULL ){
         if( container_child->type() == _relation_type ){
           map< string, vector< Object* > >::const_iterator it;
-          it  = world->max_x_sorted_objects().find( region_abstract_container_child->abstract_container().type() );
+          it  = world->max_x_sorted_objects().find( region_abstract_container_child->spatial_relation_type() );
           if (it != world->max_x_sorted_objects().end() ) {
             for (unsigned int i = 0; i < it->second.size(); i++ ) {
               if ( *object_grounding == *(it->second[ i ]) ) {
-//                map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( region_abstract_container_child->abstract_container().number() );
+//                map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( region_abstract_container_child->number() );
 //                assert( itnum != world->numeric_map().end() );
 //                if( i < itnum->second ){
-                if( i < region_abstract_container_child->abstract_container().number() ){
+                if( i < region_abstract_container_child->number() ){
                     return !_invert;
                 } else {
                     return _invert;
@@ -132,13 +132,13 @@ value( const unsigned int& cv,
 }
     
 /*  if( region_abstract_container_child != NULL ){
-    if( region_abstract_container_child->type() == _relation_type ){
+    if( region_abstract_container_child->spatial_relation_type() == _relation_type ){
       if( container_child != NULL ){
         if( object_grounding != NULL ){
  	  vector< Object* > objects_container = container_child->container();
           vector < Object* > objects;
           for ( unsigned int i = 0; i < objects_container.size(); i++ ) {
-            if ( region_abstract_container_child->abstract_container().type() == objects_container[ i ]->type() ){
+            if ( region_abstract_container_child->spatial_relation_type() == objects_container[ i ]->type() ){
               objects.push_back( objects_container[ i ] );
             }
           }
@@ -146,7 +146,7 @@ value( const unsigned int& cv,
           
 	  for( unsigned int i = 0; i < objects.size(); i++ ){
             if( *object_grounding == *objects[ i ] ){
-              if( i < region_abstract_container_child->abstract_container().num() ){
+              if( i < region_abstract_container_child->num() ){
                 return !_invert;
               } else {
                   return _invert;

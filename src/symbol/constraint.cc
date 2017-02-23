@@ -124,6 +124,8 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const symbol_type_t& symbolType ){
 
   map< string, vector< string > >::const_iterator it_constraint_type_types = symbolDictionary.string_types().find( "constraint_type" );
+  map< string, vector< string > >::const_iterator it_constraint_payload_type_types = symbolDictionary.string_types().find( "constraint_payload_type" );
+  map< string, vector< string > >::const_iterator it_constraint_reference_type_types = symbolDictionary.string_types().find( "constraint_reference_type" );
   map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
 
   switch( symbolType ){
@@ -132,10 +134,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     if( ( it_constraint_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) ){
       for( unsigned int i = 0; i < it_constraint_type_types->second.size(); i++ ){
         for( unsigned int j = 0; j < world->objects().size(); j++ ){
-          for( unsigned int k = 0; k < it_spatial_relation_type_types->second.size(); k++ ){
-            for( unsigned int l = 0; l < world->objects().size(); l++ ){
-              if( j != l ){
+          if( find( it_constraint_payload_type_types->second.begin(), it_constraint_payload_type_types->second.end(), world->objects()[ j ]->type() ) != it_constraint_payload_type_types->second.end() ){
+            for( unsigned int k = 0; k < it_spatial_relation_type_types->second.size(); k++ ){
+              for( unsigned int l = 0; l < world->objects().size(); l++ ){
+                if( find( it_constraint_reference_type_types->second.begin(), it_constraint_reference_type_types->second.end(), world->objects()[ l ]->type() ) != it_constraint_reference_type_types->second.end() ){
+                  if( j != l ){
                 searchSpaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( it_constraint_type_types->second[ i ], world->objects()[ j ]->name(), world->objects()[ l ]->name(), it_spatial_relation_type_types->second[ k ] ) ) );
+                  }
+                }
               }
             }
           }

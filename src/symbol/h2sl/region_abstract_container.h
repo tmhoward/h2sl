@@ -12,9 +12,8 @@
 #include <iostream>
 #include <libxml/tree.h>
 
+#include "h2sl/common.h"
 #include "h2sl/grounding.h"
-#include "h2sl/abstract_container.h"
-
 
 namespace h2sl {
   /**
@@ -22,8 +21,12 @@ namespace h2sl {
    */
   class Region_Abstract_Container : public Grounding {
   public:
-    Region_Abstract_Container( const std::string& region_abstract_containerType = "na",
-                        const Abstract_Container& abstract_container = Abstract_Container() ); 
+    Region_Abstract_Container( const std::string& spatialRelationType = "na",
+                                const std::string& objectType = "na",
+                                const int& number = 0,
+                                const int& index = 0,
+                                const std::string& colorType = "na" );
+                              
 
     virtual ~Region_Abstract_Container();
     Region_Abstract_Container( const Region_Abstract_Container& other );
@@ -41,18 +44,34 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    inline std::string& region_abstract_container_type( void ){ 
-              return get_prop< std::string >( _string_properties, "region_abstract_container_type" ); };
-    inline const std::string& region_abstract_container_type( void )const{ 
-              return get_prop< std::string >( _string_properties, "region_abstract_container_type" ); };
-  
-    inline Abstract_Container& abstract_container( void ){ return _abstract_container; };
-    inline const Abstract_Container& abstract_container( void )const{ return _abstract_container; };
-      
+    inline std::string& spatial_relation_type( void ){ 
+              return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+    inline const std::string& spatial_relation_type( void )const{ 
+              return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+
+    inline std::string& type( void ){
+              return get_prop< std::string >( _string_properties, "object_type" ); };
+    inline const std::string& type( void )const{
+              return get_prop< std::string >( _string_properties, "object_type" ); };
+
+    inline int& number( void ){
+              return get_prop< int >( _int_properties, "number" ); };
+    inline const int& number( void )const{
+              return get_prop< int >( _int_properties, "number" ); };
+
+    inline int& index( void ){
+              return get_prop< int >( _int_properties, "index" ); };
+    inline const int& index( void )const{
+              return get_prop< int >( _int_properties, "index" ); };
+
+    inline std::string& color( void ){
+              return get_prop< std::string >( _string_properties, "object_color_type" ); };
+    inline const std::string& color( void )const{
+              return get_prop< std::string >( _string_properties, "object_color_type" ); };
+
     static std::string class_name( void ){ return "region_abstract_container"; };
    
   protected:
-    Abstract_Container _abstract_container;
 
   private: 
 

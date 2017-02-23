@@ -84,8 +84,6 @@
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_object_property_relation_type.h"
 #include "h2sl/feature_object_property_index.h"
-#include "h2sl/feature_region_abstract_container_type.h"
-#include "h2sl/feature_region_abstract_container_object_type.h"
 #include "h2sl/feature_min_x_object.h"
 #include "h2sl/feature_max_x_object.h"
 #include "h2sl/feature_max_y_object.h"
@@ -272,10 +270,6 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Property_Relation_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Property_Index* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Property_Index* >( &other );
-    } else if ( dynamic_cast< const Feature_Region_Abstract_Container_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Region_Abstract_Container_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Region_Abstract_Container_Object_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Region_Abstract_Container_Object_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Min_X_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Min_X_Object* >( &other );
     } else if ( dynamic_cast< const Feature_Max_X_Object* >( &other ) != NULL ){

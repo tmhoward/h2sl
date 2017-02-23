@@ -66,8 +66,6 @@ set(HDRS
     h2sl/feature_object_property_type.h
     h2sl/feature_object_property_relation_type.h
     h2sl/feature_object_property_index.h
-    h2sl/feature_region_abstract_container_type.h
-    h2sl/feature_region_abstract_container_object_type.h
     h2sl/feature_min_x_object.h
     h2sl/feature_max_x_object.h
     h2sl/feature_max_y_object.h
@@ -174,8 +172,6 @@ set(SRCS
     feature_object_property_type.cc
     feature_object_property_relation_type.cc
     feature_object_property_index.cc
-    feature_region_abstract_container_type.cc
-    feature_region_abstract_container_object_type.cc
     feature_min_x_object.cc
     feature_max_x_object.cc
     feature_max_y_object.cc

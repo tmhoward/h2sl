@@ -17,9 +17,15 @@ using namespace h2sl;
  */
 Region_Abstract_Container::
 Region_Abstract_Container( const string& region_abstract_containerType,
-			   const Abstract_Container& abstract_container ) : Grounding(),
-                                 _abstract_container ( abstract_container ) {
-     insert_prop< std::string >( _string_properties, "region_abstract_container_type", region_abstract_containerType );
+			    const string& objectType,
+                            const int& number,
+                            const int& index,
+                            const string& colorType ) : Grounding() {
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", region_abstract_containerType );
+  insert_prop< std::string >( _string_properties, "object_type", objectType );
+  insert_prop< int >( _int_properties, "number", number );
+  insert_prop< int >( _int_properties, "index", index );
+  insert_prop< std::string >( _string_properties, "object_color_type", colorType );
 }
 
 /**
@@ -27,9 +33,12 @@ Region_Abstract_Container( const string& region_abstract_containerType,
  */
 
 Region_Abstract_Container::
-Region_Abstract_Container( xmlNodePtr root ) : Grounding(),
-                                               _abstract_container() {
-    insert_prop< std::string >( _string_properties, "region_abstract_container_type", "na" );
+Region_Abstract_Container( xmlNodePtr root ) : Grounding() {
+    insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
+    insert_prop< std::string >( _string_properties, "object_type", "na" );
+    insert_prop< int >( _int_properties, "number", 0 );
+    insert_prop< int >( _int_properties, "index", 0 );
+    insert_prop< std::string >( _string_properties, "object_color_type", "na" );
     from_xml( root );
 }
 
@@ -37,8 +46,7 @@ Region_Abstract_Container( xmlNodePtr root ) : Grounding(),
  * Region_Abstract_Container class copy constructor. 
  */
 Region_Abstract_Container::
-Region_Abstract_Container( const Region_Abstract_Container& other ) : Grounding( other ),
-                                                                      _abstract_container( other._abstract_container ) {
+Region_Abstract_Container( const Region_Abstract_Container& other ) : Grounding( other ) {
 
 }
 
@@ -58,7 +66,6 @@ Region_Abstract_Container::
 operator=( const Region_Abstract_Container& other ) {
   _string_properties = other._string_properties;
   _int_properties = other._int_properties;
-  _abstract_container = other._abstract_container; 
   return (*this);
 }
 
@@ -68,9 +75,15 @@ operator=( const Region_Abstract_Container& other ) {
 bool
 Region_Abstract_Container::
 operator==( const Region_Abstract_Container& other )const{
-  if ( region_abstract_container_type() != other.region_abstract_container_type() ) {
+  if ( spatial_relation_type() != other.spatial_relation_type() ) {
     return false;
-  } else if ( _abstract_container != other._abstract_container ) {
+  } else if ( type() != other.type() ) {
+    return false;
+  } else if ( number() != other.number() ) {
+    return false;
+  } else if ( index() != other.index() ) {
+    return false;
+  } else if ( color() != other.color() ) {
     return false;
   } else {
     return true;
@@ -117,7 +130,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           for( unsigned int k = 0; k < it_number_value_types->second.size(); k++ ){
             for( unsigned int l = 0; l < it_index_value_types->second.size(); l++ ){
               for( unsigned int m = 0; m < it_object_color_types->second.size(); m++ ){
-                searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( it_spatial_relation_type_types->second[ i ], Abstract_Container( it_object_type_types->second[ j ], it_number_value_types->second[ k ], it_index_value_types->second[ l ], it_object_color_types->second[ m ] ) ) ) );
+                searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( it_spatial_relation_type_types->second[ i ], it_object_type_types->second[ j ], it_number_value_types->second[ k ], it_index_value_types->second[ l ], it_object_color_types->second[ m ] ) ) );
               }
             }
           }
@@ -158,8 +171,11 @@ Region_Abstract_Container::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "region_abstract_container" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "region_abstract_container_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "region_abstract_container_type" ).c_str() ) );
-  _abstract_container.to_xml( doc, node );
+  xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "spatial_relation_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "number" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "number" ) ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color_type" ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -194,21 +210,36 @@ from_xml( const string& filename ){
 void
 Region_Abstract_Container::
 from_xml( xmlNodePtr root ){
-  region_abstract_container_type() = "na";
-  _abstract_container = Abstract_Container();
+  spatial_relation_type() = "na";
+  type() = "na";
+  number() = 0;
+  index() = 0;
+  color() = "na";
 
   if( root->type == XML_ELEMENT_NODE ){
-      pair< bool, string > region_abstract_container_type_prop = has_prop< std::string >( root, "region_abstract_container_type" );
-      if( region_abstract_container_type_prop.first ){
-          region_abstract_container_type() = region_abstract_container_type_prop.second;
-      }
-    xmlNodePtr l1 = NULL;
-    for( l1 = root->children; l1; l1 = l1->next ){
-      if( l1->type == XML_ELEMENT_NODE ){
-        if( xmlStrcmp( l1->name, ( const xmlChar* )( "abstract_container") ) == 0 ){
-          _abstract_container.from_xml( l1 );
-        }
-      }
+    pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
+    if( spatial_relation_type_prop.first ){
+      spatial_relation_type() = spatial_relation_type_prop.second;
+    }
+    
+    pair< bool, string > type_prop = has_prop< std::string >( root, "object_type" );
+    if( type_prop.first ) {
+      type() = type_prop.second;
+    }
+
+    pair< bool, int > number_prop = has_prop< int >( root, "number" );
+    if( number_prop.first ) {
+      number() = number_prop.second;
+    }
+
+    pair< bool, int > index_prop = has_prop< int >( root, "index" );
+    if( index_prop.first ) {
+      index() = index_prop.second;
+    }
+
+    pair< bool, string > color_prop = has_prop< std::string >( root, "object_color_type" );
+    if( color_prop.first ) {
+      color() = color_prop.second;
     }
   }
   return;
@@ -224,8 +255,11 @@ namespace h2sl {
   operator<<( ostream& out,
               const Region_Abstract_Container& other ){
     out << "Region_Abstract_Container(";
-    out << "region_abstract_container_type=\"" << other.region_abstract_container_type() << "\",";
-    out << "abstract_container=" << other.abstract_container();
+    out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\",";
+    out << "object_type=\"" << other.type() << "\",";
+    out << "number=\"" << other.number() << "\",";
+    out << "index=\"" << other.index()  << "\",";
+    out << "object_color_type=\"" << other.color()  << "\",";
     out << "} ";
     return out;
   }

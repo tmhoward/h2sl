@@ -101,8 +101,6 @@
 #include "h2sl/feature_object_property_relation_type.h"
 #include "h2sl/feature_object_property_type.h"
 #include "h2sl/feature_objects_shape_matches_container_type.h"
-#include "h2sl/feature_region_abstract_container_object_type.h"
-#include "h2sl/feature_region_abstract_container_type.h"
 #include "h2sl/feature_region_container_container_matches_child_container.h"
 #include "h2sl/feature_region_container_matches_child.h"
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
