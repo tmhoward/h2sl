@@ -68,16 +68,32 @@
         <feature_abstract_container_type invert="0" abstract_container_type="door"/>
         <feature_constraint_payload_type invert="0" payload_type="robot"/>
         <feature_constraint_payload_type invert="1" payload_type="robot"/>
-        <feature_constraint_reference_type invert="0" reference_type="robot"/>
-        <feature_constraint_reference_type invert="1" reference_type="robot"/>
-        <feature_constraint_parent_matches_child_region invert="0"/>
-        <feature_constraint_parent_matches_child_region invert="1"/>
-        <feature_constraint_child_matches_child_region invert="0"/>
-        <feature_constraint_child_matches_child_region invert="1"/>
-        <feature_constraint_child_matches_child_object invert="0"/>
-        <feature_constraint_child_matches_child_object invert="1"/>
-        <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
-        <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+        <!-- feature_constraint_reference_type -->
+        <feature_constraint_reference_type invert="0" reference_type="na"/>
+        <feature_constraint_reference_type invert="0" reference_type="front"/>
+        <feature_constraint_reference_type invert="0" reference_type="back"/>
+        <feature_constraint_reference_type invert="0" reference_type="left"/>
+        <feature_constraint_reference_type invert="0" reference_type="right"/>
+        <feature_constraint_reference_type invert="0" reference_type="center"/>
+        <feature_constraint_reference_type invert="0" reference_type="side"/>
+        <feature_constraint_reference_type invert="0" reference_type="near"/>
+        <feature_constraint_reference_type invert="0" reference_type="far"/>
+        <feature_constraint_reference_type invert="0" reference_type="above"/>
+        <feature_constraint_reference_type invert="0" reference_type="below"/>
+        <feature_constraint_reference_type invert="1" reference_type="na"/>
+        <feature_constraint_reference_type invert="1" reference_type="front"/>
+        <feature_constraint_reference_type invert="1" reference_type="back"/>
+        <feature_constraint_reference_type invert="1" reference_type="left"/>
+        <feature_constraint_reference_type invert="1" reference_type="right"/>
+        <feature_constraint_reference_type invert="1" reference_type="center"/>
+        <feature_constraint_reference_type invert="1" reference_type="side"/>
+        <feature_constraint_reference_type invert="1" reference_type="near"/>
+        <feature_constraint_reference_type invert="1" reference_type="far"/>
+        <feature_constraint_reference_type invert="1" reference_type="above"/>
+        <feature_constraint_reference_type invert="1" reference_type="below"/>
+        <!-- feature_container_dominant_x_shape -->
+        <!--feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+       <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="0" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -105,9 +121,10 @@
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
-        <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+        <feature_container_dominant_x_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/-->
+   <!-- feature_container_dominant_y_shape -->
+        <!--feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+       <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="0" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -135,9 +152,10 @@
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
-        <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+        <feature_container_dominant_y_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/-->
+        <!-- feature_container_dominant_z_shape -->
+        <!--feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+       <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="0" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -165,9 +183,10 @@
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
-        <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+        <feature_container_dominant_z_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/-->
+     <!-- feature_container_non_dominant_xyz -->
+        <!--feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.04" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
+       <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="0" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.2" min_num_elements="2"/>
@@ -195,8 +214,9 @@
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.05" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.06" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
         <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.1" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/>
-        <feature_container_is_empty invert="0"/>
+        <feature_container_non_dominant_xyz_shape invert="1" model_deviation_tolerance="0.2" adjacent_distance_tolerance="0.8" min_num_elements="2"/-->
+        <!-- feature_container_is_empty -->
+       <feature_container_is_empty invert="0"/>
         <feature_container_is_empty invert="1"/>
         <feature_container_matches_child invert="0"/>
         <feature_container_matches_child invert="1"/>
