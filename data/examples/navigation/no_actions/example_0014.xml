@@ -2,7 +2,7 @@
 <root>
   <instruction text="four chairs at the left side of the robot"/>
   <!-- "file" indicates the which world within certain world type-->
-  <world time="0" file="row_col_group_0010"/>
+  <world time="0" file="world_0031"/>
     <object name="barrel0" object_type="barrel" object_color="red" position="5.92393 -4.38877 0.270293" orientation="0,0,0,1"/>
     <object name="barrel1" object_type="barrel" object_color="red" position="5.93525 -6.04806 0.270293" orientation="0,0,0,1"/>
     <object name="barrel2" object_type="barrel" object_color="red" position="4.62058 -4.79016 0.270293" orientation="0,0,0,1"/>

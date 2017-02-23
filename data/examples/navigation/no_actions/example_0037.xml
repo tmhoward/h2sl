@@ -2,7 +2,7 @@
 <root>
   <instruction text="four red barrels on the right front side of the robot"/>
   <!-- "file" indicates the which world within certain world type-->
-  <world time="0" file="row_col_group_0013"/>
+  <world time="0" file="world_0034"/>
     <object name="barrel0" object_type="barrel" object_color="red" position="5.66782 -3.70297 0.270293" orientation="0,0,0,1"/>
     <object name="barrel1" object_type="barrel" object_color="red" position="5.57511 -5.76602 0.270293" orientation="0,0,0,1"/>
     <object name="barrel2" object_type="barrel" object_color="red" position="4.89533 -4.65413 0.270293" orientation="0,0,0,1"/>

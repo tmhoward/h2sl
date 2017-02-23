@@ -2,7 +2,7 @@
 <root>
   <instruction text="the line of cones behind the robot"/>
   <!-- "file" indicates the which world within certain world type-->
-  <world time="0" file="row_col_group_0016"/>
+  <world time="0" file="world_0037"/>
     <object name="barrel0" object_type="barrel" object_color="red" position="5.65349 -4.45211 0.270293" orientation="0,0,0,1"/>
     <object name="barrel1" object_type="barrel" object_color="red" position="6.00335 -6.83981 0.270293" orientation="0,0,0,1"/>
     <object name="barrel2" object_type="barrel" object_color="red" position="4.95401 -3.88929 0.270293" orientation="0,0,0,1"/>
