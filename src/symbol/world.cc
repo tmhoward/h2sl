@@ -56,6 +56,18 @@ World( const unsigned long long& time,
   initialise_index_map(); 
 }
 
+World::
+World( const string& filename ) : _time( 0 ),
+                                  _objects(),
+                                  _numeric_map(),
+                                  _index_map() {
+
+  from_xml( filename );
+  initialise_sorted_object_collections();
+  initialise_numeric_map();
+  initialise_index_map();
+}
+
 /**
  * Helper function to initilise the sorted object collections. 
  */

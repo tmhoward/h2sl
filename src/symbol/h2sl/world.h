@@ -44,6 +44,7 @@ namespace h2sl {
   class World {
   public:
     World( const unsigned long long& time = 0, const std::vector< Object* >& objects = std::vector< Object* >() );
+    World( const std::string& filename );
     virtual ~World();
     World( const World& other );
     World& operator=( const World& other );

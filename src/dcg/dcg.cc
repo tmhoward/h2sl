@@ -36,11 +36,18 @@
 #include <utility>
 
 #include "h2sl/grounding_set.h"
+
+#include "h2sl/object_property.h"
+#include "h2sl/object_type.h"
+#include "h2sl/object_color.h"
 #include "h2sl/object.h"
+#include "h2sl/spatial_relation.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
-#include "h2sl/world.h"
-
+#include "h2sl/container.h"
+#include "h2sl/region_container.h"
+#include "h2sl/abstract_container.h"
+#include "h2sl/region_abstract_container.h"
 
 #include "h2sl/dcg.h"
 
@@ -107,49 +114,20 @@ fill_search_spaces( const World* world ){
   _correspondence_variables.push_back( binary_cvs );
   _correspondence_variables.push_back( ternary_cvs );
 
-  vector< std::string > regions;
-  regions.push_back( "na" );
-  regions.push_back( "near" );
-  regions.push_back( "far" );
-  regions.push_back( "left" );
-  regions.push_back( "right" );
-  regions.push_back( "front" );
-  regions.push_back( "back" );
-  regions.push_back( "above" );
-  regions.push_back( "below" );
+  Object::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Object_Type::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Object_Color::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Object_Property::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Number::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Index::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Region::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Spatial_Relation::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Constraint::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Region_Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Region_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
 
-  vector< std::string > constraints;
-  constraints.push_back( "inside" );
-  constraints.push_back( "outside" );
-
-  // add the NP groundings; exhaustively fill the object symbol space (regions with unknown type and known object)
-  for( unsigned int i = 0; i < world->objects().size(); i++ ){
-    _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( "na", *world->objects()[ i ] ) ) );
-  }
-
-  // add the PP groundings; exhaustively fill the region symbol space (does no duplicate the above loop)
-  for( unsigned int i = 0; i < regions.size(); i++ ){
-    if( regions[ i ] != "na" ){
-      _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( regions[ i ], Object() ) ) );
-      for( unsigned int j = 0; j < world->objects().size(); j++ ){
-        _search_spaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( regions[ i ], *world->objects()[ j ] ) ) );
-      }   
-    }
-  }
-
-  // add the VP groundings; exhaustively fill the constraint symbol space
-  for( unsigned int i = 0; i < constraints.size(); i++ ){
-    for( unsigned int j = 0; j < world->objects().size(); j++ ){
-      for( unsigned int k = 0; k < regions.size(); k++ ){
-        for( unsigned int l = 0; l < world->objects().size(); l++ ){
-          if( j != l ){
-            _search_spaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( constraints[ i ], world->objects()[ j ]->name(), world->objects()[ l ]->name(), regions[ k ] ) ) );
-          }
-        }
-      }
-    }
-  }
-    
   return;
 }
 

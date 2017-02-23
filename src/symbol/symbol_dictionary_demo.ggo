@@ -1,7 +1,10 @@
 package "symbol_dictionary_demo"
 version "0.0.1"
 purpose "A program used to demonstrate the Symbol_Dictionary class"
+
 option "input" i "input string" string optional
+option "world" w "world string" string optional
+option "symbol_threshold" - "maximum number of symbols to print" int default="512" optional
 option "output" o "output file" string optional
 
 text ""

@@ -33,11 +33,38 @@
 
 #include <iostream>
 #include <iomanip>
+#include "h2sl/world.h"
 #include "h2sl/symbol_dictionary.h"
+#include "h2sl/object_property.h"
+#include "h2sl/object_type.h"
+#include "h2sl/object_color.h"
+#include "h2sl/object.h"
+#include "h2sl/spatial_relation.h"
+#include "h2sl/region.h"
+#include "h2sl/constraint.h"
+#include "h2sl/container.h"
+#include "h2sl/region_container.h"
+#include "h2sl/abstract_container.h"
+#include "h2sl/region_abstract_container.h"
 #include "symbol_dictionary_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
+
+template< class C >
+void
+print_search_spaces( Symbol_Dictionary& symbolDictionary, World* world, int symbol_threshold ){
+  vector< pair< unsigned int, Grounding* > > search_spaces;
+  C::fill_search_space( symbolDictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+  cout << C::class_name() << " search_spaces.size():" << search_spaces.size() << endl;
+  if( search_spaces.size() < symbol_threshold ){
+    for( unsigned int i = 0; i < search_spaces.size(); i++ ){
+      cout << "  symbol[" << i << "]:(" << *search_spaces[ i ].second << ")" << endl;
+    }
+  }
+
+  return;
+} 
 
 int
 main( int argc,
@@ -57,6 +84,43 @@ main( int argc,
     } 
 
     cout << "symbol_dictionary:(" << *symbol_dictionary << ")" << endl;
+
+    if( args.world_arg != NULL ){
+      World * world = new World( args.world_arg );
+      print_search_spaces< Object >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Object_Type >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Object_Color >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Object_Property >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Number >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Index >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Region >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Spatial_Relation >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Constraint >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Abstract_Container >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Region_Abstract_Container >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Container >( *symbol_dictionary, world, args.symbol_threshold_arg );
+      print_search_spaces< Region_Container >( *symbol_dictionary, world, args.symbol_threshold_arg );
+/*
+      Object_Type::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Object_Color::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Object_Property::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Number::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Index::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Region::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Spatial_Relation::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Constraint::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Abstract_Container::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Region_Abstract_Container::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Container::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+      Region_Container::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
+
+      cout << "search_spaces.size(): " << search_spaces.size() << endl;
+*/
+      if( world != NULL ){
+        delete world;
+        world = NULL;
+      }
+    }
 
     if( args.output_given ){
       symbol_dictionary->to_xml( args.output_arg );
