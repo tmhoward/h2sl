@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
-  <instruction text=""/>
+  <instruction text="the four cones in a row in front of the robot"/>
   <!-- "file" indicates the which world within certain world type-->
   <world time="0" file="world_0049"/>
     <object name="barrel0" object_type="barrel" object_color="red" position="-0.113572 2.87526 0.270293" orientation="0,0,0,1"/>
