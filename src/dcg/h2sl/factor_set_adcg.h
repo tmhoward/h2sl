@@ -44,6 +44,7 @@
 #include "h2sl/llm.h"
 
 #include "h2sl/factor_set.h"
+#include "h2sl/symbol_dictionary.h"
 
 //namespace std {
 namespace h2sl {
@@ -58,14 +59,14 @@ class Factor_Set_ADCG : public Factor_Set {
     // Factor Set Search
     virtual void search( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, 
                          const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
-                         const std::map< std::string, std::vector< std::string > >& symbolTypes,
+                         const Symbol_Dictionary& symbolDictionary,
                          const World* world, LLM* llm, 
                          const unsigned int beamWidth = 4, 
                          const bool& debug = false );
 
     virtual void search( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, 
                          const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
-                         const std::map< std::string, std::vector< std::string > >& symbolTypes,
+                         const Symbol_Dictionary& symbolDictionary,
                          const World* world, const Grounding* grounding, LLM* llm, 
                          const unsigned int beamWidth = 4, 
                          const bool& debug = false );
@@ -81,7 +82,7 @@ class Factor_Set_ADCG : public Factor_Set {
     // Physical search space search
     virtual void _search_physical( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, 
                                    const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
-                                   const std::map< std::string, std::vector< std::string > >& symbolTypes,
+                                   const Symbol_Dictionary& symbolDictionary,
                                    const World* world, LLM* llm, 
                                    const unsigned int beamWidth = 4, 
                                    const bool& debug = false );

@@ -7,7 +7,9 @@
  */
 
 #include <sstream>
+#include <cmath>
 #include "h2sl/region_container.h"
+#include "h2sl/world.h"
 
 using namespace std;
 using namespace h2sl;
@@ -19,7 +21,7 @@ Region_Container::
 Region_Container( const string& region_containerType,
                  const Container& container ) : Grounding() ,
                                                     _container( container ) {
-            insert_prop< std::string >( _properties, "region_container_type", region_containerType);
+            insert_prop< std::string >( _string_properties, "region_container_type", region_containerType);
 }
 
 /**
@@ -33,7 +35,7 @@ Region_Container::
 Region_Container::
 Region_Container( xmlNodePtr root ) : Grounding(),
                                        _container() {
-    insert_prop< std::string >( _properties, "region_container_type", "na" );
+    insert_prop< std::string >( _string_properties, "region_container_type", "na" );
     from_xml( root );
 }
 
@@ -52,7 +54,8 @@ Region_Container( const Region_Container& other ) : Grounding( other ),
 Region_Container&
 Region_Container::
 operator=( const Region_Container& other ) {
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   _container = other._container;
   return (*this);
 }
@@ -90,6 +93,63 @@ dup( void )const{
   return new Region_Container( *this );
 }
 
+void
+Region_Container::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+
+  map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
+  map< string, vector< string > >::const_iterator it_container_type_types = symbolDictionary.string_types().find( "container_type" );
+  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( SYMBOL_TYPE_ALL ):
+    if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_container_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) ){
+      for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
+        for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
+          searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region_Container( it_spatial_relation_type_types->second[ l ], Container( vector< Grounding* >(), it_container_type_types->second[ k ] ) ) ) );
+        }
+      }
+  
+      for( unsigned int i = 0 ; i < it_object_type_types->second.size(); i++ ){
+        vector< Object* > objects;
+        for( unsigned int j = 0; j < world->objects().size(); j++ ){
+          if( world->objects()[ j ]->type() == it_object_type_types->second[ i ] ){
+            objects.push_back( world->objects()[ j ] );
+          }
+        }
+        const unsigned int num_sets = pow( 2, objects.size() );
+        for( unsigned int j = 0; j < num_sets; j++ ){
+          vector< Grounding* > container_objects;
+          for( unsigned int k = 0; k < objects.size(); k++ ){
+            int mask = 1 << k;
+            if( mask & j ){
+              container_objects.push_back( dynamic_cast< Grounding* >( objects[ k ] ) );
+            }
+          }
+          if( container_objects.size() > 1 ){
+            for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
+              for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
+                searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, it_container_type_types->second[ k ] ) ) ) );
+              }
+            }
+          }
+        }
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
+}
+
 /**
  * exports the Region_Container class to an XML file. 
  */
@@ -114,7 +174,7 @@ Region_Container::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "region_container" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "region_container_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "region_container_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "region_container_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "region_container_type" ).c_str() ) );
   _container.to_xml( doc, node );
   
   xmlAddChild( root, node );

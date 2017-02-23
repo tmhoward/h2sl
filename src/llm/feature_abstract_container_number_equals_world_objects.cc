@@ -82,13 +82,13 @@ value( const unsigned int& cv,
       }
     }
     map< string, unsigned int>::const_iterator it;
-    it = world->numeric_map().find( abstract_container->number() ); 
-    if( it != world->numeric_map().end() ) {
-      if ( it->second == objects.size() ){
-        return !_invert;
-      } else {
-        return _invert;
-      }
+//    it = world->numeric_map().find( abstract_container->number() ); 
+//    if( it != world->numeric_map().end() ) {
+//      if ( it->second == objects.size() ){
+    if( abstract_container->number() == objects.size() ){
+      return !_invert;
+    } else {
+      return _invert;
     }
   }
   return false;

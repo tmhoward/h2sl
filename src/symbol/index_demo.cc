@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !index_vector.empty() ){
-    cout << "Index::class_name(): " << Index::class_name() << endl;
     cout << "index_vector.back()->class_name(): " << index_vector.back()->class_name() << endl;
     for( unsigned int i = 0; i < index_vector.size(); i++ ){
       cout << "index_vector[ " << i << " ]: " << *index_vector[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     index_vector.push_back( new Index() );
     cout << "index:( " << *index_vector.back() << endl;
     cout << "index->class_name(): " << index_vector.back()->class_name() << endl;
-    cout << "Index::class_name(): " << Index::class_name() << endl;
   }
 
   if( args.output_given ){

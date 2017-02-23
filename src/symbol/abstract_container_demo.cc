@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !abstract_containers.empty() ){
-    cout << "Abstract_Container::class_name(): " << Abstract_Container::class_name() << endl;
     cout << "abstract_containers.back()->class_name(): " << abstract_containers.back()->class_name() << endl;
     for( unsigned int i = 0; i < abstract_containers.size(); i++ ){
       cout << "abstract_containers[ " << i << " ]: " << *abstract_containers[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     abstract_containers.push_back( new Abstract_Container() );
     cout << "abstract_container:( " << *abstract_containers.back() << endl;
     cout << "abstract_container->class_name(): " << abstract_containers.back()->class_name() << endl;
-    cout << "Abstract_Container::class_name(): " << Abstract_Container::class_name() << endl;
   }
 
   if( args.output_given ){

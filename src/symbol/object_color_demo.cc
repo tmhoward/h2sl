@@ -76,7 +76,6 @@ main( int argc,
   }
 
   if( !object_colors.empty() ){
-    cout << "Object_Color::class_name(): " << Object_Color::class_name() << endl;
     cout << "object_colors.back()->class_name(): " << object_colors.back()->class_name() << endl;
     for( unsigned int i = 0; i < object_colors.size(); i++ ){
       cout << "object_colors[ " << i << " ]: " << *object_colors[ i ] << endl;
@@ -86,7 +85,6 @@ main( int argc,
     object_colors.push_back( new Object_Color() );
     cout << "object_color:( " << *object_colors.back() << endl;
     cout << "object_color->class_name(): " << object_colors.back()->class_name() << endl;
-    cout << "Object_Color::class_name(): " << Object_Color::class_name() << endl;
   }
 
   if( args.output_given ){

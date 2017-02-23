@@ -50,7 +50,9 @@ using namespace std;
 using namespace h2sl;
 
 Grounding::
-Grounding( const std::map< std::string, std::string >& properties ) : _properties( properties ) {
+Grounding( const std::map< std::string, std::string >& stringProperties,
+            const std::map< std::string, int >& intProperties ) : _string_properties( stringProperties ),
+                                                                  _int_properties( intProperties ) {
 
 } 
 
@@ -60,14 +62,16 @@ Grounding::
 }
 
 Grounding::
-Grounding( const Grounding& other ) : _properties( other._properties ){
+Grounding( const Grounding& other ) : _string_properties( other._string_properties ),
+                                      _int_properties( other._int_properties ){
 
 }
 
 Grounding&
 Grounding::
 operator=( const Grounding& other ) {
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -81,12 +85,6 @@ bool
 Grounding::
 operator!=( const Grounding& other )const{
   return !( *this == other );
-}
-
-Grounding*
-Grounding::
-dup( void )const{
-  return new Grounding( *this );
 }
 
 void 

@@ -19,18 +19,18 @@ using namespace h2sl;
 Object_Property::
 Object_Property( const string& objectType,
                   const string& spatial_relationType,
-                  const string& indexType ) : Grounding() {
-    insert_prop< std::string >( _properties, "object_type", objectType );
-    insert_prop< std::string >( _properties, "spatial_relation_type", spatial_relationType );
-    insert_prop< std::string >( _properties, "index_type", indexType );
+                  const int& index ) : Grounding() {
+    insert_prop< std::string >( _string_properties, "object_type", objectType );
+    insert_prop< std::string >( _string_properties, "spatial_relation_type", spatial_relationType );
+    insert_prop< int >( _int_properties, "index", index );
 
 }
 
 Object_Property::
 Object_Property( xmlNodePtr root ) : Grounding() {
-    insert_prop< std::string >( _properties, "object_type", "na" );
-    insert_prop< std::string >( _properties, "spatial_relation_type", "na" );
-    insert_prop< std::string >( _properties, "index_type", "na" );
+    insert_prop< std::string >( _string_properties, "object_type", "na" );
+    insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
+    insert_prop< int >( _int_properties, "index", 0 );
     from_xml( root );
 }
 
@@ -57,7 +57,8 @@ Object_Property::
 Object_Property&
 Object_Property::
 operator=( const Object_Property& other ){
-  _properties = other._properties;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -94,6 +95,39 @@ Object_Property*
 Object_Property::
 dup( void )const{
   return new Object_Property( *this );
+}
+
+void
+Object_Property::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+
+  map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
+  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+  map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index_value" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( SYMBOL_TYPE_ALL ):
+    if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) ){
+      for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
+        for( unsigned int j = 0; j < it_spatial_relation_type_types->second.size(); j++ ){
+          for( unsigned int k = 0; k < it_index_value_types->second.size(); k++ ){
+            searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Property( it_object_type_types->second[ i ], it_spatial_relation_type_types->second[ j ], it_index_value_types->second[ k ] ) ) );
+          }
+        }
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
 }
 
 /** 
@@ -140,9 +174,9 @@ from_xml( xmlNodePtr root ){
     if( spatial_relation_type_prop.first ){
       relation_type() = spatial_relation_type_prop.second;
     }
-    pair< bool, string > index_type_prop = has_prop< std::string >( root, "index_type" );
-    if( index_type_prop.first ){
-      index() = index_type_prop.second;
+    pair< bool, int > index_prop = has_prop< int >( root, "index" );
+    if( index_prop.first ){
+      index() = index_prop.second;
     }
   }
   return;
@@ -171,9 +205,9 @@ Object_Property::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "object_property" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_type").c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "spatial_relation_type").c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "index_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "index_type").c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_type").c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "spatial_relation_type").c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -188,7 +222,7 @@ namespace h2sl {
     out << "Object_Property(";
     out << "object_type=\"" << other.type() << "\",";
     out << "spatial_relation_type=\"" << other.relation_type() << "\",";
-    out << "index_type=\"" << other.index() << "\",";
+    out << "index=\"" << other.index() << "\",";
     out << ")";
     return out;
   }

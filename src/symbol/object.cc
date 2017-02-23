@@ -32,6 +32,7 @@
 
 #include "h2sl/common.h"
 #include "h2sl/object.h"
+#include "h2sl/world.h"
 
 using namespace std;
 using namespace h2sl;
@@ -47,10 +48,10 @@ Object( const string& name,
                                             _transform( transform ),  
                                             _linear_velocity( linearVelocity ),
                                             _angular_velocity( angularVelocity ) {
-   insert_prop< std::string >( _properties, "name", name ); 
-   insert_prop< std::string >( _properties, "object_type", objectType ); 
-   insert_prop< std::string >( _properties, "object_color", objectColor ); 
-   insert_prop< std::string >( _properties, "object_id", objectId ); 
+   insert_prop< std::string >( _string_properties, "name", name ); 
+   insert_prop< std::string >( _string_properties, "object_type", objectType ); 
+   insert_prop< std::string >( _string_properties, "object_color", objectColor ); 
+   insert_prop< std::string >( _string_properties, "object_id", objectId ); 
 }
 
 Object::
@@ -58,10 +59,10 @@ Object( xmlNodePtr root ) : Grounding(),
                             _transform(),
                             _linear_velocity(),
                             _angular_velocity() {
-  insert_prop< std::string >( _properties, "name", "na" );
-  insert_prop< std::string >( _properties, "object_type", "na" );
-  insert_prop< std::string >( _properties, "object_color", "na" );
-  insert_prop< std::string >( _properties, "object_id", "0" );
+  insert_prop< std::string >( _string_properties, "name", "na" );
+  insert_prop< std::string >( _string_properties, "object_type", "na" );
+  insert_prop< std::string >( _string_properties, "object_color", "na" );
+  insert_prop< std::string >( _string_properties, "object_id", "0" );
   from_xml( root );
 }
 
@@ -81,7 +82,7 @@ Object( const Object& other ) : Grounding( other ),
 Object&
 Object::
 operator=( const Object& other ) {
-  _properties = other._properties;
+  _string_properties = other._string_properties;
   _transform = other._transform;
   _linear_velocity = other._linear_velocity;
   _angular_velocity = other._angular_velocity;
@@ -115,6 +116,30 @@ Object::
 dup( void )const{
   return new Object( *this );
 }
+
+void 
+Object::
+fill_search_space( const Symbol_Dictionary& symbolDictionary, 
+                    const World* world, 
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){ 
+  switch( symbolType ){
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( SYMBOL_TYPE_ALL ):
+    if( world != NULL ){
+      for( unsigned int i = 0; i < world->objects().size(); i++ ){
+        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, world->objects()[ i ]->dup() ) );
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
+}
  
 void
 Object::
@@ -133,14 +158,14 @@ Object::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "object" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "name" ), ( const xmlChar* )( get_prop< std::string >( _properties, "name" ).c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_type" ).c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "object_color" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_color" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "name" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "name" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_color" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color" ).c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "position" ), ( const xmlChar* )( _transform.position().to_std_string().c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "orientation" ), ( const xmlChar* )( _transform.orientation().to_std_string().c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "linear_velocity" ), ( const xmlChar* )( _linear_velocity.to_std_string().c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "angular_velocity" ), ( const xmlChar* )( _angular_velocity.to_std_string().c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "object_id" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_id" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_id" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_id" ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }

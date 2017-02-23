@@ -42,6 +42,7 @@
 #include "h2sl/phrase.h"
 #include "h2sl/world.h"
 #include "h2sl/llm.h"
+#include "h2sl/symbol_dictionary.h"
 
 namespace h2sl {
   class Factor_Set_Solution {
@@ -66,12 +67,12 @@ namespace h2sl {
 
     virtual void search( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, 
                          const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
-                         const std::map< std::string, std::vector< std::string > >& symbolTypes, 
+                         const Symbol_Dictionary& symbolDictionary,
                          const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
     virtual void search( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, 
                          const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
-                         const std::map< std::string, std::vector< std::string > >& symbolTypes, 
+                         const Symbol_Dictionary& symbolDictionary,
                          const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
     inline const Phrase* phrase( void )const{ return _phrase; };

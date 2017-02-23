@@ -43,6 +43,7 @@
 #include "h2sl/world.h"
 #include "h2sl/llm.h"
 #include "h2sl/factor_set.h"
+#include "h2sl/symbol_dictionary.h"
 
 namespace h2sl {
   class DCG {
@@ -59,8 +60,9 @@ namespace h2sl {
     virtual void to_latex( const std::string& filename )const;
 
     inline const std::vector< std::vector< unsigned int > >& correspondence_variables( void )const{ return _correspondence_variables; };
+    inline Symbol_Dictionary& symbol_dictionary( void ){ return _symbol_dictionary; };
+    inline const Symbol_Dictionary& symbol_dictionary( void )const{ return _symbol_dictionary; };
     inline const std::vector< std::pair< unsigned int, Grounding* > >& search_spaces( void )const{ return _search_spaces; };
-    inline const std::map< std::string, std::vector< std::string > >& symbol_types( void )const{ return _symbol_types; };
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
     inline const Factor_Set* root( void )const{ return _root; };
 
@@ -71,7 +73,7 @@ namespace h2sl {
 
     std::vector< std::pair< unsigned int, Grounding* > > _search_spaces;
     std::vector< std::vector< unsigned int > > _correspondence_variables;
-    std::map< std::string, std::vector< std::string > > _symbol_types;
+    Symbol_Dictionary _symbol_dictionary;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
   

@@ -16,13 +16,13 @@ using namespace h2sl;
  */
 Abstract_Container::
 Abstract_Container( const string& objectType,
-                    const string& numberType,
-                    const string& indexType,
+                    const int& number,
+                    const int& index,
                     const string& colorType ) : Grounding() {
-  insert_prop< std::string >( _properties, "object_type", objectType );
-  insert_prop< std::string >( _properties, "number_type", numberType );
-  insert_prop< std::string >( _properties, "index_type", indexType );
-  insert_prop< std::string >( _properties, "object_color_type", colorType );
+  insert_prop< std::string >( _string_properties, "object_type", objectType );
+  insert_prop< int >( _int_properties, "number", number );
+  insert_prop< int >( _int_properties, "index", index );
+  insert_prop< std::string >( _string_properties, "object_color_type", colorType );
 }
 
 /**
@@ -30,10 +30,10 @@ Abstract_Container( const string& objectType,
  */
 Abstract_Container::
 Abstract_Container( xmlNodePtr root ) {
-  insert_prop< std::string >( _properties, "object_type", "na" );
-  insert_prop< std::string >( _properties, "number_type", "na");
-  insert_prop< std::string >( _properties, "index_type", "na" );
-  insert_prop< std::string >( _properties, "object_color_type", "na" );
+  insert_prop< std::string >( _string_properties, "object_type", "na" );
+  insert_prop< int >( _int_properties, "number", 0 );
+  insert_prop< int >( _int_properties, "index", 0 );
+  insert_prop< std::string >( _string_properties, "object_color_type", "na" );
 
   from_xml( root );
 }
@@ -61,7 +61,7 @@ Abstract_Container::
 Abstract_Container&
 Abstract_Container::
 operator=( const Abstract_Container& other ){
-  _properties = other._properties;
+  _string_properties = other._string_properties;
   return (*this);
 }
 
@@ -103,6 +103,41 @@ dup( void )const{
   return new Abstract_Container( *this );
 }
 
+void
+Abstract_Container::
+fill_search_space( const Symbol_Dictionary& symbolDictionary,
+                    const World* world,
+                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    const symbol_type_t& symbolType ){
+
+  map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
+  map< string, vector< int > >::const_iterator it_number_value_types = symbolDictionary.int_types().find( "number_value" );
+  map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index_value" );
+  map< string, vector< string > >::const_iterator it_object_color_types = symbolDictionary.string_types().find( "object_color" );
+
+  switch( symbolType ){
+  case( SYMBOL_TYPE_ABSTRACT ):
+  case( SYMBOL_TYPE_ALL ):
+    if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_number_value_types != symbolDictionary.int_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) && ( it_object_color_types != symbolDictionary.string_types().end() ) ){
+      for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
+        for( unsigned int j = 0; j < it_number_value_types->second.size(); j++ ){
+          for( unsigned int k = 0; k < it_index_value_types->second.size(); k++ ){
+            for( unsigned int l = 0; l < it_object_color_types->second.size(); l++ ){
+              searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Abstract_Container( it_object_type_types->second[ i ], it_number_value_types->second[ j ], it_index_value_types->second[ k ], it_object_color_types->second[ l ] ) ) );
+            }
+          }
+        }
+      }
+    }
+    break;
+  case( SYMBOL_TYPE_CONCRETE ):
+  case( NUM_SYMBOL_TYPES ):
+  default:
+    break;
+  }
+
+  return;
+}
 
 /** 
  * imports the abstract_container class from an XML file
@@ -140,8 +175,8 @@ void
 Abstract_Container::
 from_xml( xmlNodePtr root ){
   type() = "na";
-  number() = "na";
-  index() = "na";
+  number() = 0;
+  index() = 0;
   color() = "na";
 
   if ( root->type == XML_ELEMENT_NODE ){
@@ -150,12 +185,12 @@ from_xml( xmlNodePtr root ){
       type() = type_prop.second;
     }
 
-    pair< bool, string > number_prop = has_prop< std::string >( root, "number_type" );
+    pair< bool, int > number_prop = has_prop< int >( root, "number" );
     if( number_prop.first ) {
       number() = number_prop.second;
     }
 
-    pair< bool, string > index_prop = has_prop< std::string >( root, "index_type" );
+    pair< bool, int > index_prop = has_prop< int >( root, "index" );
     if( index_prop.first ) {
       index() = index_prop.second;
     }
@@ -191,10 +226,10 @@ Abstract_Container::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "abstract_container" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_type" ).c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "number_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "number_type" ).c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "index_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "index_type" ).c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _properties, "object_color_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "number" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "number" ) ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color_type" ).c_str() ) );
 
   xmlAddChild( root, node );
   return;
@@ -209,8 +244,8 @@ namespace h2sl {
               const Abstract_Container& other ){
     out << "Abstract_Container(";
     out << "object_type=\"" << other.type() << "\",";
-    out << "number_type=\"" << other.number() << "\",";
-    out << "index_type=\"" << other.index()  << "\",";
+    out << "number=\"" << other.number() << "\",";
+    out << "index=\"" << other.index()  << "\",";
     out << "object_color_type=\"" << other.color()  << "\",";
     out << ")";
    return out;

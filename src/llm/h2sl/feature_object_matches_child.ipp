@@ -177,6 +177,6 @@ template< class T, class O >
 std::ostream&
 operator<<( std::ostream& out,
             const Feature_Object_Matches_Child< T, O >& other ){
-  out << "Feature_Object_Matches_Child:( class_name:\"" << T::class_name() << "\" invert:\"" << other.invert() << "\")";
+  out << "Feature_Object_Matches_Child:( invert:\"" << other.invert() << "\")";
   return out;
 }

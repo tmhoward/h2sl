@@ -106,11 +106,11 @@ value( const unsigned int& cv,
                     map< string, vector< Object* > >::const_iterator it1;
                     it1 = world->min_center_distance_sorted_objects().find( object_property_child.second->type() );
 
-                    map<string, unsigned int>::const_iterator it2;
-                    it2 = world->index_map().find( object_property_child.second->index() );
+//                    map<string, unsigned int>::const_iterator it2;
+//                    it2 = world->index_map().find( object_property_child.second->index() );
                     
-                    if( it2->second < it1->second.size() ){
-                            if( *object == *it1->second[ it2->second ] ){
+                    if( object_property_child.second->index() < it1->second.size() ){
+                            if( *object == *it1->second[ object_property_child.second->index() ] ){
                                 return !_invert;
                             }
                     }
@@ -119,11 +119,11 @@ value( const unsigned int& cv,
                     map< string, vector< Object* > >::const_iterator it1;
                     it1 = world->max_distance_sorted_objects().find( object_property_child.second->type() );
 
-                    map<string, unsigned int>::const_iterator it2;
-                    it2 = world->index_map().find( object_property_child.second->index() );
+//                    map<string, unsigned int>::const_iterator it2;
+//                    it2 = world->index_map().find( object_property_child.second->index() );
                     
-                    if( it2->second < it1->second.size() ){
-                            if( *object == *it1->second[ it2->second ] ){
+                    if( object_property_child.second->index() < it1->second.size() ){
+                            if( *object == *it1->second[ object_property_child.second->index() ] ){
                                 return !_invert;
                             }
                     }
@@ -132,11 +132,11 @@ value( const unsigned int& cv,
                     map< string, vector< Object* > >::const_iterator it1;
                     it1 = world->min_distance_sorted_objects().find( object_property_child.second->type() );
 
-                    map<string, unsigned int>::const_iterator it2;
-                    it2 = world->index_map().find( object_property_child.second->index() );
+//                    map<string, unsigned int>::const_iterator it2;
+//                    it2 = world->index_map().find( object_property_child.second->index() );
                     
-                    if( it2->second < it1->second.size() ){
-                          if( *object == *it1->second[ it2->second ] ){
+                    if( object_property_child.second->index() < it1->second.size() ){
+                          if( *object == *it1->second[ object_property_child.second->index() ] ){
                               return !_invert;
                           }
                     }
@@ -145,11 +145,11 @@ value( const unsigned int& cv,
                     map< string, vector< Object* > >::const_iterator it1 = world->min_y_sorted_objects().find( object_property_child.second->type() );
                     assert( it1 != world->min_y_sorted_objects().end() );
 
-                    map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
-                    assert( it2 != world->index_map().end() );
+//                    map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
+//                    assert( it2 != world->index_map().end() );
  
-                    if( it2->second < it1->second.size() ){
-                          if( *object == *it1->second[ it2->second ] ){
+                    if( object_property_child.second->index() < it1->second.size() ){
+                          if( *object == *it1->second[ object_property_child.second->index() ] ){
                               return !_invert;
                           }
                     }
@@ -158,11 +158,11 @@ value( const unsigned int& cv,
                     map< string, vector< Object* > >::const_iterator it1 = world->max_y_sorted_objects().find( object_property_child.second->type() );
                     assert( it1 != world->max_y_sorted_objects().end() );                  
   
-                    map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
-                    assert( it2 != world->index_map().end() );                   
+//                    map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
+//                    assert( it2 != world->index_map().end() );                   
  
-                    if( it2->second < it1->second.size() ){
-                        if( *object == *it1->second[ it2->second ] ){
+                    if( object_property_child.second->index() < it1->second.size() ){
+                        if( *object == *it1->second[ object_property_child.second->index() ] ){
                           return !_invert;
                         }
                     }
@@ -170,11 +170,11 @@ value( const unsigned int& cv,
                     map< string, vector< Object* > >::const_iterator it1;
                     it1 = world->max_x_sorted_objects().find( object_property_child.second->type() );
 
-                    map<string, unsigned int>::const_iterator it2;
-                    it2 = world->index_map().find( object_property_child.second->index() );
+//                    map<string, unsigned int>::const_iterator it2;
+//                    it2 = world->index_map().find( object_property_child.second->index() );
 
-                    if( it2->second < it1->second.size() ){
-                            if( *object == *it1->second[ it2->second ] ){
+                    if( object_property_child.second->index() < it1->second.size() ){
+                            if( *object == *it1->second[ object_property_child.second->index() ] ){
                                 return !_invert;
                             }
                     }
@@ -183,11 +183,11 @@ value( const unsigned int& cv,
                     map< string, vector< Object* > >::const_iterator it1;
                     it1 = world->min_x_sorted_objects().find( object_property_child.second->type() );
 
-                    map<string, unsigned int>::const_iterator it2;
-                    it2 = world->index_map().find( object_property_child.second->index() );
+//                    map<string, unsigned int>::const_iterator it2;
+//                    it2 = world->index_map().find( object_property_child.second->index() );
                     
-                    if( it2->second < it1->second.size() ){
-                            if( *object == *it1->second[ it2->second ] ){
+                    if( object_property_child.second->index() < it1->second.size() ){
+                            if( *object == *it1->second[ object_property_child.second->index() ] ){
                                 return !_invert;
                             }
                     }

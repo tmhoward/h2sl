@@ -137,13 +137,10 @@ value( const unsigned int& cv,
     
     // Check upto the number of elements implied by the AC in the object match array.
     // if they match with any of the objects in the container grounding.
-    map< string, unsigned int >::const_iterator itnum = world->numeric_map().find( abstract_container_child->number() );
-    assert( itnum != world->numeric_map().end() );
-    unsigned int ac_number_value = itnum->second;
-    if (container->container().size() == ac_number_value) {
+    if (container->container().size() == abstract_container_child->number()) {
       bool allObjectsFound = true;
       bool isEqual = false;
-      for (unsigned int i = 0; i < ac_number_value; ++i) {
+      for (unsigned int i = 0; i < abstract_container_child->number(); ++i) {
         isEqual = false;
         for (unsigned int j = 0; j < container->container().size(); j++) {
           if (*type_matched_obj[ i ] == *dynamic_cast< const Object* >(container->container()[ j ])) {

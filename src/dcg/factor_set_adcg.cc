@@ -70,12 +70,12 @@ void
 Factor_Set_ADCG::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
-        const map< string, vector< string > >& symbolTypes,
+        const Symbol_Dictionary& symbolDictionary,
         const World* world,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
-  search( searchSpace, correspondenceVariables, symbolTypes, world, NULL, llm, beamWidth, debug );
+  search( searchSpace, correspondenceVariables, symbolDictionary, world, NULL, llm, beamWidth, debug );
   return;
 }
 
@@ -83,13 +83,13 @@ void
 Factor_Set_ADCG::
 search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
         const vector< vector< unsigned int > >& correspondenceVariables,
-        const map< string, vector< string > >& symbolTypes,
+        const Symbol_Dictionary& symbolDictionary,
         const World* world,
         const Grounding* grounding,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
-  _search_physical( searchSpace, correspondenceVariables, symbolTypes, world, llm, beamWidth, debug );
+  _search_physical( searchSpace, correspondenceVariables, symbolDictionary, world, llm, beamWidth, debug );
   return;
 }
 
@@ -97,7 +97,7 @@ void
 Factor_Set_ADCG::
 _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
                   const vector< vector< unsigned int > >& correspondenceVariables,
-                  const map< string, vector< string> >& symbolTypes,
+                  const Symbol_Dictionary& symbolDictionary,
                   const World* world, LLM* llm, const unsigned int beamWidth, const bool& debug ){
   if( debug ){
     cout << " Factor Set ADCG: Beginning of physical search" << endl;
@@ -207,8 +207,8 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     vector< string > observed_spatial_relations( 1, string( "na" ) );
     vector< string > observed_object_types( 1, string( "na" ) );
     vector< string > observed_object_colors( 1, string( "na") );
-    vector< string > observed_indices( 1, string( "first" ) );
-    vector< string > observed_numbers; 
+    vector< int > observed_indices( 1, 1 );
+    vector< int > observed_numbers; 
   
     // Collect the solutions at the concrete level. 
     for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
@@ -227,12 +227,12 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
           if( dynamic_cast< Object* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
             observed_object_vectors.back().push_back( static_cast< Object* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) );
           } else if ( dynamic_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            string tmp = static_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->index_type();
+            int tmp = static_cast< Index* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->value();
             if( find( observed_indices.begin(), observed_indices.end(), tmp ) == observed_indices.end() ){
               observed_indices.push_back( tmp );
             }
           } else if ( dynamic_cast< Number* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            string tmp_number = static_cast< Number* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->number_value();
+            int tmp_number = static_cast< Number* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->value();
             if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
               observed_numbers.push_back( tmp_number );
             }
@@ -253,11 +253,11 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
             }
           } else if ( dynamic_cast< Abstract_Container* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
             Abstract_Container* tmp_abstract_container = static_cast< Abstract_Container* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second );
-            string tmp_number =  tmp_abstract_container->number() ;
+            int tmp_number =  tmp_abstract_container->number() ;
             if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
               observed_numbers.push_back( tmp_number );
             }
-            string tmp_index =  tmp_abstract_container->index();
+            int tmp_index =  tmp_abstract_container->index();
             if( find( observed_indices.begin(), observed_indices.end(), tmp_index ) == observed_indices.end() ){
               observed_indices.push_back( tmp_index );
             }
@@ -292,13 +292,13 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     for( unsigned int j = 0; j < child_groundings.size(); j++ ){
       for( unsigned int k = 0; k < child_groundings[ j ].second.size(); k++ ){
         if( dynamic_cast< Index* >( child_groundings[ j ].second[ k ] ) != NULL ){
-          string tmp = static_cast< Index* >( child_groundings[ j ].second[ k ] )->index_type();
+          int tmp = static_cast< Index* >( child_groundings[ j ].second[ k ] )->value();
           if( find( observed_indices.begin(), observed_indices.end(), tmp ) == observed_indices.end() ){
             observed_indices.push_back( tmp );
           }
         } else if ( dynamic_cast< Object_Property* >( child_groundings[ j ].second[ k ] ) != NULL ){
           Object_Property* tmp_object_property = static_cast< Object_Property* >( child_groundings[ j ].second[ k ] );
-          string tmp_index = tmp_object_property->index();
+          int tmp_index = tmp_object_property->index();
           if( find( observed_indices.begin(), observed_indices.end(), tmp_index ) == observed_indices.end() ){
             observed_indices.push_back( tmp_index );
           }
@@ -325,6 +325,16 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     }
 
     if ( world != NULL) {
+      // TODO CHECK THIS
+      for( map< string, vector< Object* > >::const_iterator it1 = world->min_x_sorted_objects().begin(); it1 != world->min_x_sorted_objects().end(); it1++ ){
+        int tmp_number = it1->second.size();
+        if( tmp_number != 0 ){
+          if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
+            observed_numbers.push_back( tmp_number );
+          }
+        }
+      }  
+/*
       for ( unsigned int j = 0; j < observed_object_types.size(); j++ ) {
         if ( symbolTypes.find( string( "object_type" ) ) != symbolTypes.end() ) {
           map< string, vector< Object* > >::const_iterator it1 =  world->min_x_sorted_objects().find( observed_object_types[ j ] );
@@ -332,7 +342,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
             map< string, vector< string> >::const_iterator it2 = symbolTypes.find( string( "object_type" ) );
             if ( it2 != symbolTypes.end() ) {
               if ( it1->second.size() < it2->second.size() ) {
-                string tmp_number = "na";
+                int tmp_number = 1;
                 for( map< string, unsigned int>::const_iterator it3 = world->numeric_map().begin(); it3 != world->numeric_map().end(); ++it3 ) {
                   map< string, vector< Object* > >::const_iterator it4 = world->min_x_sorted_objects().find( observed_object_types[ j ]  );
                   if( it4 != world->min_x_sorted_objects().end() ) {
@@ -341,7 +351,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
                     }
                   }
                 }
-                if ( !tmp_number.compare(string( "na")) ) {
+                if ( tmp_number != 0 ) {
                   if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
                     observed_numbers.push_back( tmp_number );
                   }
@@ -351,18 +361,20 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
           }  
         }
       }
+*/
     }   
 
 
   // TODO: NEED TO ACCOUNT FOR OTHER EXPRESSIONS OF THE CONTAINERS HERE, ADD TO ALL SOLUTIONS
     // fill search space
      
-    map< string, vector< string> >::const_iterator it1;
-    map< string, vector< string> >::const_iterator it2;
+    map< string, vector< string > >::const_iterator it_symbol_dictionary_container = symbolDictionary.string_types().find( string( "container" ) );
+    map< string, vector< string > >::const_iterator it_symbol_dictionary_spatial_relation = symbolDictionary.string_types().find( string( "spatial_relation" ) );
+    map< string, vector< int > >::const_iterator it_symbol_dictionary_index = symbolDictionary.int_types().find( string( "index" ) );
+
  
-    it1  = symbolTypes.find( string( "container" ) );
-    if ( it1 != symbolTypes.end() ) {
-      for( unsigned int j = 0; j < it1->second.size(); j++ ) {
+    if ( it_symbol_dictionary_container != symbolDictionary.string_types().end() ) {
+      for( unsigned int j = 0; j < it_symbol_dictionary_container->second.size(); j++ ) {
         for( unsigned int k = 0; k < observed_object_vectors.size(); k++ ) {
           vector< Grounding* > observed_object_grounding_vectors;
           for ( unsigned int m = 0; m < observed_object_vectors[ k ].size(); m++ ) {
@@ -372,20 +384,18 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
           }
           _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Container( 
                                                                                              observed_object_grounding_vectors, 
-                                                                                             it1->second[ j ] ) ) );
+                                                                                             it_symbol_dictionary_container->second[ j ] ) ) );
         }
       }  
     }
 
     // Create the space of abstract containers.
-    it1 = symbolTypes.find( string( "spatial_relation" ) );
-    it2 = symbolTypes.find( string( "container" ) );
-    if ( it1 != symbolTypes.end() && it2 != symbolTypes.end() )  {
+    if ( it_symbol_dictionary_spatial_relation != symbolDictionary.string_types().end() && it_symbol_dictionary_container != symbolDictionary.string_types().end() )  {
       // Iterate over spatial relation
       //for( unsigned int j = 0; j < it1->second.size(); j++ ) {
       for( unsigned int j = 0; j < observed_spatial_relations.size(); j++ ) {
         // Iterate over container types
-        for( unsigned int k = 0; k < it2->second.size(); k++ ) {
+        for( unsigned int k = 0; k < it_symbol_dictionary_container->second.size(); k++ ) {
           for( unsigned int l = 0; l < observed_object_vectors.size(); l++ ) {
             vector< Grounding* > observed_object_grounding_vectors;
             for ( unsigned int m = 0; m < observed_object_vectors[ l ].size(); m++ ) {
@@ -394,9 +404,9 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
               }
             }
             _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Region_Container( 
-                                                                                               observed_spatial_relations [ j ], 
+                                                                                               observed_spatial_relations[ j ], 
                                                                                                Container( observed_object_grounding_vectors, 
-                                                                                                          it2->second[ k ] ) ) ) );
+                                                                                                          it_symbol_dictionary_container->second[ k ] ) ) ) );
           } 
         }
       }   
@@ -415,23 +425,21 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     }
 
     // Create the space of Abstract Containers and Region Abstract Containers.
-    it1 = symbolTypes.find( string( "index" ) );
-    if ( it1 != symbolTypes.end() ) {
+    if ( it_symbol_dictionary_index != symbolDictionary.int_types().end() ) {
       for( unsigned int j = 0; j < observed_object_types.size(); j++ ){
         for( unsigned int k = 0; k < observed_numbers.size(); k++ ){
           for( unsigned int l = 0; l < observed_object_colors.size(); l++ ){
             _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Abstract_Container( 
                                                                                                observed_object_types[ j ], 
                                                                                                observed_numbers[ k ], 
-                                                                                               it1->second.front(), //Index::TYPE_FIRST, 
+                                                                                               it_symbol_dictionary_index->second.front(), //Index::TYPE_FIRST, 
                                                                                                observed_object_colors[ l ] ) ) );
             for( unsigned int m = 0; m < observed_spatial_relations.size(); m++ ){
               _abstract_search_spaces[ i ].push_back( pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( 
-                                                                                               //Region_Abstract_Container::Type( m ), 
                                                                                                observed_spatial_relations[ m ], 
                                                                                                Abstract_Container( observed_object_types[ j ], 
                                                                                                                    observed_numbers[ k ], 
-                                                                                                                   it1->second.front(), //Index::TYPE_FIRST, 
+                                                                                                                   it_symbol_dictionary_index->second.front(), //Index::TYPE_FIRST, 
                                                                                                                    observed_object_colors[ l ] ) ) ) );
             }
           }

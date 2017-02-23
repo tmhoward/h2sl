@@ -120,6 +120,32 @@ namespace h2sl {
     std::vector< QGraphicsLineItem* > _qgraphicslineitems;
   };
 
+  class QGraphicsItem_Phrase : public QObject, public QGraphicsItem {
+    Q_OBJECT
+  public:
+    QGraphicsItem_Phrase( const Phrase* randomVariable = NULL, QGraphicsItem * parent = NULL );
+    virtual ~QGraphicsItem_Phrase();
+
+    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget );
+    QRectF boundingRect( void )const;
+
+    inline const Phrase* phrase( void )const{ return _phrase; };
+    inline std::vector< QGraphicsLineItem* >& qgraphicslineitems( void ){ return _qgraphicslineitems; };
+    inline const std::vector< QGraphicsLineItem* >& qgraphicslineitems( void )const{ return _qgraphicslineitems; };
+
+  signals:
+    void comment( const std::string& comment, const bool& error );
+
+  protected:
+    virtual void mousePressEvent( QGraphicsSceneMouseEvent * event );
+    virtual void hoverEnterEvent( QGraphicsSceneHoverEvent * event );
+    virtual void hoverLeaveEvent( QGraphicsSceneHoverEvent * event );
+
+    const Phrase * _phrase;
+    bool _highlight;
+    std::vector< QGraphicsLineItem* > _qgraphicslineitems;
+  };
+
   class GUI : public QWidget {
     Q_OBJECT
   public:

@@ -18,16 +18,9 @@ using namespace h2sl;
 /**
  * Feature_Object_Property_Index class constructor
  */
-//Feature_Object_Property_Index::
-//Feature_Object_Property_Index( const bool& invert,
-//                      const unsigned int& index ) : Feature( invert ),
-//                                                          _index( index ) {
-//
-//}
-
 Feature_Object_Property_Index::
 Feature_Object_Property_Index( const bool& invert,
-                      const std::string& index ) : Feature( invert ),
+                              const int& index ) : Feature( invert ),
                                                           _index( index ) {
 
 }
@@ -122,19 +115,16 @@ void
 Feature_Object_Property_Index::
 from_xml( xmlNodePtr root ){
   _invert = false;
-  _index = "na";
+  _index = 0;
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( const char* )( tmp );
-      _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
+    pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
+    if( invert_prop.first ) {
+      _invert = invert_prop.second;
     }
-    tmp = xmlGetProp( root, ( const xmlChar* )( "index" ) );
-    if( tmp != NULL ){
-      string index_string = ( const char* )( tmp );
-      _index =  index_string; 
-      xmlFree( tmp );
+
+    pair< bool, int > index_prop = has_prop< int >( root, "index" );
+    if( index_prop.first ) {
+      _index = index_prop.second;
     }
   }
 }
@@ -165,18 +155,18 @@ to_xml( xmlDocPtr doc,
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( _index.c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( _index ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
 
-std::string&
+int&
 Feature_Object_Property_Index::
 index( void ){
   return _index;
 }
 
-const std::string&
+const int&
 Feature_Object_Property_Index::
 index( void )const{
   return _index;

@@ -11,8 +11,8 @@ set(HDRS
     h2sl/factor_set.h
     h2sl/factor_set_adcg.h
     h2sl/dcg.h
-    h2sl/adcg_base.h
-    h2sl/adcg.h)
+    h2sl/adcg.h
+    h2sl/adcg_base.h)
 
 # QT HEADER FILES
 set(QT_HDRS )
@@ -22,8 +22,8 @@ set(SRCS
     factor_set.cc
     factor_set_adcg.cc
     dcg.cc
-    adcg_base.cc
-    adcg.cc)
+    adcg.cc
+    adcg_base.cc)
 
 # BINARY SOURCE FILES
 set(BIN_SRCS
