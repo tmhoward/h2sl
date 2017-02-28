@@ -247,7 +247,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
               observed_object_colors.push_back( tmp_object_color );
             }
           } else if ( dynamic_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second ) != NULL ){
-            string tmp_spatial_relation = static_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->relation_type();
+            string tmp_spatial_relation = static_cast< Spatial_Relation* >( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ m ] ].second )->spatial_relation_type();
             if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
               observed_spatial_relations.push_back( tmp_spatial_relation );
             }
@@ -311,7 +311,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
             observed_spatial_relations.push_back( tmp_spatial_relation );
           }
         } else if ( dynamic_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] ) != NULL ){
-          string tmp_spatial_relation = static_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] )->relation_type();
+          string tmp_spatial_relation = static_cast< Spatial_Relation* >( child_groundings[ j ].second[ k ] )->spatial_relation_type();
           if( find( observed_spatial_relations.begin(), observed_spatial_relations.end(), tmp_spatial_relation ) == observed_spatial_relations.end() ){
             observed_spatial_relations.push_back( tmp_spatial_relation );
           }
@@ -326,7 +326,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
 
     if ( world != NULL) {
       // TODO CHECK THIS
-      for( map< string, vector< Object* > >::const_iterator it1 = world->min_x_sorted_objects().begin(); it1 != world->min_x_sorted_objects().end(); it1++ ){
+      for( map< string, vector< Object* > >::const_iterator it1 = world->sorted_objects().end()->second.begin(); it1 != world->sorted_objects().end()->second.end(); it1++ ){
         int tmp_number = it1->second.size();
         if( tmp_number != 0 ){
           if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){

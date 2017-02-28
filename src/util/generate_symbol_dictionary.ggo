@@ -1,0 +1,7 @@
+package "generate_symbol_dictionary"
+version "1.0"
+purpose "A program used to generate a symbol dictionary from examples"
+
+option "output" o "output file" string optional
+
+text ""

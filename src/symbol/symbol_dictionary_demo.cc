@@ -54,13 +54,18 @@ using namespace h2sl;
 template< class C >
 void
 print_search_spaces( Symbol_Dictionary& symbolDictionary, World* world, int symbol_threshold ){
-  vector< pair< unsigned int, Grounding* > > search_spaces;
+  map< string, pair< unsigned int, vector< Grounding* > > > search_spaces;
   C::fill_search_space( symbolDictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-  cout << C::class_name() << " search_spaces.size():" << search_spaces.size() << endl;
-  if( search_spaces.size() < symbol_threshold ){
-    for( unsigned int i = 0; i < search_spaces.size(); i++ ){
-      cout << "  symbol[" << i << "]:(" << *search_spaces[ i ].second << ")" << endl;
+  map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_search_spaces_symbol = search_spaces.find( C::class_name() );
+  if( it_search_spaces_symbol != search_spaces.end() ){
+    cout << "class \"" << C::class_name() << "\" generated " << it_search_spaces_symbol->second.second.size() << " symbols" << endl;
+    if( it_search_spaces_symbol->second.second.size() < symbol_threshold ){
+      for( unsigned int i = 0; i < it_search_spaces_symbol->second.second.size(); i++ ){
+        cout << "  symbol[" << i << "]:(" << *( it_search_spaces_symbol->second.second[ i ] ) << ")" << endl;
+      }
     }
+  } else {
+    cout << "class \"" << C::class_name() << "\" generated no symbols" << endl;
   }
 
   return;
@@ -87,6 +92,7 @@ main( int argc,
 
     if( args.world_arg != NULL ){
       World * world = new World( args.world_arg );
+      cout << "world:(" << *world << ")" << endl;
       print_search_spaces< Object >( *symbol_dictionary, world, args.symbol_threshold_arg );
       print_search_spaces< Object_Type >( *symbol_dictionary, world, args.symbol_threshold_arg );
       print_search_spaces< Object_Color >( *symbol_dictionary, world, args.symbol_threshold_arg );
@@ -100,22 +106,6 @@ main( int argc,
       print_search_spaces< Region_Abstract_Container >( *symbol_dictionary, world, args.symbol_threshold_arg );
       print_search_spaces< Container >( *symbol_dictionary, world, args.symbol_threshold_arg );
       print_search_spaces< Region_Container >( *symbol_dictionary, world, args.symbol_threshold_arg );
-/*
-      Object_Type::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Object_Color::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Object_Property::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Number::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Index::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Region::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Spatial_Relation::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Constraint::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Abstract_Container::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Region_Abstract_Container::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Container::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-      Region_Container::fill_search_space( *symbol_dictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-
-      cout << "search_spaces.size(): " << search_spaces.size() << endl;
-*/
       if( world != NULL ){
         delete world;
         world = NULL;

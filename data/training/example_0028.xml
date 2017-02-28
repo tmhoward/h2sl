@@ -2,69 +2,41 @@
 <root>
   <instruction text="walk to the right of the desk"/>
   <world time="0">
-    <object name="o0" object_type="robot" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o1" object_type="box" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o3" object_type="chair" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o0" object_type="robot" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o1" object_type="box" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o2" object_type="table" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o3" object_type="chair" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
   </world>
   <VP>
-    <grounding>
-      <grounding_set>
-        <constraint constraint_type="inside">
-          <properties>
-            <property payload="o0"/>
-            <property reference="o2"/>
-            <property reference_relation="right"/>
-          </properties>
-        </constraint>
-      </grounding_set>
-    </grounding>
+    <grounding_set>
+      <constraint constraint_type="inside" payload="o0" reference="o2" reference_relation="right"/>
+    </grounding_set>
     <VB text="walk" order="0"/>
     <PP>
-      <grounding>
-        <grounding_set>
-          <region region_type="right">
-            <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          </region>
-        </grounding_set>
-      </grounding>
+      <grounding_set>
+        <region spatial_relation_type="right" object_id="o2"/>
+      </grounding_set>
       <TO text="to" order="0"/>
       <NP>
-        <grounding>
-          <grounding_set>
-            <region region_type="right">
-              <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            </region>
-          </grounding_set>
-        </grounding>
+        <grounding_set>
+          <region spatial_relation_type="right" object_id="o2"/>
+        </grounding_set>
         <NP>
-          <grounding>
-            <grounding_set>
-              <region region_type="right">
-                <object name="na" object_type="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              </region>
-            </grounding_set>
-          </grounding>
+          <grounding_set>
+            <spatial_relation spatial_relation_type="right"/>
+          </grounding_set>
           <DT text="the" order="0"/>
           <NN text="right" order="0"/>
         </NP>
         <PP>
-          <grounding>
-            <grounding_set>
-              <region region_type="na">
-                <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              </region>
-            </grounding_set>
-          </grounding>
+          <grounding_set>
+            <object name="o2" object_type="table" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </grounding_set>
           <IN text="of" order="0"/>
           <NP>
-            <grounding>
-              <grounding_set>
-                <region region_type="na">
-                  <object name="o2" object_type="table" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                </region>
-              </grounding_set>
-            </grounding>
+            <grounding_set>
+              <object name="o2" object_type="table" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            </grounding_set>
             <DT text="the" order="0"/>
             <NN text="desk" order="0"/>
           </NP>

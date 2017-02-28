@@ -75,8 +75,8 @@ bool
 compare_phrases( const Phrase* first, 
                   const Phrase* second ){
   if( ( first != NULL ) && ( second != NULL ) ){
-    const Grounding_Set * first_grounding_set = dynamic_cast< const Grounding_Set* >( first->grounding() );
-    const Grounding_Set * second_grounding_set = dynamic_cast< const Grounding_Set* >( second->grounding() );
+    const Grounding_Set * first_grounding_set = dynamic_cast< const Grounding_Set* >( first->grounding_set() );
+    const Grounding_Set * second_grounding_set = dynamic_cast< const Grounding_Set* >( second->grounding_set() );
     if( ( first_grounding_set != NULL ) && ( second_grounding_set != NULL ) ){
       if( first_grounding_set->groundings().size() == second_grounding_set->groundings().size() ){
         for( unsigned int i = 0; i < first_grounding_set->groundings().size(); i++ ){

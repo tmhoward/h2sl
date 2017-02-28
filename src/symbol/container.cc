@@ -114,8 +114,14 @@ void
 Container::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
+
+  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
 
   map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
   map< string, vector< string > >::const_iterator it_container_type_types = symbolDictionary.string_types().find( "container_type" );
@@ -125,14 +131,15 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
   case( SYMBOL_TYPE_ALL ):
     if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_container_type_types != symbolDictionary.string_types().end() ) ){
       for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
-        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( vector< Grounding* >(), it_container_type_types->second[ k ] ) ) );
+        it_search_spaces_symbol->second.second.push_back( new Container( vector< Grounding* >(), it_container_type_types->second[ k ] ) );
       }  
 
       for( unsigned int i = 0 ; i < it_object_type_types->second.size(); i++ ){
         vector< Object* > objects;
-        for( unsigned int j = 0; j < world->objects().size(); j++ ){
-          if( world->objects()[ j ]->type() == it_object_type_types->second[ i ] ){
-            objects.push_back( world->objects()[ j ] );
+//        for( unsigned int j = 0; j < world->objects().size(); j++ ){
+        for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
+          if( it_world_object->second->type() == it_object_type_types->second[ i ] ){
+            objects.push_back( it_world_object->second );
           }
         }
         const unsigned int num_sets = pow( 2, objects.size() );
@@ -146,7 +153,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           }
           if( container_objects.size() > 1 ){
             for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
-              searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Container( container_objects, it_container_type_types->second[ k ] ) ) );
+              it_search_spaces_symbol->second.second.push_back( new Container( container_objects, it_container_type_types->second[ k ] ) );
             }
           }
         }

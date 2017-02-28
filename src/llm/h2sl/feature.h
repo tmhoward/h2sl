@@ -52,7 +52,7 @@ namespace h2sl {
 
   class Feature {
   public:
-    Feature( const bool& invert = false );
+    Feature( const bool& invert = false, const std::map< std::string, std::string >& stringProperties = std::map< std::string, std::string >(), const std::map< std::string, int >& intProperties = std::map< std::string, int >() );
     virtual ~Feature();
     Feature( const Feature& other );
     Feature& operator=( const Feature& other );
@@ -66,10 +66,16 @@ namespace h2sl {
  
     inline bool& invert( void ){ return _invert; };
     inline const bool& invert( void )const{ return _invert; };
+    inline std::map< std::string, std::string >& string_properties( void ){ return _string_properties; };
+    inline const std::map< std::string, std::string >& string_properties( void )const{ return _string_properties; };
+    inline std::map< std::string, int >& int_properties( void ){ return _int_properties; };
+    inline const std::map< std::string, int >& int_properties( void )const{ return _int_properties; };
     virtual const feature_type_t type( void )const = 0;
     
   protected:
     bool _invert;
+    std::map< std::string, std::string > _string_properties;
+    std::map< std::string, int > _int_properties;
 
   private:
 

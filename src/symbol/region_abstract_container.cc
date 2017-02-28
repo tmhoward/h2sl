@@ -112,8 +112,14 @@ void
 Region_Abstract_Container::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
+
+  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
 
   map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
   map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
@@ -130,7 +136,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           for( unsigned int k = 0; k < it_number_value_types->second.size(); k++ ){
             for( unsigned int l = 0; l < it_index_value_types->second.size(); l++ ){
               for( unsigned int m = 0; m < it_object_color_types->second.size(); m++ ){
-                searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region_Abstract_Container( it_spatial_relation_type_types->second[ i ], it_object_type_types->second[ j ], it_number_value_types->second[ k ], it_index_value_types->second[ l ], it_object_color_types->second[ m ] ) ) );
+                it_search_spaces_symbol->second.second.push_back( new Region_Abstract_Container( it_spatial_relation_type_types->second[ i ], it_object_type_types->second[ j ], it_number_value_types->second[ k ], it_index_value_types->second[ l ], it_object_color_types->second[ m ] ) );
               }
             }
           }
@@ -217,26 +223,25 @@ from_xml( xmlNodePtr root ){
   color() = "na";
 
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > region_abstract_container_keys = { "spatial_relation_type", "object_type", "number", "index", "object_color_type" };
+    assert( check_keys( root, region_abstract_container_keys ) );
+
     pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
     if( spatial_relation_type_prop.first ){
       spatial_relation_type() = spatial_relation_type_prop.second;
     }
-    
     pair< bool, string > type_prop = has_prop< std::string >( root, "object_type" );
     if( type_prop.first ) {
       type() = type_prop.second;
     }
-
     pair< bool, int > number_prop = has_prop< int >( root, "number" );
     if( number_prop.first ) {
       number() = number_prop.second;
     }
-
     pair< bool, int > index_prop = has_prop< int >( root, "index" );
     if( index_prop.first ) {
       index() = index_prop.second;
     }
-
     pair< bool, string > color_prop = has_prop< std::string >( root, "object_color_type" );
     if( color_prop.first ) {
       color() = color_prop.second;

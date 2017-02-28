@@ -87,7 +87,40 @@ operator=( const DCG& other ) {
 
 void
 DCG::
+scrape_examples( const string& filename,
+                  const Phrase* phrase,
+                  const h2sl::World* world,
+                  const map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
+//                  const vector< pair< unsigned int, h2sl::Grounding* > >& searchSpaces,
+                  const vector< vector< unsigned int > >& correspondenceVariables,
+                  vector< pair< unsigned int, h2sl::LLM_X > >& examples ){
+//  for( unsigned int i = 0; i < searchSpaces.size(); i++ ){
+  assert( phrase->grounding_set() != NULL );
+  for( map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_groundings = searchSpaces.begin(); it_groundings != searchSpaces.end(); it_groundings++ ){
+    for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
+      examples.push_back( pair< unsigned int, h2sl::LLM_X >( phrase->grounding_set()->evaluate_cv( *it_grounding ), h2sl::LLM_X( *it_grounding, phrase, world, correspondenceVariables[ it_groundings->second.first ], vector< h2sl::Feature* >(), filename ) ) );
+      for( unsigned int j = 0; j < phrase->children().size(); j++ ){
+        examples.back().second.children().push_back( pair< const h2sl::Phrase*, vector< h2sl::Grounding* > >( phrase->children()[ j ], vector< h2sl::Grounding* >() ) );
+        Grounding_Set * child_grounding_set = phrase->children()[ j ]->grounding_set();
+        if( child_grounding_set ){
+          for( unsigned int k = 0; k < child_grounding_set->groundings().size(); k++ ){
+            examples.back().second.children().back().second.push_back( child_grounding_set->groundings()[ k ] );
+          }
+        }
+      }
+    }
+  }
+
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    scrape_examples( filename, dynamic_cast< Phrase* >( phrase->children()[ i ] ), world, searchSpaces, correspondenceVariables, examples );
+  }
+  return;
+}
+
+void
+DCG::
 fill_search_spaces( const World* world ){
+/*  
   for( unsigned int i = 0; i < _search_spaces.size(); i++ ){
     if( _search_spaces[ i ].second != NULL ){
       delete _search_spaces[ i ].second;
@@ -95,6 +128,18 @@ fill_search_spaces( const World* world ){
     }
     _search_spaces.clear();
   }
+*/
+  for( map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_groundings = _search_spaces.begin(); it_groundings != _search_spaces.end(); it_groundings++ ){
+    for( vector< Grounding* >::iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
+      Grounding * grounding = *it_grounding;
+      if( grounding != NULL ){
+        delete grounding;
+        grounding = NULL;
+      }
+    }
+    it_groundings->second.second.clear();
+  }
+  _search_spaces.clear();
 
   for( unsigned int i = 0; i < _correspondence_variables.size(); i++ ){
     _correspondence_variables[ i ].clear();
@@ -193,9 +238,9 @@ leaf_search( const Phrase* phrase,
         }
       }
       _solutions.back().second->children().clear();
-      if( _solutions.back().second->grounding() != NULL ){
-        delete _solutions.back().second->grounding();
-        _solutions.back().second->grounding() = NULL;
+      if( _solutions.back().second->grounding_set() != NULL ){
+        delete _solutions.back().second->grounding_set();
+        _solutions.back().second->grounding_set() = NULL;
       }
       _fill_phrase( _root, _root->solutions()[ i ], _solutions.back().second );
     }
@@ -244,9 +289,9 @@ DCG::
 _fill_phrase( Factor_Set* node,
               Factor_Set_Solution& solution,
               Phrase* phrase ){
-  phrase->grounding() = new Grounding_Set();
+  phrase->grounding_set() = new Grounding_Set();
   for( unsigned int i = 0; i < solution.groundings.size(); i++ ){
-    dynamic_cast< Grounding_Set* >( phrase->grounding() )->groundings().push_back( solution.groundings[ i ] );
+    dynamic_cast< Grounding_Set* >( phrase->grounding_set() )->groundings().push_back( solution.groundings[ i ] );
   }
   for( unsigned int i = 0; i < node->children().size(); i++ ){
     phrase->children().push_back( node->children()[ i ]->phrase()->dup() );
@@ -257,9 +302,9 @@ _fill_phrase( Factor_Set* node,
       }
     }
     phrase->children().back()->children().clear();
-    if( phrase->children().back()->grounding() != NULL ){
-      delete phrase->children().back()->grounding();
-      phrase->children().back()->grounding() = NULL;
+    if( phrase->children().back()->grounding_set() != NULL ){
+      delete phrase->children().back()->grounding_set();
+      phrase->children().back()->grounding_set() = NULL;
     }
 
     _fill_phrase( node->children()[ i ],

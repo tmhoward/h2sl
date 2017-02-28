@@ -118,28 +118,56 @@ dup( void )const{
 
 void
 Constraint::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  insert_unique< std::string >( "constraint_type", constraint_type(), stringTypes );
+  map< string, Object* >::const_iterator it_payload = world->objects().find( payload() );
+  if( it_payload != world->objects().end() ){
+    insert_unique< std::string >( "constraint_payload_type", it_payload->second->type(), stringTypes );
+  }
+  map< string, Object* >::const_iterator it_reference = world->objects().find( reference() );
+  if( it_reference != world->objects().end() ){
+    insert_unique< std::string >( "constraint_reference_type", it_reference->second->type(), stringTypes );
+  } 
+  insert_unique< std::string >( "spatial_relation_type", reference_relation(), stringTypes );
+  return;
+}
+
+void
+Constraint::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
+  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 1, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
 
-  map< string, vector< string > >::const_iterator it_constraint_type_types = symbolDictionary.string_types().find( "constraint_type" );
-  map< string, vector< string > >::const_iterator it_constraint_payload_type_types = symbolDictionary.string_types().find( "constraint_payload_type" );
-  map< string, vector< string > >::const_iterator it_constraint_reference_type_types = symbolDictionary.string_types().find( "constraint_reference_type" );
-  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
+  
+    map< string, vector< string > >::const_iterator it_constraint_type_types = symbolDictionary.string_types().find( "constraint_type" );
+    map< string, vector< string > >::const_iterator it_constraint_payload_type_types = symbolDictionary.string_types().find( "constraint_payload_type" );
+    map< string, vector< string > >::const_iterator it_constraint_reference_type_types = symbolDictionary.string_types().find( "constraint_reference_type" );
+    map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
 
-  switch( symbolType ){
-  case( SYMBOL_TYPE_ABSTRACT ):
-  case( SYMBOL_TYPE_ALL ):
-    if( ( it_constraint_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) ){
-      for( unsigned int i = 0; i < it_constraint_type_types->second.size(); i++ ){
-        for( unsigned int j = 0; j < world->objects().size(); j++ ){
-          if( find( it_constraint_payload_type_types->second.begin(), it_constraint_payload_type_types->second.end(), world->objects()[ j ]->type() ) != it_constraint_payload_type_types->second.end() ){
-            for( unsigned int k = 0; k < it_spatial_relation_type_types->second.size(); k++ ){
-              for( unsigned int l = 0; l < world->objects().size(); l++ ){
-                if( find( it_constraint_reference_type_types->second.begin(), it_constraint_reference_type_types->second.end(), world->objects()[ l ]->type() ) != it_constraint_reference_type_types->second.end() ){
-                  if( j != l ){
-                searchSpaces.push_back( pair< unsigned int, Grounding* >( 1, new Constraint( it_constraint_type_types->second[ i ], world->objects()[ j ]->name(), world->objects()[ l ]->name(), it_spatial_relation_type_types->second[ k ] ) ) );
+    switch( symbolType ){
+    case( SYMBOL_TYPE_ABSTRACT ):
+    case( SYMBOL_TYPE_ALL ):
+      if( ( it_constraint_type_types != symbolDictionary.string_types().end() ) && ( it_constraint_payload_type_types != symbolDictionary.string_types().end() ) && ( it_constraint_reference_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) ){
+        for( unsigned int i = 0; i < it_constraint_type_types->second.size(); i++ ){
+          for( map< string, Object* >::const_iterator it_world_object_1 = world->objects().begin(); it_world_object_1 != world->objects().end(); it_world_object_1++ ){
+            if( find( it_constraint_payload_type_types->second.begin(), it_constraint_payload_type_types->second.end(), it_world_object_1->second->type() ) != it_constraint_payload_type_types->second.end() ){
+              for( unsigned int k = 0; k < it_spatial_relation_type_types->second.size(); k++ ){
+                for( map< string, Object* >::const_iterator it_world_object_2 = world->objects().begin(); it_world_object_2 != world->objects().end(); it_world_object_2++ ){
+                  if( find( it_constraint_reference_type_types->second.begin(), it_constraint_reference_type_types->second.end(), it_world_object_2->second->type() ) != it_constraint_reference_type_types->second.end() ){
+                    if( it_world_object_1->second != it_world_object_2->second ){
+                      it_search_spaces_symbol->second.second.push_back( new Constraint( it_constraint_type_types->second[ i ], it_world_object_1->second->name(), it_world_object_2->second->name(), it_spatial_relation_type_types->second[ k ] ) );
+                    }
                   }
                 }
               }
@@ -147,12 +175,12 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           }
         }
       }
+      break;
+    case( SYMBOL_TYPE_CONCRETE ):
+    case( NUM_SYMBOL_TYPES ):
+    default:
+      break;
     }
-    break;
-  case( SYMBOL_TYPE_CONCRETE ):
-  case( NUM_SYMBOL_TYPES ):
-  default:
-    break;
   }
 
   return;
@@ -176,15 +204,9 @@ to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "constraint" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "constraint_type" ), ( const xmlChar* )( constraint_type().c_str() ) );
-  xmlNodePtr properties_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "properties" ), NULL );
-  for( map< string, string >::const_iterator it = _string_properties.begin(); it != _string_properties.end(); it++ ){
-    if( it->first != "constraint_type" ){
-      xmlNodePtr property_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "property" ), NULL );
-      xmlNewProp( property_node, ( const xmlChar* )( it->first.c_str() ), ( const xmlChar* )( it->second.c_str() ) );
-      xmlAddChild( properties_node, property_node );
-    }
-  }  
-  xmlAddChild( node, properties_node );
+  xmlNewProp( node, ( const xmlChar* )( "payload" ), ( const xmlChar* )( payload().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "reference" ), ( const xmlChar* )( reference().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "reference_relation" ), ( const xmlChar* )( reference_relation().c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -217,9 +239,23 @@ Constraint::
 from_xml( xmlNodePtr root ){
   constraint_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > constraint_keys = { "constraint_type", "payload", "reference", "reference_relation" };
+    assert( check_keys( root, constraint_keys ) );
     pair< bool, string > constraint_type_prop = has_prop< std::string >( root, "constraint_type" );
     if( constraint_type_prop.first ){
       constraint_type() = constraint_type_prop.second;
+    }
+    pair< bool, string > payload_prop = has_prop< std::string >( root, "payload" );
+    if( payload_prop.first ){
+      payload() = payload_prop.second;
+    }
+    pair< bool, string > reference_prop = has_prop< std::string >( root, "reference" );
+    if( reference_prop.first ){
+      reference() = reference_prop.second;
+    }
+    pair< bool, string > reference_relation_prop = has_prop< std::string >( root, "reference_relation" );
+    if( reference_relation_prop.first ){
+      reference_relation() = reference_relation_prop.second;
     }
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( matches_name( l1, "properties" ) ){

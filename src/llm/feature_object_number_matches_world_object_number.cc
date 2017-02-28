@@ -77,10 +77,10 @@ value( const unsigned int& cv,
         const Grounding* context ) {
   const Object* object = dynamic_cast< const Object* >( grounding );
   if( object != NULL ) {
-    map< string, vector< Object* >>::const_iterator it;
-    it = world->min_x_sorted_objects().find( object->type() );
-    if ( it != world->min_x_sorted_objects().end() ) {
-      if ( _object_number == it->second.size() ) {
+    assert( !world->sorted_objects().empty() );
+    map< string, vector< Object* > >::const_iterator it_sorted_objects = world->sorted_objects().begin()->second.find( object->type() );
+    if ( it_sorted_objects != world->sorted_objects().begin()->second.end() ) {
+      if ( _object_number == it_sorted_objects->second.size() ) {
         return !_invert; 
       } else {
         return _invert;

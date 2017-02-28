@@ -55,83 +55,83 @@
 #include "h2sl/feature_container_matches_child.h"
 #include "h2sl/feature_region_container_matches_child.h"
 //#include "h2sl/feature_action_object_matches_child.h"
-#include "h2sl/feature_spatial_relation_matches_child.h"
-#include "h2sl/feature_is_abstract_container.h"
-#include "h2sl/feature_is_object.h"
-#include "h2sl/feature_is_container.h"
-#include "h2sl/feature_is_region.h"
-#include "h2sl/feature_is_region_container.h"
-#include "h2sl/feature_is_region_abstract_container.h"
-#include "h2sl/feature_is_spatial_relation.h"
-#include "h2sl/feature_container_number.h"
-#include "h2sl/feature_container_number_equals_world_objects.h"
-#include "h2sl/feature_container_is_empty.h"
-#include "h2sl/feature_container_type_matches_child_container_type.h"
-#include "h2sl/feature_object_property_merge_object_property_container.h"
-#include "h2sl/feature_phrase_has_pos_tag.h"
-#include "h2sl/feature_phrase_has_single_pos_tag.h"
-#include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
-#include "h2sl/feature_object_property_merge_object_property_spatial_relation.h"
-#include "h2sl/feature_container_matches_empty_child_container.h"
-#include "h2sl/feature_container_merge_empty_container_container.h"
-#include "h2sl/feature_container_merge_object_property_container.h"
-#include "h2sl/feature_container_merge_container_spatial_relation.h"
-#include "h2sl/feature_region_container_merge_container_spatial_relation.h"
-#include "h2sl/feature_region_container_container_matches_child_container.h"
-#include "h2sl/feature_object_property_index.h"
-#include "h2sl/feature_region_container_type.h"
-#include "h2sl/feature_region_container_container_type.h"
-#include "h2sl/feature_object_property_type.h"
-#include "h2sl/feature_object_property_relation_type.h"
-#include "h2sl/feature_object_property_index.h"
-#include "h2sl/feature_min_x_object.h"
-#include "h2sl/feature_max_x_object.h"
-#include "h2sl/feature_max_y_object.h"
-#include "h2sl/feature_min_y_object.h"
-#include "h2sl/feature_max_x_abstract_container.h"
-#include "h2sl/feature_min_distance_object.h"
-#include "h2sl/feature_max_distance_object.h"
-#include "h2sl/feature_max_distance_object_within.h"
-#include "h2sl/feature_min_distance_object_within.h"
-#include "h2sl/feature_min_center_distance_object.h"
-#include "h2sl/feature_max_y_abstract_container.h"
-#include "h2sl/feature_min_y_index_abstract_container_region_container.h"
-#include "h2sl/feature_min_x_abstract_container.h"
-#include "h2sl/feature_min_y_abstract_container.h"
-#include "h2sl/feature_min_distance_container.h"
-#include "h2sl/feature_min_distance_abstract_container.h"
-#include "h2sl/feature_min_abs_y_abstract_container.h"
-#include "h2sl/feature_container_dominant_x_shape.h"
-#include "h2sl/feature_container_dominant_y_shape.h"
-#include "h2sl/feature_container_dominant_z_shape.h"
-#include "h2sl/feature_container_non_dominant_xyz_shape.h"
-#include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
-#include "h2sl/feature_objects_shape_matches_container_type.h"
-#include "h2sl/feature_min_y_container_abstract_container_spatial_relation.h"
-#include "h2sl/feature_max_y_container_abstract_container.h"
-#include "h2sl/feature_min_abs_y_container_abstract_container.h"
-#include "h2sl/feature_min_x_container_region_abstract_container.h"
-#include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
-#include "h2sl/feature_max_x_region_abstract_container.h"
-#include "h2sl/feature_object_matches_child.h"
-#include "h2sl/feature_object_matches_child_container_object.h"
-#include "h2sl/feature_container_min_distance.h"
-#include "h2sl/feature_container_max_distance.h"
-#include "h2sl/feature_object_number_matches_world_object_number.h"
-#include "h2sl/feature_container_number_equals_world_objects.h"
-#include "h2sl/feature_abstract_container_number_equals_world_objects.h"
-#include "h2sl/feature_object_merge_object_property_spatial_relation.h"
+//#include "h2sl/feature_spatial_relation_matches_child.h"
+//#include "h2sl/feature_is_abstract_container.h"
+//#include "h2sl/feature_is_object.h"
+//#include "h2sl/feature_is_container.h"
+//#include "h2sl/feature_is_region.h"
+//#include "h2sl/feature_is_region_container.h"
+//#include "h2sl/feature_is_region_abstract_container.h"
+//#include "h2sl/feature_is_spatial_relation.h"
+//#include "h2sl/feature_container_number.h"
+//#include "h2sl/feature_container_number_equals_world_objects.h"
+//#include "h2sl/feature_container_is_empty.h"
+//#include "h2sl/feature_container_type_matches_child_container_type.h"
+//#include "h2sl/feature_object_property_merge_object_property_container.h"
+//#include "h2sl/feature_phrase_has_pos_tag.h"
+//#include "h2sl/feature_phrase_has_single_pos_tag.h"
+//#include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
+//#include "h2sl/feature_object_property_merge_object_property_spatial_relation.h"
+//#include "h2sl/feature_container_matches_empty_child_container.h"
+//#include "h2sl/feature_container_merge_empty_container_container.h"
+//#include "h2sl/feature_container_merge_object_property_container.h"
+//#include "h2sl/feature_container_merge_container_spatial_relation.h"
+//#include "h2sl/feature_region_container_merge_container_spatial_relation.h"
+//#include "h2sl/feature_region_container_container_matches_child_container.h"
+//#include "h2sl/feature_object_property_index.h"
+//#include "h2sl/feature_region_container_type.h"
+//#include "h2sl/feature_region_container_container_type.h"
+//#include "h2sl/feature_object_property_type.h"
+//#include "h2sl/feature_object_property_relation_type.h"
+//#include "h2sl/feature_object_property_index.h"
+//#include "h2sl/feature_min_x_object.h"
+//#include "h2sl/feature_max_x_object.h"
+//#include "h2sl/feature_max_y_object.h"
+//#include "h2sl/feature_min_y_object.h"
+//#include "h2sl/feature_max_x_abstract_container.h"
+//#include "h2sl/feature_min_distance_object.h"
+//#include "h2sl/feature_max_distance_object.h"
+//#include "h2sl/feature_max_distance_object_within.h"
+//#include "h2sl/feature_min_distance_object_within.h"
+//#include "h2sl/feature_min_center_distance_object.h"
+//#include "h2sl/feature_max_y_abstract_container.h"
+//#include "h2sl/feature_min_y_index_abstract_container_region_container.h"
+//#include "h2sl/feature_min_x_abstract_container.h"
+//#include "h2sl/feature_min_y_abstract_container.h"
+//#include "h2sl/feature_min_distance_container.h"
+//#include "h2sl/feature_min_distance_abstract_container.h"
+//#include "h2sl/feature_min_abs_y_abstract_container.h"
+//#include "h2sl/feature_container_dominant_x_shape.h"
+//#include "h2sl/feature_container_dominant_y_shape.h"
+//#include "h2sl/feature_container_dominant_z_shape.h"
+//#include "h2sl/feature_container_non_dominant_xyz_shape.h"
+//#include "h2sl/feature_min_x_container_abstract_container_spatial_relation.h"
+//#include "h2sl/feature_objects_shape_matches_container_type.h"
+//#include "h2sl/feature_min_y_container_abstract_container_spatial_relation.h"
+//#include "h2sl/feature_max_y_container_abstract_container.h"
+//#include "h2sl/feature_min_abs_y_container_abstract_container.h"
+//#include "h2sl/feature_min_x_container_region_abstract_container.h"
+//#include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
+//#include "h2sl/feature_max_x_region_abstract_container.h"
+//#include "h2sl/feature_object_matches_child.h"
+//#include "h2sl/feature_object_matches_child_container_object.h"
+//#include "h2sl/feature_container_min_distance.h"
+//#include "h2sl/feature_container_max_distance.h"
+//#include "h2sl/feature_object_number_matches_world_object_number.h"
+//#include "h2sl/feature_container_number_equals_world_objects.h"
+//#include "h2sl/feature_abstract_container_number_equals_world_objects.h"
+//#include "h2sl/feature_object_merge_object_property_spatial_relation.h"
 
-#include "h2sl/feature_object_merge_object_container.h"
+//#include "h2sl/feature_object_merge_object_container.h"
 
-#include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
-#include "h2sl/feature_object_merge_container_pair.h"
-#include "h2sl/feature_object_merge_object_different_container.h"
-#include "h2sl/feature_object_merge_object_property_region_container.h"
-#include "h2sl/feature_object_merge_object_region_container.h"
-#include "h2sl/feature_object_merge_single_object_different_container.h"
-#include "h2sl/feature_object_merge_abstract_container_region_container.h"
-#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
+//#include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
+//#include "h2sl/feature_object_merge_container_pair.h"
+//#include "h2sl/feature_object_merge_object_different_container.h"
+//#include "h2sl/feature_object_merge_object_property_region_container.h"
+//#include "h2sl/feature_object_merge_object_region_container.h"
+//#include "h2sl/feature_object_merge_single_object_different_container.h"
+//#include "h2sl/feature_object_merge_abstract_container_region_container.h"
+//#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
 
 
 #include "h2sl/feature.h"
@@ -140,7 +140,11 @@ using namespace std;
 using namespace h2sl;
 
 Feature::
-Feature( const bool& invert ) : _invert( invert ) {
+Feature( const bool& invert,
+          const map< string, string >& stringProperties,
+          const map< string, int >& intProperties ) : _invert( invert ),
+                                                      _string_properties( stringProperties ),
+                                                      _int_properties( intProperties ) {
 
 }
 
@@ -150,7 +154,9 @@ Feature::
 }
 
 Feature::
-Feature( const Feature& other ) : _invert( other._invert ) {
+Feature( const Feature& other ) : _invert( other._invert ),
+                                  _string_properties( other._string_properties ),
+                                  _int_properties( other._int_properties ) {
 
 }
 
@@ -158,6 +164,8 @@ Feature&
 Feature::
 operator=( const Feature& other ) {
   _invert = other._invert;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -214,6 +222,7 @@ namespace h2sl {
         out << *static_cast< const Feature_Region_Container_Matches_Child* >( &other );
     //} else if ( dynamic_cast< const Feature_Action_Object_Matches_Child* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Action_Object_Matches_Child* >( &other );
+/*
     } else if ( dynamic_cast< const Feature_Spatial_Relation_Matches_Child* >( &other ) != NULL ){
         out << *static_cast< const Feature_Spatial_Relation_Matches_Child* >( &other );
     } else if ( dynamic_cast< const Feature_Is_Abstract_Container* >( &other ) != NULL ){
@@ -362,8 +371,9 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Merge_Abstract_Container_Region_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other );
+*/
     } else {
-      assert( false );
+//      assert( false );
     } 
     return out;
   }

@@ -36,6 +36,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <algorithm>
 
 #include "h2sl/grounding.h"
@@ -51,8 +52,9 @@ namespace h2sl {
     virtual ~Factor_Set_Solution();
     Factor_Set_Solution( const Factor_Set_Solution& other );
     Factor_Set_Solution& operator=( const Factor_Set_Solution& other );
-  
-    std::vector< std::vector< unsigned int > > cv;
+
+    std::map< std::string, std::vector< std::vector< unsigned int > > > cv;  
+//    std::vector< std::pair< std::string, std::vector< unsigned int > > > cv;
     std::vector< unsigned int > children;
     std::vector< Grounding* > groundings;
     double pygx;
@@ -65,12 +67,12 @@ namespace h2sl {
     Factor_Set( const Factor_Set& other );
     Factor_Set& operator=( const Factor_Set& other );
 
-    virtual void search( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, 
+    virtual void search( const std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpace,
                          const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
-    virtual void search( const std::vector< std::pair< unsigned int, Grounding* > >& searchSpace, 
+    virtual void search( const std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpace, 
                          const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );

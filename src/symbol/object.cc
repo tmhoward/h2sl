@@ -51,7 +51,6 @@ Object( const string& name,
    insert_prop< std::string >( _string_properties, "name", name ); 
    insert_prop< std::string >( _string_properties, "object_type", objectType ); 
    insert_prop< std::string >( _string_properties, "object_color", objectColor ); 
-   insert_prop< std::string >( _string_properties, "object_id", objectId ); 
 }
 
 Object::
@@ -62,7 +61,6 @@ Object( xmlNodePtr root ) : Grounding(),
   insert_prop< std::string >( _string_properties, "name", "na" );
   insert_prop< std::string >( _string_properties, "object_type", "na" );
   insert_prop< std::string >( _string_properties, "object_color", "na" );
-  insert_prop< std::string >( _string_properties, "object_id", "0" );
   from_xml( root );
 }
 
@@ -98,8 +96,6 @@ operator==( const Object& other )const{
     return false;
   } else if ( color() != other.color() ){
     return false;
-  }else if ( id() != other.id() ){
-    return false;
   } else {
     return true;
   }   
@@ -119,23 +115,44 @@ dup( void )const{
 
 void 
 Object::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes, 
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  insert_unique< std::string >( "object_type", type(), stringTypes );
+  insert_unique< std::string >( "object_color", color(), stringTypes );
+  return;
+}
+
+void 
+Object::
 fill_search_space( const Symbol_Dictionary& symbolDictionary, 
                     const World* world, 
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){ 
-  switch( symbolType ){
-  case( SYMBOL_TYPE_CONCRETE ):
-  case( SYMBOL_TYPE_ALL ):
-    if( world != NULL ){
-      for( unsigned int i = 0; i < world->objects().size(); i++ ){
-        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, world->objects()[ i ]->dup() ) );
+
+  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
+
+  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
+    switch( symbolType ){
+    case( SYMBOL_TYPE_CONCRETE ):
+    case( SYMBOL_TYPE_ALL ):
+      if( world != NULL ){
+        for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
+          it_search_spaces_symbol->second.second.push_back( it_world_object->second->dup() );
+        }
       }
+      break;
+    case( SYMBOL_TYPE_ABSTRACT ):
+    case( NUM_SYMBOL_TYPES ):
+    default:
+      break;
     }
-    break;
-  case( SYMBOL_TYPE_ABSTRACT ):
-  case( NUM_SYMBOL_TYPES ):
-  default:
-    break;
   }
 
   return;
@@ -165,7 +182,6 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "orientation" ), ( const xmlChar* )( _transform.orientation().to_std_string().c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "linear_velocity" ), ( const xmlChar* )( _linear_velocity.to_std_string().c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "angular_velocity" ), ( const xmlChar* )( _angular_velocity.to_std_string().c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "object_id" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_id" ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -197,6 +213,9 @@ void
 Object::
 from_xml( xmlNodePtr root ){
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > object_keys = { "name", "object_type", "object_color", "position", "orientation", "linear_velocity", "angular_velocity" };
+    assert( check_keys( root, object_keys ) );
+  
     pair< bool, string > name_prop = has_prop< std::string >( root, "name" );
     if( name_prop.first ){
       name() = name_prop.second;
@@ -208,10 +227,6 @@ from_xml( xmlNodePtr root ){
     pair< bool, string > color_prop = has_prop< std::string >( root, "object_color" );
     if( color_prop.first ){
       color() = color_prop.second;
-    }
-    pair< bool, string > id_prop = has_prop< std::string >( root, "object_id" );
-    if( id_prop.first ){
-      id() = id_prop.second;
     }
     pair< bool, string > position_prop = has_prop< std::string >( root, "position" );
     if( position_prop.first ){
@@ -242,7 +257,6 @@ namespace h2sl {
     out << "name=\"" << other.name() << "\",";
     out << "object_type=\"" << other.type() << "\"";
     out << "object_color=\"" << other.color() << "\"";
-    out << "object_id=\"" << other.id() << "\"";
     if( other.transform().position().norm() > 0.0 ){
       out << ",position=" << other.transform().position();
     }

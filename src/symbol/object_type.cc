@@ -90,24 +90,32 @@ void
 Object_Type::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
 
-  map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
+  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
 
-  switch( symbolType ){
-  case( SYMBOL_TYPE_CONCRETE ):
-  case( SYMBOL_TYPE_ALL ):
-    if( it_object_type_types != symbolDictionary.string_types().end() ){
-      for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
-        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Type( it_object_type_types->second[ i ] ) ) );
+  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
+    map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
+
+    switch( symbolType ){
+    case( SYMBOL_TYPE_CONCRETE ):
+    case( SYMBOL_TYPE_ALL ):
+      if( it_object_type_types != symbolDictionary.string_types().end() ){
+        for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
+          it_search_spaces_symbol->second.second.push_back( new Object_Type( it_object_type_types->second[ i ] ) );
+        }
       }
+      break;
+    case( SYMBOL_TYPE_ABSTRACT ):
+    case( NUM_SYMBOL_TYPES ):
+    default:
+      break;
     }
-    break;
-  case( SYMBOL_TYPE_ABSTRACT ):
-  case( NUM_SYMBOL_TYPES ):
-  default:
-    break;
   }
 
   return;

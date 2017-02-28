@@ -40,6 +40,7 @@
 #include "h2sl/common.h"
 #include "h2sl/grounding.h"
 #include "h2sl/transform.h"
+#include "h2sl/symbol_dictionary.h"
 
 namespace h2sl {
   class Object : public Grounding {
@@ -56,7 +57,8 @@ namespace h2sl {
     virtual Object* dup( void )const;
 
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "object" ); };
-    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
+    virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -70,8 +72,6 @@ namespace h2sl {
     inline const std::string& type( void )const{ return get_prop< std::string >( _string_properties, "object_type" ); };
     inline std::string& color( void ){ return get_prop< std::string >( _string_properties, "object_color" ); };
     inline const std::string& color( void )const{ return get_prop< std::string >( _string_properties, "object_color" ); };
-    inline std::string& id( void ){ return get_prop< std::string >( _string_properties, "object_id" ); };
-    inline const std::string& id( void )const{ return get_prop< std::string >( _string_properties, "object_id" ); };
     inline Transform& transform( void ){ return _transform; };
     inline const Transform& transform( void )const{ return _transform; };
     inline Vector3& linear_velocity( void ){ return _linear_velocity; };

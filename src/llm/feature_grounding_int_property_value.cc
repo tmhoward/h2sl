@@ -136,6 +136,9 @@ from_xml( xmlNodePtr root ){
   _key = "na";
   _symbol = 0;
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > feature_keys = { "invert", "class_name", "key", "symbol" };
+    assert( check_keys( root, feature_keys ) );
+  
     pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
     if( invert_prop.first ) {
       _invert = invert_prop.second;

@@ -90,8 +90,14 @@ void
 Index::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
+
+ map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
 
   map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index_value" );
 
@@ -100,7 +106,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
   case( SYMBOL_TYPE_ALL ):
     if( it_index_value_types != symbolDictionary.int_types().end() ){
       for( unsigned int i = 0; i < it_index_value_types->second.size(); i++ ){
-        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Index( it_index_value_types->second[ i ] ) ) );
+        it_search_spaces_symbol->second.second.push_back( new Index( it_index_value_types->second[ i ] ) );
       }
     }
     break;
@@ -148,6 +154,8 @@ Index::
 from_xml( xmlNodePtr root ){
   value() = 0;
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > index_keys = { "value" };
+    assert( check_keys( root, index_keys ) );
     pair< bool, int > value_prop = has_prop< int >( root, "value" );
     if( value_prop.first ){
       value() = value_prop.second;

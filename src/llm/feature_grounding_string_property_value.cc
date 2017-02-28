@@ -52,6 +52,7 @@ Feature_Grounding_String_Property_Value( const bool& invert,
 
 Feature_Grounding_String_Property_Value::
 Feature_Grounding_String_Property_Value( xmlNodePtr root ) : Feature(),
+                                                      _class_name( "na" ),
                                                       _key( "na" ),
                                                       _symbol( "na" ) {
   from_xml( root );
@@ -135,14 +136,13 @@ from_xml( xmlNodePtr root ){
   _key = "na";
   _symbol = "na";
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > feature_keys = { "invert", "class_name", "key", "symbol" };
+    assert( check_keys( root, feature_keys ) );
+
     pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
     if( invert_prop.first ) {
       _invert = invert_prop.second;
     }
-
-    pair< bool, std::string > class_name_prop = has_prop< std::string >( root, "class_name" );
-    assert( class_name_prop.first );
-    _class_name = class_name_prop.second;
 
     pair< bool, std::string > key_prop = has_prop< std::string >( root, "key" );
     if( key_prop.first ) {
@@ -153,6 +153,13 @@ from_xml( xmlNodePtr root ){
     if( symbol_prop.first ) {
       _symbol = symbol_prop.second;
     }
+
+    pair< bool, std::string > class_name_prop = has_prop< std::string >( root, "class_name" );
+    if( !class_name_prop.first ){
+      cout << *this << endl;
+    }
+    assert( class_name_prop.first );
+    _class_name = class_name_prop.second;
   }
   return;
 }

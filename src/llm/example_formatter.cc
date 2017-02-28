@@ -1,5 +1,5 @@
 /**
- * @file    example_demo.cc
+ * @file    example_formatter.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,7 +28,7 @@
  *
  * @section DESCRIPTION
  *
- * A example generation program
+ * A example formatter program
  */
 
 #include <iostream>
@@ -39,7 +39,7 @@
 #include "h2sl/world.h"
 #include "h2sl/phrase.h"
 #include "h2sl/parser_cyk.h"
-#include "example_demo_cmdline.h"
+#include "example_formatter_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -47,7 +47,7 @@ using namespace h2sl;
 int
 main( int argc,
       char* argv[] ) {
-  cout << "start of example generation program" << endl;
+  cout << "start of example formatter program" << endl;
 
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
@@ -120,6 +120,6 @@ main( int argc,
     world = NULL;
   }
 
-  cout << "end of example generation program" << endl;
+  cout << "end of example formatter program" << endl;
   return 0;
 }

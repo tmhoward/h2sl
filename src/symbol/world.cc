@@ -47,25 +47,19 @@ using namespace h2sl;
 
 World::
 World( const unsigned long long& time,
-        const std::vector< Object* >& objects ) : _time( time ),
+        const map< string, Object* >& objects ) : _time( time ),
                                               _objects( objects ),
-                                              _numeric_map(),
-                                              _index_map() {
+                                              _sorted_objects() {
   initialise_sorted_object_collections();
-  initialise_numeric_map(); 
-  initialise_index_map(); 
 }
 
 World::
 World( const string& filename ) : _time( 0 ),
                                   _objects(),
-                                  _numeric_map(),
-                                  _index_map() {
+                                  _sorted_objects() {
 
   from_xml( filename );
   initialise_sorted_object_collections();
-  initialise_numeric_map();
-  initialise_index_map();
 }
 
 /**
@@ -74,6 +68,7 @@ World( const string& filename ) : _time( 0 ),
 void
 World::
 initialise_sorted_object_collections( void ){
+/*
   _min_x_sorted_objects = map< string, vector< Object* > >();
   _max_x_sorted_objects = map< string, vector< Object* > >();
   _min_y_sorted_objects = map< string, vector< Object* > >();
@@ -86,7 +81,7 @@ initialise_sorted_object_collections( void ){
   _max_distance_sorted_objects = map< string, vector< Object* > >();
   _min_center_distance_sorted_objects = map< string, vector< Object* > >();
   _max_center_distance_sorted_objects = map< string, vector< Object* > >();
-
+*/
 }
 
 /**
@@ -105,6 +100,8 @@ World::
 World::
 World( const World& other ) : _time( other._time ),
                               _objects( other._objects ),
+                              _sorted_objects( other._sorted_objects ) {
+/*
                               _min_x_sorted_objects( other._min_x_sorted_objects ),
                               _max_x_sorted_objects( other._max_x_sorted_objects ),
                               _min_y_sorted_objects( other._min_y_sorted_objects ),
@@ -119,7 +116,7 @@ World( const World& other ) : _time( other._time ),
                               _max_center_distance_sorted_objects( other._max_center_distance_sorted_objects ),
                               _numeric_map( other._numeric_map ),
                               _index_map( other._index_map ) {
-
+*/
 }
 
 /** 
@@ -131,6 +128,8 @@ World::
 operator=( const World& other ) {
   _time = other._time;
   _objects = other._objects;
+  _sorted_objects = other._sorted_objects;
+/*
   _min_x_sorted_objects = other._min_x_sorted_objects;
   _max_x_sorted_objects = other._max_x_sorted_objects;
   _min_y_sorted_objects = other._min_y_sorted_objects;
@@ -145,6 +144,7 @@ operator=( const World& other ) {
   _max_center_distance_sorted_objects = other._max_center_distance_sorted_objects;
   _numeric_map = other._numeric_map;
   _index_map = other._index_map;
+*/
   return (*this);
 }
 
@@ -178,9 +178,9 @@ to_xml( xmlDocPtr doc,
   stringstream time_string;
   time_string << _time;
   xmlNewProp( node, ( const xmlChar* )( "time" ), ( const xmlChar* )( time_string.str().c_str() ) );
-  for( unsigned int i = 0; i < _objects.size(); i++ ){
-    if( _objects[ i ] != NULL ){
-      _objects[ i ]->to_xml( doc, node );
+  for( map< string, Object* >::const_iterator it_world_object = _objects.begin(); it_world_object != _objects.end(); it_world_object++ ){
+    if( it_world_object->second != NULL ){
+      it_world_object->second->to_xml( doc, node );
     }
   }
   xmlAddChild( root, node );
@@ -221,9 +221,9 @@ void
 World::
 from_xml( xmlNodePtr root ){
   _time = 0;
-  for( unsigned int i = 0; i < _objects.size(); i++ ){
-    delete _objects[ i ];
-    _objects[ i ] = NULL;
+  for( map< string, Object* >::iterator it_world_object = _objects.begin(); it_world_object != _objects.end(); it_world_object++ ){
+    delete it_world_object->second;
+    it_world_object->second = NULL;
   }
   _objects.clear();
   if( root->type == XML_ELEMENT_NODE ){
@@ -236,7 +236,8 @@ from_xml( xmlNodePtr root ){
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          _objects.push_back( new Object( l1 ) );
+          Object * object = new Object( l1 );
+          _objects.insert( pair< string, Object* >( object->name(), object ) );
         }
       }
     }
@@ -246,7 +247,6 @@ from_xml( xmlNodePtr root ){
   return;
 
 }
-
 
 /** 
  * Function for converting the object names from the simulator
@@ -264,10 +264,7 @@ convert_models( xmlNodePtr root ){
           for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
             if( l2->type == XML_ELEMENT_NODE ){
               if( xmlStrcmp( l2->name, ( const xmlChar* )( "body" ) ) == 0 ){
-                _objects.push_back( new Object() );
-                Object * object = _objects.back();
-                // modify object to match information contained in body xmlNode
-
+                Object * object = new Object();
                 // get body->id and set it to object->name()
                 xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "id" ) );
                 if( tmp != NULL ){
@@ -323,9 +320,8 @@ convert_models( xmlNodePtr root ){
                   rpy_string.clear();
                   tmp_string.clear();
                 }
-
-                //get object color info
-                //ToDo.
+            
+                _objects.insert( pair< string, Object* >( object->name(), object ) );
               }
             }
           }
@@ -348,182 +344,50 @@ void
 World::
 sort_object_collections( void ){ 
 
-  // Clear the sorted object containers if they exist.
-  for( unsigned int i = 0; i < _objects.size(); i++ ){
-    
-    if ( _min_x_sorted_objects.find( _objects[ i ]->type() ) != _min_x_sorted_objects.end() ) {
-      _min_x_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _min_x_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
+  _sorted_objects.clear();
+
+  vector< string > sorted_object_keys = { "min_x", "max_x", "min_y", "max_y", "min_z", "maz_z", "min_abs_y", "min_abs_x", "min_distance", "max_distance", "min_center_distance", "max_center_distance" };
+
+  for( vector< string >::const_iterator it_sorted_object_keys = sorted_object_keys.begin(); it_sorted_object_keys != sorted_object_keys.end(); it_sorted_object_keys++ ){
+    pair< map< string, map< string, vector< Object* > > >::iterator, bool > key_insert = _sorted_objects.insert( pair< string, map< string, vector< Object* > > >( *it_sorted_object_keys, map< string, vector< Object* > >() ) );
+
+    for( map< string, Object* >::const_iterator it_world_object = _objects.begin(); it_world_object != _objects.end(); it_world_object++ ){
+      map< string, vector< Object* > >::iterator it_object_vectors = key_insert.first->second.find( it_world_object->second->type() );
+      if( it_object_vectors == key_insert.first->second.end() ){
+        key_insert.first->second.insert( pair< string, vector< Object* > >( it_world_object->second->type(), vector< Object* >() ) );
+        it_object_vectors = key_insert.first->second.find( it_world_object->second->type() );
+      }
+      it_object_vectors->second.push_back( it_world_object->second );
     }
 
-     if ( _max_x_sorted_objects.find( _objects[ i ]->type() ) != _max_x_sorted_objects.end() ) {
-      _max_x_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _max_x_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
+    for( map< string, vector< Object* > >::iterator it_object_vectors = key_insert.first->second.begin(); it_object_vectors != key_insert.first->second.end(); it_object_vectors++ ){
+      if( key_insert.first->first == "min_x" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::min_x_sort );
+      } else if ( key_insert.first->first == "max_x" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::max_x_sort );
+      } else if ( key_insert.first->first == "min_y" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::min_y_sort );
+      } else if ( key_insert.first->first == "max_y" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::max_y_sort );
+      } else if ( key_insert.first->first == "min_z" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::min_z_sort );
+      } else if ( key_insert.first->first == "max_z" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::max_z_sort );
+      } else if ( key_insert.first->first == "min_abs_y" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::min_abs_y_sort );
+      } else if ( key_insert.first->first == "max_abs_y" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::max_abs_y_sort );
+      } else if ( key_insert.first->first == "min_distance" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::min_distance_sort );
+      } else if ( key_insert.first->first == "max_distance" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::max_distance_sort );
+      } else if ( key_insert.first->first == "min_center_distance" ){
+        min_center_distance_sort_objects( it_object_vectors->second );
+      } else if ( key_insert.first->first == "max_center_distance" ){
+        max_center_distance_sort_objects( it_object_vectors->second );
+      }
     }
-
-    if ( _min_y_sorted_objects.find( _objects[ i ]->type() ) != _min_y_sorted_objects.end() ) {
-      _min_y_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _min_y_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-
-    if ( _max_y_sorted_objects.find( _objects[ i ]->type() ) != _max_y_sorted_objects.end() ) {
-      _max_y_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _max_y_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-
-    if ( _min_abs_y_sorted_objects.find( _objects[ i ]->type() ) != _min_abs_y_sorted_objects.end() ) {
-      _min_abs_y_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _min_abs_y_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-
-    if ( _max_abs_y_sorted_objects.find( _objects[ i ]->type() ) != _max_abs_y_sorted_objects.end() ) {
-      _max_abs_y_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _max_abs_y_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-
-    if ( _min_z_sorted_objects.find( _objects[ i ]->type() ) != _min_z_sorted_objects.end() ) {
-      _min_z_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _min_z_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-
-    if ( _max_z_sorted_objects.find( _objects[ i ]->type() ) != _max_z_sorted_objects.end() ) {
-      _max_z_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _max_z_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
- 
-    if ( _min_distance_sorted_objects.find( _objects[ i ]->type() ) != _min_distance_sorted_objects.end() ) {
-      _min_distance_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _min_distance_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-
-    if ( _max_distance_sorted_objects.find( _objects[ i ]->type() ) != _max_distance_sorted_objects.end() ) {
-      _max_distance_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _max_distance_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-
-    if ( _min_center_distance_sorted_objects.find( _objects[ i ]->type() ) != _min_center_distance_sorted_objects.end() ) {
-      _min_center_distance_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _min_center_distance_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-
-    if ( _max_center_distance_sorted_objects.find( _objects[ i ]->type() ) != _max_center_distance_sorted_objects.end() ) {
-      _max_center_distance_sorted_objects[ _objects[ i ]->type() ].clear(); 
-    } else {
-      _max_center_distance_sorted_objects.insert( pair< string, vector < Object* > >( _objects[ i ]->type(), vector< Object* >() ) );
-    }
-  } 
-
-  // Fill in the object pointers according to the object type. 
-  for( unsigned int i = 0; i < _objects.size(); i++ ){
-    _min_x_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _max_x_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _min_y_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _max_y_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _min_abs_y_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _max_abs_y_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _min_z_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _max_z_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _min_distance_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _max_distance_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _min_center_distance_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
-    _max_center_distance_sorted_objects[ _objects[ i ]->type() ].push_back( _objects[ i ] );
   }
-
- for( map< string, vector< Object* > >::iterator it = _min_x_sorted_objects.begin(); it != _min_x_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::min_x_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _max_x_sorted_objects.begin(); it != _max_x_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::max_x_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _min_y_sorted_objects.begin(); it != _min_y_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::min_y_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _max_y_sorted_objects.begin(); it != _max_y_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::max_y_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _min_abs_y_sorted_objects.begin(); it != _min_abs_y_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::min_abs_y_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _max_abs_y_sorted_objects.begin(); it != _max_abs_y_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::max_abs_y_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _min_z_sorted_objects.begin(); it != _min_z_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::min_z_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _max_z_sorted_objects.begin(); it != _max_z_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::max_z_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _min_distance_sorted_objects.begin(); it != _min_distance_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::min_distance_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _max_distance_sorted_objects.begin(); it != _max_distance_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::max_distance_sort);
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _min_center_distance_sorted_objects.begin(); it != _min_center_distance_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::min_distance_sort );
-   }
- }
-
- for( map< string, vector< Object* > >::iterator it = _max_center_distance_sorted_objects.begin(); it != _max_center_distance_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     sort( it->second.begin(), it->second.end(), World::max_distance_sort );
-   }
- }
-
- // Center adjusted sorting.
- for( map< string, vector< Object* > >::iterator it = _min_center_distance_sorted_objects.begin(); it != _min_center_distance_sorted_objects.end(); ++it ){
-   if ( it->second.size() > 1){
-     min_center_distance_sort_objects( it->second );
-   }
- }
-
-for( map< string, vector< Object* > >::iterator it = _max_center_distance_sorted_objects.begin(); it != _max_center_distance_sorted_objects.end(); ++it ){
-  if ( it->second.size() > 1){
-    max_center_distance_sort_objects( it->second );
-  }
-}
 
   return;
 }
@@ -696,44 +560,6 @@ max_center_distance_sort_objects( vector< Object* >& objects ){
   return;
 }
 
-/*
- * Initialise the numeric map.
- */
-void 
-World::
-initialise_numeric_map( void ) {
-// Values are used as indices. Hence subtracting one.
-  _numeric_map.clear();
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "one",0 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "two",1 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "three",2 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "four",3 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "five",4 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "six",5 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "seven",6 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "eight",7 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "nine",8 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "ten",9 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "eleven",10 )  );
-  _numeric_map.insert( std::pair< std::string, unsigned int > ( "twelve",11 )  );
-}
-
-/*
- * Initialise the index map.
- */
-void
-World::
-initialise_index_map( void ) {
-  _index_map.clear();
-// Values are used as indices. Hence subtracting one.
-    _index_map.insert( std::pair< std::string, unsigned int > ( "first",0 )  );
-    _index_map.insert( std::pair< std::string, unsigned int > ( "second",1 )  );
-    _index_map.insert( std::pair< std::string, unsigned int > ( "third",2 )  );
-    _index_map.insert( std::pair< std::string, unsigned int > ( "fourth",3 )  );
-    _index_map.insert( std::pair< std::string, unsigned int > ( "fifth",4 )  );
-}
-
-
 namespace h2sl {
   /** 
    * World class ostream operator
@@ -743,9 +569,13 @@ namespace h2sl {
               const World& other ) {
     out << "time:\"" << other.time() << "\" ";
     out << "objects[" << other.objects().size() << "]:{";
-    for( unsigned int i = 0; i < other.objects().size(); i++ ){
-      out << "(" << *other.objects()[ i ] << ")";
-      if( i != ( other.objects().size() - 1 ) ){
+    for( map< string, Object* >::const_iterator it_world_object = other.objects().begin(); it_world_object != other.objects().end(); it_world_object++ ){
+      if( it_world_object->second != NULL ){
+        out << "(" << *it_world_object->second << ")";
+      } else {
+        out << "(NULL)";
+      }
+      if( next( it_world_object ) != other.objects().end() ){
         out << ",";
       }
     }

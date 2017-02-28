@@ -75,8 +75,8 @@ bool
 compare_phrases( const Phrase* first, 
                   const Phrase* second ){
   if( ( first != NULL ) && ( second != NULL ) ){
-    const Grounding_Set * first_grounding_set = dynamic_cast< const Grounding_Set* >( first->grounding() );
-    const Grounding_Set * second_grounding_set = dynamic_cast< const Grounding_Set* >( second->grounding() );
+    const Grounding_Set * first_grounding_set = dynamic_cast< const Grounding_Set* >( first->grounding_set() );
+    const Grounding_Set * second_grounding_set = dynamic_cast< const Grounding_Set* >( second->grounding_set() );
     if( ( first_grounding_set != NULL ) && ( second_grounding_set != NULL ) ){
       if( first_grounding_set->groundings().size() == second_grounding_set->groundings().size() ){
         for( unsigned int i = 0; i < first_grounding_set->groundings().size(); i++ ){
@@ -130,6 +130,7 @@ main( int argc,
   }
 
   DCG * dcg = new DCG();
+  dcg->symbol_dictionary().from_xml( args.symbol_dictionary_arg );
 
   unsigned int num_correct = 0;
   unsigned int num_incorrect = 0;
@@ -156,7 +157,7 @@ main( int argc,
         unsigned int match_index = 0;
         for( unsigned int i = 0; i < phrases.size(); i++ ){
           if( phrases[ i ] != NULL ){
-            dcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg );
+            dcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
             if( !dcg->solutions().empty() ){
               cout << "  parse[" << i << "]:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl; 
               if( compare_phrases( truth, dcg->solutions().front().second ) ){

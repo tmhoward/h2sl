@@ -39,6 +39,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <sys/time.h>
 #include <libxml/tree.h>
@@ -112,7 +113,7 @@ namespace h2sl {
   double microseconds_to_seconds( const unsigned int& microseconds );
 
   /** 
-    * returns the cartesian power of a set of vectors 
+    * returns the cartesian power of a set of unsigned int vectors 
     */
   inline std::vector< std::vector< unsigned int > >
   cartesian_power( const std::vector< std::vector< unsigned int > >& vectors, const std::vector< std::vector< unsigned int > >& prev = std::vector< std::vector< unsigned int > >(), const unsigned int index = 0 ){
@@ -138,6 +139,32 @@ namespace h2sl {
   }
 
   /** 
+    * returns the cartesian power of a set of vectors of pairs 
+    */
+  inline std::vector< std::vector< std::pair< std::string, unsigned int > > >
+  cartesian_power( const std::vector< std::vector< std::pair< std::string, unsigned int > > >& vectors, const std::vector< std::vector< std::pair< std::string, unsigned int > > >& prev = std::vector< std::vector< std::pair< std::string, unsigned int > > >(), const unsigned int index = 0 ){
+    if( vectors.size() > index ){
+      std::vector< std::vector< std::pair< std::string, unsigned int > > > tmp;
+      if( prev.empty() ){
+        for( unsigned int i = 0; i < vectors[ index ].size(); i++ ){
+          tmp.push_back( std::vector< std::pair< std::string, unsigned int > >( 1, vectors[ index ][ i ] ) );
+        }
+      } else {
+        for( unsigned int i = 0; i < prev.size(); i++ ){
+          for( unsigned int j = 0; j < vectors[ index ].size(); j++ ){
+            tmp.push_back( prev[ i ] );
+            tmp.back().push_back( vectors[ index ][ j ] );
+          }
+        }
+      }
+      tmp = cartesian_power( vectors, tmp, index + 1 );
+      return tmp;
+    } else {
+      return prev;
+    }
+  }
+
+  /** 
    * checks if the name of the xmlNodePtr matches a string
    */
   inline bool
@@ -148,6 +175,24 @@ namespace h2sl {
       } else {
         return false;
       }
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * check keys
+   */
+  inline bool
+  check_keys( const xmlNodePtr& node, const std::vector< std::string >& keys ){
+    if( node->type == XML_ELEMENT_NODE ){
+      for( xmlAttrPtr l1 = node->properties; l1 != NULL; l1 = l1->next ){
+        if( std::find( keys.begin(), keys.end(), ( char* )( l1->name ) ) == keys.end() ){
+          std::cout << "key \"" << l1->name << "\" not in list of authorized keys" << std::endl;
+          return false;
+        }
+      }
+      return true;
     } else {
       return false;
     }
@@ -346,16 +391,20 @@ namespace h2sl {
    * std:vector string formatted
    */
   template< typename C >
-  inline std::string std_vector_to_std_string( const std::vector< C >& vector ){
+  inline std::string std_vector_to_std_string( const std::vector< C >& vector, const bool& additionalFormatting = true ){
     std::stringstream tmp;
-    tmp << "[" << vector.size() << "]:{";
+    if( additionalFormatting ){
+      tmp << "[" << vector.size() << "]:{";
+    }
     for( typename std::vector< C >::const_iterator it = vector.begin(); it != vector.end(); it++ ){
       tmp << *it;
       if( next( it ) != vector.end() ){
         tmp << ",";
       }
     }
-    tmp << "}";
+    if( additionalFormatting ){
+      tmp << "}";
+    }
     return tmp.str();
   };
 
@@ -509,6 +558,42 @@ namespace h2sl {
     assert( true );
   }
 
+  /**
+   * adds a unique label to a vector
+   */
+  template< class C >
+  inline void insert_unique( const C& value,
+                              std::vector< C >& types ){
+    typename std::vector< C >::const_iterator it = std::find( types.begin(), types.end(), value );
+    if( it == types.end() ){
+      types.push_back( value );
+    }
+    return;
+  }
+
+  /**
+   * adds a unique label to a map
+   */
+  template< class C >
+  inline void insert_unique( const std::string& key, 
+                              const std::string& value,
+                              std::map< std::string, std::vector< C > >& types ){
+    typename std::map< std::string, std::vector< C > >::iterator it_types = types.find( key );
+    if( it_types == types.end() ){
+      std::pair< typename std::map< std::string, std::vector< C > >::iterator, bool > types_ret = types.insert( std::pair< std::string, std::vector< C > >( key, std::vector< C >() ) );
+      typename std::vector< C >::iterator it_type = find( types_ret.first->second.begin(), types_ret.first->second.end(), value );
+      if( it_type == types_ret.first->second.end() ){
+        types_ret.first->second.push_back( value );
+      }
+    } else {
+      typename std::vector< C >::iterator it_type = find( it_types->second.begin(), it_types->second.end(), value );
+      if( it_type == it_types->second.end() ){
+        it_types->second.push_back( value );
+      } 
+    } 
+    return;
+  } 
+
   /** 
    * reads the channels from an xml file
    */
@@ -536,6 +621,23 @@ namespace h2sl {
     }
     return tmp;
   };
+
+  /**  
+   * find a symbol in a vector of pairs, where the pair consists of a symbol and a vector
+   */
+  template< class A, class B, class C >
+  inline std::vector< const C* > find_in_vector_of_pairs( const std::vector< std::pair< const A*, std::vector< B* > > >& arg ){
+    std::vector< const C* > tmp_vector;
+    for( unsigned int i = 0; i < arg.size(); i++ ){
+      for( unsigned int j = 0; j < arg[ i ].second.size(); j++ ){
+        const C* tmp = dynamic_cast< const C* >( arg[ i ].second[ j ] );
+        if( tmp != NULL ){
+          tmp_vector.push_back( tmp );
+        }
+      }
+    }
+    return tmp_vector;
+  }
 }
 
 #endif /* H2SL_COMMON_H */

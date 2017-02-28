@@ -35,7 +35,7 @@ namespace h2sl {
     Container* dup( void )const;    
 
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "container" ); };
-    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );
 
     bool has_object( const Object* object )const;
     double min_distance_to_object( const Object& object )const;

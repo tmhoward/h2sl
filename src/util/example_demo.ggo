@@ -1,0 +1,8 @@
+package "h2sl-example-demo"
+version "0.0.1"
+purpose "A program used to import and export examples"
+
+option "input" i "input file" string required
+option "output" o "output file" string optional
+
+text ""

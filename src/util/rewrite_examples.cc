@@ -35,6 +35,8 @@
 
 #include "h2sl/common.h"
 #include "h2sl/world.h"
+#include "h2sl/region.h"
+#include "h2sl/spatial_relation.h"
 #include "h2sl/phrase.h"
 #include "rewrite_examples_cmdline.h"
 
@@ -65,6 +67,51 @@ extract_instruction( const std::string& filename ){
   return "";
 }
 
+void
+replace_empty_regions_with_objects( Phrase* phrase, World* world ){
+  cout << "checking " << *phrase->grounding_set() << endl;
+  for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+    Region * region = dynamic_cast< Region* >( *it_grounding );
+    if( region != NULL ){
+      cout << "found region" << endl;
+      if( region->spatial_relation_type() == "na" ){
+        cout << "  found empty region" << endl;
+        map< string, Object* >::iterator it_object = world->objects().find( region->object_id() );
+        assert( it_object != world->objects().end() );
+        cout << "  reassigning grounding to object " << *it_object->second << endl;
+        *it_grounding = it_object->second;
+      }
+    }
+  }
+
+  for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+    replace_empty_regions_with_objects( *it_child, world );
+  }
+  return;
+}
+
+void
+replace_objectless_regions_with_spatial_relations( Phrase* phrase, World* world ){
+  cout << "checking " << *phrase->grounding_set() << endl;
+  for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+    Region * region = dynamic_cast< Region* >( *it_grounding );
+    if( region != NULL ){
+      cout << "found region" << endl;
+      if( region->object_id() == "na" ){
+        cout << "  found objectless region" << endl;
+        Spatial_Relation * spatial_relation = new Spatial_Relation( region->spatial_relation_type() );
+        cout << "  reassigning grounding to spatial relation " << *spatial_relation << endl;
+        *it_grounding = spatial_relation;
+      }
+    }
+  }
+
+  for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+    replace_objectless_regions_with_spatial_relations( *it_child, world );
+  }
+  return;
+}
+
 int
 main( int argc,
       char* argv[] ) {
@@ -81,6 +128,9 @@ main( int argc,
 
     h2sl::Phrase * phrase = new Phrase();
     phrase->from_xml( args.inputs[ i ] );
+
+    replace_empty_regions_with_objects( phrase, world );
+    replace_objectless_regions_with_spatial_relations( phrase, world );
 
     string instruction = extract_instruction( args.inputs[ i ] );
     

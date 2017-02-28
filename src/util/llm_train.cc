@@ -60,21 +60,13 @@ evaluate_model( LLM* llm,
       cout << "example " << i << " had pygx " << pygx << endl;
       cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
       cout << "         cv:" << examples[ i ].first << endl;
-      if( dynamic_cast< const Region* >( examples[ i ].second.grounding() ) != NULL ){
-        cout << "  grounding:" << *static_cast< const Region* >( examples[ i ].second.grounding() ) << endl; 
-      } else if ( dynamic_cast< const Constraint* >( examples[ i ].second.grounding() ) != NULL ){
-        cout << "  grounding:" << *static_cast< const Constraint* >( examples[ i ].second.grounding() ) << endl; 
-      }
+      cout << "  grounding:" << *examples[ i ].second.grounding() << endl;
       for( unsigned int j = 0; j < examples[ i ].second.children().size(); j++ ){
         if( examples[ i ].second.children()[ j ].first != NULL ){
           cout << "child phrase:(" << *examples[ i ].second.children()[ j ].first << ")" << endl;
         }
         for( unsigned int k = 0; k < examples[ i ].second.children()[ j ].second.size(); k++ ){
-          if( dynamic_cast< Region* >( examples[ i ].second.children()[ j ].second[ k ] ) != NULL ){
-            cout << "children[" << j << "]:" << *static_cast< Region* >( examples[ i ].second.children()[ j ].second[ k ] ) << endl;
-          } else if( dynamic_cast< Constraint* >( examples[ i ].second.children()[ j ].second[ k ] ) != NULL ){
-            cout << "children[" << j << "]:" << *static_cast< Constraint* >( examples[ i ].second.children()[ j ].second[ k ] ) << endl;
-          }
+          cout << "children[" << j << "]:" << *examples[ i ].second.children()[ j ].second[ k ] << endl;
         }
       }
       cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
@@ -100,35 +92,6 @@ evaluate_model( LLM* llm,
   return;
 }
 
-unsigned int
-evaluate_cv( const Grounding* grounding,
-              const Grounding_Set* groundingSet ){
-  unsigned int cv = CV_UNKNOWN;
-  if( dynamic_cast< const Region* >( grounding ) != NULL ){
-    const Region * region_grounding = dynamic_cast< const Region* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
-      if( dynamic_cast< const Region* >( groundingSet->groundings()[ i ] ) ){
-        if( *region_grounding == *dynamic_cast< const Region* >( groundingSet->groundings()[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if ( dynamic_cast< const Constraint* >( grounding ) != NULL ){
-    const Constraint* constraint_grounding = dynamic_cast< const Constraint* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
-      if( dynamic_cast< const Constraint* >( groundingSet->groundings()[ i ] ) ){
-        if( *constraint_grounding == *dynamic_cast< const Constraint* >( groundingSet->groundings()[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  }   
- 
-  return cv;
-}
-
 void
 scrape_examples( const string& filename,
                   const Phrase* phrase,
@@ -136,13 +99,13 @@ scrape_examples( const string& filename,
                   const vector< pair< unsigned int, Grounding* > >& searchSpaces,
                   const vector< vector< unsigned int > >& correspondenceVariables,
                   vector< pair< unsigned int, LLM_X > >& examples ){
-  const Grounding_Set * grounding_set = dynamic_cast< const Grounding_Set* >( phrase->grounding() );
+  const Grounding_Set * grounding_set = dynamic_cast< const Grounding_Set* >( phrase->grounding_set() );
 
   for( unsigned int i = 0; i < searchSpaces.size(); i++ ){
-    examples.push_back( pair< unsigned int, LLM_X >( evaluate_cv( searchSpaces[ i ].second, grounding_set ), LLM_X( searchSpaces[ i ].second, phrase, world, NULL, correspondenceVariables[ searchSpaces[ i ].first ], vector< Feature* >(), filename ) ) );
+    examples.push_back( pair< unsigned int, LLM_X >( grounding_set->evaluate_cv( searchSpaces[ i ].second ), LLM_X( searchSpaces[ i ].second, phrase, world, NULL, correspondenceVariables[ searchSpaces[ i ].first ], vector< Feature* >(), filename ) ) );
     for( unsigned int j = 0; j < phrase->children().size(); j++ ){
       examples.back().second.children().push_back( pair< const Phrase*, vector< Grounding* > >( phrase->children()[ j ], vector< Grounding* >() ) );
-      Grounding_Set * child_grounding_set = dynamic_cast< Grounding_Set* >( phrase->children()[ j ]->grounding() );
+      Grounding_Set * child_grounding_set = dynamic_cast< Grounding_Set* >( phrase->children()[ j ]->grounding_set() );
       if( child_grounding_set ){
         for( unsigned int k = 0; k < child_grounding_set->groundings().size(); k++ ){
           examples.back().second.children().back().second.push_back( child_grounding_set->groundings()[ k ] );
@@ -175,20 +138,19 @@ main( int argc,
     cout << "reading file " << args.inputs[ i ] << endl;
     filenames[ i ] = args.inputs[ i ];
 
-    cout << "loading world" << endl;
     worlds[ i ] = new World();
     worlds[ i ]->from_xml( args.inputs[ i ] ); 
   
-    cout << "loading phrase" << endl;
     phrases[ i ] = new Phrase();
     phrases[ i ]->from_xml( args.inputs[ i ] ); 
 
-    cout << "loading DCG" << endl;
     dcgs[ i ] = new DCG();
     dcgs[ i ]->symbol_dictionary().from_xml( args.symbol_dictionary_arg );
     dcgs[ i ]->fill_search_spaces( worlds[ i ] );
     
-    scrape_examples( filenames[ i ], phrases[ i ], worlds[ i ], dcgs[ i ]->search_spaces(), dcgs[ i ]->correspondence_variables(), examples );  
+//    scrape_examples( filenames[ i ], phrases[ i ], worlds[ i ], dcgs[ i ]->search_spaces(), dcgs[ i ]->correspondence_variables(), examples );  
+
+    DCG::scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], dcgs[ i ]->search_spaces(), dcgs[ i ]->correspondence_variables(), examples );
   }
 
   cout << "training with " << examples.size() << " examples" << endl;

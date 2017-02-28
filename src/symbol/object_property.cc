@@ -101,8 +101,14 @@ void
 Object_Property::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
+
+  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
 
   map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
   map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
@@ -115,7 +121,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
       for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
         for( unsigned int j = 0; j < it_spatial_relation_type_types->second.size(); j++ ){
           for( unsigned int k = 0; k < it_index_value_types->second.size(); k++ ){
-            searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Object_Property( it_object_type_types->second[ i ], it_spatial_relation_type_types->second[ j ], it_index_value_types->second[ k ] ) ) );
+            it_search_spaces_symbol->second.second.push_back( new Object_Property( it_object_type_types->second[ i ], it_spatial_relation_type_types->second[ j ], it_index_value_types->second[ k ] ) );
           }
         }
       }
@@ -165,7 +171,11 @@ void
 Object_Property::
 from_xml( xmlNodePtr root ){
   type() = "na";
+  relation_type() = "na";
+  index() = 0;
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > object_property_keys = { "object_type", "spatial_relation_type", "index" };
+    assert( check_keys( root, object_property_keys ) );
     pair< bool, string > object_type_prop = has_prop< std::string >( root, "object_type" );
     if( object_type_prop.first ){
       type() = object_type_prop.second;

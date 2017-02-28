@@ -1,8 +1,10 @@
 # GENGETOPT FILES
 set(GGOS
+    example_demo.ggo
     rewrite_examples.ggo
+    generate_symbol_dictionary.ggo
     llm_train.ggo
-    llm_train_adcg.ggo
+#    llm_train_adcg.ggo
     grammar_generator.ggo
     gui_demo.ggo)
 
@@ -20,9 +22,11 @@ set(SRCS
 
 # BINARY SOURCE FILES
 set(BIN_SRCS
+    example_demo.cc
     rewrite_examples.cc
+    generate_symbol_dictionary.cc
     llm_train.cc
-    llm_train_adcg.cc
+#    llm_train_adcg.cc
     grammar_generator.cc
     gui_demo.cc )
 

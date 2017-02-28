@@ -31,7 +31,12 @@ namespace h2sl {
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
         virtual void from_xml( xmlNodePtr root );
-        
+       
+        inline std::string& spatial_relation( void ){ return get_prop< std::string >( _string_properties, "spatial_relation" ); };
+        inline const std::string& spatial_relation( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation" ); };
+        inline std::string& sorting_key( void ){ return get_prop< std::string >( _string_properties, "sorting_key" ); };
+        inline const std::string& sorting_key( void )const{ return get_prop< std::string >( _string_properties, "sorting_key" ); };
+ 
         virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
         
     protected:

@@ -38,16 +38,16 @@ using namespace std;
 using namespace h2sl;
 
 Region::
-Region( const string& regionType,
-        const Object& object ) : Grounding(),
-                                  _object( object ) {
-  insert_prop< std::string >( _string_properties, "region_type", regionType );
+Region( const string& spatialRelationType,
+        const string& objectId ) : Grounding() {
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", spatialRelationType );
+  insert_prop< std::string >( _string_properties, "object_id", objectId );
 }
 
 Region::
-Region( xmlNodePtr root ) : Grounding(),
-                            _object() {
-  insert_prop< std::string >( _string_properties, "region_type", "na" );
+Region( xmlNodePtr root ) : Grounding() {
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
+  insert_prop< std::string >( _string_properties, "object_id", "na" );
   from_xml( root );
 }
 
@@ -57,8 +57,7 @@ Region::
 }
 
 Region::
-Region( const Region& other ) : Grounding( other ),
-                                _object( other._object ){
+Region( const Region& other ) : Grounding( other ) {
 
 }
 
@@ -67,16 +66,15 @@ Region::
 operator=( const Region& other ) {
   _string_properties = other._string_properties;
   _int_properties = other._int_properties;
-  _object = other._object;
   return (*this);
 }
 
 bool
 Region::
 operator==( const Region& other )const{
-  if( region_type() != other.region_type() ){
+  if( spatial_relation_type() != other.spatial_relation_type() ){
     return false;
-  } if( _object != other._object ){
+  } if( object_id() != other.object_id() ){
     return false;
   } else {
     return true;
@@ -97,33 +95,53 @@ dup( void )const{
 
 void
 Region::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  insert_unique< std::string >( "spatial_relation_type", spatial_relation_type(), stringTypes );
+  return;
+}
+
+void
+Region::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
-    
-  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
 
-  switch( symbolType ){
-  case( SYMBOL_TYPE_CONCRETE ):
-  case( SYMBOL_TYPE_ALL ):
-    if( it_spatial_relation_type_types != symbolDictionary.string_types().end() ){
-      for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
-        if( it_spatial_relation_type_types->second[ i ] != "na" ){
-          searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( it_spatial_relation_type_types->second[ i ], Object() ) ) );
-          if( world != NULL ){
-            for( unsigned int j = 0; j < world->objects().size(); j++ ){
-              searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Region( it_spatial_relation_type_types->second[ i ], *world->objects()[ j ] ) ) );
+  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
+
+  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
+    
+    map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+
+    switch( symbolType ){
+    case( SYMBOL_TYPE_CONCRETE ):
+    case( SYMBOL_TYPE_ALL ):
+      if( it_spatial_relation_type_types != symbolDictionary.string_types().end() ){
+        for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
+          if( it_spatial_relation_type_types->second[ i ] != "na" ){
+            it_search_spaces_symbol->second.second.push_back( new Region( it_spatial_relation_type_types->second[ i ], "na" ) );
+            if( world != NULL ){
+              for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
+                it_search_spaces_symbol->second.second.push_back( new Region( it_spatial_relation_type_types->second[ i ], it_world_object->second->name() ) );
+              }
             }
           }   
         }
       }
+      break;
+    case( SYMBOL_TYPE_ABSTRACT ):
+    case( NUM_SYMBOL_TYPES ):
+    default:
+      break;
     }
-    break;
-  case( SYMBOL_TYPE_ABSTRACT ):
-  case( NUM_SYMBOL_TYPES ):
-  default:
-    break;
   }
 
   return;
@@ -146,8 +164,8 @@ Region::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "region" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "region_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "region_type" ).c_str() ) );
-  _object.to_xml( doc, node );
+  xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "spatial_relation_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_id" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_id" ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -178,17 +196,29 @@ from_xml( const string& filename ){
 void
 Region::
 from_xml( xmlNodePtr root ){
-  region_type() = "na";
-  _object = Object();
+  spatial_relation_type() = "na";
+  object_id() = "na";
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > region_keys = { "spatial_relation_type", "region_type", "object_id" };
+    assert( check_keys( root, region_keys ) );
+    
+    pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
+    if( spatial_relation_type_prop.first ){
+      spatial_relation_type() = spatial_relation_type_prop.second;
+    }
     pair< bool, string > region_type_prop = has_prop< std::string >( root, "region_type" );
     if( region_type_prop.first ){
-      region_type() = region_type_prop.second;
+      spatial_relation_type() = region_type_prop.second;
+    }
+    pair< bool, string > object_id_prop = has_prop< std::string >( root, "object_id" );
+    if( object_id_prop.first ){
+      object_id() = object_id_prop.second;
     }
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          _object.from_xml( l1 );
+          Object object( l1 );  
+          object_id() = object.name();
         }
       }
     }
@@ -201,8 +231,8 @@ namespace h2sl {
   operator<<( ostream& out,
               const Region& other ) {
     out << "Region(";
-    out << "region_type=\"" << other.region_type() << "\",";
-    out << "object=" << other.object();
+    out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\",";
+    out << "object_id=\"" << other.object_id() << "\"";
     out << ")";
     return out;
   }

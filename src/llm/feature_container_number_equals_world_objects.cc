@@ -74,9 +74,9 @@ value( const unsigned int& cv,
       vector< Object* > objects;
       if ( dynamic_cast< Object* >( container->container().front() ) != NULL ) {
         const Object* container_front_object = static_cast< Object* >( container->container().front());
-        for ( unsigned int i = 0; i < world->objects().size(); i++ ) {
-          if ( world->objects()[ i ]->type() == container_front_object->type() ) {
-            objects.push_back( world->objects()[ i ] );
+        for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
+          if ( it_world_object->second->type() == container_front_object->type() ) {
+            objects.push_back( it_world_object->second );
           }
         }
         if ( container->container().size() == objects.size() ) {

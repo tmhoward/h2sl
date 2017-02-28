@@ -75,20 +75,14 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Abstract_Container* abstract_container = dynamic_cast< const Abstract_Container* >( grounding );
   if( abstract_container != NULL ){
-    vector< const Object* > objects;
-    for( unsigned int i = 0; i < world->objects().size(); i++ ){
-      if( world->objects()[ i ]->type() == abstract_container->type() ){
-        objects.push_back( world->objects()[ i ] );
+    assert( !world->sorted_objects().empty() );
+    map< string, vector< Object* > >::const_iterator it_sorted_objects = world->sorted_objects().begin()->second.find( abstract_container->type() );
+    if ( it_sorted_objects != world->sorted_objects().begin()->second.end() ) {
+      if ( abstract_container->number() == it_sorted_objects->second.size() ) {
+        return !_invert;
+      } else {
+        return _invert;
       }
-    }
-    map< string, unsigned int>::const_iterator it;
-//    it = world->numeric_map().find( abstract_container->number() ); 
-//    if( it != world->numeric_map().end() ) {
-//      if ( it->second == objects.size() ){
-    if( abstract_container->number() == objects.size() ){
-      return !_invert;
-    } else {
-      return _invert;
     }
   }
   return false;

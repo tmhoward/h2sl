@@ -14,6 +14,7 @@
 
 #include "h2sl/grounding.h"
 #include "h2sl/common.h"
+#include "h2sl/symbol_dictionary.h"
 
 namespace h2sl {
     /**
@@ -31,7 +32,7 @@ namespace h2sl {
         virtual Object_Type* dup( void )const;
         
         virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "object_type" ); };
-        static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );   
+        static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );   
  
         virtual void from_xml( const std::string& file );
         virtual void from_xml( xmlNodePtr root );

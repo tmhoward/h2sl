@@ -39,7 +39,8 @@
 #include <libxml/tree.h>
 
 #include "h2sl/word.h"
-#include "h2sl/grounding.h"
+#include "h2sl/world.h"
+#include "h2sl/grounding_set.h"
 
 namespace h2sl {
   typedef enum {
@@ -60,7 +61,7 @@ namespace h2sl {
 
   class Phrase {
   public:
-    Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase* >& children = std::vector< Phrase* >(), Grounding* grounding = NULL );
+    Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase* >& children = std::vector< Phrase* >(), Grounding_Set* groundingSet = NULL );
     virtual ~Phrase();
     Phrase( const Phrase& other );
     Phrase& operator=( const Phrase& other );
@@ -68,6 +69,8 @@ namespace h2sl {
     bool operator!=( const Phrase& other )const;
     virtual Phrase* dup( void )const;
     virtual Phrase* dup( const bool& empty )const;
+
+    virtual void scrape_groundings( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -100,15 +103,15 @@ namespace h2sl {
     inline const std::vector< Phrase* >& children( void )const{ return _children; };
     inline std::vector< Word >& words( void ){ return _words; };
     inline const std::vector< Word >& words( void )const{ return _words; };
-    inline Grounding*& grounding( void ){ return _grounding; };
-    inline const Grounding* grounding( void )const{ return _grounding; };
+    inline Grounding_Set*& grounding_set( void ){ return _grounding_set; };
+    inline const Grounding_Set* grounding_set( void )const{ return _grounding_set; };
 
   protected:
     phrase_type_t _type;
     std::string _text;
     std::vector< Word > _words;
     std::vector< Phrase* > _children;
-    Grounding * _grounding;
+    Grounding_Set * _grounding_set;
 
   private:
 

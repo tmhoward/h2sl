@@ -79,7 +79,9 @@ value( const unsigned int& cv,
       for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
         const O * child = dynamic_cast< const O* >( children[ i ].second[ j ] );
         if( child != NULL ){
-          if( symbol->object() == *child ){
+          typename std::map< std::string, O* >::const_iterator it_object = world->objects().find( symbol->object_id() );
+          assert( it_object != world->objects().end() );
+          if( *(it_object->second) == *child ){
             return !_invert;
           }
         }

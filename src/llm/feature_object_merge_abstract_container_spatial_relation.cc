@@ -78,7 +78,7 @@ value( const unsigned int& cv,
 }
 
 
-/*bool
+bool
 Feature_Object_Merge_Abstract_Container_Spatial_Relation::
 value( const unsigned int& cv,
       const h2sl::Grounding* grounding,
@@ -109,73 +109,84 @@ value( const unsigned int& cv,
         }
       }
 
-
       if( ( abstract_container_child.first != NULL ) && ( abstract_container_child.second != NULL ) && ( spatial_relation_child.first != NULL ) && ( spatial_relation_child.second != NULL ) ){
         if( ( abstract_container_child.first->min_word_order() < spatial_relation_child.first->min_word_order() ) ){
-          const World * h2sl_nsf_nri_mvli_world = dynamic_cast< const World* >( world );
+          if( spatial_relation_child.second->type() == spatial_relation() ){
+            map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
+            assert( it_sorted_objects_map != world->sorted_objects().end() );
+            map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( abstract_container_child.second->type() );
+            assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+            for( vector< Object* >::const_iterator it_sorted_object = it_sorted_objects->second.begin(); it_sorted_objects->second.end(); it_sorted_objects++ ){
+              if( *object == *it_sorted_objects ){
+                return !_invert;
+              }
+            }
+          }
+/*
           if( spatial_relation_child.second->type() == Spatial_Relation::TYPE_CENTER ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->min_center_distance_sorted_objects()[ abstract_container_child.second->type() ].size() ){
+            if( abstract_container_child.second->num() < world->min_center_distance_sorted_objects()[ abstract_container_child.second->type() ].size() ){
               for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->min_center_distance_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
+                if( *object == *world->min_center_distance_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
                   return !_invert;
                 }
               }
             }
           } else if ( spatial_relation_child.second->type() == Spatial_Relation::TYPE_FAR ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->max_distance_sorted_objects()[ abstract_container_child.second->type() ].size() ){
+            if( abstract_container_child.second->num() < world->max_distance_sorted_objects()[ abstract_container_child.second->type() ].size() ){
               for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->max_distance_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
+                if( *object == *world->max_distance_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
                   return !_invert;
                 }
               }
             }
           } else if ( spatial_relation_child.second->type() == Spatial_Relation::TYPE_NEAR ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->min_distance_sorted_objects()[ abstract_container_child.second->type() ].size() ){
+            if( abstract_container_child.second->num() < world->min_distance_sorted_objects()[ abstract_container_child.second->type() ].size() ){
               for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->min_distance_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
+                if( *object == *world->min_distance_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
                   return !_invert;
                 }
               }
             }
           } else if ( spatial_relation_child.second->type() == Spatial_Relation::TYPE_LEFT ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->max_y_sorted_objects()[ abstract_container_child.second->type() ].size() ){
+            if( abstract_container_child.second->num() < world->max_y_sorted_objects()[ abstract_container_child.second->type() ].size() ){
               for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->max_y_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
+                if( *object == *world->max_y_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
                   return !_invert;
                 }
               }
             }
           } else if ( spatial_relation_child.second->type() == Spatial_Relation::TYPE_RIGHT ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->min_y_sorted_objects()[ abstract_container_child.second->type() ].size() ){
+            if( abstract_container_child.second->num() < world->min_y_sorted_objects()[ abstract_container_child.second->type() ].size() ){
               for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->min_y_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
+                if( *object == *world->min_y_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
                   return !_invert;
                 }
               }
             }
           } else if ( spatial_relation_child.second->type() == Spatial_Relation::TYPE_BACK ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->max_x_sorted_objects()[ abstract_container_child.second->type() ].size() ){
+            if( abstract_container_child.second->num() < world->max_x_sorted_objects()[ abstract_container_child.second->type() ].size() ){
               for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->max_x_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
+                if( *object == *world->max_x_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
                   return !_invert;
                 }
               }
             }
           } else if ( spatial_relation_child.second->type() == Spatial_Relation::TYPE_FRONT ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->min_x_sorted_objects()[ abstract_container_child.second->type() ].size() ){
+            if( abstract_container_child.second->num() < world->min_x_sorted_objects()[ abstract_container_child.second->type() ].size() ){
               for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->min_x_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
+                if( *object == *world->min_x_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
                   return !_invert;
                 }
               }
             }
           }
+*/
           return _invert;
         }
       }
     }
     return false;
-}*/
+}
 
 /**
  * exports the Feature_Object_Merge_Abstract_Container_Spatial_Relation class to an XML file

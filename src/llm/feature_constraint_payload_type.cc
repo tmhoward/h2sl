@@ -86,10 +86,10 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
   if( constraint != NULL ){
-    for( vector< Object* >::const_iterator it = world->objects().begin(); it != world->objects().end(); it++ ){
-      if( (*it) != NULL ){
-        if( (*it)->name() == constraint->payload() ){
-          if( (*it)->type() == _payload_type ){
+    for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
+      if( it_world_object->second != NULL ){
+        if( it_world_object->second->name() == constraint->payload() ){
+          if( it_world_object->second->type() == _payload_type ){
             return !_invert;
           } else {
             return _invert;

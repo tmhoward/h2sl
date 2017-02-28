@@ -90,8 +90,10 @@ value( const unsigned int& cv,
         const Grounding* context ){
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
-    map< std::string, std::string >::const_iterator it = region->object().string_properties().find( _key );
-    if( it != region->object().string_properties().end() ){
+    map< string, Object* >::const_iterator it_region_object = world->objects().find( region->object_id() );
+    assert( it_region_object != world->objects().end() );
+    map< std::string, std::string >::const_iterator it = it_region_object->second->string_properties().find( _key );
+    if( it != it_region_object->second->string_properties().end() ){
       if( it->second == _symbol ){
         return !_invert;
       } else {

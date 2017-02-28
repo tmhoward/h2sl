@@ -42,7 +42,7 @@
 namespace h2sl {
   class Region: public Grounding {
   public:
-    Region( const std::string& regionType = "na", const Object& object = Object() );
+    Region( const std::string& spatialRelationType = "na", const std::string& objectId = "na" );
     Region( xmlNodePtr root );
     virtual ~Region();
     Region( const Region& other );
@@ -52,7 +52,8 @@ namespace h2sl {
     virtual Grounding* dup( void )const;
 
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "region" ); };
-    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, const symbol_type_t& symbolType );
+    virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -60,15 +61,14 @@ namespace h2sl {
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline std::string& region_type( void ){ return get_prop< std::string >( _string_properties, "region_type" ); };
-    inline const std::string& region_type( void )const{ return get_prop< std::string >( _string_properties, "region_type" ); };
-    inline Object& object( void ){ return _object; };
-    inline const Object& object( void )const{ return _object; };
+    inline std::string& spatial_relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+    inline const std::string& spatial_relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+    inline std::string& object_id( void ){ return get_prop< std::string >( _string_properties, "object_id" ); };
+    inline const std::string& object_id( void )const{ return get_prop< std::string >( _string_properties, "object_id" ); };
 
     static std::string class_name( void ){ return "region"; };
 
   protected:
-    Object _object;
 
   private:
 

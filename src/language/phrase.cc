@@ -36,7 +36,6 @@
 #include <sstream>
 
 #include <h2sl/phrase.h>
-#include <h2sl/grounding_set.h>
 
 using namespace std;
 using namespace h2sl;
@@ -46,11 +45,11 @@ Phrase( const phrase_type_t& type,
         const string& text,
         const vector< Word >& words,
         const vector< Phrase* >& children,
-        Grounding* grounding ) : _type( type ),
+        Grounding_Set* groundingSet ) : _type( type ),
                                               _text( text ),
                                               _words( words ),
                                               _children( children ),
-                                              _grounding( grounding ){
+                                              _grounding_set( groundingSet ){
 
 }
 
@@ -64,12 +63,12 @@ Phrase( const Phrase& other ) : _type( other._type ),
                                 _text( other._text ),
                                 _words( other._words ),
                                 _children(),
-                                _grounding( NULL ){
+                                _grounding_set( NULL ){
   for( unsigned int i = 0; i < other._children.size(); i++ ){
     _children.push_back( other._children[ i ]->dup() );
   }
-  if( other._grounding != NULL ){
-    _grounding = other._grounding->dup();
+  if( other._grounding_set != NULL ){
+    _grounding_set = other._grounding_set->dup();
   }
 }
 
@@ -88,10 +87,10 @@ operator=( const Phrase& other ) {
   for( unsigned int i = 0; i < other._children.size(); i++ ){
     _children.push_back( other._children[ i ]->dup() );
   }
-  if( other._grounding != NULL ){
-    _grounding = other._grounding->dup();
+  if( other._grounding_set != NULL ){
+    _grounding_set = other._grounding_set->dup();
   } else {
-    _grounding = NULL;  
+    _grounding_set = NULL;  
   }
   return (*this);
 }
@@ -146,6 +145,22 @@ dup( const bool& empty )const{
 
 void
 Phrase::
+scrape_groundings( const World * world,
+                    vector< string >& classNames,
+                    map< string, vector< string > >& stringTypes,
+                    map< string, vector< int > >& intTypes )const{
+
+  _grounding_set->scrape_grounding( world, classNames, stringTypes, intTypes );
+
+  for( vector< Phrase* >::const_iterator it_child = _children.begin(); it_child != _children.end(); it_child++ ){
+    (*it_child)->scrape_groundings( world, classNames, stringTypes, intTypes );
+  }
+
+  return;
+}
+
+void
+Phrase::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -161,11 +176,9 @@ Phrase::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( phrase_type_t_to_std_string( _type ).c_str() ), NULL );
-  xmlNodePtr grounding_node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "grounding" ), NULL );
-  if( _grounding != NULL ){
-    _grounding->to_xml( doc, grounding_node );    
+  if( _grounding_set != NULL ){
+    _grounding_set->to_xml( doc, node );    
   } 
-  xmlAddChild( node, grounding_node );
   for( unsigned int i = 0; i < _words.size(); i++ ){
     _words[ i ].to_xml( doc, node );
   }   
@@ -222,12 +235,14 @@ from_xml( xmlNodePtr root ){
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
-        if( xmlStrcmp( l1->name, ( const xmlChar* )( "grounding" ) ) == 0 ){
+        if( xmlStrcmp( l1->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
+          _grounding_set = new Grounding_Set( l1 );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "grounding" ) ) == 0 ){
           xmlNodePtr l2 = NULL;
           for( l2 = l1->children; l2; l2 = l2->next ){
             if( l2->type == XML_ELEMENT_NODE ){
               if( xmlStrcmp( l2->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
-                _grounding = new Grounding_Set( l2 );
+                _grounding_set = new Grounding_Set( l2 );
               } else{
                 cout << "could not load" << l2->name << endl;
               }
@@ -473,10 +488,10 @@ namespace h2sl {
       }
     }
     out << " ";
-    if( other.grounding() != NULL ){
-      out << "grounding:{" << *other.grounding() << "}";
+    if( other.grounding_set() != NULL ){
+      out << "grounding_set:{" << *other.grounding_set() << "}";
     } else {
-      out << "grounding:{NULL}";
+      out << "grounding_set:{NULL}";
     }
     return out;
   }

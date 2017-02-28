@@ -74,6 +74,59 @@ operator=( const Grammar& other ) {
   return (*this);
 }
 
+void
+Grammar::
+scrape_phrases( const Phrase* phrase,
+                vector< Grammar_Terminal >& terminals,
+                vector< Grammar_Non_Terminal >& nonTerminals ){
+  // check for unique terminals
+  for( unsigned int i = 0; i < phrase->words().size(); i++ ){
+    for( unsigned int j = 0; j < terminals.size(); j++ ){
+      if( pos_t_to_std_string( phrase->words()[ i ].pos() ) == terminals[ j ].symbol() ){
+        bool found_match = false;
+        for( unsigned int k = 0; k < terminals[ j ].words().size(); k++ ){
+          if( phrase->words()[ i ].text() == terminals[ j ].words()[ k ] ){
+            found_match = true;
+          }
+        }
+        if( !found_match ){
+          terminals[ j ].words().push_back( phrase->words()[ i ].text() );
+          cout << "adding word " << phrase->words()[ i ] << endl;
+        }
+        break;
+      }
+    }
+  }
+
+  // check for unique non-terminals 
+  Grammar_Non_Terminal grammar_non_terminal( Phrase::phrase_type_t_to_std_string( phrase->type() ) );
+  cout << "phrase:" << phrase->words_to_std_string() << endl;
+  // add words  
+  cout << "phrase->words().size():" << phrase->words().size() << endl;
+  for( unsigned int i = 0; i < phrase->words().size(); i++ ){
+    grammar_non_terminal.elements().push_back( pos_t_to_std_string( phrase->words()[ i ].pos() ) + "[" + phrase->words()[ i ].text() + "]" );
+  }
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    grammar_non_terminal.elements().push_back( Phrase::phrase_type_t_to_std_string( phrase->children()[ i ]->type() ) );
+  }
+  cout << "grammar_non_terminal:(" << grammar_non_terminal << ")" << endl;
+  bool found_match = false;
+  for( unsigned int i = 0; i < nonTerminals.size(); i++ ){
+    if( grammar_non_terminal == nonTerminals[ i ] ){
+      found_match = true;
+    }
+  }
+  if( !found_match ){
+    nonTerminals.push_back( grammar_non_terminal );
+    cout << "adding non_terminal " << grammar_non_terminal << endl;
+  }
+
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    scrape_phrases( phrase->children()[ i ], terminals, nonTerminals );
+  }
+  return;
+}
+
 void 
 Grammar::
 to_xml( const string& filename )const{

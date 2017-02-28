@@ -17,8 +17,8 @@ using namespace h2sl;
  * Spatial_Relation class constructor
  */
 Spatial_Relation::
-Spatial_Relation( const string& spatial_relationType ) : Grounding() {
-  insert_prop< std::string >( _string_properties, "spatial_relation_type", spatial_relationType );
+Spatial_Relation( const string& spatialRelationType ) : Grounding() {
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", spatialRelationType );
 }
 
 Spatial_Relation::
@@ -60,7 +60,7 @@ operator=( const Spatial_Relation& other ){
 bool
 Spatial_Relation::
 operator==( const Spatial_Relation& other )const{
-  if ( relation_type() != other.relation_type() ){
+  if ( spatial_relation_type() != other.spatial_relation_type() ){
     return false;
   } else {
     return true;
@@ -87,26 +87,44 @@ dup( void )const{
 
 void
 Spatial_Relation::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  insert_unique< std::string >( "spatial_relation_type", spatial_relation_type(), stringTypes );
+  return;
+}
+
+void
+Spatial_Relation::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    vector< pair< unsigned int, Grounding* > >& searchSpaces,
+                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
+  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+  if( it_search_spaces_symbol == searchSpaces.end() ){
+    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+    it_search_spaces_symbol = searchSpaces.find( class_name() );
+  }
 
-  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
+    map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
 
-  switch( symbolType ){
-  case( SYMBOL_TYPE_CONCRETE ):
-  case( SYMBOL_TYPE_ALL ):
-    if( it_spatial_relation_type_types != symbolDictionary.string_types().end() ){
-      for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
-        searchSpaces.push_back( pair< unsigned int, Grounding* >( 0, new Spatial_Relation( it_spatial_relation_type_types->second[ i ] ) ) );
+    switch( symbolType ){
+    case( SYMBOL_TYPE_CONCRETE ):
+    case( SYMBOL_TYPE_ALL ):
+      if( it_spatial_relation_type_types != symbolDictionary.string_types().end() ){
+        for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
+          it_search_spaces_symbol->second.second.push_back( new Spatial_Relation( it_spatial_relation_type_types->second[ i ] ) );
+        }
       }
+      break;
+    case( SYMBOL_TYPE_ABSTRACT ):
+    case( NUM_SYMBOL_TYPES ):
+    default:
+      break;
     }
-    break;
-  case( SYMBOL_TYPE_ABSTRACT ):
-  case( NUM_SYMBOL_TYPES ):
-  default:
-    break;
   }
 
   return;
@@ -146,11 +164,13 @@ from_xml( const string& filename ){
 void
 Spatial_Relation::
 from_xml( xmlNodePtr root ){
-  relation_type() = "na";
+  spatial_relation_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > spatial_relation_keys = { "spatial_relation_type" };
+    assert( check_keys( root, spatial_relation_keys ) );
     pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
     if( spatial_relation_type_prop.first ){
-      relation_type() = spatial_relation_type_prop.second;
+      spatial_relation_type() = spatial_relation_type_prop.second;
     }
   }
   return;
@@ -192,7 +212,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Spatial_Relation& other ){
     out << "Spatial_Relation(";
-    out << "spatial_relation_type=\"" << other.relation_type() << "\",";
+    out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\"";
     out << ")";
     return out;
   }

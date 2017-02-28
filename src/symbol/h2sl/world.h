@@ -43,7 +43,7 @@
 namespace h2sl {
   class World {
   public:
-    World( const unsigned long long& time = 0, const std::vector< Object* >& objects = std::vector< Object* >() );
+    World( const unsigned long long& time = 0, const std::map< std::string, Object* >& objects = std::map< std::string, Object* >() );
     World( const std::string& filename );
     virtual ~World();
     World( const World& other );
@@ -57,8 +57,8 @@ namespace h2sl {
     virtual void from_xml( xmlNodePtr root );
   
     // Obtain world model objects
-    inline std::vector< Object* >& objects( void ){ return _objects; };
-    inline const std::vector< Object* >& objects( void )const{ return _objects; };
+    inline std::map< std::string, Object* >& objects( void ){ return _objects; };
+    inline const std::map< std::string, Object* >& objects( void )const{ return _objects; };
 
     // Sorting of objects based on spatial characteristics. 
     virtual void sort_object_collections(void);
@@ -98,7 +98,9 @@ namespace h2sl {
     // Array sorting for min and max distance from center sorted objects. 
     static void min_center_distance_sort_objects( std::vector< Object* >& objects );
     static void max_center_distance_sort_objects( std::vector< Object* >& objects );
-      
+     
+    inline const std::map< std::string, std::map< std::string, std::vector< Object* > > >& sorted_objects( void )const{ return _sorted_objects; };
+ /*
     // Accessors for the sorted world model objects.
     inline const std::map< std::string, std::vector< Object* > >& min_x_sorted_objects( void )const{ return _min_x_sorted_objects; };
     //inline std::map< std::string, std::vector< Object* > >& min_x_sorted_objects( void ){ return _min_x_sorted_objects; };
@@ -113,11 +115,11 @@ namespace h2sl {
     inline const std::map< std::string, std::vector< Object* > >& max_distance_sorted_objects( void )const{ return _max_distance_sorted_objects; };
     inline const std::map< std::string, std::vector< Object* > >& min_center_distance_sorted_objects( void )const{ return _min_center_distance_sorted_objects; };
     inline const std::map< std::string, std::vector< Object* > >& max_center_distance_sorted_objects( void )const{ return _max_center_distance_sorted_objects; };
-      
+*/      
     // Time stamp for the world model
     inline unsigned long long& time( void ){ return _time; };
     inline const unsigned long long& time( void )const{ return _time; };
-
+/*
     // Conversion of number strings to numeric values
     inline std::map< std::string, unsigned int>& numeric_map( void ){ return _numeric_map; };
     inline const std::map< std::string, unsigned int>& numeric_map( void )const{ return _numeric_map; };
@@ -125,7 +127,7 @@ namespace h2sl {
     // Conversion of index strings to index values
     inline std::map< std::string, unsigned int>& index_map( void ){ return _index_map; };
     inline const std::map< std::string, unsigned int>& index_map( void )const{ return _index_map; };
-
+*/
     // Convert model format.
     virtual void convert_models( xmlNodePtr root );
 
@@ -134,10 +136,13 @@ namespace h2sl {
    unsigned long long _time;
 
    // World model objects.
-   std::vector< Object* > _objects;
+   std::map< std::string, Object* > _objects;
 
     // Sorted world model objects.
+    std::map< std::string, std::map< std::string, std::vector< Object* > > > _sorted_objects;
+
     // Map of object type string and the vector of objects.
+/*
     std::map< std::string, std::vector< Object* > > _min_x_sorted_objects;
     std::map< std::string, std::vector< Object* > > _max_x_sorted_objects;
     std::map< std::string, std::vector< Object* > > _min_y_sorted_objects;
@@ -150,22 +155,23 @@ namespace h2sl {
     std::map< std::string, std::vector< Object* > > _max_distance_sorted_objects;
     std::map< std::string, std::vector< Object* > > _min_center_distance_sorted_objects;
     std::map< std::string, std::vector< Object* > > _max_center_distance_sorted_objects;
-
+*/
+/*
     // Numeric conversion
     std::map< std::string, unsigned int> _numeric_map;
       
     // Index conversion
     std::map< std::string, unsigned int> _index_map;
- 
+*/ 
     // Initialise sorted object collections
     void initialise_sorted_object_collections( void );
-
+/*
     // Initialise the numeric map
     void initialise_numeric_map( void );
       
     // Initialise the index map
     void initialise_index_map( void );
-
+*/
   private:
 
   };

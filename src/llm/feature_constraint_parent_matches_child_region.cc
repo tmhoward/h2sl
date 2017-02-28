@@ -86,7 +86,9 @@ value( const unsigned int& cv,
       for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
         const Region * child = dynamic_cast< const Region* >( children[ i ].second[ j ] );
         if( child != NULL ){
-          if( constraint->payload() == child->object().name() ){
+          map< string, Object* >::const_iterator it_child_region_object = world->objects().find( child->object_id() );
+          assert( it_child_region_object != world->objects().end() );
+          if( constraint->payload() == it_child_region_object->second->name() ){
             return !_invert;
           }
         }

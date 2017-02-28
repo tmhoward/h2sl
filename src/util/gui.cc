@@ -419,12 +419,12 @@ GUI::
 update_world( void ){
 
   _list_widget_world->clear();
-  for( unsigned int i = 0; i < _world->objects().size(); i++ ){
+  for( map< string, Object* >::const_iterator it_world_object = _world->objects().begin(); it_world_object != _world->objects().end(); it_world_object++ ){
     stringstream item_string;
-    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->name() << " ";
-    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->type() << " ";
-    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->transform().position().to_std_string() << " ";
-    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << _world->objects()[ i ]->transform().orientation().to_std_string() << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->name() << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->type() << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->transform().position().to_std_string() << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->transform().orientation().to_std_string() << " ";
     _list_widget_world->addItem( QString::fromStdString( item_string.str() ) );
   }
   update();

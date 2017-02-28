@@ -42,8 +42,11 @@ using namespace h2sl;
  * Symbol_Dictionary class constructor
  */
 Symbol_Dictionary::
-Symbol_Dictionary() : _string_types(),
-                      _int_types() {
+Symbol_Dictionary( const vector< string >& classNames,
+                    const map< string, vector< string > >& stringTypes,
+                    const map< string, vector< int > >& intTypes ) : _class_names( classNames ),
+                                                                      _string_types( stringTypes ),
+                                                                      _int_types( intTypes ) {
 
 }
 
@@ -59,7 +62,8 @@ Symbol_Dictionary::
  * Symbol_Dictionary copy constructor
  */
 Symbol_Dictionary::
-Symbol_Dictionary( const Symbol_Dictionary& other ) : _string_types( other._string_types ),
+Symbol_Dictionary( const Symbol_Dictionary& other ) : _class_names( other._class_names ),
+                                                      _string_types( other._string_types ),
                                                       _int_types( other._int_types ) {
 
 }
@@ -70,6 +74,7 @@ Symbol_Dictionary( const Symbol_Dictionary& other ) : _string_types( other._stri
 Symbol_Dictionary&
 Symbol_Dictionary::
 operator=( const Symbol_Dictionary& other ) {
+  _class_names = other._class_names;
   _string_types = other._string_types;
   _int_types = other._int_types;
   return (*this);
@@ -112,9 +117,15 @@ from_xml( const string& filename ){
 bool
 Symbol_Dictionary::
 from_xml( xmlNodePtr root ){
+  _class_names.clear();
   _string_types.clear();
   _int_types.clear();
   if( root->type == XML_ELEMENT_NODE ){
+    pair< bool, string > class_names_prop = has_prop< std::string >( root, "class_names" );
+    if( class_names_prop.first ){
+      _class_names = std_vector_from_std_string< string >( class_names_prop.second );
+    }
+
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "string_property" ) ) == 0 ){
@@ -161,10 +172,18 @@ Symbol_Dictionary::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "symbol_dictionary" ), NULL );
+  xmlNewProp( node, ( const xmlChar* )( "class_names" ), ( const xmlChar* )( std_vector_to_std_string< string >( _class_names, false ).c_str() ) );
   for( map< string, vector< string > >::const_iterator it = _string_types.begin(); it != _string_types.end(); it++ ){
     xmlNodePtr string_property_node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "string_property" ), NULL );
-    string tmp = std_vector_to_std_string< string >( it->second );
-    cout << "writing \"" << tmp << "\"" << endl;
+    xmlNewProp( string_property_node, ( const xmlChar* )( "key" ), ( const xmlChar* )( it->first.c_str() ) );        
+    stringstream tmp_string;
+    for( vector< string >::const_iterator it_value = it->second.begin(); it_value != it->second.end(); it_value++ ){
+      tmp_string << *it_value;
+      if( next( it_value ) != it->second.end() ){
+        tmp_string << ",";
+      }
+    } 
+    xmlNewProp( string_property_node, ( const xmlChar* )( "value" ), ( const xmlChar* )( tmp_string.str().c_str() ) );        
     xmlAddChild( node, string_property_node ); 
   }
   xmlAddChild( root, node );
@@ -176,6 +195,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Symbol_Dictionary& other ) {
+    out << "class_names" << std_vector_to_std_string< string >( other.class_names() ) << ",";
     for( map< string, vector< string > >::const_iterator it = other.string_types().begin(); it != other.string_types().end(); it++ ){
       out << "string_property[" << it->first << "]" << std_vector_to_std_string< string >( it->second );
       if( ( next( it ) != other.string_types().end() ) || ( !other.int_types().empty() ) ){
