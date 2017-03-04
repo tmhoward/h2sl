@@ -10,6 +10,7 @@
 #include <sstream>
 
 #include "h2sl/feature_phrase_type_and_phrase_has_pos_tag.h"
+#include "h2sl/pos.h"
 #include "h2sl/object.h"
 
 using namespace std;
@@ -87,6 +88,7 @@ value( const unsigned int& cv,
         }
         return _invert;
       }
+      return false;
     } else {
       return false;
     }
@@ -145,7 +147,7 @@ namespace h2sl {
     ostream&
     operator<<( ostream& out,
                const Feature_Phrase_Type_And_Phrase_Has_POS_Tag& other ) {
-	out << "class:\"Feature_Phrase_Type_And_Phrase_Has_POS_Tag(invert:(" << other.invert() << ") phrase_type:" << Phrase::phrase_type_t_to_std_string( other.phrase_type() ) << ")";
+	out << "class:\"Feature_Phrase_Type_And_Phrase_Has_POS_Tag(invert:(" << other.invert() << ") phrase_type:" << Phrase::phrase_type_t_to_std_string( other.phrase_type() ) << ") pos:" << pos_t_to_std_string( ( pos_t )( other.pos() ) ) << ")";
         return out;
     }
     

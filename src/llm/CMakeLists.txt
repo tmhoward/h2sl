@@ -24,6 +24,8 @@ set(HDRS
     h2sl/feature_type.ipp
     h2sl/feature_matches_child.h
     h2sl/feature_matches_child.ipp
+    h2sl/feature_matches_only_child.h
+    h2sl/feature_matches_only_child.ipp
     h2sl/feature_grounding_string_property_value.h
     h2sl/feature_grounding_int_property_value.h
     h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h
@@ -31,6 +33,7 @@ set(HDRS
     h2sl/feature_region_object_string_property_value.h
     h2sl/feature_region_object_matches_child.h
     h2sl/feature_region_merge_spatial_relation_and_object.h
+    h2sl/feature_region_merge_spatial_relation_and_region.h
     #h2sl/feature_object_matches_child.ipp
     #h2sl/feature_object_matches_child.h
     h2sl/feature_region_merge_partially_known_regions.h
@@ -134,6 +137,7 @@ set(SRCS
     feature_region_object_string_property_value.cc
     feature_region_object_matches_child.cc
     feature_region_merge_spatial_relation_and_object.cc
+    feature_region_merge_spatial_relation_and_region.cc
     feature_region_merge_partially_known_regions.cc
     feature_constraint_payload_string_property_value.cc
     feature_constraint_reference_matches_child.cc

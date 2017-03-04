@@ -32,7 +32,9 @@ namespace h2sl {
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
         virtual void from_xml( xmlNodePtr root );
-        
+
+        inline unsigned int& pos( void ){ return _pos; };
+        inline const unsigned int& pos( void )const{ return _pos; };
         inline phrase_type_t& phrase_type( void ){ return _phrase_type; };
         inline const phrase_type_t& phrase_type( void )const{ return _phrase_type; };
 

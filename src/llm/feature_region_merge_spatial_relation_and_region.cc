@@ -1,5 +1,5 @@
 /**
- * @file    feature_region_merge_spatial_relation_and_object.cc
+ * @file    feature_region_merge_spatial_relation_and_region.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -36,41 +36,41 @@
 #include "h2sl/region.h"
 #include "h2sl/spatial_relation.h"
 #include "h2sl/object.h"
-#include "h2sl/feature_region_merge_spatial_relation_and_object.h"
+#include "h2sl/feature_region_merge_spatial_relation_and_region.h"
 
 using namespace std;
 using namespace h2sl;
 
-Feature_Region_Merge_Spatial_Relation_And_Object::
-Feature_Region_Merge_Spatial_Relation_And_Object( const bool& invert ) : Feature( invert ) {
+Feature_Region_Merge_Spatial_Relation_And_Region::
+Feature_Region_Merge_Spatial_Relation_And_Region( const bool& invert ) : Feature( invert ) {
 
 }
 
-Feature_Region_Merge_Spatial_Relation_And_Object::
-Feature_Region_Merge_Spatial_Relation_And_Object( xmlNodePtr root ) : Feature() {
+Feature_Region_Merge_Spatial_Relation_And_Region::
+Feature_Region_Merge_Spatial_Relation_And_Region( xmlNodePtr root ) : Feature() {
   from_xml( root );
 }
 
 
-Feature_Region_Merge_Spatial_Relation_And_Object::
-~Feature_Region_Merge_Spatial_Relation_And_Object() {
+Feature_Region_Merge_Spatial_Relation_And_Region::
+~Feature_Region_Merge_Spatial_Relation_And_Region() {
 
 }
 
-Feature_Region_Merge_Spatial_Relation_And_Object::
-Feature_Region_Merge_Spatial_Relation_And_Object( const Feature_Region_Merge_Spatial_Relation_And_Object& other ) : Feature( other ) {
+Feature_Region_Merge_Spatial_Relation_And_Region::
+Feature_Region_Merge_Spatial_Relation_And_Region( const Feature_Region_Merge_Spatial_Relation_And_Region& other ) : Feature( other ) {
 
 }
 
-Feature_Region_Merge_Spatial_Relation_And_Object&
-Feature_Region_Merge_Spatial_Relation_And_Object::
-operator=( const Feature_Region_Merge_Spatial_Relation_And_Object& other ) {
+Feature_Region_Merge_Spatial_Relation_And_Region&
+Feature_Region_Merge_Spatial_Relation_And_Region::
+operator=( const Feature_Region_Merge_Spatial_Relation_And_Region& other ) {
   _invert = other._invert;
   return (*this);
 }
 
 bool
-Feature_Region_Merge_Spatial_Relation_And_Object::
+Feature_Region_Merge_Spatial_Relation_And_Region::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -80,7 +80,7 @@ value( const unsigned int& cv,
 }
 
 bool
-Feature_Region_Merge_Spatial_Relation_And_Object::
+Feature_Region_Merge_Spatial_Relation_And_Region::
 value( const unsigned int& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -90,13 +90,13 @@ value( const unsigned int& cv,
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
     vector< const Spatial_Relation* > child_spatial_relations = find_in_vector_of_pairs< Phrase, Grounding, Spatial_Relation >( children );
-    vector< const Object* > child_objects = find_in_vector_of_pairs< Phrase, Grounding, Object >( children );
+    vector< const Region* > child_regions = find_in_vector_of_pairs< Phrase, Grounding, Region >( children );
 
-    if( ( !child_spatial_relations.empty() ) && ( !child_objects.empty() ) ){
+    if( ( !child_spatial_relations.empty() ) && ( !child_regions.empty() ) ){
       for( vector< const Spatial_Relation* >::const_iterator it_child_spatial_relation = child_spatial_relations.begin(); it_child_spatial_relation != child_spatial_relations.end(); it_child_spatial_relation++ ){
-        for( vector< const Object* >::const_iterator it_child_object = child_objects.begin(); it_child_object != child_objects.end(); it_child_object++ ){
+        for( vector< const Region* >::const_iterator it_child_region = child_regions.begin(); it_child_region != child_regions.end(); it_child_region++ ){
           if( region->spatial_relation_type() == (*it_child_spatial_relation)->spatial_relation_type() ){
-            if( region->object_id() == (*it_child_object)->name() ){
+            if( region->object_id() == (*it_child_region)->object_id() ){
               return !_invert;
             } 
           }
@@ -104,28 +104,14 @@ value( const unsigned int& cv,
       }
       return _invert;
     }
-    /*
-    for( unsigned int i = 0; i < known_region_type_and_unknown_object_type.size(); i++ ){
-      for( unsigned int j = 0; j < known_object_type_and_unknown_region_type.size(); j++ ){
-        map< string, Object* >::const_iterator it_child_region_object = world->objects().find( known_object_type_and_unknown_region_type[ j ]->object_id() );
-        if( ( region->spatial_relation_type() == known_region_type_and_unknown_object_type[ i ]->spatial_relation_type() ) && ( it_region_object->second->type() == it_child_region_object->second->type() ) ){
-          return !_invert;
-        }
-      }
-    }   
-
-    if( !known_region_type_and_unknown_object_type.empty() && !known_object_type_and_unknown_region_type.empty() ){       
-      return _invert;
-    }
-    */
   }
   return false;
 }
 
 void
-Feature_Region_Merge_Spatial_Relation_And_Object::
+Feature_Region_Merge_Spatial_Relation_And_Region::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_region_merge_spatial_relation_and_object" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_region_merge_spatial_relation_and_region" ), NULL );
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
@@ -134,7 +120,7 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
 }
 
 void
-Feature_Region_Merge_Spatial_Relation_And_Object::
+Feature_Region_Merge_Spatial_Relation_And_Region::
 from_xml( xmlNodePtr root ){
   _invert = false;
   if( root->type == XML_ELEMENT_NODE ){
@@ -151,8 +137,8 @@ from_xml( xmlNodePtr root ){
 namespace h2sl {
   ostream&
   operator<<( ostream& out,
-              const Feature_Region_Merge_Spatial_Relation_And_Object& other ) {
-    out << "Feature_Region_Merge_Spatial_Relation_And_Object:(invert:(" << other.invert() << "))";
+              const Feature_Region_Merge_Spatial_Relation_And_Region& other ) {
+    out << "Feature_Region_Merge_Spatial_Relation_And_Region:(invert:(" << other.invert() << "))";
     return out;
   }
 

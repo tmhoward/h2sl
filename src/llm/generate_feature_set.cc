@@ -37,6 +37,7 @@
 #include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h"
 #include "h2sl/feature_matches_child.h"
+#include "h2sl/feature_matches_only_child.h"
 #include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
 #include "h2sl/feature_object_merge_object_property_container.h"
 #include "h2sl/feature_object_merge_object_property_region_container.h"
@@ -45,6 +46,7 @@
 #include "h2sl/feature_object_matches_child_region_container_object.h"
 #include "h2sl/feature_region_object_matches_child.h"
 #include "h2sl/feature_region_merge_spatial_relation_and_object.h"
+#include "h2sl/feature_region_merge_spatial_relation_and_region.h"
 #include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
 #include "h2sl/feature_constraint_payload_string_property_value.h"
 #include "h2sl/feature_constraint_reference_matches_child.h"
@@ -153,7 +155,7 @@ main( int argc,
       }
     }
     map< string, vector< string > >::const_iterator it_object_colors = symbol_dictionary->string_types().find( "object_color" );
-    if( it_object_colors != symbol_dictionary->string_types().find( "object_color" ) ){
+    if( it_object_colors != symbol_dictionary->string_types().end() ){
       for( vector< string >::const_iterator it_object_color = it_object_colors->second.begin(); it_object_color != it_object_colors->second.end(); it_object_color++ ){
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "object", "object_color", *it_object_color ) );
       }
@@ -251,6 +253,14 @@ main( int argc,
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Object_Matches_Child( false ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Object( true ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Object( false ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Region( true ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Region( false ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region", "spatial_relation", "region", "spatial_relation" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "region", "spatial_relation", "region", "spatial_relation" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region", "object_id", "region", "object_id" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "region", "object_id", "region", "object_id" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region", "spatial_relation", "spatial_relation", "spatial_relation_type" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "region", "spatial_relation", "spatial_relation", "spatial_relation_type" ) );
   }
 
   if( find( it_class_names->second.begin(), it_class_names->second.end(), "constraint" ) != it_class_names->second.end() ){
@@ -293,6 +303,10 @@ main( int argc,
     }
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Spatial_Relation >( false ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Spatial_Relation >( true ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Spatial_Relation >( false ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Spatial_Relation >( true ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "spatial_relation", "spatial_relation_type", "spatial_relation", "spatial_relation_type" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "spatial_relation", "spatial_relation_type", "spatial_relation", "spatial_relation_type" ) );
   }
 
   if( find( it_class_names->second.begin(), it_class_names->second.end(), "object_type" ) != it_class_names->second.end() ){
@@ -316,7 +330,7 @@ main( int argc,
     map< string, vector< string > >::const_iterator it_object_colors = symbol_dictionary->string_types().find( "object_color" );
     if( it_object_colors != symbol_dictionary->string_types().end() ){
       for( vector< string >::const_iterator it_object_color = it_object_colors->second.begin(); it_object_color != it_object_colors->second.end(); it_object_color++ ){
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "object_color", "object_color", *it_object_color ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "object_color", "object_color_type", *it_object_color ) );
       }
     }
   }
