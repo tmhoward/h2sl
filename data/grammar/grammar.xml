@@ -7,13 +7,13 @@
     <grammar_terminal symbol="EX" words="there"/>
     <grammar_terminal symbol="FW" words=""/>
     <grammar_terminal symbol="IN" words="near,at,toward,towards,by,for,of,in,from,behind,on"/>
-    <grammar_terminal symbol="JJ" words=""/>
+    <grammar_terminal symbol="JJ" words="white"/>
     <grammar_terminal symbol="JJR" words=""/>
     <grammar_terminal symbol="JJS" words=""/>
     <grammar_terminal symbol="LS" words=""/>
     <grammar_terminal symbol="MD" words=""/>
     <grammar_terminal symbol="NN" words="robot,box,crate,package,table,desk,chair,couch,sofa,sink,mug,cup,glass,can,fridge,refrigerator,hammer,mallet,screwdriver,pipe,tube,newspaper,marker,pen,tape,bone,left,right,front,back,bottle,seat,stool,counter,car,tree,location"/>
-    <grammar_terminal symbol="NNS" words=""/>
+    <grammar_terminal symbol="NNS" words="chairs"/>
     <grammar_terminal symbol="NNP" words=""/>
     <grammar_terminal symbol="NNPS" words=""/>
     <grammar_terminal symbol="PDT" words=""/>

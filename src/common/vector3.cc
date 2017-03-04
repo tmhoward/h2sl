@@ -184,6 +184,13 @@ from_std_string( const string& arg ){
     for( unsigned int i = 0; i < data_strings.size(); i++ ){
       _data[ i ] = strtof( data_strings[ i ].c_str(), NULL );
     }
+  } else if ( data_strings.size() == 1 ) {
+    boost::split( data_strings, arg, boost::is_any_of( " " ) );
+    if( data_strings.size() == 3 ){
+      for( unsigned int i = 0; i < data_strings.size(); i++ ){
+        _data[ i ] = strtof( data_strings[ i ].c_str(), NULL );
+      }
+    }
   }
   return;
 }
