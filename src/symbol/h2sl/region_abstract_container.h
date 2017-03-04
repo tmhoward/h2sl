@@ -38,6 +38,7 @@ namespace h2sl {
     virtual Region_Abstract_Container* dup( void )const;
    
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "region_abstract_container" ); };
+    virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType ); 
 
     virtual void from_xml( const std::string& file );

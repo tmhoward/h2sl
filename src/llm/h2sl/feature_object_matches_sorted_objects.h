@@ -20,7 +20,8 @@ namespace h2sl {
    */
   class Feature_Object_Matches_Sorted_Objects : public Feature {
   public:
-    Feature_Object_Matches_Sorted_Objects( const bool& invert = false );
+    Feature_Object_Matches_Sorted_Objects( const bool& invert = false, const int& number = 0, const std::string& sortingKey = "na" );
+    Feature_Object_Matches_Sorted_Objects( xmlNodePtr root );
     Feature_Object_Matches_Sorted_Objects( const Feature_Object_Matches_Sorted_Objects& other );
     virtual ~Feature_Object_Matches_Sorted_Objects();
     Feature_Object_Matches_Sorted_Objects& operator=( const Feature_Object_Matches_Sorted_Objects& other );
@@ -33,6 +34,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
+    inline int& number( void ){ return get_prop< int >( _int_properties, "number" ); };
+    inline const int& number( void )const{ return get_prop< int >( _int_properties, "number" ); };
     inline std::string& sorting_key( void ){ return get_prop< std::string >( _string_properties, "sorting_key" ); };
     inline const std::string& sorting_key( void )const{ return get_prop< std::string >( _string_properties, "sorting_key" ); };
 

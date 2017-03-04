@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <symbol_dictionary>
+    <class_names>
+      <ADJP class_names=""/>
+      <ADVP class_names=""/>
+      <M class_names=""/>
+      <NP class_names="object,region,spatial_relation"/>
+      <PHRASE_UNKNOWN class_names=""/>
+      <PP class_names="object,region"/>
+      <PRT class_names=""/>
+      <S class_names=""/>
+      <SBAR class_names=""/>
+      <VP class_names="constraint"/>
+      <WHNP class_names=""/>
+      <WHVP class_names=""/>
+    </class_names>
+    <string_property key="constraint_payload_type" value="robot"/>
+    <string_property key="constraint_reference_type" value="box,sink,chair,table,fridge,hammer,pipe,bottle,couch"/>
+    <string_property key="constraint_type" value="inside,outside"/>
+    <string_property key="object_color" value="na"/>
+    <string_property key="object_type" value="box,sink,chair,table,fridge,hammer,pipe,bottle,couch"/>
+    <string_property key="spatial_relation_type" value="na,left,front,near,right,back"/>
+  </symbol_dictionary>
+</root>

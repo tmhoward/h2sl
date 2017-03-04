@@ -79,7 +79,7 @@ operator==( const Container& other )const{
      for( unsigned int i = 0; i < _groundings.size(); i++ ){
        bool found_match = false;
        for( unsigned int j = 0; j < other.container().size(); j++ ){
-         if( *_groundings[ i ] == *other.container()[ j ] ){
+         if( _groundings[ i ] == other.container()[ j ] ){
            found_match = true;
          }
        }
@@ -112,58 +112,70 @@ dup( void )const{
 
 void
 Container::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  insert_unique< std::string >( "container_type", type(), stringTypes );
+  return;
+}
+
+void
+Container::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
 
-  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
-  if( it_search_spaces_symbol == searchSpaces.end() ){
-    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
-    it_search_spaces_symbol = searchSpaces.find( class_name() );
-  }
+  if( symbolDictionary.has_class_name( class_name() ) ){
+    map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+    if( it_search_spaces_symbol == searchSpaces.end() ){
+      searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+      it_search_spaces_symbol = searchSpaces.find( class_name() );
+    }
 
-  map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
-  map< string, vector< string > >::const_iterator it_container_type_types = symbolDictionary.string_types().find( "container_type" );
+    map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
+    map< string, vector< string > >::const_iterator it_container_type_types = symbolDictionary.string_types().find( "container_type" );
 
-  switch( symbolType ){
-  case( SYMBOL_TYPE_ABSTRACT ):
-  case( SYMBOL_TYPE_ALL ):
-    if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_container_type_types != symbolDictionary.string_types().end() ) ){
-      for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
-        it_search_spaces_symbol->second.second.push_back( new Container( vector< Grounding* >(), it_container_type_types->second[ k ] ) );
-      }  
+    switch( symbolType ){
+    case( SYMBOL_TYPE_ABSTRACT ):
+    case( SYMBOL_TYPE_ALL ):
+      if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_container_type_types != symbolDictionary.string_types().end() ) ){
+        for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
+          it_search_spaces_symbol->second.second.push_back( new Container( vector< Grounding* >(), it_container_type_types->second[ k ] ) );
+        }  
 
-      for( unsigned int i = 0 ; i < it_object_type_types->second.size(); i++ ){
-        vector< Object* > objects;
-//        for( unsigned int j = 0; j < world->objects().size(); j++ ){
-        for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
-          if( it_world_object->second->type() == it_object_type_types->second[ i ] ){
-            objects.push_back( it_world_object->second );
-          }
-        }
-        const unsigned int num_sets = pow( 2, objects.size() );
-        for( unsigned int j = 0; j < num_sets; j++ ){
-          vector< Grounding* > container_objects;
-          for( unsigned int k = 0; k < objects.size(); k++ ){
-            int mask = 1 << k;
-            if( mask & j ){
-              container_objects.push_back( dynamic_cast< Grounding* >( objects[ k ] ) );
+        for( unsigned int i = 0 ; i < it_object_type_types->second.size(); i++ ){
+          vector< Object* > objects;
+          for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
+            if( it_world_object->second->type() == it_object_type_types->second[ i ] ){
+              objects.push_back( it_world_object->second );
             }
           }
-          if( container_objects.size() > 1 ){
-            for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
-              it_search_spaces_symbol->second.second.push_back( new Container( container_objects, it_container_type_types->second[ k ] ) );
+          const unsigned int num_sets = pow( 2, objects.size() );
+          for( unsigned int j = 0; j < num_sets; j++ ){
+            vector< Grounding* > container_objects;
+            for( unsigned int k = 0; k < objects.size(); k++ ){
+              int mask = 1 << k;
+              if( mask & j ){
+                container_objects.push_back( dynamic_cast< Grounding* >( objects[ k ] ) );
+              }
+            }
+            if( container_objects.size() > 1 ){
+              for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
+                it_search_spaces_symbol->second.second.push_back( new Container( container_objects, it_container_type_types->second[ k ] ) );
+              }
             }
           }
         }
       }
+      break;
+    case( SYMBOL_TYPE_CONCRETE ):
+    case( NUM_SYMBOL_TYPES ):
+    default:
+      break;
     }
-    break;
-  case( SYMBOL_TYPE_CONCRETE ):
-  case( NUM_SYMBOL_TYPES ):
-  default:
-    break;
   }
 
   return;

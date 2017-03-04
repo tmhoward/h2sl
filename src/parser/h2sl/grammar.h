@@ -77,6 +77,7 @@ namespace h2sl {
     void cnyify( void );
 
     static void scrape_phrases( const Phrase* phrase, std::vector< Grammar_Terminal >& terminals, std::vector< Grammar_Non_Terminal >& nonTerminals );
+    static void scrape_phrases( const Phrase* phrase, std::map< std::string, std::vector< Grammar_Terminal > >& terminals, std::map< std::string, std::vector< Grammar_Non_Terminal > >& nonTerminals );
 
     void to_xml( const std::string& filename )const;
     void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

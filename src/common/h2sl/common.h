@@ -576,7 +576,7 @@ namespace h2sl {
    */
   template< class C >
   inline void insert_unique( const std::string& key, 
-                              const std::string& value,
+                              const C& value,
                               std::map< std::string, std::vector< C > >& types ){
     typename std::map< std::string, std::vector< C > >::iterator it_types = types.find( key );
     if( it_types == types.end() ){

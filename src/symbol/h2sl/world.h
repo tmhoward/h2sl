@@ -80,6 +80,8 @@ namespace h2sl {
     static void max_y_sort_objects( std::vector< Object* >& objects );
    
     // Sorting according to the absolute y coordinate.
+    static bool min_abs_x_sort( const Object* a, const Object* b );
+    static bool max_abs_x_sort( const Object* a, const Object* b );
     static bool min_abs_y_sort( const Object* a, const Object* b );
     static bool max_abs_y_sort( const Object* a, const Object* b );
  
@@ -100,34 +102,11 @@ namespace h2sl {
     static void max_center_distance_sort_objects( std::vector< Object* >& objects );
      
     inline const std::map< std::string, std::map< std::string, std::vector< Object* > > >& sorted_objects( void )const{ return _sorted_objects; };
- /*
-    // Accessors for the sorted world model objects.
-    inline const std::map< std::string, std::vector< Object* > >& min_x_sorted_objects( void )const{ return _min_x_sorted_objects; };
-    //inline std::map< std::string, std::vector< Object* > >& min_x_sorted_objects( void ){ return _min_x_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& max_x_sorted_objects( void )const{ return _max_x_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& min_y_sorted_objects( void )const{ return _min_y_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& max_y_sorted_objects( void )const{ return _max_y_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& min_abs_y_sorted_objects( void )const{ return _min_abs_y_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& max_abs_y_sorted_objects( void )const{ return _max_abs_y_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& min_z_sorted_objects( void )const{ return _min_z_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& max_z_sorted_objects( void )const{ return _max_z_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& min_distance_sorted_objects( void )const{ return _min_distance_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& max_distance_sorted_objects( void )const{ return _max_distance_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& min_center_distance_sorted_objects( void )const{ return _min_center_distance_sorted_objects; };
-    inline const std::map< std::string, std::vector< Object* > >& max_center_distance_sorted_objects( void )const{ return _max_center_distance_sorted_objects; };
-*/      
+    
     // Time stamp for the world model
     inline unsigned long long& time( void ){ return _time; };
     inline const unsigned long long& time( void )const{ return _time; };
-/*
-    // Conversion of number strings to numeric values
-    inline std::map< std::string, unsigned int>& numeric_map( void ){ return _numeric_map; };
-    inline const std::map< std::string, unsigned int>& numeric_map( void )const{ return _numeric_map; };
-      
-    // Conversion of index strings to index values
-    inline std::map< std::string, unsigned int>& index_map( void ){ return _index_map; };
-    inline const std::map< std::string, unsigned int>& index_map( void )const{ return _index_map; };
-*/
+    
     // Convert model format.
     virtual void convert_models( xmlNodePtr root );
 
@@ -141,37 +120,9 @@ namespace h2sl {
     // Sorted world model objects.
     std::map< std::string, std::map< std::string, std::vector< Object* > > > _sorted_objects;
 
-    // Map of object type string and the vector of objects.
-/*
-    std::map< std::string, std::vector< Object* > > _min_x_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _max_x_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _min_y_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _max_y_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _min_abs_y_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _max_abs_y_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _min_z_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _max_z_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _min_distance_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _max_distance_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _min_center_distance_sorted_objects;
-    std::map< std::string, std::vector< Object* > > _max_center_distance_sorted_objects;
-*/
-/*
-    // Numeric conversion
-    std::map< std::string, unsigned int> _numeric_map;
-      
-    // Index conversion
-    std::map< std::string, unsigned int> _index_map;
-*/ 
     // Initialise sorted object collections
     void initialise_sorted_object_collections( void );
-/*
-    // Initialise the numeric map
-    void initialise_numeric_map( void );
-      
-    // Initialise the index map
-    void initialise_index_map( void );
-*/
+    
   private:
 
   };

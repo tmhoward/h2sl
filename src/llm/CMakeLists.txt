@@ -15,8 +15,11 @@ set(HDRS
     h2sl/feature.h
     h2sl/feature_cv.h
     h2sl/feature_word.h
+    h2sl/feature_phrase_type_and_word.h
     h2sl/feature_num_words.h
+    h2sl/feature_phrase_type_and_num_words.h
     h2sl/feature_num_child_phrases.h
+    h2sl/feature_phrase_type_and_num_child_phrases.h
     h2sl/feature_type.h
     h2sl/feature_type.ipp
     h2sl/feature_matches_child.h
@@ -46,11 +49,12 @@ set(HDRS
     #h2sl/feature_action_object_matches_child.h
 #    h2sl/feature_spatial_relation_matches_child.h
 #    h2sl/feature_container_number.h
-#    h2sl/feature_container_number_equals_world_objects.h
-#    h2sl/feature_container_is_empty.h
+    h2sl/feature_container_number_equals_world_objects.h
+    h2sl/feature_container_is_empty.h
 #    h2sl/feature_container_type_matches_child_container_type.h
 #    h2sl/feature_object_property_merge_object_property_container.h
     h2sl/feature_phrase_has_pos_tag.h
+    h2sl/feature_phrase_type_and_phrase_has_pos_tag.h
     h2sl/feature_phrase_has_single_pos_tag.h
     h2sl/feature_phrase_has_ordered_pos_tag_pair.h
 #    h2sl/feature_object_property_merge_object_property_spatial_relation.h
@@ -62,7 +66,7 @@ set(HDRS
 #    h2sl/feature_region_container_container_matches_child_container.h
 #    h2sl/feature_region_container_type.h
 #    h2sl/feature_region_container_container_type.h
-#    h2sl/feature_object_matches_sorted_objects.h
+    h2sl/feature_object_matches_sorted_objects.h
 #    h2sl/feature_max_x_abstract_container.h
 #    h2sl/feature_max_distance_object_within.h
 #    h2sl/feature_min_distance_object_within.h
@@ -91,20 +95,23 @@ set(HDRS
 #    h2sl/feature_max_x_region_abstract_container.h
 #    h2sl/feature_container_min_distance.h
 #    h2sl/feature_container_max_distance.h
-#    h2sl/feature_object_matches_child_container_object.h
+    h2sl/feature_object_matches_child_container_object.h
+    h2sl/feature_object_matches_child_region_container_object.h
 #    h2sl/feature_object_number_matches_world_object_number.h
-#    h2sl/feature_abstract_container_number_equals_world_objects.h
+    h2sl/feature_abstract_container_number_equals_world_objects.h
 #    h2sl/feature_object_merge_object_property_spatial_relation.h
 #    h2sl/feature_object_merge_object_property_index_spatial_relation.h
 #    h2sl/feature_object_merge_object_container.h
 #    h2sl/feature_object_merge_abstract_container_index_region_container.h
 #    h2sl/feature_object_merge_container_pair.h
 #    h2sl/feature_object_merge_object_different_container.h
-#    h2sl/feature_object_merge_object_property_region_container.h
+    h2sl/feature_object_merge_object_property_region_container.h
 #    h2sl/feature_object_merge_object_region_container.h
 #    h2sl/feature_object_merge_single_object_different_container.h
 #    h2sl/feature_object_merge_abstract_container_region_container.h
-#    h2sl/feature_object_merge_abstract_container_spatial_relation.h
+    h2sl/feature_object_merge_abstract_container_spatial_relation.h
+    h2sl/feature_object_merge_object_property_container.h
+    h2sl/feature_container_merge_abstract_container_spatial_relation.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -115,8 +122,11 @@ set(SRCS
     feature.cc
     feature_cv.cc
     feature_word.cc
+    feature_phrase_type_and_word.cc
     feature_num_words.cc
+    feature_phrase_type_and_num_words.cc
     feature_num_child_phrases.cc
+    feature_phrase_type_and_num_child_phrases.cc
     feature_grounding_string_property_value.cc
     feature_grounding_int_property_value.cc
     feature_grounding_string_property_value_matches_child_string_property_value.cc
@@ -141,11 +151,12 @@ set(SRCS
     #feature_action_object_matches_child.cc
 #    feature_spatial_relation_matches_child.cc
 #    feature_container_number.cc
-#    feature_container_number_equals_world_objects.cc
-#    feature_container_is_empty.cc
+    feature_container_number_equals_world_objects.cc
+    feature_container_is_empty.cc
 #    feature_container_type_matches_child_container_type.cc
 #    feature_object_property_merge_object_property_container.cc
     feature_phrase_has_pos_tag.cc
+    feature_phrase_type_and_phrase_has_pos_tag.cc
     feature_phrase_has_single_pos_tag.cc
     feature_phrase_has_ordered_pos_tag_pair.cc
 #    feature_object_property_merge_object_property_spatial_relation.cc
@@ -157,7 +168,7 @@ set(SRCS
 #    feature_region_container_container_matches_child_container.cc
 #    feature_region_container_type.cc
 #    feature_region_container_container_type.cc
-#    feature_object_matches_sorted_objects.cc
+    feature_object_matches_sorted_objects.cc
 #    feature_max_x_abstract_container.cc
 #    feature_max_distance_object_within.cc
 #    feature_min_distance_object_within.cc
@@ -188,20 +199,23 @@ set(SRCS
 #    feature_object_matches_child.cc
 #    feature_container_min_distance.cc
 #    feature_container_max_distance.cc
-#    feature_object_matches_child_container_object.cc
+    feature_object_matches_child_container_object.cc
+    feature_object_matches_child_region_container_object.cc
 #    feature_object_number_matches_world_object_number.cc
-#    feature_abstract_container_number_equals_world_objects.cc
+    feature_abstract_container_number_equals_world_objects.cc
 #    feature_object_merge_object_property_spatial_relation.cc
 #    feature_object_merge_object_property_index_spatial_relation.cc
 #    feature_object_merge_object_container.cc
 #    feature_object_merge_abstract_container_index_region_container.cc
 #    feature_object_merge_container_pair.cc
 #    feature_object_merge_object_different_container.cc
-#    feature_object_merge_object_property_region_container.cc
+    feature_object_merge_object_property_region_container.cc
 #    feature_object_merge_object_region_container.cc
 #    feature_object_merge_single_object_different_container.cc
 #    feature_object_merge_abstract_container_region_container.cc
-#    feature_object_merge_abstract_container_spatial_relation.cc
+    feature_object_merge_abstract_container_spatial_relation.cc
+    feature_object_merge_object_property_container.cc
+    feature_container_merge_abstract_container_spatial_relation.cc
     llm.cc)
 
 # BINARY SOURCE FILES

@@ -32,13 +32,25 @@
  */
 
 #include <assert.h>
+#include <typeinfo>
 
 #include "h2sl/object.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
+#include "h2sl/container.h"
+#include "h2sl/object_type.h"
+#include "h2sl/object_property.h"
+#include "h2sl/object_color.h"
+#include "h2sl/index.h"
+#include "h2sl/number.h"
+#include "h2sl/abstract_container.h"
 
 #include "h2sl/feature_word.h"
+#include "h2sl/feature_phrase_type_and_word.h"
 #include "h2sl/feature_num_words.h"
+#include "h2sl/feature_phrase_type_and_num_words.h"
+#include "h2sl/feature_num_child_phrases.h"
+#include "h2sl/feature_phrase_type_and_num_child_phrases.h"
 #include "h2sl/feature_cv.h"
 #include "h2sl/feature_type.h"
 #include "h2sl/feature_matches_child.h"
@@ -51,9 +63,14 @@
 #include "h2sl/feature_constraint_reference_type.h"
 #include "h2sl/feature_grounding_string_property_value.h"
 #include "h2sl/feature_grounding_int_property_value.h"
+#include "h2sl/feature_grounding_class_name.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"
 #include "h2sl/feature_region_container_matches_child.h"
+#include "h2sl/feature_object_matches_sorted_objects.h"
+#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
+#include "h2sl/feature_object_merge_object_property_container.h"
+#include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
 //#include "h2sl/feature_action_object_matches_child.h"
 //#include "h2sl/feature_spatial_relation_matches_child.h"
 //#include "h2sl/feature_is_abstract_container.h"
@@ -65,10 +82,11 @@
 //#include "h2sl/feature_is_spatial_relation.h"
 //#include "h2sl/feature_container_number.h"
 //#include "h2sl/feature_container_number_equals_world_objects.h"
-//#include "h2sl/feature_container_is_empty.h"
+#include "h2sl/feature_container_is_empty.h"
 //#include "h2sl/feature_container_type_matches_child_container_type.h"
 //#include "h2sl/feature_object_property_merge_object_property_container.h"
-//#include "h2sl/feature_phrase_has_pos_tag.h"
+#include "h2sl/feature_phrase_has_pos_tag.h"
+#include "h2sl/feature_phrase_type_and_phrase_has_pos_tag.h"
 //#include "h2sl/feature_phrase_has_single_pos_tag.h"
 //#include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
 //#include "h2sl/feature_object_property_merge_object_property_spatial_relation.h"
@@ -114,7 +132,8 @@
 //#include "h2sl/feature_min_x_region_abstract_container_spatial_relation.h"
 //#include "h2sl/feature_max_x_region_abstract_container.h"
 //#include "h2sl/feature_object_matches_child.h"
-//#include "h2sl/feature_object_matches_child_container_object.h"
+#include "h2sl/feature_object_matches_child_container_object.h"
+#include "h2sl/feature_object_matches_child_region_container_object.h"
 //#include "h2sl/feature_container_min_distance.h"
 //#include "h2sl/feature_container_max_distance.h"
 //#include "h2sl/feature_object_number_matches_world_object_number.h"
@@ -186,8 +205,16 @@ namespace h2sl {
               const Feature& other ) {
     if( dynamic_cast< const Feature_Word* >( &other ) != NULL ){
       out << *static_cast< const Feature_Word* >( &other );
+    } else if( dynamic_cast< const Feature_Phrase_Type_And_Word* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Phrase_Type_And_Word* >( &other );
     } else if( dynamic_cast< const Feature_Num_Words* >( &other ) != NULL ){
       out << *static_cast< const Feature_Num_Words* >( &other );
+    } else if( dynamic_cast< const Feature_Phrase_Type_And_Num_Words* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Phrase_Type_And_Num_Words* >( &other );
+    } else if( dynamic_cast< const Feature_Num_Child_Phrases* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Num_Child_Phrases* >( &other );
+    } else if( dynamic_cast< const Feature_Phrase_Type_And_Num_Child_Phrases* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Phrase_Type_And_Num_Child_Phrases* >( &other );
     } else if( dynamic_cast< const Feature_CV* >( &other ) != NULL ){
       out << *static_cast< const Feature_CV* >( &other );
     } else if( dynamic_cast< const Feature_Matches_Child< Object >* >( &other ) != NULL ){
@@ -196,6 +223,20 @@ namespace h2sl {
       out << *static_cast< const Feature_Matches_Child< Region >* >( &other );
     } else if( dynamic_cast< const Feature_Matches_Child< Constraint >* >( &other ) != NULL ){
       out << *static_cast< const Feature_Matches_Child< Constraint >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Object_Type >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Object_Type >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Object_Color >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Object_Color >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Object_Property >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Object_Property >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Number >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Number >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Index >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Index >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Abstract_Container >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Abstract_Container >* >( &other );
+    } else if( dynamic_cast< const Feature_Matches_Child< Container >* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Matches_Child< Container >* >( &other );
     } else if( dynamic_cast< const Feature_Object_Matches_Child< Region, Object >* >( &other ) != NULL ){
       out << *static_cast< const Feature_Object_Matches_Child< Region, Object >* >( &other );
     } else if( dynamic_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other ) != NULL ){
@@ -212,6 +253,8 @@ namespace h2sl {
       out << *static_cast< const Feature_Grounding_String_Property_Value* >( &other );
     } else if ( dynamic_cast< const Feature_Grounding_Int_Property_Value* >( &other ) != NULL ){
       out << *static_cast< const Feature_Grounding_Int_Property_Value* >( &other );
+    } else if ( dynamic_cast< const Feature_Grounding_Class_Name* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Grounding_Class_Name* >( &other );
     } else if ( dynamic_cast< const Feature_Abstract_Container_Matches_Child* >( &other ) != NULL ){
         out << *static_cast< const Feature_Abstract_Container_Matches_Child* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Object_String_Property_Value* >( &other ) != NULL ){
@@ -220,6 +263,14 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Matches_Child* >( &other );
     } else if ( dynamic_cast< const Feature_Region_Container_Matches_Child* >( &other ) != NULL ){
         out << *static_cast< const Feature_Region_Container_Matches_Child* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Matches_Sorted_Objects* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Matches_Sorted_Objects* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Property_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Merge_Abstract_Container_Spatial_Relation* >( &other );
     //} else if ( dynamic_cast< const Feature_Action_Object_Matches_Child* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Action_Object_Matches_Child* >( &other );
 /*
@@ -243,14 +294,20 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Number* >( &other );
     //} else if ( dynamic_cast< const Feature_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Container_Number_Equals_World_Objects* >( &other );
+*/
     } else if ( dynamic_cast< const Feature_Container_Is_Empty* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Is_Empty* >( &other );
+/*
     } else if ( dynamic_cast< const Feature_Container_Type_Matches_Child_Container_Type* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Type_Matches_Child_Container_Type* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Property_Merge_Object_Property_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Property_Merge_Object_Property_Container* >( &other );
+*/
     } else if ( dynamic_cast< const Feature_Phrase_Has_POS_Tag* >( &other ) != NULL ){
         out << *static_cast< const Feature_Phrase_Has_POS_Tag* >( &other );
+    } else if ( dynamic_cast< const Feature_Phrase_Type_And_Phrase_Has_POS_Tag* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Phrase_Type_And_Phrase_Has_POS_Tag* >( &other );
+/*
     } else if ( dynamic_cast< const Feature_Phrase_Has_Single_POS_Tag* >( &other ) != NULL ){
         out << *static_cast< const Feature_Phrase_Has_Single_POS_Tag* >( &other );
     } else if ( dynamic_cast< const Feature_Phrase_Has_Ordered_POS_Tag_Pair* >( &other ) != NULL ){
@@ -347,8 +404,12 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Number_Matches_World_Object_Number* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Number_Equals_World_Objects* >( &other );
+*/
     } else if ( dynamic_cast< const Feature_Object_Matches_Child_Container_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Matches_Child_Container_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Matches_Child_Region_Container_Object* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Matches_Child_Region_Container_Object* >( &other );
+/*
     } else if ( dynamic_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
         out << *static_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other ) != NULL ){
@@ -373,7 +434,7 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other );
 */
     } else {
-//      assert( false );
+      cout << "could not load \"" << typeid( other ).name() << "\"" << endl;
     } 
     return out;
   }

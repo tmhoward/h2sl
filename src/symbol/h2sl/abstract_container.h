@@ -40,6 +40,7 @@ namespace h2sl {
     Abstract_Container* dup( void )const;
 
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "abstract_container" ); };
+    virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );
 
     inline std::string& type( void ){
@@ -58,9 +59,9 @@ namespace h2sl {
               return get_prop< int >( _int_properties, "index" ); };
  
     inline std::string& color( void ){
-              return get_prop< std::string >( _string_properties, "object_color_type" ); };
+              return get_prop< std::string >( _string_properties, "object_color" ); };
     inline const std::string& color( void )const{
-              return get_prop< std::string >( _string_properties, "object_color_type" ); };
+              return get_prop< std::string >( _string_properties, "object_color" ); };
     
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

@@ -29,6 +29,9 @@ main( int argc,
   }  
 
   Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary();
+  for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
+    symbol_dictionary->class_names().insert( pair< string, vector< string > >( Phrase::phrase_type_t_to_std_string( ( phrase_type_t )( i ) ), vector< string >() ) );
+  }
 
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
     World * world = new World();

@@ -71,6 +71,7 @@ main( int argc,
   }
 
   DCG * dcg = new DCG();
+  dcg->symbol_dictionary().from_xml( args.symbol_dictionary_arg );
 
   GUI gui( grammar, parser, world, context, llm, dcg, args.beam_width_arg );
 

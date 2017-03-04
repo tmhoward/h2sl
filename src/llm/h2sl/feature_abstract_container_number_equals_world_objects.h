@@ -22,6 +22,7 @@ namespace h2sl {
   class Feature_Abstract_Container_Number_Equals_World_Objects : public Feature {
   public:
     Feature_Abstract_Container_Number_Equals_World_Objects( const bool& invert = false );
+    Feature_Abstract_Container_Number_Equals_World_Objects( xmlNodePtr root );
     Feature_Abstract_Container_Number_Equals_World_Objects( const Feature_Abstract_Container_Number_Equals_World_Objects& other );
     virtual ~Feature_Abstract_Container_Number_Equals_World_Objects();
     Feature_Abstract_Container_Number_Equals_World_Objects& operator=( const Feature_Abstract_Container_Number_Equals_World_Objects& other );

@@ -38,7 +38,9 @@
 #include "h2sl/constraint.h"
 #include "h2sl/grounding_set.h"
 #include "h2sl/abstract_container.h"
+#include "h2sl/region_abstract_container.h"
 #include "h2sl/container.h"
+#include "h2sl/region_container.h"
 #include "h2sl/index.h"
 #include "h2sl/number.h"
 #include "h2sl/object_color.h"
@@ -132,8 +134,12 @@ namespace h2sl {
       out << *static_cast< const Constraint* >( &other );
     } else if( dynamic_cast< const Abstract_Container* >( &other ) != NULL ){
       out << *static_cast< const Abstract_Container* >( &other );
+    } else if( dynamic_cast< const Region_Abstract_Container* >( &other ) != NULL ){
+      out << *static_cast< const Region_Abstract_Container* >( &other );
     } else if( dynamic_cast< const Container* >( &other ) != NULL ){
       out << *static_cast< const Container* >( &other );
+    } else if( dynamic_cast< const Region_Container* >( &other ) != NULL ){
+      out << *static_cast< const Region_Container* >( &other );
     } else if( dynamic_cast< const Index* >( &other ) != NULL ){
       out << *static_cast< const Index* >( &other );
     } else if( dynamic_cast< const Number* >( &other ) != NULL ){

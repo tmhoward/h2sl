@@ -22,6 +22,11 @@ Feature_Abstract_Container_Number_Equals_World_Objects( const bool& invert ) : F
 
 }
 
+Feature_Abstract_Container_Number_Equals_World_Objects::
+Feature_Abstract_Container_Number_Equals_World_Objects( xmlNodePtr root ) : Feature() {
+  from_xml( root );
+}
+
 /**
  * Feature_Abstract_Container_Number_Equals_World_Objects class copy constructor
  */

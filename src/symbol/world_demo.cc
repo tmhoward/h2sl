@@ -57,6 +57,20 @@ main( int argc,
 
   cout << "world:(" << *world << ")" << endl;
 
+  for( map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects = world->sorted_objects().begin(); it_sorted_objects != world->sorted_objects().end(); it_sorted_objects++ ){
+    cout << "sorting:\"" << it_sorted_objects->first << "\"" << endl;
+    for( map< string, vector< Object* > >::const_iterator it_sorted_typed_objects = it_sorted_objects->second.begin(); it_sorted_typed_objects != it_sorted_objects->second.end(); it_sorted_typed_objects++ ){
+      cout << "  " << it_sorted_typed_objects->first << "[" << it_sorted_typed_objects->second.size() << "]:{";
+      for( unsigned int i = 0; i < it_sorted_typed_objects->second.size(); i++ ){
+        cout << it_sorted_typed_objects->second[ i ]->name();
+        if( i != ( it_sorted_typed_objects->second.size() - 1 ) ){
+          cout << ",";
+        }
+      }
+      cout << "}" << endl;
+    } 
+  }
+
   if( args.output_given ){
     world->to_xml( args.output_arg );
   }

@@ -346,7 +346,7 @@ sort_object_collections( void ){
 
   _sorted_objects.clear();
 
-  vector< string > sorted_object_keys = { "min_x", "max_x", "min_y", "max_y", "min_z", "maz_z", "min_abs_y", "min_abs_x", "min_distance", "max_distance", "min_center_distance", "max_center_distance" };
+  vector< string > sorted_object_keys = { "min_x", "max_x", "min_y", "max_y", "min_z", "max_z", "min_abs_x", "max_abs_x", "min_abs_y", "max_abs_y", "min_distance", "max_distance", "min_center_distance", "max_center_distance" };
 
   for( vector< string >::const_iterator it_sorted_object_keys = sorted_object_keys.begin(); it_sorted_object_keys != sorted_object_keys.end(); it_sorted_object_keys++ ){
     pair< map< string, map< string, vector< Object* > > >::iterator, bool > key_insert = _sorted_objects.insert( pair< string, map< string, vector< Object* > > >( *it_sorted_object_keys, map< string, vector< Object* > >() ) );
@@ -373,6 +373,10 @@ sort_object_collections( void ){
         sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::min_z_sort );
       } else if ( key_insert.first->first == "max_z" ){
         sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::max_z_sort );
+      } else if ( key_insert.first->first == "min_abs_x" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::min_abs_x_sort );
+      } else if ( key_insert.first->first == "max_abs_x" ){
+        sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::max_abs_x_sort );
       } else if ( key_insert.first->first == "min_abs_y" ){
         sort( it_object_vectors->second.begin(), it_object_vectors->second.end(), World::min_abs_y_sort );
       } else if ( key_insert.first->first == "max_abs_y" ){
@@ -451,6 +455,20 @@ World::
 max_y_sort_objects( vector< Object* >& objects ){
   std::sort( objects.begin(), objects.end(), World::max_y_sort );
   return;
+}
+
+bool
+World::
+min_abs_x_sort( const Object* a,
+              const Object* b ){
+  return fabs( a->transform().position().x() ) < fabs( b->transform().position().x() );
+}
+
+bool
+World::
+max_abs_x_sort( const Object* a,
+              const Object* b ){
+  return fabs( a->transform().position().x() ) > fabs( b->transform().position().x() );
 }
 
 bool

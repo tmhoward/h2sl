@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <feature_set>
+    <feature_product>
+      <feature_group>
+        <feature_cv invert="0" cv="1"/>
+        <feature_cv invert="0" cv="2"/>
+      </feature_group>
+      <feature_group>
+        <feature_phrase_type_and_word invert="0" pos="CC" text="and" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="DT" text="the" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="box" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="left" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="sink" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="front" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="chair" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="crate" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="table" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="right" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="refrigerator" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="hammer" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="mallet" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="pipe" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="bottle" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="fridge" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="package" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="desk" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="seat" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="counter" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="stool" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="back" phrase_type="NP"/>
+        <feature_phrase_type_and_word invert="0" pos="NN" text="sofa" phrase_type="NP"/>
+        <feature_phrase_has_pos_tag invert="0" pos="CD"/>
+        <feature_phrase_has_pos_tag invert="1" pos="CD"/>
+        <feature_num_words invert="0" num_words="0"/>
+        <feature_num_words invert="1" num_words="0"/>
+        <feature_num_child_phrases invert="0" num_child_phrases="0"/>
+        <feature_num_child_phrases invert="1" num_child_phrases="0"/>
+      </feature_group>
+      <feature_group>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="box"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="sink"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="chair"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="table"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="fridge"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="hammer"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="pipe"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="bottle"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="couch"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_color" symbol="na"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_center_distance"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_x"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_x"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_y"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_y"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_z"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_z"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_abs_x"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_abs_x"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_abs_y"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_abs_y"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_distance"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_distance"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_x"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_x"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_y"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_y"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_z"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_z"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_abs_x"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_abs_x"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_abs_y"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_abs_y"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_distance"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_distance"/>
+        <feature_grounding_class_name invert="0" class_name="object"/>
+        <feature_matches_child_object invert="0"/>
+        <feature_matches_child_object invert="1"/>
+        <feature_object_matches_child_container_object invert="0"/>
+        <feature_object_matches_child_container_object invert="1"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="na"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="left"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="front"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="near"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="right"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="back"/>
+        <feature_grounding_class_name invert="0" class_name="region"/>
+        <feature_matches_child_region invert="0"/>
+        <feature_matches_child_region invert="1"/>
+        <feature_region_object_matches_child invert="0"/>
+        <feature_region_merge_spatial_relation_and_object invert="1"/>
+        <feature_region_merge_spatial_relation_and_object invert="0"/>
+        <feature_grounding_class_name invert="0" class_name="spatial_relation"/>
+        <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="na"/>
+        <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="left"/>
+        <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="front"/>
+        <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="near"/>
+        <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="right"/>
+        <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="back"/>
+        <feature_matches_child_spatial_relation invert="0"/>
+        <feature_matches_child_spatial_relation invert="1"/>
+      </feature_group>
+    </feature_product>
+    <feature_product>
+      <feature_group>
+        <feature_cv invert="0" cv="1"/>
+        <feature_cv invert="0" cv="2"/>
+      </feature_group>
+      <feature_group>
+        <feature_phrase_type_and_word invert="0" pos="IN" text="of" phrase_type="PP"/>
+        <feature_phrase_type_and_word invert="0" pos="IN" text="near" phrase_type="PP"/>
+        <feature_phrase_type_and_word invert="0" pos="IN" text="towards" phrase_type="PP"/>
+        <feature_phrase_type_and_word invert="0" pos="IN" text="by" phrase_type="PP"/>
+        <feature_phrase_type_and_word invert="0" pos="IN" text="toward" phrase_type="PP"/>
+        <feature_phrase_type_and_word invert="0" pos="IN" text="behind" phrase_type="PP"/>
+        <feature_phrase_type_and_word invert="0" pos="TO" text="to" phrase_type="PP"/>
+        <feature_phrase_has_pos_tag invert="0" pos="CD"/>
+        <feature_phrase_has_pos_tag invert="1" pos="CD"/>
+        <feature_num_words invert="0" num_words="0"/>
+        <feature_num_words invert="1" num_words="0"/>
+        <feature_num_child_phrases invert="0" num_child_phrases="0"/>
+        <feature_num_child_phrases invert="1" num_child_phrases="0"/>
+      </feature_group>
+      <feature_group>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="box"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="sink"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="chair"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="table"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="fridge"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="hammer"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="pipe"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="bottle"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="couch"/>
+        <feature_grounding_string_property_value invert="0" class_name="object" key="object_color" symbol="na"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="na" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="left" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="front" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="near" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="right" sorting_key="max_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_z"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_abs_x"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_abs_y"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="min_center_distance"/>
+        <feature_object_merge_abstract_container_spatial_relation invert="0" spatial_relation_type="back" sorting_key="max_center_distance"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_x"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_x"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_y"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_y"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_z"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_z"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_abs_x"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_abs_x"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_abs_y"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_abs_y"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_distance"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_distance"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_x"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_x"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_y"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_y"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_z"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_z"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_abs_x"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_abs_x"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_abs_y"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_abs_y"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_distance"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_distance"/>
+        <feature_grounding_class_name invert="0" class_name="object"/>
+        <feature_matches_child_object invert="0"/>
+        <feature_matches_child_object invert="1"/>
+        <feature_object_matches_child_container_object invert="0"/>
+        <feature_object_matches_child_container_object invert="1"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="na"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="left"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="front"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="near"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="right"/>
+        <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="back"/>
+        <feature_grounding_class_name invert="0" class_name="region"/>
+        <feature_matches_child_region invert="0"/>
+        <feature_matches_child_region invert="1"/>
+        <feature_region_object_matches_child invert="0"/>
+        <feature_region_merge_spatial_relation_and_object invert="1"/>
+        <feature_region_merge_spatial_relation_and_object invert="0"/>
+      </feature_group>
+    </feature_product>
+    <feature_product>
+      <feature_group>
+        <feature_cv invert="0" cv="1"/>
+        <feature_cv invert="0" cv="2"/>
+      </feature_group>
+      <feature_group>
+        <feature_phrase_type_and_word invert="0" pos="VB" text="walk" phrase_type="VP"/>
+        <feature_phrase_type_and_word invert="0" pos="VB" text="leave" phrase_type="VP"/>
+        <feature_phrase_type_and_word invert="0" pos="VB" text="exit" phrase_type="VP"/>
+        <feature_phrase_type_and_word invert="0" pos="VB" text="move" phrase_type="VP"/>
+        <feature_phrase_type_and_word invert="0" pos="VB" text="go" phrase_type="VP"/>
+        <feature_phrase_type_and_word invert="0" pos="VB" text="drive" phrase_type="VP"/>
+        <feature_phrase_type_and_word invert="0" pos="VB" text="proceed" phrase_type="VP"/>
+        <feature_phrase_type_and_word invert="0" pos="VB" text="approach" phrase_type="VP"/>
+        <feature_phrase_has_pos_tag invert="0" pos="CD"/>
+        <feature_phrase_has_pos_tag invert="1" pos="CD"/>
+        <feature_num_words invert="0" num_words="0"/>
+        <feature_num_words invert="1" num_words="0"/>
+        <feature_num_child_phrases invert="0" num_child_phrases="0"/>
+        <feature_num_child_phrases invert="1" num_child_phrases="0"/>
+      </feature_group>
+      <feature_group>
+        <feature_grounding_string_property_value invert="0" class_name="constraint" key="constraint_type" symbol="inside"/>
+        <feature_grounding_string_property_value invert="0" class_name="constraint" key="constraint_type" symbol="outside"/>
+        <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="na"/>
+        <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="left"/>
+        <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="front"/>
+        <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="near"/>
+        <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="right"/>
+        <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="back"/>
+        <feature_grounding_class_name invert="0" class_name="constraint"/>
+        <feature_matches_child_constraint invert="0"/>
+        <feature_matches_child_constraint invert="1"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="constraint" key_grounding="reference" class_name_child="object" key_child="name"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="constraint" key_grounding="reference" class_name_child="object" key_child="name"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="constraint" key_grounding="reference_relation" class_name_child="region" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="constraint" key_grounding="reference_relation" class_name_child="region" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="constraint" key_grounding="reference" class_name_child="region" key_child="object_id"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="constraint" key_grounding="reference" class_name_child="region" key_child="object_id"/>
+        <feature_constraint_payload_string_property_value invert="0" key="object_type" symbol="robot"/>
+      </feature_group>
+    </feature_product>
+  </feature_set>
+</root>

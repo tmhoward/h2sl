@@ -442,7 +442,9 @@ update_graph( void ){
           disconnect( dynamic_cast< QGraphicsItem_Grounding* >( _graphics_items[ i ][ j ] ), SIGNAL( comment( const std::string&, const bool& ) ), this, SLOT( _receive_comment( const std::string&, const bool& ) ) );
         } else if ( dynamic_cast< QGraphicsItem_Factor* >( _graphics_items[ i ][ j ] ) != NULL ){
           disconnect( dynamic_cast< QGraphicsItem_Factor* >( _graphics_items[ i ][ j ] ), SIGNAL( comment( const std::string&, const bool& ) ), this, SLOT( _receive_comment( const std::string&, const bool& ) ) );
-        }
+        } else if ( dynamic_cast< QGraphicsItem_Phrase* >( _graphics_items[ i ][ j ] ) != NULL ){
+          disconnect( dynamic_cast< QGraphicsItem_Phrase* >( _graphics_items[ i ][ j ] ), SIGNAL( comment( const std::string&, const bool& ) ), this, SLOT( _receive_comment( const std::string&, const bool& ) ) );
+        } 
         _graphics_scene_graph->removeItem( _graphics_items[ i ][ j ] );
         delete _graphics_items[ i ][ j ];
         _graphics_items[ i ][ j ] = NULL;
@@ -493,6 +495,14 @@ update_graph( void ){
       for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
         for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
           if( dynamic_cast< QGraphicsItem_Grounding* >( _graphics_items[ i ][ j ] ) != NULL ){
+            _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
+          }
+        }
+      }
+
+      for( unsigned int i = 0; i < _graphics_items.size(); i++ ){
+        for( unsigned int j = 0; j < _graphics_items[ i ].size(); j++ ){
+          if( dynamic_cast< QGraphicsItem_Phrase* >( _graphics_items[ i ][ j ] ) != NULL ){
             _graphics_scene_graph->addItem( _graphics_items[ i ][ j ] );
           }
         }

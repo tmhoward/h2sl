@@ -24,6 +24,11 @@ Feature_Object_Matches_Child_Container_Object( const bool& invert ) : Feature( i
     
 }
 
+Feature_Object_Matches_Child_Container_Object::
+Feature_Object_Matches_Child_Container_Object( xmlNodePtr root ) : Feature() {
+  from_xml( root );
+}
+
 /**
  * Feature_Object_Matches_Child_Container_Object class destructor
  */

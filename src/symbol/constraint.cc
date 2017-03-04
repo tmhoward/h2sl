@@ -142,14 +142,13 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
-  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
-  if( it_search_spaces_symbol == searchSpaces.end() ){
-    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 1, vector< Grounding* >() ) ) );
-    it_search_spaces_symbol = searchSpaces.find( class_name() );
-  }
+  if( symbolDictionary.has_class_name( class_name() ) ){
+    map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+    if( it_search_spaces_symbol == searchSpaces.end() ){
+      searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 1, vector< Grounding* >() ) ) );
+      it_search_spaces_symbol = searchSpaces.find( class_name() );
+    }
 
-  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
-  
     map< string, vector< string > >::const_iterator it_constraint_type_types = symbolDictionary.string_types().find( "constraint_type" );
     map< string, vector< string > >::const_iterator it_constraint_payload_type_types = symbolDictionary.string_types().find( "constraint_payload_type" );
     map< string, vector< string > >::const_iterator it_constraint_reference_type_types = symbolDictionary.string_types().find( "constraint_reference_type" );

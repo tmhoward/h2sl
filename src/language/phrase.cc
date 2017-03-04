@@ -161,6 +161,25 @@ scrape_groundings( const World * world,
 
 void
 Phrase::
+scrape_groundings( const World * world,
+                    map< string, vector< string > >& classNames,
+                    map< string, vector< string > >& stringTypes,
+                    map< string, vector< int > >& intTypes )const{
+
+  map< string, vector< string > >::iterator it_class_names = classNames.find( phrase_type_t_to_std_string( type() ) );
+  assert( it_class_names != classNames.end() );
+
+  _grounding_set->scrape_grounding( world, it_class_names->second, stringTypes, intTypes );
+
+  for( vector< Phrase* >::const_iterator it_child = _children.begin(); it_child != _children.end(); it_child++ ){
+    (*it_child)->scrape_groundings( world, classNames, stringTypes, intTypes );
+  }
+
+  return;
+}
+
+void
+Phrase::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );

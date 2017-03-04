@@ -87,32 +87,45 @@ dup( void )const{
 
 void
 Number::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  insert_unique< int >( "number", value(), intTypes );
+  return;
+}
+
+void
+Number::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
 
-  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
-  if( it_search_spaces_symbol == searchSpaces.end() ){
-    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
-    it_search_spaces_symbol = searchSpaces.find( class_name() );
-  } 
+  if( symbolDictionary.has_class_name( class_name() ) ){
+    map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+    if( it_search_spaces_symbol == searchSpaces.end() ){
+      searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+      it_search_spaces_symbol = searchSpaces.find( class_name() );
+    }  
 
-  map< string, vector< int > >::const_iterator it_number_value_types = symbolDictionary.int_types().find( "number_value" );
+    map< string, vector< int > >::const_iterator it_number_value_types = symbolDictionary.int_types().find( "number" );
 
-  switch( symbolType ){
-  case( SYMBOL_TYPE_CONCRETE ):
-  case( SYMBOL_TYPE_ALL ):
-    if( it_number_value_types != symbolDictionary.int_types().end() ){
-      for( unsigned int i = 0; i < it_number_value_types->second.size(); i++ ){
-        it_search_spaces_symbol->second.second.push_back( new Number( it_number_value_types->second[ i ] ) );
+    switch( symbolType ){
+    case( SYMBOL_TYPE_CONCRETE ):
+    case( SYMBOL_TYPE_ALL ):
+      if( it_number_value_types != symbolDictionary.int_types().end() ){
+        for( unsigned int i = 0; i < it_number_value_types->second.size(); i++ ){
+          it_search_spaces_symbol->second.second.push_back( new Number( it_number_value_types->second[ i ] ) );
+        }
       }
+      break;
+    case( SYMBOL_TYPE_ABSTRACT ):
+    case( NUM_SYMBOL_TYPES ):
+    default:
+      break;
     }
-    break;
-  case( SYMBOL_TYPE_ABSTRACT ):
-  case( NUM_SYMBOL_TYPES ):
-  default:
-    break;
   }
 
   return;
@@ -154,9 +167,13 @@ Number::
 from_xml( xmlNodePtr root ){
   value() = 0;
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > number_keys = { "value" };
+    vector< string > number_keys = { "value", "type" };
     assert( check_keys( root, number_keys ) );
     pair< bool, int > value_prop = has_prop< int >( root, "value" );
+    if( value_prop.first ){
+      value() = value_prop.second;
+    }
+    value_prop = has_prop< int >( root, "type" );
     if( value_prop.first ){
       value() = value_prop.second;
     }

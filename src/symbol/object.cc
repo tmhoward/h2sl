@@ -132,13 +132,13 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){ 
 
-  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
-  if( it_search_spaces_symbol == searchSpaces.end() ){
-    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
-    it_search_spaces_symbol = searchSpaces.find( class_name() );
-  }
+  if( symbolDictionary.has_class_name( class_name() ) ){
+    map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+    if( it_search_spaces_symbol == searchSpaces.end() ){
+      searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+      it_search_spaces_symbol = searchSpaces.find( class_name() );
+    }
 
-  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
     switch( symbolType ){
     case( SYMBOL_TYPE_CONCRETE ):
     case( SYMBOL_TYPE_ALL ):
@@ -212,19 +212,34 @@ from_xml( const string& filename ){
 void
 Object::
 from_xml( xmlNodePtr root ){
+  name() = "na";
+  type() = "na";
+  color() = "na";
+  transform() = Transform();
+  linear_velocity() = Vector3();
+  angular_velocity() = Vector3();
+
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > object_keys = { "name", "object_type", "object_color", "position", "orientation", "linear_velocity", "angular_velocity" };
+    vector< string > object_keys = { "name", "type", "object_type", "color", "object_color", "position", "orientation", "linear_velocity", "angular_velocity" };
     assert( check_keys( root, object_keys ) );
   
     pair< bool, string > name_prop = has_prop< std::string >( root, "name" );
     if( name_prop.first ){
       name() = name_prop.second;
     }
-    pair< bool, string > type_prop = has_prop< std::string >( root, "object_type" );
+    pair< bool, string > type_prop = has_prop< std::string >( root, "type" );
+    if( type_prop.first ){
+      type() = type_prop.second;
+    }
+    type_prop = has_prop< std::string >( root, "object_type" );
     if( type_prop.first ){
       type() = type_prop.second;
     }
     pair< bool, string > color_prop = has_prop< std::string >( root, "object_color" );
+    if( color_prop.first ){
+      color() = color_prop.second;
+    }
+    color_prop = has_prop< std::string >( root, "color" );
     if( color_prop.first ){
       color() = color_prop.second;
     }

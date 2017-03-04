@@ -51,25 +51,27 @@ namespace h2sl {
 
   class Symbol_Dictionary {
   public:
-    Symbol_Dictionary( const std::vector< std::string >& classNames = std::vector< std::string >(), const std::map< std::string, std::vector< std::string > >& stringTypes = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< int > >& intTypes = std::map< std::string, std::vector< int > >() );
+    Symbol_Dictionary( const std::map< std::string, std::vector< std::string > >& classNames = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< std::string > >& stringTypes = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< int > >& intTypes = std::map< std::string, std::vector< int > >() );
     virtual ~Symbol_Dictionary();
     Symbol_Dictionary( const Symbol_Dictionary& other );
     Symbol_Dictionary& operator=( const Symbol_Dictionary& other );
+
+    virtual bool has_class_name( const std::string& className )const;
 
     virtual bool from_xml( const std::string& file );
     virtual bool from_xml( xmlNodePtr root );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
-  
-    inline std::vector< std::string >& class_names( void ){ return _class_names; };
-    inline const std::vector< std::string >& class_names( void )const{ return _class_names; };
+
+    inline std::map< std::string, std::vector< std::string > >& class_names( void ){ return _class_names; };
+    inline const std::map< std::string, std::vector< std::string > >& class_names( void )const{ return _class_names; };
     inline std::map< std::string, std::vector< std::string > >& string_types( void ){ return _string_types; };
     inline const std::map< std::string, std::vector< std::string > >& string_types( void )const{ return _string_types; };
     inline std::map< std::string, std::vector< int > >& int_types( void ){ return _int_types; };
     inline const std::map< std::string, std::vector< int > >& int_types( void )const{ return _int_types; };
   
   protected:
-    std::vector< std::string > _class_names;
+    std::map< std::string, std::vector< std::string > > _class_names;
     std::map< std::string, std::vector< std::string > > _string_types;
     std::map< std::string, std::vector< int > > _int_types;
 

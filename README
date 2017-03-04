@@ -35,20 +35,26 @@ interface for robotic system.  To adapt to new applications, one can
 replace the symbols, features, and examples with those that are 
 relevant to your system and domain.
 
-TUTORIAL
+TUTORIAL 
 
-To train the model from a corpus of labeled examples, run ...
+To generate a symbol dictionary for the example corpus, run the following command from the build directory:
 
-h2sl-llm-train (examples files) --feature_set=(feature_set.xml) --output=(llm.xml)
+./bin/h2sl-generate-symbol-dictionary ../data/training/example_corpus/example_00*.xml --output symbol_dictionary.xml
 
-To run the Distributed Correspondence Graph (DCG) demo, run ...
+To generate a feature set for the example corpus using the just generated symbol dictionary, run the following command from the build directory:
 
-h2sl-dcg-demo --world=(world.xml) --llm=(llm.xml) --grammar=(grammar.xml) --command=(command string) -output=(output.xml)
+./bin/h2sl-generate-feature-set ../data/training/example_corpus/example_00*.xml --symbol_dictionary symbol_dictionary.xml --output feature_set.xml
 
-To run the Distributed Correspondence Graph (DCG) test, run ...
+To train a model using the just generated symbol dictionary and feature set, run the following command from the build directory:
 
-h2sl-dcg-test (example files) --llm=(llm.xml) --grammar=(grammar.xml)
+./bin/h2sl-llm-train ../data/training/example_corpus/example_00*.xml --feature_set feature_set.xml --symbol_dictionary symbol_dictionary.xml --output llm.xml
 
-To run the Graphical User Interface (GUI), run ...
+To run the DCG test, run the following command from the build directory:
 
-h2sl-gui-demo --world=(world.xml) --llm=(llm.xml) --grammar=(grammar.xml)
+./bin/h2sl-dcg-test ../data/training/example_corpus/example_00*.xml --llm llm.xml --grammar ../data/grammar/grammar.xml --symbol_dictionary symbol_dictionary.xml
+
+To run the Graphical User Interface (GUI), run the following command from the build directory:
+
+./bin/h2sl-gui-demo --world ../data/training/example_corpus/example_0001.xml --llm llm.xml --symbol_dictionary symbol_dictionary.xml --grammar ../data/grammar/grammar.xml 
+
+

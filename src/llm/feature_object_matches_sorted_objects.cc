@@ -21,8 +21,18 @@ using namespace h2sl;
  * Feature_Object_Matches_Sorted_Objects class constructor
  */
 Feature_Object_Matches_Sorted_Objects::
-Feature_Object_Matches_Sorted_Objects( const bool& invert ) : Feature( invert ) {
+Feature_Object_Matches_Sorted_Objects( const bool& invert,
+                                        const int& number,
+                                        const string& sortingKey ) : Feature( invert ) {
+  insert_prop< int >( _int_properties, "number", number );
+  insert_prop< std::string >( _string_properties, "sorting_key", sortingKey );
+}
+
+Feature_Object_Matches_Sorted_Objects::
+Feature_Object_Matches_Sorted_Objects( xmlNodePtr root ) : Feature() {
+  insert_prop< int >( _int_properties, "number", 0 );
   insert_prop< std::string >( _string_properties, "sorting_key", "na" );
+  from_xml( root );
 }
 
 /**
@@ -48,6 +58,8 @@ Feature_Object_Matches_Sorted_Objects&
 Feature_Object_Matches_Sorted_Objects::
 operator=( const Feature_Object_Matches_Sorted_Objects& other ){
   _invert = other._invert;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -76,17 +88,22 @@ value( const unsigned int& cv,
         const Phrase* phrase,
         const World* world,
         const Grounding* context ){
-  const Object* object_grounding = dynamic_cast< const Object* >( grounding );
-  if( object_grounding != NULL ){
+  const Object* object = dynamic_cast< const Object* >( grounding );
+  if( object != NULL ){
     map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
-    assert( it_sorted_objects_map != world->sorted_objects().end() ); 
-    map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object_grounding->type() );
-//    map< string, vector< Object* > >::const_iterator it = world->min_x_sorted_objects().find( object_grounding->type() );
+    if( it_sorted_objects_map == world->sorted_objects().end() ){
+      cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+    }
+    assert( it_sorted_objects_map != world->sorted_objects().end() );
+    map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object->type() );
     assert( it_sorted_objects != it_sorted_objects_map->second.end() );
-    if ( *object_grounding == *( it_sorted_objects->second.front() ) ){
-      return !_invert;
-    } else {
-      return _invert;
+    if( number() < it_sorted_objects->second.size() ){
+      for( unsigned int i = 0; i < number(); i++ ){
+        if( object->name() == it_sorted_objects->second[ i ]->name() ){
+          return !_invert;
+        }
+      }
+      return _invert; 
     }
   }
   return false;
@@ -126,14 +143,24 @@ void
 Feature_Object_Matches_Sorted_Objects::
 from_xml( xmlNodePtr root ){
   _invert = false;
+  number() = 0;
   sorting_key() = "na";
   if( root->type == XML_ELEMENT_NODE ){
+    vector< string > feature_keys = { "invert", "number", "sorting_key" };
+    assert( check_keys( root, feature_keys ) );
+
     pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
-    if( invert_prop.first ){
-      invert() = invert_prop.second;
+    if( invert_prop.first ) {
+      _invert = invert_prop.second;
     }
-    pair< bool, string > sorting_key_prop = has_prop< std::string >( root, "sorting_key" );
-    if( sorting_key_prop.first ){
+
+    pair< bool, int > number_prop = has_prop< int >( root, "number" );
+    if( number_prop.first ) {
+      number() = number_prop.second;
+    }
+
+    pair< bool, std::string > sorting_key_prop = has_prop< std::string >( root, "sorting_key" );
+    if( sorting_key_prop.first ) {
       sorting_key() = sorting_key_prop.second;
     }
   }
@@ -163,7 +190,8 @@ to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_matches_sorted_objects" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( to_std_string( _invert ).c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "sorting_key" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "sorting_key" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "number" ), ( const xmlChar* )( to_std_string( number() ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "sorting_key" ), ( const xmlChar* )( sorting_key().c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -175,7 +203,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Object_Matches_Sorted_Objects& other ){
-    out << "class:\"Feature_Object_Matches_Sorted_Objects\" ";
+    out << "Feature_Object_Matches_Sorted_Objects:( invert:(" << other.invert() << ") number:(" << other.number() << ") sorting_key:(" << other.sorting_key() << "))";
     return out;
   }
 }

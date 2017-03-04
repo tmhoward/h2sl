@@ -21,6 +21,7 @@ namespace h2sl {
     class Feature_Container_Is_Empty: public Feature {
     public:
         Feature_Container_Is_Empty( const bool& invert = false );
+        Feature_Container_Is_Empty( xmlNodePtr root );
         virtual ~Feature_Container_Is_Empty();
         Feature_Container_Is_Empty( const Feature_Container_Is_Empty& other );
         Feature_Container_Is_Empty& operator=( const Feature_Container_Is_Empty& other );

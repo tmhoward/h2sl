@@ -24,9 +24,14 @@ using namespace h2sl;
  */
 Feature_Object_Merge_Object_Property_Container::
 Feature_Object_Merge_Object_Property_Container( const bool& invert,
-                                                const bool& objectMatch ) : Feature( invert ),
-                                                                        _object_match( objectMatch ) {
-    
+                                                const string& sortingKey ) : Feature( invert ) {
+  insert_prop< std::string >( _string_properties, "sorting_key", sortingKey );    
+}
+
+Feature_Object_Merge_Object_Property_Container::
+Feature_Object_Merge_Object_Property_Container( xmlNodePtr root ) : Feature() {
+  insert_prop< std::string >( _string_properties, "sorting_key", "na" );
+  from_xml( root );
 }
 
 /**
@@ -41,8 +46,7 @@ Feature_Object_Merge_Object_Property_Container::
  * Feature_Object_Merge_Object_Property_Container class copy constructor
  */
 Feature_Object_Merge_Object_Property_Container::
-Feature_Object_Merge_Object_Property_Container( const Feature_Object_Merge_Object_Property_Container& other ) : Feature( other ),
-                                                                                                                _object_match( other._object_match ) {
+Feature_Object_Merge_Object_Property_Container( const Feature_Object_Merge_Object_Property_Container& other ) : Feature( other ) {
     
 }
 
@@ -53,7 +57,8 @@ Feature_Object_Merge_Object_Property_Container&
 Feature_Object_Merge_Object_Property_Container::
 operator=( const Feature_Object_Merge_Object_Property_Container& other ) {
     _invert = other._invert;
-    _object_match = other._object_match;
+    _string_properties = other._string_properties;
+    _int_properties = other._int_properties;
     return (*this);
 }
 
@@ -78,7 +83,103 @@ value( const unsigned int& cv,
       const h2sl::Phrase* phrase,
       const World* world,
       const Grounding* context ){
-    
+  
+  const Object * object = dynamic_cast< const Object* >( grounding );
+  if( ( object != NULL ) && ( !children.empty() ) ){
+    pair< const Phrase*, const Object_Property* > object_property_child( NULL, NULL );
+    pair< const Phrase*, const Container* > container_child( NULL, NULL );
+    // enforce that children come from different phrases
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if ( dynamic_cast< const Container* >( children[ i ].second[ j ] ) != NULL ){
+          container_child.first = children[ i ].first;
+          container_child.second = static_cast< const Container* >( children[ i ].second[ j ] );
+        }
+      }
+    }
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      if( children[ i ].first != container_child.first ){
+        for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+          if( dynamic_cast< const Object_Property* >( children[ i ].second[ j ] ) != NULL ){
+            object_property_child.first = children[ i ].first;
+            object_property_child.second = static_cast< const Object_Property* >( children[ i ].second[ j ] );
+          }
+        }
+      }
+    }
+  
+    if( ( object_property_child.first != NULL ) && ( object_property_child.second != NULL ) && ( container_child.first != NULL ) && ( container_child.second != NULL ) ){
+      if( ( object_property_child.first->min_word_order() < container_child.first->min_word_order() ) && ( object_property_child.second->index() != 0 ) ){
+        vector< Object* > sorted_objects;
+        for( unsigned int i = 0; i < container_child.second->container().size(); i++ ){
+          Object * container_child_object = dynamic_cast< Object* >( container_child.second->container()[ i ] );
+          if( container_child_object != NULL ){
+            if( container_child_object->type() == object_property_child.second->type() ){
+              sorted_objects.push_back( container_child_object );
+            }
+          }
+        }
+
+        if( !sorted_objects.empty() ){
+          if( object_property_child.second->index() <= sorted_objects.size() ){
+            if( sorting_key() == "min_x" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_x_sort );
+            } else if ( sorting_key() == "max_x" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_x_sort );
+            } else if ( sorting_key() == "min_y" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_y_sort );
+            } else if ( sorting_key() == "max_y" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_y_sort );
+            } else if ( sorting_key() == "min_z" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_z_sort );
+            } else if ( sorting_key() == "max_z" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_z_sort );
+            } else if ( sorting_key() == "min_abs_x" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_abs_x_sort );
+            } else if ( sorting_key() == "max_abs_x" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_abs_x_sort );
+            } else if ( sorting_key() == "min_abs_y" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_abs_y_sort );
+            } else if ( sorting_key() == "max_abs_y" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_abs_y_sort );
+            } else if ( sorting_key() == "min_distance" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_distance_sort );
+            } else if ( sorting_key() == "max_distance" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_distance_sort );
+            } else if ( sorting_key() == "min_center_distance" ){
+              World::min_center_distance_sort_objects( sorted_objects );
+            } else if ( sorting_key() == "max_center_distance" ){
+              World::max_center_distance_sort_objects( sorted_objects );
+            } 
+
+            if( object->name() == sorted_objects[ object_property_child.second->index() - 1 ]->name() ){
+              return !_invert;
+            } else {
+              return _invert;
+            } 
+          }
+/*
+        if( spatial_relation_child.second->spatial_relation_type() == spatial_relation_type() ){
+          map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
+          if( it_sorted_objects_map == world->sorted_objects().end() ){
+            cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+          }
+          assert( it_sorted_objects_map != world->sorted_objects().end() );
+          map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( abstract_container_child.second->type() );
+          assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+          for( unsigned int i = 0; i < abstract_container_child.second->number(); i++ ){
+            if( object->name() == it_sorted_objects->second[ i ]->name() ){
+              return !_invert;
+            }
+          }
+        }
+*/
+        }
+      }
+    }
+  }
+
+  return false;  
 }
 
 
@@ -222,15 +323,11 @@ value( const unsigned int& cv,
 void
 Feature_Object_Merge_Object_Property_Container::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-    xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_merge_object_property_container" ), NULL );
-    stringstream invert_string;
-    invert_string << _invert;
-    xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
-    stringstream object_match_string;
-    object_match_string << _object_match;
-    xmlNewProp( node, ( const xmlChar* )( "object_match" ), ( const xmlChar* )( object_match_string.str().c_str() ) );
-    xmlAddChild( root, node );
-    return;
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_merge_object_property_container" ), NULL );
+  xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( to_std_string( _invert ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "sorting_key" ), ( const xmlChar* )( sorting_key().c_str() ) ); 
+  xmlAddChild( root, node );
+  return;
 }
 
 /**
@@ -239,22 +336,23 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
 void
 Feature_Object_Merge_Object_Property_Container::
 from_xml( xmlNodePtr root ){
-    _invert = false;
-    if( root->type == XML_ELEMENT_NODE ){
-        xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-        if( tmp != NULL ){
-            string invert_string = ( char* )( tmp );
-            _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
-            xmlFree( tmp );
-        }
-        tmp = xmlGetProp( root, ( const xmlChar* )( "object_match" ) );
-        if( tmp != NULL ){
-            string object_match_string = ( char* )( tmp );
-            _object_match = ( bool )( strtol( object_match_string.c_str(), NULL, 10 ) );
-            xmlFree( tmp );
-        }
+  _invert = false;
+  sorting_key() = "na";
+  if( root->type == XML_ELEMENT_NODE ){
+    vector< string > feature_keys = { "invert", "sorting_key" };
+    assert( check_keys( root, feature_keys ) );
+
+    pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
+    if( invert_prop.first ) {
+      _invert = invert_prop.second;
     }
-    return;
+  
+    pair< bool, std::string > sorting_key_prop = has_prop< std::string >( root, "sorting_key" );
+    if( sorting_key_prop.first ) {
+      sorting_key() = sorting_key_prop.second;
+    }
+  }
+  return;
 }
 
 namespace h2sl {

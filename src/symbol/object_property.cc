@@ -99,38 +99,53 @@ dup( void )const{
 
 void
 Object_Property::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  insert_unique< std::string >( "object_type", type(), stringTypes );
+  insert_unique< std::string >( "spatial_relation_type", relation_type(), stringTypes );
+  insert_unique< int >( "index", index(), intTypes );
+  return;
+}
+
+void
+Object_Property::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
 
-  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
-  if( it_search_spaces_symbol == searchSpaces.end() ){
-    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
-    it_search_spaces_symbol = searchSpaces.find( class_name() );
-  }
+  if( symbolDictionary.has_class_name( class_name() ) ){
+    map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+    if( it_search_spaces_symbol == searchSpaces.end() ){
+      searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+      it_search_spaces_symbol = searchSpaces.find( class_name() );
+    }
 
-  map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
-  map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
-  map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index_value" );
+    map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
+    map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
+    map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index_value" );
 
-  switch( symbolType ){
-  case( SYMBOL_TYPE_ABSTRACT ):
-  case( SYMBOL_TYPE_ALL ):
-    if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) ){
-      for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
-        for( unsigned int j = 0; j < it_spatial_relation_type_types->second.size(); j++ ){
-          for( unsigned int k = 0; k < it_index_value_types->second.size(); k++ ){
-            it_search_spaces_symbol->second.second.push_back( new Object_Property( it_object_type_types->second[ i ], it_spatial_relation_type_types->second[ j ], it_index_value_types->second[ k ] ) );
+    switch( symbolType ){
+    case( SYMBOL_TYPE_ABSTRACT ):
+    case( SYMBOL_TYPE_ALL ):
+      if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) ){
+        for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
+          for( unsigned int j = 0; j < it_spatial_relation_type_types->second.size(); j++ ){
+            for( unsigned int k = 0; k < it_index_value_types->second.size(); k++ ){
+              it_search_spaces_symbol->second.second.push_back( new Object_Property( it_object_type_types->second[ i ], it_spatial_relation_type_types->second[ j ], it_index_value_types->second[ k ] ) );
+            }
           }
         }
       }
+      break;
+    case( SYMBOL_TYPE_CONCRETE ):
+    case( NUM_SYMBOL_TYPES ):
+    default:
+      break;
     }
-    break;
-  case( SYMBOL_TYPE_CONCRETE ):
-  case( NUM_SYMBOL_TYPES ):
-  default:
-    break;
   }
 
   return;
@@ -174,13 +189,17 @@ from_xml( xmlNodePtr root ){
   relation_type() = "na";
   index() = 0;
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > object_property_keys = { "object_type", "spatial_relation_type", "index" };
+    vector< string > object_property_keys = { "object_type", "relation_type", "spatial_relation_type", "index" };
     assert( check_keys( root, object_property_keys ) );
     pair< bool, string > object_type_prop = has_prop< std::string >( root, "object_type" );
     if( object_type_prop.first ){
       type() = object_type_prop.second;
     }
     pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
+    if( spatial_relation_type_prop.first ){
+      relation_type() = spatial_relation_type_prop.second;
+    }
+    spatial_relation_type_prop = has_prop< std::string >( root, "relation_type" );
     if( spatial_relation_type_prop.first ){
       relation_type() = spatial_relation_type_prop.second;
     }

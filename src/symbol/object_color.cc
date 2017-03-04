@@ -87,17 +87,27 @@ dup( void )const{
 
 void
 Object_Color::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  insert_unique< std::string >( "object_color", object_color_type(), stringTypes );
+  return;
+}
+
+void
+Object_Color::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
-  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
-  if( it_search_spaces_symbol == searchSpaces.end() ){
-    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
-    it_search_spaces_symbol = searchSpaces.find( class_name() );
-  }
-
-  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
+  if( symbolDictionary.has_class_name( class_name() ) ){
+    map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+    if( it_search_spaces_symbol == searchSpaces.end() ){
+      searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+      it_search_spaces_symbol = searchSpaces.find( class_name() );
+    }
 
     map< string, vector< string > >::const_iterator it_object_color_types = symbolDictionary.string_types().find( "object_color" );
 
@@ -114,7 +124,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     case( NUM_SYMBOL_TYPES ):
     default:
       break;
-    }
+    } 
   }
 
   return;

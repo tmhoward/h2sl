@@ -23,6 +23,11 @@ Feature_Container_Is_Empty( const bool& invert ) : Feature( invert ) {
     
 }
 
+Feature_Container_Is_Empty::
+Feature_Container_Is_Empty( xmlNodePtr root ) : Feature() {
+  from_xml( root );
+}
+
 /**
  * Feature_Container_Is_Empty class destructor
  */

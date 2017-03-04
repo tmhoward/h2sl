@@ -20,7 +20,8 @@ namespace h2sl {
      */
     class Feature_Object_Merge_Object_Property_Region_Container: public Feature {
     public:
-        Feature_Object_Merge_Object_Property_Region_Container( const bool& invert = false, const bool& objectMatch = false );
+        Feature_Object_Merge_Object_Property_Region_Container( const bool& invert = false, const std::string& sortingKey = "na" );
+        Feature_Object_Merge_Object_Property_Region_Container( xmlNodePtr root );
         virtual ~Feature_Object_Merge_Object_Property_Region_Container();
         Feature_Object_Merge_Object_Property_Region_Container( const Feature_Object_Merge_Object_Property_Region_Container& other );
         Feature_Object_Merge_Object_Property_Region_Container& operator=( const Feature_Object_Merge_Object_Property_Region_Container& other );
@@ -31,7 +32,10 @@ namespace h2sl {
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
         virtual void from_xml( xmlNodePtr root );
-        
+       
+        inline std::string& sorting_key( void ){ return get_prop< std::string >( _string_properties, "sorting_key" ); };
+        inline const std::string& sorting_key( void )const{ return get_prop< std::string >( _string_properties, "sorting_key" ); };
+ 
         virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
         
     protected:

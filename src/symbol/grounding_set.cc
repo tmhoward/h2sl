@@ -338,6 +338,8 @@ from_xml( xmlNodePtr root ){
           _groundings.push_back( new Constraint( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "container" ) ) == 0 ){
           _groundings.push_back( new Container( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region_container" ) ) == 0 ){
+          _groundings.push_back( new Region_Container( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "index" ) ) == 0 ){
           _groundings.push_back( new Index( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "number" ) ) == 0 ){
@@ -350,7 +352,12 @@ from_xml( xmlNodePtr root ){
           _groundings.push_back( new Spatial_Relation( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_property" ) ) == 0 ){
           _groundings.push_back( new Object_Property( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "abstract_container" ) ) == 0 ){
+          _groundings.push_back( new Abstract_Container( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region_abstract_container" ) ) == 0 ){
+          _groundings.push_back( new Region_Abstract_Container( l1 ) );
         } else {
+          cout << "could not identify symbol \"" << l1->name << "\"" << endl;
           assert( false );
         }
       }

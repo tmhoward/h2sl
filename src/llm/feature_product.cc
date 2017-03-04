@@ -35,6 +35,10 @@
 
 #include "h2sl/object.h"
 #include "h2sl/object_property.h"
+#include "h2sl/object_type.h"
+#include "h2sl/object_color.h"
+#include "h2sl/index.h"
+#include "h2sl/number.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
 #include "h2sl/container.h"
@@ -45,9 +49,13 @@
 
 #include "h2sl/feature_cv.h"
 #include "h2sl/feature_word.h"
+#include "h2sl/feature_phrase_type_and_word.h"
 #include "h2sl/feature_num_words.h"
+#include "h2sl/feature_phrase_type_and_num_words.h"
 #include "h2sl/feature_num_child_phrases.h"
+#include "h2sl/feature_phrase_type_and_num_child_phrases.h"
 #include "h2sl/feature_phrase_has_pos_tag.h"
+#include "h2sl/feature_phrase_type_and_phrase_has_pos_tag.h"
 #include "h2sl/feature_phrase_has_single_pos_tag.h"
 #include "h2sl/feature_phrase_has_ordered_pos_tag_pair.h"
 
@@ -105,7 +113,9 @@
 #include "h2sl/feature_min_abs_y_container_abstract_container.h"
 #include "h2sl/feature_min_y_index_abstract_container_region_container.h"
 #include "h2sl/feature_min_y_object.h"
+#include "h2sl/feature_object_matches_sorted_objects.h"
 #include "h2sl/feature_object_matches_child_container_object.h"
+#include "h2sl/feature_object_matches_child_region_container_object.h"
 #include "h2sl/feature_object_number_matches_world_object_number.h"
 #include "h2sl/feature_object_property_merge_object_property_container.h"
 #include "h2sl/feature_object_property_merge_object_property_spatial_relation.h"
@@ -151,17 +161,22 @@
 #include "h2sl/feature_min_y_container_abstract_container_spatial_relation.h"
 #include "h2sl/feature_object_matches_child.h"
 #include "h2sl/feature_container_number_equals_world_objects.h"
+*/
 #include "h2sl/feature_abstract_container_number_equals_world_objects.h"
-
+/*
 #include "h2sl/feature_object_merge_abstract_container_index_region_container.h"
 #include "h2sl/feature_object_merge_container_pair.h"
 #include "h2sl/feature_object_merge_object_different_container.h"
+*/
 #include "h2sl/feature_object_merge_object_property_region_container.h"
+/*
 #include "h2sl/feature_object_merge_object_region_container.h"
 #include "h2sl/feature_object_merge_single_object_different_container.h"
 #include "h2sl/feature_object_merge_abstract_container_region_container.h"
-#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
 */
+#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
+#include "h2sl/feature_object_merge_object_property_container.h"
+#include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
 
 #include "h2sl/feature_product.h"
 
@@ -384,11 +399,19 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_word" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Word() );
                 _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_type_and_word" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Phrase_Type_And_Word() );
+                _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_num_words" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Num_Words() );
                 _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_type_and_num_words" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Phrase_Type_And_Num_Words() );
+                _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_num_child_phrases" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Num_Child_Phrases( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_type_and_num_child_phrases" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Phrase_Type_And_Num_Child_Phrases( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_string_property_value" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Grounding_String_Property_Value( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_int_property_value" ) ) == 0 ){
@@ -407,6 +430,14 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object_property" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object_Property >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Object_Type >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object_color" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Object_Color >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_number" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Number >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_index" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Index >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Region >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_constraint" ) ) == 0 ){
@@ -421,6 +452,8 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Region_Abstract_Container >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_spatial_relation" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Spatial_Relation >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_sorted_objects" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Object_Matches_Sorted_Objects( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Object_Matches_Child< Region, Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_merge_partially_known_regions" ) ) == 0 ){
@@ -485,12 +518,14 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Container_Number() );
                   _feature_groups.back().back()->from_xml( l2 );
-              //} else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number_equals_world_objects" ) ) == 0 ){
-              //    _feature_groups.back().push_back( new Feature_Container_Number_Equals_World_Objects() );
-              //    _feature_groups.back().back()->from_xml( l2 );
+*/
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_number_equals_world_objects" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Number_Equals_World_Objects( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_abstract_container_number_equals_world_objects" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_is_empty" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Container_Is_Empty() );
-                  _feature_groups.back().back()->from_xml( l2 );
+                  _feature_groups.back().push_back( new Feature_Container_Is_Empty( l2 ) );
+/*
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_type_matches_child_container_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Container_Type_Matches_Child_Container_Type() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -500,6 +535,9 @@ from_xml( xmlNodePtr root ){
 */
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_has_pos_tag" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Phrase_Has_POS_Tag() );
+                  _feature_groups.back().back()->from_xml( l2 );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_type_and_phrase_has_pos_tag" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Phrase_Type_And_Phrase_Has_POS_Tag() );
                   _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_phrase_has_single_pos_tag" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Phrase_Has_Single_POS_Tag() );
@@ -631,9 +669,12 @@ from_xml( xmlNodePtr root ){
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_max_distance" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Container_Max_Distance() );
                   _feature_groups.back().back()->from_xml( l2 );
+*/
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child_container_object" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Object_Matches_Child_Container_Object() );
-                  _feature_groups.back().back()->from_xml( l2 );
+                  _feature_groups.back().push_back( new Feature_Object_Matches_Child_Container_Object( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child_region_container_object" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Object_Matches_Child_Region_Container_Object( l2 ) );
+/*
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_number_matches_world_object_number" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Object_Number_Matches_World_Object_Number() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -664,9 +705,10 @@ from_xml( xmlNodePtr root ){
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_different_container" ) ) == 0 ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Object_Different_Container() );
               _feature_groups.back().back()->from_xml( l2 );
+*/
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_property_region_container" ) ) == 0 ){
-              _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Region_Container() );
-              _feature_groups.back().back()->from_xml( l2 );
+              _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( l2 ) );
+/*
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_region_container" ) ) == 0 ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Object_Region_Container() );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_single_object_different_container" ) ) == 0 ){
@@ -675,10 +717,13 @@ from_xml( xmlNodePtr root ){
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_abstract_container_region_container" ) ) == 0 ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container() );
               _feature_groups.back().back()->from_xml( l2 );
-          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_abstract_container_spatial_relation" ) ) == 0 ){
-              _feature_groups.back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation() );
-              _feature_groups.back().back()->from_xml( l2 );
 */
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_abstract_container_spatial_relation" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_property_container" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Container( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_abstract_container_spatial_relation" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( l2 ) );
           } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );

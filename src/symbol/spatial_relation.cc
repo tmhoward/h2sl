@@ -102,13 +102,13 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
-  map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
-  if( it_search_spaces_symbol == searchSpaces.end() ){
-    searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
-    it_search_spaces_symbol = searchSpaces.find( class_name() );
-  }
+  if( symbolDictionary.has_class_name( class_name() ) ){
+    map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+    if( it_search_spaces_symbol == searchSpaces.end() ){
+      searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+      it_search_spaces_symbol = searchSpaces.find( class_name() );
+    }
 
-  if( find( symbolDictionary.class_names().begin(), symbolDictionary.class_names().end(), class_name() ) != symbolDictionary.class_names().end() ){
     map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
 
     switch( symbolType ){
@@ -166,9 +166,13 @@ Spatial_Relation::
 from_xml( xmlNodePtr root ){
   spatial_relation_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > spatial_relation_keys = { "spatial_relation_type" };
+    vector< string > spatial_relation_keys = { "type", "spatial_relation_type" };
     assert( check_keys( root, spatial_relation_keys ) );
     pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
+    if( spatial_relation_type_prop.first ){
+      spatial_relation_type() = spatial_relation_type_prop.second;
+    }
+    spatial_relation_type_prop = has_prop< std::string >( root, "type" );
     if( spatial_relation_type_prop.first ){
       spatial_relation_type() = spatial_relation_type_prop.second;
     }

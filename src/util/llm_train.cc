@@ -70,6 +70,7 @@ evaluate_model( LLM* llm,
         }
       }
       cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
+
       cout << "     features[" << features.size() << "]" << endl;
       for( unsigned int j = 0; j < features.size(); j++ ){
           cout << "      ";
@@ -81,6 +82,7 @@ evaluate_model( LLM* llm,
         }
         cout << ") index:" << features[ j ].second << " weight:" << llm->weights()[ features[ j ].second ] << endl;
       }
+
       cout << endl;
     } else {
       num_correct++;

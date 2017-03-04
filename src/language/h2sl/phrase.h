@@ -71,6 +71,7 @@ namespace h2sl {
     virtual Phrase* dup( const bool& empty )const;
 
     virtual void scrape_groundings( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
+    virtual void scrape_groundings( const World * world, std::map< std::string, std::vector< std::string > >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
