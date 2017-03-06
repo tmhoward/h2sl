@@ -126,7 +126,6 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
       if( it_spatial_relation_type_types != symbolDictionary.string_types().end() ){
         for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
           if( it_spatial_relation_type_types->second[ i ] != "na" ){
-            it_search_spaces_symbol->second.second.push_back( new Region( it_spatial_relation_type_types->second[ i ], "na" ) );
             if( world != NULL ){
               for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
                 it_search_spaces_symbol->second.second.push_back( new Region( it_spatial_relation_type_types->second[ i ], it_world_object->second->name() ) );
