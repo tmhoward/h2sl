@@ -19,7 +19,7 @@
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
   </world>
   <NP>
-    <grounding_set/>
+    <grounding_set>
       <container container_type="group">
         <object name="barrel0" object_type="barrel" object_color="red" position="5.89378,-4.93294,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="barrel1" object_type="barrel" object_color="red" position="5.70659,-6.21413,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -32,7 +32,7 @@
       <object name="barrel3" object_type="barrel" object_color="red" position="3.59789,-4.91597,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
     </grounding_set>
     <NP>
-      <grounding_set/>
+      <grounding_set>
       <container container_type="group">
         <object name="barrel0" object_type="barrel" object_color="red" position="5.89378,-4.93294,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="barrel1" object_type="barrel" object_color="red" position="5.70659,-6.21413,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -53,12 +53,12 @@
       <NNS text="barrels" order="3"/>
     </NP>
     <PP>
-      <grounding_set/>
+      <grounding_set>
         <region spatial_relation_type="side" object_id="husky_mm"/>
       </grounding_set>
       <IN text="beside" order="4"/>
       <NP>
-        <grounding_set/>
+        <grounding_set>
     	  <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         </grounding_set>
         <DT text="the" order="5"/>

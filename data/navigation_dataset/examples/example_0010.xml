@@ -19,7 +19,7 @@
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
   </world>
   <NP>
-    <grounding_set/>
+    <grounding_set>
       <container container_type="row">
         <object name="cone0" object_type="cone" object_color="orange" position="-7.78514,-4.00187,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
 	<object name="cone1" object_type="cone" object_color="orange" position="-7.40626,-3.01713,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -34,7 +34,7 @@
       <object name="cone4" object_type="cone" object_color="orange" position="-7.82368,5.46736,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
     </grounding_set>
     <NP>
-      <grounding_set/>
+      <grounding_set>
         <container container_type="row">
 	  <object name="cone0" object_type="cone" object_color="orange" position="-7.78514,-4.00187,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
 	  <object name="cone1" object_type="cone" object_color="orange" position="-7.40626,-3.01713,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -49,14 +49,14 @@
 	<object name="cone4" object_type="cone" object_color="orange" position="-7.82368,5.46736,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
       </grounding_set>
       <NP>
-        <grounding_set/>
+        <grounding_set>
  	  <container container_type="row"/>
         </grounding_set>
         <DT text="the" order="0"/>
         <NN text="row" order="1"/>
       </NP>
       <PP>
-        <grounding_set/>
+        <grounding_set>
  	  <container container_type="row">
     	    <object name="cone0" object_type="cone" object_color="orange" position="-7.78514,-4.00187,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="cone1" object_type="cone" object_color="orange" position="-7.40626,-3.01713,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -72,7 +72,7 @@
         </grounding_set>
         <IN text="of" order="2"/>
         <NP>
-          <grounding_set/>
+          <grounding_set>
  	    <container container_type="row">
     	      <object name="cone0" object_type="cone" object_color="orange" position="-7.78514,-4.00187,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="cone1" object_type="cone" object_color="orange" position="-7.40626,-3.01713,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -92,12 +92,12 @@
       </PP>
     </NP>
     <PP>
-      <grounding_set/>
+      <grounding_set>
         <region spatial_relation_type="behind" object_id="husky_mm"/>
       </grounding_set>
       <IN text="behind" order="4"/>
       <NP>
-        <grounding_set/>
+        <grounding_set>
           <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         </grounding_set>
         <DT text="the" order="5"/>

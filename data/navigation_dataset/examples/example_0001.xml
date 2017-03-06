@@ -19,8 +19,8 @@
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
   </world>
   <NP>
-    <grounding_set/>
-        <container container_type="row"/>
+    <grounding_set>
+        <container container_type="row">
           <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -30,7 +30,7 @@
         <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <grounding_set/>
+    </grounding_set>
     <NP>
       <grounding_set>
         <container container_type="row"/>
@@ -39,8 +39,8 @@
       <NN text="row" order="1"/>
     </NP>
     <PP>
-      <grounding_set/>
-        <container container_type="row"/>
+      <grounding_set>
+        <container container_type="row">
           <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -53,8 +53,8 @@
       </grounding_set>
       <IN text="of" order="2"/>
       <NP>
-        <grounding_set/>
-          <container container_type="row"/>
+        <grounding_set>
+          <container container_type="row">
             <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -66,8 +66,8 @@
           <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         </grounding_set>
         <NP>
-          <grounding_set/>
-            <container container_type="row"/>
+          <grounding_set>
+            <container container_type="row">
               <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -82,12 +82,12 @@
           <NNS text="chairs" order="3"/>
         </NP>
         <PP>
-          <grounding_set/>
+          <grounding_set>
           <region spatial_relation_type="left" object_id="husky_mm"/>
           </grounding_set>
           <IN text="at" order="4"/>
           <NP>
-            <grounding_set/>
+            <grounding_set>
               <region spatial_relation_type="left" object_id="husky_mm"/>
             </grounding_set>
             <NP>
@@ -98,12 +98,12 @@
               <JJ text="left" order="6"/>
               <NN text="side" order="7"/>
               <PP>
-                <grounding_set/>
+                <grounding_set>
                   <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 </grounding_set>
                 <IN text="of" order="8"/>
                 <NP>
-                  <grounding_set/>
+                  <grounding_set>
                     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   </grounding_set>
                   <DT text="the" order="9"/>
