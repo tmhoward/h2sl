@@ -69,6 +69,7 @@ extract_instruction( const std::string& filename ){
 
 void
 replace_empty_regions_with_objects( Phrase* phrase, World* world ){
+  cout << "function: " << "replace_empty_regions_with_objects" << endl;
   cout << "checking " << *phrase->grounding_set() << endl;
   for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
     Region * region = dynamic_cast< Region* >( *it_grounding );
@@ -92,6 +93,7 @@ replace_empty_regions_with_objects( Phrase* phrase, World* world ){
 
 void
 replace_objectless_regions_with_spatial_relations( Phrase* phrase, World* world ){
+  cout << "function: " << "replace_objectless_regions_with_spatial_relations" << endl;
   cout << "checking " << *phrase->grounding_set() << endl;
   for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
     Region * region = dynamic_cast< Region* >( *it_grounding );
