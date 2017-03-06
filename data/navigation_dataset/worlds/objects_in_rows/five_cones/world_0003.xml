@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world>
+    <object name="cone0" object_type="cone" object_color="orange" position="-4.47408 -2.70332 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-5.46942 -0.208704 0.00962007" orientation="-5.4106e-08 4.60982e-07 -0.000696465 1"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-4.18417 2.35123 0.00962007" orientation="-5.38565e-08 4.60993e-07 -0.00069644 1"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-5.1049 -4.35167 0.00962007" orientation="-5.39603e-08 4.61199e-07 -0.00069646 1"/>
+    <object name="cone4" object_type="cone" object_color="orange" position="-4.68704 4.90137 0.00962007" orientation="-5.39603e-08 4.61199e-07 -0.00069646 1"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0 0 0 1"/>
+    <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+  </world>
+</root>

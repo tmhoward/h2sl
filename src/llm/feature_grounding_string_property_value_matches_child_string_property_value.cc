@@ -107,10 +107,14 @@ value( const unsigned int& cv,
   if( grounding != NULL ){
     if( grounding->matches_class_name( _class_name_grounding ) ){
       map< std::string, std::string >::const_iterator it_grounding = grounding->string_properties().find( _key_grounding );
+      if( it_grounding == grounding->string_properties().end() ){
+        cout << "could not find \"" << _key_grounding << "\" in class " << _class_name_grounding << endl;
+      }
       for( unsigned int i = 0; i < children.size(); i++ ){
         for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
           if( children[ i ].second[ j ]->matches_class_name( _class_name_child ) ){
             map< std::string, std::string >::const_iterator it_child = children[ i ].second[ j ]->string_properties().find( _key_child );
+            assert( it_child != children[ i ].second[ j ]->string_properties().end() );
             if( it_grounding->second == it_child->second ){ 
               return !_invert;
             }
