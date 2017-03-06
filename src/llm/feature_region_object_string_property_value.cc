@@ -42,7 +42,7 @@ using namespace h2sl;
 Feature_Region_Object_String_Property_Value::
 Feature_Region_Object_String_Property_Value( const bool& invert,
                         const string& key,
-                        const string& symbol ) : Feature_Grounding_String_Property_Value( invert, key, symbol ) {
+                        const string& symbol ) : Feature_Grounding_String_Property_Value( invert, "object", key, symbol ) {
 
 }
 
@@ -91,6 +91,9 @@ value( const unsigned int& cv,
   const Region * region = dynamic_cast< const Region* >( grounding );
   if( region != NULL ){
     map< string, Object* >::const_iterator it_region_object = world->objects().find( region->object_id() );
+    if( it_region_object == world->objects().end() ){
+      cout << "cannot find object \"" << region->object_id() << "\"" << endl;
+    }
     assert( it_region_object != world->objects().end() );
     map< std::string, std::string >::const_iterator it = it_region_object->second->string_properties().find( _key );
     if( it != it_region_object->second->string_properties().end() ){
@@ -111,6 +114,7 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
   stringstream invert_string;
   invert_string << _invert;
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "class_name" ), ( const xmlChar* )( _class_name.c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "key" ), ( const xmlChar* )( _key.c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "symbol" ), ( const xmlChar* )( _symbol.c_str() ) );
   xmlAddChild( root, node );

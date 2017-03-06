@@ -45,6 +45,7 @@
 #include "h2sl/feature_object_matches_child_container_object.h"
 #include "h2sl/feature_object_matches_child_region_container_object.h"
 #include "h2sl/feature_region_object_matches_child.h"
+#include "h2sl/feature_region_object_string_property_value.h"
 #include "h2sl/feature_region_merge_spatial_relation_and_object.h"
 #include "h2sl/feature_region_merge_spatial_relation_and_region.h"
 #include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
@@ -248,6 +249,12 @@ main( int argc,
     if( it_spatial_relation_types != symbol_dictionary->string_types().end() ){
       for( vector< string >::const_iterator it_spatial_relation_type = it_spatial_relation_types->second.begin(); it_spatial_relation_type != it_spatial_relation_types->second.end(); it_spatial_relation_type++ ){
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "region", "spatial_relation_type", *it_spatial_relation_type ) );
+      }
+    }
+    map< string, vector< string > >::const_iterator it_object_types = symbol_dictionary->string_types().find( "object_type" );
+    if( it_object_types != symbol_dictionary->string_types().end() ){
+      for( vector< string >::const_iterator it_object_type = it_object_types->second.begin(); it_object_type != it_object_types->second.end(); it_object_type++ ){
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Object_String_Property_Value( false, "object_type", *it_object_type ) );
       }
     }
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Region >( false ) );
