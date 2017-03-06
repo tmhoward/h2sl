@@ -123,6 +123,8 @@ main( int argc,
   cout << "done adding words" << endl;
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Phrase_Has_POS_Tag( false, POS_CD, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Phrase_Has_POS_Tag( true, POS_CD, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
+  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Phrase_Has_POS_Tag( false, POS_POS, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
+  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Phrase_Has_POS_Tag( true, POS_POS, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Num_Words( false, 0, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Num_Words( true, 0, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Num_Child_Phrases( false, 0, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
@@ -255,12 +257,12 @@ main( int argc,
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Object( false ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Region( true ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Region( false ) );
-    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region", "spatial_relation", "region", "spatial_relation" ) );
-    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "region", "spatial_relation", "region", "spatial_relation" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region", "spatial_relation_type", "region", "spatial_relation_type" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "region", "spatial_relation_type", "region", "spatial_relation_type" ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region", "object_id", "region", "object_id" ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "region", "object_id", "region", "object_id" ) );
-    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region", "spatial_relation", "spatial_relation", "spatial_relation_type" ) );
-    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "region", "spatial_relation", "spatial_relation", "spatial_relation_type" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region", "spatial_relation_type", "spatial_relation", "spatial_relation_type" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "region", "spatial_relation_type", "spatial_relation", "spatial_relation_type" ) );
   }
 
   if( find( it_class_names->second.begin(), it_class_names->second.end(), "constraint" ) != it_class_names->second.end() ){
