@@ -21,10 +21,10 @@
   <NP>
     <grounding_set>
       <container container_type="group">
-  	  <object name="barrel0" object_type="barrel" object_color="red" position="5.71427,-3.00605,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-  	  <object name="barrel1" object_type="barrel" object_color="red" position="5.87217,-6.16375,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-  	  <object name="barrel2" object_type="barrel" object_color="red" position="4.69351,-4.50759,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-  	  <object name="barrel3" object_type="barrel" object_color="red" position="4.0918,-4.09989,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="barrel0" object_type="barrel" object_color="red" position="5.71427,-3.00605,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="barrel1" object_type="barrel" object_color="red" position="5.87217,-6.16375,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="barrel2" object_type="barrel" object_color="red" position="4.69351,-4.50759,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="barrel3" object_type="barrel" object_color="red" position="4.0918,-4.09989,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
       </container>
       <object name="barrel0" object_type="barrel" object_color="red" position="5.71427,-3.00605,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
       <object name="barrel1" object_type="barrel" object_color="red" position="5.87217,-6.16375,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -34,16 +34,16 @@
     <NP>
       <grounding_set>
         <container container_type="group">
-    	  <object name="barrel0" object_type="barrel" object_color="red" position="5.71427,-3.00605,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    	  <object name="barrel1" object_type="barrel" object_color="red" position="5.87217,-6.16375,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    	  <object name="barrel2" object_type="barrel" object_color="red" position="4.69351,-4.50759,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    	  <object name="barrel3" object_type="barrel" object_color="red" position="4.0918,-4.09989,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="barrel0" object_type="barrel" object_color="red" position="5.71427,-3.00605,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="barrel1" object_type="barrel" object_color="red" position="5.87217,-6.16375,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="barrel2" object_type="barrel" object_color="red" position="4.69351,-4.50759,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="barrel3" object_type="barrel" object_color="red" position="4.0918,-4.09989,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         </container>
         <object name="barrel0" object_type="barrel" object_color="red" position="5.71427,-3.00605,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="barrel1" object_type="barrel" object_color="red" position="5.87217,-6.16375,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="barrel2" object_type="barrel" object_color="red" position="4.69351,-4.50759,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="barrel3" object_type="barrel" object_color="red" position="4.0918,-4.09989,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	<number value="4"/>
+        <number value="4"/>
         <object_type object_type="barrel"/>
       </grounding_set>
       <CD text="four" order="0"/>
@@ -56,7 +56,7 @@
       <IN text="at" order="2"/>
       <NP>
         <grounding_set>
-	  <spatial_relation spatial_relation_type="right"/>
+          <spatial_relation spatial_relation_type="right"/>
         </grounding_set>
         <DT text="the" order="3"/>
         <JJ text="right" order="4"/>
@@ -70,22 +70,22 @@
       <IN text="in" order="6"/>
       <NP>
         <grounding_set>
-	  <region spatial_relation_type="front" object_id="husky_mm"/>
+          <region spatial_relation_type="front" object_id="husky_mm"/>
         </grounding_set>
         <NP>
           <grounding_set>
-	    <spatial_relation spatial_relation_type="front"/>
+            <spatial_relation spatial_relation_type="front"/>
           </grounding_set>
           <NN text="front" order="7"/>
         </NP>
         <PP>
           <grounding_set>
-    	    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           </grounding_set>
           <IN text="of" order="8"/>
           <NP>
             <grounding_set>
-    	      <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             </grounding_set>
             <DT text="the" order="9"/>
             <NN text="robot" order="10"/>
