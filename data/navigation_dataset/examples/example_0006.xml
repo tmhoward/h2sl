@@ -2,7 +2,7 @@
 <root>
   <instruction text="the four drums far away on the right side at front of the robot"/>
   <!-- "file" indicates the which world within certain world type-->
-  <world time="0" file="row_col_group_0002"/>
+  <world time="0" file="row_col_group_0002">
     <object name="barrel0" object_type="barrel" object_color="red" position="5.89378 -4.93294 0.270293" orientation="0,0,0,1"/>
     <object name="barrel1" object_type="barrel" object_color="red" position="5.70659 -6.21413 0.270293" orientation="0,0,0,1"/>
     <object name="barrel2" object_type="barrel" object_color="red" position="4.58655 -4.00757 0.270293" orientation="0,0,0,1"/>
