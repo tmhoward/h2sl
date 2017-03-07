@@ -58,12 +58,12 @@
     </NP>
     <VP>
       <grounding_set>
-        <region spatial_relation_type="behind" object_id="husky_mm"/>
+        <region spatial_relation_type="back" object_id="husky_mm"/>
       </grounding_set>
       <VBN text="located" order="3"/>
       <PP>
         <grounding_set>
-          <region spatial_relation_type="behind" object_id="husky_mm"/>
+          <region spatial_relation_type="back" object_id="husky_mm"/>
         </grounding_set>
         <IN text="behind" order="4"/>
         <NP>
