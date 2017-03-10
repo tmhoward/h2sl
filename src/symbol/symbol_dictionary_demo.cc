@@ -54,9 +54,9 @@ using namespace h2sl;
 template< class C >
 void
 print_search_spaces( Symbol_Dictionary& symbolDictionary, World* world, int symbol_threshold ){
-  map< string, pair< unsigned int, vector< Grounding* > > > search_spaces;
+  map< string, pair< string, vector< Grounding* > > > search_spaces;
   C::fill_search_space( symbolDictionary, world, search_spaces, SYMBOL_TYPE_ALL );
-  map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_search_spaces_symbol = search_spaces.find( C::class_name() );
+  map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces_symbol = search_spaces.find( C::class_name() );
   if( it_search_spaces_symbol != search_spaces.end() ){
     cout << "class \"" << C::class_name() << "\" generated " << it_search_spaces_symbol->second.second.size() << " symbols" << endl;
     if( it_search_spaces_symbol->second.second.size() < symbol_threshold ){

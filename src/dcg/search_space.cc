@@ -37,12 +37,9 @@ using namespace std;
 using namespace h2sl;
 
 Search_Space::
-Search_Space ( const std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpaces, 
-	       const std::vector< std::vector< unsigned int > >& cvs, 
-               const Symbol_Dictionary& symbolDictionary ) :
-	      					_search_spaces( searchSpaces ),
-                        			_cvs( cvs ),
-                        			_symbol_dictionary( symbolDictionary ) { 
+Search_Space ( const map< string, pair< string, vector< Grounding* > > >& groundingPairs, 
+	       const map< string, vector< unsigned int > >& cvs ) : _grounding_pairs( groundingPairs ),
+                        			                    _cvs( cvs ) {
 }
 
 Search_Space::
@@ -57,30 +54,26 @@ Search_Space::
 
 Search_Space::
 Search_Space( const Search_Space& other ) :  
-                                _search_spaces( other._search_spaces ), 
-                                _cvs( other._cvs ),
-                                _symbol_dictionary( other._symbol_dictionary ) {
+                                _grounding_pairs( other._grounding_pairs ), 
+                                _cvs( other._cvs ) {
 
 }
 
 Search_Space&
 Search_Space::
 operator=( const Search_Space& other ) {
-  _search_spaces = other._search_spaces; 
+  _grounding_pairs = other._grounding_pairs; 
   _cvs = other._cvs;
-  _symbol_dictionary = other._symbol_dictionary; 
   return (*this);
 }
 
 bool
 Search_Space::
 operator==( const Search_Space& other )const{
-  if( search_spaces() != other.search_spaces() ){
+  if( grounding_pairs() != other.grounding_pairs() ){
     return false;
   } else if ( cvs() != other.cvs() ){
     return false;
-//  } else if ( symbol_dictionary() != other.symbol_dictionary() ){
-//    return false;
   } else {
     return true;
   }   
@@ -98,7 +91,27 @@ dup( void )const{
   return new Search_Space( *this );
 }
 
+void
+Search_Space::
+clear( void ){
+  for( map< string, pair< string, vector< Grounding* > > >::iterator it_groundings = _grounding_pairs.begin(); it_groundings != _grounding_pairs.end(); it_groundings++ ){
+    for( vector< Grounding* >::iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
+      Grounding * grounding = *it_grounding;
+      if( grounding != NULL ){
+        delete grounding;
+        grounding = NULL;
+      }
+    }
+    it_groundings->second.second.clear();
+  }
+  _grounding_pairs.clear();
 
+  for( map< string, vector< unsigned int > >::iterator it_cvs = _cvs.begin(); it_cvs != _cvs.end(); it_cvs++ ){
+    it_cvs->second.clear();
+  }
+  _cvs.clear();
+  return;
+}
  
 void
 Search_Space::

@@ -152,7 +152,7 @@ main( int argc,
     
 //    scrape_examples( filenames[ i ], phrases[ i ], worlds[ i ], dcgs[ i ]->search_spaces(), dcgs[ i ]->correspondence_variables(), examples );  
 
-    DCG::scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], dcgs[ i ]->search_spaces(), dcgs[ i ]->correspondence_variables(), examples );
+    DCG::scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], dcgs[ i ]->search_space(),  examples );
   }
 
   cout << "training with " << examples.size() << " examples" << endl;

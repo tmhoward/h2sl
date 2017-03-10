@@ -55,8 +55,7 @@ using namespace std;
 using namespace h2sl;
 
 DCG::
-DCG() : _search_spaces(),
-        _correspondence_variables(),
+DCG() : _search_space(),
         _solutions(),
         _root( NULL ) {
 
@@ -68,8 +67,7 @@ DCG::
 }
 
 DCG::
-DCG( const DCG& other ) : _search_spaces( other._search_spaces ),
-                          _correspondence_variables( other._correspondence_variables ),
+DCG( const DCG& other ) : _search_space( other._search_space ),
                           _solutions( other._solutions ),
                           _root( other._root ) {
 
@@ -78,8 +76,7 @@ DCG( const DCG& other ) : _search_spaces( other._search_spaces ),
 DCG&
 DCG::
 operator=( const DCG& other ) {
-  _search_spaces = other._search_spaces;
-  _correspondence_variables = other._correspondence_variables;
+  _search_space = other._search_space;
   _solutions = other._solutions;
   _root = other._root;
   return (*this);
@@ -90,15 +87,15 @@ DCG::
 scrape_examples( const string& filename,
                   const Phrase* phrase,
                   const h2sl::World* world,
-                  const map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
-//                  const vector< pair< unsigned int, h2sl::Grounding* > >& searchSpaces,
-                  const vector< vector< unsigned int > >& correspondenceVariables,
+                  const Search_Space& searchSpace,
                   vector< pair< unsigned int, h2sl::LLM_X > >& examples ){
 //  for( unsigned int i = 0; i < searchSpaces.size(); i++ ){
   assert( phrase->grounding_set() != NULL );
-  for( map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_groundings = searchSpaces.begin(); it_groundings != searchSpaces.end(); it_groundings++ ){
+  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_groundings = searchSpace.grounding_pairs().begin(); it_groundings != searchSpace.grounding_pairs().end(); it_groundings++ ){
     for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
-      examples.push_back( pair< unsigned int, h2sl::LLM_X >( phrase->grounding_set()->evaluate_cv( *it_grounding ), h2sl::LLM_X( *it_grounding, phrase, world, correspondenceVariables[ it_groundings->second.first ], vector< h2sl::Feature* >(), filename ) ) );
+      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_groundings->second.first );
+      assert( it_cvs != searchSpace.cvs().end() );
+      examples.push_back( pair< unsigned int, h2sl::LLM_X >( phrase->grounding_set()->evaluate_cv( *it_grounding ), h2sl::LLM_X( *it_grounding, phrase, world, it_cvs->second, vector< h2sl::Feature* >(), filename ) ) );
       for( unsigned int j = 0; j < phrase->children().size(); j++ ){
         examples.back().second.children().push_back( pair< const h2sl::Phrase*, vector< h2sl::Grounding* > >( phrase->children()[ j ], vector< h2sl::Grounding* >() ) );
         Grounding_Set * child_grounding_set = phrase->children()[ j ]->grounding_set();
@@ -112,7 +109,7 @@ scrape_examples( const string& filename,
   }
 
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    scrape_examples( filename, dynamic_cast< Phrase* >( phrase->children()[ i ] ), world, searchSpaces, correspondenceVariables, examples );
+    scrape_examples( filename, dynamic_cast< Phrase* >( phrase->children()[ i ] ), world, searchSpace, examples );
   }
   return;
 }
@@ -120,32 +117,7 @@ scrape_examples( const string& filename,
 void
 DCG::
 fill_search_spaces( const World* world ){
-/*  
-  for( unsigned int i = 0; i < _search_spaces.size(); i++ ){
-    if( _search_spaces[ i ].second != NULL ){
-      delete _search_spaces[ i ].second;
-      _search_spaces[ i ].second = NULL;
-    }
-    _search_spaces.clear();
-  }
-*/
-  for( map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_groundings = _search_spaces.begin(); it_groundings != _search_spaces.end(); it_groundings++ ){
-    for( vector< Grounding* >::iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
-      Grounding * grounding = *it_grounding;
-      if( grounding != NULL ){
-        delete grounding;
-        grounding = NULL;
-      }
-    }
-    it_groundings->second.second.clear();
-  }
-  _search_spaces.clear();
-
-  for( unsigned int i = 0; i < _correspondence_variables.size(); i++ ){
-    _correspondence_variables[ i ].clear();
-  }
-  _correspondence_variables.clear();
-
+  _search_space.clear();
 
   std::vector< unsigned int > binary_cvs;
   binary_cvs.push_back( CV_FALSE );
@@ -156,22 +128,22 @@ fill_search_spaces( const World* world ){
   ternary_cvs.push_back( CV_TRUE );
   ternary_cvs.push_back( CV_INVERTED );
 
-  _correspondence_variables.push_back( binary_cvs );
-  _correspondence_variables.push_back( ternary_cvs );
+  _search_space.cvs().insert( pair< string, vector< unsigned int > >( "binary", binary_cvs ) );
+  _search_space.cvs().insert( pair< string, vector< unsigned int > >( "ternary", ternary_cvs ) );
 
-  Object::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Object_Type::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Object_Color::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Object_Property::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Number::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Index::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Region::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Spatial_Relation::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Constraint::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Region_Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Region_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Object::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Object_Type::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Object_Color::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Object_Property::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Number::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Index::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Region::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Spatial_Relation::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Constraint::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Region_Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Container::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
+  Region_Container::fill_search_space( _symbol_dictionary, world, _search_space.grounding_pairs(), SYMBOL_TYPE_ALL );
 
   return;
 }
@@ -216,8 +188,7 @@ leaf_search( const Phrase* phrase,
     Factor_Set * leaf = NULL;
     _find_leaf( _root, leaf );
     while( leaf != NULL ){
-      leaf->search( _search_spaces,
-                    _correspondence_variables,
+      leaf->search( _search_space,
                     _symbol_dictionary,
                     world,
                     context,

@@ -44,6 +44,7 @@
 #include "h2sl/world.h"
 #include "h2sl/llm.h"
 #include "h2sl/symbol_dictionary.h"
+#include "h2sl/search_space.h"
 
 namespace h2sl {
   class Factor_Set_Solution {
@@ -67,13 +68,11 @@ namespace h2sl {
     Factor_Set( const Factor_Set& other );
     Factor_Set& operator=( const Factor_Set& other );
 
-    virtual void search( const std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpace,
-                         const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
+    virtual void search( const Search_Space& searchSpace,
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
-    virtual void search( const std::map< std::string, std::pair< unsigned int, std::vector< Grounding* > > >& searchSpace, 
-                         const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
+    virtual void search( const Search_Space& searchSpace, 
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
