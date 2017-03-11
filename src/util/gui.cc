@@ -566,14 +566,14 @@ _add_factor_set_graphics_items( const Factor_Set* factorSet,
   _graphics_items.back().back()->setPos( 128.0 * ( double )( _graphics_items.size() - 1 ), 40.0 );
 
   // add the groundings
-  for( unsigned int i = 0; i < factorSet->solutions()[ solutionIndex ].groundings.size(); i++ ){
+  for( unsigned int i = 0; i < factorSet->solutions()[ solutionIndex ].groundings->groundings().size(); i++ ){
     QGraphicsItem_Factor * qgraphicsitem_factor = new QGraphicsItem_Factor();
     _graphics_items.back().push_back( qgraphicsitem_factor );
     _graphics_items.back().back()->setPos( 128.0 * ( double )( _graphics_items.size() - 1 ), -64.0 - 128.0 * ( double )( i ) );
     connect( qgraphicsitem_factor, SIGNAL( comment( const std::string&, const bool& ) ), this, SLOT( _receive_comment( const std::string&, const bool& ) ) );
     factors.push_back( qgraphicsitem_factor );
 
-    QGraphicsItem_Grounding * qgraphicsitem_grounding = new QGraphicsItem_Grounding( factorSet->solutions()[ solutionIndex ].groundings[ i ] );
+    QGraphicsItem_Grounding * qgraphicsitem_grounding = new QGraphicsItem_Grounding( factorSet->solutions()[ solutionIndex ].groundings->groundings()[ i ] );
     _graphics_items.back().push_back( qgraphicsitem_grounding );
     _graphics_items.back().back()->setPos( 128.0 * ( double )( _graphics_items.size() - 1 ), -128.0 - 128.0 * ( double )( i ) );
     connect( qgraphicsitem_grounding, SIGNAL( comment( const std::string&, const bool& ) ), this, SLOT( _receive_comment( const std::string&, const bool& ) ) );

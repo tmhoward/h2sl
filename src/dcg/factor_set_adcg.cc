@@ -146,8 +146,8 @@ _search_physical( const Search_Space& searchSpace,
     for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
       solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx;
       child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ j ]->phrase(), vector< Grounding* >() ) );
-      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings.size(); k++ ){
-        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings[ k ] );
+      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings().size(); k++ ){
+        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings()[ k ] );
       }
     }
 
@@ -184,7 +184,7 @@ _search_physical( const Search_Space& searchSpace,
 
 
         for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
-          solutions_vector.back()[ k ].groundings.clear();
+          solutions_vector.back()[ k ].groundings->groundings().clear();
        //   for( unsigned int l = 0; l < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); l++ ){
        //     solutions_vector.back()[ k ].groundings.push_back( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ].second );
             //solutions_vector.back()[ k ].groundings.push_back( it_search_spaces->second.second[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ] );

@@ -40,6 +40,7 @@
 #include <algorithm>
 
 #include "h2sl/grounding.h"
+#include "h2sl/grounding_set.h"
 #include "h2sl/phrase.h"
 #include "h2sl/world.h"
 #include "h2sl/llm.h"
@@ -57,7 +58,8 @@ namespace h2sl {
     std::map< std::string, std::vector< std::vector< unsigned int > > > cv;  
 //    std::vector< std::pair< std::string, std::vector< unsigned int > > > cv;
     std::vector< unsigned int > children;
-    std::vector< Grounding* > groundings;
+//    std::vector< Grounding* > groundings;
+    Grounding_Set * groundings;
     double pygx;
   };
 

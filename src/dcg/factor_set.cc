@@ -47,7 +47,7 @@ factor_set_solution_sort( const Factor_Set_Solution& a,
 Factor_Set_Solution::
 Factor_Set_Solution() : cv(),
                             children(),
-                            groundings(),
+                            groundings( NULL ),
                             pygx( 1.0 ) {
 
 }
@@ -166,8 +166,8 @@ search( const Search_Space& searchSpace,
     for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
       solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx;
       child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ j ]->phrase(), vector< Grounding* >() ) );
-      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings.size(); k++ ){
-        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings[ k ] );
+      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings().size(); k++ ){
+        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings()[ k ] );
       }
     }
 
@@ -225,7 +225,7 @@ search( const Search_Space& searchSpace,
 //      for( unsigned int j = 0; j < _solutions[ i ].cv[ CV_TRUE ].size(); j++ ){   
       for( unsigned int j = 0; j < it_cvs->second[ CV_TRUE ].size(); j++ ){
 //        _solutions[ i ].groundings.push_back( searchSpace[ _solutions[ i ].cv[ CV_TRUE ][ j ] ].second );
-        _solutions[ i ].groundings.push_back( it_search_spaces->second.second[ it_cvs->second[ CV_TRUE ][ j ] ] );
+        _solutions[ i ].groundings->groundings().push_back( it_search_spaces->second.second[ it_cvs->second[ CV_TRUE ][ j ] ] );
       }
     }
   }
@@ -276,11 +276,11 @@ search( const Search_Space& searchSpace,
         } 
       }
       cout << tmp_string.str() << "} ";
-      cout << "groundings[" << _solutions[ i ].groundings.size() << "]:{";
+      cout << "groundings[" << _solutions[ i ].groundings->groundings().size() << "]:{";
       // Added the printing on the groundings with each.
-      for( unsigned int j = 0; j < _solutions[ i ].groundings.size(); j++ ){
-        cout << *(_solutions[ i ].groundings[ j ]);
-        if( j != ( _solutions[ i ].groundings.size() - 1 ) ){
+      for( unsigned int j = 0; j < _solutions[ i ].groundings->groundings().size(); j++ ){
+        cout << *(_solutions[ i ].groundings->groundings()[ j ]);
+        if( j != ( _solutions[ i ].groundings->groundings().size() - 1 ) ){
           cout << ",";
         }
       }

@@ -261,8 +261,8 @@ _fill_phrase( Factor_Set* node,
               Factor_Set_Solution& solution,
               Phrase* phrase ){
   phrase->grounding_set() = new Grounding_Set();
-  for( unsigned int i = 0; i < solution.groundings.size(); i++ ){
-    dynamic_cast< Grounding_Set* >( phrase->grounding_set() )->groundings().push_back( solution.groundings[ i ] );
+  for( unsigned int i = 0; i < solution.groundings->groundings().size(); i++ ){
+    dynamic_cast< Grounding_Set* >( phrase->grounding_set() )->groundings().push_back( solution.groundings->groundings()[ i ] );
   }
   for( unsigned int i = 0; i < node->children().size(); i++ ){
     phrase->children().push_back( node->children()[ i ]->phrase()->dup() );
