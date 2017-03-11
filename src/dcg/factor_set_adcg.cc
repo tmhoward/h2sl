@@ -140,7 +140,7 @@ _search_physical( const Search_Space& searchSpace,
     solutions_vector.push_back( vector< Factor_Set_Solution >() );
     solutions_vector.back().push_back( Factor_Set_Solution() );
     solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
-    solutions_vector.back().back().cv.resize( NUM_CVS );
+    //solutions_vector.back().back().cv.resize( NUM_CVS );
 
     vector< pair< const Phrase*, vector< Grounding* > > > child_groundings;
     for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
@@ -181,16 +181,18 @@ _search_physical( const Search_Space& searchSpace,
           solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
         }
 
-/*
-        for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
-          solutions_vector.back()[ k ].groundings.clear();
-          for( unsigned int l = 0; l < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); l++ ){
-            solutions_vector.back()[ k ].groundings.push_back( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ].second );
-          }
-        }
-*/
+
+       // for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
+       //   solutions_vector.back()[ k ].groundings.clear();
+       //   for( unsigned int l = 0; l < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); l++ ){
+       //     solutions_vector.back()[ k ].groundings.push_back( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ].second );
+       //   }
+       // }
+
+
       }
     }
+  }
 
 /*
     // look for the expressed symbols for objects, indices
@@ -479,7 +481,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Factor_Set_ADCG& other ){
-
+/*
     for( unsigned int i = 0; i < other.solutions().size(); i++ ){
       out << "solutions[" << i << "] TRUE [" << other.solutions()[ i ].cv[ CV_TRUE ].size() << "]:{";
       for( unsigned int j = 0; j < other.solutions()[ i ].cv[ CV_TRUE ].size(); j++ ){
@@ -512,7 +514,7 @@ namespace h2sl {
     for( unsigned int i = 0; i < other.abstract_search_spaces().size(); i++ ){
       out << "abstract_search_space[" << i << "] size:" << other.abstract_search_spaces()[ i ].size() << endl;
     }
-  
+  */
     return out;
 
   }

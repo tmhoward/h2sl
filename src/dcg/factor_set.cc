@@ -171,39 +171,23 @@ search( const Search_Space& searchSpace,
       }
     }
 
-/*
-    vector< Grounding* > child_groundings;
-    for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
-      solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx;
-      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings.size(); k++ ){
-        child_groundings.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings[ k ] );
-      }
-    }
-*/    
-//    for( unsigned int j = 0; j < searchSpace.size(); j++ ){
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
-//      for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
       for( unsigned int j = 0; j < it_search_spaces->second.second.size(); j++ ){
         unsigned int num_solutions = solutions_vector.back().size();
         map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
         assert( it_cvs != searchSpace.cvs().end() );
-//        for( unsigned int k = 1; k < correspondenceVariables[ it_search_spaces->second.first ].size(); k++ ){
         for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
           for( unsigned int l = 0; l < num_solutions; l++ ){
             solutions_vector.back().push_back( solutions_vector.back()[ l ] );
           } 
         }
         for( unsigned int k = 0; k < it_cvs->second.size(); k++ ){
-//        for( unsigned int k = 0; k < correspondenceVariables[ it_search_spaces->second.first ].size(); k++ ){
           double value = llm->pygx( it_cvs->second[ k ], it_search_spaces->second.second[ j ], child_groundings, _phrase, world, context, it_cvs->second, evaluate_feature_types );
-//          double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], searchSpace[ j ].second, child_groundings, _phrase, world, context, correspondenceVariables[ searchSpace[ j ].first ], evaluate_feature_types );
           evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
           for( unsigned int l = 0; l < num_solutions; l++ ){
             map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k * num_solutions + l ].cv.find( it_search_spaces->first );
             assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() ); 
             it_cvs_solution->second[ it_cvs->second[ k ] ].push_back( j );
-//            solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ it_search_spaces->second.first ][ k ] ].push_back( j );
-//            solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j ); 
             solutions_vector.back()[ k * num_solutions + l ].pygx *= value; 
           }
         }
