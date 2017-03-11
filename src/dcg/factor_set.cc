@@ -105,21 +105,19 @@ operator=( const Factor_Set& other ) {
 
 void
 Factor_Set::
-search( const map< string, pair< unsigned int, vector< Grounding* > > >& searchSpace,
-        const vector< vector< unsigned int > >& correspondenceVariables,
+search( const Search_Space& searchSpace,
         const Symbol_Dictionary& symbolDictionary,
         const World* world,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
-  search( searchSpace, correspondenceVariables, symbolDictionary, world, NULL, llm, beamWidth, debug );
+  search( searchSpace, symbolDictionary, world, NULL, llm, beamWidth, debug );
   return;
 }
 
 void
 Factor_Set::
-search( const map< string, pair< unsigned int, vector< Grounding* > > >& searchSpace,
-        const vector< vector< unsigned int > >& correspondenceVariables,
+search( const Search_Space& searchSpace,
         const Symbol_Dictionary& symbolDictionary,
         const World* world, 
         const Grounding* context, 
@@ -147,7 +145,7 @@ search( const map< string, pair< unsigned int, vector< Grounding* > > >& searchS
   cout << "child_solution_indices_cartesian_power.size():" << child_solution_indices_cartesian_power.size() << endl;
 
   if( debug ){
-    for( map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.begin(); it_search_spaces != searchSpace.end(); it_search_spaces++ ){
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
       cout << "searching through symbols for \"" << it_search_spaces->first << "\" (" << it_search_spaces->second.second.size() << " symbols)" << endl;
     }
   }
@@ -159,7 +157,7 @@ search( const map< string, pair< unsigned int, vector< Grounding* > > >& searchS
     solutions_vector.back().push_back( Factor_Set_Solution() );
     solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
     solutions_vector.back().back().cv.clear();
-    for( map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.begin(); it_search_spaces != searchSpace.end(); it_search_spaces++ ){
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
       solutions_vector.back().back().cv.insert( pair< string, vector< vector< unsigned int > > >( it_search_spaces->first, vector< vector< unsigned int > >( NUM_CVS ) ) );
 //      solutions_vector.back().back().cv.resize( NUM_CVS );
     }
@@ -183,25 +181,27 @@ search( const map< string, pair< unsigned int, vector< Grounding* > > >& searchS
     }
 */    
 //    for( unsigned int j = 0; j < searchSpace.size(); j++ ){
-    for( map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.begin(); it_search_spaces != searchSpace.end(); it_search_spaces++ ){
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
 //      for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
       for( unsigned int j = 0; j < it_search_spaces->second.second.size(); j++ ){
         unsigned int num_solutions = solutions_vector.back().size();
-        for( unsigned int k = 1; k < correspondenceVariables[ it_search_spaces->second.first ].size(); k++ ){
-//        for( unsigned int k = 1; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
+        map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
+        assert( it_cvs != searchSpace.cvs().end() );
+//        for( unsigned int k = 1; k < correspondenceVariables[ it_search_spaces->second.first ].size(); k++ ){
+        for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
           for( unsigned int l = 0; l < num_solutions; l++ ){
             solutions_vector.back().push_back( solutions_vector.back()[ l ] );
           } 
         }
-        for( unsigned int k = 0; k < correspondenceVariables[ it_search_spaces->second.first ].size(); k++ ){
-//        for( unsigned int k = 0; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
-          double value = llm->pygx( correspondenceVariables[ it_search_spaces->second.first ][ k ], it_search_spaces->second.second[ j ], child_groundings, _phrase, world, context, correspondenceVariables[ it_search_spaces->second.first ], evaluate_feature_types );
+        for( unsigned int k = 0; k < it_cvs->second.size(); k++ ){
+//        for( unsigned int k = 0; k < correspondenceVariables[ it_search_spaces->second.first ].size(); k++ ){
+          double value = llm->pygx( it_cvs->second[ k ], it_search_spaces->second.second[ j ], child_groundings, _phrase, world, context, it_cvs->second, evaluate_feature_types );
 //          double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], searchSpace[ j ].second, child_groundings, _phrase, world, context, correspondenceVariables[ searchSpace[ j ].first ], evaluate_feature_types );
           evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
           for( unsigned int l = 0; l < num_solutions; l++ ){
-            map< string, vector< vector< unsigned int > > >::iterator it_cvs = solutions_vector.back()[ k * num_solutions + l ].cv.find( it_search_spaces->first );
-            assert( it_cvs != solutions_vector.back()[ k * num_solutions + l ].cv.end() ); 
-            it_cvs->second[ correspondenceVariables[ it_search_spaces->second.first ][ k ] ].push_back( j );
+            map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k * num_solutions + l ].cv.find( it_search_spaces->first );
+            assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() ); 
+            it_cvs_solution->second[ it_cvs->second[ k ] ].push_back( j );
 //            solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ it_search_spaces->second.first ][ k ] ].push_back( j );
 //            solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j ); 
             solutions_vector.back()[ k * num_solutions + l ].pygx *= value; 
@@ -234,7 +234,7 @@ search( const map< string, pair< unsigned int, vector< Grounding* > > >& searchS
     _solutions.erase( _solutions.begin() + beamWidth, _solutions.end() );
   }
 
-  for( map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.begin(); it_search_spaces != searchSpace.end(); it_search_spaces++ ){
+  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
     for( unsigned int i = 0; i < _solutions.size(); i++ ){
       map< string, vector< vector< unsigned int > > >::const_iterator it_cvs = _solutions[ i ].cv.find( it_search_spaces->first );
       assert( it_cvs != _solutions[ i ].cv.end() );
@@ -251,7 +251,7 @@ search( const map< string, pair< unsigned int, vector< Grounding* > > >& searchS
   if( debug ){
     for( unsigned int i = 0; i < _solutions.size(); i++ ){
       map< string, vector< unsigned int > > expressed_indices;
-      for( map< string, pair< unsigned int, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.begin(); it_search_spaces != searchSpace.end(); it_search_spaces++ ){
+      for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
         pair< map< string, vector< unsigned int > >::iterator, bool > expressed_indices_ret = expressed_indices.insert( pair< string, vector< unsigned int > >( it_search_spaces->first, vector< unsigned int >() ) );
          
         map< string, vector< vector< unsigned int > > >::const_iterator it_cvs = _solutions[ i ].cv.find( it_search_spaces->first );

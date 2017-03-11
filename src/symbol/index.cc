@@ -101,13 +101,13 @@ void
 Index::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
-                    map< string, pair< unsigned int, vector< Grounding* > > >& searchSpaces,
+                    map< string, pair< string, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
 
   if( symbolDictionary.has_class_name( class_name() ) ){
-    map< string, pair< unsigned int, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
+    map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
-      searchSpaces.insert( pair< string, pair< unsigned int, vector< Grounding* > > >( class_name(), pair< unsigned int, vector< Grounding* > >( 0, vector< Grounding* >() ) ) );
+      searchSpaces.insert( pair< string, pair< string, vector< Grounding* > > >( class_name(), pair< string, vector< Grounding* > >( "binary", vector< Grounding* >() ) ) );
       it_search_spaces_symbol = searchSpaces.find( class_name() );
     }
 
