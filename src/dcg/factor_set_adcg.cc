@@ -171,6 +171,7 @@ _search_physical( const Search_Space& searchSpace,
           for( unsigned int l = 0; l < num_solutions; l++ ){
             map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k* num_solutions + l ].cv.find( it_search_spaces->first );
             assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() );
+            //solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j );
             solutions_vector.back()[ k * num_solutions + l ].pygx *= value;
           }
         }
@@ -182,19 +183,20 @@ _search_physical( const Search_Space& searchSpace,
         }
 
 
-       // for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
-       //   solutions_vector.back()[ k ].groundings.clear();
+        for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
+          solutions_vector.back()[ k ].groundings.clear();
        //   for( unsigned int l = 0; l < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); l++ ){
        //     solutions_vector.back()[ k ].groundings.push_back( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ].second );
-       //   }
-       // }
+            //solutions_vector.back()[ k ].groundings.push_back( it_search_spaces->second.second[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ] );
+        //  }
+        }
 
 
       }
     }
   }
 
-/*
+
     // look for the expressed symbols for objects, indices
     vector< vector< unsigned int > > observed_true_solution_vectors;
     vector< vector< Object* > > observed_object_vectors;
@@ -204,6 +206,7 @@ _search_physical( const Search_Space& searchSpace,
     vector< int > observed_indices( 1, 1 );
     vector< int > observed_numbers; 
   
+/*
     // Collect the solutions at the concrete level. 
     for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
       // look for a new observed_new_solution_vector
