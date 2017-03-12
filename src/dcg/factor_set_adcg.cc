@@ -1,13 +1,12 @@
 /**
  * @file    factor_set.cc
-* The implementation of a class used to represent a factor set
+ * The implementation of a class used to represent a factor set.
  */
 
 #include <assert.h>
 
 #include "h2sl/common.h"
 #include "h2sl/constraint.h"
-
 #include "h2sl/world.h"
 #include "h2sl/grounding.h"
 #include "h2sl/object.h"
@@ -151,7 +150,6 @@ _search_physical( const Search_Space& searchSpace,
       }
     }
 
-
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
       for( unsigned int j = 0; it_search_spaces->second.second.size(); j++ ){
         unsigned int num_solutions = solutions_vector.back().size();
@@ -182,13 +180,12 @@ _search_physical( const Search_Space& searchSpace,
           solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
         }
 
-
         for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
           solutions_vector.back()[ k ].groundings->groundings().clear();
-       //   for( unsigned int l = 0; l < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); l++ ){
+     //     for( unsigned int l = 0; l < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); l++ ){
        //     solutions_vector.back()[ k ].groundings.push_back( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ].second );
             //solutions_vector.back()[ k ].groundings.push_back( it_search_spaces->second.second[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ] );
-        //  }
+     //     }
         }
 
 
@@ -196,6 +193,8 @@ _search_physical( const Search_Space& searchSpace,
     }
   }
 
+   vector< Symbol_Dictionary > estimated_symbol_dictionaries;
+   
 
     // look for the expressed symbols for objects, indices
     vector< vector< unsigned int > > observed_true_solution_vectors;
