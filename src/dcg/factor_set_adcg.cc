@@ -191,7 +191,7 @@ _search_physical( const Search_Space& searchSpace,
 
       }
     }
-  }
+  //}
 
    vector< Symbol_Dictionary > estimated_symbol_dictionaries;
    
