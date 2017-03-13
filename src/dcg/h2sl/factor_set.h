@@ -71,8 +71,13 @@ namespace h2sl {
     Factor_Set& operator=( const Factor_Set& other );
 
     virtual void search_solution_combination( 
-		 vector< vector< Factor_Set_Solution > >& solutions_vector,
-		 const vector< vector< unsigned int > > child_solution_indices_cartesian_power); 
+			const unsigned int child_solution_index,
+		 	std::vector< std::vector< Factor_Set_Solution > >& solutions_vector,
+		 	const std::vector< std::vector< unsigned int > >& child_solution_indices_cartesian_power, 
+                        const Search_Space& searchSpace,
+                        std::vector < bool >& evaluate_feature_types,
+                        const Grounding* context,
+                        const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false ); 
 
     virtual void search( const Search_Space& searchSpace,
                          const Symbol_Dictionary& symbolDictionary,
@@ -91,9 +96,13 @@ namespace h2sl {
     inline const std::vector< Factor_Set_Solution >& solutions( void )const{ return _solutions; };
 
   protected:
+
+
     const Phrase* _phrase;
     std::vector< Factor_Set* > _children;
     std::vector< Factor_Set_Solution > _solutions;
+
+
 
   private:
 

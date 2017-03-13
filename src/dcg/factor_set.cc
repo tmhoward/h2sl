@@ -119,14 +119,81 @@ search( const Search_Space& searchSpace,
 // Solution search for a single combination.
 void
 Factor_Set::
-search_solution_combination( vector< vector< Factor_Set_Solution > >& solutions_vector, 
-		             const vector< vector< unsigned int > > child_solution_indices_cartesian_power ) {
+search_solution_combination( const unsigned int child_combo_index, 
+                             vector< vector< Factor_Set_Solution > >& solutions_vector, 
+		             const vector< vector< unsigned int > >& child_solution_indices_cartesian_power, 
+                             const Search_Space& searchSpace,
+			     vector < bool >& evaluate_feature_types,
+                             const Grounding* context,
+                             const World * world, LLM* llm, const unsigned int beamWidth, const bool& debug) {
+
+  // Push back the factor set solution in the solutions vector.
   solutions_vector.push_back( vector< Factor_Set_Solution >() );
   solutions_vector.back().push_back( Factor_Set_Solution() );
-  solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
+  solutions_vector.back().back().children = child_solution_indices_cartesian_power[ child_combo_index ];
   solutions_vector.back().back().cv.clear();
+  
+  // Iterate over the search space arranged by classes. FIll the cv vector in the factor set.  
+  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+    solutions_vector.back().back().cv.insert( pair< string, vector< vector< unsigned int > > >( it_search_spaces->first, vector< vector< unsigned int > >( NUM_CVS ) ) );
+  }
+
+  // Update the pygx prob in the current solutions vector  based on the child groundings.
+  // Update the child groundings vector.
+  vector< pair< const Phrase*, vector< Grounding* > > > child_groundings;
+  for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ child_combo_index ].size(); j++ ){
+    solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ child_combo_index ][ j ] ].pygx;
+    child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ j ]->phrase(), vector< Grounding* >() ) );
+    for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ child_combo_index ][ j ] ].groundings->groundings().size(); k++ ){
+      child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ child_combo_index ][ j ] ].groundings->groundings()[ k ] );
+    }
+  }
+
+  // Iterate over each class in the search space.
+  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+    // Obtain the size of the search space for that class. 
+    for( unsigned int j = 0; j < it_search_spaces->second.second.size(); j++ ){
+      unsigned int num_solutions = solutions_vector.back().size();
+      // Iterate over the search space cvs.   
+      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
+      assert( it_cvs != searchSpace.cvs().end() );
+      for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
+        for( unsigned int l = 0; l < num_solutions; l++ ){
+          solutions_vector.back().push_back( solutions_vector.back()[ l ] );
+        } 
+      }
+      // Iterate over the cv values and obtain the log-likelihood values.  
+      for( unsigned int k = 0; k < it_cvs->second.size(); k++ ){
+        // Compute the log-likelihood for that factor.
+        double value = llm->pygx( it_cvs->second[ k ], it_search_spaces->second.second[ j ], child_groundings, _phrase, world, context, it_cvs->second, evaluate_feature_types );
+        evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+       
+        // Iterate and update the pygx with the above likelihoods. 
+        for( unsigned int l = 0; l < num_solutions; l++ ){
+          map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k * num_solutions + l ].cv.find( it_search_spaces->first );
+          assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() ); 
+          it_cvs_solution->second[ it_cvs->second[ k ] ].push_back( j );
+          solutions_vector.back()[ k * num_solutions + l ].pygx *= value; 
+        }
+      }
+
+      // Sort the solution vector.
+      sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_solution_sort );   
+    
+      // Trim solutions beyond the beam width.
+      if( solutions_vector.back().size() > beamWidth ){
+        solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
+      }
+    }
+  }
+
+  return;
 
 /*
+ 
+  // Code extracted from the main function. To be deleted.
+
+
   for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
     solutions_vector.push_back( vector< Factor_Set_Solution >() );
     solutions_vector.back().push_back( Factor_Set_Solution() );
@@ -177,7 +244,6 @@ search_solution_combination( vector< vector< Factor_Set_Solution > >& solutions_
   }
 
 */
-  return;
 }
 
 
@@ -221,6 +287,10 @@ search( const Search_Space& searchSpace,
   vector< vector< Factor_Set_Solution > > solutions_vector;
   // add a Factor_Set_Solution for each combination of children
   for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
+
+    search_solution_combination( i, solutions_vector, child_solution_indices_cartesian_power, searchSpace, evaluate_feature_types, 
+                                 context, world, llm, beamWidth, debug);
+   /*
     solutions_vector.push_back( vector< Factor_Set_Solution >() );
     solutions_vector.back().push_back( Factor_Set_Solution() );
     solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
@@ -267,6 +337,7 @@ search( const Search_Space& searchSpace,
         }
       }
     }
+   */
   }
 
   // flatten solutions
