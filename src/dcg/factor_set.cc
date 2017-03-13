@@ -119,7 +119,13 @@ search( const Search_Space& searchSpace,
 // Solution search for a single combination.
 void
 Factor_Set::
-search_solution_combination() {
+search_solution_combination( vector< vector< Factor_Set_Solution > >& solutions_vector, 
+		             const vector< vector< unsigned int > > child_solution_indices_cartesian_power ) {
+  solutions_vector.push_back( vector< Factor_Set_Solution >() );
+  solutions_vector.back().push_back( Factor_Set_Solution() );
+  solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
+  solutions_vector.back().back().cv.clear();
+
 /*
   for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
     solutions_vector.push_back( vector< Factor_Set_Solution >() );
@@ -213,7 +219,7 @@ search( const Search_Space& searchSpace,
   }
 
   vector< vector< Factor_Set_Solution > > solutions_vector;
-  // add a Factor_Set_Soluton for each combination of children
+  // add a Factor_Set_Solution for each combination of children
   for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
     solutions_vector.push_back( vector< Factor_Set_Solution >() );
     solutions_vector.back().push_back( Factor_Set_Solution() );

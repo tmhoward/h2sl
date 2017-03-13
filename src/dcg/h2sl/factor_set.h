@@ -70,7 +70,9 @@ namespace h2sl {
     Factor_Set( const Factor_Set& other );
     Factor_Set& operator=( const Factor_Set& other );
 
-    virtual void search_solution_combination(); 
+    virtual void search_solution_combination( 
+		 vector< vector< Factor_Set_Solution > >& solutions_vector,
+		 const vector< vector< unsigned int > > child_solution_indices_cartesian_power); 
 
     virtual void search( const Search_Space& searchSpace,
                          const Symbol_Dictionary& symbolDictionary,
