@@ -119,71 +119,48 @@ search( const Search_Space& searchSpace,
 // Solution search for a single combination.
 void
 Factor_Set::
-search_solution_combination( const unsigned int child_combo_index, 
-                             vector< vector< Factor_Set_Solution > >& solutions_vector, 
-		             const vector< vector< unsigned int > >& child_solution_indices_cartesian_power, 
-                             const Search_Space& searchSpace,
-			     vector < bool >& evaluate_feature_types,
-                             const Grounding* context,
-                             const World * world, LLM* llm, const unsigned int beamWidth, const bool& debug) {
+search_subspace( vector< Factor_Set_Solution >& solutionsVector, 
+                  const Search_Space& searchSpace,
+                  const vector< pair< const Phrase*, vector< Grounding* > > >& childPhraseGroundings,                           
+                  const string& classname,
+                  const pair< string, vector< Grounding* > >& searchSubspace, 
+		  vector < bool >& evaluate_feature_types,
+                  const Grounding* context,
+                  const World * world, LLM* llm, const unsigned int beamWidth, const bool& debug) {
+  map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( searchSubspace.first );
+  assert( it_cvs != searchSpace.cvs().end() );
 
-  // Push back the factor set solution in the solutions vector.
-  solutions_vector.push_back( vector< Factor_Set_Solution >() );
-  solutions_vector.back().push_back( Factor_Set_Solution() );
-  solutions_vector.back().back().children = child_solution_indices_cartesian_power[ child_combo_index ];
-  solutions_vector.back().back().cv.clear();
-  
-  // Iterate over the search space arranged by classes. FIll the cv vector in the factor set.  
-  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
-    solutions_vector.back().back().cv.insert( pair< string, vector< vector< unsigned int > > >( it_search_spaces->first, vector< vector< unsigned int > >( NUM_CVS ) ) );
-  }
-
-  // Update the pygx prob in the current solutions vector  based on the child groundings.
-  // Update the child groundings vector.
-  vector< pair< const Phrase*, vector< Grounding* > > > child_groundings;
-  for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ child_combo_index ].size(); j++ ){
-    solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ child_combo_index ][ j ] ].pygx;
-    child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ j ]->phrase(), vector< Grounding* >() ) );
-    for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ child_combo_index ][ j ] ].groundings->groundings().size(); k++ ){
-      child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ child_combo_index ][ j ] ].groundings->groundings()[ k ] );
+  // Obtain the size of the search space for that class. 
+  for( unsigned int j = 0; j < searchSubspace.second.size(); j++ ){
+    unsigned int num_solutions = solutionsVector.size();
+    // Iterate over the search space cvs.   
+    for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
+      for( unsigned int l = 0; l < num_solutions; l++ ){
+        solutionsVector.push_back( solutionsVector[ l ] );
+      } 
     }
-  }
-
-  // Iterate over each class in the search space.
-  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
-    // Obtain the size of the search space for that class. 
-    for( unsigned int j = 0; j < it_search_spaces->second.second.size(); j++ ){
-      unsigned int num_solutions = solutions_vector.back().size();
-      // Iterate over the search space cvs.   
-      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
-      assert( it_cvs != searchSpace.cvs().end() );
-      for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
-        for( unsigned int l = 0; l < num_solutions; l++ ){
-          solutions_vector.back().push_back( solutions_vector.back()[ l ] );
-        } 
+    // Iterate over the cv values and obtain the log-likelihood values.  
+    for( unsigned int k = 0; k < it_cvs->second.size(); k++ ){
+      // Compute the log-likelihood for that factor.
+      double value = llm->pygx( it_cvs->second[ k ], searchSubspace.second[ j ], childPhraseGroundings, _phrase, world, context, it_cvs->second, evaluate_feature_types );
+      evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+     
+      // Iterate and update the pygx with the above likelihoods. 
+      for( unsigned int l = 0; l < num_solutions; l++ ){
+        map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutionsVector[ k * num_solutions + l ].cv.find( classname );
+        assert( it_cvs_solution != solutionsVector[ k * num_solutions + l ].cv.end() ); 
+        it_cvs_solution->second[ it_cvs->second[ k ] ].push_back( j );
+        assert( it_cvs != searchSpace.cvs().end() );
+        solutionsVector[ k * num_solutions + l ].pygx *= value; 
       }
-      // Iterate over the cv values and obtain the log-likelihood values.  
-      for( unsigned int k = 0; k < it_cvs->second.size(); k++ ){
-        // Compute the log-likelihood for that factor.
-        double value = llm->pygx( it_cvs->second[ k ], it_search_spaces->second.second[ j ], child_groundings, _phrase, world, context, it_cvs->second, evaluate_feature_types );
-        evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
-       
-        // Iterate and update the pygx with the above likelihoods. 
-        for( unsigned int l = 0; l < num_solutions; l++ ){
-          map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k * num_solutions + l ].cv.find( it_search_spaces->first );
-          assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() ); 
-          it_cvs_solution->second[ it_cvs->second[ k ] ].push_back( j );
-          solutions_vector.back()[ k * num_solutions + l ].pygx *= value; 
-        }
-      }
+    }
 
-      // Sort the solution vector.
-      sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_solution_sort );   
+    // Sort the solution vector.
+    sort( solutionsVector.begin(), solutionsVector.end(), factor_set_solution_sort );   
     
-      // Trim solutions beyond the beam width.
-      if( solutions_vector.back().size() > beamWidth ){
-        solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
-      }
+    // Trim solutions beyond the beam width.
+    if( solutionsVector.size() > beamWidth ){
+      solutionsVector.erase( solutionsVector.begin() + beamWidth, solutionsVector.end() );
     }
   }
 
@@ -232,15 +209,12 @@ search( const Search_Space& searchSpace,
   vector< vector< Factor_Set_Solution > > solutions_vector;
   // add a Factor_Set_Solution for each combination of children
   for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
-
-    search_solution_combination( i, solutions_vector, child_solution_indices_cartesian_power, searchSpace, evaluate_feature_types, 
-                                 context, world, llm, beamWidth, debug);
-   /*
     solutions_vector.push_back( vector< Factor_Set_Solution >() );
     solutions_vector.back().push_back( Factor_Set_Solution() );
     solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
     solutions_vector.back().back().cv.clear();
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+      cout << "adding \"" << it_search_spaces->first << "\"" << endl;
       solutions_vector.back().back().cv.insert( pair< string, vector< vector< unsigned int > > >( it_search_spaces->first, vector< vector< unsigned int > >( NUM_CVS ) ) );
 //      solutions_vector.back().back().cv.resize( NUM_CVS );
     }
@@ -253,8 +227,15 @@ search( const Search_Space& searchSpace,
         child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings()[ k ] );
       }
     }
-
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+      search_subspace( solutions_vector.back(), 
+                        searchSpace, 
+                        child_groundings,
+                        it_search_spaces->first, 
+                        it_search_spaces->second, 
+                        evaluate_feature_types,
+                        context, world, llm, beamWidth, debug ); 
+/*
       for( unsigned int j = 0; j < it_search_spaces->second.second.size(); j++ ){
         unsigned int num_solutions = solutions_vector.back().size();
         map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
@@ -281,8 +262,8 @@ search( const Search_Space& searchSpace,
           solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
         }
       }
+*/
     }
-   */
   }
 
   // flatten solutions
@@ -304,11 +285,14 @@ search( const Search_Space& searchSpace,
 
   for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
     for( unsigned int i = 0; i < _solutions.size(); i++ ){
+      cout << "i:" << i << endl;
       map< string, vector< vector< unsigned int > > >::const_iterator it_cvs = _solutions[ i ].cv.find( it_search_spaces->first );
       assert( it_cvs != _solutions[ i ].cv.end() );
 //      for( unsigned int j = 0; j < _solutions[ i ].cv[ CV_TRUE ].size(); j++ ){   
       for( unsigned int j = 0; j < it_cvs->second[ CV_TRUE ].size(); j++ ){
 //        _solutions[ i ].groundings.push_back( searchSpace[ _solutions[ i ].cv[ CV_TRUE ][ j ] ].second );
+        cout << "j:" << j << endl;
+        cout << "it_cvs->second[ CV_TRUE ].size():" << it_cvs->second[ CV_TRUE ].size() << endl;
         _solutions[ i ].groundings->groundings().push_back( it_search_spaces->second.second[ it_cvs->second[ CV_TRUE ][ j ] ] );
       }
     }

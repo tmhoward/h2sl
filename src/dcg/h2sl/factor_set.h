@@ -70,12 +70,13 @@ namespace h2sl {
     Factor_Set( const Factor_Set& other );
     Factor_Set& operator=( const Factor_Set& other );
 
-    virtual void search_solution_combination( 
-			const unsigned int child_solution_index,
-		 	std::vector< std::vector< Factor_Set_Solution > >& solutions_vector,
-		 	const std::vector< std::vector< unsigned int > >& child_solution_indices_cartesian_power, 
+    virtual void search_subspace( 
+		 	std::vector< Factor_Set_Solution >& solutionsVector,
                         const Search_Space& searchSpace,
-                        std::vector < bool >& evaluate_feature_types,
+                        const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& childPhraseGroundings,   
+                        const std::string& classname,
+                        const std::pair< std::string, std::vector< Grounding* > >& searchSubspace,
+                        std::vector< bool >& evaluate_feature_types,
                         const Grounding* context,
                         const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false ); 
 
