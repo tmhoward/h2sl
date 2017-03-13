@@ -70,6 +70,8 @@ namespace h2sl {
     Factor_Set( const Factor_Set& other );
     Factor_Set& operator=( const Factor_Set& other );
 
+    virtual void search_solution_combination(); 
+
     virtual void search( const Search_Space& searchSpace,
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );

@@ -115,6 +115,67 @@ search( const Search_Space& searchSpace,
   return;
 }
 
+
+// Solution search for a single combination.
+void
+Factor_Set::
+search_solution_combination() {
+/*
+  for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
+    solutions_vector.push_back( vector< Factor_Set_Solution >() );
+    solutions_vector.back().push_back( Factor_Set_Solution() );
+    solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
+    solutions_vector.back().back().cv.clear();
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+      solutions_vector.back().back().cv.insert( pair< string, vector< vector< unsigned int > > >( it_search_spaces->first, vector< vector< unsigned int > >( NUM_CVS ) ) );
+//      solutions_vector.back().back().cv.resize( NUM_CVS );
+    }
+
+    vector< pair< const Phrase*, vector< Grounding* > > > child_groundings;
+    for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
+      solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx;
+      child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ j ]->phrase(), vector< Grounding* >() ) );
+      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings().size(); k++ ){
+        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings()[ k ] );
+      }
+    }
+
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+      for( unsigned int j = 0; j < it_search_spaces->second.second.size(); j++ ){
+        unsigned int num_solutions = solutions_vector.back().size();
+        map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
+        assert( it_cvs != searchSpace.cvs().end() );
+        for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
+          for( unsigned int l = 0; l < num_solutions; l++ ){
+            solutions_vector.back().push_back( solutions_vector.back()[ l ] );
+          } 
+        }
+        for( unsigned int k = 0; k < it_cvs->second.size(); k++ ){
+          double value = llm->pygx( it_cvs->second[ k ], it_search_spaces->second.second[ j ], child_groundings, _phrase, world, context, it_cvs->second, evaluate_feature_types );
+          evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+          for( unsigned int l = 0; l < num_solutions; l++ ){
+            map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k * num_solutions + l ].cv.find( it_search_spaces->first );
+            assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() ); 
+            it_cvs_solution->second[ it_cvs->second[ k ] ].push_back( j );
+            solutions_vector.back()[ k * num_solutions + l ].pygx *= value; 
+          }
+        }
+
+        sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_solution_sort );   
+      
+        if( solutions_vector.back().size() > beamWidth ){
+          solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
+        }
+      }
+    }
+  }
+
+*/
+  return;
+}
+
+
+// The main search for solutions.
 void
 Factor_Set::
 search( const Search_Space& searchSpace,
@@ -125,6 +186,7 @@ search( const Search_Space& searchSpace,
         const unsigned int beamWidth,
         const bool& debug ){
 
+  // Create the vector that will have the child solutions indices.	
   vector< vector< unsigned int > > child_solution_indices;
   for( unsigned int i = 0; i < _children.size(); i++ ){
     child_solution_indices.push_back( vector< unsigned int >() );
@@ -133,6 +195,7 @@ search( const Search_Space& searchSpace,
     }
   }
 
+  // Create the indices for the child solution combos (power set).
   vector< vector< unsigned int > > child_solution_indices_cartesian_power = cartesian_power( child_solution_indices );
   if( child_solution_indices_cartesian_power.empty() ){
     child_solution_indices_cartesian_power.push_back( vector< unsigned int >() );
@@ -141,7 +204,6 @@ search( const Search_Space& searchSpace,
   vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
 
   cout << "starting factor set search" << endl;
-
   cout << "child_solution_indices_cartesian_power.size():" << child_solution_indices_cartesian_power.size() << endl;
 
   if( debug ){
