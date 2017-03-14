@@ -22,29 +22,29 @@
     <grounding_set>
       <container container_type="group">
         <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-  	<object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-  	<object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-  	<object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
       </container>
-	<object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	<object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	<object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	<object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
     </grounding_set>
     <NP>
       <grounding_set>
-	<container container_type="group">
-  	  <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	  <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	  <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	  <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <container container_type="group">
+          <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         </container>
-	<object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	<object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	<object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	<object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-	<number value="4"/>
-	<object_type object_type="chair"/>
+        <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <number value="4"/>
+        <object_type object_type="chair"/>
       </grounding_set>
       <CD text="four" order="0"/>
       <NNS text="chairs" order="1"/>
