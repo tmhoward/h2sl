@@ -50,18 +50,27 @@
 namespace h2sl {
   class Factor_Set_Solution {
   public:
-    Factor_Set_Solution();
+    Factor_Set_Solution( const std::vector< unsigned int >& childSolutionIndices = std::vector< unsigned int >(), const double& pygx = 1.0, Grounding_Set* groundingSet = new Grounding_Set() );
     virtual ~Factor_Set_Solution();
     Factor_Set_Solution( const Factor_Set_Solution& other );
     Factor_Set_Solution& operator=( const Factor_Set_Solution& other );
 
-    std::map< std::string, std::vector< std::vector< unsigned int > > > cv;  
-//    std::vector< std::pair< std::string, std::vector< unsigned int > > > cv;
-    std::vector< unsigned int > children;
-//    std::vector< Grounding* > groundings;
-    Grounding_Set * groundings;
-    double pygx;
+    inline std::vector< unsigned int >& child_solution_indices( void ){ return _child_solution_indices; };
+    inline const std::vector< unsigned int >& child_solution_indices( void )const{ return _child_solution_indices; };
+    
+    inline Grounding_Set* grounding_set( void ){ return _grounding_set; };
+    inline const Grounding_Set* grounding_set( void )const{ return _grounding_set; };
+    
+    inline double& pygx( void ){ return _pygx; };
+    inline const double& pygx( void )const{ return _pygx; };
+
+  protected:
+    std::vector< unsigned int > _child_solution_indices;
+    double _pygx;
+    Grounding_Set * _grounding_set;
   };
+
+  std::ostream& operator<<( std::ostream& out, const Factor_Set_Solution& other );
 
   class Factor_Set {
   public:
@@ -70,12 +79,10 @@ namespace h2sl {
     Factor_Set( const Factor_Set& other );
     Factor_Set& operator=( const Factor_Set& other );
 
-    virtual void search_subspace( 
-		 	std::vector< Factor_Set_Solution >& solutionsVector,
-                        const Search_Space& searchSpace,
+    virtual void search_subspace( std::vector< Factor_Set_Solution >& solutionsVector,
                         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& childPhraseGroundings,   
-                        const std::string& classname,
                         const std::pair< std::string, std::vector< Grounding* > >& searchSubspace,
+                        const std::vector< unsigned int >& correspondenceVariables,
                         std::vector< bool >& evaluate_feature_types,
                         const Grounding* context,
                         const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false ); 
@@ -90,20 +97,16 @@ namespace h2sl {
 
     inline const Phrase* phrase( void )const{ return _phrase; };
 
-    inline std::vector< Factor_Set* >& children( void ){ return _children; };
-    inline const std::vector< Factor_Set* >& children( void )const{ return _children; };
+    inline std::vector< Factor_Set* >& child_factor_sets( void ){ return _child_factor_sets; };
+    inline const std::vector< Factor_Set* >& child_factor_sets( void )const{ return _child_factor_sets; };
 
     inline std::vector< Factor_Set_Solution >& solutions( void ){ return _solutions; };
     inline const std::vector< Factor_Set_Solution >& solutions( void )const{ return _solutions; };
 
   protected:
-
-
     const Phrase* _phrase;
-    std::vector< Factor_Set* > _children;
+    std::vector< Factor_Set* > _child_factor_sets;
     std::vector< Factor_Set_Solution > _solutions;
-
-
 
   private:
 

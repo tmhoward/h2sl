@@ -41,43 +41,70 @@ using namespace h2sl;
 bool
 factor_set_solution_sort( const Factor_Set_Solution& a,
                               const Factor_Set_Solution& b ){
-  return a.pygx > b.pygx;
+  return a.pygx() > b.pygx();
 }
 
 Factor_Set_Solution::
-Factor_Set_Solution() : cv(),
-                            children(),
-                            groundings( NULL ),
-                            pygx( 1.0 ) {
+Factor_Set_Solution( const vector< unsigned int >& childSolutionIndices,
+                      const double& pygx,
+                      Grounding_Set* groundingSet ) : _child_solution_indices( childSolutionIndices ),
+                                                      _pygx( pygx ),
+                                                      _grounding_set( groundingSet ) {
 
 }
 
 Factor_Set_Solution::
 ~Factor_Set_Solution() {
-
+  if( _grounding_set != NULL ){
+    delete _grounding_set;
+    _grounding_set = NULL;
+  }
 }
 
 Factor_Set_Solution::
-Factor_Set_Solution( const Factor_Set_Solution& other ) : cv( other.cv ),
-                                                                  children( other.children ),
-                                                                  groundings( other.groundings ),
-                                                                  pygx( other.pygx ){
-
+Factor_Set_Solution( const Factor_Set_Solution& other ) : _child_solution_indices( other._child_solution_indices ),
+                                                          _pygx( other._pygx ),
+                                                          _grounding_set( new Grounding_Set() ){
+  if( ( _grounding_set != NULL ) && ( other._grounding_set != NULL ) ){
+    _grounding_set->groundings() = other._grounding_set->groundings();
+  }
 }
 
 Factor_Set_Solution&
 Factor_Set_Solution::
 operator=( const Factor_Set_Solution& other ){
-  cv = other.cv;
-  children = other.children;
-  groundings = other.groundings;
-  pygx = other.pygx;
+  _child_solution_indices = other._child_solution_indices;
+  _pygx = other._pygx;
+  if( ( _grounding_set != NULL ) && ( other._grounding_set != NULL ) ){
+    _grounding_set->groundings() = other._grounding_set->groundings();
+  }
   return (*this);
 }
 
+namespace h2sl {
+  ostream&
+  operator<<( ostream& out,
+              const Factor_Set_Solution& other ) {
+    out << "child_solution_indices[" << other.child_solution_indices().size() << "]:{";
+    for( unsigned int i = 0; i < other.child_solution_indices().size(); i++ ){
+      out << other.child_solution_indices()[ i ];
+      if( i != ( other.child_solution_indices().size() - 1 ) ){
+        out << ",";
+      } 
+    }
+    out << "} ";
+    out << "pygx:" << other.pygx() << " ";
+    if( other.grounding_set() != NULL ){
+      out << "grounding_set:(" << *other.grounding_set() << ")";
+    }
+    return out;
+  }
+}
+
+
 Factor_Set::
 Factor_Set( const Phrase* phrase ) : _phrase( phrase ),
-                                          _children(),
+                                          _child_factor_sets(),
                                           _solutions() {
 
 }
@@ -89,7 +116,7 @@ Factor_Set::
 
 Factor_Set::
 Factor_Set( const Factor_Set& other ) : _phrase( other._phrase ),
-                                                _children( other._children ),
+                                                _child_factor_sets( other._child_factor_sets ),
                                                 _solutions( other._solutions ){
 
 }
@@ -98,7 +125,7 @@ Factor_Set&
 Factor_Set::
 operator=( const Factor_Set& other ) {
   _phrase = other._phrase;
-  _children = other._children;
+  _child_factor_sets = other._child_factor_sets;
   _solutions = other._solutions;
   return (*this);
 }
@@ -120,52 +147,44 @@ search( const Search_Space& searchSpace,
 void
 Factor_Set::
 search_subspace( vector< Factor_Set_Solution >& solutionsVector, 
-                  const Search_Space& searchSpace,
                   const vector< pair< const Phrase*, vector< Grounding* > > >& childPhraseGroundings,                           
-                  const string& classname,
                   const pair< string, vector< Grounding* > >& searchSubspace, 
+                  const vector< unsigned int >& correspondenceVariables,
 		  vector < bool >& evaluate_feature_types,
                   const Grounding* context,
                   const World * world, LLM* llm, const unsigned int beamWidth, const bool& debug) {
-  map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( searchSubspace.first );
-  assert( it_cvs != searchSpace.cvs().end() );
-
   // Obtain the size of the search space for that class. 
-  for( unsigned int j = 0; j < searchSubspace.second.size(); j++ ){
-    unsigned int num_solutions = solutionsVector.size();
-    // Iterate over the search space cvs.   
-    for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
-      for( unsigned int l = 0; l < num_solutions; l++ ){
-        solutionsVector.push_back( solutionsVector[ l ] );
-      } 
-    }
-    // Iterate over the cv values and obtain the log-likelihood values.  
-    for( unsigned int k = 0; k < it_cvs->second.size(); k++ ){
-      // Compute the log-likelihood for that factor.
-      double value = llm->pygx( it_cvs->second[ k ], searchSubspace.second[ j ], childPhraseGroundings, _phrase, world, context, it_cvs->second, evaluate_feature_types );
-      evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
-     
-      // Iterate and update the pygx with the above likelihoods. 
-      for( unsigned int l = 0; l < num_solutions; l++ ){
-        map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutionsVector[ k * num_solutions + l ].cv.find( classname );
-        assert( it_cvs_solution != solutionsVector[ k * num_solutions + l ].cv.end() ); 
-        it_cvs_solution->second[ it_cvs->second[ k ] ].push_back( j );
-        assert( it_cvs != searchSpace.cvs().end() );
-        solutionsVector[ k * num_solutions + l ].pygx *= value; 
+  for( unsigned int i = 0; i < searchSubspace.second.size(); i++ ){
+    vector< Factor_Set_Solution > new_solutions_vector;
+    // iterate over all solutions
+    for( unsigned int j = 0; j < solutionsVector.size(); j++ ){
+      // Iterate over the cv values and obtain the log-likelihood values.  
+      for( unsigned int k = 0; k < correspondenceVariables.size(); k++ ){
+        // Compute the log-likelihood for that factor.
+        double value = llm->pygx( correspondenceVariables[ k ], searchSubspace.second[ i ], childPhraseGroundings, _phrase, world, context, correspondenceVariables, evaluate_feature_types );
+        evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+
+        // add the new solution to the solutions vector (make a copy of the previous solution)
+        new_solutions_vector.push_back( solutionsVector[ j ] );
+        if( correspondenceVariables[ k ] == CV_TRUE ){
+          new_solutions_vector.back().grounding_set()->groundings().push_back( searchSubspace.second[ i ] );   
+        }
+        new_solutions_vector.back().pygx() *= value;
       }
     }
 
     // Sort the solution vector.
-    sort( solutionsVector.begin(), solutionsVector.end(), factor_set_solution_sort );   
+    sort( new_solutions_vector.begin(), new_solutions_vector.end(), factor_set_solution_sort );   
     
     // Trim solutions beyond the beam width.
-    if( solutionsVector.size() > beamWidth ){
-      solutionsVector.erase( solutionsVector.begin() + beamWidth, solutionsVector.end() );
+    if( new_solutions_vector.size() > beamWidth ){
+      new_solutions_vector.erase( new_solutions_vector.begin() + beamWidth, new_solutions_vector.end() );
     }
+
+    solutionsVector = new_solutions_vector;
   }
-
+  
   return;
-
 }
 
 
@@ -182,9 +201,9 @@ search( const Search_Space& searchSpace,
 
   // Create the vector that will have the child solutions indices.	
   vector< vector< unsigned int > > child_solution_indices;
-  for( unsigned int i = 0; i < _children.size(); i++ ){
+  for( unsigned int i = 0; i < _child_factor_sets.size(); i++ ){
     child_solution_indices.push_back( vector< unsigned int >() );
-    for( unsigned int j = 0; j < _children[ i ]->solutions().size(); j++ ){
+    for( unsigned int j = 0; j < _child_factor_sets[ i ]->solutions().size(); j++ ){
       child_solution_indices.back().push_back( j );
     }
   }
@@ -197,9 +216,6 @@ search( const Search_Space& searchSpace,
 
   vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
 
-  cout << "starting factor set search" << endl;
-  cout << "child_solution_indices_cartesian_power.size():" << child_solution_indices_cartesian_power.size() << endl;
-
   if( debug ){
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
       cout << "searching through symbols for \"" << it_search_spaces->first << "\" (" << it_search_spaces->second.second.size() << " symbols)" << endl;
@@ -210,59 +226,29 @@ search( const Search_Space& searchSpace,
   // add a Factor_Set_Solution for each combination of children
   for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
     solutions_vector.push_back( vector< Factor_Set_Solution >() );
-    solutions_vector.back().push_back( Factor_Set_Solution() );
-    solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
-    solutions_vector.back().back().cv.clear();
-    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
-      cout << "adding \"" << it_search_spaces->first << "\"" << endl;
-      solutions_vector.back().back().cv.insert( pair< string, vector< vector< unsigned int > > >( it_search_spaces->first, vector< vector< unsigned int > >( NUM_CVS ) ) );
-//      solutions_vector.back().back().cv.resize( NUM_CVS );
-    }
 
+    // start with an empty solution vector, set the childen equal to the children generated by the cartesian power
+    solutions_vector.back().push_back( Factor_Set_Solution() );
+    solutions_vector.back().back().child_solution_indices() = child_solution_indices_cartesian_power[ i ];
+
+    // generate the child groundings for the cartesian power
     vector< pair< const Phrase*, vector< Grounding* > > > child_groundings;
     for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
-      solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx;
-      child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ j ]->phrase(), vector< Grounding* >() ) );
-      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings().size(); k++ ){
-        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings()[ k ] );
-      }
+      solutions_vector.back().back().pygx() *= _child_factor_sets[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx();
+      child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _child_factor_sets[ j ]->phrase(), _child_factor_sets[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].grounding_set()->groundings() ) );
     }
+
+    // search over all of the class-based search spaces
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
+      assert( it_cvs != searchSpace.cvs().end() );
+
       search_subspace( solutions_vector.back(), 
-                        searchSpace, 
                         child_groundings,
-                        it_search_spaces->first, 
-                        it_search_spaces->second, 
+                        it_search_spaces->second,
+                        it_cvs->second, 
                         evaluate_feature_types,
                         context, world, llm, beamWidth, debug ); 
-/*
-      for( unsigned int j = 0; j < it_search_spaces->second.second.size(); j++ ){
-        unsigned int num_solutions = solutions_vector.back().size();
-        map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
-        assert( it_cvs != searchSpace.cvs().end() );
-        for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
-          for( unsigned int l = 0; l < num_solutions; l++ ){
-            solutions_vector.back().push_back( solutions_vector.back()[ l ] );
-          } 
-        }
-        for( unsigned int k = 0; k < it_cvs->second.size(); k++ ){
-          double value = llm->pygx( it_cvs->second[ k ], it_search_spaces->second.second[ j ], child_groundings, _phrase, world, context, it_cvs->second, evaluate_feature_types );
-          evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
-          for( unsigned int l = 0; l < num_solutions; l++ ){
-            map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k * num_solutions + l ].cv.find( it_search_spaces->first );
-            assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() ); 
-            it_cvs_solution->second[ it_cvs->second[ k ] ].push_back( j );
-            solutions_vector.back()[ k * num_solutions + l ].pygx *= value; 
-          }
-        }
-
-        sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_solution_sort );   
-      
-        if( solutions_vector.back().size() > beamWidth ){
-          solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
-        }
-      }
-*/
     }
   }
 
@@ -278,91 +264,32 @@ search( const Search_Space& searchSpace,
     cout << "  sorting through " << _solutions.size() << " solutions for \"" << _phrase->words_to_std_string() << "\"" << endl;
   }
 
+  // sort and cull solutions
   sort( _solutions.begin(), _solutions.end(), factor_set_solution_sort );
   if( _solutions.size() > beamWidth ){
     _solutions.erase( _solutions.begin() + beamWidth, _solutions.end() );
   }
 
-  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
-    for( unsigned int i = 0; i < _solutions.size(); i++ ){
-      cout << "i:" << i << endl;
-      map< string, vector< vector< unsigned int > > >::const_iterator it_cvs = _solutions[ i ].cv.find( it_search_spaces->first );
-      assert( it_cvs != _solutions[ i ].cv.end() );
-//      for( unsigned int j = 0; j < _solutions[ i ].cv[ CV_TRUE ].size(); j++ ){   
-      for( unsigned int j = 0; j < it_cvs->second[ CV_TRUE ].size(); j++ ){
-//        _solutions[ i ].groundings.push_back( searchSpace[ _solutions[ i ].cv[ CV_TRUE ][ j ] ].second );
-        cout << "j:" << j << endl;
-        cout << "it_cvs->second[ CV_TRUE ].size():" << it_cvs->second[ CV_TRUE ].size() << endl;
-        _solutions[ i ].groundings->groundings().push_back( it_search_spaces->second.second[ it_cvs->second[ CV_TRUE ][ j ] ] );
-      }
-    }
-  }
-
-  cout << "finished setting groundings" << endl;
-
   if( debug ){
     for( unsigned int i = 0; i < _solutions.size(); i++ ){
-      map< string, vector< unsigned int > > expressed_indices;
-      for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
-        pair< map< string, vector< unsigned int > >::iterator, bool > expressed_indices_ret = expressed_indices.insert( pair< string, vector< unsigned int > >( it_search_spaces->first, vector< unsigned int >() ) );
-         
-        map< string, vector< vector< unsigned int > > >::const_iterator it_cvs = _solutions[ i ].cv.find( it_search_spaces->first );
-        assert( it_cvs != _solutions[ i ].cv.end() );
-       
-        // only print symbols that are not unknown or false 
-        for( unsigned int j = 2; j < it_cvs->second.size(); j++ ){
-          for( unsigned int k = 0; k < it_cvs->second[ j ].size(); k++ ){
-            expressed_indices_ret.first->second.push_back( it_cvs->second[ j ][ k ] ); 
-          }
-        }
-      }     
-
-/*        
-      cout << "solutions[" << i << "] TRUE [" << it_cvs->second[ CV_TRUE ].size() << "]:{";
-      for( unsigned int j = 0; j < it_cvs->second[ CV_TRUE ].size(); j++ ){
-        cout << it_cvs->second[ CV_TRUE ][ j ];
-        if( j != ( it_cvs->second[ CV_TRUE ].size() - 1 ) ){
+      cout << "solution[" << i << "] (pygx:" << _solutions[ i ].pygx() << ")" << endl;
+      cout << "  grounding_set" << *_solutions[ i ].grounding_set() << endl;
+      cout << "  child_solution_indices[" << _solutions[ i ].child_solution_indices().size() << "]:{";
+      for( unsigned int j = 0; j < _solutions[ i ].child_solution_indices().size(); j++ ){
+        cout << "(\"" << _child_factor_sets[ j ]->phrase()->words_to_std_string() << "\":" << _solutions[ i ].child_solution_indices()[ j ] << ")";
+        if( j != ( _solutions[ i ].child_solution_indices().size() - 1 ) ){
           cout << ",";
         }
       }
-*/
-      cout << "solutions[" << i << "] TRUE {";
-      stringstream tmp_string;
-      for( map< string, vector< unsigned int > >::const_iterator it_expressed_indices = expressed_indices.begin(); it_expressed_indices != expressed_indices.end(); it_expressed_indices++ ){
-        if( !it_expressed_indices->second.empty() ){
-          if( !tmp_string.str().empty() ){
-            tmp_string << ",";
-          }   
-          tmp_string << it_expressed_indices->first << "[" << it_expressed_indices->second.size() << "]:{";
-          for( unsigned int j = 0; j < it_expressed_indices->second.size(); j++ ){
-            tmp_string << it_expressed_indices->second[ j ];
-            if( j != ( it_expressed_indices->second.size() - 1 ) ){
-              tmp_string << ",";
-            }
-          } 
-          tmp_string << "}";
-        } 
-      }
-      cout << tmp_string.str() << "} ";
-      cout << "groundings[" << _solutions[ i ].groundings->groundings().size() << "]:{";
-      // Added the printing on the groundings with each.
-      for( unsigned int j = 0; j < _solutions[ i ].groundings->groundings().size(); j++ ){
-        cout << *(_solutions[ i ].groundings->groundings()[ j ]);
-        if( j != ( _solutions[ i ].groundings->groundings().size() - 1 ) ){
+      cout << "}" << endl;
+      cout << "  child grounding_sets[" << _solutions[ i ].child_solution_indices().size() << "]:{";
+      for( unsigned int j = 0; j < _solutions[ i ].child_solution_indices().size(); j++ ){
+        cout <<  "(\"" << _child_factor_sets[ j ]->phrase()->words_to_std_string() << "\":(groundings" << *_child_factor_sets[ j ]->solutions()[ _solutions[ i ].child_solution_indices()[ j ] ].grounding_set() << "))";
+        if( j != ( _solutions[ i ].child_solution_indices().size() - 1 ) ){
           cout << ",";
         }
       }
-
-      cout << "} ";
-      cout << "children[" << _solutions[ i ].children.size() << "]:{";
-      for( unsigned int j = 0; j < _solutions[ i ].children.size(); j++ ){
-        cout << _solutions[ i ].children[ j ];
-        if( j != ( _solutions[ i ].children.size() - 1 ) ){
-          cout << ",";
-        }
-      }
-      cout << "} ";
-      cout << "pygx:" << _solutions[ i ].pygx << endl;
+      cout << "}" << endl;
     }  
   }
 

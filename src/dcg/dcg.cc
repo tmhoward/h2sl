@@ -200,7 +200,7 @@ leaf_search( const Phrase* phrase,
     }
   
     for( unsigned int i = 0; i < _root->solutions().size(); i++ ){
-      _solutions.push_back( pair< double, Phrase* >( _root->solutions()[ i ].pygx, _root->phrase()->dup() ) );
+      _solutions.push_back( pair< double, Phrase* >( _root->solutions()[ i ].pygx(), _root->phrase()->dup() ) );
 
       for( unsigned int j = 0; j < _solutions.back().second->children().size(); j++ ){
         if( _solutions.back().second->children()[ j ] != NULL ){
@@ -238,19 +238,19 @@ DCG::
 _find_leaf( Factor_Set* node, 
             Factor_Set*& leaf ){ 
   if( node->solutions().empty() ){
-    bool all_children_known = true;
-    for( unsigned int i = 0; i < node->children().size(); i++ ){
-      if( node->children()[ i ]->solutions().empty() ){
-        all_children_known = false;
+    bool all_child_factor_sets_known = true;
+    for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
+      if( node->child_factor_sets()[ i ]->solutions().empty() ){
+        all_child_factor_sets_known = false;
       } 
     } 
-    if( all_children_known ){
+    if( all_child_factor_sets_known ){
       leaf = node;
     }
   }
 
-  for( unsigned int i = 0; i < node->children().size(); i++ ){
-    _find_leaf( node->children()[ i ], leaf );
+  for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
+    _find_leaf( node->child_factor_sets()[ i ], leaf );
   }
   return;
 }
@@ -260,12 +260,9 @@ DCG::
 _fill_phrase( Factor_Set* node,
               Factor_Set_Solution& solution,
               Phrase* phrase ){
-  phrase->grounding_set() = new Grounding_Set();
-  for( unsigned int i = 0; i < solution.groundings->groundings().size(); i++ ){
-    dynamic_cast< Grounding_Set* >( phrase->grounding_set() )->groundings().push_back( solution.groundings->groundings()[ i ] );
-  }
-  for( unsigned int i = 0; i < node->children().size(); i++ ){
-    phrase->children().push_back( node->children()[ i ]->phrase()->dup() );
+  phrase->grounding_set() = solution.grounding_set()->dup();
+  for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
+    phrase->children().push_back( node->child_factor_sets()[ i ]->phrase()->dup() );
     for( unsigned int j = 0; j < phrase->children().back()->children().size(); j++ ){
       if( phrase->children().back()->children()[ j ] != NULL ){
         delete phrase->children().back()->children()[ j ];
@@ -278,8 +275,8 @@ _fill_phrase( Factor_Set* node,
       phrase->children().back()->grounding_set() = NULL;
     }
 
-    _fill_phrase( node->children()[ i ],
-                  node->children()[ i ]->solutions()[ solution.children[ i ] ],
+    _fill_phrase( node->child_factor_sets()[ i ],
+                  node->child_factor_sets()[ i ]->solutions()[ i ],
                   phrase->children().back() );
 
   }
@@ -292,8 +289,8 @@ _fill_factors( Factor_Set* node,
                 const Phrase* phrase, 
                 const bool& fill ){
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    node->children().push_back( new Factor_Set( phrase->children()[ i ] ) );
-    _fill_factors( node->children().back(), phrase->children()[ i ] );
+    node->child_factor_sets().push_back( new Factor_Set( phrase->children()[ i ] ) );
+    _fill_factors( node->child_factor_sets().back(), phrase->children()[ i ] );
   } 
   return;
 }
