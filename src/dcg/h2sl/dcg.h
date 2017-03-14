@@ -59,10 +59,6 @@ namespace h2sl {
 
     virtual void to_latex( const std::string& filename )const;
 
-    inline Symbol_Dictionary& symbol_dictionary( void ){ return _symbol_dictionary; };
-    inline const Symbol_Dictionary& symbol_dictionary( void )const{ return _symbol_dictionary; };
-    inline Search_Space& search_space( void ){ return _search_space; };
-    inline const Search_Space& search_space( void )const{ return _search_space; };
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
     inline const Factor_Set* root( void )const{ return _root; };
 
@@ -71,8 +67,6 @@ namespace h2sl {
     virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
-    Search_Space _search_space;
-    Symbol_Dictionary _symbol_dictionary;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
   

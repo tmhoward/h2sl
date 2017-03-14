@@ -132,7 +132,7 @@ operator=( const Factor_Set& other ) {
 
 void
 Factor_Set::
-search( const Search_Space& searchSpace,
+search( const Search_Space* searchSpace,
         const Symbol_Dictionary& symbolDictionary,
         const World* world,
         LLM* llm,
@@ -191,7 +191,7 @@ search_subspace( vector< Factor_Set_Solution >& solutionsVector,
 // The main search for solutions.
 void
 Factor_Set::
-search( const Search_Space& searchSpace,
+search( const Search_Space* searchSpace,
         const Symbol_Dictionary& symbolDictionary,
         const World* world, 
         const Grounding* context, 
@@ -217,7 +217,7 @@ search( const Search_Space& searchSpace,
   vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
 
   if( debug ){
-    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace->grounding_pairs().begin(); it_search_spaces != searchSpace->grounding_pairs().end(); it_search_spaces++ ){
       cout << "searching through symbols for \"" << it_search_spaces->first << "\" (" << it_search_spaces->second.second.size() << " symbols)" << endl;
     }
   }
@@ -239,9 +239,9 @@ search( const Search_Space& searchSpace,
     }
 
     // search over all of the class-based search spaces
-    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
-      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
-      assert( it_cvs != searchSpace.cvs().end() );
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace->grounding_pairs().begin(); it_search_spaces != searchSpace->grounding_pairs().end(); it_search_spaces++ ){
+      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace->cvs().find( it_search_spaces->second.first );
+      assert( it_cvs != searchSpace->cvs().end() );
 
       search_subspace( solutions_vector.back(), 
                         child_groundings,

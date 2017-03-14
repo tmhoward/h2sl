@@ -126,6 +126,7 @@ main( int argc,
             
     // update the search space when the world changes
     search_space->fill_groundings( *symbol_dictionary, world );
+    cout << "search_space:" << *search_space << endl;
 
     vector< Phrase* > phrases;
     if( parser->parse( *grammar, instruction, phrases ) ){

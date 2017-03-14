@@ -42,8 +42,7 @@ using namespace std;
 using namespace h2sl;
 
 DCG::
-DCG() : _search_space(),
-        _solutions(),
+DCG() : _solutions(),
         _root( NULL ) {
 
 }
@@ -54,8 +53,7 @@ DCG::
 }
 
 DCG::
-DCG( const DCG& other ) : _search_space( other._search_space ),
-                          _solutions( other._solutions ),
+DCG( const DCG& other ) : _solutions( other._solutions ),
                           _root( other._root ) {
 
 }
@@ -63,7 +61,6 @@ DCG( const DCG& other ) : _search_space( other._search_space ),
 DCG&
 DCG::
 operator=( const DCG& other ) {
-  _search_space = other._search_space;
   _solutions = other._solutions;
   _root = other._root;
   return (*this);
@@ -111,8 +108,8 @@ leaf_search( const Phrase* phrase,
     Factor_Set * leaf = NULL;
     _find_leaf( _root, leaf );
     while( leaf != NULL ){
-      leaf->search( _search_space,
-                    _symbol_dictionary,
+      leaf->search( searchSpace,
+                    symbolDictionary,
                     world,
                     context,
                     llm,
