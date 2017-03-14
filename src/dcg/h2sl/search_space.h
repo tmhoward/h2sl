@@ -15,6 +15,8 @@
 #include <map>
 
 #include "h2sl/grounding.h"
+#include "h2sl/phrase.h"
+#include "h2sl/llm.h"
 #include "h2sl/cv.h"
 #include "h2sl/symbol_dictionary.h"
 
@@ -35,7 +37,10 @@ namespace h2sl {
     bool operator!=( const Search_Space& other )const;
     virtual Search_Space* dup( void )const;
 
+    virtual void fill_groundings( const Symbol_Dictionary& symbolDictionary, const World* world );
+    virtual void fill_rules( const Symbol_Dictionary& symbolDictionary, const World* world );
     virtual void clear( void );
+    virtual void scrape_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

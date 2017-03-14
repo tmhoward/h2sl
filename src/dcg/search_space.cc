@@ -31,6 +31,22 @@
  */
 
 #include "h2sl/common.h"
+#include "h2sl/rule_object_type.h"
+#include "h2sl/rule_object_color.h"
+#include "h2sl/rule_spatial_relation.h"
+
+#include "h2sl/object_property.h"
+#include "h2sl/object_type.h"
+#include "h2sl/object_color.h"
+#include "h2sl/object.h"
+#include "h2sl/spatial_relation.h"
+#include "h2sl/region.h"
+#include "h2sl/constraint.h"
+#include "h2sl/container.h"
+#include "h2sl/region_container.h"
+#include "h2sl/abstract_container.h"
+#include "h2sl/region_abstract_container.h"
+
 #include "h2sl/search_space.h"
 
 using namespace std;
@@ -91,6 +107,59 @@ dup( void )const{
   return new Search_Space( *this );
 }
 
+void 
+Search_Space::
+fill_groundings( const Symbol_Dictionary& symbolDictionary, 
+                  const World* world ){
+  clear();
+
+  std::vector< unsigned int > binary_cvs;
+  binary_cvs.push_back( CV_FALSE );
+  binary_cvs.push_back( CV_TRUE );
+
+  std::vector< unsigned int > ternary_cvs;
+  ternary_cvs.push_back( CV_FALSE );
+  ternary_cvs.push_back( CV_TRUE );
+  ternary_cvs.push_back( CV_INVERTED );
+
+  _cvs.insert( pair< string, vector< unsigned int > >( "binary", binary_cvs ) );
+  _cvs.insert( pair< string, vector< unsigned int > >( "ternary", ternary_cvs ) );
+
+  Object::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Object_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Object_Color::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Object_Property::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Number::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Index::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Region::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Spatial_Relation::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Constraint::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Abstract_Container::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Region_Abstract_Container::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Container::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Region_Container::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  return;
+}
+
+void 
+Search_Space::
+fill_rules( const Symbol_Dictionary& symbolDictionary, 
+            const World* world ){
+  clear();
+
+  std::vector< unsigned int > binary_cvs;
+  binary_cvs.push_back( CV_FALSE );
+  binary_cvs.push_back( CV_TRUE );
+
+  _cvs.insert( pair< string, vector< unsigned int > >( "binary", binary_cvs ) );
+
+  Rule_Object_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Rule_Object_Color::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Rule_Spatial_Relation::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  return;
+}
+
+
 void
 Search_Space::
 clear( void ){
@@ -110,6 +179,36 @@ clear( void ){
     it_cvs->second.clear();
   }
   _cvs.clear();
+  return;
+}
+
+void
+Search_Space::
+scrape_examples( const string& filename,
+                  const Phrase* phrase,
+                  const World* world,
+                  vector< pair< unsigned int, h2sl::LLM_X > >& examples ){
+  assert( phrase->grounding_set() != NULL );
+  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_groundings = _grounding_pairs.begin(); it_groundings != _grounding_pairs.end(); it_groundings++ ){
+    for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
+      map< string, vector< unsigned int > >::const_iterator it_cvs = _cvs.find( it_groundings->second.first );
+      assert( it_cvs != _cvs.end() );
+      examples.push_back( pair< unsigned int, h2sl::LLM_X >( phrase->grounding_set()->evaluate_cv( *it_grounding ), h2sl::LLM_X( *it_grounding, phrase, world, it_cvs->second, vector< h2sl::Feature* >(), filename ) ) );
+      for( unsigned int j = 0; j < phrase->children().size(); j++ ){
+        examples.back().second.children().push_back( pair< const h2sl::Phrase*, vector< h2sl::Grounding* > >( phrase->children()[ j ], vector< h2sl::Grounding* >() ) );
+        Grounding_Set * child_grounding_set = phrase->children()[ j ]->grounding_set();
+        if( child_grounding_set ){
+          for( unsigned int k = 0; k < child_grounding_set->groundings().size(); k++ ){
+            examples.back().second.children().back().second.push_back( child_grounding_set->groundings()[ k ] );
+          }
+        }
+      }
+    }
+  }
+
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    scrape_examples( filename, dynamic_cast< Phrase* >( phrase->children()[ i ] ), world, examples );
+  }
   return;
 }
  
@@ -168,7 +267,28 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Search_Space& other ) {
-    out << "Search_Space(";
+    out << "grounding_pairs[" << other.grounding_pairs().size() << "]:(";
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_grounding_pairs = other.grounding_pairs().begin(); it_grounding_pairs != other.grounding_pairs().end(); it_grounding_pairs++ ){
+      out << it_grounding_pairs->first << "[" << it_grounding_pairs->second.second.size() << "]:{";
+      out << "}";
+      if( next( it_grounding_pairs ) != other.grounding_pairs().end() ){
+        out << ",";
+      }
+    }
+    out << "),correspondence_variables[" << other.cvs().size() << "]:(";
+    for( map< string, vector< unsigned int > >::const_iterator it_cvs = other.cvs().begin(); it_cvs != other.cvs().end(); it_cvs++ ){
+      out << it_cvs->first << "[" << it_cvs->second.size() << "]:{";
+      for( unsigned int i = 0; i < it_cvs->second.size(); i++ ){
+        out << it_cvs->second[ i ];
+        if( i != ( it_cvs->second.size() - 1 ) ){
+          out << ",";
+        }
+      }
+      out << "}";
+      if( next( it_cvs ) != other.cvs().end() ){
+        out << ",";
+      }
+    }
     out << ")";
     return out;
   }

@@ -50,6 +50,16 @@ Symbol_Dictionary( const map< string, vector< string > >& classNames,
 }
 
 /**
+ * Symbol_Dictionary class constructor
+ */
+Symbol_Dictionary::
+Symbol_Dictionary( const string& filename ) : _class_names(),
+                                              _string_types(),
+                                              _int_types() {
+  from_xml( filename );
+}
+
+/**
  * Symbol_Dictionary class destructor 
  */
 Symbol_Dictionary::

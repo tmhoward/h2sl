@@ -1,6 +1,7 @@
 # GENGETOPT FILES
 set(GGOS
     symbol_dictionary_demo.ggo
+    rule_set_demo.ggo
     abstract_container_demo.ggo
     constraint_demo.ggo
     container_demo.ggo
@@ -25,6 +26,7 @@ set(HDRS
     h2sl/rule.h
     h2sl/rule_set.h
     h2sl/rule_object_type.h
+    h2sl/rule_object_color.h
     h2sl/rule_spatial_relation.h
     h2sl/container.h
     h2sl/grounding.h
@@ -52,6 +54,7 @@ set(SRCS
     rule.cc
     rule_set.cc
     rule_object_type.cc
+    rule_object_color.cc
     rule_spatial_relation.cc
     container.cc
     grounding.cc
@@ -73,6 +76,7 @@ set(SRCS
 # BINARY SOURCE FILES
 set(BIN_SRCS
     symbol_dictionary_demo.cc
+    rule_set_demo.cc
     abstract_container_demo.cc
     constraint_demo.cc
     container_demo.cc

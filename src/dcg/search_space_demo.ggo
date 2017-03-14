@@ -1,0 +1,10 @@
+package "search_space_demo"
+version "0.0.1"
+purpose "A program used to demonstrate the Search_Space class."
+
+option "input" - "input file" string optional
+option "world" - "world file" string required
+option "symbol_dictionary" - "symbol dictionary for model" string required
+option "output" - "output file" string optional
+
+text ""

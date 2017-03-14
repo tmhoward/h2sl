@@ -638,6 +638,36 @@ namespace h2sl {
     }
     return tmp_vector;
   }
+
+  /**
+   * extract an instruction from a xml file
+   */
+  inline std::string extract_instruction( const std::string& filename ){
+    std::string instruction = "";
+    xmlDoc * doc = NULL;
+    xmlNodePtr root = NULL;
+    doc = xmlReadFile( filename.c_str(), NULL, 0 );
+    if( doc != NULL ){
+      root = xmlDocGetRootElement( doc );
+      if( root->type == XML_ELEMENT_NODE ){
+        xmlNodePtr l1 = NULL;
+        for( l1 = root->children; l1; l1 = l1->next ){
+          if( l1->type == XML_ELEMENT_NODE ){
+            if( xmlStrcmp( l1->name, ( const xmlChar* )( "instruction" ) ) == 0 ){
+              xmlChar * tmp = xmlGetProp( l1, ( const xmlChar* )( "text" ) );
+              if( tmp != NULL ){
+                instruction = ( char* )( tmp );
+                xmlFree( tmp );
+              }
+            }
+          }
+        }
+      }
+      xmlFreeDoc( doc );
+    }
+    return instruction;
+  }
+
 }
 
 #endif /* H2SL_COMMON_H */

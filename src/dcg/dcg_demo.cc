@@ -74,13 +74,15 @@ main( int argc,
     llm->from_xml( args.llm_arg );
   }
 
+  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_arg );
+
+  Search_Space * search_space = new Search_Space();
+  search_space->fill_groundings( *symbol_dictionary, world );
+
   DCG * dcg = new DCG();
-  dcg->symbol_dictionary().from_xml( args.symbol_dictionary_arg ); 
  
   struct timeval start_time;
   gettimeofday( &start_time, NULL );
-
-  dcg->fill_search_spaces( world );
 
   struct timeval end_time;
   gettimeofday( &end_time, NULL );
@@ -97,7 +99,7 @@ main( int argc,
     
         gettimeofday( &start_time, NULL );
 
-        dcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg );
+        dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg );
 
         gettimeofday( &end_time, NULL );
 

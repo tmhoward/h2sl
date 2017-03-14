@@ -41,30 +41,6 @@
 using namespace std;
 using namespace h2sl;
 
-std::string 
-extract_instruction( const std::string& filename ){
-  xmlDoc * doc = NULL;
-  xmlNodePtr root = NULL;
-  doc = xmlReadFile( filename.c_str(), NULL, 0 );
-  if( doc != NULL ){
-    root = xmlDocGetRootElement( doc );
-    if( root->type == XML_ELEMENT_NODE ){
-      for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
-        if( matches_name( l1, "instruction" ) ){
-          pair< bool, string > text_prop = has_prop< std::string >( l1, "text" );
-          if( text_prop.first ){
-            return text_prop.second;
-          } 
-        }
-      }
-      xmlFreeDoc( doc );
-    } else {
-      xmlFreeDoc( doc );
-    }
-  }
-  return "";
-}
-
 int
 main( int argc,
       char* argv[] ) {

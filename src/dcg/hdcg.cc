@@ -67,68 +67,6 @@ operator=( const HDCG& other ) {
   return (*this);
 }
 
-void
-HDCG::
-scrape_rules_examples( const string& filename,
-                        const Phrase* phrase,
-                        const h2sl::World* world,
-                        const Search_Space& searchSpace,
-                        vector< pair< unsigned int, h2sl::LLM_X > >& examples ){
-  assert( phrase->grounding_set() != NULL );
-  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_groundings = searchSpace.grounding_pairs().begin(); it_groundings != searchSpace.grounding_pairs().end(); it_groundings++ ){
-    for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
-      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_groundings->second.first );
-      assert( it_cvs != searchSpace.cvs().end() );
-      examples.push_back( pair< unsigned int, h2sl::LLM_X >( phrase->grounding_set()->evaluate_cv( *it_grounding ), h2sl::LLM_X( *it_grounding, phrase, world, it_cvs->second, vector< h2sl::Feature* >(), filename ) ) );
-      for( unsigned int j = 0; j < phrase->children().size(); j++ ){
-        examples.back().second.children().push_back( pair< const h2sl::Phrase*, vector< h2sl::Grounding* > >( phrase->children()[ j ], vector< h2sl::Grounding* >() ) );
-        Grounding_Set * child_grounding_set = phrase->children()[ j ]->grounding_set();
-        if( child_grounding_set ){
-          for( unsigned int k = 0; k < child_grounding_set->groundings().size(); k++ ){
-            examples.back().second.children().back().second.push_back( child_grounding_set->groundings()[ k ] );
-          }
-        }
-      }
-    }
-  }
-
-  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    scrape_rules_examples( filename, dynamic_cast< Phrase* >( phrase->children()[ i ] ), world, searchSpace, examples );
-  }
-  return;
-}
-
-void
-HDCG::
-scrape_groundings_examples( const string& filename,
-                            const Phrase* phrase,
-                            const h2sl::World* world,
-                            const Search_Space& searchSpace,
-                            vector< pair< unsigned int, h2sl::LLM_X > >& examples ){
-  assert( phrase->grounding_set() != NULL );
-  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_groundings = searchSpace.grounding_pairs().begin(); it_groundings != searchSpace.grounding_pairs().end(); it_groundings++ ){
-    for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
-      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_groundings->second.first );
-      assert( it_cvs != searchSpace.cvs().end() );
-      examples.push_back( pair< unsigned int, h2sl::LLM_X >( phrase->grounding_set()->evaluate_cv( *it_grounding ), h2sl::LLM_X( *it_grounding, phrase, world, it_cvs->second, vector< h2sl::Feature* >(), filename ) ) );
-      for( unsigned int j = 0; j < phrase->children().size(); j++ ){
-        examples.back().second.children().push_back( pair< const h2sl::Phrase*, vector< h2sl::Grounding* > >( phrase->children()[ j ], vector< h2sl::Grounding* >() ) );
-        Grounding_Set * child_grounding_set = phrase->children()[ j ]->grounding_set();
-        if( child_grounding_set ){
-          for( unsigned int k = 0; k < child_grounding_set->groundings().size(); k++ ){
-            examples.back().second.children().back().second.push_back( child_grounding_set->groundings()[ k ] );
-          }
-        }
-      }
-    }
-  }
-
-  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    scrape_groundings_examples( filename, dynamic_cast< Phrase* >( phrase->children()[ i ] ), world, searchSpace, examples );
-  }
-  return;
-}
-
 bool
 HDCG::
 leaf_search( const Phrase* phrase,

@@ -49,8 +49,6 @@ namespace h2sl {
     HDCG( const HDCG& other );
     HDCG& operator=( const HDCG& other );
 
-    static void scrape_rules_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, const Search_Space& searchSpace, std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
-    static void scrape_groundings_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, const Search_Space& searchSpace, std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
     virtual void fill_search_spaces( const World* world );
     virtual bool leaf_search( const Phrase* phrase, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
     virtual bool leaf_search( const Phrase* phrase, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );

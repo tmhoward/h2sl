@@ -44,33 +44,6 @@
 using namespace std;
 using namespace h2sl;
 
-string
-extract_instruction( const std::string& filename ){
-  string instruction = "";
-  xmlDoc * doc = NULL;
-  xmlNodePtr root = NULL;
-  doc = xmlReadFile( filename.c_str(), NULL, 0 );
-  if( doc != NULL ){
-    root = xmlDocGetRootElement( doc );
-    if( root->type == XML_ELEMENT_NODE ){
-      xmlNodePtr l1 = NULL;
-      for( l1 = root->children; l1; l1 = l1->next ){
-        if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "instruction" ) ) == 0 ){
-            xmlChar * tmp = xmlGetProp( l1, ( const xmlChar* )( "text" ) );
-            if( tmp != NULL ){
-              instruction = ( char* )( tmp );
-              xmlFree( tmp );
-            }
-          }
-        }
-      }
-    }
-    xmlFreeDoc( doc );
-  }
-  return instruction;
-}
-
 bool
 compare_phrases( const Phrase* first, 
                   const Phrase* second ){
@@ -129,8 +102,11 @@ main( int argc,
     llm->from_xml( args.llm_arg );
   }
 
+  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_arg );
+
+  Search_Space * search_space = new Search_Space();
+
   DCG * dcg = new DCG();
-  dcg->symbol_dictionary().from_xml( args.symbol_dictionary_arg );
 
   unsigned int num_correct = 0;
   unsigned int num_incorrect = 0;
@@ -147,6 +123,9 @@ main( int argc,
 
     Phrase * truth = new Phrase();
     truth->from_xml( args.inputs[ i ] );
+            
+    // update the search space when the world changes
+    search_space->fill_groundings( *symbol_dictionary, world );
 
     vector< Phrase* > phrases;
     if( parser->parse( *grammar, instruction, phrases ) ){
@@ -157,7 +136,7 @@ main( int argc,
         unsigned int match_index = 0;
         for( unsigned int i = 0; i < phrases.size(); i++ ){
           if( phrases[ i ] != NULL ){
-            dcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+            dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
             if( !dcg->solutions().empty() ){
               cout << "  parse[" << i << "]:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl; 
               if( compare_phrases( truth, dcg->solutions().front().second ) ){

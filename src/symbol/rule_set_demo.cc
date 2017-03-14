@@ -1,5 +1,5 @@
 /**
- * @file    gui_demo.cc
+ * @file    rule_set_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,16 +28,13 @@
  *
  * @section DESCRIPTION
  *
- * A GUI class demo program
+ * A Rule_Set class demo program
  */
 
 #include <iostream>
-
-#include <QtGui/QApplication>
-
-#include "h2sl/parser_cyk.h"
-#include "h2sl/gui.h"
-#include "gui_demo_cmdline.h"
+#include <cstdlib>
+#include "h2sl/rule_set.h"
+#include "rule_set_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -45,51 +42,31 @@ using namespace h2sl;
 int
 main( int argc,
       char* argv[] ) {
+  int status = 0;
+  cout << "start of Rule_Set class demo program" << endl;
+  
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
     exit(1);
   }
-  
-  cout << "start of GUI class demo program" << endl;
 
-  QApplication app( argc, argv );
+  Rule_Set * rule_set = new Rule_Set();
 
-  Parser< Phrase > * parser = new Parser_CYK< Phrase >();
-  Grammar * grammar = new Grammar();
-  grammar->from_xml( args.grammar_arg );
-
-  Grounding * context = NULL;
-
-  World * world = new World();
-  world->from_xml( args.world_arg );
-
-  Feature_Set * feature_set = new Feature_Set();
-
-  LLM * llm = new LLM( feature_set );
-  if( args.llm_given ){
-    llm->from_xml( args.llm_arg );
+  if( args.input_given ){
+    rule_set->from_xml( args.input_arg );
   }
 
-  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_arg );
+  cout << "rule_set:(" << *rule_set << ")" << endl;
 
-  Search_Space * search_space = new Search_Space();
-  search_space->fill_groundings( *symbol_dictionary, world );
-
-  DCG * dcg = new DCG();
-
-  GUI gui( grammar, parser, symbol_dictionary, search_space, world, context, llm, dcg, args.beam_width_arg );
-
-  if( args.phrase_given ){
-    Phrase * phrase = new Phrase();
-    phrase->from_xml( args.phrase_arg );
-  
-    if( phrase != NULL ){
-      delete phrase;
-      phrase = NULL;
-    }
+  if( args.output_given ){
+    rule_set->to_xml( args.output_arg );
   }
 
-  gui.show(); 
+  if( rule_set != NULL ){
+    delete rule_set;
+    rule_set = NULL;
+  }
 
-  return app.exec();
+  cout << "end of Rule_Set class demo program" << endl;
+  return status;
 }
