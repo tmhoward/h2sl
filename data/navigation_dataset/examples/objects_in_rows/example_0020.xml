@@ -40,7 +40,7 @@
     </PP>
     <PP>
       <grounding_set>
-        <contaier container_type="row">
+        <container container_type="row">
           <object name="cone0" object_type="cone" object_color="orange" position="-4.47408 -2.70332 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
           <object name="cone1" object_type="cone" object_color="orange" position="-5.46942 -0.208704 0.00962007" orientation="-5.4106e-08 4.60982e-07 -0.000696465 1"/>
           <object name="cone2" object_type="cone" object_color="orange" position="-4.18417 2.35123 0.00962007" orientation="-5.38565e-08 4.60993e-07 -0.00069644 1"/>
@@ -56,7 +56,7 @@
       <IN text="in" order="6"/>
       <NP>
         <grounding_set>
-          <contaier container_type="row">
+          <container container_type="row">
             <object name="cone0" object_type="cone" object_color="orange" position="-4.47408 -2.70332 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
             <object name="cone1" object_type="cone" object_color="orange" position="-5.46942 -0.208704 0.00962007" orientation="-5.4106e-08 4.60982e-07 -0.000696465 1"/>
             <object name="cone2" object_type="cone" object_color="orange" position="-4.18417 2.35123 0.00962007" orientation="-5.38565e-08 4.60993e-07 -0.00069644 1"/>
@@ -78,7 +78,7 @@
         </NP>
         <PP>
           <grounding_set>
-            <contaier container_type="row">
+            <container container_type="row">
               <object name="cone0" object_type="cone" object_color="orange" position="-4.47408 -2.70332 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
               <object name="cone1" object_type="cone" object_color="orange" position="-5.46942 -0.208704 0.00962007" orientation="-5.4106e-08 4.60982e-07 -0.000696465 1"/>
               <object name="cone2" object_type="cone" object_color="orange" position="-4.18417 2.35123 0.00962007" orientation="-5.38565e-08 4.60993e-07 -0.00069644 1"/>
@@ -94,7 +94,7 @@
           <IN text="of" order="9"/>
           <NP>
             <grounding_set>
-              <contaier container_type="row">
+              <container container_type="row">
                 <object name="cone0" object_type="cone" object_color="orange" position="-4.47408 -2.70332 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
                 <object name="cone1" object_type="cone" object_color="orange" position="-5.46942 -0.208704 0.00962007" orientation="-5.4106e-08 4.60982e-07 -0.000696465 1"/>
                 <object name="cone2" object_type="cone" object_color="orange" position="-4.18417 2.35123 0.00962007" orientation="-5.38565e-08 4.60993e-07 -0.00069644 1"/>
@@ -109,7 +109,7 @@
             </grounding_set>
             <NP>
               <grounding_set>
-                <contaier container_type="row">
+                <container container_type="row">
                   <object name="cone0" object_type="cone" object_color="orange" position="-4.47408 -2.70332 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
                   <object name="cone1" object_type="cone" object_color="orange" position="-5.46942 -0.208704 0.00962007" orientation="-5.4106e-08 4.60982e-07 -0.000696465 1"/>
                   <object name="cone2" object_type="cone" object_color="orange" position="-4.18417 2.35123 0.00962007" orientation="-5.38565e-08 4.60993e-07 -0.00069644 1"/>

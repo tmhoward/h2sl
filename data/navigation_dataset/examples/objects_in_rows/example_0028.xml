@@ -15,8 +15,8 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object_property object_type="barrel" relation_type="left" index="first"/>
-        <spatial_relation spatial_relation_type="left"/>
+        <object_property object_type="barrel" relation_type="right" index="first"/>
+        <spatial_relation spatial_relation_type="right"/>
         <object_type object_type="barrel"/>
       </grounding_set>
       <DT text="the" order="0"/>
@@ -24,6 +24,16 @@
       <NN text="barrel" order="2"/>
     </NP>
     <PP>
+      <grounding_set>
+        <container container_type="row">
+          <object name="barrel0" object_type="barrel" object_color="brown" position="-4.42577 -2.88225 0.270293" orientation="-2.35756e-08 -4.33841e-08 0.0116505 0.999932"/>
+          <object name="barrel1" object_type="barrel" object_color="brown" position="-4.58768 -0.727336 0.270293" orientation="-9.83554e-09 -3.13723e-08 0.0117264 0.999931"/>
+          <object name="barrel2" object_type="barrel" object_color="brown" position="-4.69399 2.0105 0.270293" orientation="-2.02839e-08 -4.9989e-08 0.0116264 0.999932"/>
+        </container>
+        <object name="barrel0" object_type="barrel" object_color="brown" position="-4.42577 -2.88225 0.270293" orientation="-2.35756e-08 -4.33841e-08 0.0116505 0.999932"/>
+        <object name="barrel1" object_type="barrel" object_color="brown" position="-4.58768 -0.727336 0.270293" orientation="-9.83554e-09 -3.13723e-08 0.0117264 0.999931"/>
+        <object name="barrel2" object_type="barrel" object_color="brown" position="-4.69399 2.0105 0.270293" orientation="-2.02839e-08 -4.9989e-08 0.0116264 0.999932"/>
+      </grounding_set>
       <IN text="in" order="3"/>
       <NP>
         <grounding_set>
