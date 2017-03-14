@@ -117,12 +117,6 @@ scrape_grounding( const World * world,
 void
 Grounding_Set::
 clear( void ){
-  for( unsigned int i = 0; i < _groundings.size(); i++ ){
-    if( _groundings[ i ] != NULL ){
-      delete _groundings[ i ];
-      _groundings[ i ] = NULL;
-    }
-  } 
   _groundings.clear();
   return;
 }
@@ -370,6 +364,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Grounding_Set& other ) {
+    out << "[" << other.groundings().size() << "]:{";
     for( unsigned int i = 0; i < other.groundings().size(); i++ ){
       if( other.groundings()[ i ] != NULL ){
         out << *other.groundings()[ i ];
@@ -378,6 +373,7 @@ namespace h2sl {
         out << ",";
       } 
     }
+    out << "}";
     return out;
   }
 }
