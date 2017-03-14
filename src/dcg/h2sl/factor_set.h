@@ -50,7 +50,9 @@
 namespace h2sl {
   class Factor_Set_Solution {
   public:
-    Factor_Set_Solution( const std::vector< unsigned int >& childSolutionIndices = std::vector< unsigned int >(), const double& pygx = 1.0, Grounding_Set* groundingSet = new Grounding_Set() );
+    Factor_Set_Solution( const std::vector< unsigned int >& childSolutionIndices = std::vector< unsigned int >(), 
+                         const double& pygx = 1.0, 
+                         Grounding_Set* groundingSet = new Grounding_Set() );
     virtual ~Factor_Set_Solution();
     Factor_Set_Solution( const Factor_Set_Solution& other );
     Factor_Set_Solution& operator=( const Factor_Set_Solution& other );
