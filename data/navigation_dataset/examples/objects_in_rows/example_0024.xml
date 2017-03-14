@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the first barrel from the left in the row of barrels in front of the robot"/>
+  <!-- "file" indicates the which world within certain world type-->
+  <world time="0" file="three_barrels/world_0000.xml"/>
+    <object name="barrel0" object_type="barrel" object_color="brown" position="-5.26362 -2.35682 0.270293" orientation="-2.98827e-08 -1.73446e-08 0.0116381 0.999932"/>
+    <object name="barrel1" object_type="barrel" object_color="brown" position="-5.17887 -0.113198 0.270293" orientation="-1.93272e-08 -4.73444e-08 0.0120529 0.999927"/>
+    <object name="barrel2" object_type="barrel" object_color="brown" position="-4.43965 2.56156 0.270293" orientation="-2.35756e-08 -4.33841e-08 0.0116505 0.999932"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0 0 0 1"/>
+    <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+  </world>
+  <!-- PARSE TREE GOES HERE -->
+</root>
