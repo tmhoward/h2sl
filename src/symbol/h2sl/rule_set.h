@@ -1,5 +1,5 @@
 /**
- * @file    region.h
+ * @file    rule_set.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,32 +28,33 @@
  *
  * @section DESCRIPTION
  *
- * The interface for a class used to describe a region of space
+ * The interface for a class used to describe a set of rules
  */
 
-#ifndef H2SL_REGION_H
-#define H2SL_REGION_H
+#ifndef H2SL_RULE_SET_H
+#define H2SL_RULE_SET_H
 
 #include <iostream>
+#include <vector>
 
-#include "h2sl/grounding.h"
-#include "h2sl/object.h"
+#include "h2sl/rule.h"
 
 namespace h2sl {
-  class Region: public Grounding {
+  class Rule_Set: public Rule {
   public:
-    Region( const std::string& spatialRelationType = "na", const std::string& objectId = "na" );
-    Region( xmlNodePtr root );
-    virtual ~Region();
-    Region( const Region& other );
-    Region& operator=( const Region& other );
-    bool operator==( const Region& other )const;
-    bool operator!=( const Region& other )const;
-    virtual Grounding* dup( void )const;
+    Rule_Set( const std::vector< Rule* >& rules = std::vector< Rule* >() );
+    Rule_Set( xmlNodePtr root );
+    virtual ~Rule_Set();
+    Rule_Set( const Rule_Set& other );
+    Rule_Set& operator=( const Rule_Set& other );
+    virtual Rule_Set* dup( void )const;
 
-    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "region" ); };
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "rule_set" ); };
     virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
-    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );
+
+    void clear( void );
+ 
+    virtual unsigned int evaluate_cv( const h2sl::Grounding* rule )const;
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
@@ -61,19 +62,18 @@ namespace h2sl {
     virtual void from_xml( const std::string& filename );
     virtual void from_xml( xmlNodePtr root );
 
-    inline std::string& spatial_relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
-    inline const std::string& spatial_relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
-    inline std::string& object_id( void ){ return get_prop< std::string >( _string_properties, "object_id" ); };
-    inline const std::string& object_id( void )const{ return get_prop< std::string >( _string_properties, "object_id" ); };
+    inline std::vector< Rule* >& rules( void ){ return _rules; };
+    inline const std::vector< Rule* >& rules( void )const{ return _rules; };
 
-    static std::string class_name( void ){ return "region"; };
+    static std::string class_name( void ){ return "rule_set"; };
 
   protected:
+    std::vector< Rule* > _rules;
 
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const Region& other );
+  std::ostream& operator<<( std::ostream& out, const Rule_Set& other );
 }
 
-#endif /* H2SL_REGION_H */
+#endif /* H2SL_RULE_SET_H */

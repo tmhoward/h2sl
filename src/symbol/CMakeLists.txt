@@ -22,6 +22,10 @@ set(GGOS
 # HEADER FILES
 set(HDRS
     h2sl/symbol_dictionary.h
+    h2sl/rule.h
+    h2sl/rule_set.h
+    h2sl/rule_object_type.h
+    h2sl/rule_spatial_relation.h
     h2sl/container.h
     h2sl/grounding.h
     h2sl/grounding_set.h
@@ -45,6 +49,10 @@ set(QT_HDRS )
 # SOURCE FILES
 set(SRCS
     symbol_dictionary.cc
+    rule.cc
+    rule_set.cc
+    rule_object_type.cc
+    rule_spatial_relation.cc
     container.cc
     grounding.cc
     grounding_set.cc

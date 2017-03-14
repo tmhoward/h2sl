@@ -1,13 +1,12 @@
 /**
  * @file    factor_set.cc
-* The implementation of a class used to represent a factor set
+ * The implementation of a class used to represent a factor set.
  */
 
 #include <assert.h>
 
 #include "h2sl/common.h"
 #include "h2sl/constraint.h"
-
 #include "h2sl/world.h"
 #include "h2sl/grounding.h"
 #include "h2sl/object.h"
@@ -68,35 +67,32 @@ operator=( const Factor_Set_ADCG& other ) {
 
 void
 Factor_Set_ADCG::
-search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
-        const vector< vector< unsigned int > >& correspondenceVariables,
+search( const Search_Space& searchSpace, 
         const Symbol_Dictionary& symbolDictionary,
         const World* world,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
-  search( searchSpace, correspondenceVariables, symbolDictionary, world, NULL, llm, beamWidth, debug );
+  search( searchSpace, symbolDictionary, world, NULL, llm, beamWidth, debug );
   return;
 }
 
 void
 Factor_Set_ADCG::
-search( const vector< pair< unsigned int, Grounding* > >& searchSpace,
-        const vector< vector< unsigned int > >& correspondenceVariables,
+search( const Search_Space& searchSpace, 
         const Symbol_Dictionary& symbolDictionary,
         const World* world,
         const Grounding* grounding,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
-  _search_physical( searchSpace, correspondenceVariables, symbolDictionary, world, llm, beamWidth, debug );
+  _search_physical( searchSpace, symbolDictionary, world, llm, beamWidth, debug );
   return;
 }
 
 void
 Factor_Set_ADCG::
-_search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
-                  const vector< vector< unsigned int > >& correspondenceVariables,
+_search_physical( const Search_Space& searchSpace, 
                   const Symbol_Dictionary& symbolDictionary,
                   const World* world, LLM* llm, const unsigned int beamWidth, const bool& debug ){
   if( debug ){
@@ -104,7 +100,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     cout << " phrase:" << *_phrase << endl;
   }
 
-  // Abstract search space data structure. 
+  // Abstract search space data structure: clearing them. 
   for( unsigned int i = 0; i < _abstract_search_spaces.size(); i++ ){
     for( unsigned int j = 0; j < _abstract_search_spaces[ i ].size(); j++ ){
       if( _abstract_search_spaces[ i ][ j ].second != NULL ){
@@ -143,64 +139,63 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     solutions_vector.push_back( vector< Factor_Set_Solution >() );
     solutions_vector.back().push_back( Factor_Set_Solution() );
     solutions_vector.back().back().children = child_solution_indices_cartesian_power[ i ];
-    solutions_vector.back().back().cv.resize( NUM_CVS );
+    //solutions_vector.back().back().cv.resize( NUM_CVS );
 
     vector< pair< const Phrase*, vector< Grounding* > > > child_groundings;
     for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
       solutions_vector.back().back().pygx *= _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx;
       child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _children[ j ]->phrase(), vector< Grounding* >() ) );
-      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings.size(); k++ ){
-        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings[ k ] );
+      for( unsigned int k = 0; k < _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings().size(); k++ ){
+        child_groundings.back().second.push_back( _children[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].groundings->groundings()[ k ] );
       }
     }
 
-    for( unsigned int j = 0; j < searchSpace.size(); j++ ){
-      unsigned int num_solutions = solutions_vector.back().size();
-      for( unsigned int k = 1; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
-        for( unsigned int l = 0; l < num_solutions; l++ ){
-          solutions_vector.back().push_back( solutions_vector.back()[ l ] );
-        }
-      }
+    for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace.grounding_pairs().begin(); it_search_spaces != searchSpace.grounding_pairs().end(); it_search_spaces++ ){
+      for( unsigned int j = 0; it_search_spaces->second.second.size(); j++ ){
+        unsigned int num_solutions = solutions_vector.back().size();
+        map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace.cvs().find( it_search_spaces->second.first );
+        assert( it_cvs != searchSpace.cvs().end() );
 
-      if( debug ){
-/*
-        cout << "considering " << *static_cast< Grounding* >( searchSpace[ j ].second ) << endl;
-        for( unsigned int k = 0; k < child_groundings.size(); k++ ){
-          for( unsigned int l = 0; l < child_groundings[ k ].second.size(); l++ ){
-            cout << "grounding set " << *static_cast< Grounding* >( child_groundings[ k ].second[ l ] ) << endl;
+        for( unsigned int k = 1; k < it_cvs->second.size(); k++ ){
+          for( unsigned int l = 0; l < num_solutions; l++ ){
+            solutions_vector.back().push_back( solutions_vector.back()[ l ] );
           }
         }
-*/
-      }
-  
-      // Prob. of individual factors. Context of child groundings. Multiply with the child groundings.
-      for( unsigned int k = 0; k < correspondenceVariables[ searchSpace[ j ].first ].size(); k++ ){
-        double value = llm->pygx( correspondenceVariables[ searchSpace[ j ].first ][ k ], 
-                                  searchSpace[ j ].second, 
-                                  child_groundings, _phrase, world, 
-                                  correspondenceVariables[ searchSpace[ j ].first ], 
-                                  evaluate_feature_types );
-        evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
-        for( unsigned int l = 0; l < num_solutions; l++ ){
-          solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j );
-          solutions_vector.back()[ k * num_solutions + l ].pygx *= value;
-        }
-      }
 
-      // Most probable set. Trim the solutions.
-      sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_adcg_solution_sort );
-      if( solutions_vector.back().size() > beamWidth ){
-        solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
-      }
-
-      for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
-        solutions_vector.back()[ k ].groundings.clear();
-        for( unsigned int l = 0; l < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); l++ ){
-          solutions_vector.back()[ k ].groundings.push_back( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ].second );
+        // Prob. of individual factors. Context of child groundings. Multiply with the child groundings.
+        for( unsigned int k = 0; k < it_cvs->second.size() ; k++ ){
+          double value = llm->pygx( it_cvs->second[ k ], it_search_spaces->second.second[ j ], child_groundings, _phrase, world, it_cvs->second, evaluate_feature_types );
+          evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+          for( unsigned int l = 0; l < num_solutions; l++ ){
+            map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k* num_solutions + l ].cv.find( it_search_spaces->first );
+            assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() );
+            //solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j );
+            solutions_vector.back()[ k * num_solutions + l ].pygx *= value;
+          }
         }
+
+        // Most probable set. Trim the solutions.
+        sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_adcg_solution_sort );
+        if( solutions_vector.back().size() > beamWidth ){
+          solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
+        }
+
+        for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
+          solutions_vector.back()[ k ].groundings->groundings().clear();
+     //     for( unsigned int l = 0; l < solutions_vector.back()[ k ].cv[ CV_TRUE ].size(); l++ ){
+       //     solutions_vector.back()[ k ].groundings.push_back( searchSpace[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ].second );
+            //solutions_vector.back()[ k ].groundings.push_back( it_search_spaces->second.second[ solutions_vector.back()[ k ].cv[ CV_TRUE ][ l ] ] );
+     //     }
+        }
+
+
       }
     }
-  
+  //}
+
+   vector< Symbol_Dictionary > estimated_symbol_dictionaries;
+   
+
     // look for the expressed symbols for objects, indices
     vector< vector< unsigned int > > observed_true_solution_vectors;
     vector< vector< Object* > > observed_object_vectors;
@@ -210,6 +205,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
     vector< int > observed_indices( 1, 1 );
     vector< int > observed_numbers; 
   
+/*
     // Collect the solutions at the concrete level. 
     for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
       // look for a new observed_new_solution_vector
@@ -334,36 +330,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
           }
         }
       }  
-/*
-      for ( unsigned int j = 0; j < observed_object_types.size(); j++ ) {
-        if ( symbolTypes.find( string( "object_type" ) ) != symbolTypes.end() ) {
-          map< string, vector< Object* > >::const_iterator it1 =  world->min_x_sorted_objects().find( observed_object_types[ j ] );
-          if ( it1 !=  world->min_x_sorted_objects().end() ) {
-            map< string, vector< string> >::const_iterator it2 = symbolTypes.find( string( "object_type" ) );
-            if ( it2 != symbolTypes.end() ) {
-              if ( it1->second.size() < it2->second.size() ) {
-                int tmp_number = 1;
-                for( map< string, unsigned int>::const_iterator it3 = world->numeric_map().begin(); it3 != world->numeric_map().end(); ++it3 ) {
-                  map< string, vector< Object* > >::const_iterator it4 = world->min_x_sorted_objects().find( observed_object_types[ j ]  );
-                  if( it4 != world->min_x_sorted_objects().end() ) {
-                    if( it3->second == it4->second.size() ) {
-                      tmp_number = it3->first; 
-                    }
-                  }
-                }
-                if ( tmp_number != 0 ) {
-                  if( find( observed_numbers.begin(), observed_numbers.end(), tmp_number ) == observed_numbers.end() ){
-                    observed_numbers.push_back( tmp_number );
-                  }
-                }
-              }
-            } 
-          }  
-        }
-      }
-*/
     }   
-
 
   // TODO: NEED TO ACCOUNT FOR OTHER EXPRESSIONS OF THE CONTAINERS HERE, ADD TO ALL SOLUTIONS
     // fill search space
@@ -506,7 +473,7 @@ _search_physical( const vector< pair< unsigned int, Grounding* > >& searchSpace,
   if( debug ){
     cout << *this << endl;
   }
-
+ */
   return;
   
 }
@@ -516,7 +483,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Factor_Set_ADCG& other ){
-
+/*
     for( unsigned int i = 0; i < other.solutions().size(); i++ ){
       out << "solutions[" << i << "] TRUE [" << other.solutions()[ i ].cv[ CV_TRUE ].size() << "]:{";
       for( unsigned int j = 0; j < other.solutions()[ i ].cv[ CV_TRUE ].size(); j++ ){
@@ -549,7 +516,7 @@ namespace h2sl {
     for( unsigned int i = 0; i < other.abstract_search_spaces().size(); i++ ){
       out << "abstract_search_space[" << i << "] size:" << other.abstract_search_spaces()[ i ].size() << endl;
     }
-  
+  */
     return out;
 
   }

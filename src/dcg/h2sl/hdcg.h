@@ -32,56 +32,47 @@
  *   Graph
  */
 
-#ifndef H2SL_DCG_H
-#define H2SL_DCG_H
+#ifndef H2SL_HDCG_H
+#define H2SL_HDCG_H
 
 #include <iostream>
 #include <vector>
 #include <map>
 
-#include "h2sl/phrase.h"
-#include "h2sl/world.h"
-#include "h2sl/llm.h"
-#include "h2sl/factor_set.h"
-#include "h2sl/search_space.h"
-#include "h2sl/symbol_dictionary.h"
+#include "h2sl/dcg.h"
 
 namespace h2sl {
-  class DCG {
+  class HDCG {
   public:
-    DCG();
-    virtual ~DCG();
-    DCG( const DCG& other );
-    DCG& operator=( const DCG& other );
+    HDCG();
+    virtual ~HDCG();
+    HDCG( const HDCG& other );
+    HDCG& operator=( const HDCG& other );
 
-    static void scrape_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, const Search_Space& searchSpace, std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
+    static void scrape_rules_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, const Search_Space& searchSpace, std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
+    static void scrape_groundings_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, const Search_Space& searchSpace, std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
     virtual void fill_search_spaces( const World* world );
     virtual bool leaf_search( const Phrase* phrase, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
     virtual bool leaf_search( const Phrase* phrase, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
     virtual void to_latex( const std::string& filename )const;
 
-    inline Symbol_Dictionary& symbol_dictionary( void ){ return _symbol_dictionary; };
-    inline const Symbol_Dictionary& symbol_dictionary( void )const{ return _symbol_dictionary; };
-    inline Search_Space& search_space( void ){ return _search_space; };
-    inline const Search_Space& search_space( void )const{ return _search_space; };
-    inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
-    inline const Factor_Set* root( void )const{ return _root; };
+    inline DCG& dcg_rules( void ){ return _dcg_rules; };
+    inline const DCG& dcg_rules( void )const{ return _dcg_rules; };
+    inline DCG& dcg_groundings( void ){ return _dcg_groundings; };
+    inline const DCG& dcg_groundings( void )const{ return _dcg_groundings; };
 
   protected:
-    virtual void _find_leaf( Factor_Set* node, Factor_Set*& leaf );
     virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
-    Search_Space _search_space;
-    Symbol_Dictionary _symbol_dictionary;
-    std::vector< std::pair< double, Phrase* > > _solutions;
-    Factor_Set * _root;
-  
+    DCG _dcg_rules;
+    DCG _dcg_groundings;
+
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const DCG& other );
+  std::ostream& operator<<( std::ostream& out, const HDCG& other );
 }
 
-#endif /* H2SL_DCG_H */
+#endif /* H2SL_HDCG_H */

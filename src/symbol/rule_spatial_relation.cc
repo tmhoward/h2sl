@@ -1,5 +1,5 @@
 /**
- * @file spatial_relation.cc
+ * @file rule_spatial_relation.cc
  *
  * @brief
  *
@@ -8,58 +8,58 @@
 
 #include <assert.h>
 
-#include "h2sl/spatial_relation.h"
+#include "h2sl/rule_spatial_relation.h"
 
 using namespace std;
 using namespace h2sl;
 
 /**
- * Spatial_Relation class constructor
+ * Rule_Spatial_Relation class constructor
  */
-Spatial_Relation::
-Spatial_Relation( const string& spatialRelationType ) : Grounding() {
+Rule_Spatial_Relation::
+Rule_Spatial_Relation( const string& spatialRelationType ) : Rule() {
   insert_prop< std::string >( _string_properties, "spatial_relation_type", spatialRelationType );
 }
 
-Spatial_Relation::
-Spatial_Relation( xmlNodePtr root ) : Grounding() {
-    insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
-    from_xml( root );
+Rule_Spatial_Relation::
+Rule_Spatial_Relation( xmlNodePtr root ) : Rule() {
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
+  from_xml( root );
 }
 
 /**
- * Spatial_Relation class copy constructor
+ * Rule_Spatial_Relation class copy constructor
  */
-Spatial_Relation::
-Spatial_Relation( const Spatial_Relation& other ) : Grounding( other ) {
+Rule_Spatial_Relation::
+Rule_Spatial_Relation( const Rule_Spatial_Relation& other ) : Rule( other ) {
 
 }
 
 /**
- * Spatial_Relation class destructor
+ * Rule_Spatial_Relation class destructor
  */
-Spatial_Relation::
-~Spatial_Relation() {
+Rule_Spatial_Relation::
+~Rule_Spatial_Relation() {
 
 }
 
 /** 
- * Spatial_Relation class assignment operator
+ * Rule_Spatial_Relation class assignment operator
  */
-Spatial_Relation&
-Spatial_Relation::
-operator=( const Spatial_Relation& other ){
+Rule_Spatial_Relation&
+Rule_Spatial_Relation::
+operator=( const Rule_Spatial_Relation& other ){
   _string_properties = other._string_properties;
   _int_properties = other._int_properties;
   return (*this);
 }
 
 /** 
- * Spatial_Relation class equality operator
+ * Rule_Spatial_Relation class equality operator
  */
 bool
-Spatial_Relation::
-operator==( const Spatial_Relation& other )const{
+Rule_Spatial_Relation::
+operator==( const Rule_Spatial_Relation& other )const{
   if ( spatial_relation_type() != other.spatial_relation_type() ){
     return false;
   } else {
@@ -68,25 +68,25 @@ operator==( const Spatial_Relation& other )const{
 }
 
 /** 
- * Spatial_Relation class inequality operator
+ * Rule_Spatial_Relation class inequality operator
  */
 bool
-Spatial_Relation::
-operator!=( const Spatial_Relation& other )const{
+Rule_Spatial_Relation::
+operator!=( const Rule_Spatial_Relation& other )const{
   return !( *this == other );
 }
 
 /** 
- * Spatial_Relation class dup operator
+ * Rule_Spatial_Relation class dup operator
  */
-Spatial_Relation*
-Spatial_Relation::
+Rule_Spatial_Relation*
+Rule_Spatial_Relation::
 dup( void )const{
-  return new Spatial_Relation( *this );
+  return new Rule_Spatial_Relation( *this );
 }
 
 void
-Spatial_Relation::
+Rule_Spatial_Relation::
 scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
@@ -97,7 +97,7 @@ scrape_grounding( const World * world,
 }
 
 void
-Spatial_Relation::
+Rule_Spatial_Relation::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
@@ -116,7 +116,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     case( SYMBOL_TYPE_ALL ):
       if( it_spatial_relation_type_types != symbolDictionary.string_types().end() ){
         for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
-          it_search_spaces_symbol->second.second.push_back( new Spatial_Relation( it_spatial_relation_type_types->second[ i ] ) );
+          it_search_spaces_symbol->second.second.push_back( new Rule_Spatial_Relation( it_spatial_relation_type_types->second[ i ] ) );
         }
       }
       break;
@@ -131,10 +131,10 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 }
 
 /** 
- * imports the Spatial_Relation class from an XML file
+ * imports the Rule_Spatial_Relation class from an XML file
  */
 void
-Spatial_Relation::
+Rule_Spatial_Relation::
 from_xml( const string& filename ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
@@ -145,7 +145,7 @@ from_xml( const string& filename ){
       xmlNodePtr l1 = NULL;
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "spatial_relation" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_spatial_relation" ) ) == 0 ){
             from_xml( l1 );
           }
         }
@@ -159,10 +159,10 @@ from_xml( const string& filename ){
 }
 
 /** 
- * imports the Spatial_Relation class from an XML node pointer
+ * imports the Rule_Spatial_Relation class from an XML node pointer
  */
 void
-Spatial_Relation::
+Rule_Spatial_Relation::
 from_xml( xmlNodePtr root ){
   spatial_relation_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
@@ -181,10 +181,10 @@ from_xml( xmlNodePtr root ){
 }
 
 /**
- * exports the Spatial_Relation class to an XML file
+ * exports the Rule_Spatial_Relation class to an XML file
  */
 void
-Spatial_Relation::
+Rule_Spatial_Relation::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -196,13 +196,13 @@ to_xml( const string& filename )const{
 }
 
 /**
- * exports the Spatial_Relation class to an XML node pointer
+ * exports the Rule_Spatial_Relation class to an XML node pointer
  */
 void
-Spatial_Relation::
+Rule_Spatial_Relation::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "spatial_relation" ), NULL );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "rule_spatial_relation" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "spatial_relation_type").c_str() ) );
   xmlAddChild( root, node );
   return;
@@ -210,12 +210,12 @@ to_xml( xmlDocPtr doc,
 
 namespace h2sl {
   /** 
-   * Spatial_Relation class ostream operator
+   * Rule_Spatial_Relation class ostream operator
    */
   ostream&
   operator<<( ostream& out,
-              const Spatial_Relation& other ){
-    out << "Spatial_Relation(";
+              const Rule_Spatial_Relation& other ){
+    out << "Rule_Spatial_Relation(";
     out << "spatial_relation_type=\"" << other.spatial_relation_type() << "\"";
     out << ")";
     return out;

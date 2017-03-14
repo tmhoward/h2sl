@@ -97,20 +97,20 @@
               <DT text="the" order="5"/>
               <JJ text="left" order="6"/>
               <NN text="side" order="7"/>
-              <PP>
+            </NP>
+            <PP>
+              <grounding_set>
+                <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              </grounding_set>
+              <IN text="of" order="8"/>
+              <NP>
                 <grounding_set>
                   <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 </grounding_set>
-                <IN text="of" order="8"/>
-                <NP>
-                  <grounding_set>
-                    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                  </grounding_set>
-                  <DT text="the" order="9"/>
-                  <NN text="robot" order="10"/>
-                </NP>
-              </PP>
-            </NP>
+                <DT text="the" order="9"/>
+                <NN text="robot" order="10"/>
+              </NP>
+            </PP>
           </NP>
         </PP>
       </NP>
