@@ -34,6 +34,9 @@
 #include "h2sl/rule_object_type.h"
 #include "h2sl/rule_object_color.h"
 #include "h2sl/rule_spatial_relation.h"
+#include "h2sl/rule_constraint_type.h"
+#include "h2sl/rule_constraint_payload_type.h"
+#include "h2sl/rule_constraint_reference_type.h"
 
 #include "h2sl/object_property.h"
 #include "h2sl/object_type.h"
@@ -54,8 +57,10 @@ using namespace h2sl;
 
 Search_Space::
 Search_Space ( const map< string, pair< string, vector< Grounding* > > >& groundingPairs, 
-	       const map< string, vector< unsigned int > >& cvs ) : _grounding_pairs( groundingPairs ),
-                        			                    _cvs( cvs ) {
+	       const map< string, vector< unsigned int > >& cvs,
+               const map< string, vector< string > >& classNames ) : _grounding_pairs( groundingPairs ),
+                        			                      _cvs( cvs ),
+                                                                      _class_names( classNames ) {
 }
 
 Search_Space::
@@ -71,7 +76,8 @@ Search_Space::
 Search_Space::
 Search_Space( const Search_Space& other ) :  
                                 _grounding_pairs( other._grounding_pairs ), 
-                                _cvs( other._cvs ) {
+                                _cvs( other._cvs ),
+                                _class_names( other._class_names ) {
 
 }
 
@@ -80,6 +86,7 @@ Search_Space::
 operator=( const Search_Space& other ) {
   _grounding_pairs = other._grounding_pairs; 
   _cvs = other._cvs;
+  _class_names = other._class_names;
   return (*this);
 }
 
@@ -89,6 +96,8 @@ operator==( const Search_Space& other )const{
   if( grounding_pairs() != other.grounding_pairs() ){
     return false;
   } else if ( cvs() != other.cvs() ){
+    return false;
+  } else if ( class_names() != other.class_names() ){
     return false;
   } else {
     return true;
@@ -112,6 +121,8 @@ Search_Space::
 fill_groundings( const Symbol_Dictionary& symbolDictionary, 
                   const World* world ){
   clear();
+
+  _class_names = symbolDictionary.class_names();
 
   std::vector< unsigned int > binary_cvs;
   binary_cvs.push_back( CV_FALSE );
@@ -147,6 +158,8 @@ fill_rules( const Symbol_Dictionary& symbolDictionary,
             const World* world ){
   clear();
 
+  _class_names = symbolDictionary.class_names();
+
   std::vector< unsigned int > binary_cvs;
   binary_cvs.push_back( CV_FALSE );
   binary_cvs.push_back( CV_TRUE );
@@ -156,6 +169,9 @@ fill_rules( const Symbol_Dictionary& symbolDictionary,
   Rule_Object_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   Rule_Object_Color::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   Rule_Spatial_Relation::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Rule_Constraint_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Rule_Constraint_Payload_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Rule_Constraint_Reference_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   return;
 }
 
@@ -210,6 +226,30 @@ scrape_examples( const string& filename,
     scrape_examples( filename, dynamic_cast< Phrase* >( phrase->children()[ i ] ), world, examples );
   }
   return;
+}
+
+void 
+Search_Space::
+scrape_grounding( Symbol_Dictionary& symbolDictionary,
+                  const World* world )const{
+  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_groundings = _grounding_pairs.begin(); it_groundings != _grounding_pairs.end(); it_groundings++ ){
+    for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
+      if( (*it_grounding) != NULL ){
+        (*it_grounding)->scrape_grounding( world, symbolDictionary.string_types(), symbolDictionary.int_types() );
+      }
+    }
+  } 
+  return;
+}
+
+unsigned int
+Search_Space::
+size( void )const{
+  unsigned int tmp = 0;
+  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_groundings = _grounding_pairs.begin(); it_groundings != _grounding_pairs.end(); it_groundings++ ){
+    tmp += it_groundings->second.second.size();
+  }
+  return tmp;
 }
  
 void
@@ -267,6 +307,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Search_Space& other ) {
+    out << "size:" << other.size() << " ";
     out << "grounding_pairs[" << other.grounding_pairs().size() << "]:(";
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_grounding_pairs = other.grounding_pairs().begin(); it_grounding_pairs != other.grounding_pairs().end(); it_grounding_pairs++ ){
       out << it_grounding_pairs->first << "[" << it_grounding_pairs->second.second.size() << "]:{";
@@ -289,7 +330,15 @@ namespace h2sl {
         out << ",";
       }
     }
-    out << ")";
+    out << "),class_names[" << other.class_names().size() << "]:{";
+    for( map< string, vector< string > >::const_iterator it_class_names = other.class_names().begin(); it_class_names != other.class_names().end(); it_class_names++ ){
+      out << it_class_names->first << "[" << it_class_names->second.size() << "]:{";
+      out << "}";
+      if( next( it_class_names ) != other.class_names().end() ){
+        out << ",";
+      }
+    }
+    out << "}";
     return out;
   }
 }

@@ -119,10 +119,8 @@ dup( void )const{
 void
 Constraint::
 scrape_grounding( const World * world,
-                  vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  insert_unique< std::string >( class_name(), classNames );
   insert_unique< std::string >( "constraint_type", constraint_type(), stringTypes );
   map< string, Object* >::const_iterator it_payload = world->objects().find( payload() );
   if( it_payload != world->objects().end() ){
@@ -131,8 +129,19 @@ scrape_grounding( const World * world,
   map< string, Object* >::const_iterator it_reference = world->objects().find( reference() );
   if( it_reference != world->objects().end() ){
     insert_unique< std::string >( "constraint_reference_type", it_reference->second->type(), stringTypes );
-  } 
+  }
   insert_unique< std::string >( "spatial_relation_type", reference_relation(), stringTypes );
+  return;
+}
+
+void
+Constraint::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 

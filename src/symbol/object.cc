@@ -113,6 +113,16 @@ dup( void )const{
   return new Object( *this );
 }
 
+void
+Object::
+scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "object_type", type(), stringTypes );
+  insert_unique< std::string >( "object_color", color(), stringTypes );
+  return;
+}
+
 void 
 Object::
 scrape_grounding( const World * world,
@@ -120,8 +130,7 @@ scrape_grounding( const World * world,
                   map< string, vector< string > >& stringTypes, 
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "object_type", type(), stringTypes );
-  insert_unique< std::string >( "object_color", color(), stringTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 

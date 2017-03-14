@@ -100,13 +100,22 @@ dup( void )const{
 void
 Object_Property::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "object_type", type(), stringTypes );
+  insert_unique< std::string >( "spatial_relation_type", relation_type(), stringTypes );
+  insert_unique< int >( "index", index(), intTypes );
+  return;
+}
+
+void
+Object_Property::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "object_type", type(), stringTypes );
-  insert_unique< std::string >( "spatial_relation_type", relation_type(), stringTypes );
-  insert_unique< int >( "index", index(), intTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 

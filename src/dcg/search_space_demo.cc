@@ -47,7 +47,7 @@ int
 main( int argc,
       char* argv[] ) {
   int status = 0;
-  cout << "start of Search_Space class demo program" << endl;
+  cout << "start of Search_Space class demo program" << endl << endl;
   
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
@@ -57,13 +57,13 @@ main( int argc,
   World * world = new World();
   if( args.world_given ){
     world->from_xml( args.world_arg );
-    cout << "world:(" << *world << ")" << endl;
+    cout << "world:(" << *world << ")" << endl << endl;
   }
 
   Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary();
   if( args.symbol_dictionary_given ){   
     symbol_dictionary->from_xml( args.symbol_dictionary_arg );
-    cout << "symbol_dictionary:(" << *symbol_dictionary << ")" << endl;
+    cout << "symbol_dictionary:(" << *symbol_dictionary << ")" << endl << endl;
   }
 
   Search_Space * search_space = new Search_Space();
@@ -74,13 +74,24 @@ main( int argc,
       cout << "search_space:(" << *search_space << ")" << endl;
     }
 
-    cout << "filling search space with groundings" << endl;
+    cout << "filling search space with groundings" << endl << endl;
     search_space->fill_groundings( *symbol_dictionary, world );
-    cout << "search_space:(" << *search_space << ")" << endl;
+    cout << "search_space:(" << *search_space << ")" << endl << endl;
 
-    cout << "filling search space with rules" << endl;
+    cout << "filling search space with rules" << endl << endl;
     search_space->fill_rules( *symbol_dictionary, world );
-    cout << "search_space:(" << *search_space << ")" << endl;
+    cout << "search_space:(" << *search_space << ")" << endl << endl;
+
+    Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary();
+    
+    search_space->scrape_grounding( *symbol_dictionary_rules, world );
+
+    cout << "symbol_dictionary_extracted:(" << *symbol_dictionary_rules << ")" << endl << endl;
+
+    if( symbol_dictionary_rules != NULL ){
+      delete symbol_dictionary_rules;
+      symbol_dictionary_rules = NULL;
+    }
 
     if( args.output_given ){
       search_space->to_xml( args.output_arg );

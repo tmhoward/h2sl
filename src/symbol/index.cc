@@ -89,11 +89,20 @@ dup( void )const{
 void
 Index::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< int >( "index", value(), intTypes );
+  return;
+}
+
+void
+Index::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< int >( "index", value(), intTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 

@@ -88,11 +88,20 @@ dup( void )const{
 void
 Object_Color::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "object_color", object_color_type(), stringTypes );
+  return;
+}
+
+void
+Object_Color::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "object_color", object_color_type(), stringTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 

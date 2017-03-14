@@ -107,14 +107,23 @@ dup( void )const{
 void
 Abstract_Container::
 scrape_grounding( const World * world,
-                  vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  insert_unique< std::string >( class_name(), classNames );
   insert_unique< std::string >( "object_type", type(), stringTypes );
   insert_unique< int >( "index", index(), intTypes );
   insert_unique< int >( "number", number(), intTypes );
   insert_unique< std::string >( "object_color", color(), stringTypes );
+  return;
+}
+
+void
+Abstract_Container::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 

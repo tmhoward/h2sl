@@ -33,8 +33,8 @@
 
 #include <assert.h>
 #include "h2sl/rule.h"
-#include "h2sl/rule_set.h"
 #include "h2sl/rule_object_type.h"
+#include "h2sl/rule_object_color.h"
 #include "h2sl/rule_spatial_relation.h"
 
 using namespace std;
@@ -80,10 +80,10 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Rule& other ) {
-    if( dynamic_cast< const Rule_Set* >( &other ) != NULL ){
-      out << *static_cast< const Rule_Set* >( &other ); 
-    } else if( dynamic_cast< const Rule_Object_Type* >( &other ) != NULL ){
+    if( dynamic_cast< const Rule_Object_Type* >( &other ) != NULL ){
       out << *static_cast< const Rule_Object_Type* >( &other );
+    } else if( dynamic_cast< const Rule_Object_Color* >( &other ) != NULL ){
+      out << *static_cast< const Rule_Object_Color* >( &other );
     } else if( dynamic_cast< const Rule_Spatial_Relation* >( &other ) != NULL ){
       out << *static_cast< const Rule_Spatial_Relation* >( &other );
     }
