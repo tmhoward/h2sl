@@ -100,6 +100,8 @@ _search_physical( const Search_Space& searchSpace,
     cout << " phrase:" << *_phrase << endl;
   }
 
+
+/*
   // Abstract search space data structure: clearing them. 
   for( unsigned int i = 0; i < _abstract_search_spaces.size(); i++ ){
     for( unsigned int j = 0; j < _abstract_search_spaces[ i ].size(); j++ ){
@@ -168,7 +170,7 @@ _search_physical( const Search_Space& searchSpace,
           evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
           for( unsigned int l = 0; l < num_solutions; l++ ){
             map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k* num_solutions + l ].cv.find( it_search_spaces->first );
-            assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() );
+            //assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() );
             //solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j );
             solutions_vector.back()[ k * num_solutions + l ].pygx *= value;
           }
@@ -193,6 +195,7 @@ _search_physical( const Search_Space& searchSpace,
     }
   //}
 
+
    vector< Symbol_Dictionary > estimated_symbol_dictionaries;
    
 
@@ -205,7 +208,6 @@ _search_physical( const Search_Space& searchSpace,
     vector< int > observed_indices( 1, 1 );
     vector< int > observed_numbers; 
   
-/*
     // Collect the solutions at the concrete level. 
     for( unsigned int k = 0; k < solutions_vector.back().size(); k++ ){
       // look for a new observed_new_solution_vector
