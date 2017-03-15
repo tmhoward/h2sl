@@ -43,11 +43,8 @@ using namespace std;
 using namespace h2sl;
 
 HDCG::
-HDCG() : _search_space_rules(),
-          _dcg_rules(),
+HDCG() : _dcg(),
           _inferred_symbol_dictionaries(),  
-          _search_space_groundings(),
-          _dcg_groundings(),
           _solutions() {
 
 }
@@ -58,11 +55,8 @@ HDCG::
 }
 
 HDCG::
-HDCG( const HDCG& other ) : _search_space_rules( other._search_space_rules ),
-                            _dcg_rules( other._dcg_rules ),
+HDCG( const HDCG& other ) : _dcg( other._dcg ),
                             _inferred_symbol_dictionaries( other._inferred_symbol_dictionaries ),
-                            _search_space_groundings( other._search_space_groundings ),
-                            _dcg_groundings( other._dcg_groundings ),
                             _solutions( other._solutions ) {
 
 }
@@ -70,11 +64,8 @@ HDCG( const HDCG& other ) : _search_space_rules( other._search_space_rules ),
 HDCG&
 HDCG::
 operator=( const HDCG& other ) {
-  _search_space_rules = other._search_space_rules;
-  _dcg_rules = other._dcg_rules;
+  _dcg = other._dcg;
   _inferred_symbol_dictionaries = other._inferred_symbol_dictionaries;
-  _search_space_groundings = other._search_space_groundings;
-  _dcg_groundings = other._dcg_groundings;
   _solutions = other._solutions;
   return (*this);
 }
@@ -83,7 +74,7 @@ bool
 HDCG::
 leaf_search( const Phrase* phrase,
               const Symbol_Dictionary& symbolDictionary,
-              const Search_Space* searchSpace,
+              Search_Space* searchSpace,
               const World* world,
               LLM * llm,
               const unsigned int beamWidth,
@@ -95,7 +86,7 @@ bool
 HDCG::
 leaf_search( const Phrase* phrase,
               const Symbol_Dictionary& symbolDictionary,
-              const Search_Space* searchSpace,
+              Search_Space* searchSpace,
               const World* world,
               const Grounding* context,
               LLM * llm,
@@ -103,11 +94,11 @@ leaf_search( const Phrase* phrase,
               const bool& debug ){
   if( phrase != NULL ){
     // first infer a distribution of reduced symbol dictionary from the rules
-    _search_space_rules.fill_rules( symbolDictionary, world );
-    _dcg_rules.leaf_search( phrase, symbolDictionary, &_search_space_rules, world, context, llm, beamWidth, debug );
+    searchSpace->fill_rules( symbolDictionary, world );
+    _dcg.leaf_search( phrase, symbolDictionary, searchSpace, world, context, llm, beamWidth, debug );
 
     _inferred_symbol_dictionaries.clear();
-    for( vector< pair< double, Phrase* > >::const_iterator it_solution = _dcg_rules.solutions().begin(); it_solution != _dcg_rules.solutions().end(); it_solution++ ){
+    for( vector< pair< double, Phrase* > >::const_iterator it_solution = _dcg.solutions().begin(); it_solution != _dcg.solutions().end(); it_solution++ ){
       _inferred_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->first, Symbol_Dictionary() ) );
       // it_solution->second->scrape_grounding( _inferred_symbol_dictionaries.back().second, world );
     }
@@ -118,14 +109,13 @@ leaf_search( const Phrase* phrase,
       }
 
       // now ground the phrase with the inferred distribution of symbol dictionaries
-      _search_space_groundings.push_back( pair< double, Search_Space >( it_symbol_dictionary->first, Search_Space() ) );
-      _search_space_groundings.back().second.fill_groundings( it_symbol_dictionary->second, world );
+      searchSpace->fill_groundings( it_symbol_dictionary->second, world );
 
       if( debug ){
-        cout << "inferred symbol dictionary:" << _search_space_groundings.back().second << endl;
+        cout << "inferred symbol dictionary:" << *searchSpace << endl;
       }
 
-      _dcg_groundings.leaf_search( phrase, it_symbol_dictionary->second, &_search_space_groundings.back().second, world, context, llm, beamWidth, debug );
+      _dcg.leaf_search( phrase, it_symbol_dictionary->second, searchSpace, world, context, llm, beamWidth, debug );
     }
     
     return true;

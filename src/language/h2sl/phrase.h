@@ -72,6 +72,7 @@ namespace h2sl {
 
     virtual void scrape_groundings( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     virtual void scrape_groundings( const World * world, std::map< std::string, std::vector< std::string > >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
+    bool contains_symbol_in_symbol_dictionary( const Symbol_Dictionary& symbolDictionary )const;
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

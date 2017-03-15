@@ -7,6 +7,7 @@ set(GGOS
     feature_set_demo.ggo
     generate_feature_set.ggo
     generate_feature_set_rules.ggo
+    generate_feature_set_groundings_and_rules.ggo
     llm_demo.ggo
     example_formatter.ggo)
 
@@ -30,6 +31,7 @@ set(HDRS
     h2sl/feature_grounding_string_property_value.h
     h2sl/feature_grounding_int_property_value.h
     h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h
+    h2sl/feature_grounding_string_property_value_missing_child_string_property.h
     h2sl/feature_grounding_class_name.h
     h2sl/feature_region_object_string_property_value.h
     h2sl/feature_region_object_matches_child.h
@@ -134,6 +136,7 @@ set(SRCS
     feature_grounding_string_property_value.cc
     feature_grounding_int_property_value.cc
     feature_grounding_string_property_value_matches_child_string_property_value.cc
+    feature_grounding_string_property_value_missing_child_string_property.cc
     feature_grounding_class_name.cc
     feature_region_object_string_property_value.cc
     feature_region_object_matches_child.cc
@@ -231,6 +234,7 @@ set(BIN_SRCS
     feature_product_demo.cc
     generate_feature_set.cc
     generate_feature_set_rules.cc
+    generate_feature_set_groundings_and_rules.cc
     feature_set_demo.cc
     llm_demo.cc
     example_formatter.cc)

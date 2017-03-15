@@ -178,6 +178,16 @@ scrape_groundings( const World * world,
   return;
 }
 
+bool
+Phrase::
+contains_symbol_in_symbol_dictionary( const Symbol_Dictionary& symbolDictionary )const{
+  bool contains_symbol = _grounding_set->contains_symbol_in_symbol_dictionary( symbolDictionary );
+  for( vector< Phrase* >::const_iterator it_child = _children.begin(); it_child != _children.end(); it_child++ ){
+    contains_symbol = contains_symbol || (*it_child)->contains_symbol_in_symbol_dictionary( symbolDictionary );
+  }
+  return contains_symbol;
+}
+
 void
 Phrase::
 to_xml( const string& filename )const{

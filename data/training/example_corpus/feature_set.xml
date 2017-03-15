@@ -30,14 +30,37 @@
         <feature_phrase_type_and_word invert="0" pos="NN" text="stool" phrase_type="NP"/>
         <feature_phrase_type_and_word invert="0" pos="NN" text="back" phrase_type="NP"/>
         <feature_phrase_type_and_word invert="0" pos="NN" text="sofa" phrase_type="NP"/>
-        <feature_phrase_has_pos_tag invert="0" pos="CD"/>
-        <feature_phrase_has_pos_tag invert="1" pos="CD"/>
-        <feature_num_words invert="0" num_words="0"/>
-        <feature_num_words invert="1" num_words="0"/>
-        <feature_num_child_phrases invert="0" num_child_phrases="0"/>
-        <feature_num_child_phrases invert="1" num_child_phrases="0"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="0" pos="CD" phrase_type="NP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="1" pos="CD" phrase_type="NP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="0" pos="POS" phrase_type="NP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="1" pos="POS" phrase_type="NP"/>
+        <feature_phrase_type_and_num_words invert="0" num_words="0" phrase_type="NP"/>
+        <feature_phrase_type_and_num_words invert="1" num_words="0" phrase_type="NP"/>
+        <feature_phrase_type_and_num_child_phrases invert="0" num_child_phrases="0" phrase_type="NP"/>
+        <feature_phrase_type_and_num_child_phrases invert="1" num_child_phrases="0" phrase_type="NP"/>
       </feature_group>
       <feature_group>
+        <feature_grounding_class_name invert="0" class_name="object"/>
+        <feature_grounding_class_name invert="0" class_name="region"/>
+        <feature_grounding_class_name invert="0" class_name="constraint"/>
+        <feature_grounding_class_name invert="0" class_name="spatial_relation"/>
+        <feature_grounding_class_name invert="0" class_name="object_property"/>
+        <feature_grounding_class_name invert="0" class_name="object_type"/>
+        <feature_grounding_class_name invert="0" class_name="object_color"/>
+        <feature_grounding_class_name invert="0" class_name="number"/>
+        <feature_grounding_class_name invert="0" class_name="index"/>
+        <feature_grounding_class_name invert="0" class_name="abstract_container"/>
+        <feature_grounding_class_name invert="0" class_name="region_abstract_container"/>
+        <feature_grounding_class_name invert="0" class_name="container"/>
+        <feature_grounding_class_name invert="0" class_name="region_container"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_payload_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_reference_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_spatial_relation"/>
+        <feature_grounding_class_name invert="0" class_name="rule_object_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_object_color"/>
+        <feature_grounding_class_name invert="0" class_name="rule_number"/>
+        <feature_grounding_class_name invert="0" class_name="rule_index"/>
         <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="box"/>
         <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="sink"/>
         <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="chair"/>
@@ -144,6 +167,8 @@
         <feature_object_merge_object_property_container invert="0" sorting_key="max_abs_y"/>
         <feature_object_merge_object_property_container invert="0" sorting_key="min_distance"/>
         <feature_object_merge_object_property_container invert="0" sorting_key="max_distance"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_center_distance"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_center_distance"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="min_x"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="max_x"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="min_y"/>
@@ -156,24 +181,44 @@
         <feature_object_merge_object_property_region_container invert="0" sorting_key="max_abs_y"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="min_distance"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="max_distance"/>
-        <feature_grounding_class_name invert="0" class_name="object"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_center_distance"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_center_distance"/>
         <feature_matches_child_object invert="0"/>
         <feature_matches_child_object invert="1"/>
         <feature_object_matches_child_container_object invert="0"/>
         <feature_object_matches_child_container_object invert="1"/>
+        <feature_object_matches_child_region_container_object invert="0"/>
+        <feature_object_matches_child_region_container_object invert="1"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="object" key_grounding="object_type" class_name_child="object" key_child="object_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="object" key_grounding="object_type" class_name_child="object" key_child="object_type"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="na"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="left"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="front"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="near"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="right"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="back"/>
-        <feature_grounding_class_name invert="0" class_name="region"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="box"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="sink"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="chair"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="table"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="fridge"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="hammer"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="pipe"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="bottle"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="couch"/>
         <feature_matches_child_region invert="0"/>
         <feature_matches_child_region invert="1"/>
         <feature_region_object_matches_child invert="0"/>
         <feature_region_merge_spatial_relation_and_object invert="1"/>
         <feature_region_merge_spatial_relation_and_object invert="0"/>
-        <feature_grounding_class_name invert="0" class_name="spatial_relation"/>
+        <feature_region_merge_spatial_relation_and_region invert="1"/>
+        <feature_region_merge_spatial_relation_and_region invert="0"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="region" key_grounding="spatial_relation_type" class_name_child="region" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="region" key_grounding="spatial_relation_type" class_name_child="region" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="region" key_grounding="object_id" class_name_child="region" key_child="object_id"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="region" key_grounding="object_id" class_name_child="region" key_child="object_id"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="region" key_grounding="spatial_relation_type" class_name_child="spatial_relation" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="region" key_grounding="spatial_relation_type" class_name_child="spatial_relation" key_child="spatial_relation_type"/>
         <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="na"/>
         <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="left"/>
         <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="front"/>
@@ -182,6 +227,36 @@
         <feature_grounding_string_property_value invert="0" class_name="spatial_relation" key="spatial_relation_type" symbol="back"/>
         <feature_matches_child_spatial_relation invert="0"/>
         <feature_matches_child_spatial_relation invert="1"/>
+        <feature_matches_only_child_spatial_relation invert="0"/>
+        <feature_matches_only_child_spatial_relation invert="1"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="spatial_relation" key_grounding="spatial_relation_type" class_name_child="spatial_relation" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="spatial_relation" key_grounding="spatial_relation_type" class_name_child="spatial_relation" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="na"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="left"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="front"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="near"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="right"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="back"/>
+        <feature_matches_child_rule_spatial_relation invert="0"/>
+        <feature_matches_child_rule_spatial_relation invert="1"/>
+        <feature_matches_only_child_rule_spatial_relation invert="0"/>
+        <feature_matches_only_child_rule_spatial_relation invert="1"/>
+        <feature_grounding_string_property_value_missing_child_string_property invert="0" class_name_grounding="rule_spatial_relation" key_grounding="spatial_relation_type" value_grounding="na" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_missing_child_string_property invert="1" class_name_grounding="rule_spatial_relation" key_grounding="spatial_relation_type" value_grounding="na" key_child="spatial_relation_type"/>
+        <feature_matches_child_rule_object_type invert="0"/>
+        <feature_matches_child_rule_object_type invert="1"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="box"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="sink"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="chair"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="table"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="fridge"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="hammer"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="pipe"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="bottle"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="couch"/>
+        <feature_matches_child_rule_object_color invert="0"/>
+        <feature_matches_child_rule_object_color invert="1"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_color" key="object_color_type" symbol="na"/>
       </feature_group>
     </feature_product>
     <feature_product>
@@ -197,14 +272,37 @@
         <feature_phrase_type_and_word invert="0" pos="IN" text="toward" phrase_type="PP"/>
         <feature_phrase_type_and_word invert="0" pos="IN" text="behind" phrase_type="PP"/>
         <feature_phrase_type_and_word invert="0" pos="TO" text="to" phrase_type="PP"/>
-        <feature_phrase_has_pos_tag invert="0" pos="CD"/>
-        <feature_phrase_has_pos_tag invert="1" pos="CD"/>
-        <feature_num_words invert="0" num_words="0"/>
-        <feature_num_words invert="1" num_words="0"/>
-        <feature_num_child_phrases invert="0" num_child_phrases="0"/>
-        <feature_num_child_phrases invert="1" num_child_phrases="0"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="0" pos="CD" phrase_type="PP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="1" pos="CD" phrase_type="PP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="0" pos="POS" phrase_type="PP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="1" pos="POS" phrase_type="PP"/>
+        <feature_phrase_type_and_num_words invert="0" num_words="0" phrase_type="PP"/>
+        <feature_phrase_type_and_num_words invert="1" num_words="0" phrase_type="PP"/>
+        <feature_phrase_type_and_num_child_phrases invert="0" num_child_phrases="0" phrase_type="PP"/>
+        <feature_phrase_type_and_num_child_phrases invert="1" num_child_phrases="0" phrase_type="PP"/>
       </feature_group>
       <feature_group>
+        <feature_grounding_class_name invert="0" class_name="object"/>
+        <feature_grounding_class_name invert="0" class_name="region"/>
+        <feature_grounding_class_name invert="0" class_name="constraint"/>
+        <feature_grounding_class_name invert="0" class_name="spatial_relation"/>
+        <feature_grounding_class_name invert="0" class_name="object_property"/>
+        <feature_grounding_class_name invert="0" class_name="object_type"/>
+        <feature_grounding_class_name invert="0" class_name="object_color"/>
+        <feature_grounding_class_name invert="0" class_name="number"/>
+        <feature_grounding_class_name invert="0" class_name="index"/>
+        <feature_grounding_class_name invert="0" class_name="abstract_container"/>
+        <feature_grounding_class_name invert="0" class_name="region_abstract_container"/>
+        <feature_grounding_class_name invert="0" class_name="container"/>
+        <feature_grounding_class_name invert="0" class_name="region_container"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_payload_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_reference_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_spatial_relation"/>
+        <feature_grounding_class_name invert="0" class_name="rule_object_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_object_color"/>
+        <feature_grounding_class_name invert="0" class_name="rule_number"/>
+        <feature_grounding_class_name invert="0" class_name="rule_index"/>
         <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="box"/>
         <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="sink"/>
         <feature_grounding_string_property_value invert="0" class_name="object" key="object_type" symbol="chair"/>
@@ -311,6 +409,8 @@
         <feature_object_merge_object_property_container invert="0" sorting_key="max_abs_y"/>
         <feature_object_merge_object_property_container invert="0" sorting_key="min_distance"/>
         <feature_object_merge_object_property_container invert="0" sorting_key="max_distance"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="min_center_distance"/>
+        <feature_object_merge_object_property_container invert="0" sorting_key="max_center_distance"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="min_x"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="max_x"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="min_y"/>
@@ -323,23 +423,69 @@
         <feature_object_merge_object_property_region_container invert="0" sorting_key="max_abs_y"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="min_distance"/>
         <feature_object_merge_object_property_region_container invert="0" sorting_key="max_distance"/>
-        <feature_grounding_class_name invert="0" class_name="object"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="min_center_distance"/>
+        <feature_object_merge_object_property_region_container invert="0" sorting_key="max_center_distance"/>
         <feature_matches_child_object invert="0"/>
         <feature_matches_child_object invert="1"/>
         <feature_object_matches_child_container_object invert="0"/>
         <feature_object_matches_child_container_object invert="1"/>
+        <feature_object_matches_child_region_container_object invert="0"/>
+        <feature_object_matches_child_region_container_object invert="1"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="object" key_grounding="object_type" class_name_child="object" key_child="object_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="object" key_grounding="object_type" class_name_child="object" key_child="object_type"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="na"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="left"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="front"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="near"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="right"/>
         <feature_grounding_string_property_value invert="0" class_name="region" key="spatial_relation_type" symbol="back"/>
-        <feature_grounding_class_name invert="0" class_name="region"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="box"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="sink"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="chair"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="table"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="fridge"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="hammer"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="pipe"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="bottle"/>
+        <feature_region_object_string_property_value invert="0" class_name="object" key="object_type" symbol="couch"/>
         <feature_matches_child_region invert="0"/>
         <feature_matches_child_region invert="1"/>
         <feature_region_object_matches_child invert="0"/>
         <feature_region_merge_spatial_relation_and_object invert="1"/>
         <feature_region_merge_spatial_relation_and_object invert="0"/>
+        <feature_region_merge_spatial_relation_and_region invert="1"/>
+        <feature_region_merge_spatial_relation_and_region invert="0"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="region" key_grounding="spatial_relation_type" class_name_child="region" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="region" key_grounding="spatial_relation_type" class_name_child="region" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="region" key_grounding="object_id" class_name_child="region" key_child="object_id"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="region" key_grounding="object_id" class_name_child="region" key_child="object_id"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="region" key_grounding="spatial_relation_type" class_name_child="spatial_relation" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="region" key_grounding="spatial_relation_type" class_name_child="spatial_relation" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="na"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="left"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="front"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="near"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="right"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="back"/>
+        <feature_matches_child_rule_spatial_relation invert="0"/>
+        <feature_matches_child_rule_spatial_relation invert="1"/>
+        <feature_matches_only_child_rule_spatial_relation invert="0"/>
+        <feature_matches_only_child_rule_spatial_relation invert="1"/>
+        <feature_grounding_string_property_value_missing_child_string_property invert="0" class_name_grounding="rule_spatial_relation" key_grounding="spatial_relation_type" value_grounding="na" key_child="spatial_relation_type"/>
+        <feature_matches_child_rule_object_type invert="0"/>
+        <feature_matches_child_rule_object_type invert="1"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="box"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="sink"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="chair"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="table"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="fridge"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="hammer"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="pipe"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="bottle"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_type" key="object_type" symbol="couch"/>
+        <feature_matches_child_rule_object_color invert="0"/>
+        <feature_matches_child_rule_object_color invert="1"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_object_color" key="object_color_type" symbol="na"/>
       </feature_group>
     </feature_product>
     <feature_product>
@@ -356,14 +502,37 @@
         <feature_phrase_type_and_word invert="0" pos="VB" text="drive" phrase_type="VP"/>
         <feature_phrase_type_and_word invert="0" pos="VB" text="proceed" phrase_type="VP"/>
         <feature_phrase_type_and_word invert="0" pos="VB" text="approach" phrase_type="VP"/>
-        <feature_phrase_has_pos_tag invert="0" pos="CD"/>
-        <feature_phrase_has_pos_tag invert="1" pos="CD"/>
-        <feature_num_words invert="0" num_words="0"/>
-        <feature_num_words invert="1" num_words="0"/>
-        <feature_num_child_phrases invert="0" num_child_phrases="0"/>
-        <feature_num_child_phrases invert="1" num_child_phrases="0"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="0" pos="CD" phrase_type="VP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="1" pos="CD" phrase_type="VP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="0" pos="POS" phrase_type="VP"/>
+        <feature_phrase_type_and_phrase_has_pos_tag invert="1" pos="POS" phrase_type="VP"/>
+        <feature_phrase_type_and_num_words invert="0" num_words="0" phrase_type="VP"/>
+        <feature_phrase_type_and_num_words invert="1" num_words="0" phrase_type="VP"/>
+        <feature_phrase_type_and_num_child_phrases invert="0" num_child_phrases="0" phrase_type="VP"/>
+        <feature_phrase_type_and_num_child_phrases invert="1" num_child_phrases="0" phrase_type="VP"/>
       </feature_group>
       <feature_group>
+        <feature_grounding_class_name invert="0" class_name="object"/>
+        <feature_grounding_class_name invert="0" class_name="region"/>
+        <feature_grounding_class_name invert="0" class_name="constraint"/>
+        <feature_grounding_class_name invert="0" class_name="spatial_relation"/>
+        <feature_grounding_class_name invert="0" class_name="object_property"/>
+        <feature_grounding_class_name invert="0" class_name="object_type"/>
+        <feature_grounding_class_name invert="0" class_name="object_color"/>
+        <feature_grounding_class_name invert="0" class_name="number"/>
+        <feature_grounding_class_name invert="0" class_name="index"/>
+        <feature_grounding_class_name invert="0" class_name="abstract_container"/>
+        <feature_grounding_class_name invert="0" class_name="region_abstract_container"/>
+        <feature_grounding_class_name invert="0" class_name="container"/>
+        <feature_grounding_class_name invert="0" class_name="region_container"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_payload_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_constraint_reference_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_spatial_relation"/>
+        <feature_grounding_class_name invert="0" class_name="rule_object_type"/>
+        <feature_grounding_class_name invert="0" class_name="rule_object_color"/>
+        <feature_grounding_class_name invert="0" class_name="rule_number"/>
+        <feature_grounding_class_name invert="0" class_name="rule_index"/>
         <feature_grounding_string_property_value invert="0" class_name="constraint" key="constraint_type" symbol="inside"/>
         <feature_grounding_string_property_value invert="0" class_name="constraint" key="constraint_type" symbol="outside"/>
         <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="na"/>
@@ -372,7 +541,6 @@
         <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="near"/>
         <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="right"/>
         <feature_grounding_string_property_value invert="0" class_name="constraint" key="reference_relation" symbol="back"/>
-        <feature_grounding_class_name invert="0" class_name="constraint"/>
         <feature_matches_child_constraint invert="0"/>
         <feature_matches_child_constraint invert="1"/>
         <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="constraint" key_grounding="reference" class_name_child="object" key_child="name"/>
@@ -382,6 +550,38 @@
         <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="constraint" key_grounding="reference" class_name_child="region" key_child="object_id"/>
         <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="constraint" key_grounding="reference" class_name_child="region" key_child="object_id"/>
         <feature_constraint_payload_string_property_value invert="0" key="object_type" symbol="robot"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="na"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="left"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="front"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="near"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="right"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_spatial_relation" key="spatial_relation_type" symbol="back"/>
+        <feature_matches_child_rule_spatial_relation invert="0"/>
+        <feature_matches_child_rule_spatial_relation invert="1"/>
+        <feature_matches_only_child_rule_spatial_relation invert="0"/>
+        <feature_matches_only_child_rule_spatial_relation invert="1"/>
+        <feature_grounding_string_property_value_missing_child_string_property invert="0" class_name_grounding="rule_spatial_relation" key_grounding="spatial_relation_type" value_grounding="na" key_child="spatial_relation_type"/>
+        <feature_grounding_string_property_value_missing_child_string_property invert="1" class_name_grounding="rule_spatial_relation" key_grounding="spatial_relation_type" value_grounding="na" key_child="spatial_relation_type"/>
+        <feature_matches_child_rule_constraint_type invert="0"/>
+        <feature_matches_child_rule_constraint_type invert="1"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_type" key="constraint_type" symbol="inside"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_type" key="constraint_type" symbol="outside"/>
+        <feature_matches_child_rule_constraint_payload_type invert="0"/>
+        <feature_matches_child_rule_constraint_payload_type invert="1"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_payload_type" key="constraint_payload_type" symbol="robot"/>
+        <feature_matches_child_rule_constraint_reference_type invert="0"/>
+        <feature_matches_child_rule_constraint_reference_type invert="1"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="0" class_name_grounding="rule_constraint_reference_type" key_grounding="constraint_reference_type" class_name_child="rule_object_type" key_child="object_type"/>
+        <feature_grounding_string_property_value_matches_child_string_property_value invert="1" class_name_grounding="rule_constraint_reference_type" key_grounding="constraint_reference_type" class_name_child="rule_object_type" key_child="object_type"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="box"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="sink"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="chair"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="table"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="fridge"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="hammer"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="pipe"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="bottle"/>
+        <feature_grounding_string_property_value invert="0" class_name="rule_constraint_reference_type" key="constraint_reference_type" symbol="couch"/>
       </feature_group>
     </feature_product>
   </feature_set>

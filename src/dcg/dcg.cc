@@ -70,7 +70,7 @@ bool
 DCG::
 leaf_search( const Phrase* phrase,
               const Symbol_Dictionary& symbolDictionary,
-              const Search_Space* searchSpace,
+              Search_Space* searchSpace,
               const World* world,
               LLM * llm,
               const unsigned int beamWidth,
@@ -82,7 +82,7 @@ bool
 DCG::
 leaf_search( const Phrase* phrase,
               const Symbol_Dictionary& symbolDictionary,
-              const Search_Space* searchSpace,
+              Search_Space* searchSpace,
               const World* world,
               const Grounding* context,
               LLM * llm,
