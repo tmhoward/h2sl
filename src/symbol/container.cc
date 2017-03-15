@@ -10,6 +10,8 @@
 #include <cmath>
 #include <assert.h>
 
+#include "h2sl/rule_container_type.h"
+#include "h2sl/rule_object_type.h"
 #include "h2sl/container.h"
 #include "h2sl/world.h"
 
@@ -113,11 +115,20 @@ dup( void )const{
 void
 Container::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "container_type", type(), stringTypes );
+  return;
+}
+
+void
+Container::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "container_type", type(), stringTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -178,6 +189,20 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Container::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  Rule_Container_Type rule_container_type( type() );
+  insert_unique_grounding< Rule_Container_Type >( groundingSet, rule_container_type );
+  for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){
+    if( (*it_grounding)->matches_class_name( "object" ) ){
+      Rule_Object_Type rule_object_type( static_cast< Object* >( *it_grounding )->type() );
+      insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
+    } 
+  }
   return;
 }
 

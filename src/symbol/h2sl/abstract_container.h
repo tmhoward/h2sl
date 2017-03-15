@@ -40,8 +40,10 @@ namespace h2sl {
     Abstract_Container* dup( void )const;
 
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "abstract_container" ); };
+    virtual void scrape_grounding( const World * world, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );
+    virtual void fill_rules( const World* world, Grounding_Set* groundingSet )const;
 
     inline std::string& type( void ){
               return get_prop< std::string >( _string_properties, "object_type" ); };

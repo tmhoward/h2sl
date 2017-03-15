@@ -52,10 +52,13 @@ namespace h2sl {
   class Symbol_Dictionary {
   public:
     Symbol_Dictionary( const std::map< std::string, std::vector< std::string > >& classNames = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< std::string > >& stringTypes = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< int > >& intTypes = std::map< std::string, std::vector< int > >() );
+    Symbol_Dictionary( const std::string& filename );
     virtual ~Symbol_Dictionary();
     Symbol_Dictionary( const Symbol_Dictionary& other );
     Symbol_Dictionary& operator=( const Symbol_Dictionary& other );
-
+    bool operator==( const Symbol_Dictionary& other )const;
+    bool operator!=( const Symbol_Dictionary& other )const;
+  
     virtual bool has_class_name( const std::string& className )const;
 
     virtual bool from_xml( const std::string& file );

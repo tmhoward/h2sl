@@ -6,6 +6,7 @@
  * a class that describes a object_type
  */
 
+#include "h2sl/rule_object_type.h"
 #include "h2sl/object_type.h"
 #include "h2sl/world.h"
 
@@ -89,11 +90,20 @@ dup( void )const{
 void
 Object_Type::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "object_type", type(), stringTypes );
+  return;
+}
+
+void
+Object_Type::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "object_type", type(), stringTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -129,6 +139,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Object_Type::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  Rule_Object_Type rule_object_type( type() );
+  insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
   return;
 }
 

@@ -8,6 +8,7 @@
 
 #include <assert.h>
 
+#include "h2sl/rule_spatial_relation.h"
 #include "h2sl/spatial_relation.h"
 
 using namespace std;
@@ -88,11 +89,20 @@ dup( void )const{
 void
 Spatial_Relation::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "spatial_relation_type", spatial_relation_type(), stringTypes );
+  return;
+}
+
+void
+Spatial_Relation::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "spatial_relation_type", spatial_relation_type(), stringTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -127,6 +137,15 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+
+void
+Spatial_Relation::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  Rule_Spatial_Relation rule_spatial_relation( spatial_relation_type() );
+  insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
   return;
 }
 

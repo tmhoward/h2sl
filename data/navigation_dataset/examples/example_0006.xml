@@ -20,4 +20,7 @@
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
   </world>
   <!-- PARSE TREE GOES HERE -->
+  <NP>
+
+  </NP>
 </root>

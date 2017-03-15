@@ -54,17 +54,11 @@ namespace h2sl {
     DCG( const DCG& other );
     DCG& operator=( const DCG& other );
 
-    static void scrape_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, const Search_Space& searchSpace, std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
-    virtual void fill_search_spaces( const World* world );
-    virtual bool leaf_search( const Phrase* phrase, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
-    virtual bool leaf_search( const Phrase* phrase, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
+    virtual bool leaf_search( const Phrase* phrase, const Symbol_Dictionary& symbolDictionary, const Search_Space* searchSpace, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
+    virtual bool leaf_search( const Phrase* phrase, const Symbol_Dictionary& symbolDictionary, const Search_Space* searchSpace, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
     virtual void to_latex( const std::string& filename )const;
 
-    inline Symbol_Dictionary& symbol_dictionary( void ){ return _symbol_dictionary; };
-    inline const Symbol_Dictionary& symbol_dictionary( void )const{ return _symbol_dictionary; };
-    inline Search_Space& search_space( void ){ return _search_space; };
-    inline const Search_Space& search_space( void )const{ return _search_space; };
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
     inline const Factor_Set* root( void )const{ return _root; };
 
@@ -73,8 +67,6 @@ namespace h2sl {
     virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
-    Search_Space _search_space;
-    Symbol_Dictionary _symbol_dictionary;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
   

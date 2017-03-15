@@ -50,6 +50,16 @@ Symbol_Dictionary( const map< string, vector< string > >& classNames,
 }
 
 /**
+ * Symbol_Dictionary class constructor
+ */
+Symbol_Dictionary::
+Symbol_Dictionary( const string& filename ) : _class_names(),
+                                              _string_types(),
+                                              _int_types() {
+  from_xml( filename );
+}
+
+/**
  * Symbol_Dictionary class destructor 
  */
 Symbol_Dictionary::
@@ -77,6 +87,69 @@ operator=( const Symbol_Dictionary& other ) {
   _string_types = other._string_types;
   _int_types = other._int_types;
   return (*this);
+}
+
+bool
+Symbol_Dictionary::
+operator==( const Symbol_Dictionary& other )const{
+  if( class_names() != other.class_names() ){
+    cout << "class names did not match" << endl;
+    return false;
+  } else if ( string_types().size() != other.string_types().size() ){
+    cout << "string types size did not match" << endl;
+    return false;
+  } else if ( int_types().size() != other.int_types().size() ){
+    cout << "int types size did not match" << endl;
+    return false;
+  } else {
+    // check the string types for matches
+    for( map< string, vector< string > >::const_iterator it_string_types = string_types().begin(); it_string_types != string_types().end(); it_string_types++ ){
+      for( vector< string >::const_iterator it_string_type = it_string_types->second.begin(); it_string_type != it_string_types->second.end(); it_string_type++ ){
+        bool found_match = false;
+        // search the other map for an equivalent value
+        for( map< string, vector< string > >::const_iterator it_other_string_types = other.string_types().begin(); it_other_string_types != other.string_types().end(); it_other_string_types++ ){
+          if( it_string_types->first == it_other_string_types->first ){
+            for( vector< string >::const_iterator it_other_string_type = it_other_string_types->second.begin(); it_other_string_type != it_other_string_types->second.end(); it_other_string_type++ ){
+              if( (*it_string_type) == (*it_other_string_type ) ){
+                found_match = true;
+              }
+            }
+          }
+        }
+        if( !found_match ){
+          cout << "did not find match for " << it_string_types->first << ":" << *it_string_type << endl;
+          return false;
+        }
+      } 
+    }
+    // check the int types for matches
+    for( map< string, vector< int > >::const_iterator it_int_types = int_types().begin(); it_int_types != int_types().end(); it_int_types++ ){
+      for( vector< int >::const_iterator it_int_type = it_int_types->second.begin(); it_int_type != it_int_types->second.end(); it_int_type++ ){
+        bool found_match = false;
+        // search the other map for an equivalent value
+        for( map< string, vector< int > >::const_iterator it_other_int_types = other.int_types().begin(); it_other_int_types != other.int_types().end(); it_other_int_types++ ){
+          if( it_int_types->first == it_other_int_types->first ){
+            for( vector< int >::const_iterator it_other_int_type = it_other_int_types->second.begin(); it_other_int_type != it_other_int_types->second.end(); it_other_int_type++ ){
+              if( (*it_int_type) == (*it_other_int_type ) ){
+                found_match = true;
+              }
+            }
+          }
+        }
+        if( !found_match ){
+          cout << "did not find match for " << it_int_types->first << ":" << *it_int_type << endl;
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+}
+
+bool
+Symbol_Dictionary::
+operator!=( const Symbol_Dictionary& other )const{
+  return !( *this == other );
 }
 
 /**

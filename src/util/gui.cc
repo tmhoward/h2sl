@@ -327,6 +327,8 @@ hoverLeaveEvent( QGraphicsSceneHoverEvent * event ){
 GUI::
 GUI( Grammar * grammar,
       Parser< Phrase > * parser,
+      Symbol_Dictionary * symbolDictionary,
+      Search_Space * searchSpace,
       World * world,
       Grounding * context,
       LLM * llm,
@@ -343,6 +345,8 @@ GUI( Grammar * grammar,
                           _group_box( NULL ),
                           _grammar( grammar ),
                           _parser( parser ),
+                          _symbol_dictionary( symbolDictionary ),
+                          _search_space( searchSpace ),
                           _world( world ),
                           _context( context ),
                           _llm( llm ),
@@ -625,7 +629,7 @@ _run_inference( const string& sentence ){
       if( phrases.front() != NULL ){
         struct timeval start_time;
         gettimeofday( &start_time, NULL );
-        if( _dcg->leaf_search( phrases.front(), _world, _context, _llm, _beam_width ) ){
+        if( _dcg->leaf_search( phrases.front(), *_symbol_dictionary, _search_space, _world, _context, _llm, _beam_width ) ){
           struct timeval end_time;
           gettimeofday( &end_time, NULL );
           comment_string.str( string() );

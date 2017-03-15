@@ -149,7 +149,7 @@ namespace h2sl {
   class GUI : public QWidget {
     Q_OBJECT
   public:
-    GUI( Grammar * grammar = NULL, Parser< Phrase > * parser = NULL, World * world = NULL, Grounding * context = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, const std::string& command = "", QWidget * parent = NULL );
+    GUI( Grammar * grammar = NULL, Parser< Phrase > * parser = NULL, Symbol_Dictionary * symbolDictionary = NULL, Search_Space * searchSpace = NULL, World * world = NULL, Grounding * context = NULL, LLM * llm = NULL, DCG * dcg = NULL, const unsigned int& beamWidth = 4, const std::string& command = "", QWidget * parent = NULL );
     virtual ~GUI();
 
     virtual void update_world( void );
@@ -184,6 +184,8 @@ namespace h2sl {
 
     Grammar * _grammar;
     Parser< Phrase >* _parser;
+    Symbol_Dictionary * _symbol_dictionary;
+    Search_Space * _search_space;
     World * _world;
     Grounding * _context;
     LLM * _llm;

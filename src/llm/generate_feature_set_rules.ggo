@@ -1,0 +1,9 @@
+package "generate_feature_set_rules"
+version "1.0"
+purpose "A program used to generate features for rule-based symbols"
+
+option "symbol_dictionary" - "symbol_dictionary string" string required
+option "grammar" g "grammar string" string optional
+option "output" o "output file" string optional
+
+text ""

@@ -35,6 +35,12 @@
 
 #include "h2sl/cv.h"
 
+#include "h2sl/rule_object_type.h"
+#include "h2sl/rule_object_color.h"
+#include "h2sl/rule_spatial_relation.h"
+#include "h2sl/rule_constraint_type.h"
+#include "h2sl/rule_constraint_payload_type.h"
+#include "h2sl/rule_constraint_reference_type.h"
 #include "h2sl/object.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
@@ -102,6 +108,20 @@ dup( void )const{
 void
 Grounding_Set::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  cout << "scraping " << *this << endl;
+  for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){
+    if( ( *it_grounding ) != NULL ){
+      (*it_grounding)->scrape_grounding( world, stringTypes, intTypes );
+    }
+  }
+  return;
+}
+
+void
+Grounding_Set::
+scrape_grounding( const World * world,
                   vector< string >& classNames, 
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
@@ -126,7 +146,67 @@ unsigned int
 Grounding_Set::
 evaluate_cv( const Grounding* grounding )const{
   unsigned int cv = CV_UNKNOWN;
-  if( dynamic_cast< const Object* >( grounding ) != NULL ){
+  if( dynamic_cast< const Rule_Object_Type* >( grounding ) != NULL ){
+    const Rule_Object_Type * rule_object_type_grounding = static_cast< const Rule_Object_Type* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Rule_Object_Type* >( _groundings[ i ] ) ){
+        if( *rule_object_type_grounding == *static_cast< const Rule_Object_Type* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Rule_Object_Color* >( grounding ) != NULL ){
+    const Rule_Object_Color * rule_object_color_grounding = static_cast< const Rule_Object_Color* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Rule_Object_Color* >( _groundings[ i ] ) ){
+        if( *rule_object_color_grounding == *static_cast< const Rule_Object_Color* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Rule_Spatial_Relation* >( grounding ) != NULL ){
+    const Rule_Spatial_Relation * rule_spatial_relation_grounding = static_cast< const Rule_Spatial_Relation* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Rule_Spatial_Relation* >( _groundings[ i ] ) ){
+        if( *rule_spatial_relation_grounding == *static_cast< const Rule_Spatial_Relation* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Rule_Constraint_Type* >( grounding ) != NULL ){
+    const Rule_Constraint_Type * rule_constraint_type_grounding = static_cast< const Rule_Constraint_Type* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Rule_Constraint_Type* >( _groundings[ i ] ) ){
+        if( *rule_constraint_type_grounding == *static_cast< const Rule_Constraint_Type* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Rule_Constraint_Payload_Type* >( grounding ) != NULL ){
+    const Rule_Constraint_Payload_Type * rule_constraint_payload_type_grounding = static_cast< const Rule_Constraint_Payload_Type* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Rule_Constraint_Payload_Type* >( _groundings[ i ] ) ){
+        if( *rule_constraint_payload_type_grounding == *static_cast< const Rule_Constraint_Payload_Type* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Rule_Constraint_Reference_Type* >( grounding ) != NULL ){
+    const Rule_Constraint_Reference_Type * rule_constraint_reference_type_grounding = static_cast< const Rule_Constraint_Reference_Type* >( grounding );
+    cv = CV_FALSE;
+    for( unsigned int i = 0; i < _groundings.size(); i++ ){
+      if( dynamic_cast< const Rule_Constraint_Reference_Type* >( _groundings[ i ] ) ){
+        if( *rule_constraint_reference_type_grounding == *static_cast< const Rule_Constraint_Reference_Type* >( _groundings[ i ] ) ){
+          cv = CV_TRUE;
+        }
+      }
+    }
+  } else if( dynamic_cast< const Object* >( grounding ) != NULL ){
     const Object * object_grounding = static_cast< const Object* >( grounding );
     cv = CV_FALSE;
     for( unsigned int i = 0; i < _groundings.size(); i++ ){
@@ -264,8 +344,16 @@ evaluate_cv( const Grounding* grounding )const{
   return cv;
 }
 
-
-
+void
+Grounding_Set::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){
+    if( ( *it_grounding ) != NULL ){
+      ( *it_grounding )->fill_rules( world, groundingSet );
+    }
+  }
+  return;
+}
 
 void
 Grounding_Set::
@@ -324,7 +412,19 @@ from_xml( xmlNodePtr root ){
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
-        if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
+        if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_object_type" ) ) == 0 ){
+          _groundings.push_back( new Rule_Object_Type( l1 ) );
+        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_object_color" ) ) == 0 ){
+          _groundings.push_back( new Rule_Object_Color( l1 ) );
+        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_spatial_relation" ) ) == 0 ){
+          _groundings.push_back( new Rule_Spatial_Relation( l1 ) );
+        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_constraint_type" ) ) == 0 ){
+          _groundings.push_back( new Rule_Constraint_Type( l1 ) );
+        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_constraint_payload_type" ) ) == 0 ){
+          _groundings.push_back( new Rule_Constraint_Payload_Type( l1 ) );
+        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_constraint_reference_type" ) ) == 0 ){
+          _groundings.push_back( new Rule_Constraint_Reference_Type( l1 ) );
+        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
           _groundings.push_back( new Object( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
           _groundings.push_back( new Region( l1 ) );

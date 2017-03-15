@@ -7,6 +7,11 @@
  */
 
 #include <sstream>
+#include "h2sl/rule_spatial_relation.h"
+#include "h2sl/rule_object_type.h"
+#include "h2sl/rule_number.h"
+#include "h2sl/rule_index.h"
+#include "h2sl/rule_object_color.h"
 #include "h2sl/region_abstract_container.h"
 
 using namespace std;
@@ -111,15 +116,24 @@ dup( void )const{
 void
 Region_Abstract_Container::
 scrape_grounding( const World * world,
-                  vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  insert_unique< std::string >( class_name(), classNames );
   insert_unique< std::string >( "spatial_relation_type", spatial_relation_type(), stringTypes );
   insert_unique< std::string >( "object_type", type(), stringTypes );
   insert_unique< int >( "index", index(), intTypes );
   insert_unique< int >( "number", number(), intTypes );
   insert_unique< std::string >( "object_color", color(), stringTypes );
+  return;
+}
+
+void
+Region_Abstract_Container::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -167,6 +181,22 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Region_Abstract_Container::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  Rule_Spatial_Relation rule_spatial_relation( spatial_relation_type() );
+  insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
+  Rule_Object_Type rule_object_type( type() );
+  insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
+  Rule_Number rule_number( number() );
+  insert_unique_grounding< Rule_Number >( groundingSet, rule_number );
+  Rule_Index rule_index( index() );
+  insert_unique_grounding< Rule_Index >( groundingSet, rule_index );
+  Rule_Object_Color rule_object_color( color() );
+  insert_unique_grounding< Rule_Object_Color >( groundingSet, rule_object_color );
   return;
 }
 

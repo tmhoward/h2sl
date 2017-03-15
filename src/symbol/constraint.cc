@@ -31,6 +31,10 @@
  * The implementation of a class used to represent a constraint
  */
 
+#include "h2sl/rule_constraint_type.h"
+#include "h2sl/rule_constraint_payload_type.h"
+#include "h2sl/rule_constraint_reference_type.h"
+#include "h2sl/rule_spatial_relation.h"
 #include "h2sl/constraint.h"
 #include "h2sl/world.h"
 
@@ -119,10 +123,8 @@ dup( void )const{
 void
 Constraint::
 scrape_grounding( const World * world,
-                  vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  insert_unique< std::string >( class_name(), classNames );
   insert_unique< std::string >( "constraint_type", constraint_type(), stringTypes );
   map< string, Object* >::const_iterator it_payload = world->objects().find( payload() );
   if( it_payload != world->objects().end() ){
@@ -131,8 +133,19 @@ scrape_grounding( const World * world,
   map< string, Object* >::const_iterator it_reference = world->objects().find( reference() );
   if( it_reference != world->objects().end() ){
     insert_unique< std::string >( "constraint_reference_type", it_reference->second->type(), stringTypes );
-  } 
+  }
   insert_unique< std::string >( "spatial_relation_type", reference_relation(), stringTypes );
+  return;
+}
+
+void
+Constraint::
+scrape_grounding( const World * world,
+                  vector< string >& classNames,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( class_name(), classNames );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -182,6 +195,24 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Constraint::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  Rule_Constraint_Type rule_constraint_type( constraint_type() );
+  insert_unique_grounding< Rule_Constraint_Type >( groundingSet, rule_constraint_type );
+  map< string, Object* >::const_iterator it_payload_object = world->objects().find( payload() );
+  assert( it_payload_object != world->objects().end() );
+  Rule_Constraint_Payload_Type rule_constraint_payload_type( it_payload_object->second->type() );
+  insert_unique_grounding< Rule_Constraint_Payload_Type >( groundingSet, rule_constraint_payload_type );
+  map< string, Object* >::const_iterator it_reference_object = world->objects().find( reference() );
+  assert( it_reference_object != world->objects().end() );
+  Rule_Constraint_Reference_Type rule_constraint_reference_type( it_reference_object->second->type() );
+  insert_unique_grounding< Rule_Constraint_Reference_Type >( groundingSet, rule_constraint_reference_type );
+  Rule_Spatial_Relation rule_spatial_relation( reference_relation() );
+  insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
   return;
 }
 

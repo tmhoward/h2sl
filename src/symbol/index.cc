@@ -8,6 +8,7 @@
 
 #include <assert.h>
 
+#include "h2sl/rule_index.h"
 #include "h2sl/index.h"
 
 using namespace std;
@@ -89,11 +90,20 @@ dup( void )const{
 void
 Index::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< int >( "index", value(), intTypes );
+  return;
+}
+
+void
+Index::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< int >( "index", value(), intTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -104,7 +114,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
 
-  if( symbolDictionary.has_class_name( class_name() ) ){
+  if( symbolDictionary.has_class_name( class_name() ) || symbolDictionary.has_class_name( "abstract_container" ) || symbolDictionary.has_class_name( "region_abstract_container" ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
       searchSpaces.insert( pair< string, pair< string, vector< Grounding* > > >( class_name(), pair< string, vector< Grounding* > >( "binary", vector< Grounding* >() ) ) );
@@ -129,6 +139,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Index::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  Rule_Index rule_index( value() );
+  insert_unique_grounding< Rule_Index >( groundingSet, rule_index );
   return;
 }
 

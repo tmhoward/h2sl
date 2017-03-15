@@ -31,6 +31,8 @@
  * The implementation of a class used to describe a region of space
  */
 
+#include "h2sl/rule_object_type.h"
+#include "h2sl/rule_spatial_relation.h"
 #include "h2sl/region.h"
 #include "h2sl/world.h"
 
@@ -96,11 +98,20 @@ dup( void )const{
 void
 Region::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "spatial_relation_type", spatial_relation_type(), stringTypes );
+  return;
+}
+
+void
+Region::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "spatial_relation_type", spatial_relation_type(), stringTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -142,6 +153,18 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Region::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  map< string, Object* >::const_iterator it_object = world->objects().find( object_id() );
+  assert( it_object != world->objects().end() );
+  Rule_Object_Type rule_object_type( it_object->second->type() );
+  insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
+  Rule_Spatial_Relation rule_spatial_relation( spatial_relation_type() );
+  insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
   return;
 }
 

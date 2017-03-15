@@ -31,6 +31,8 @@
  */
 
 #include "h2sl/common.h"
+#include "h2sl/rule_object_type.h"
+#include "h2sl/rule_object_color.h"
 #include "h2sl/object.h"
 #include "h2sl/world.h"
 
@@ -113,6 +115,16 @@ dup( void )const{
   return new Object( *this );
 }
 
+void
+Object::
+scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "object_type", type(), stringTypes );
+  insert_unique< std::string >( "object_color", color(), stringTypes );
+  return;
+}
+
 void 
 Object::
 scrape_grounding( const World * world,
@@ -120,8 +132,7 @@ scrape_grounding( const World * world,
                   map< string, vector< string > >& stringTypes, 
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "object_type", type(), stringTypes );
-  insert_unique< std::string >( "object_color", color(), stringTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -155,6 +166,16 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Object::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  Rule_Object_Type rule_object_type( type() );
+  insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
+  Rule_Object_Color rule_object_color( color() );
+  insert_unique_grounding< Rule_Object_Color >( groundingSet, rule_object_color );
   return;
 }
  

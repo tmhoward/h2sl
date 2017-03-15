@@ -89,11 +89,11 @@ namespace h2sl {
                         const Grounding* context,
                         const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false ); 
 
-    virtual void search( const Search_Space& searchSpace,
+    virtual void search( const Search_Space* searchSpace,
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
-    virtual void search( const Search_Space& searchSpace, 
+    virtual void search( const Search_Space* searchSpace, 
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 

@@ -6,6 +6,7 @@
  * a class that describes a object_color
  */
 
+#include "h2sl/rule_object_color.h"
 #include "h2sl/object_color.h"
 #include "h2sl/world.h"
 
@@ -88,11 +89,20 @@ dup( void )const{
 void
 Object_Color::
 scrape_grounding( const World * world,
+                  map< string, vector< string > >& stringTypes,
+                  map< string, vector< int > >& intTypes )const{
+  insert_unique< std::string >( "object_color", object_color_type(), stringTypes );
+  return;
+}
+
+void
+Object_Color::
+scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( class_name(), classNames );
-  insert_unique< std::string >( "object_color", object_color_type(), stringTypes );
+  scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -127,6 +137,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     } 
   }
 
+  return;
+}
+
+void
+Object_Color::
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
+  Rule_Object_Color rule_object_color( object_color_type() );
+  insert_unique_grounding< Rule_Object_Color >( groundingSet, rule_object_color );
   return;
 }
 
