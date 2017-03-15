@@ -5,6 +5,7 @@ set(GGOS
     generate_rule_examples.ggo
     generate_symbol_dictionary.ggo
     llm_train.ggo
+    llm_train_rules.ggo
 #    llm_train_adcg.ggo
     grammar_generator.ggo
     gui_demo.ggo)
@@ -28,6 +29,7 @@ set(BIN_SRCS
     generate_rule_examples.cc
     generate_symbol_dictionary.cc
     llm_train.cc
+    llm_train_rules.cc
 #    llm_train_adcg.cc
     grammar_generator.cc
     gui_demo.cc )

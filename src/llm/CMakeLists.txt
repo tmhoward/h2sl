@@ -6,6 +6,7 @@ set(GGOS
     feature_product_demo.ggo
     feature_set_demo.ggo
     generate_feature_set.ggo
+    generate_feature_set_rules.ggo
     llm_demo.ggo
     example_formatter.ggo)
 
@@ -229,6 +230,7 @@ set(BIN_SRCS
     feature_object_matches_child_demo.cc
     feature_product_demo.cc
     generate_feature_set.cc
+    generate_feature_set_rules.cc
     feature_set_demo.cc
     llm_demo.cc
     example_formatter.cc)

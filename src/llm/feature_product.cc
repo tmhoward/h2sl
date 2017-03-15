@@ -33,6 +33,12 @@
 
 #include <assert.h>
 
+#include "h2sl/rule_object_type.h"
+#include "h2sl/rule_object_color.h"
+#include "h2sl/rule_spatial_relation.h"
+#include "h2sl/rule_constraint_type.h"
+#include "h2sl/rule_constraint_payload_type.h"
+#include "h2sl/rule_constraint_reference_type.h"
 #include "h2sl/object.h"
 #include "h2sl/object_property.h"
 #include "h2sl/object_type.h"
@@ -430,6 +436,18 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Object( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_merge_spatial_relation_and_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Region( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_object_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Object_Type >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_object_color" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Object_Color >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_spatial_relation" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Spatial_Relation >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_constraint_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Constraint_Type >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_constraint_payload_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Constraint_Payload_Type >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_constraint_reference_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Constraint_Reference_Type >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object_property" ) ) == 0 ){
@@ -456,6 +474,8 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Region_Abstract_Container >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_spatial_relation" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Spatial_Relation >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_rule_spatial_relation" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Only_Child< Rule_Spatial_Relation >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_object" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Only_Child< Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_object_property" ) ) == 0 ){

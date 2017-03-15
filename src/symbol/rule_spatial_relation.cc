@@ -111,7 +111,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
-  if( symbolDictionary.has_class_name( "spatial_relation" ) || symbolDictionary.has_class_name( "region" ) || symbolDictionary.has_class_name( "constraint" ) ){
+  if( symbolDictionary.has_class_name( class_name() ) || symbolDictionary.has_class_name( "spatial_relation" ) || symbolDictionary.has_class_name( "region" ) || symbolDictionary.has_class_name( "constraint" ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
       searchSpaces.insert( pair< string, pair< string, vector< Grounding* > > >( class_name(), pair< string, vector< Grounding* > >( "binary", vector< Grounding* >() ) ) );
