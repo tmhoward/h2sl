@@ -56,7 +56,7 @@ namespace h2sl {
     ADCG( const ADCG& other );
     ADCG& operator=( const ADCG& other );
 
- virtual bool leaf_search( const Phrase* phrase, i
+ virtual bool leaf_search( const Phrase* phrase,
                            const Symbol_Dictionary& symbolDictionary, 
                            const Search_Space* searchSpace, 
                            const World* world, LLM* llm, 
@@ -94,15 +94,6 @@ namespace h2sl {
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
    
-    // ToDo: Add any additional members for ADCG
-    // Storing the inferred concrete search space for each.
-    // vector < pair< Phrase*, Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 
-    // vector < vector< Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 
-    
-    // Storing the abstract search space for each phrase.
-    // vector< pair< Phrase*, Search_Space > > _abstract_search_space;
-    // vector< vector< Search_Space > > _abstract_search_space;
-
   private:
 
   };

@@ -78,18 +78,20 @@ class Factor_Set_ADCG : public Factor_Set {
 
   protected:
 
-    // Physical search space search
-    /*
-    virtual void _search_physical( const Search_Space& searchSpace,
-                                   const Symbol_Dictionary& symbolDictionary,
-                                   const World* world, LLM* llm, 
-                                   const unsigned int beamWidth = 4, 
-                                   const bool& debug = false );
-    */
-
-    // Abstract search space and abstract correspondence variables. 
+    // REMOVE MEMBERS: Abstract search space and abstract correspondence variables. 
     std::vector< std::vector< std::pair< unsigned int, Grounding* > > > _abstract_search_spaces;
     std::vector< std::vector< unsigned int > > _abstract_correspondence_variables;
+
+    // ToDo: Add any additional members for ADCG
+    // Storing the inferred concrete search space for each.
+    // vector < pair< Phrase*, Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 
+    // vector < vector< Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 
+
+    // Storing the abstract search space for each phrase.
+    // vector< pair< Phrase*, Search_Space > > _abstract_search_space;
+    // vector< vector< Search_Space > > _abstract_search_space;
+
+
   private:
 
   };

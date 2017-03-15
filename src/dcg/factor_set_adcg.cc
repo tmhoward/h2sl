@@ -28,18 +28,18 @@ using namespace h2sl;
 bool
 factor_set_adcg_solution_sort( const Factor_Set_Solution& a,
                               const Factor_Set_Solution& b ){
-  return a.pygx > b.pygx;
+  return a.pygx() > b.pygx();
 }
 
 Factor_Set_ADCG::
 Factor_Set_ADCG( const Phrase* phrase ) : Factor_Set( phrase ),
                                               _abstract_search_spaces(),
                                               _abstract_correspondence_variables() {
-  vector< unsigned int > binary_cvs;
-  binary_cvs.push_back( CV_FALSE );
-  binary_cvs.push_back( CV_TRUE );
+//  vector< unsigned int > binary_cvs;
+//  binary_cvs.push_back( CV_FALSE );
+//  binary_cvs.push_back( CV_TRUE );
 
-  _abstract_correspondence_variables.push_back( binary_cvs );
+//  _abstract_correspondence_variables.push_back( binary_cvs );
 }
 
 Factor_Set_ADCG::
@@ -53,6 +53,7 @@ Factor_Set_ADCG( const Factor_Set_ADCG& other ) : Factor_Set( other ),
                                               _abstract_correspondence_variables( other._abstract_correspondence_variables ) {
 
 }
+
 
 Factor_Set_ADCG&
 Factor_Set_ADCG::
