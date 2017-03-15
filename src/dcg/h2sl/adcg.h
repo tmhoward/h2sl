@@ -56,35 +56,23 @@ namespace h2sl {
     ADCG( const ADCG& other );
     ADCG& operator=( const ADCG& other );
 
-    // Fill the symbol space to search.
-    virtual void fill_search_spaces( const World* world );
+ virtual bool leaf_search( const Phrase* phrase, i
+                           const Symbol_Dictionary& symbolDictionary, 
+                           const Search_Space* searchSpace, 
+                           const World* world, LLM* llm, 
+                           const unsigned int beamWidth = 4, 
+                           const bool& debug = false );
+
+ virtual bool leaf_search( const Phrase* phrase, 
+                           const Symbol_Dictionary& symbolDictionary, 
+                           const Search_Space* searchSpace, 
+                           const World* world, 
+                           const Grounding* context, 
+                           LLM* llm, 
+                           const unsigned int beamWidth = 4, 
+                          const bool& debug = false );
+
   
-    // Inference: Leaf search. With and without comments.
-    virtual bool leaf_search( const Phrase* phrase, 
-                              const World* world, LLM* llm, 
-                              const unsigned int beamWidth = 4, 
-                              const bool& debug = false );
-
-    virtual bool leaf_search( const Phrase* phrase, 
-                              const World* world, 
-                              const Grounding* context, LLM* llm, 
-                              const unsigned int beamWidth = 4, 
-                              const bool& debug = false );
-
-
-    // Accessor functions.
-    inline const std::vector< std::vector< unsigned int > >& correspondence_variables( void )const{ return _correspondence_variables; };
-    inline const std::vector< std::pair< unsigned int, Grounding* > >& search_spaces( void )const{ return _search_spaces; };
-    inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
-    inline const Factor_Set* root( void )const{ return _root; };
-
-    // Scraping examples from example files.
-    static void scrape_examples( const std::string& filename, 
-                                 const Phrase* phrase, const World* world, 
-                                 const std::vector< std::pair< unsigned int, Grounding* > >& searchSpaces, 
-                                 const std::vector< std::vector< unsigned int > >& correspondenceVariables, 
-                                 std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
-
     // XML
     virtual bool from_xml( const std::string& file );
     virtual bool from_xml( xmlNodePtr root );
@@ -94,24 +82,27 @@ namespace h2sl {
     // Latex
     virtual void to_latex( const std::string& filename )const;
 
-    inline Symbol_Dictionary& symbol_dictionary( void ){ return _symbol_dictionary; };
-    inline const Symbol_Dictionary& symbol_dictionary( void )const{ return _symbol_dictionary; };
+   // Accessors
+   inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
+    inline const Factor_Set* root( void )const{ return _root; };
 
   protected:
     virtual void _find_leaf( Factor_Set* node, Factor_Set*& leaf );
     virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
-    // Symbol types.
-    Symbol_Dictionary _symbol_dictionary;
-
-    std::vector< std::pair< unsigned int, Grounding* > > _search_spaces;
-    std::vector< std::vector< unsigned int > > _correspondence_variables;
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
- 
+   
+    // ToDo: Add any additional members for ADCG
+    // Storing the inferred concrete search space for each.
+    // vector < pair< Phrase*, Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 
+    // vector < vector< Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 
+    
+    // Storing the abstract search space for each phrase.
+    // vector< pair< Phrase*, Search_Space > > _abstract_search_space;
+    // vector< vector< Search_Space > > _abstract_search_space;
 
- 
   private:
 
   };

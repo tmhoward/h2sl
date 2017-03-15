@@ -43,8 +43,9 @@ using namespace std;
 using namespace h2sl;
 
 HDCG::
-HDCG() : _dcg_rules(),
-          _dcg_groundings() {
+HDCG() : _dcg(),
+          _inferred_symbol_dictionaries(),  
+          _solutions() {
 
 }
 
@@ -54,32 +55,38 @@ HDCG::
 }
 
 HDCG::
-HDCG( const HDCG& other ) : _dcg_rules( other._dcg_rules ),
-                            _dcg_groundings( other._dcg_groundings ) {
+HDCG( const HDCG& other ) : _dcg( other._dcg ),
+                            _inferred_symbol_dictionaries( other._inferred_symbol_dictionaries ),
+                            _solutions( other._solutions ) {
 
 }
 
 HDCG&
 HDCG::
 operator=( const HDCG& other ) {
-  _dcg_rules = other._dcg_rules;
-  _dcg_groundings = other._dcg_groundings;
+  _dcg = other._dcg;
+  _inferred_symbol_dictionaries = other._inferred_symbol_dictionaries;
+  _solutions = other._solutions;
   return (*this);
 }
 
 bool
 HDCG::
 leaf_search( const Phrase* phrase,
+              const Symbol_Dictionary& symbolDictionary,
+              Search_Space* searchSpace,
               const World* world,
               LLM * llm,
               const unsigned int beamWidth,
               const bool& debug ){
-  return leaf_search( phrase, world, NULL, llm, beamWidth, debug );
+  return leaf_search( phrase, symbolDictionary, searchSpace, world, NULL, llm, beamWidth, debug );
 }
-  
+
 bool
 HDCG::
 leaf_search( const Phrase* phrase,
+              const Symbol_Dictionary& symbolDictionary,
+              Search_Space* searchSpace,
               const World* world,
               const Grounding* context,
               LLM * llm,
@@ -87,9 +94,30 @@ leaf_search( const Phrase* phrase,
               const bool& debug ){
   if( phrase != NULL ){
     // first infer a distribution of reduced symbol dictionary from the rules
+    searchSpace->fill_rules( symbolDictionary, world );
+    _dcg.leaf_search( phrase, symbolDictionary, searchSpace, world, context, llm, beamWidth, debug );
 
-    // now ground the phrase with the inferred distribution of symbol dictionaries
+    _inferred_symbol_dictionaries.clear();
+    for( vector< pair< double, Phrase* > >::const_iterator it_solution = _dcg.solutions().begin(); it_solution != _dcg.solutions().end(); it_solution++ ){
+      _inferred_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->first, Symbol_Dictionary() ) );
+      // it_solution->second->scrape_grounding( _inferred_symbol_dictionaries.back().second, world );
+    }
 
+    for( vector< pair< double, Symbol_Dictionary > >::const_iterator it_symbol_dictionary = _inferred_symbol_dictionaries.begin(); it_symbol_dictionary != _inferred_symbol_dictionaries.end(); it_symbol_dictionary++ ){
+      if( debug ){
+        cout << "inferred symbol dictionary:" << it_symbol_dictionary->second << endl;
+      }
+
+      // now ground the phrase with the inferred distribution of symbol dictionaries
+      searchSpace->fill_groundings( it_symbol_dictionary->second, world );
+
+      if( debug ){
+        cout << "inferred symbol dictionary:" << *searchSpace << endl;
+      }
+
+      _dcg.leaf_search( phrase, it_symbol_dictionary->second, searchSpace, world, context, llm, beamWidth, debug );
+    }
+    
     return true;
   } else {
     return false;
@@ -99,11 +127,6 @@ leaf_search( const Phrase* phrase,
 void
 HDCG::
 to_latex( const string& filename )const{
-  ofstream outfile;
-  outfile.open( filename.c_str() );
-  outfile << "\\begin{tikzpicture}[textnode/.style={anchor=mid,font=\\tiny},nodeknown/.style={circle,draw=black!80,fill=black!10,minimum size=5mm,font=\\tiny,top color=white,bottom color=black!20},nodeunknown/.style={circle,draw=black!80,fill=white,minimum size=5mm,font=\\tiny},factor/.style={rectangle,draw=black!80,fill=black!80,minimum size=2mm,font=\\tiny,text=white},dot/.style={circle,draw=black!80,fill=black!80,minimum size=0.25mm,font=\\tiny}]" << endl;
-  outfile << "\\end{tikzpicture}" << endl;
-  outfile.close();
   return;
 } 
 

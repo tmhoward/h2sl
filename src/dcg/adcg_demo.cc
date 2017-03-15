@@ -34,6 +34,33 @@ main( int argc,
     exit( 1 );
   }
 
+  Parser< Phrase > * parser = new Parser_CYK< Phrase >();
+  Grammar * grammar = new Grammar();
+  grammar->from_xml( args.grammar_arg );
+
+  vector< Phrase* > phrases;
+
+  Grounding * context = NULL;
+
+  World * world = new World();
+  if( args.world_given ){
+    world->from_xml( args.world_arg );
+  }
+
+  Feature_Set * feature_set = new Feature_Set();
+  LLM * llm = new LLM( feature_set );
+  if( args.llm_given ){
+    llm->from_xml( args.llm_arg );
+  }
+
+  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_arg );
+ 
+  Search_Space * search_space = new Search_Space();
+
+  ADCG * adcg = new ADCG();
+ 
+
+/*
   World * world = new World();
   world->from_xml( args.world_arg );
   if( world != NULL ){
@@ -139,7 +166,7 @@ main( int argc,
     delete adcg;
     adcg = NULL;
   }
-
+ */
   cout << "end of ADCG class demo program" << endl;
   return 0;
 }

@@ -1,0 +1,14 @@
+package "llm_train_groundings_and_rules"
+version "0.0.1"
+purpose "A program used to train a log-linear model"
+
+option "symbol_dictionary_groundings" - "groundings symbol_dictionary file" string required
+option "symbol_dictionary_rules" - "rules symbol_dictionary file" string required
+option "feature_set" - "feature_set file" string required
+option "threads" - "number of threads" int default="4" optional
+option "max_iterations" - "max iterations" int default="50" optional
+option "lambda" - "lambda" double default="0.01" optional
+option "epsilon" - "epsilon" double default="0.001" optional
+option "output" - "output file" string default="llm.xml" optional
+
+text ""

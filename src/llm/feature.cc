@@ -67,6 +67,7 @@
 #include "h2sl/feature_grounding_string_property_value.h"
 #include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h"
+#include "h2sl/feature_grounding_string_property_value_missing_child_string_property.h"
 #include "h2sl/feature_grounding_class_name.h"
 #include "h2sl/feature_abstract_container_matches_child.h"
 #include "h2sl/feature_container_matches_child.h"
@@ -287,6 +288,8 @@ namespace h2sl {
       out << *static_cast< const Feature_Grounding_Int_Property_Value* >( &other );
     } else if ( dynamic_cast< const Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value* >( &other ) != NULL ){
       out << *static_cast< const Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value* >( &other );
+    } else if ( dynamic_cast< const Feature_Grounding_String_Property_Value_Missing_Child_String_Property* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Grounding_String_Property_Value_Missing_Child_String_Property* >( &other );
     } else if ( dynamic_cast< const Feature_Grounding_Class_Name* >( &other ) != NULL ){
       out << *static_cast< const Feature_Grounding_Class_Name* >( &other );
     } else if ( dynamic_cast< const Feature_Abstract_Container_Matches_Child* >( &other ) != NULL ){

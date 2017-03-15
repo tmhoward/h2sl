@@ -3,6 +3,7 @@ set(GGOS
 #    factor_set_demo.ggo
     search_space_demo.ggo
     dcg_demo.ggo
+    hdcg_demo.ggo
 #    adcg_demo.ggo
     dcg_test.ggo)
 #    adcg_test.ggo)
@@ -13,8 +14,8 @@ set(HDRS
     h2sl/factor_set_adcg.h
     h2sl/hdcg.h
     h2sl/dcg.h
-    h2sl/search_space.h)
-#    h2sl/adcg.h
+    h2sl/search_space.h
+    h2sl/adcg.h)
 #    h2sl/adcg_base.h)
 
 # QT HEADER FILES
@@ -26,8 +27,8 @@ set(SRCS
     search_space.cc
     factor_set_adcg.cc
     hdcg.cc
-    dcg.cc)
-#    adcg.cc
+    dcg.cc
+    adcg.cc)
 #    adcg_base.cc)
 
 # BINARY SOURCE FILES
@@ -35,6 +36,7 @@ set(BIN_SRCS
 #    factor_set_demo.cc
     search_space_demo.cc
     dcg_demo.cc
+    hdcg_demo.cc
 #    adcg_demo.cc
     dcg_test.cc)
 #    adcg_test.cc)
