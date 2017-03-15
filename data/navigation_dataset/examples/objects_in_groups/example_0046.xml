@@ -20,35 +20,134 @@
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
   </world>
   <NP>
+    <grounding_set>
+      <container container_type="row">
+        <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+      </container>
+      <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+      <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+    </grounding_set>
     <NP>
+      <grounding_set>
+        <container container_type="row">
+          <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+          <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+        </container>
+        <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+        <abstract_container object_type="chair" spatial_relation_type="near" index="first" color="na"/>
+        <object_type object_type="chair"/>
+        <spatial_relation spatial_relation_type="near"/>
+        <number value="2"/>
+      </grounding_set>
       <DT text="the" order="0"/>
       <CD text="two" order="1"/>
       <JJS text="closest" order="2"/>
       <NNS text="chairs" order="3"/>
     </NP>
     <PP>
+      <grounding_set>
+        <container container_type="row">
+          <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+          <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+          <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+          <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+        </container>
+        <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+        <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+        <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+      </grounding_set>
       <IN text="in" order="4"/>
       <NP>
+        <grounding_set>
+          <container container_type="row">
+            <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+            <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+            <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+            <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+          </container>
+          <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+          <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+          <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+          <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+        </grounding_set>
         <NP>
+          <grounding_set>
+            <container container_type="row"/>
+          </grounding_set>
           <DT text="the" order="5"/>
           <NN text="row" order="6"/>
         </NP>
         <PP>
+          <grounding_set>
+            <container container_type="row">
+              <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+              <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+              <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+              <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+            </container>
+            <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+            <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+            <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+            <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+          </grounding_set>
           <IN text="of" order="7"/>
           <NP>
+            <grounding_set>
+              <container container_type="row">
+                <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+                <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+                <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+                <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+              </container>
+              <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+              <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+              <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+              <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+            </grounding_set>
             <NP>
+              <grounding_set>
+                <container container_type="row">
+                  <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+                  <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+                  <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+                  <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+                </container>
+                <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+                <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+                <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+                <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+                <object_type object_type="chair"/>
+              </grounding_set>
               <NNS text="chairs" order="8"/>
             </NP>
             <PP>
+              <grounding_set>
+                <region spatial_relation_type="left" object_id="husky_mm"/>
+              </grounding_set>
               <IN text="to" order="9"/>
               <NP>
+                <grounding_set>
+                  <region spatial_relation_type="left" object_id="husky_mm"/>
+                </grounding_set>
                 <NP>
+                  <grounding_set>
+                    <spatial_relation spatial_relation_type="left"/>
+                  </grounding_set>
                   <DT text="the" order="10"/>
                   <NN text="left" order="11"/>
                 </NP>
                 <PP>
+                  <grounding_set>
+                    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+                  </grounding_set>
                   <IN text="of" order="12"/>
                   <NP>
+                    <grounding_set>
+                      <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+                    </grounding_set>
                     <DT text="the" order="13"/>
                     <NN text="robot" order="14"/>
                   </NP>

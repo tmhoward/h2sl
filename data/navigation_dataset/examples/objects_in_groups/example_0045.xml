@@ -20,28 +20,55 @@
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
   </world>
   <NP>
+    <grounding_set>
+    </grounding_set>
     <NP>
+      <grounding_set>
+      </grounding_set>
       <DT text="the" order="0"/>
       <CD text="two" order="1"/>
       <NNS text="chairs" order="2"/>
     </NP>
     <PP>
+      <grounding_set>
+      </grounding_set>
       <IN text="in" order="3"/>
       <NP>
+        <grounding_set>
+        </grounding_set>
         <NP>
+          <grounding_set>
+          </grounding_set>
           <DT text="the" order="4"/>
           <NN text="middle" order="5"/>
         </NP>
         <PP>
+          <grounding_set>
+          </grounding_set>
           <IN text="of" order="6"/>
           <NP>
+            <grounding_set>
+            </grounding_set>
             <NP>
+              <grounding_set>
+                <container container_type="row"/>
+              </grounding_set>
               <DT text="the" order="7"/>
               <NN text="row" order="8"/>
             </NP>
             <PP>
+              <grounding_set>
+                <abstract_container type="na" num="4" index="first" color="white"/>
+                <number value="4"/>
+                <object_color object_color="white"/>
+              </grounding_set>
               <IN text="of" order="9"/>
               <NP>
+                <grounding_set>
+                  <abstract_container type="na" num="4" index="first" color="white"/>
+                  <number value="4"/>
+                  <object_color object_color="white"/>
+                </grounding_set>
                 <CD text="four" order="10"/>
                 <JJ text="white" order="11"/>
                 <NNS text="ones" order="12"/>
