@@ -58,7 +58,7 @@ Factor_Set_ADCG&
 Factor_Set_ADCG::
 operator=( const Factor_Set_ADCG& other ) {
   _phrase = other._phrase;
-  _children = other._children;
+  _child_factor_sets = other._child_factor_sets;
   _solutions = other._solutions;
   _abstract_search_spaces = other._abstract_search_spaces;
   _abstract_correspondence_variables = other._abstract_correspondence_variables;
