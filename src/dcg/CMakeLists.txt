@@ -3,6 +3,7 @@ set(GGOS
 #    factor_set_demo.ggo
     search_space_demo.ggo
     dcg_demo.ggo
+    hdcg_demo.ggo
 #    adcg_demo.ggo
     dcg_test.ggo)
 #    adcg_test.ggo)
@@ -35,6 +36,7 @@ set(BIN_SRCS
 #    factor_set_demo.cc
     search_space_demo.cc
     dcg_demo.cc
+    hdcg_demo.cc
 #    adcg_demo.cc
     dcg_test.cc)
 #    adcg_test.cc)

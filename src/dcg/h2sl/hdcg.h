@@ -48,24 +48,32 @@ namespace h2sl {
     virtual ~HDCG();
     HDCG( const HDCG& other );
     HDCG& operator=( const HDCG& other );
-
-    virtual void fill_search_spaces( const World* world );
-    virtual bool leaf_search( const Phrase* phrase, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
-    virtual bool leaf_search( const Phrase* phrase, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
+    
+    virtual bool leaf_search( const Phrase* phrase, const Symbol_Dictionary& symbolDictionary, const Search_Space* searchSpace, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
+    virtual bool leaf_search( const Phrase* phrase, const Symbol_Dictionary& symbolDictionary, const Search_Space* searchSpace, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );  
 
     virtual void to_latex( const std::string& filename )const;
 
+    inline Search_Space& search_space_rules( void ){ return _search_space_rules; };
+    inline const Search_Space& search_space_rules( void )const{ return _search_space_rules; };
     inline DCG& dcg_rules( void ){ return _dcg_rules; };
     inline const DCG& dcg_rules( void )const{ return _dcg_rules; };
+    inline std::vector< std::pair< double, Symbol_Dictionary > >& inferred_symbol_dictionaries( void ){ return _inferred_symbol_dictionaries; };
+    inline const std::vector< std::pair< double, Symbol_Dictionary > >& inferred_symbol_dictionaries( void )const{ return _inferred_symbol_dictionaries; };
+    inline std::vector< std::pair< double, Search_Space > >& search_space_groundings( void ){ return _search_space_groundings; };
+    inline const std::vector< std::pair< double, Search_Space > >& search_space_groundings( void )const{ return _search_space_groundings; };
     inline DCG& dcg_groundings( void ){ return _dcg_groundings; };
     inline const DCG& dcg_groundings( void )const{ return _dcg_groundings; };
+    inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
+     
+ protected:
 
-  protected:
-    virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
-    virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
-
+    Search_Space _search_space_rules;
     DCG _dcg_rules;
+    std::vector< std::pair< double, Symbol_Dictionary > > _inferred_symbol_dictionaries;
+    std::vector< std::pair< double, Search_Space > > _search_space_groundings;
     DCG _dcg_groundings;
+    std::vector< std::pair< double, Phrase* > > _solutions;
 
   private:
 
