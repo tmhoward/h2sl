@@ -146,6 +146,21 @@ dup( const bool& empty )const{
 void
 Phrase::
 scrape_groundings( const World * world,
+                    map< string, vector< string > >& stringTypes,
+                    map< string, vector< int > >& intTypes )const{
+
+  _grounding_set->scrape_grounding( world, stringTypes, intTypes );
+
+  for( vector< Phrase* >::const_iterator it_child = _children.begin(); it_child != _children.end(); it_child++ ){
+    (*it_child)->scrape_groundings( world, stringTypes, intTypes );
+  }
+
+  return;
+}
+
+void
+Phrase::
+scrape_groundings( const World * world,
                     vector< string >& classNames,
                     map< string, vector< string > >& stringTypes,
                     map< string, vector< int > >& intTypes )const{

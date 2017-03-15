@@ -1,5 +1,5 @@
 /**
- * @file    hdcg_demo.cc
+ * @file    dcg_groundings_demo.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,7 +28,7 @@
  *
  * @section DESCRIPTION
  *
- * A HDCG class demo program
+ * A DCG class demo program
  */
 
 #include <iostream>
@@ -38,8 +38,8 @@
 #include "h2sl/phrase.h"
 #include "h2sl/constraint.h"
 #include "h2sl/parser_cyk.h"
-#include "h2sl/hdcg.h"
-#include "hdcg_demo_cmdline.h"
+#include "h2sl/dcg.h"
+#include "dcg_groundings_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -48,7 +48,7 @@ int
 main( int argc,
       char* argv[] ) {
   int status = 0;
-  cout << "start of HDCG class demo program" << endl;
+  cout << "start of DCG class demo program" << endl;
   
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
@@ -78,7 +78,7 @@ main( int argc,
 
   Search_Space * search_space = new Search_Space();
 
-  HDCG * hdcg = new HDCG();
+  DCG * dcg = new DCG();
  
   struct timeval start_time;
   gettimeofday( &start_time, NULL );
@@ -100,26 +100,25 @@ main( int argc,
     
         gettimeofday( &start_time, NULL );
 
-        hdcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+        dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg );
 
         gettimeofday( &end_time, NULL );
 
         cout << "finished search in " << diff_time( start_time, end_time ) << " seconds" << endl;   
-        cout << "found " << hdcg->solutions().size() << " solutions" << endl;
-        for( unsigned int j = 0; j < hdcg->solutions().size(); j++ ){
-          cout << "  solutions[" << j << "]:" << *hdcg->solutions()[ j ].second << " (" << hdcg->solutions()[ j ].first << ")" << endl;
+        for( unsigned int j = 0; j < dcg->solutions().size(); j++ ){
+          cout << "  solutions[" << j << "]:" << *dcg->solutions()[ j ].second << " (" << dcg->solutions()[ j ].first << ")" << endl;
         }
    
         if( args.output_given ){
           string filename = args.output_arg;
           if( filename.find( ".xml" ) != string::npos ){
             if( phrases.size() == 1 ){
-              hdcg->solutions().front().second->to_xml( filename );
+              dcg->solutions().front().second->to_xml( filename );
             } else {
               boost::trim_if( filename, boost::is_any_of( ".xml" ) );
               stringstream tmp;
               tmp << filename << "_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
-              hdcg->solutions().front().second->to_xml( tmp.str() );
+              dcg->solutions().front().second->to_xml( tmp.str() );
             }
           }
         }
@@ -128,12 +127,12 @@ main( int argc,
           string filename = args.latex_output_arg;
           if( filename.find( ".tex" ) != string::npos ){
             if( phrases.size() == 1 ){
-              hdcg->to_latex( filename );
+              dcg->to_latex( filename );
             } else {
               boost::trim_if( filename, boost::is_any_of( ".tex" ) );
               stringstream tmp;
               tmp << filename << "_" << setw( 4 ) << setfill( '0' ) << i << ".tex";
-              hdcg->to_latex( tmp.str() );
+              dcg->to_latex( tmp.str() );
             }
           }
         } 
@@ -141,9 +140,9 @@ main( int argc,
     }
   }
 
-  if( hdcg != NULL ){
-    delete hdcg;
-    hdcg = NULL;
+  if( dcg != NULL ){
+    delete dcg;
+    dcg = NULL;
   }
 
   if( llm != NULL ){
@@ -178,6 +177,6 @@ main( int argc,
     parser = NULL;
   }
 
-  cout << "end of HDCG class demo program" << endl;
+  cout << "end of DCG class demo program" << endl;
   return status;
 }
