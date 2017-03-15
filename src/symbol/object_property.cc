@@ -165,7 +165,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Object_Property::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Spatial_Relation rule_spatial_relation( relation_type() );
   insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
   Rule_Object_Type rule_object_type( type() );

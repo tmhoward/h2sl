@@ -200,14 +200,18 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Constraint::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Constraint_Type rule_constraint_type( constraint_type() );
   insert_unique_grounding< Rule_Constraint_Type >( groundingSet, rule_constraint_type );
-  Rule_Constraint_Payload_Type rule_constraint_payload_type( payload() );
+  map< string, Object* >::const_iterator it_payload_object = world->objects().find( payload() );
+  assert( it_payload_object != world->objects().end() );
+  Rule_Constraint_Payload_Type rule_constraint_payload_type( it_payload_object->second->type() );
   insert_unique_grounding< Rule_Constraint_Payload_Type >( groundingSet, rule_constraint_payload_type );
-  Rule_Constraint_Reference_Type rule_constraint_reference_type( reference() );
+  map< string, Object* >::const_iterator it_reference_object = world->objects().find( reference() );
+  assert( it_reference_object != world->objects().end() );
+  Rule_Constraint_Reference_Type rule_constraint_reference_type( it_reference_object->second->type() );
   insert_unique_grounding< Rule_Constraint_Reference_Type >( groundingSet, rule_constraint_reference_type );
-  Rule_Spatial_Relation rule_spatial_relation( reference() );
+  Rule_Spatial_Relation rule_spatial_relation( reference_relation() );
   insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
   return;
 }

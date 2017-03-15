@@ -50,15 +50,8 @@ replace_groundings_with_rules( Phrase* phrase,
   cout << "checking " << *phrase->grounding_set() << endl;
   Grounding_Set * grounding_set_rules = new Grounding_Set();
   for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
-    (*it_grounding)->fill_rules( grounding_set_rules );
-/*
-    Object * object = dynamic_cast< Object* >( *it_grounding );
-    if( object != NULL ){
-      cout << "found object" << endl;
-      object->fill_rules( grounding_set_rules );
-      cout << "  grounding_set_rules" << *grounding_set_rules << endl;
-    }
-*/
+    cout << "  replacing in class " << *(*it_grounding) << endl;
+    (*it_grounding)->fill_rules( world, grounding_set_rules );
   }
 
   cout << "grounding_set_rules" << *grounding_set_rules << endl;
@@ -90,11 +83,15 @@ main( int argc,
     h2sl::Phrase * phrase = new Phrase();
     phrase->from_xml( args.inputs[ i ] );
 
-    replace_groundings_with_rules( phrase, world );
+    cout << "loading \"" << args.inputs[ i ] << "\"" << endl;
 
     string instruction = extract_instruction( args.inputs[ i ] );
     
     cout << "instruction:\"" << instruction << "\"" << endl;    
+    
+    replace_groundings_with_rules( phrase, world );
+
+    cout << "done replacing, writing to file" << endl;
 
     xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
     xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );

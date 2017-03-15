@@ -177,7 +177,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Abstract_Container::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Object_Type rule_object_type( type() );
   insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
   Rule_Number rule_number( number() );

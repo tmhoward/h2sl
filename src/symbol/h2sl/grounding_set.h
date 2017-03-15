@@ -52,7 +52,7 @@ namespace h2sl {
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "grounding_set" ); };
     virtual void scrape_grounding( const World * world, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
-    virtual void fill_rules( Grounding_Set* groundingSet )const;
+    virtual void fill_rules( const World* world, Grounding_Set* groundingSet )const;
 
     void clear( void );
  

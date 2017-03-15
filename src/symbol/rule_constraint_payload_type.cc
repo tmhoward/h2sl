@@ -170,7 +170,7 @@ from_xml( const string& filename ){
 
 void
 Rule_Constraint_Payload_Type::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Constraint_Payload_Type rule_constraint_payload_type( constraint_payload_type() );
   insert_unique_grounding< Rule_Constraint_Payload_Type >( groundingSet, rule_constraint_payload_type );
   return;

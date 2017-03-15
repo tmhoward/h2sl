@@ -112,7 +112,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
 
-  if( symbolDictionary.has_class_name( "container" ) ){
+  if( symbolDictionary.has_class_name( class_name() ) || symbolDictionary.has_class_name( "container" ) || symbolDictionary.has_class_name( "region_container" ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
       searchSpaces.insert( pair< string, pair< string, vector< Grounding* > > >( class_name(), pair< string, vector< Grounding* > >( "binary", vector< Grounding* >() ) ) );
@@ -142,7 +142,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Rule_Container_Type::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Container_Type rule_container_type( container_type() );
   insert_unique_grounding< Rule_Container_Type >( groundingSet, rule_container_type );
   return;

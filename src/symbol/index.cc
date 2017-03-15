@@ -144,7 +144,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Index::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Index rule_index( value() );
   insert_unique_grounding< Rule_Index >( groundingSet, rule_index );
   return;

@@ -141,7 +141,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Rule_Number::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Number rule_number( number_value() );
   insert_unique_grounding< Rule_Number >( groundingSet, rule_number );
   return;
@@ -220,7 +220,7 @@ Rule_Number::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "rule_number" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "number_value" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "number" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "number_value" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "number" ) ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }

@@ -194,7 +194,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Container::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Container_Type rule_container_type( type() );
   insert_unique_grounding< Rule_Container_Type >( groundingSet, rule_container_type );
   for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){

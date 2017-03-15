@@ -183,7 +183,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Region_Container::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Container_Type rule_container_type( _container.type() );
   insert_unique_grounding< Rule_Container_Type >( groundingSet, rule_container_type );
   Rule_Spatial_Relation rule_spatial_relation( relation_type() );

@@ -142,7 +142,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Rule_Constraint_Reference_Type::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Constraint_Reference_Type rule_constraint_reference_type( constraint_reference_type() );
   insert_unique_grounding< Rule_Constraint_Reference_Type >( groundingSet, rule_constraint_reference_type );
   return;

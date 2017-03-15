@@ -142,7 +142,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
 void
 Rule_Object_Color::
-fill_rules( Grounding_Set* groundingSet )const{
+fill_rules( const World* world, Grounding_Set* groundingSet )const{
   Rule_Object_Color rule_object_color( object_color() );
   insert_unique_grounding< Rule_Object_Color >( groundingSet, rule_object_color );
   return;
