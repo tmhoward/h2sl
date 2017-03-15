@@ -57,15 +57,16 @@ class Factor_Set_ADCG : public Factor_Set {
     Factor_Set_ADCG& operator=( const Factor_Set_ADCG& other );
 
     // Factor Set Search
-    virtual void search( const Search_Space& searchSpace, 
+    virtual void search( const Search_Space* searchSpace, 
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, LLM* llm, 
                          const unsigned int beamWidth = 4, 
                          const bool& debug = false );
 
-    virtual void search( const Search_Space& searchSpace,
+    virtual void search( const Search_Space* searchSpace,
                          const Symbol_Dictionary& symbolDictionary,
-                         const World* world, const Grounding* grounding, LLM* llm, 
+                         const World* world, 
+                         const Grounding* grounding, LLM* llm, 
                          const unsigned int beamWidth = 4, 
                          const bool& debug = false );
 
@@ -78,11 +79,13 @@ class Factor_Set_ADCG : public Factor_Set {
   protected:
 
     // Physical search space search
+    /*
     virtual void _search_physical( const Search_Space& searchSpace,
                                    const Symbol_Dictionary& symbolDictionary,
                                    const World* world, LLM* llm, 
                                    const unsigned int beamWidth = 4, 
                                    const bool& debug = false );
+    */
 
     // Abstract search space and abstract correspondence variables. 
     std::vector< std::vector< std::pair< unsigned int, Grounding* > > > _abstract_search_spaces;

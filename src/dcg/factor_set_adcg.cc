@@ -67,7 +67,7 @@ operator=( const Factor_Set_ADCG& other ) {
 
 void
 Factor_Set_ADCG::
-search( const Search_Space& searchSpace, 
+search( const Search_Space* searchSpace, 
         const Symbol_Dictionary& symbolDictionary,
         const World* world,
         LLM* llm,
@@ -79,10 +79,10 @@ search( const Search_Space& searchSpace,
 
 void
 Factor_Set_ADCG::
-search( const Search_Space& searchSpace, 
+search( const Search_Space* searchSpace, 
         const Symbol_Dictionary& symbolDictionary,
         const World* world,
-        const Grounding* grounding,
+        const Grounding* context,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
@@ -161,12 +161,10 @@ search( const Search_Space& searchSpace,
     cout << "  sorting through " << _solutions.size() << " solutions for \"" << _phrase->words_to_std_string() << "\"" << endl;
   }
 
-  sort( _solutions.begin(), _solutions.end(), factor_set_solution_sort );
+  sort( _solutions.begin(), _solutions.end(), factor_set_adcg_solution_sort );
   if( _solutions.size() > beamWidth ){
     _solutions.erase( _solutions.begin() + beamWidth, _solutions.end() );
   }
-
-
  
   /**************** PRINT OUT THE SOLUTIONS IF REQD.***********************/
 
@@ -197,20 +195,17 @@ search( const Search_Space& searchSpace,
 }
 
 
-
+/*
 void
 Factor_Set_ADCG::
 _search_physical( const Search_Space& searchSpace, 
                   const Symbol_Dictionary& symbolDictionary,
                   const World* world, LLM* llm, const unsigned int beamWidth, const bool& debug ){
-  /*
   if( debug ){
     cout << " Factor Set ADCG: Beginning of physical search" << endl;
     cout << " phrase:" << *_phrase << endl;
   }
 
-
-/*
   // Abstract search space data structure: clearing them. 
   for( unsigned int i = 0; i < _abstract_search_spaces.size(); i++ ){
     for( unsigned int j = 0; j < _abstract_search_spaces[ i ].size(); j++ ){
@@ -584,10 +579,11 @@ _search_physical( const Search_Space& searchSpace,
   if( debug ){
     cout << *this << endl;
   }
- */
+
   return;
   
 }
+*/
 
 
 namespace h2sl {
