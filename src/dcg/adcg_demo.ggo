@@ -1,12 +1,14 @@
 package "adcg_demo"
 version "1.0"
-purpose "A program used to run the h2sl::ADCG class process"
+purpose "A program used to demonstrate the Adaptive Distributed Correspondece Graphs( ADCG)"
 
 option "world" - "world file" string required
+option "symbol_dictionary" - "symbol dictionary for model" string required
 option "llm" - "log-linear model file" string required
 option "grammar" - "grammar file" string optional
 option "command" - "command string" string optional
 option "output" o "output file" string optional
+option "latex_output" - "latex output file" string optional
 option "beam_width" - "beam width" int default="2" optional
 
 text ""
