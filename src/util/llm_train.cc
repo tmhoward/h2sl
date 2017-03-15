@@ -121,6 +121,12 @@ main( int argc,
 
     symbol_dictionaries[ i ] = new Symbol_Dictionary( args.symbol_dictionary_arg );
 
+    if( phrases[ i ]->contains_symbol_in_symbol_dictionary( *symbol_dictionaries[ i ] ) ){
+      cout << "contains symbols in symbol dictionary" << endl;
+    } else {
+      cout << "does not contains any symbols in symbol dictionary" << endl;
+    }
+
     search_spaces[ i ] = new Search_Space();
     search_spaces[ i ]->fill_groundings( *symbol_dictionaries[ i ], worlds[ i ] );
     search_spaces[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples );

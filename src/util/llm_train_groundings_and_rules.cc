@@ -1,5 +1,5 @@
 /**
- * @file    llm_train_rules.cc
+ * @file    llm_train_groundings_and_rules.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -39,7 +39,7 @@
 #include "h2sl/constraint.h"
 #include "h2sl/llm.h"
 #include "h2sl/search_space.h"
-#include "llm_train_rules_cmdline.h"
+#include "llm_train_groundings_and_rules_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -102,11 +102,14 @@ main( int argc,
     exit(1);
   }
 
-  vector< Symbol_Dictionary* > symbol_dictionaries( args.inputs_num, NULL );
-  vector< Search_Space* > search_spaces( args.inputs_num, NULL );
+  vector< Search_Space* > search_spaces_rules( args.inputs_num, NULL );
+  vector< Search_Space* > search_spaces_groundings( args.inputs_num, NULL );
   vector< Phrase* > phrases( args.inputs_num, NULL );
   vector< World* > worlds( args.inputs_num, NULL );
   vector< string > filenames( args.inputs_num );
+
+  Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary( args.symbol_dictionary_rules_arg );
+  Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
 
   vector< pair< unsigned int, LLM_X > > examples;
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
@@ -119,19 +122,23 @@ main( int argc,
     phrases[ i ] = new Phrase();
     phrases[ i ]->from_xml( args.inputs[ i ] ); 
 
-    symbol_dictionaries[ i ] = new Symbol_Dictionary( args.symbol_dictionary_arg );
-    cout << "symbol_dictionaries[" << i << "]:" << *symbol_dictionaries[ i ] << endl;
-
-    if( phrases[ i ]->contains_symbol_in_symbol_dictionary( *symbol_dictionaries[ i ] ) ){
-      cout << "contains symbols in symbol dictionary" << endl;
+    if( phrases[ i ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){
+      cout << "contains symbols in rules symbol dictionary" << endl;
+      search_spaces_rules[ i ] = new Search_Space();
+      search_spaces_rules[ i ]->fill_rules( *symbol_dictionary_rules, worlds[ i ] );
+      search_spaces_rules[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples );
     } else {
-      cout << "does not contains any symbols in symbol dictionary" << endl;
+      cout << "does not contains any rules symbols in symbol dictionary" << endl;
     }
 
-    search_spaces[ i ] = new Search_Space();
-    search_spaces[ i ]->fill_rules( *symbol_dictionaries[ i ], worlds[ i ] );
-    cout << "search_spaces[" << i << "]->size():" << search_spaces[ i ]->size() << endl;
-    search_spaces[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples );
+    if( phrases[ i ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
+      cout << "contains symbols in groundings symbol dictionary" << endl;
+      search_spaces_groundings[ i ] = new Search_Space();
+      search_spaces_groundings[ i ]->fill_groundings( *symbol_dictionary_groundings, worlds[ i ] ); 
+      search_spaces_groundings[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples );
+    } else {
+      cout << "does not contains any groundings symbols in symbol dictionary" << endl;
+    }
   }
 
   cout << "training with " << examples.size() << " examples" << endl;

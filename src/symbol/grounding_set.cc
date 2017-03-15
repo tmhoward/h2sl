@@ -344,6 +344,23 @@ evaluate_cv( const Grounding* grounding )const{
   return cv;
 }
 
+bool
+Grounding_Set::
+contains_symbol_in_symbol_dictionary( const Symbol_Dictionary& symbolDictionary )const{
+  for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){
+    if( ( *it_grounding ) != NULL ){
+      for( map< string, vector< string > >::const_iterator it_class_names = symbolDictionary.class_names().begin(); it_class_names != symbolDictionary.class_names().end(); it_class_names++ ){
+        for( vector< string >::const_iterator it_class_name = it_class_names->second.begin(); it_class_name != it_class_names->second.end(); it_class_name++ ){
+          if( (*it_grounding)->matches_class_name( *it_class_name ) ){
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}
+
 void
 Grounding_Set::
 fill_rules( const World* world, Grounding_Set* groundingSet )const{
