@@ -88,6 +88,12 @@ main( int argc,
 
     cout << "symbol_dictionary_extracted:(" << *symbol_dictionary_rules << ")" << endl << endl;
 
+    if( *symbol_dictionary_rules == *symbol_dictionary ){
+      cout << "extracted symbol dictionary matches symbol dictionary" << endl;
+    } else {
+      cout << "extracted symbol dictionary does not match symbol dictionary" << endl;
+    }
+
     if( symbol_dictionary_rules != NULL ){
       delete symbol_dictionary_rules;
       symbol_dictionary_rules = NULL;

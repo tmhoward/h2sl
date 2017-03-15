@@ -139,6 +139,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
   return;
 }
 
+void
+Rule_Spatial_Relation::
+fill_rules( Grounding_Set* groundingSet )const{
+  Rule_Spatial_Relation rule_spatial_relation( spatial_relation_type() );
+  insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
+  return;
+}
+
 /** 
  * imports the Rule_Spatial_Relation class from an XML file
  */

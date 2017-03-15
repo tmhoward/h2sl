@@ -121,7 +121,7 @@ value( const unsigned int& cv,
         }
 
         if( !sorted_objects.empty() ){
-          if( object_property_child.second->index() <= sorted_objects.size() ){
+          if( object_property_child.second->index() <= ( int )( sorted_objects.size() ) ){
             if( sorting_key() == "min_x" ){
               sort( sorted_objects.begin(), sorted_objects.end(), World::min_x_sort );
             } else if ( sorting_key() == "max_x" ){

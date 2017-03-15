@@ -56,7 +56,9 @@ namespace h2sl {
     virtual ~Symbol_Dictionary();
     Symbol_Dictionary( const Symbol_Dictionary& other );
     Symbol_Dictionary& operator=( const Symbol_Dictionary& other );
-
+    bool operator==( const Symbol_Dictionary& other )const;
+    bool operator!=( const Symbol_Dictionary& other )const;
+  
     virtual bool has_class_name( const std::string& className )const;
 
     virtual bool from_xml( const std::string& file );

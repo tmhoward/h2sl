@@ -1,5 +1,5 @@
 /**
- * @file number.cc
+ * @file rule_index.cc
  *
  * @brief
  *
@@ -8,60 +8,59 @@
 
 #include <assert.h>
 
-#include "h2sl/rule_number.h"
-#include "h2sl/number.h"
+#include "h2sl/rule_index.h"
 
 using namespace std;
 using namespace h2sl;
 
 /**
- * Number class constructor
+ * Rule_Index class constructor
  */
-Number::
-Number( const int& value ) : Grounding(){
-  insert_prop< int >( _int_properties, "value", value );
+Rule_Index::
+Rule_Index( const int& indexValue ) : Rule() {
+  insert_prop< int >( _int_properties, "index", indexValue );
 }
 
-Number::
-Number( xmlNodePtr root ) : Grounding() {
-  insert_prop< int >( _int_properties, "value", 0 );
+Rule_Index::
+Rule_Index( xmlNodePtr root ) : Rule() {
+  insert_prop< int >( _int_properties, "index", 0 );
   from_xml( root );
 }
 
 /**
- * Number class copy constructor
+ * Rule_Index class copy constructor
  */
-Number::
-Number( const Number& other ) : Grounding( other ){
+Rule_Index::
+Rule_Index( const Rule_Index& other ) : Rule( other ) {
 
 }
 
 /**
- * Number class destructor
+ * Rule_Index class destructor
  */
-Number::
-~Number() {
+Rule_Index::
+~Rule_Index() {
 
 }
 
 /** 
- * Number class assignment operator
+ * Rule_Index class assignment operator
  */
-Number&
-Number::
-operator=( const Number& other ){
+Rule_Index&
+Rule_Index::
+operator=( const Rule_Index& other ){
   _string_properties = other._string_properties;
   _int_properties = other._int_properties;
   return (*this);
 }
 
 /** 
- * Number class equality operator
+ * Rule_Index class equality operator
  */
 bool
-Number::
-operator==( const Number& other )const{
-  if ( value() != other.value() ){
+Rule_Index::
+operator==( const Rule_Index& other )const{
+  if ( index_value() != other.index_value() ){
     return false;
   } else {
     return true;
@@ -69,34 +68,34 @@ operator==( const Number& other )const{
 }
 
 /** 
- * Number class inequality operator
+ * Rule_Index class inequality operator
  */
 bool
-Number::
-operator!=( const Number& other )const{
+Rule_Index::
+operator!=( const Rule_Index& other )const{
   return !( *this == other );
 }
 
 /** 
- * Number class dup operator
+ * Rule_Index class dup operator
  */
-Number*
-Number::
+Rule_Index*
+Rule_Index::
 dup( void )const{
-  return new Number( *this );
+  return new Rule_Index( *this );
 }
 
 void
-Number::
+Rule_Index::
 scrape_grounding( const World * world,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  insert_unique< int >( "number", value(), intTypes );
+  insert_unique< int >( "index", index_value(), intTypes );
   return;
 }
 
 void
-Number::
+Rule_Index::
 scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
@@ -107,27 +106,26 @@ scrape_grounding( const World * world,
 }
 
 void
-Number::
+Rule_Index::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
-
-  if( symbolDictionary.has_class_name( class_name() ) || symbolDictionary.has_class_name( "abstract_container" ) || symbolDictionary.has_class_name( "region_abstract_container" ) ){
+  if( symbolDictionary.has_class_name( "rule_index" ) || symbolDictionary.has_class_name( "index" ) || symbolDictionary.has_class_name( "abstract_container" ) || symbolDictionary.has_class_name( "region_abstract_container" ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
       searchSpaces.insert( pair< string, pair< string, vector< Grounding* > > >( class_name(), pair< string, vector< Grounding* > >( "binary", vector< Grounding* >() ) ) );
       it_search_spaces_symbol = searchSpaces.find( class_name() );
-    }  
+    }
 
-    map< string, vector< int > >::const_iterator it_number_value_types = symbolDictionary.int_types().find( "number" );
+    map< string, vector< int > >::const_iterator it_index_value_values = symbolDictionary.int_types().find( "index" );
 
     switch( symbolType ){
     case( SYMBOL_TYPE_CONCRETE ):
     case( SYMBOL_TYPE_ALL ):
-      if( it_number_value_types != symbolDictionary.int_types().end() ){
-        for( unsigned int i = 0; i < it_number_value_types->second.size(); i++ ){
-          it_search_spaces_symbol->second.second.push_back( new Number( it_number_value_types->second[ i ] ) );
+      if( it_index_value_values != symbolDictionary.int_types().end() ){
+        for( unsigned int i = 0; i < it_index_value_values->second.size(); i++ ){
+          it_search_spaces_symbol->second.second.push_back( new Rule_Index( it_index_value_values->second[ i ] ) );
         }
       }
       break;
@@ -142,18 +140,18 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 }
 
 void
-Number::
+Rule_Index::
 fill_rules( Grounding_Set* groundingSet )const{
-  Rule_Number rule_number( value() );
-  insert_unique_grounding< Rule_Number >( groundingSet, rule_number );
+  Rule_Index rule_index( index_value() );
+  insert_unique_grounding< Rule_Index >( groundingSet, rule_index );
   return;
 }
 
 /** 
- * imports the Number class from an XML file
+ * imports the Rule_Index class from an XML file
  */
 void
-Number::
+Rule_Index::
 from_xml( const string& filename ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
@@ -164,7 +162,7 @@ from_xml( const string& filename ){
       xmlNodePtr l1 = NULL;
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "number" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_index" ) ) == 0 ){
             from_xml( l1 );
           }
         }
@@ -178,32 +176,32 @@ from_xml( const string& filename ){
 }
 
 /** 
- * imports the Number class from an XML node pointer
+ * imports the Rule_Index class from an XML node pointer
  */
 void
-Number::
+Rule_Index::
 from_xml( xmlNodePtr root ){
-  value() = 0;
+  index_value() = 0;
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > number_keys = { "value", "type" };
-    assert( check_keys( root, number_keys ) );
-    pair< bool, int > value_prop = has_prop< int >( root, "value" );
-    if( value_prop.first ){
-      value() = value_prop.second;
+    vector< string > index_keys = { "value", "index_value" };
+    assert( check_keys( root, index_keys ) );
+    pair< bool, int > index_value_prop = has_prop< int >( root, "index_value" );
+    if( index_value_prop.first ){
+      index_value() = index_value_prop.second;
     }
-    value_prop = has_prop< int >( root, "type" );
-    if( value_prop.first ){
-      value() = value_prop.second;
+    index_value_prop = has_prop< int >( root, "value" );
+    if( index_value_prop.first ){
+      index_value() = index_value_prop.second;
     }
   }
   return;
 }
 
 /**
- * exports the Number class to an XML file
+ * exports the Rule_Index class to an XML file
  */
 void
-Number::
+Rule_Index::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -215,27 +213,27 @@ to_xml( const string& filename )const{
 }
 
 /**
- * exports the Number class to an XML node pointer
+ * exports the Rule_Index class to an XML node pointer
  */
 void
-Number::
+Rule_Index::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "number" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "value" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "value" ) ).c_str()  ) );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "rule_index" ), NULL );
+  xmlNewProp( node, ( const xmlChar* )( "index_value" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "index" ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
 
 namespace h2sl {
   /** 
-   * Number class ostream operator
+   * Rule_Index class ostream operator
    */
   ostream&
   operator<<( ostream& out,
-              const Number& other ){
-    out << "Number(";
-    out << "value=\"" << other.value() << "\"";
+              const Rule_Index& other ){
+    out << "Rule_Index(";
+    out << "index_value=\"" << other.index_value() << "\"";
     out << ")";
     return out;
   }

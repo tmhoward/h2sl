@@ -34,9 +34,12 @@
 #include "h2sl/rule_object_type.h"
 #include "h2sl/rule_object_color.h"
 #include "h2sl/rule_spatial_relation.h"
+#include "h2sl/rule_number.h"
+#include "h2sl/rule_index.h"
 #include "h2sl/rule_constraint_type.h"
 #include "h2sl/rule_constraint_payload_type.h"
 #include "h2sl/rule_constraint_reference_type.h"
+#include "h2sl/rule_container_type.h"
 
 #include "h2sl/object_property.h"
 #include "h2sl/object_type.h"
@@ -169,9 +172,12 @@ fill_rules( const Symbol_Dictionary& symbolDictionary,
   Rule_Object_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   Rule_Object_Color::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   Rule_Spatial_Relation::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Rule_Number::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Rule_Index::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   Rule_Constraint_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   Rule_Constraint_Payload_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   Rule_Constraint_Reference_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
+  Rule_Container_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, SYMBOL_TYPE_ALL );
   return;
 }
 
@@ -232,6 +238,7 @@ void
 Search_Space::
 scrape_grounding( Symbol_Dictionary& symbolDictionary,
                   const World* world )const{
+  symbolDictionary.class_names() = _class_names;
   for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_groundings = _grounding_pairs.begin(); it_groundings != _grounding_pairs.end(); it_groundings++ ){
     for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
       if( (*it_grounding) != NULL ){

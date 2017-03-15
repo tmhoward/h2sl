@@ -26,9 +26,12 @@ set(HDRS
     h2sl/rule_object_type.h
     h2sl/rule_object_color.h
     h2sl/rule_spatial_relation.h
+    h2sl/rule_number.h
+    h2sl/rule_index.h
     h2sl/rule_constraint_type.h
     h2sl/rule_constraint_payload_type.h
     h2sl/rule_constraint_reference_type.h
+    h2sl/rule_container_type.h
     h2sl/container.h
     h2sl/grounding.h
     h2sl/grounding_set.h
@@ -56,9 +59,12 @@ set(SRCS
     rule_object_type.cc
     rule_object_color.cc
     rule_spatial_relation.cc
+    rule_number.cc
+    rule_index.cc
     rule_constraint_type.cc
     rule_constraint_payload_type.cc
     rule_constraint_reference_type.cc
+    rule_container_type.cc
     container.cc
     grounding.cc
     grounding_set.cc

@@ -2,6 +2,7 @@
 set(GGOS
     example_demo.ggo
     rewrite_examples.ggo
+    generate_rule_examples.ggo
     generate_symbol_dictionary.ggo
     llm_train.ggo
 #    llm_train_adcg.ggo
@@ -24,6 +25,7 @@ set(SRCS
 set(BIN_SRCS
     example_demo.cc
     rewrite_examples.cc
+    generate_rule_examples.cc
     generate_symbol_dictionary.cc
     llm_train.cc
 #    llm_train_adcg.cc

@@ -31,6 +31,7 @@
  * The implementation of a class used to describe a region of space
  */
 
+#include "h2sl/rule_spatial_relation.h"
 #include "h2sl/region.h"
 #include "h2sl/world.h"
 
@@ -151,6 +152,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Region::
+fill_rules( Grounding_Set* groundingSet )const{
+  Rule_Spatial_Relation rule_spatial_relation( spatial_relation_type() );
+  insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
   return;
 }
 

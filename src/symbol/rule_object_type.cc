@@ -140,6 +140,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
   return;
 }
 
+void
+Rule_Object_Type::
+fill_rules( Grounding_Set* groundingSet )const{
+  Rule_Object_Type rule_object_type( object_type() );
+  insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
+  return;
+}
+
 /** 
  * imports the Rule_Object_Type class from an XML file
  */

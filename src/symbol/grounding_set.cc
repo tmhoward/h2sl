@@ -344,8 +344,16 @@ evaluate_cv( const Grounding* grounding )const{
   return cv;
 }
 
-
-
+void
+Grounding_Set::
+fill_rules( Grounding_Set* groundingSet )const{
+  for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){
+    if( ( *it_grounding ) != NULL ){
+      ( *it_grounding )->fill_rules( groundingSet );
+    }
+  }
+  return;
+}
 
 void
 Grounding_Set::

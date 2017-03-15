@@ -8,6 +8,9 @@
 
 #include <sstream>
 #include <cmath>
+#include "h2sl/rule_object_type.h"
+#include "h2sl/rule_spatial_relation.h"
+#include "h2sl/rule_container_type.h"
 #include "h2sl/region_container.h"
 #include "h2sl/world.h"
 
@@ -175,6 +178,22 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Region_Container::
+fill_rules( Grounding_Set* groundingSet )const{
+  Rule_Container_Type rule_container_type( _container.type() );
+  insert_unique_grounding< Rule_Container_Type >( groundingSet, rule_container_type );
+  Rule_Spatial_Relation rule_spatial_relation( relation_type() );
+  insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
+  for( vector< Grounding* >::const_iterator it_grounding = _container.container().begin(); it_grounding != _container.container().end(); it_grounding++ ){
+    if( (*it_grounding)->matches_class_name( "object" ) ){
+      Rule_Object_Type rule_object_type( static_cast< Object* >( *it_grounding )->type() );
+      insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
+    }
+  }
   return;
 }
 

@@ -1,13 +1,13 @@
 /**
- * @file rule_object_type.h
+ * @file rule_index.h
  * 
  * @brief
  * 
  * a class used to describe a rule for a spatial relationship
  */
 
-#ifndef H2SL_RULE_OBJECT_TYPE_H
-#define H2SL_RULE_OBJECT_TYPE_H
+#ifndef H2SL_RULE_INDEX_H
+#define H2SL_RULE_INDEX_H
 
 #include <iostream>
 #include <libxml/tree.h>
@@ -18,21 +18,21 @@
 
 namespace h2sl {
   /**
-   * Rule_Object_Type class definition
+   * Rule_Index class definition
    */
-  class Rule_Object_Type : public Rule {
+  class Rule_Index : public Rule {
   public:
 
-    Rule_Object_Type( const std::string& objectType = "na" );
-    Rule_Object_Type( const Rule_Object_Type& other );
-    Rule_Object_Type( xmlNodePtr root );
-    virtual ~Rule_Object_Type();
-    Rule_Object_Type& operator=( const Rule_Object_Type& other );
-    bool operator==( const Rule_Object_Type& other )const;
-    bool operator!=( const Rule_Object_Type& other )const;
-    virtual Rule_Object_Type* dup( void )const;
+    Rule_Index( const int& indexValue = 0 );
+    Rule_Index( const Rule_Index& other );
+    Rule_Index( xmlNodePtr root );
+    virtual ~Rule_Index();
+    Rule_Index& operator=( const Rule_Index& other );
+    bool operator==( const Rule_Index& other )const;
+    bool operator!=( const Rule_Index& other )const;
+    virtual Rule_Index* dup( void )const;
 
-    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "rule_object_type" ); };
+    virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "rule_index" ); };
     virtual void scrape_grounding( const World * world, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );
@@ -43,10 +43,10 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    inline std::string& object_type( void ){ return get_prop< std::string >( _string_properties, "object_type" ); };
-    inline const std::string& object_type( void )const{ return get_prop< std::string >( _string_properties, "object_type" ); };
+    inline int& index_value( void ){ return get_prop< int >( _int_properties, "index" ); };
+    inline const int& index_value( void )const{ return get_prop< int >( _int_properties, "index" ); };
 
-    static std::string class_name( void ){ return "rule_object_type"; };
+    static std::string class_name( void ){ return "rule_index"; };
 
   protected:
 
@@ -55,9 +55,9 @@ namespace h2sl {
   };
 
   /** 
-   * Rule_Object_Type class ostream operator
+   * Rule_Index class ostream operator
    */
-  std::ostream& operator<<( std::ostream& out, const Rule_Object_Type& other );
+  std::ostream& operator<<( std::ostream& out, const Rule_Index& other );
 }
 
-#endif /* H2SL_RULE_OBJECT_TYPE_H */
+#endif /* H2SL_RULE_INDEX_H */

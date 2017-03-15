@@ -31,6 +31,10 @@
  * The implementation of a class used to represent a constraint
  */
 
+#include "h2sl/rule_constraint_type.h"
+#include "h2sl/rule_constraint_payload_type.h"
+#include "h2sl/rule_constraint_reference_type.h"
+#include "h2sl/rule_spatial_relation.h"
 #include "h2sl/constraint.h"
 #include "h2sl/world.h"
 
@@ -191,6 +195,20 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Constraint::
+fill_rules( Grounding_Set* groundingSet )const{
+  Rule_Constraint_Type rule_constraint_type( constraint_type() );
+  insert_unique_grounding< Rule_Constraint_Type >( groundingSet, rule_constraint_type );
+  Rule_Constraint_Payload_Type rule_constraint_payload_type( payload() );
+  insert_unique_grounding< Rule_Constraint_Payload_Type >( groundingSet, rule_constraint_payload_type );
+  Rule_Constraint_Reference_Type rule_constraint_reference_type( reference() );
+  insert_unique_grounding< Rule_Constraint_Reference_Type >( groundingSet, rule_constraint_reference_type );
+  Rule_Spatial_Relation rule_spatial_relation( reference() );
+  insert_unique_grounding< Rule_Spatial_Relation >( groundingSet, rule_spatial_relation );
   return;
 }
 

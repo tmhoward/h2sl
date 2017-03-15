@@ -42,6 +42,8 @@
 namespace h2sl {
   class World;
 
+  class Grounding_Set;
+
   class Grounding {
   public:
     Grounding( const std::map< std::string, std::string >& stringProperties = std::map< std::string, std::string >(), const std::map< std::string, int >& intProperties = std::map< std::string, int >() );
@@ -55,6 +57,7 @@ namespace h2sl {
     virtual bool matches_class_name( const std::string& arg )const = 0;
     virtual void scrape_grounding( const World* world, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const = 0;
     virtual void scrape_grounding( const World* world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const = 0;
+    virtual void fill_rules( const World* world, Grounding_Set* groundingSet )const = 0;
 
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;

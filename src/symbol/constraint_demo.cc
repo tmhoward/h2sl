@@ -112,7 +112,5 @@ main( int argc,
   }
 
   cout << "end of Constraint class demo program" << endl;
-  return 0;
-
-
+  return status;
 }

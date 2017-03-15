@@ -6,6 +6,7 @@
  * a class that describes a object_type
  */
 
+#include "h2sl/rule_object_type.h"
 #include "h2sl/object_type.h"
 #include "h2sl/world.h"
 
@@ -138,6 +139,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Object_Type::
+fill_rules( Grounding_Set* groundingSet )const{
+  Rule_Object_Type rule_object_type( type() );
+  insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
   return;
 }
 

@@ -1,67 +1,66 @@
 /**
- * @file object_color.cc
+ * @file rule_number.cc
  *
  * @brief
  *
- * a class that describes a object_color
+ * a class used to describe a spatial relationship
  */
 
-#include "h2sl/rule_object_color.h"
-#include "h2sl/object_color.h"
-#include "h2sl/world.h"
+#include <assert.h>
+
+#include "h2sl/rule_number.h"
 
 using namespace std;
 using namespace h2sl;
 
 /**
- * Object_Color class constructor
+ * Rule_Number class constructor
  */
-Object_Color::
-Object_Color( const string& object_colorType ) : Grounding() {
-  insert_prop< std::string >( _string_properties, "object_color_type", object_colorType );
+Rule_Number::
+Rule_Number( const int& numberValue ) : Rule() {
+  insert_prop< int >( _int_properties, "number", numberValue );
 }
 
-
-Object_Color::
-Object_Color( xmlNodePtr root ) : Grounding() {
-    insert_prop< std::string >( _string_properties, "object_color_type", "na" );
-    from_xml( root );
-}
-
-/**
- * Object_Color class copy constructor
- */
-Object_Color::
-Object_Color( const Object_Color& other ) : Grounding( other ) {
-
+Rule_Number::
+Rule_Number( xmlNodePtr root ) : Rule() {
+  insert_prop< int >( _int_properties, "number", 0 );
+  from_xml( root );
 }
 
 /**
- * Object_Color class destructor
+ * Rule_Number class copy constructor
  */
-Object_Color::
-~Object_Color() {
+Rule_Number::
+Rule_Number( const Rule_Number& other ) : Rule( other ) {
+
+}
+
+/**
+ * Rule_Number class destructor
+ */
+Rule_Number::
+~Rule_Number() {
 
 }
 
 /** 
- * Object_Color class assignment operator
+ * Rule_Number class assignment operator
  */
-Object_Color&
-Object_Color::
-operator=( const Object_Color& other ){
+Rule_Number&
+Rule_Number::
+operator=( const Rule_Number& other ){
   _string_properties = other._string_properties;
   _int_properties = other._int_properties;
   return (*this);
 }
 
 /** 
- * Object_Color class equality operator
+ * Rule_Number class equality operator
  */
 bool
-Object_Color::
-operator==( const Object_Color& other )const{
-  if ( object_color_type() != other.object_color_type() ){
+Rule_Number::
+operator==( const Rule_Number& other )const{
+  if ( number_value() != other.number_value() ){
     return false;
   } else {
     return true;
@@ -69,34 +68,34 @@ operator==( const Object_Color& other )const{
 }
 
 /** 
- * Object_Color class inequality operator
+ * Rule_Number class inequality operator
  */
 bool
-Object_Color::
-operator!=( const Object_Color& other )const{
+Rule_Number::
+operator!=( const Rule_Number& other )const{
   return !( *this == other );
 }
 
 /** 
- * Object_Color class dup operator
+ * Rule_Number class dup operator
  */
-Object_Color*
-Object_Color::
+Rule_Number*
+Rule_Number::
 dup( void )const{
-  return new Object_Color( *this );
+  return new Rule_Number( *this );
 }
 
 void
-Object_Color::
+Rule_Number::
 scrape_grounding( const World * world,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  insert_unique< std::string >( "object_color", object_color_type(), stringTypes );
+  insert_unique< int >( "number", number_value(), intTypes );
   return;
 }
 
 void
-Object_Color::
+Rule_Number::
 scrape_grounding( const World * world,
                   vector< string >& classNames,
                   map< string, vector< string > >& stringTypes,
@@ -107,26 +106,26 @@ scrape_grounding( const World * world,
 }
 
 void
-Object_Color::
+Rule_Number::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
                     const symbol_type_t& symbolType ){
-  if( symbolDictionary.has_class_name( class_name() ) ){
+  if( symbolDictionary.has_class_name( "rule_number" ) || symbolDictionary.has_class_name( "number" ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
       searchSpaces.insert( pair< string, pair< string, vector< Grounding* > > >( class_name(), pair< string, vector< Grounding* > >( "binary", vector< Grounding* >() ) ) );
       it_search_spaces_symbol = searchSpaces.find( class_name() );
     }
 
-    map< string, vector< string > >::const_iterator it_object_color_types = symbolDictionary.string_types().find( "object_color" );
+    map< string, vector< int > >::const_iterator it_number_value_values = symbolDictionary.int_types().find( "number" );
 
     switch( symbolType ){
     case( SYMBOL_TYPE_CONCRETE ):
     case( SYMBOL_TYPE_ALL ):
-      if( it_object_color_types != symbolDictionary.string_types().end() ){
-        for( unsigned int i = 0; i < it_object_color_types->second.size(); i++ ){
-          it_search_spaces_symbol->second.second.push_back( new Object_Color( it_object_color_types->second[ i ] ) );
+      if( it_number_value_values != symbolDictionary.int_types().end() ){
+        for( unsigned int i = 0; i < it_number_value_values->second.size(); i++ ){
+          it_search_spaces_symbol->second.second.push_back( new Rule_Number( it_number_value_values->second[ i ] ) );
         }
       }
       break;
@@ -134,25 +133,25 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     case( NUM_SYMBOL_TYPES ):
     default:
       break;
-    } 
+    }
   }
 
   return;
 }
 
 void
-Object_Color::
+Rule_Number::
 fill_rules( Grounding_Set* groundingSet )const{
-  Rule_Object_Color rule_object_color( object_color_type() );
-  insert_unique_grounding< Rule_Object_Color >( groundingSet, rule_object_color );
+  Rule_Number rule_number( number_value() );
+  insert_unique_grounding< Rule_Number >( groundingSet, rule_number );
   return;
 }
 
 /** 
- * imports the Object_Color class from an XML file
+ * imports the Rule_Number class from an XML file
  */
 void
-Object_Color::
+Rule_Number::
 from_xml( const string& filename ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
@@ -163,7 +162,7 @@ from_xml( const string& filename ){
       xmlNodePtr l1 = NULL;
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "object_color" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_number" ) ) == 0 ){
             from_xml( l1 );
           }
         }
@@ -177,26 +176,32 @@ from_xml( const string& filename ){
 }
 
 /** 
- * imports the Object_Color class from an XML node pointer
+ * imports the Rule_Number class from an XML node pointer
  */
 void
-Object_Color::
+Rule_Number::
 from_xml( xmlNodePtr root ){
-  object_color_type() = "na";
+  number_value() = 0;
   if( root->type == XML_ELEMENT_NODE ){
-      pair< bool, string > object_color_type_prop = has_prop< std::string >( root, "object_color_type" );
-      if( object_color_type_prop.first ){
-        object_color_type() = object_color_type_prop.second;
-      }
+    vector< string > number_keys = { "value", "number_value" };
+    assert( check_keys( root, number_keys ) );
+    pair< bool, int > number_value_prop = has_prop< int >( root, "number_value" );
+    if( number_value_prop.first ){
+      number_value() = number_value_prop.second;
+    }
+    number_value_prop = has_prop< int >( root, "value" );
+    if( number_value_prop.first ){
+      number_value() = number_value_prop.second;
+    }
   }
   return;
 }
 
 /**
- * exports the Object_Color class to an XML file
+ * exports the Rule_Number class to an XML file
  */
 void
-Object_Color::
+Rule_Number::
 to_xml( const string& filename )const{
   xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
   xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
@@ -208,28 +213,28 @@ to_xml( const string& filename )const{
 }
 
 /**
- * exports the Object_Color class to an XML node pointer
+ * exports the Rule_Number class to an XML node pointer
  */
 void
-Object_Color::
+Rule_Number::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
-  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "object_color" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color_type").c_str() ) );
+  xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "rule_number" ), NULL );
+  xmlNewProp( node, ( const xmlChar* )( "number_value" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "number" ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
 
 namespace h2sl {
   /** 
-   * Object_Color class ostream operator
+   * Rule_Number class ostream operator
    */
   ostream&
   operator<<( ostream& out,
-              const Object_Color& other ){
-    out << "Object_Color(";
-    out << "object_color_type=\"" << other.object_color_type() << "\",";
-    out << ")";  
+              const Rule_Number& other ){
+    out << "Rule_Number(";
+    out << "number_value=\"" << other.number_value() << "\"";
+    out << ")";
     return out;
   }
 }

@@ -31,6 +31,8 @@
  */
 
 #include "h2sl/common.h"
+#include "h2sl/rule_object_type.h"
+#include "h2sl/rule_object_color.h"
 #include "h2sl/object.h"
 #include "h2sl/world.h"
 
@@ -164,6 +166,16 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
   }
 
+  return;
+}
+
+void
+Object::
+fill_rules( Grounding_Set* groundingSet )const{
+  Rule_Object_Type rule_object_type( type() );
+  insert_unique_grounding< Rule_Object_Type >( groundingSet, rule_object_type );
+  Rule_Object_Color rule_object_color( color() );
+  insert_unique_grounding< Rule_Object_Color >( groundingSet, rule_object_color );
   return;
 }
  
