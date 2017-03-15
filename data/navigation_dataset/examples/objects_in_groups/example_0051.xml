@@ -19,4 +19,53 @@
     <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
   </world>
+  <NP>
+    <NP>
+      <DT text="the" order="0"/>
+      <JJ text="last" order="1"/>
+      <NN text="barrel" order="2"/>
+    </NP>
+    <PP>
+      <IN text="from" order="3"/>
+      <NP>
+        <NP>
+          <DT text="the" order="4"/>
+          <NN text="group" order="5"/>
+        </NP>
+        <PP>
+          <IN text="of" order="6"/>
+          <NP>
+            <NP>
+              <CD text="four" order="7"/>
+              <NNS text="barrels" order="8"/>
+            </NP>
+            <PP>
+              <IN text="at" order="9"/>
+              <NP>
+                <NP>
+                  <DT text="the" order="10"/>
+                  <NN text="left" order="11"/>
+                </NP>
+              </NP> 
+            </PP>
+            <PP>
+              <IN text="in" order="12"/>
+              <NP>
+                <NP>
+                  <NN text="front" order="13"/>
+                </NP>
+                <PP>
+                  <IN text="of" order="14"/>
+                  <NP>
+                    <DT text="the" order="15"/>
+                    <NN text="robot" order="16"/>
+                  </NP>
+                </PP>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
 </root>

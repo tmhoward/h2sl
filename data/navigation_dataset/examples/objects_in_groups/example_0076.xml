@@ -19,4 +19,36 @@
     <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
   </world>
+  <NP>
+    <NP>
+      <DT text="the" order="0"/>
+      <JJ text="second" order="1"/>
+      <JJS text="leftmost" order="2"/>
+      <NN text="cone" order="3"/>
+    </NP>
+    <PP>
+      <IN text="in" order="4"/>
+      <NP>
+        <NP>
+          <DT text="the" order="5"/>
+          <NN text="row" order="6"/>
+        </NP>
+        <PP>
+          <IN text="of" order="7"/>
+          <NP>
+            <NP>
+              <NNS text="cones" order="8"/>
+            </NP>
+            <PP>
+              <IN text="behind" order="9"/>
+              <NP>
+                <DT text="the" order="10"/>
+                <NN text="robot" order="11"/>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
 </root>

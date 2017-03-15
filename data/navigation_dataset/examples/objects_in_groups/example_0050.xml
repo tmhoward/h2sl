@@ -19,4 +19,24 @@
     <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
   </world>
+  <NP>
+    <NP>
+      <DT text="the" order="0"/>
+      <JJ text="red" order="1"/>
+      <NN text="barrel" order="2"/>
+    </NP>
+    <NP>
+      <NP>
+        <JJS text="farthest" order="3"/>
+      </NP>
+      <PP>
+        <RB text="away" order="4"/>
+        <IN text="from" order="5"/>
+        <NP>
+          <DT text="the" order="6"/>
+          <NN text="robot" order="7"/>
+        </NP>
+      </PP>
+    </NP>
+  </NP>
 </root>

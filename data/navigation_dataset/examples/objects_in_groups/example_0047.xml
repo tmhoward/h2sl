@@ -19,4 +19,42 @@
     <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
   </world>
+  <NP>
+    <NP>
+      <CC text="and" order="2"/>
+      <NP>
+        <DT text="the" order="0"/>
+        <NN text="second" order="1"/>
+      </NP>
+      <NP>
+        <DT text="the" order="3"/>
+        <JJ text="third" order="4"/>
+        <NN text="chair" order="5"/>
+      </NP>
+    </NP>
+    <PP>
+      <IN text="in" order="6"/>
+      <NP>
+        <NP>
+          <DT text="the" order="7"/>
+          <NN text="row" order="8"/>
+        </NP>
+        <PP>
+          <IN text="of" order="9"/>
+          <NP>
+            <NP>
+              <NNS text="chairs" order="10"/>
+            </NP>
+            <PP>
+              <IN text="aside" order="11"/>
+              <NP>
+                <DT text="the" order="12"/>
+                <Nn text="robot" order="13"/>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
 </root>
