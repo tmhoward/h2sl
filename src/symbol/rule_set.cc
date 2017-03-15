@@ -91,7 +91,6 @@ scrape_grounding( const World * world,
                   vector< string >& classNames, 
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  cout << "scraping " << *this << endl;
   for( vector< Rule* >::const_iterator it_rule = _rules.begin(); it_rule != _rules.end(); it_rule++ ){
     if( ( *it_rule ) != NULL ){
       (*it_rule)->scrape_grounding( world, classNames, stringTypes, intTypes );

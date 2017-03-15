@@ -110,14 +110,10 @@ leaf_search( const Phrase* phrase,
     // first infer a distribution of reduced symbol dictionary from the rules
     searchSpace->fill_rules( symbolDictionary, world );
 
-    cout << endl;
-    cout << "filling rule search space:" << *searchSpace << endl << endl;
-
     _dcg.leaf_search( phrase, symbolDictionary, searchSpace, world, context, llm, beamWidth, debug );
 
     _inferred_symbol_dictionaries.clear();
     for( vector< pair< double, Phrase* > >::const_iterator it_solution = _dcg.solutions().begin(); it_solution != _dcg.solutions().end(); it_solution++ ){
-      cout << "solution(" << it_solution->first << "):" << *it_solution->second << endl << endl;
       _inferred_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->first, Symbol_Dictionary() ) );
       it_solution->second->scrape_groundings( world, _inferred_symbol_dictionaries.back().second.string_types(), _inferred_symbol_dictionaries.back().second.int_types() );
       _inferred_symbol_dictionaries.back().second.class_names() = symbolDictionary.class_names();
@@ -128,10 +124,6 @@ leaf_search( const Phrase* phrase,
         cout << "inferred symbol dictionary (" << it_symbol_dictionary->first << "):" << it_symbol_dictionary->second << endl;
       }
   
-      if( debug ){
-        cout << "world:" << *world << endl;
-      }
-
       // now ground the phrase with the inferred distribution of symbol dictionaries
       searchSpace->fill_groundings( it_symbol_dictionary->second, world );
 

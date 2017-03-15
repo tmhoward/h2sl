@@ -110,7 +110,6 @@ Grounding_Set::
 scrape_grounding( const World * world,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  cout << "scraping " << *this << endl;
   for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){
     if( ( *it_grounding ) != NULL ){
       (*it_grounding)->scrape_grounding( world, stringTypes, intTypes );

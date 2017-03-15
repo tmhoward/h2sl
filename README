@@ -82,3 +82,7 @@ Next, generate the feature set from the examples and symbol dictionaries by runn
 Now train the combined model by running the following command from the build directory.  This will produce a llm.xml file that contains the trained log-linear models.
 
 ./bin/h2sl-llm-train-groundings-and-rules ../data/training/example_corpus/example_00*.xml ../data/training/example_corpus/rule_example_00*.xml --feature_set ../data/training/example_corpus/feature_set.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --symbol_dictionary_rules ../data/training/example_corpus/symbol_dictionary_rules.xml --output ../data/training/example_corpus/llm.xml
+
+Finally, to run the HDCG demo program run the following command from the build directory.
+
+./bin/h2sl-hdcg-demo --grammar ../data/grammar/grammar.xml --command "walk to the box" --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml --world ../data/training/example_corpus/example_0001.xml --llm ../data/training/example_corpus/llm.xml --output /tmp/example.xml
