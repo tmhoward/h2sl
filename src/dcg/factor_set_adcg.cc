@@ -148,14 +148,56 @@ search( const Search_Space* searchSpace,
                         evaluate_feature_types,
                         context, world, llm, beamWidth, debug );
 
-    // Distribution over grounding sets.
-    // Contains the groundings. Take the grounding_set scrape and pass the 
-    // symbol dict string and int types. 
-    // Combine that with abstract one. Fill them in. 
-    // search subspace and iterate over it. 
     }
-  }
+ 
+    // Symbol dictionaries for the current inference with the child solution combo.
+    vector< pair< double, Symbol_Dictionary > > inferred_concrete_symbol_dictionaries;
+    // Iterate and scrape the groundings from the solutions found. Record the probabilities.
+    for( vector< Factor_Set_Solution >::const_iterator it_solution = solutions_vector.back().begin(); it_solution !=  solutions_vector.back().end(); it_solution++) {
+      inferred_concrete_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->pygx(), Symbol_Dictionary() ) );
+      it_solution->grounding_set()->scrape_grounding( world, 
+                                                     inferred_concrete_symbol_dictionaries.back().second.string_types(), 
+                                                     inferred_concrete_symbol_dictionaries.back().second.int_types() );
+      inferred_concrete_symbol_dictionaries.back().second.class_names() = symbolDictionary.class_names();
+    }     
 
+    for( vector< pair< double, Symbol_Dictionary > >::const_iterator it_symbol_dictionary = inferred_concrete_symbol_dictionaries.begin(); it_symbol_dictionary != inferred_concrete_symbol_dictionaries.end(); it_symbol_dictionary++ ){
+    // Print out for debug.
+      if( debug ){
+        cout << "inferred concrete symbol dictionary (" << it_symbol_dictionary->first << "):" << it_symbol_dictionary->second << endl;
+      }
+   
+      // Creating the ssearch space from the symbol dictionary with abstract flag on.
+      Search_Space * abstract_search_space = new Search_Space();
+      abstract_search_space->fill_groundings( it_symbol_dictionary->second, world, "abstract" );
+
+      // Print out the abstract search space.
+      if( debug ){
+        cout << "The abstract search space of size [ " << abstract_search_space->size() << " ]" << ":" << *abstract_search_space << endl;
+      }
+
+      // search over the class-based search spaces for the abstract symbols.
+      for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_abstract_search_spaces = abstract_search_space->grounding_pairs().begin(); it_abstract_search_spaces != abstract_search_space->grounding_pairs().end(); it_abstract_search_spaces++ ){
+        map< string, vector< string > >::const_iterator it_abstract_cvs = abstract_search_space->cvs().find( it_abstract_search_spaces->second.first );
+        assert( it_abstract_cvs != abstract_search_space->cvs().end() );
+
+        // search the subspace that incrementally populates the solution vectors
+        search_subspace( solutions_vector.back(),
+                        child_groundings,
+                        it_abstract_search_spaces->second,
+                        it_abstract_cvs->second,
+                        evaluate_feature_types,
+                        context, world, llm, beamWidth, debug );
+
+      }
+
+      // NULL out the abstract search space pointer.
+      if( abstract_search_space != NULL ){
+        delete abstract_search_space;
+        abstract_search_space = NULL;
+       }
+    }  
+  }
 
   /**************** FLATTEN THE SOLUTIONS ***********************/
   _solutions.clear();
