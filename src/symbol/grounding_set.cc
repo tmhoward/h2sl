@@ -124,7 +124,6 @@ scrape_grounding( const World * world,
                   vector< string >& classNames, 
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
-  cout << "scraping " << *this << endl;
   for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){
     if( ( *it_grounding ) != NULL ){
       (*it_grounding)->scrape_grounding( world, classNames, stringTypes, intTypes );
@@ -140,207 +139,24 @@ clear( void ){
   return;
 }
 
+string
+Grounding_Set::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Grounding_Set* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Grounding_Set* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
 
-unsigned int
+string
 Grounding_Set::
 evaluate_cv( const Grounding* grounding )const{
-  unsigned int cv = CV_UNKNOWN;
-  if( dynamic_cast< const Rule_Object_Type* >( grounding ) != NULL ){
-    const Rule_Object_Type * rule_object_type_grounding = static_cast< const Rule_Object_Type* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Rule_Object_Type* >( _groundings[ i ] ) ){
-        if( *rule_object_type_grounding == *static_cast< const Rule_Object_Type* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Rule_Object_Color* >( grounding ) != NULL ){
-    const Rule_Object_Color * rule_object_color_grounding = static_cast< const Rule_Object_Color* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Rule_Object_Color* >( _groundings[ i ] ) ){
-        if( *rule_object_color_grounding == *static_cast< const Rule_Object_Color* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Rule_Spatial_Relation* >( grounding ) != NULL ){
-    const Rule_Spatial_Relation * rule_spatial_relation_grounding = static_cast< const Rule_Spatial_Relation* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Rule_Spatial_Relation* >( _groundings[ i ] ) ){
-        if( *rule_spatial_relation_grounding == *static_cast< const Rule_Spatial_Relation* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Rule_Constraint_Type* >( grounding ) != NULL ){
-    const Rule_Constraint_Type * rule_constraint_type_grounding = static_cast< const Rule_Constraint_Type* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Rule_Constraint_Type* >( _groundings[ i ] ) ){
-        if( *rule_constraint_type_grounding == *static_cast< const Rule_Constraint_Type* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Rule_Constraint_Payload_Type* >( grounding ) != NULL ){
-    const Rule_Constraint_Payload_Type * rule_constraint_payload_type_grounding = static_cast< const Rule_Constraint_Payload_Type* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Rule_Constraint_Payload_Type* >( _groundings[ i ] ) ){
-        if( *rule_constraint_payload_type_grounding == *static_cast< const Rule_Constraint_Payload_Type* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Rule_Constraint_Reference_Type* >( grounding ) != NULL ){
-    const Rule_Constraint_Reference_Type * rule_constraint_reference_type_grounding = static_cast< const Rule_Constraint_Reference_Type* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Rule_Constraint_Reference_Type* >( _groundings[ i ] ) ){
-        if( *rule_constraint_reference_type_grounding == *static_cast< const Rule_Constraint_Reference_Type* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Object* >( grounding ) != NULL ){
-    const Object * object_grounding = static_cast< const Object* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Object* >( _groundings[ i ] ) ){
-        if( *object_grounding == *static_cast< const Object* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Region* >( grounding ) != NULL ){
-    const Region * region_grounding = static_cast< const Region* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Region* >( _groundings[ i ] ) ){
-        if( *region_grounding == *static_cast< const Region* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Constraint* >( grounding ) != NULL ){
-    const Constraint * constraint_grounding = static_cast< const Constraint* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Constraint* >( _groundings[ i ] ) ){
-        if( *constraint_grounding == *static_cast< const Constraint* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Object_Property* >( grounding ) != NULL ){
-    const Object_Property * object_property_grounding = static_cast< const Object_Property* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Object_Property* >( _groundings[ i ] ) ){
-        if( *object_property_grounding == *static_cast< const Object_Property* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Object_Type* >( grounding ) != NULL ){
-    const Object_Type * object_type_grounding = static_cast< const Object_Type* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Object_Type* >( _groundings[ i ] ) ){
-        if( *object_type_grounding == *static_cast< const Object_Type* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Object_Color* >( grounding ) != NULL ){
-    const Object_Color * object_color_grounding = static_cast< const Object_Color* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Object_Color* >( _groundings[ i ] ) ){
-        if( *object_color_grounding == *static_cast< const Object_Color* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Index* >( grounding ) != NULL ){
-    const Index * index_grounding = static_cast< const Index* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Index* >( _groundings[ i ] ) ){
-        if( *index_grounding == *static_cast< const Index* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Number* >( grounding ) != NULL ){
-    const Number * number_grounding = static_cast< const Number* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Number* >( _groundings[ i ] ) ){
-        if( *number_grounding == *static_cast< const Number* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if ( dynamic_cast< const Spatial_Relation* >( grounding ) != NULL ){
-    const Spatial_Relation* spatial_relation_grounding = static_cast< const Spatial_Relation* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Spatial_Relation* >( _groundings[ i ] ) ){
-        if( *spatial_relation_grounding == *static_cast< const Spatial_Relation* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if ( dynamic_cast< const Container* >( grounding ) != NULL ){
-    const Container* container_grounding = static_cast< const Container* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Container* >( _groundings[ i ] ) ){
-        if( *container_grounding == *static_cast< const Container* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if ( dynamic_cast< const Abstract_Container* >( grounding ) != NULL ){
-    const Abstract_Container* abstract_container_grounding = static_cast< const Abstract_Container* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Abstract_Container* >( _groundings[ i ] ) ){
-        if( *abstract_container_grounding == *static_cast< const Abstract_Container* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if ( dynamic_cast< const Region_Abstract_Container* >( grounding ) != NULL ){
-    const Region_Abstract_Container* region_abstract_container_grounding = static_cast< const Region_Abstract_Container* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Region_Abstract_Container* >( _groundings[ i ] ) ){
-        if( *region_abstract_container_grounding == *static_cast< const Region_Abstract_Container* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else if( dynamic_cast< const Region_Container* >( grounding ) != NULL ){
-    const Region_Container* region_container_grounding = static_cast< const Region_Container* >( grounding );
-    cv = CV_FALSE;
-    for( unsigned int i = 0; i < _groundings.size(); i++ ){
-      if( dynamic_cast< const Region_Container* >( _groundings[ i ] ) ){
-        if( *region_container_grounding == *static_cast< const Region_Container* >( _groundings[ i ] ) ){
-          cv = CV_TRUE;
-        }
-      }
-    }
-  } else {
-    cout << "grounding:" << *grounding << endl;
-    assert( false );
-  }
-
-  return cv;
+  return grounding->evaluate_cv( this );
 }
 
 bool

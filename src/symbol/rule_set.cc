@@ -110,24 +110,24 @@ clear( void ){
 unsigned int
 Rule_Set::
 evaluate_cv( const Grounding* rule )const{
-  unsigned int cv = CV_UNKNOWN;
+  string cv = CV_UNKNOWN;
   if( dynamic_cast< const Rule_Object_Type* >( rule ) != NULL ){
     const Rule_Object_Type * object_type_rule = static_cast< const Rule_Object_Type* >( rule );
-    cv = CV_FALSE;
+    cv = "false";
     for( unsigned int i = 0; i < _rules.size(); i++ ){
       if( dynamic_cast< const Rule_Object_Type* >( _rules[ i ] ) ){
         if( *object_type_rule == *static_cast< const Rule_Object_Type* >( _rules[ i ] ) ){
-          cv = CV_TRUE;
+          cv = "true";
         }
       }
     }
   } else if( dynamic_cast< const Rule_Spatial_Relation* >( rule ) != NULL ){
     const Rule_Spatial_Relation * spatial_relation_rule = static_cast< const Rule_Spatial_Relation* >( rule );
-    cv = CV_FALSE;
+    cv = "false";
     for( unsigned int i = 0; i < _rules.size(); i++ ){
       if( dynamic_cast< const Rule_Spatial_Relation* >( _rules[ i ] ) ){
         if( *spatial_relation_rule == *static_cast< const Rule_Spatial_Relation* >( _rules[ i ] ) ){
-          cv = CV_TRUE;
+          cv = "true";
         }
       }
     }

@@ -26,8 +26,8 @@ namespace h2sl {
         Feature_Object_Matches_Child_Region_Container_Object( const Feature_Object_Matches_Child_Region_Container_Object& other );
         Feature_Object_Matches_Child_Region_Container_Object& operator=( const Feature_Object_Matches_Child_Region_Container_Object& other );
         
-        virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
-        virtual bool value( const unsigned int& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world, const Grounding* context );
+        virtual bool value( const std::string& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
+        virtual bool value( const std::string& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world, const Grounding* context );
         
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         

@@ -59,7 +59,7 @@ operator=( const Feature_Object_Merge_Object_Property_Index_Spatial_Relation& ot
  */
 bool
 Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
-value( const unsigned int& cv,
+value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
@@ -69,7 +69,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Object_Merge_Object_Property_Index_Spatial_Relation::
-value( const unsigned int& cv,
+value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,

@@ -59,7 +59,7 @@ operator=( const Feature_Object_Merge_Abstract_Container_Index_Region_Container&
 
 bool
 Feature_Object_Merge_Abstract_Container_Index_Region_Container::
-value( const unsigned int& cv,
+value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
@@ -69,7 +69,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Object_Merge_Abstract_Container_Index_Region_Container::
-value( const unsigned int& cv,
+value( const string& cv,
       const h2sl::Grounding* grounding,
       const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
       const h2sl::Phrase* phrase,
@@ -81,7 +81,7 @@ value( const unsigned int& cv,
 
 /*bool
 Feature_Object_Merge_Abstract_Container_Index_Region_Container::
-value( const unsigned int& cv,
+value( const string& cv,
        const h2sl::Grounding* grounding,
        const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
        const h2sl::Phrase* phrase,

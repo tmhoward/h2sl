@@ -149,7 +149,7 @@ Factor_Set::
 search_subspace( vector< Factor_Set_Solution >& solutionsVector, 
                   const vector< pair< const Phrase*, vector< Grounding* > > >& childPhraseGroundings,                           
                   const pair< string, vector< Grounding* > >& searchSubspace, 
-                  const vector< unsigned int >& correspondenceVariables,
+                  const vector< string >& correspondenceVariables,
 		  vector < bool >& evaluate_feature_types,
                   const Grounding* context,
                   const World * world, LLM* llm, const unsigned int beamWidth, const bool& debug) {
@@ -166,7 +166,7 @@ search_subspace( vector< Factor_Set_Solution >& solutionsVector,
 
         // add the new solution to the solutions vector (make a copy of the previous solution)
         new_solutions_vector.push_back( solutionsVector[ j ] );
-        if( correspondenceVariables[ k ] == CV_TRUE ){
+        if( correspondenceVariables[ k ] == "true" ){
           new_solutions_vector.back().grounding_set()->groundings().push_back( searchSubspace.second[ i ] );   
         }
         new_solutions_vector.back().pygx() *= value;
@@ -240,7 +240,7 @@ search( const Search_Space* searchSpace,
 
     // search over all of the class-based search spaces
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace->grounding_pairs().begin(); it_search_spaces != searchSpace->grounding_pairs().end(); it_search_spaces++ ){
-      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace->cvs().find( it_search_spaces->second.first );
+      map< string, vector< string > >::const_iterator it_cvs = searchSpace->cvs().find( it_search_spaces->second.first );
       assert( it_cvs != searchSpace->cvs().end() );
 
       search_subspace( solutions_vector.back(), 

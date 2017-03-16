@@ -220,7 +220,7 @@ operator=( const Feature_Product& other ) {
 
 void 
 Feature_Product::
-indices( const unsigned int& cv, 
+indices( const string& cv, 
           const Grounding* grounding,
           const vector< pair< const Phrase*, vector< Grounding* > > >& children, 
           const Phrase* phrase,
@@ -257,7 +257,7 @@ indices( const unsigned int& cv,
 
 void
 Feature_Product::
-indices( const unsigned int& cv,
+indices( const string& cv,
           const Grounding* grounding,
           const vector< pair< const Phrase*, vector< Grounding* > > >& children,
           const Phrase* phrase,
@@ -297,7 +297,7 @@ indices( const unsigned int& cv,
 
 void
 Feature_Product::
-evaluate( const unsigned int& cv,
+evaluate( const string& cv,
           const Grounding* grounding, 
           const vector< pair< const Phrase*, vector< Grounding* > > >& children,
           const Phrase* phrase,
@@ -404,8 +404,7 @@ from_xml( xmlNodePtr root ){
           for( l2 = l1->children; l2; l2 = l2->next ){
             if( l2->type == XML_ELEMENT_NODE ){
               if( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_cv" ) ) == 0 ){
-                _feature_groups.back().push_back( new Feature_CV() );
-                _feature_groups.back().back()->from_xml( l2 );
+                _feature_groups.back().push_back( new Feature_CV( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_word" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Word() );
                 _feature_groups.back().back()->from_xml( l2 );

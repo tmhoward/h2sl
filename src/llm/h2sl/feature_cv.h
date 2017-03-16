@@ -41,24 +41,24 @@
 namespace h2sl {
   class Feature_CV: public Feature {
   public:
-    Feature_CV( const bool& invert = false, const unsigned int& cv = 0 );
+    Feature_CV( const bool& invert = false, const std::string& cv = "" );
+    Feature_CV( xmlNodePtr root );
     virtual ~Feature_CV();
     Feature_CV( const Feature_CV& other );
     Feature_CV& operator=( const Feature_CV& other );
 
-    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world ); 
-    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context ); 
+    virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context ); 
 
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( xmlNodePtr root );
 
-    inline unsigned int& cv( void ){ return _cv; };
-    inline const unsigned int& cv( void )const{ return _cv; };
+    inline std::string& cv( void ){ return _cv; };
+    inline const std::string& cv( void )const{ return _cv; };
     virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_CORRESPONDENCE; };
 
   protected:
-    unsigned int _cv;
+    std::string _cv;
 
   private:
 

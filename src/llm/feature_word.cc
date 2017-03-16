@@ -66,18 +66,7 @@ operator=( const Feature_Word& other ) {
 
 bool
 Feature_Word::
-value( const unsigned int& cv,
-        const Grounding* grounding,
-        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
-        const Phrase* phrase,
-        const World* world ){
-  return value( cv, grounding, children, phrase, world, NULL );
-}
-
-
-bool
-Feature_Word::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

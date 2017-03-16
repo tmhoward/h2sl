@@ -57,7 +57,7 @@ operator=( const Feature_Min_Y_Object& other ){
  */
 bool
 Feature_Min_Y_Object::
-value( const unsigned int& cv,
+value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
@@ -70,7 +70,7 @@ value( const unsigned int& cv,
  */
 bool
 Feature_Min_Y_Object::
-value( const unsigned int& cv,
+value( const string& cv,
         const h2sl::Grounding* grounding,
         const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
         const h2sl::Phrase* phrase,

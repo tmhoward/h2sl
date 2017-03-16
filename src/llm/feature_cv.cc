@@ -39,9 +39,15 @@ using namespace h2sl;
 
 Feature_CV::
 Feature_CV( const bool& invert,
-            const unsigned int& cv ) : Feature( invert ),
+            const string& cv ) : Feature( invert ),
                                         _cv( cv ) {
 
+}
+
+Feature_CV::
+Feature_CV( xmlNodePtr root ) : Feature(),
+                                _cv( "" ) {
+  from_xml( root );
 }
 
 Feature_CV::
@@ -65,17 +71,7 @@ operator=( const Feature_CV& other ) {
 
 bool
 Feature_CV::
-value( const unsigned int& cv,
-        const Grounding* grounding,
-        const vector< pair< const Phrase*, vector< Grounding* > > >& children,
-        const Phrase* phrase,
-        const World* world ){
-  return value( cv, grounding, children, phrase, world, NULL );
-}
-
-bool
-Feature_CV::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,   
@@ -106,19 +102,19 @@ void
 Feature_CV::
 from_xml( xmlNodePtr root ){
   _invert = false;
-  _cv = 0;
+  _cv = "false";
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( char* )( tmp );
-      _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
+    vector< string > feature_keys = { "invert", "cv" };
+    assert( check_keys( root, feature_keys ) );
+
+    pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
+    if( invert_prop.first ) {
+      _invert = invert_prop.second;
     }
-    tmp = xmlGetProp( root, ( const xmlChar* )( "cv" ) );
-    if( tmp != NULL ){
-      string cv_string = ( char* )( tmp );
-      _cv = ( unsigned int )( strtol( cv_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
+
+    pair< bool, string > cv_prop = has_prop< std::string >( root, "cv" );
+    if( cv_prop.first ){
+      _cv = cv_prop.second;
     }
   }
   return;

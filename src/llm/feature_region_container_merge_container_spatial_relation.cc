@@ -58,7 +58,7 @@ operator=( const Feature_Region_Container_Merge_Container_Spatial_Relation& othe
  */
 bool
 Feature_Region_Container_Merge_Container_Spatial_Relation::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -68,7 +68,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Region_Container_Merge_Container_Spatial_Relation::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

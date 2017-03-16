@@ -26,8 +26,8 @@ namespace h2sl {
         Feature_Phrase_Type_And_Phrase_Has_POS_Tag( const Feature_Phrase_Type_And_Phrase_Has_POS_Tag& other );
         Feature_Phrase_Type_And_Phrase_Has_POS_Tag& operator=( const Feature_Phrase_Type_And_Phrase_Has_POS_Tag& other );
         
-        virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
-        virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
+        virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
+        virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
         
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         

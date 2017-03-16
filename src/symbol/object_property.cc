@@ -100,6 +100,20 @@ dup( void )const{
   return new Object_Property( *this );
 }
 
+string
+Object_Property::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Object_Property* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Object_Property* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
+
 void
 Object_Property::
 scrape_grounding( const World * world,
@@ -127,7 +141,7 @@ Object_Property::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
-                    const symbol_type_t& symbolType ){
+                    const std::string& symbolType ){
 
   if( symbolDictionary.has_class_name( class_name() ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
@@ -140,9 +154,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
     map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index_value" );
 
-    switch( symbolType ){
-    case( SYMBOL_TYPE_ABSTRACT ):
-    case( SYMBOL_TYPE_ALL ):
+    if( ( symbolType == "abstract" ) || ( symbolType == "all" ) ){
       if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) ){
         for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
           for( unsigned int j = 0; j < it_spatial_relation_type_types->second.size(); j++ ){
@@ -152,11 +164,6 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           }
         }
       }
-      break;
-    case( SYMBOL_TYPE_CONCRETE ):
-    case( NUM_SYMBOL_TYPES ):
-    default:
-      break;
     }
   }
 

@@ -91,7 +91,7 @@ LLM_X::
 LLM_X( const Grounding* grounding,
         const Phrase* phrase,
         const World* world,
-        const vector< unsigned int >& cvs,
+        const vector< string >& cvs,
         const vector< Feature* >& features,
         const string& filename ) : _grounding( grounding ),
                                             _phrase( phrase ),
@@ -107,7 +107,7 @@ LLM_X( const Grounding* grounding,
         const Phrase* phrase,
         const World* world,
         const Grounding* context,
-        const vector< unsigned int >& cvs,
+        const vector< string >& cvs,
         const vector< Feature* >& features,
         const string& filename ) : _grounding( grounding ),
                                             _phrase( phrase ),
@@ -200,9 +200,9 @@ operator=( const LLM& other ) {
 
 double
 LLM::
-pygx( const unsigned int& cv,
+pygx( const string& cv,
       const LLM_X& x,
-      const vector< unsigned int >& cvs,
+      const vector< string >& cvs,
       const vector< vector< unsigned int > >& indices ){
   double numerator = 0.0;
   double denominator = 0.0;
@@ -224,9 +224,9 @@ pygx( const unsigned int& cv,
 
 double
 LLM::
-pygx( const unsigned int& cv,
+pygx( const string& cv,
       const LLM_X& x,
-      const vector< unsigned int >& cvs,
+      const vector< string >& cvs,
       vector< unsigned int >& indices ){
   double numerator = 0.0;
   double denominator = 0.0;
@@ -255,9 +255,9 @@ pygx( const unsigned int& cv,
 
 double
 LLM::
-pygx( const unsigned int& cv,
+pygx( const string& cv,
       const LLM_X& x,
-      const vector< unsigned int >& cvs,
+      const vector< string >& cvs,
       vector< Feature* >& features ){
   double numerator = 0.0;
   double denominator = 0.0;
@@ -284,9 +284,9 @@ pygx( const unsigned int& cv,
 
 double
 LLM::
-pygx( const unsigned int& cv,
+pygx( const string& cv,
       const LLM_X& x,
-      const vector< unsigned int >& cvs,
+      const vector< string >& cvs,
       vector< pair< std::vector< Feature* >, unsigned int > >& weightedFeatures ){
   double numerator = 0.0;
   double denominator = 0.0;
@@ -313,24 +313,24 @@ pygx( const unsigned int& cv,
 
 double
 LLM::
-pygx( const unsigned int& cv,
+pygx( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
-      const vector< unsigned int >& cvs ){
+      const vector< string >& cvs ){
   return pygx( cv, grounding, children, phrase, world, NULL, cvs );
 }
 
 double
 LLM::
-pygx( const unsigned int& cv,
+pygx( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
       const Grounding* context,
-      const vector< unsigned int >& cvs ){
+      const vector< string >& cvs ){
   double numerator = 0.0;
   double denominator = 0.0;
   vector< unsigned int > indices;
@@ -357,25 +357,25 @@ pygx( const unsigned int& cv,
 
 double
 LLM::
-pygx( const unsigned int& cv,
+pygx( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
-      const vector< unsigned int >& cvs,
+      const vector< string >& cvs,
       const vector< bool >& evaluateFeatureTypes ){
   return pygx( cv, grounding, children, phrase, world, NULL, cvs, evaluateFeatureTypes );
 }
 
 double
 LLM::
-pygx( const unsigned int& cv,
+pygx( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
       const World* world,
       const Grounding* context,
-      const vector< unsigned int >& cvs,
+      const vector< string >& cvs,
       const vector< bool >& evaluateFeatureTypes ){
   double numerator = 0.0;
   double denominator = 0.0;
@@ -403,7 +403,7 @@ pygx( const unsigned int& cv,
 
 void
 LLM_Train::
-train( vector< pair< unsigned int, LLM_X > >& examples,
+train( vector< pair< string, LLM_X > >& examples,
         const unsigned int& maxIterations,
         const double& lambda,
         const double& epsilon ){
@@ -532,9 +532,8 @@ namespace h2sl {
 
 LLM_Train::
 LLM_Train( const vector< LLM* >& llms,
-            vector< pair< unsigned int, LLM_X > >* examples ) : _llms( llms ),
+            vector< pair< string, LLM_X > >* examples ) : _llms( llms ),
                                                                 _examples( examples ),
-//                                                                _index_map(),
                                                                 _index_vector(),
                                                                 _gradient(),
                                                                 _indices() {
@@ -580,7 +579,7 @@ compute_objective_thread( vector< LLM_Index_Map_Cell >& cells, LLM* llm, double&
 
 double
 LLM_Train::
-objective( const vector< pair< unsigned int, LLM_X > >& examples,
+objective( const vector< pair< string, LLM_X > >& examples,
             const vector< vector< vector< unsigned int > > >& indices,
             double lambda ){
   double objective = 0.0;
@@ -735,7 +734,7 @@ compute_indices( void ){
   _index_vector.resize( _llms.size() );
  
   for( unsigned int i = 0; i < _examples->size(); i++ ){
-    const unsigned int& cv = (*_examples)[ i ].first;
+    const string& cv = (*_examples)[ i ].first;
     const LLM_X& example = (*_examples)[ i ].second;
     map< const h2sl::World*, unsigned int >::iterator it = world_map.find( example.world() );
     assert( it != world_map.end() );

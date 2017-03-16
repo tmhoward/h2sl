@@ -25,12 +25,12 @@ namespace h2sl {
     virtual ~Feature_Min_Distance_Container();
     Feature_Min_Distance_Container& operator=( const Feature_Min_Distance_Container& other );
  
-    virtual bool value( const unsigned int& cv, 
+    virtual bool value( const std::string& cv, 
                         const Grounding* grounding, 
                         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, 
                         const h2sl::Phrase* phrase, 
                         const World* world );
-    virtual bool value( const unsigned int& cv, 
+    virtual bool value( const std::string& cv, 
                         const Grounding* grounding, 
                         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, 
                         const Phrase* phrase, 

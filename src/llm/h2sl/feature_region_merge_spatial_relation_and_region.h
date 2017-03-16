@@ -47,8 +47,8 @@ namespace h2sl {
     Feature_Region_Merge_Spatial_Relation_And_Region( const Feature_Region_Merge_Spatial_Relation_And_Region& other );
     Feature_Region_Merge_Spatial_Relation_And_Region& operator=( const Feature_Region_Merge_Spatial_Relation_And_Region& other );
 
-    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
-    virtual bool value( const unsigned int& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
+    virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
+    virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
 
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 

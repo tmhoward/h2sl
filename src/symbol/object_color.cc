@@ -86,6 +86,20 @@ dup( void )const{
   return new Object_Color( *this );
 }
 
+string
+Object_Color::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Object_Color* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Object_Color* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
+
 void
 Object_Color::
 scrape_grounding( const World * world,
@@ -111,7 +125,7 @@ Object_Color::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
-                    const symbol_type_t& symbolType ){
+                    const std::string& symbolType ){
   if( symbolDictionary.has_class_name( class_name() ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
@@ -121,19 +135,12 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
     map< string, vector< string > >::const_iterator it_object_color_types = symbolDictionary.string_types().find( "object_color" );
 
-    switch( symbolType ){
-    case( SYMBOL_TYPE_CONCRETE ):
-    case( SYMBOL_TYPE_ALL ):
+    if( ( symbolType == "concrete" ) || ( symbolType == "all" ) ){
       if( it_object_color_types != symbolDictionary.string_types().end() ){
         for( unsigned int i = 0; i < it_object_color_types->second.size(); i++ ){
           it_search_spaces_symbol->second.second.push_back( new Object_Color( it_object_color_types->second[ i ] ) );
         }
       }
-      break;
-    case( SYMBOL_TYPE_ABSTRACT ):
-    case( NUM_SYMBOL_TYPES ):
-    default:
-      break;
     } 
   }
 

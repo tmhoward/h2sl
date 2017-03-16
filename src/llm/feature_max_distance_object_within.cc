@@ -58,7 +58,7 @@ operator=( const Feature_Max_Distance_Object_Within& other ){
  */
 bool
 Feature_Max_Distance_Object_Within::
-value( const unsigned int& cv,
+value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
@@ -72,7 +72,7 @@ value( const unsigned int& cv,
  */
 bool
 Feature_Max_Distance_Object_Within::
-value( const unsigned int& cv,
+value( const string& cv,
         const h2sl::Grounding* grounding,
         const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
         const h2sl::Phrase* phrase,

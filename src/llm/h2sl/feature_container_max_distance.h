@@ -24,13 +24,13 @@ namespace h2sl {
     virtual ~Feature_Container_Max_Distance();
     Feature_Container_Max_Distance& operator=( const Feature_Container_Max_Distance& other );
  
-    virtual bool value( const unsigned int& cv, 
+    virtual bool value( const std::string& cv, 
                         const Grounding* grounding, 
                         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, 
                         const Phrase* phrase, 
                         const World* world );
  
-   virtual bool value( const unsigned int& cv, 
+   virtual bool value( const std::string& cv, 
                        const Grounding* grounding, 
                        const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, 
                        const Phrase* phrase, 

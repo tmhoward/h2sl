@@ -68,7 +68,7 @@ operator=( const Feature_Num_Words& other ) {
 
 bool
 Feature_Num_Words::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -78,7 +78,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Num_Words::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

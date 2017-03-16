@@ -54,6 +54,7 @@ namespace h2sl {
     bool operator!=( const Grounding& other )const;
     virtual Grounding* dup( void )const = 0;
 
+    virtual std::string evaluate_cv( const Grounding_Set* groundingSet )const = 0;
     virtual bool matches_class_name( const std::string& arg )const = 0;
     virtual void scrape_grounding( const World* world, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const = 0;
     virtual void scrape_grounding( const World* world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const = 0;

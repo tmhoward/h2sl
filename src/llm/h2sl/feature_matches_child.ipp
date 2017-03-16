@@ -56,7 +56,7 @@ operator=( const Feature_Matches_Child& other ){
 template< class T >
 bool
 Feature_Matches_Child< T >::
-value( const unsigned int& cv,
+value( const std::string& cv,
         const Grounding* grounding,
         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -67,7 +67,7 @@ value( const unsigned int& cv,
 template< class T >
 bool
 Feature_Matches_Child< T >::
-value( const unsigned int& cv,
+value( const std::string& cv,
         const Grounding* grounding,
         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children,
         const Phrase* phrase,

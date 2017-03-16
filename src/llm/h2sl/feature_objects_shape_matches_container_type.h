@@ -26,13 +26,13 @@ namespace h2sl {
     virtual ~Feature_Objects_Shape_Matches_Container_Type();
     Feature_Objects_Shape_Matches_Container_Type& operator=( const Feature_Objects_Shape_Matches_Container_Type& other );
 
-    virtual bool value( const unsigned int& cv,
+    virtual bool value( const std::string& cv,
                         const Grounding* grounding,
                         const std::vector<std::pair<const Phrase*, std::vector<Grounding*>>>& children,
                         const Phrase* phrase,
                         const World* world );
 
-    virtual bool value( const unsigned int& cv,
+    virtual bool value( const std::string& cv,
                         const Grounding* grounding,
                         const std::vector<std::pair<const Phrase*, std::vector<Grounding*>>>& children,
                         const Phrase* phrase,

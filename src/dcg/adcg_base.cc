@@ -123,19 +123,19 @@ fill_search_spaces( const World* world ){
   _correspondence_variables.push_back( binary_cvs );
   _correspondence_variables.push_back( ternary_cvs );
 
-  Object::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Object_Type::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Object_Color::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Object_Property::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Number::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Index::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Region::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Spatial_Relation::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Constraint::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Region_Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
-  Region_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_ALL );
+  Object::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Object_Type::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Object_Color::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Object_Property::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Number::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Index::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Region::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Spatial_Relation::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Constraint::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Region_Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Container::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
+  Region_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, "all" );
 
   return;
 }

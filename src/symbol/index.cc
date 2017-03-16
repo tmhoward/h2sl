@@ -87,6 +87,20 @@ dup( void )const{
   return new Index( *this );
 }
 
+string
+Index::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Index* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Index* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
+
 void
 Index::
 scrape_grounding( const World * world,
@@ -112,7 +126,7 @@ Index::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
-                    const symbol_type_t& symbolType ){
+                    const std::string& symbolType ){
 
   if( symbolDictionary.has_class_name( class_name() ) || symbolDictionary.has_class_name( "abstract_container" ) || symbolDictionary.has_class_name( "region_abstract_container" ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
@@ -123,19 +137,12 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
     map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index" );
 
-    switch( symbolType ){
-    case( SYMBOL_TYPE_CONCRETE ):
-    case( SYMBOL_TYPE_ALL ):
+    if( ( symbolType == "concrete" ) || ( symbolType == "all" ) ){
       if( it_index_value_types != symbolDictionary.int_types().end() ){
         for( unsigned int i = 0; i < it_index_value_types->second.size(); i++ ){
           it_search_spaces_symbol->second.second.push_back( new Index( it_index_value_types->second[ i ] ) );
         }
       }
-      break;
-    case( SYMBOL_TYPE_ABSTRACT ):
-    case( NUM_SYMBOL_TYPES ):
-    default:
-      break;
     }
   }
 

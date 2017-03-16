@@ -27,13 +27,13 @@ namespace h2sl {
     virtual ~Feature_Abstract_Container_Number_Equals_World_Objects();
     Feature_Abstract_Container_Number_Equals_World_Objects& operator=( const Feature_Abstract_Container_Number_Equals_World_Objects& other );
  
-    virtual bool value( const unsigned int& cv, 
+    virtual bool value( const std::string& cv, 
 	                const h2sl::Grounding* grounding, 
                         const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, 
                         const h2sl::Phrase* phrase, 
                         const World* world );
 
-    virtual bool value( const unsigned int& cv, 
+    virtual bool value( const std::string& cv, 
 	 	        const h2sl::Grounding* grounding, 
                         const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, 
                         const h2sl::Phrase* phrase, 

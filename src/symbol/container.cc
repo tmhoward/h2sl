@@ -112,6 +112,20 @@ dup( void )const{
   return new Container( *this );
 }
 
+string
+Container::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Container* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Container* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
+
 void
 Container::
 scrape_grounding( const World * world,
@@ -137,7 +151,7 @@ Container::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
-                    const symbol_type_t& symbolType ){
+                    const std::string& symbolType ){
 
   if( symbolDictionary.has_class_name( class_name() ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
@@ -149,9 +163,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
     map< string, vector< string > >::const_iterator it_container_type_types = symbolDictionary.string_types().find( "container_type" );
 
-    switch( symbolType ){
-    case( SYMBOL_TYPE_ABSTRACT ):
-    case( SYMBOL_TYPE_ALL ):
+    if( ( symbolType == "abstract" ) || ( symbolType == "all" ) ){
       if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_container_type_types != symbolDictionary.string_types().end() ) ){
         for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
           it_search_spaces_symbol->second.second.push_back( new Container( vector< Grounding* >(), it_container_type_types->second[ k ] ) );
@@ -181,11 +193,6 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           }
         }
       }
-      break;
-    case( SYMBOL_TYPE_CONCRETE ):
-    case( NUM_SYMBOL_TYPES ):
-    default:
-      break;
     }
   }
 

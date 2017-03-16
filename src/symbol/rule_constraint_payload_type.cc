@@ -85,6 +85,20 @@ dup( void )const{
   return new Rule_Constraint_Payload_Type( *this );
 }
 
+string
+Rule_Constraint_Payload_Type::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Rule_Constraint_Payload_Type* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Rule_Constraint_Payload_Type* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
+
 void
 Rule_Constraint_Payload_Type::
 scrape_grounding( const World * world,
@@ -110,7 +124,7 @@ Rule_Constraint_Payload_Type::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
-                    const symbol_type_t& symbolType ){
+                    const std::string& symbolType ){
 
   if( symbolDictionary.has_class_name( class_name() ) || symbolDictionary.has_class_name( "constraint" ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
@@ -121,19 +135,12 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
     map< string, vector< string > >::const_iterator it_constraint_payload_type_types = symbolDictionary.string_types().find( "constraint_payload_type" );
 
-    switch( symbolType ){
-    case( SYMBOL_TYPE_CONCRETE ):
-    case( SYMBOL_TYPE_ALL ):
+    if( ( symbolType == "concrete" ) || ( symbolType == "all" ) ){
       if( it_constraint_payload_type_types != symbolDictionary.string_types().end() ){
         for( unsigned int i = 0; i < it_constraint_payload_type_types->second.size(); i++ ){
           it_search_spaces_symbol->second.second.push_back( new Rule_Constraint_Payload_Type( it_constraint_payload_type_types->second[ i ] ) );
         }
       }
-      break;
-    case( SYMBOL_TYPE_ABSTRACT ):
-    case( NUM_SYMBOL_TYPES ):
-    default:
-      break;
     }
   }
 
