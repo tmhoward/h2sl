@@ -28,7 +28,7 @@ using namespace h2sl;
 bool
 factor_set_adcg_solution_sort( const Factor_Set_Solution& a,
                               const Factor_Set_Solution& b ){
-  return a.pygx > b.pygx;
+  return a.pygx() > b.pygx();
 }
 
 Factor_Set_ADCG::
