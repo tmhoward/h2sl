@@ -47,7 +47,7 @@ namespace h2sl {
     Symbol_Dictionary( const std::map< std::string, std::vector< std::string > >& classNames = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< std::string > >& stringTypes = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< int > >& intTypes = std::map< std::string, std::vector< int > >() );
     Symbol_Dictionary( const std::string& filename );
     virtual ~Symbol_Dictionary();
-    Symbol_Dictionary( const Symbol_Dictionary& other );
+    Symbol_Dictionary( const Symbol_Dictionary& other, const std::string& symbolType = "all" );
     Symbol_Dictionary& operator=( const Symbol_Dictionary& other );
     bool operator==( const Symbol_Dictionary& other )const;
     bool operator!=( const Symbol_Dictionary& other )const;

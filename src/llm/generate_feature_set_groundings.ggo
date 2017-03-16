@@ -2,7 +2,7 @@ package "generate_features"
 version "1.0"
 purpose "A program used to generate features for symbols"
 
-option "symbol_dictionary" - "symbol_dictionary string" string required
+option "symbol_dictionary_groundings" - "groundings symbol_dictionary string" string required
 option "grammar" g "grammar string" string optional
 option "output" o "output file" string optional
 

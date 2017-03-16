@@ -9,6 +9,7 @@ option "grammar" - "grammar file" string optional
 option "command" - "command string" string optional
 option "output" o "output file" string optional
 option "latex_output" - "latex output file" string optional
+option "debug" - "debug flag" int default="0" optional
 option "beam_width" - "beam width" int default="2" optional
 
 text ""

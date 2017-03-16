@@ -1,5 +1,5 @@
 /**
- * @file    hdcg_test.cc
+ * @file    hadcg_test.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,7 +28,7 @@
  *
  * @section DESCRIPTION
  *
- * A HDCG class test program
+ * A HADCG class test program
  */
 
 #include <iostream>
@@ -38,8 +38,8 @@
 #include "h2sl/constraint.h"
 #include "h2sl/grounding_set.h"
 #include "h2sl/parser_cyk.h"
-#include "h2sl/hdcg.h"
-#include "hdcg_test_cmdline.h"
+#include "h2sl/hadcg.h"
+#include "hadcg_test_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -85,7 +85,7 @@ int
 main( int argc,
       char* argv[] ) {
   int status = 0;
-  cout << "start of HDCG class test program" << endl;
+  cout << "start of HADCG class test program" << endl;
 
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
@@ -106,7 +106,7 @@ main( int argc,
 
   Search_Space * search_space = new Search_Space();
 
-  HDCG * hdcg = new HDCG();
+  HADCG * hadcg = new HADCG();
 
   unsigned int num_correct = 0;
   unsigned int num_incorrect = 0;
@@ -137,10 +137,10 @@ main( int argc,
         unsigned int match_index = 0;
         for( unsigned int i = 0; i < phrases.size(); i++ ){
           if( phrases[ i ] != NULL ){
-            hdcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
-            if( !hdcg->solutions().empty() ){
-              cout << "  parse[" << i << "]:" << *hdcg->solutions().front().second << " (" << hdcg->solutions().front().first << ")" << endl; 
-              if( compare_phrases( truth, hdcg->solutions().front().second ) ){
+            hadcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+            if( !hadcg->solutions().empty() ){
+              cout << "  parse[" << i << "]:" << *hadcg->solutions().front().second << " (" << hadcg->solutions().front().first << ")" << endl; 
+              if( compare_phrases( truth, hadcg->solutions().front().second ) ){
                 found_match = true;
                 match_index = i;
               }
@@ -182,9 +182,9 @@ main( int argc,
 
   cout << "correctly inferred " << num_correct << " of " << num_correct + num_incorrect << " examples (" << ( double )( num_correct ) / ( double )( num_correct + num_incorrect ) * 100.0 << "%)" << endl;
 
-  if( hdcg != NULL ){
-    delete hdcg;
-    hdcg = NULL;
+  if( hadcg != NULL ){
+    delete hadcg;
+    hadcg = NULL;
   }
 
   if( llm != NULL ){
@@ -207,6 +207,6 @@ main( int argc,
     parser = NULL;
   }
 
-  cout << "end of HDCG class test program" << endl;
+  cout << "end of HADCG class test program" << endl;
   return status;
 }

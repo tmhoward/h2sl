@@ -71,10 +71,51 @@ Symbol_Dictionary::
  * Symbol_Dictionary copy constructor
  */
 Symbol_Dictionary::
-Symbol_Dictionary( const Symbol_Dictionary& other ) : _class_names( other._class_names ),
-                                                      _string_types( other._string_types ),
-                                                      _int_types( other._int_types ) {
+Symbol_Dictionary( const Symbol_Dictionary& other,
+                    const string& symbolType ) : _class_names( other._class_names ),
+                                                 _string_types(),
+                                                 _int_types() {
+  vector< string > string_properties_keys_concrete = { "object_type", "object_color", "spatial_relation_type", "constraint_payload_type", "constraint_reference_type", "constraint_type" };
+  vector< string > int_properties_keys_concrete = { "index", "number" };
+  vector< string > string_properties_keys_abstract = { "container_type" }; 
+  vector< string > int_properties_keys_abstract = {};
 
+  if( symbolType == "all" ){
+    _string_types = other._string_types;
+    _int_types = other._int_types;
+  } else if ( symbolType == "concrete" ) {
+    for( map< string, vector< string > >::const_iterator it_string_types = other.string_types().begin(); it_string_types != other.string_types().end(); it_string_types++ ){
+      for( vector< string >::const_iterator it_string_types_keys_concrete = string_properties_keys_concrete.begin(); it_string_types_keys_concrete != string_properties_keys_concrete.end(); it_string_types_keys_concrete++ ){
+        if( it_string_types->first == *it_string_types_keys_concrete ){
+          _string_types.insert( pair< string, vector< string > >( it_string_types->first, it_string_types->second ) );
+        }
+      }
+    }
+    for( map< string, vector< int > >::const_iterator it_int_types = other.int_types().begin(); it_int_types != other.int_types().end(); it_int_types++ ){
+      for( vector< string >::const_iterator it_int_types_keys_concrete = int_properties_keys_concrete.begin(); it_int_types_keys_concrete != int_properties_keys_concrete.end(); it_int_types_keys_concrete++ ){
+        if( it_int_types->first == *it_int_types_keys_concrete ){
+          _int_types.insert( pair< string, vector< int > >( it_int_types->first, it_int_types->second ) );
+        }
+      }
+    }
+  } else if ( symbolType == "abstract" ) {
+    for( map< string, vector< string > >::const_iterator it_string_types = other.string_types().begin(); it_string_types != other.string_types().end(); it_string_types++ ){
+      for( vector< string >::const_iterator it_string_types_keys_abstract = string_properties_keys_abstract.begin(); it_string_types_keys_abstract != string_properties_keys_abstract.end(); it_string_types_keys_abstract++ ){
+        if( it_string_types->first == *it_string_types_keys_abstract ){
+          _string_types.insert( pair< string, vector< string > >( it_string_types->first, it_string_types->second ) );
+        }
+      }
+    }
+    for( map< string, vector< int > >::const_iterator it_int_types = other.int_types().begin(); it_int_types != other.int_types().end(); it_int_types++ ){ 
+      for( vector< string >::const_iterator it_int_types_keys_abstract = int_properties_keys_abstract.begin(); it_int_types_keys_abstract != int_properties_keys_abstract.end(); it_int_types_keys_abstract++ ){ 
+        if( it_int_types->first == *it_int_types_keys_abstract ){ 
+          _int_types.insert( pair< string, vector< int > >( it_int_types->first, it_int_types->second ) ); 
+        }
+      }
+    }
+  } else {
+    assert( false );
+  }
 }
 
 /**

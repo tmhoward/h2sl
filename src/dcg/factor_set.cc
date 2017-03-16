@@ -161,14 +161,17 @@ search_subspace( vector< Factor_Set_Solution >& solutionsVector,
       // Iterate over the cv values and obtain the log-likelihood values.  
       for( unsigned int k = 0; k < correspondenceVariables.size(); k++ ){
         // Compute the log-likelihood for that factor.
-        double value = llm->pygx( correspondenceVariables[ k ], searchSubspace.second[ i ], childPhraseGroundings, _phrase, world, context, correspondenceVariables, evaluate_feature_types );
+        double value = llm->pygx( correspondenceVariables[ k ], searchSubspace.second[ i ], 
+                                  childPhraseGroundings, _phrase, world, context, 
+                                  correspondenceVariables, evaluate_feature_types );
+        // Language feature sets are evaluated only once for efficiency.
         evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
-
         // add the new solution to the solutions vector (make a copy of the previous solution)
         new_solutions_vector.push_back( solutionsVector[ j ] );
         if( correspondenceVariables[ k ] == "true" ){
           new_solutions_vector.back().grounding_set()->groundings().push_back( searchSubspace.second[ i ] );   
         }
+        // Update the pygx likelihoods (all multiplied as independent).
         new_solutions_vector.back().pygx() *= value;
       }
     }
@@ -181,6 +184,7 @@ search_subspace( vector< Factor_Set_Solution >& solutionsVector,
       new_solutions_vector.erase( new_solutions_vector.begin() + beamWidth, new_solutions_vector.end() );
     }
 
+    // solution vector is assigned the newly created one.
     solutionsVector = new_solutions_vector;
   }
   

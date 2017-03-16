@@ -59,14 +59,14 @@ namespace h2sl {
 
  virtual bool leaf_search( const Phrase* phrase, 
                            const Symbol_Dictionary& symbolDictionary, 
-                           const Search_Space* searchSpace, 
+                           Search_Space* searchSpace, 
                            const World* world, LLM* llm, 
                            const unsigned int beamWidth = 4, 
                            const bool& debug = false );
 
  virtual bool leaf_search( const Phrase* phrase, 
                            const Symbol_Dictionary& symbolDictionary, 
-                           const Search_Space* searchSpace, 
+                           Search_Space* searchSpace, 
                            const World* world, 
                            const Grounding* context, 
                            LLM* llm, 
@@ -84,6 +84,7 @@ namespace h2sl {
     virtual void to_latex( const std::string& filename )const;
 
   protected:
+    // helper functions.
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
     // ToDo: Add any additional members for ADCG

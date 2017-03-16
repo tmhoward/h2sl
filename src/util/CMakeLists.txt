@@ -4,7 +4,7 @@ set(GGOS
     rewrite_examples.ggo
     generate_rule_examples.ggo
     generate_symbol_dictionary.ggo
-    llm_train.ggo
+    llm_train_groundings.ggo
     llm_train_rules.ggo
     llm_train_groundings_and_rules.ggo
 #    llm_train_adcg.ggo
@@ -29,7 +29,7 @@ set(BIN_SRCS
     rewrite_examples.cc
     generate_rule_examples.cc
     generate_symbol_dictionary.cc
-    llm_train.cc
+    llm_train_groundings.cc
     llm_train_rules.cc
     llm_train_groundings_and_rules.cc
 #    llm_train_adcg.cc
