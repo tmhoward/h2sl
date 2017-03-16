@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the cone furthest right in the line of cones in front of the robot"/>
+  <!-- "file" indicates the which world within certain world type-->
+  <world time="0" file="four_cones/world_0005.xml">
+    <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0 0 0 1"/>
+    <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+        <object_property object_type="cone" spatial_relation_type="right" index="1"/>
+        <spatial_relation spatial_relation_type="far"/>
+        <spatial_relation spatial_relation_type="right"/>
+        <object_type object_type="cone"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <NN text="cone" order="1"/>
+      <JJS text="furthest" order="2"/>
+      <NN text="right" order="3"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <container container_type="row">
+          <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+          <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+          <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+          <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+        </container>
+        <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+        <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+        <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+        <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+      </grounding_set>
+      <IN text="in" order="4"/>
+      <NP>
+        <grounding_set>
+          <container container_type="row">
+            <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+            <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+            <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+            <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+          </container>
+          <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+          <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+          <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+          <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <container container_type="row"/>
+          </grounding_set>
+          <DT text="the" order="5"/>
+          <NN text="line" order="6"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <container container_type="row">
+              <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+              <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+              <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+              <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+            </container>
+            <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+            <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+            <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+            <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+          </grounding_set>
+          <IN text="of" order="7"/>
+          <NP>
+            <grounding_set>
+              <container container_type="row">
+                <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+                <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+                <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+                <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+              </container>
+              <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+              <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+              <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+              <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+            </grounding_set>
+            <NP>
+              <grounding_set>
+                <container container_type="row">
+                  <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+                  <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+                  <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+                  <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+                </container>
+                <object name="cone0" object_type="cone" object_color="orange" position="-4.53587 -2.50144 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
+                <object name="cone1" object_type="cone" object_color="orange" position="-4.82003 -1.41204 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+                <object name="cone2" object_type="cone" object_color="orange" position="-5.31522 0.375236 0.00962007" orientation="-5.37609e-08 4.61082e-07 -0.00069646 1"/>
+                <object name="cone3" object_type="cone" object_color="orange" position="-5.34313 2.65804 0.00962007" orientation="-5.39365e-08 4.60938e-07 -0.00069644 1"/>
+                <object_type object_type="cone"/>
+              </grounding_set>
+              <NNS text="cones" order="8"/>
+            </NP>
+            <PP>
+              <grounding_set>
+                <region spatial_relation_type="front" object_id="husky"/>
+              </grounding_set>
+              <IN text="in" order="9"/>
+              <NP>
+                <grounding_set>
+                  <region spatial_relation_type="front" object_id="husky"/>
+                </grounding_set>
+                <NP>
+                  <grounding_set>
+                    <spatial_relation spatial_relation_type="front"/>
+                  </grounding_set>
+                  <NN text="front" order="10"/>
+                </NP>
+                <PP>
+                  <grounding_set>
+                    <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+                  </grounding_set>
+                  <IN text="of" order="11"/>
+                  <NP>
+                    <grounding_set>
+                      <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+                    </grounding_set>
+                    <DT text="the" order="12"/>
+                    <NN text="robot" order="13"/>
+                  </NP>
+                </PP>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>
