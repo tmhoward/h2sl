@@ -20,21 +20,41 @@
     <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
   </world>
   <NP>
+    <grounding_set>
+      <object name="cone0" object_type="cone" object_color="orange" position="-7.72876 -4.34423 0.00962007" orientation="0,0,0,1"/>
+    </grounding_set>
     <NP>
+      <grounding_set>
+        <object_property object_type="cone" relation_type="far" index="first"/>
+        <spatial_relation spatial_relation_type="far"/>
+        <object_type object_type="cone"/>
+      </grounding_set>
       <DT text="the" order="0"/>
       <JJS text="farthest" order="1"/>
       <NN text="cone" order="2"/>
     </NP>
     <PP>
+      <grounding_set>
+        <spatial_relation spatial_relation_type="right"/>
+      </grounding_set>
       <IN text="on" order="3"/>
       <NP>
+        <grounding_set>
+          <spatial_relation spatial_relation_type="right"/>
+        </grounding_set>
         <DT text="the" order="4"/>
         <NN text="right" order="5"/>
       </NP>
     </PP>
     <PP>
+      <grounding_set>
+        <region spatial_relation_type="back" objct_id="husky_mm"/>
+      </grounding_set>
       <IN text="behind" order="6"/>
       <NP>
+        <grounding_set>
+          <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+        </grounding_set>
         <DT text="the" order="7"/>
         <NN text="robot" order="8"/>
       </NP>
