@@ -80,7 +80,7 @@ class Factor_Set_ADCG : public Factor_Set {
 
     // REMOVE MEMBERS: Abstract search space and abstract correspondence variables. 
     std::vector< std::vector< std::pair< unsigned int, Grounding* > > > _abstract_search_spaces;
-    std::vector< std::vector< unsigned int > > _abstract_correspondence_variables;
+    std::vector< std::vector< std::string > > _abstract_correspondence_variables;
 
     // ToDo: Add any additional members for ADCG
     // Storing the inferred concrete search space for each.

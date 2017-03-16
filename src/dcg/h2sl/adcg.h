@@ -84,7 +84,10 @@ namespace h2sl {
     virtual void to_latex( const std::string& filename )const;
 
   protected:
+    // helper functions.
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
+    virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
+    virtual void _find_leaf( Factor_Set* node, Factor_Set*& leaf );
 
     std::vector< std::pair< double, Phrase* > > _solutions;
     Factor_Set * _root;
