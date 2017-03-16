@@ -42,6 +42,12 @@
 using namespace std;
 using namespace h2sl;
 
+bool
+solution_sort( const pair< double, Phrase* >& a,
+                const pair< double, Phrase* >& b ){
+  return a.first > b.first;
+}
+
 HDCG::
 HDCG() : _dcg(),
           _inferred_symbol_dictionaries(),  
@@ -92,32 +98,50 @@ leaf_search( const Phrase* phrase,
               LLM * llm,
               const unsigned int beamWidth,
               const bool& debug ){
+  for( unsigned int i = 0; i < _solutions.size(); i++ ){
+    if( _solutions[ i ].second != NULL ){
+      delete _solutions[ i ].second;
+      _solutions[ i ].second = NULL;
+    }
+  }
+  _solutions.clear();
+
   if( phrase != NULL ){
     // first infer a distribution of reduced symbol dictionary from the rules
     searchSpace->fill_rules( symbolDictionary, world );
+
     _dcg.leaf_search( phrase, symbolDictionary, searchSpace, world, context, llm, beamWidth, debug );
 
     _inferred_symbol_dictionaries.clear();
     for( vector< pair< double, Phrase* > >::const_iterator it_solution = _dcg.solutions().begin(); it_solution != _dcg.solutions().end(); it_solution++ ){
       _inferred_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->first, Symbol_Dictionary() ) );
-      // it_solution->second->scrape_grounding( _inferred_symbol_dictionaries.back().second, world );
+      it_solution->second->scrape_groundings( world, _inferred_symbol_dictionaries.back().second.string_types(), _inferred_symbol_dictionaries.back().second.int_types() );
+      _inferred_symbol_dictionaries.back().second.class_names() = symbolDictionary.class_names();
     }
 
     for( vector< pair< double, Symbol_Dictionary > >::const_iterator it_symbol_dictionary = _inferred_symbol_dictionaries.begin(); it_symbol_dictionary != _inferred_symbol_dictionaries.end(); it_symbol_dictionary++ ){
       if( debug ){
-        cout << "inferred symbol dictionary:" << it_symbol_dictionary->second << endl;
+        cout << "inferred symbol dictionary (" << it_symbol_dictionary->first << "):" << it_symbol_dictionary->second << endl;
       }
-
+  
       // now ground the phrase with the inferred distribution of symbol dictionaries
       searchSpace->fill_groundings( it_symbol_dictionary->second, world );
 
       if( debug ){
-        cout << "inferred symbol dictionary:" << *searchSpace << endl;
+        cout << "inferred search space:" << *searchSpace << endl;
       }
 
       _dcg.leaf_search( phrase, it_symbol_dictionary->second, searchSpace, world, context, llm, beamWidth, debug );
+  
+      for( vector< pair< double, Phrase* > >::const_iterator it_solution = _dcg.solutions().begin(); it_solution != _dcg.solutions().end(); it_solution++ ){
+        _solutions.push_back( pair< double, Phrase* >( it_symbol_dictionary->first * it_solution->first, it_solution->second->dup() ) );
+      }
+      cout << endl; 
     }
-    
+
+    // Sort the solution vector.
+    sort( _solutions.begin(), _solutions.end(), solution_sort );
+
     return true;
   } else {
     return false;
