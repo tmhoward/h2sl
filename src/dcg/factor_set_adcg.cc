@@ -144,6 +144,12 @@ search( const Search_Space* searchSpace,
                         it_cvs->second,
                         evaluate_feature_types,
                         context, world, llm, beamWidth, debug );
+
+    // Distribution over grounding sets.
+    // Contains the groundings. Take the grounding_set scrape and pass the 
+    // symbol dict string and int types. 
+    // Combine that with abstract one. Fill them in. 
+    // search subspace and iterate over it. 
     }
   }
 
