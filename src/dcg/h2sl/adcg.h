@@ -59,14 +59,14 @@ namespace h2sl {
 
  virtual bool leaf_search( const Phrase* phrase, 
                            const Symbol_Dictionary& symbolDictionary, 
-                           const Search_Space* searchSpace, 
+                           Search_Space* searchSpace, 
                            const World* world, LLM* llm, 
                            const unsigned int beamWidth = 4, 
                            const bool& debug = false );
 
  virtual bool leaf_search( const Phrase* phrase, 
                            const Symbol_Dictionary& symbolDictionary, 
-                           const Search_Space* searchSpace, 
+                           Search_Space* searchSpace, 
                            const World* world, 
                            const Grounding* context, 
                            LLM* llm, 
@@ -86,12 +86,7 @@ namespace h2sl {
   protected:
     // helper functions.
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
-    virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
-    virtual void _find_leaf( Factor_Set* node, Factor_Set*& leaf );
 
-    std::vector< std::pair< double, Phrase* > > _solutions;
-    Factor_Set * _root;
-   
     // ToDo: Add any additional members for ADCG
     // Storing the inferred concrete search space for each.
     // vector < pair< Phrase*, Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 

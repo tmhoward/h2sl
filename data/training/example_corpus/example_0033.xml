@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="approach the second nearest chair"/>
+  <world time="0">
+    <object name="o0" object_type="robot" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o1" object_type="sink" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o2" object_type="chair" object_color="na" position="1,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o3" object_type="chair" object_color="na" position="2,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o4" object_type="chair" object_color="na" position="3,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="o5" object_type="chair" object_color="na" position="4,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <VP>
+    <grounding_set>
+      <constraint constraint_type="inside" payload="o0" reference="o3" reference_relation="na"/>
+    </grounding_set>
+    <VB text="approach" order="0"/>
+    <NP>
+      <grounding_set>
+        <object name="o3" object_type="chair" object_color="na" position="2,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object_property object_type="chair" spatial_relation_type="near" index="2"/>
+        <spatial_relation spatial_relation_type="near"/>
+        <index value="2"/>
+        <object_type object_type="chair"/>
+      </grounding_set>
+      <DT text="the" order="1"/>
+      <JJ text="second" order="2"/>
+      <JJS text="nearest" order="3"/>
+      <NN text="chair" order="4"/>
+    </NP>
+  </VP>
+</root>

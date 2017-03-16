@@ -33,16 +33,7 @@ factor_set_adcg_solution_sort( const Factor_Set_Solution& a,
 
 Factor_Set_ADCG::
 Factor_Set_ADCG( const Phrase* phrase ) : Factor_Set( phrase ),
-                                              _abstract_search_spaces(),
-                                              _abstract_correspondence_variables() {
-//  vector< unsigned int > binary_cvs;
-//  binary_cvs.push_back( CV_FALSE );
-//  binary_cvs.push_back( CV_TRUE );
-//  vector< string > binary_cvs;
-//  binary_cvs.push_back( "false" );
-//  binary_cvs.push_back( "true" );
-
-//  _abstract_correspondence_variables.push_back( binary_cvs );
+                                              _abstract_search_spaces() {
 }
 
 Factor_Set_ADCG::
@@ -52,8 +43,7 @@ Factor_Set_ADCG::
 
 Factor_Set_ADCG::
 Factor_Set_ADCG( const Factor_Set_ADCG& other ) : Factor_Set( other ),
-                                             _abstract_search_spaces( other._abstract_search_spaces ),
-                                              _abstract_correspondence_variables( other._abstract_correspondence_variables ) {
+                                             _abstract_search_spaces( other._abstract_search_spaces ) {
 
 }
 
@@ -65,7 +55,6 @@ operator=( const Factor_Set_ADCG& other ) {
   _child_factor_sets = other._child_factor_sets;
   _solutions = other._solutions;
   _abstract_search_spaces = other._abstract_search_spaces;
-  _abstract_correspondence_variables = other._abstract_correspondence_variables;
   return (*this);
 }
 
@@ -112,6 +101,7 @@ search( const Search_Space* searchSpace,
   vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
 
   if( debug ){
+    cout << "concrete search space" << endl;
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace->grounding_pairs().begin(); it_search_spaces != searchSpace->grounding_pairs().end(); it_search_spaces++ ){
       cout << "searching through symbols for \"" << it_search_spaces->first << "\" (" << it_search_spaces->second.second.size() << " symbols)" << endl;
     }
@@ -154,7 +144,8 @@ search( const Search_Space* searchSpace,
     vector< pair< double, Symbol_Dictionary > > inferred_concrete_symbol_dictionaries;
     // Iterate and scrape the groundings from the solutions found. Record the probabilities.
     for( vector< Factor_Set_Solution >::const_iterator it_solution = solutions_vector.back().begin(); it_solution !=  solutions_vector.back().end(); it_solution++) {
-      inferred_concrete_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->pygx(), Symbol_Dictionary() ) );
+      inferred_concrete_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->pygx(), Symbol_Dictionary( symbolDictionary, "abstract" ) ) );
+      cout << "current grounding set (" << *it_solution->grounding_set() << ")" << endl;
       it_solution->grounding_set()->scrape_grounding( world, 
                                                      inferred_concrete_symbol_dictionaries.back().second.string_types(), 
                                                      inferred_concrete_symbol_dictionaries.back().second.int_types() );
@@ -164,22 +155,26 @@ search( const Search_Space* searchSpace,
     for( vector< pair< double, Symbol_Dictionary > >::const_iterator it_symbol_dictionary = inferred_concrete_symbol_dictionaries.begin(); it_symbol_dictionary != inferred_concrete_symbol_dictionaries.end(); it_symbol_dictionary++ ){
     // Print out for debug.
       if( debug ){
-        cout << "inferred concrete symbol dictionary (" << it_symbol_dictionary->first << "):" << it_symbol_dictionary->second << endl;
+        cout << "inferred concrete symbol dictionary (" << it_symbol_dictionary->first << "):(" << it_symbol_dictionary->second << ")" << endl;
       }
    
       // Creating the ssearch space from the symbol dictionary with abstract flag on.
-      Search_Space * abstract_search_space = new Search_Space();
-      abstract_search_space->fill_groundings( it_symbol_dictionary->second, world, "abstract" );
+      _abstract_search_spaces.push_back( new Search_Space() );
+      _abstract_search_spaces.back()->fill_groundings( it_symbol_dictionary->second, world, "abstract" );
 
       // Print out the abstract search space.
       if( debug ){
-        cout << "The abstract search space of size [ " << abstract_search_space->size() << " ]" << ":" << *abstract_search_space << endl;
+        cout << "abstract search space" << endl;
+        for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = _abstract_search_spaces.back()->grounding_pairs().begin(); it_search_spaces != _abstract_search_spaces.back()->grounding_pairs().end(); it_search_spaces++ ){
+          cout << "searching through symbols for \"" << it_search_spaces->first << "\" (" << it_search_spaces->second.second.size() << " symbols)" << endl;
+        }
       }
 
+
       // search over the class-based search spaces for the abstract symbols.
-      for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_abstract_search_spaces = abstract_search_space->grounding_pairs().begin(); it_abstract_search_spaces != abstract_search_space->grounding_pairs().end(); it_abstract_search_spaces++ ){
-        map< string, vector< string > >::const_iterator it_abstract_cvs = abstract_search_space->cvs().find( it_abstract_search_spaces->second.first );
-        assert( it_abstract_cvs != abstract_search_space->cvs().end() );
+      for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_abstract_search_spaces = _abstract_search_spaces.back()->grounding_pairs().begin(); it_abstract_search_spaces != _abstract_search_spaces.back()->grounding_pairs().end(); it_abstract_search_spaces++ ){
+        map< string, vector< string > >::const_iterator it_abstract_cvs = _abstract_search_spaces.back()->cvs().find( it_abstract_search_spaces->second.first );
+        assert( it_abstract_cvs != _abstract_search_spaces.back()->cvs().end() );
 
         // search the subspace that incrementally populates the solution vectors
         search_subspace( solutions_vector.back(),
@@ -191,12 +186,7 @@ search( const Search_Space* searchSpace,
 
       }
 
-      // NULL out the abstract search space pointer.
-      if( abstract_search_space != NULL ){
-        delete abstract_search_space;
-        abstract_search_space = NULL;
-       }
-    }  
+    }
   }
 
   /**************** FLATTEN THE SOLUTIONS ***********************/
@@ -642,42 +632,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Factor_Set_ADCG& other ){
-/*
-    for( unsigned int i = 0; i < other.solutions().size(); i++ ){
-      out << "solutions[" << i << "] TRUE [" << other.solutions()[ i ].cv[ CV_TRUE ].size() << "]:{";
-      for( unsigned int j = 0; j < other.solutions()[ i ].cv[ CV_TRUE ].size(); j++ ){
-        out << other.solutions()[ i ].cv[ CV_TRUE ][ j ];
-        if( j != ( other.solutions()[ i ].cv[ CV_TRUE ].size() - 1 ) ){
-          out << ",";
-        }
-      }
-      out << "} ";
-      out << "groundings[" << other.solutions()[ i ].groundings.size() << "]:{";
-      for( unsigned int j = 0; j < other.solutions()[ i ].groundings.size(); j++ ){
-        if( dynamic_cast< Grounding* >( other.solutions()[ i ].groundings[ j ] ) != NULL ){
-          out << "(" << *static_cast< Grounding* >( other.solutions()[ i ].groundings[ j ] ) << ")";
-        }
-        if( j != ( other.solutions()[ i ].groundings.size() - 1 ) ){
-          out << ",";
-        }
-      }
-      out << "} ";
-      out << "children[" << other.solutions()[ i ].children.size() << "]:{";
-      for( unsigned int j = 0; j < other.solutions()[ i ].children.size(); j++ ){
-        out << other.solutions()[ i ].children[ j ];
-        if( j != ( other.solutions()[ i ].children.size() - 1 ) ){
-          out << ",";
-        }
-      }
-      out << "} ";
-      out << "pygx:" << other.solutions()[ i ].pygx << endl;
-    }
-    for( unsigned int i = 0; i < other.abstract_search_spaces().size(); i++ ){
-      out << "abstract_search_space[" << i << "] size:" << other.abstract_search_spaces()[ i ].size() << endl;
-    }
-  */
     return out;
-
   }
 }
 

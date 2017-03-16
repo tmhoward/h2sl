@@ -181,7 +181,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     map< string, vector< string > >::const_iterator it_constraint_reference_type_types = symbolDictionary.string_types().find( "constraint_reference_type" );
     map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
 
-    if( ( symbolType == "abstract" ) || ( symbolType == "all" ) ){
+    if( ( symbolType == "concrete" ) || ( symbolType == "all" ) ){
       if( ( it_constraint_type_types != symbolDictionary.string_types().end() ) && ( it_constraint_payload_type_types != symbolDictionary.string_types().end() ) && ( it_constraint_reference_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) ){
         for( unsigned int i = 0; i < it_constraint_type_types->second.size(); i++ ){
           for( map< string, Object* >::const_iterator it_world_object_1 = world->objects().begin(); it_world_object_1 != world->objects().end(); it_world_object_1++ ){

@@ -1,5 +1,5 @@
 /**
- * @file    llm_train.cc
+ * @file    llm_train_groundings.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -39,7 +39,7 @@
 #include "h2sl/constraint.h"
 #include "h2sl/llm.h"
 #include "h2sl/search_space.h"
-#include "llm_train_cmdline.h"
+#include "llm_train_groundings_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
@@ -102,11 +102,12 @@ main( int argc,
     exit(1);
   }
 
-  vector< Symbol_Dictionary* > symbol_dictionaries( args.inputs_num, NULL );
   vector< Search_Space* > search_spaces( args.inputs_num, NULL );
   vector< Phrase* > phrases( args.inputs_num, NULL );
   vector< World* > worlds( args.inputs_num, NULL );
   vector< string > filenames( args.inputs_num );
+
+  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
 
   vector< pair< string, LLM_X > > examples;
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
@@ -119,16 +120,14 @@ main( int argc,
     phrases[ i ] = new Phrase();
     phrases[ i ]->from_xml( args.inputs[ i ] ); 
 
-    symbol_dictionaries[ i ] = new Symbol_Dictionary( args.symbol_dictionary_arg );
-
-    if( phrases[ i ]->contains_symbol_in_symbol_dictionary( *symbol_dictionaries[ i ] ) ){
+    if( phrases[ i ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary ) ){
       cout << "contains symbols in symbol dictionary" << endl;
     } else {
       cout << "does not contains any symbols in symbol dictionary" << endl;
     }
 
     search_spaces[ i ] = new Search_Space();
-    search_spaces[ i ]->fill_groundings( *symbol_dictionaries[ i ], worlds[ i ] );
+    search_spaces[ i ]->fill_groundings( *symbol_dictionary, worlds[ i ] );
     search_spaces[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples );
   }
 

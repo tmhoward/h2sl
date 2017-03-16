@@ -74,7 +74,7 @@ main( int argc,
     llm->from_xml( args.llm_arg );
   }
 
-  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_arg );
+  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
 
   Search_Space * search_space = new Search_Space();
 
@@ -100,7 +100,7 @@ main( int argc,
     
         gettimeofday( &start_time, NULL );
 
-        dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg );
+        dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
 
         gettimeofday( &end_time, NULL );
 

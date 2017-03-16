@@ -152,14 +152,14 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
     map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
     map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
-    map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index_value" );
+    map< string, vector< int > >::const_iterator it_index_values = symbolDictionary.int_types().find( "index" );
 
     if( ( symbolType == "abstract" ) || ( symbolType == "all" ) ){
-      if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) ){
+      if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) && ( it_index_values != symbolDictionary.int_types().end() ) ){
         for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
           for( unsigned int j = 0; j < it_spatial_relation_type_types->second.size(); j++ ){
-            for( unsigned int k = 0; k < it_index_value_types->second.size(); k++ ){
-              it_search_spaces_symbol->second.second.push_back( new Object_Property( it_object_type_types->second[ i ], it_spatial_relation_type_types->second[ j ], it_index_value_types->second[ k ] ) );
+            for( unsigned int k = 0; k < it_index_values->second.size(); k++ ){
+              it_search_spaces_symbol->second.second.push_back( new Object_Property( it_object_type_types->second[ i ], it_spatial_relation_type_types->second[ j ], it_index_values->second[ k ] ) );
             }
           }
         }

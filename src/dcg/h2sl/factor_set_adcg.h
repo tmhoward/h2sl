@@ -44,6 +44,7 @@
 #include "h2sl/llm.h"
 
 #include "h2sl/factor_set.h"
+#include "h2sl/search_space.h"
 #include "h2sl/symbol_dictionary.h"
 
 //namespace std {
@@ -71,16 +72,12 @@ class Factor_Set_ADCG : public Factor_Set {
                          const bool& debug = false );
 
     // Accessors
-    inline std::vector< std::vector< std::pair< unsigned int, Grounding* > > >& abstract_search_spaces( void ){ return _abstract_search_spaces; };
-    inline const std::vector< std::vector< std::pair< unsigned int, Grounding* > > >& abstract_search_spaces( void )const{ return _abstract_search_spaces; };
-    inline std::vector< std::vector< std::string > >& abstract_correspondence_variables( void ){ return _abstract_correspondence_variables; };
-    inline const std::vector< std::vector< std::string > >& abstract_correspondence_variables( void )const{ return _abstract_correspondence_variables; };
+    inline std::vector< Search_Space* >& abstract_search_spaces( void ){ return _abstract_search_spaces; };
+    inline const std::vector< Search_Space* >& abstract_search_spaces( void )const{ return _abstract_search_spaces; };
 
   protected:
 
-    // REMOVE MEMBERS: Abstract search space and abstract correspondence variables. 
-    std::vector< std::vector< std::pair< unsigned int, Grounding* > > > _abstract_search_spaces;
-    std::vector< std::vector< std::string > > _abstract_correspondence_variables;
+    std::vector< Search_Space* > _abstract_search_spaces;
 
     // ToDo: Add any additional members for ADCG
     // Storing the inferred concrete search space for each.
