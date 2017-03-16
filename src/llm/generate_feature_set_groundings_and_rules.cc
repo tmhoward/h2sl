@@ -51,6 +51,7 @@
 #include "h2sl/feature_object_merge_object_property_container.h"
 #include "h2sl/feature_object_merge_object_property_region_container.h"
 #include "h2sl/feature_object_matches_sorted_objects.h"
+#include "h2sl/feature_object_matches_sorted_object.h"
 #include "h2sl/feature_object_matches_child_container_object.h"
 #include "h2sl/feature_object_matches_child_region_container_object.h"
 #include "h2sl/feature_region_object_matches_child.h"
@@ -233,6 +234,26 @@ main( int argc,
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object >( false ) ); 
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object >( true ) ); 
 
+    map< string, vector< int > >::const_iterator it_indices = symbol_dictionary_groundings->int_types().find( "index" );
+    if( it_indices != symbol_dictionary_groundings->int_types().end() ){
+      for( vector< int >::const_iterator it_index = it_indices->second.begin(); it_index != it_indices->second.end(); it_index++ ){
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_x" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_x" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_y" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_y" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_z" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_z" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_abs_x" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_abs_x" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_abs_y" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_abs_y" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_distance" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_distance" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_center_distance" ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_center_distance" ) );
+      }
+    }
+
     map< string, vector< int > >::const_iterator it_numbers = symbol_dictionary_groundings->int_types().find( "number" );
     if( it_numbers != symbol_dictionary_groundings->int_types().end() ){
       for( vector< int >::const_iterator it_number = it_numbers->second.begin(); it_number != it_numbers->second.end(); it_number++ ){
@@ -375,12 +396,18 @@ main( int argc,
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "object_property", "object_type", *it_object_type ) );
       }
     }
-    map< string, vector< string > >::const_iterator it_object_colors = symbol_dictionary_groundings->string_types().find( "object_color" );
-    if( it_object_colors != symbol_dictionary_groundings->string_types().end() ){
-      for( vector< string >::const_iterator it_object_color = it_object_colors->second.begin(); it_object_color != it_object_colors->second.end(); it_object_color++ ){
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "object_property", "object_color", *it_object_color ) );
+    map< string, vector< string > >::const_iterator it_spatial_relation_types = symbol_dictionary_groundings->string_types().find( "spatial_relation_type" );
+    if( it_spatial_relation_types != symbol_dictionary_groundings->string_types().end() ){
+      for( vector< string >::const_iterator it_spatial_relation_type = it_spatial_relation_types->second.begin(); it_spatial_relation_type != it_spatial_relation_types->second.end(); it_spatial_relation_type++ ){
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "object_property", "spatial_relation_type", *it_spatial_relation_type ) );
       }
     }
+    map< string, vector< int > >::const_iterator it_indices = symbol_dictionary_groundings->int_types().find( "index" ); 
+    if( it_indices != symbol_dictionary_groundings->int_types().end() ){
+      for( vector< int >::const_iterator it_index = it_indices->second.begin(); it_index != it_indices->second.end(); it_index++ ){
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Int_Property_Value( false, "object_property", "index", *it_index ) );
+      }
+    } 
   }
 
   if( find( it_class_names->second.begin(), it_class_names->second.end(), "index" ) != it_class_names->second.end() ){

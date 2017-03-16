@@ -41,23 +41,27 @@ To run the DCG model
 
 To generate a symbol dictionary for the example corpus, run the following command from the build directory:
 
-./bin/h2sl-generate-symbol-dictionary ../data/training/example_corpus/example_00*.xml --output symbol_dictionary.xml
+./bin/h2sl-generate-symbol-dictionary ../data/training/example_corpus/example_00*.xml --output ../data/training/example_corpus/symbol_dictionary_groundings.xml
 
 To generate a feature set for the example corpus using the just generated symbol dictionary, run the following command from the build directory:
 
-./bin/h2sl-generate-feature-set ../data/training/example_corpus/example_00*.xml --symbol_dictionary symbol_dictionary.xml --output feature_set.xml
+./bin/h2sl-generate-feature-set-groundings ../data/training/example_corpus/example_00*.xml --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml --output ../data/training/example_corpus/feature_set_dcg.xml
 
 To train a model using the just generated symbol dictionary and feature set, run the following command from the build directory:
 
-./bin/h2sl-llm-train ../data/training/example_corpus/example_00*.xml --feature_set feature_set.xml --symbol_dictionary symbol_dictionary.xml --output llm.xml
+./bin/h2sl-llm-train-groundings ../data/training/example_corpus/example_00*.xml --feature_set ../data/training/example_corpus/feature_set_dcg.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --output ../data/training/example_corpus/llm_dcg.xml
+
+To run the DCG demo program run the following command from the build directory.
+
+./bin/h2sl-dcg-demo --grammar ../data/grammar/grammar.xml --command "walk to the furthest chair" --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml --world ../data/training/example_corpus/example_0034.xml --llm ../data/training/example_corpus/llm_dcg.xml --output /tmp/example_dcg.xml --debug 1
 
 To run the DCG test, run the following command from the build directory:
 
-./bin/h2sl-dcg-test ../data/training/example_corpus/example_00*.xml --llm llm.xml --grammar ../data/grammar/grammar.xml --symbol_dictionary symbol_dictionary.xml
+./bin/h2sl-dcg-test ../data/training/example_corpus/example_00*.xml --llm ../data/training/example_corpus/llm_dcg.xml --grammar ../data/grammar/grammar.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml
 
 To run the Graphical User Interface (GUI), run the following command from the build directory:
 
-./bin/h2sl-gui-demo --world ../data/training/example_corpus/example_0001.xml --llm llm.xml --symbol_dictionary symbol_dictionary.xml --grammar ../data/grammar/grammar.xml 
+./bin/h2sl-gui-demo --world ../data/training/example_corpus/example_0001.xml --llm ../data/training/example_corpus/llm_dcg.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --grammar ../data/grammar/grammar.xml 
 
 
 
@@ -77,16 +81,37 @@ Third, generate the symbol dictionary for the rules by running the following com
 
 Next, generate the feature set from the examples and symbol dictionaries by running the following command from the build directory.  This will create the feature set for the log-linear model you will train in the following step.
 
-./bin/h2sl-generate-feature-set-groundings-and-rules ../data/training/example_corpus/example_00*.xml ../data/training/example_corpus/rule_example_00*.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --symbol_dictionary_rules ../data/training/example_corpus/symbol_dictionary_rules.xml --output ../data/training/example_corpus/feature_set.xml
+./bin/h2sl-generate-feature-set-groundings-and-rules ../data/training/example_corpus/example_00*.xml ../data/training/example_corpus/rule_example_00*.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --symbol_dictionary_rules ../data/training/example_corpus/symbol_dictionary_rules.xml --output ../data/training/example_corpus/feature_set_hdcg.xml
 
 Now train the combined model by running the following command from the build directory.  This will produce a llm.xml file that contains the trained log-linear models.
 
-./bin/h2sl-llm-train-groundings-and-rules ../data/training/example_corpus/example_00*.xml ../data/training/example_corpus/rule_example_00*.xml --feature_set ../data/training/example_corpus/feature_set.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --symbol_dictionary_rules ../data/training/example_corpus/symbol_dictionary_rules.xml --output ../data/training/example_corpus/llm.xml
+./bin/h2sl-llm-train-groundings-and-rules ../data/training/example_corpus/example_00*.xml ../data/training/example_corpus/rule_example_00*.xml --feature_set ../data/training/example_corpus/feature_set_hdcg.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --symbol_dictionary_rules ../data/training/example_corpus/symbol_dictionary_rules.xml --output ../data/training/example_corpus/llm_hdcg.xml
 
 Finally, to run the HDCG demo program run the following command from the build directory.
 
-./bin/h2sl-hdcg-demo --grammar ../data/grammar/grammar.xml --command "walk to the box" --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml --world ../data/training/example_corpus/example_0001.xml --llm ../data/training/example_corpus/llm.xml --output /tmp/example.xml
+./bin/h2sl-hdcg-demo --grammar ../data/grammar/grammar.xml --command "walk to the box" --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml --world ../data/training/example_corpus/example_0001.xml --llm ../data/training/example_corpus/llm_hdcg.xml --output /tmp/example_hdcg.xml --debug 1
 
 To run the HDCG test, run the following command from the build directory
 
-./bin/h2sl-hdcg-test ../data/training/example_corpus/example_00*.xml --grammar ../data/grammar/grammar.xml --llm ../data/training/example_corpus/llm.xml --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml
+./bin/h2sl-hdcg-test ../data/training/example_corpus/example_00*.xml --grammar ../data/grammar/grammar.xml --llm ../data/training/example_corpus/llm_hdcg.xml --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml
+
+
+
+To run the ADCG model
+
+First, generate the symbol dictionary for the groundings by running the following command from the build directory.  This describes the space of symbols in the grounding-based model.
+
+./bin/h2sl-generate-symbol-dictionary ../data/training/example_corpus/example_00*.xml --output ../data/training/example_corpus/symbol_dictionary_groundings.xml
+
+Next, generate the feature set from the examples and symbol dictionaries by running the following command from the build directory.  This will create the feature set for the log-linear model you will train in the following step.
+
+./bin/h2sl-generate-feature-set-groundings ../data/training/example_corpus/example_00*.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --output ../data/training/example_corpus/feature_set_adcg.xml
+
+Now train the model by running the following command from the build directory.  This will produce a llm_adcg.xml file that contains the trained log-linear models.
+
+./bin/h2sl-llm-train-groundings ../data/training/example_corpus/example_00*.xml --feature_set ../data/training/example_corpus/feature_set_adcg.xml --symbol_dictionary_groundings ../data/training/example_corpus/symbol_dictionary_groundings.xml --output ../data/training/example_corpus/llm_adcg.xml
+
+Finally, to run the ADCG demo program run the following command from the build directory.
+
+./bin/h2sl-adcg-demo --grammar ../data/grammar/grammar.xml --command "walk to the furthest chair" --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml --world ../data/training/example_corpus/example_0034.xml --llm ../data/training/example_corpus/llm_adcg.xml --output /tmp/example_adcg.xml --debug 1
+

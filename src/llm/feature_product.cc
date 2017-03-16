@@ -121,6 +121,7 @@
 #include "h2sl/feature_min_y_index_abstract_container_region_container.h"
 #include "h2sl/feature_min_y_object.h"
 #include "h2sl/feature_object_matches_sorted_objects.h"
+#include "h2sl/feature_object_matches_sorted_object.h"
 #include "h2sl/feature_object_matches_child_container_object.h"
 #include "h2sl/feature_object_matches_child_region_container_object.h"
 #include "h2sl/feature_object_number_matches_world_object_number.h"
@@ -507,6 +508,8 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Matches_Only_Child< Spatial_Relation >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_sorted_objects" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Object_Matches_Sorted_Objects( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_sorted_object" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Object_Matches_Sorted_Object( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_matches_child_region" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Object_Matches_Child< Region, Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_merge_partially_known_regions" ) ) == 0 ){

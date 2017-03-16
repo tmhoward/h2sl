@@ -50,6 +50,8 @@ main( int argc,
     }
   } 
 
+  cout << "symbol_dictionary:(" << *symbol_dictionary << ")" << endl;
+
   if( args.output_given ){
     symbol_dictionary->to_xml( args.output_arg );
   }

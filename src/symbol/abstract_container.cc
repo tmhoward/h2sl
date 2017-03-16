@@ -160,17 +160,17 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     }
 
     map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
-    map< string, vector< int > >::const_iterator it_number_value_types = symbolDictionary.int_types().find( "number" );
-    map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index" );
+    map< string, vector< int > >::const_iterator it_number_values = symbolDictionary.int_types().find( "number" );
+    map< string, vector< int > >::const_iterator it_index_values = symbolDictionary.int_types().find( "index" );
     map< string, vector< string > >::const_iterator it_object_colors = symbolDictionary.string_types().find( "object_color" );
 
     if( ( symbolType == "abstract" ) || ( symbolType == "all" ) ){
-      if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_number_value_types != symbolDictionary.int_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) && ( it_object_colors != symbolDictionary.string_types().end() ) ){
+      if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_number_values != symbolDictionary.int_types().end() ) && ( it_index_values != symbolDictionary.int_types().end() ) && ( it_object_colors != symbolDictionary.string_types().end() ) ){
         for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
-          for( unsigned int j = 0; j < it_number_value_types->second.size(); j++ ){
-            for( unsigned int k = 0; k < it_index_value_types->second.size(); k++ ){
+          for( unsigned int j = 0; j < it_number_values->second.size(); j++ ){
+            for( unsigned int k = 0; k < it_index_values->second.size(); k++ ){
               for( unsigned int l = 0; l < it_object_colors->second.size(); l++ ){
-                it_search_spaces_symbol->second.second.push_back( new Abstract_Container( it_object_type_types->second[ i ], it_number_value_types->second[ j ], it_index_value_types->second[ k ], it_object_colors->second[ l ] ) );
+                it_search_spaces_symbol->second.second.push_back( new Abstract_Container( it_object_type_types->second[ i ], it_number_values->second[ j ], it_index_values->second[ k ], it_object_colors->second[ l ] ) );
               }
             }
           }

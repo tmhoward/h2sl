@@ -6,7 +6,8 @@ set(GGOS
     dcg_groundings_demo.ggo
     dcg_rules_demo.ggo
     hdcg_demo.ggo
-#    adcg_demo.ggo
+    adcg_demo.ggo
+    dcg_test.ggo
     dcg_test.ggo
     hdcg_test.ggo)
 #    adcg_test.ggo)
@@ -44,7 +45,7 @@ set(BIN_SRCS
     dcg_groundings_demo.cc
     dcg_rules_demo.cc
     hdcg_demo.cc
-#    adcg_demo.cc
+    adcg_demo.cc
     dcg_test.cc
     hdcg_test.cc)
 #    adcg_test.cc)

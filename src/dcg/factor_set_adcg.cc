@@ -33,13 +33,7 @@ factor_set_adcg_solution_sort( const Factor_Set_Solution& a,
 
 Factor_Set_ADCG::
 Factor_Set_ADCG( const Phrase* phrase ) : Factor_Set( phrase ),
-                                              _abstract_search_spaces(),
-                                              _abstract_correspondence_variables() {
-  vector< string > binary_cvs;
-  binary_cvs.push_back( "false" );
-  binary_cvs.push_back( "true" );
-
-  _abstract_correspondence_variables.push_back( binary_cvs );
+                                              _abstract_search_spaces() {
 }
 
 Factor_Set_ADCG::
@@ -49,10 +43,10 @@ Factor_Set_ADCG::
 
 Factor_Set_ADCG::
 Factor_Set_ADCG( const Factor_Set_ADCG& other ) : Factor_Set( other ),
-                                             _abstract_search_spaces( other._abstract_search_spaces ),
-                                              _abstract_correspondence_variables( other._abstract_correspondence_variables ) {
+                                             _abstract_search_spaces( other._abstract_search_spaces ) {
 
 }
+
 
 Factor_Set_ADCG&
 Factor_Set_ADCG::
@@ -61,7 +55,6 @@ operator=( const Factor_Set_ADCG& other ) {
   _child_factor_sets = other._child_factor_sets;
   _solutions = other._solutions;
   _abstract_search_spaces = other._abstract_search_spaces;
-  _abstract_correspondence_variables = other._abstract_correspondence_variables;
   return (*this);
 }
 
@@ -108,6 +101,7 @@ search( const Search_Space* searchSpace,
   vector< bool > evaluate_feature_types( NUM_FEATURE_TYPES, true );
 
   if( debug ){
+    cout << "concrete search space" << endl;
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace->grounding_pairs().begin(); it_search_spaces != searchSpace->grounding_pairs().end(); it_search_spaces++ ){
       cout << "searching through symbols for \"" << it_search_spaces->first << "\" (" << it_search_spaces->second.second.size() << " symbols)" << endl;
     }
@@ -143,9 +137,57 @@ search( const Search_Space* searchSpace,
                         it_cvs->second,
                         evaluate_feature_types,
                         context, world, llm, beamWidth, debug );
+
+    }
+ 
+    // Symbol dictionaries for the current inference with the child solution combo.
+    vector< pair< double, Symbol_Dictionary > > inferred_concrete_symbol_dictionaries;
+    // Iterate and scrape the groundings from the solutions found. Record the probabilities.
+    for( vector< Factor_Set_Solution >::const_iterator it_solution = solutions_vector.back().begin(); it_solution !=  solutions_vector.back().end(); it_solution++) {
+      inferred_concrete_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->pygx(), Symbol_Dictionary( symbolDictionary, "abstract" ) ) );
+      cout << "current grounding set (" << *it_solution->grounding_set() << ")" << endl;
+      it_solution->grounding_set()->scrape_grounding( world, 
+                                                     inferred_concrete_symbol_dictionaries.back().second.string_types(), 
+                                                     inferred_concrete_symbol_dictionaries.back().second.int_types() );
+      inferred_concrete_symbol_dictionaries.back().second.class_names() = symbolDictionary.class_names();
+    }     
+
+    for( vector< pair< double, Symbol_Dictionary > >::const_iterator it_symbol_dictionary = inferred_concrete_symbol_dictionaries.begin(); it_symbol_dictionary != inferred_concrete_symbol_dictionaries.end(); it_symbol_dictionary++ ){
+    // Print out for debug.
+      if( debug ){
+        cout << "inferred concrete symbol dictionary (" << it_symbol_dictionary->first << "):(" << it_symbol_dictionary->second << ")" << endl;
+      }
+   
+      // Creating the ssearch space from the symbol dictionary with abstract flag on.
+      _abstract_search_spaces.push_back( new Search_Space() );
+      _abstract_search_spaces.back()->fill_groundings( it_symbol_dictionary->second, world, "abstract" );
+
+      // Print out the abstract search space.
+      if( debug ){
+        cout << "abstract search space" << endl;
+        for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = _abstract_search_spaces.back()->grounding_pairs().begin(); it_search_spaces != _abstract_search_spaces.back()->grounding_pairs().end(); it_search_spaces++ ){
+          cout << "searching through symbols for \"" << it_search_spaces->first << "\" (" << it_search_spaces->second.second.size() << " symbols)" << endl;
+        }
+      }
+
+
+      // search over the class-based search spaces for the abstract symbols.
+      for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_abstract_search_spaces = _abstract_search_spaces.back()->grounding_pairs().begin(); it_abstract_search_spaces != _abstract_search_spaces.back()->grounding_pairs().end(); it_abstract_search_spaces++ ){
+        map< string, vector< string > >::const_iterator it_abstract_cvs = _abstract_search_spaces.back()->cvs().find( it_abstract_search_spaces->second.first );
+        assert( it_abstract_cvs != _abstract_search_spaces.back()->cvs().end() );
+
+        // search the subspace that incrementally populates the solution vectors
+        search_subspace( solutions_vector.back(),
+                        child_groundings,
+                        it_abstract_search_spaces->second,
+                        it_abstract_cvs->second,
+                        evaluate_feature_types,
+                        context, world, llm, beamWidth, debug );
+
+      }
+
     }
   }
-
 
   /**************** FLATTEN THE SOLUTIONS ***********************/
   _solutions.clear();
@@ -165,8 +207,6 @@ search( const Search_Space* searchSpace,
   if( _solutions.size() > beamWidth ){
     _solutions.erase( _solutions.begin() + beamWidth, _solutions.end() );
   }
-
-
  
   /**************** PRINT OUT THE SOLUTIONS IF REQD.***********************/
 
@@ -197,13 +237,12 @@ search( const Search_Space* searchSpace,
 }
 
 
-
+/*
 void
 Factor_Set_ADCG::
 _search_physical( const Search_Space& searchSpace, 
                   const Symbol_Dictionary& symbolDictionary,
                   const World* world, LLM* llm, const unsigned int beamWidth, const bool& debug ){
-  /*
   if( debug ){
     cout << " Factor Set ADCG: Beginning of physical search" << endl;
     cout << " phrase:" << *_phrase << endl;
@@ -277,7 +316,7 @@ _search_physical( const Search_Space& searchSpace,
           evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
           for( unsigned int l = 0; l < num_solutions; l++ ){
             map< string, vector< vector< unsigned int > > >::iterator it_cvs_solution = solutions_vector.back()[ k* num_solutions + l ].cv.find( it_search_spaces->first );
-            assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() );
+            //assert( it_cvs_solution != solutions_vector.back()[ k * num_solutions + l ].cv.end() );
             //solutions_vector.back()[ k * num_solutions + l ].cv[ correspondenceVariables[ searchSpace[ j ].first ][ k ] ].push_back( j );
             solutions_vector.back()[ k * num_solutions + l ].pygx *= value;
           }
@@ -301,6 +340,7 @@ _search_physical( const Search_Space& searchSpace,
       }
     }
   //}
+
 
    vector< Symbol_Dictionary > estimated_symbol_dictionaries;
    
@@ -581,52 +621,18 @@ _search_physical( const Search_Space& searchSpace,
   if( debug ){
     cout << *this << endl;
   }
- */
+
   return;
   
 }
+*/
 
 
 namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Factor_Set_ADCG& other ){
-/*
-    for( unsigned int i = 0; i < other.solutions().size(); i++ ){
-      out << "solutions[" << i << "] TRUE [" << other.solutions()[ i ].cv[ CV_TRUE ].size() << "]:{";
-      for( unsigned int j = 0; j < other.solutions()[ i ].cv[ CV_TRUE ].size(); j++ ){
-        out << other.solutions()[ i ].cv[ CV_TRUE ][ j ];
-        if( j != ( other.solutions()[ i ].cv[ CV_TRUE ].size() - 1 ) ){
-          out << ",";
-        }
-      }
-      out << "} ";
-      out << "groundings[" << other.solutions()[ i ].groundings.size() << "]:{";
-      for( unsigned int j = 0; j < other.solutions()[ i ].groundings.size(); j++ ){
-        if( dynamic_cast< Grounding* >( other.solutions()[ i ].groundings[ j ] ) != NULL ){
-          out << "(" << *static_cast< Grounding* >( other.solutions()[ i ].groundings[ j ] ) << ")";
-        }
-        if( j != ( other.solutions()[ i ].groundings.size() - 1 ) ){
-          out << ",";
-        }
-      }
-      out << "} ";
-      out << "children[" << other.solutions()[ i ].children.size() << "]:{";
-      for( unsigned int j = 0; j < other.solutions()[ i ].children.size(); j++ ){
-        out << other.solutions()[ i ].children[ j ];
-        if( j != ( other.solutions()[ i ].children.size() - 1 ) ){
-          out << ",";
-        }
-      }
-      out << "} ";
-      out << "pygx:" << other.solutions()[ i ].pygx << endl;
-    }
-    for( unsigned int i = 0; i < other.abstract_search_spaces().size(); i++ ){
-      out << "abstract_search_space[" << i << "] size:" << other.abstract_search_spaces()[ i ].size() << endl;
-    }
-  */
     return out;
-
   }
 }
 

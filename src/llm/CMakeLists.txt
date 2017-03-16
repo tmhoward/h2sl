@@ -5,7 +5,7 @@ set(GGOS
     feature_object_matches_child_demo.ggo
     feature_product_demo.ggo
     feature_set_demo.ggo
-    generate_feature_set.ggo
+    generate_feature_set_groundings.ggo
     generate_feature_set_rules.ggo
     generate_feature_set_groundings_and_rules.ggo
     llm_demo.ggo
@@ -73,6 +73,7 @@ set(HDRS
 #    h2sl/feature_region_container_type.h
 #    h2sl/feature_region_container_container_type.h
     h2sl/feature_object_matches_sorted_objects.h
+    h2sl/feature_object_matches_sorted_object.h
 #    h2sl/feature_max_x_abstract_container.h
 #    h2sl/feature_max_distance_object_within.h
 #    h2sl/feature_min_distance_object_within.h
@@ -177,6 +178,7 @@ set(SRCS
 #    feature_region_container_type.cc
 #    feature_region_container_container_type.cc
     feature_object_matches_sorted_objects.cc
+    feature_object_matches_sorted_object.cc
 #    feature_max_x_abstract_container.cc
 #    feature_max_distance_object_within.cc
 #    feature_min_distance_object_within.cc
@@ -232,7 +234,7 @@ set(BIN_SRCS
     feature_matches_child_demo.cc
     feature_object_matches_child_demo.cc
     feature_product_demo.cc
-    generate_feature_set.cc
+    generate_feature_set_groundings.cc
     generate_feature_set_rules.cc
     generate_feature_set_groundings_and_rules.cc
     feature_set_demo.cc

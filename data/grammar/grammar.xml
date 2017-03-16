@@ -9,7 +9,7 @@
     <grammar_terminal symbol="IN" words="near,at,toward,towards,by,for,of,in,from,behind,on"/>
     <grammar_terminal symbol="JJ" words="white"/>
     <grammar_terminal symbol="JJR" words=""/>
-    <grammar_terminal symbol="JJS" words=""/>
+    <grammar_terminal symbol="JJS" words="furthest"/>
     <grammar_terminal symbol="LS" words=""/>
     <grammar_terminal symbol="MD" words=""/>
     <grammar_terminal symbol="NN" words="robot,box,crate,package,table,desk,chair,couch,sofa,sink,mug,cup,glass,can,fridge,refrigerator,hammer,mallet,screwdriver,pipe,tube,newspaper,marker,pen,tape,bone,left,right,front,back,bottle,seat,stool,counter,car,tree,location"/>
@@ -51,6 +51,7 @@
     <grammar_non_terminal root="NP" children="NP,PP"/>
     <grammar_non_terminal root="NP" children="DT,NN"/>
     <grammar_non_terminal root="NP" children="DT,NNS"/>
+    <grammar_non_terminal root="NP" children="DT,X4"/>
     <grammar_non_terminal root="NP" children="JJ,NN"/>
     <grammar_non_terminal root="NP" children="JJ,NNS"/>
     <grammar_non_terminal root="NP" children="NP,X0"/>
@@ -59,6 +60,7 @@
     <grammar_non_terminal root="X1" children="NP,PP"/>
     <grammar_non_terminal root="X2" children="CC,VP"/>
     <grammar_non_terminal root="X3" children="PRT,PP"/>
+    <grammar_non_terminal root="X4" children="JJS,NN"/>
     <grammar_unit_production type="NP" symbol="NN"/>
     <grammar_unit_production type="NP" symbol="EX"/>
     <grammar_unit_production type="PRT" symbol="RP"/>

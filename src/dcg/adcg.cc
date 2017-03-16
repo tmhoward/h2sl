@@ -1,4 +1,4 @@
-/**
+/*
  * @file    adcg.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
@@ -97,66 +97,13 @@ operator=( const ADCG& other ) {
 }
 
 /*
- * fill search spaces
- */
-
-/*
-void
-ADCG::
-fill_search_spaces( const World* world ){
-
-  for( unsigned int i = 0; i < _search_spaces.size(); i++ ){
-    if( _search_spaces[ i ].second != NULL ){
-      delete _search_spaces[ i ].second;
-      _search_spaces[ i ].second = NULL;
-    }
-    _search_spaces.clear();
-  }
-
-  // Correspondence variables.
-  for( unsigned int i = 0; i < _correspondence_variables.size(); i++ ){
-    _correspondence_variables[ i ].clear();
-  }
-  _correspondence_variables.clear();
-
-  std::vector< unsigned int > binary_cvs;
-  binary_cvs.push_back( CV_FALSE );
-  binary_cvs.push_back( CV_TRUE );
-
-  std::vector< unsigned int > ternary_cvs;
-  ternary_cvs.push_back( CV_FALSE );
-  ternary_cvs.push_back( CV_TRUE );
-  ternary_cvs.push_back( CV_INVERTED );
-
-  _correspondence_variables.push_back( binary_cvs );
-  _correspondence_variables.push_back( ternary_cvs );
-
-  Object::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Object_Type::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Object_Color::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Object_Property::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Number::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Index::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Region::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Spatial_Relation::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Constraint::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Region_Abstract_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-  Region_Container::fill_search_space( _symbol_dictionary, world, _search_spaces, SYMBOL_TYPE_CONCRETE );
-
-  return;
-}
-*/
-
-/*
  * leaf search 
  */
 bool
 ADCG::
 leaf_search( const Phrase* phrase,
               const Symbol_Dictionary& symbolDictionary,
-              const Search_Space* searchSpace,
+              Search_Space* searchSpace,
               const World* world,
               LLM * llm,
               const unsigned int beamWidth,
@@ -172,7 +119,7 @@ leaf_search( const Phrase* phrase,
 ADCG::
 leaf_search( const Phrase* phrase,
               const Symbol_Dictionary& symbolDictionary,
-              const Search_Space* searchSpace,
+              Search_Space* searchSpace,
               const World* world,
               const Grounding* context,
               LLM * llm,
@@ -185,6 +132,8 @@ leaf_search( const Phrase* phrase,
     }
   }
   _solutions.clear();
+
+  searchSpace->fill_groundings( symbolDictionary, world, "concrete" );
 
   if( phrase != NULL ){
     if( _root != NULL ){
@@ -261,53 +210,6 @@ _fill_factors( Factor_Set* node,
   } 
   return;
 }
-
-/*
- * scrape examples function.
- */ 
-/*
-void
-ADCG::
-scrape_examples( const string& filename,
-                  const Phrase* phrase,
-                  const World* world,
-                  const vector< pair< unsigned int, Grounding* > >& searchSpaces,
-                  const vector< vector< unsigned int > >& correspondenceVariables,
-                  vector< pair< unsigned int, LLM_X > >& examples ){
-  const Grounding_Set * grounding_set = dynamic_cast< const Grounding_Set* >( phrase->grounding_set() );
-  for( unsigned int i = 0; i < searchSpaces.size(); i++ ){
-
-    bool add_example = true;
-    if( grounding_set->evaluate_cv( searchSpaces[ i ].second ) == h2sl::CV_FALSE ){
-      if( dynamic_cast< Container* >( searchSpaces[ i ].second ) ){
-//        add_example = ( ( rand() % 2 ) == 0 );
-      } else if ( dynamic_cast< Region_Container* >( searchSpaces[ i ].second ) ){
-        add_example = ( ( rand() % 5 ) == 0 );
-      }
-    }
-
-    if( add_example ){
-      assert( phrase->grounding_set() != NULL );
-//    cout << "comparing " << *static_cast< const Grounding* >( searchSpaces[ i ].second ) << endl;
-      examples.push_back( pair< unsigned int, h2sl::LLM_X >( grounding_set->evaluate_cv( searchSpaces[ i ].second ), h2sl::LLM_X( searchSpaces[ i ].second, phrase, world, correspondenceVariables[ searchSpaces[ i ].first ], vector< h2sl::Feature* >(), filename ) ) );
-      for( unsigned int j = 0; j < phrase->children().size(); j++ ){
-        examples.back().second.children().push_back( pair< const h2sl::Phrase*, vector< h2sl::Grounding* > >( phrase->children()[ j ], vector< h2sl::Grounding* >() ) );
-        Grounding_Set * child_grounding_set = dynamic_cast< Grounding_Set* >( phrase->children()[ j ]->grounding_set() );
-        if( child_grounding_set ){
-          for( unsigned int k = 0; k < child_grounding_set->groundings().size(); k++ ){
-            examples.back().second.children().back().second.push_back( child_grounding_set->groundings()[ k ] );
-          }
-        }
-      }
-    }
-  }
-
-  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    scrape_examples( filename, dynamic_cast< Phrase* >( phrase->children()[ i ] ), world, searchSpaces, correspondenceVariables, examples );
-  }
-  return;
-}
-*/
 
 /** 
  * imports the DCG class from an XML file
