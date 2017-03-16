@@ -69,7 +69,7 @@ operator=( const Feature_Region_Object_Matches_Child& other ) {
 
 bool
 Feature_Region_Object_Matches_Child::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -79,7 +79,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Region_Object_Matches_Child::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

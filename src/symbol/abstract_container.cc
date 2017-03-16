@@ -108,6 +108,20 @@ dup( void )const{
   return new Abstract_Container( *this );
 }
 
+string
+Abstract_Container::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Abstract_Container* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Abstract_Container* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
+
 void
 Abstract_Container::
 scrape_grounding( const World * world,
@@ -136,7 +150,7 @@ Abstract_Container::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
-                    const symbol_type_t& symbolType ){
+                    const std::string& symbolType ){
 
   if( symbolDictionary.has_class_name( class_name() ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
@@ -150,9 +164,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index" );
     map< string, vector< string > >::const_iterator it_object_colors = symbolDictionary.string_types().find( "object_color" );
 
-    switch( symbolType ){
-    case( SYMBOL_TYPE_ABSTRACT ):
-    case( SYMBOL_TYPE_ALL ):
+    if( ( symbolType == "abstract" ) || ( symbolType == "all" ) ){
       if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_number_value_types != symbolDictionary.int_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) && ( it_object_colors != symbolDictionary.string_types().end() ) ){
         for( unsigned int i = 0; i < it_object_type_types->second.size(); i++ ){
           for( unsigned int j = 0; j < it_number_value_types->second.size(); j++ ){
@@ -164,11 +176,6 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           }
         }
       }
-      break;
-    case( SYMBOL_TYPE_CONCRETE ):
-    case( NUM_SYMBOL_TYPES ):
-    default:
-      break;
     }
   }
 

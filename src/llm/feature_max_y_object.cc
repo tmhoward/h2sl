@@ -56,7 +56,7 @@ operator=( const Feature_Max_Y_Object& other ){
  */
 bool
 Feature_Max_Y_Object::
-value( const unsigned int& cv,
+value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
@@ -70,7 +70,7 @@ value( const unsigned int& cv,
  */
 bool
 Feature_Max_Y_Object::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

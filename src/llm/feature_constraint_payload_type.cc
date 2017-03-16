@@ -68,7 +68,7 @@ operator=( const Feature_Constraint_Payload_Type& other ) {
 
 bool
 Feature_Constraint_Payload_Type::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -78,7 +78,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Constraint_Payload_Type::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

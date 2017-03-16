@@ -143,7 +143,7 @@ container_expresses_dominant_x_structure( const std::vector < Object* >& contain
  */
 bool
 Feature_Container_Dominant_X_Shape::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -157,7 +157,7 @@ value( const unsigned int& cv,
  */
 bool
 Feature_Container_Dominant_X_Shape::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

@@ -24,13 +24,13 @@ namespace h2sl {
     virtual ~Feature_Object_Number_Matches_World_Object_Number();
     Feature_Object_Number_Matches_World_Object_Number& operator=( const Feature_Object_Number_Matches_World_Object_Number& other );
 
-    virtual bool value( const unsigned int& cv, 
+    virtual bool value( const std::string& cv, 
                         const Grounding* grounding, 
                         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, 
                         const h2sl::Phrase* phrase, 
                         const World* world );
 
-    virtual bool value( const unsigned int& cv, 
+    virtual bool value( const std::string& cv, 
                         const Grounding* grounding, 
                         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children,
                         const Phrase* phrase, 

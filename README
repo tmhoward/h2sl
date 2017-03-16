@@ -86,3 +86,7 @@ Now train the combined model by running the following command from the build dir
 Finally, to run the HDCG demo program run the following command from the build directory.
 
 ./bin/h2sl-hdcg-demo --grammar ../data/grammar/grammar.xml --command "walk to the box" --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml --world ../data/training/example_corpus/example_0001.xml --llm ../data/training/example_corpus/llm.xml --output /tmp/example.xml
+
+To run the HDCG test, run the following command from the build directory
+
+./bin/h2sl-hdcg-test ../data/training/example_corpus/example_00*.xml --grammar ../data/grammar/grammar.xml --llm ../data/training/example_corpus/llm.xml --symbol_dictionary ../data/training/example_corpus/symbol_dictionary_groundings.xml

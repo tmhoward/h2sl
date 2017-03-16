@@ -65,8 +65,7 @@ using namespace h2sl;
  * ADCG class constructor
  */
 ADCG::
-ADCG() : _solutions(),
-        _root( NULL ) {
+ADCG() : DCG() {
 
 }
 
@@ -82,8 +81,7 @@ ADCG::
  * ADCG copy constructor
  */
 ADCG::
-ADCG( const ADCG& other ) : _solutions( other._solutions ),
-                          _root( other._root ) {
+ADCG( const ADCG& other ) : DCG( other ) {
 
 }
 

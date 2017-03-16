@@ -54,7 +54,7 @@ operator=( const Feature_Is_Region_Abstract_Container& other ) {
  */
 bool
 Feature_Is_Region_Abstract_Container::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -64,7 +64,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Is_Region_Abstract_Container::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

@@ -61,7 +61,7 @@ operator=( const Feature_Min_Y_Index_Abstract_Container_Region_Container& other 
  */
 bool
 Feature_Min_Y_Index_Abstract_Container_Region_Container::
-value( const unsigned int& cv,
+value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
@@ -74,7 +74,7 @@ value( const unsigned int& cv,
  */
 bool
 Feature_Min_Y_Index_Abstract_Container_Region_Container::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

@@ -32,10 +32,11 @@ namespace h2sl {
     bool operator!=( const Rule_Object_Type& other )const;
     virtual Rule_Object_Type* dup( void )const;
 
+    virtual std::string evaluate_cv( const Grounding_Set* groundingSet )const;
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "rule_object_type" ); };
     virtual void scrape_grounding( const World * world, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     virtual void scrape_grounding( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
-    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& searchSpaces, const symbol_type_t& symbolType );
+    static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& searchSpaces, const std::string& symbolType );
     virtual void fill_rules( const World* world, Grounding_Set* groundingSet )const; 
 
     virtual void from_xml( const std::string& file );

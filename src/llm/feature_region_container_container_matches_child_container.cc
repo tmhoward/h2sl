@@ -54,7 +54,7 @@ operator=( const Feature_Region_Container_Container_Matches_Child_Container& oth
  */
 bool
 Feature_Region_Container_Container_Matches_Child_Container::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -64,7 +64,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Region_Container_Container_Matches_Child_Container::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

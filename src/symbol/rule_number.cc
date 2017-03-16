@@ -85,6 +85,20 @@ dup( void )const{
   return new Rule_Number( *this );
 }
 
+string
+Rule_Number::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Rule_Number* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Rule_Number* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
+
 void
 Rule_Number::
 scrape_grounding( const World * world,
@@ -110,7 +124,7 @@ Rule_Number::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
-                    const symbol_type_t& symbolType ){
+                    const std::string& symbolType ){
   if( symbolDictionary.has_class_name( "rule_number" ) || symbolDictionary.has_class_name( "number" ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
@@ -120,19 +134,12 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
     map< string, vector< int > >::const_iterator it_number_value_values = symbolDictionary.int_types().find( "number" );
 
-    switch( symbolType ){
-    case( SYMBOL_TYPE_CONCRETE ):
-    case( SYMBOL_TYPE_ALL ):
+    if( ( symbolType == "concrete" ) || ( symbolType == "all" ) ){
       if( it_number_value_values != symbolDictionary.int_types().end() ){
         for( unsigned int i = 0; i < it_number_value_values->second.size(); i++ ){
           it_search_spaces_symbol->second.second.push_back( new Rule_Number( it_number_value_values->second[ i ] ) );
         }
       }
-      break;
-    case( SYMBOL_TYPE_ABSTRACT ):
-    case( NUM_SYMBOL_TYPES ):
-    default:
-      break;
     }
   }
 

@@ -62,7 +62,7 @@ operator=( const Feature_Phrase_Has_Ordered_POS_Tag_Pair& other ) {
  */
 bool
 Feature_Phrase_Has_Ordered_POS_Tag_Pair::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,
@@ -72,7 +72,7 @@ value( const unsigned int& cv,
 
 bool
 Feature_Phrase_Has_Ordered_POS_Tag_Pair::
-value( const unsigned int& cv,
+value( const string& cv,
         const Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

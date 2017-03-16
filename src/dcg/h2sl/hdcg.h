@@ -1,5 +1,5 @@
 /**
- * @file    dcg.h
+ * @file    hdcg.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,8 +28,8 @@
  *
  * @section DESCRIPTION
  *
- * The interface for a class used to represent a Distributed Correspondence
- *   Graph
+ * The interface for a class used to represent a Hierarhical Distributed 
+ * Correspondence Graph
  */
 
 #ifndef H2SL_HDCG_H

@@ -120,6 +120,20 @@ dup( void )const{
   return new Constraint( *this );
 }
 
+string 
+Constraint::
+evaluate_cv( const Grounding_Set* groundingSet )const{
+  string cv = "false";
+  for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
+    if( dynamic_cast< const Constraint* >( groundingSet->groundings()[ i ] ) ){
+      if( *this == *static_cast< const Constraint* >( groundingSet->groundings()[ i ] ) ){
+        cv = "true";
+      }
+    }
+  }
+  return cv;
+}
+
 void
 Constraint::
 scrape_grounding( const World * world,
@@ -154,7 +168,7 @@ Constraint::
 fill_search_space( const Symbol_Dictionary& symbolDictionary,
                     const World* world,
                     map< string, pair< string, vector< Grounding* > > >& searchSpaces,
-                    const symbol_type_t& symbolType ){
+                    const std::string& symbolType ){
   if( symbolDictionary.has_class_name( class_name() ) ){
     map< string, pair< string, vector< Grounding* > > >::iterator it_search_spaces_symbol = searchSpaces.find( class_name() );
     if( it_search_spaces_symbol == searchSpaces.end() ){
@@ -167,9 +181,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     map< string, vector< string > >::const_iterator it_constraint_reference_type_types = symbolDictionary.string_types().find( "constraint_reference_type" );
     map< string, vector< string > >::const_iterator it_spatial_relation_type_types = symbolDictionary.string_types().find( "spatial_relation_type" );
 
-    switch( symbolType ){
-    case( SYMBOL_TYPE_ABSTRACT ):
-    case( SYMBOL_TYPE_ALL ):
+    if( ( symbolType == "abstract" ) || ( symbolType == "all" ) ){
       if( ( it_constraint_type_types != symbolDictionary.string_types().end() ) && ( it_constraint_payload_type_types != symbolDictionary.string_types().end() ) && ( it_constraint_reference_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) ){
         for( unsigned int i = 0; i < it_constraint_type_types->second.size(); i++ ){
           for( map< string, Object* >::const_iterator it_world_object_1 = world->objects().begin(); it_world_object_1 != world->objects().end(); it_world_object_1++ ){
@@ -187,11 +199,6 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           }
         }
       }
-      break;
-    case( SYMBOL_TYPE_CONCRETE ):
-    case( NUM_SYMBOL_TYPES ):
-    default:
-      break;
     }
   }
 

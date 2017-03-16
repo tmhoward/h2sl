@@ -7,17 +7,20 @@ set(GGOS
     dcg_rules_demo.ggo
     hdcg_demo.ggo
     adcg_demo.ggo
-    dcg_test.ggo)
+    dcg_test.ggo
+    dcg_test.ggo
+    hdcg_test.ggo)
 #    adcg_test.ggo)
 
 # HEADER FILES
 set(HDRS
     h2sl/factor_set.h
-#    h2sl/factor_set_adcg.h
+    h2sl/factor_set_adcg.h
+    h2sl/search_space.h
+    h2sl/hadcg.h
     h2sl/hdcg.h
     h2sl/dcg.h
-    h2sl/search_space.h)
-#    h2sl/adcg.h)
+    h2sl/adcg.h)
 #    h2sl/adcg_base.h)
 
 # QT HEADER FILES
@@ -26,11 +29,12 @@ set(QT_HDRS )
 # SOURCE FILES
 set(SRCS
     factor_set.cc
+    factor_set_adcg.cc
     search_space.cc
-#    factor_set_adcg.cc
+    hadcg.cc
     hdcg.cc
-    dcg.cc)
-#    adcg.cc)
+    dcg.cc
+    adcg.cc)
 #    adcg_base.cc)
 
 # BINARY SOURCE FILES
@@ -42,7 +46,10 @@ set(BIN_SRCS
     dcg_rules_demo.cc
     hdcg_demo.cc
     adcg_demo.cc
-    dcg_test.cc)
+    dcg_test.cc
+    adcg_demo.cc
+    dcg_test.cc
+    hdcg_test.cc)
 #    adcg_test.cc)
 
 # LIBRARY DEPENDENCIES

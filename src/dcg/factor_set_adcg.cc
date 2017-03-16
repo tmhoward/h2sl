@@ -38,6 +38,9 @@ Factor_Set_ADCG( const Phrase* phrase ) : Factor_Set( phrase ),
 //  vector< unsigned int > binary_cvs;
 //  binary_cvs.push_back( CV_FALSE );
 //  binary_cvs.push_back( CV_TRUE );
+//  vector< string > binary_cvs;
+//  binary_cvs.push_back( "false" );
+//  binary_cvs.push_back( "true" );
 
 //  _abstract_correspondence_variables.push_back( binary_cvs );
 }
@@ -134,7 +137,7 @@ search( const Search_Space* searchSpace,
 
     // search over all of the class-based search spaces
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace->grounding_pairs().begin(); it_search_spaces != searchSpace->grounding_pairs().end(); it_search_spaces++ ){
-      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace->cvs().find( it_search_spaces->second.first );
+      map< string, vector< string > >::const_iterator it_cvs = searchSpace->cvs().find( it_search_spaces->second.first );
       assert( it_cvs != searchSpace->cvs().end() );
 
       // search the subspace that incrementally populates the solution vectors

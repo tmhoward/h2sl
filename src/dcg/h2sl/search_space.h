@@ -26,8 +26,8 @@ namespace h2sl {
 
     Search_Space( const std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& groundingPairs = 
                         std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >(),
-    		  const std::map< std::string, std::vector< unsigned int > >& cvs = 
-                        std::map< std::string, std::vector< unsigned int > >(),
+    		  const std::map< std::string, std::vector< std::string > >& cvs = 
+                        std::map< std::string, std::vector< std::string > >(),
                   const std::map< std::string, std::vector< std::string > >& classNames = 
                         std::map< std::string, std::vector< std::string > >() );
 
@@ -39,10 +39,10 @@ namespace h2sl {
     bool operator!=( const Search_Space& other )const;
     virtual Search_Space* dup( void )const;
 
-    virtual void fill_groundings( const Symbol_Dictionary& symbolDictionary, const World* world );
-    virtual void fill_rules( const Symbol_Dictionary& symbolDictionary, const World* world );
+    virtual void fill_groundings( const Symbol_Dictionary& symbolDictionary, const World* world, const std::string& symbolType = "all" );
+    virtual void fill_rules( const Symbol_Dictionary& symbolDictionary, const World* world, const std::string& symbolType = "all" );
     virtual void clear( void );
-    virtual void scrape_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, std::vector< std::pair< unsigned int, h2sl::LLM_X > >& examples );
+    virtual void scrape_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, std::vector< std::pair< std::string, h2sl::LLM_X > >& examples );
     virtual void scrape_grounding( Symbol_Dictionary& symbolDictionary, const World* world )const;
   
     virtual unsigned int size( void )const;
@@ -56,8 +56,8 @@ namespace h2sl {
     inline std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& grounding_pairs( void ) { return _grounding_pairs; };
     inline const std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& grounding_pairs( void )const{ return _grounding_pairs; };
 
-    inline std::map< std::string, std::vector< unsigned int > >& cvs( void ){ return _cvs; };
-    inline const std::map< std::string, std::vector< unsigned int > >& cvs( void )const{ return _cvs; };
+    inline std::map< std::string, std::vector< std::string > >& cvs( void ){ return _cvs; };
+    inline const std::map< std::string, std::vector< std::string > >& cvs( void )const{ return _cvs; };
 
     inline std::map< std::string, std::vector< std::string > >& class_names( void ){ return _class_names; };
     inline const std::map< std::string, std::vector< std::string > >& class_names( void )const{ return _class_names; };
@@ -67,7 +67,7 @@ namespace h2sl {
   protected:
 
     std::map< std::string, std::pair< std::string, std::vector< Grounding* > > > _grounding_pairs;
-    std::map< std::string, std::vector< unsigned int > > _cvs;
+    std::map< std::string, std::vector< std::string > > _cvs;
     std::map< std::string, std::vector< std::string > > _class_names;
   
   private:

@@ -73,8 +73,8 @@ class Factor_Set_ADCG : public Factor_Set {
     // Accessors
     inline std::vector< std::vector< std::pair< unsigned int, Grounding* > > >& abstract_search_spaces( void ){ return _abstract_search_spaces; };
     inline const std::vector< std::vector< std::pair< unsigned int, Grounding* > > >& abstract_search_spaces( void )const{ return _abstract_search_spaces; };
-    inline std::vector< std::vector< unsigned int > >& abstract_correspondence_variables( void ){ return _abstract_correspondence_variables; };
-    inline const std::vector< std::vector< unsigned int > >& abstract_correspondence_variables( void )const{ return _abstract_correspondence_variables; };
+    inline std::vector< std::vector< std::string > >& abstract_correspondence_variables( void ){ return _abstract_correspondence_variables; };
+    inline const std::vector< std::vector< std::string > >& abstract_correspondence_variables( void )const{ return _abstract_correspondence_variables; };
 
   protected:
 
@@ -90,7 +90,6 @@ class Factor_Set_ADCG : public Factor_Set {
     // Storing the abstract search space for each phrase.
     // vector< pair< Phrase*, Search_Space > > _abstract_search_space;
     // vector< vector< Search_Space > > _abstract_search_space;
-
 
   private:
 

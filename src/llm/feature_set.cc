@@ -159,7 +159,7 @@ operator=( const Feature_Set& other ) {
 
 void 
 Feature_Set::
-indices( const unsigned int& cv, 
+indices( const string& cv, 
           const Grounding* grounding,
           const vector< pair< const Phrase*, vector< Grounding* > > >& children, 
           const Phrase* phrase,
@@ -183,7 +183,7 @@ indices( const unsigned int& cv,
 
 void
 Feature_Set::
-indices( const unsigned int& cv,
+indices( const string& cv,
           const Grounding* grounding,
           const vector< pair< const Phrase*, vector< Grounding* > > >& children,
           const Phrase* phrase,
@@ -207,7 +207,7 @@ indices( const unsigned int& cv,
 
 void
 Feature_Set::
-evaluate( const unsigned int& cv,
+evaluate( const string& cv,
           const Grounding* grounding, 
           const vector< pair< const Phrase*, vector< Grounding* > > >& children,
           const Phrase* phrase,

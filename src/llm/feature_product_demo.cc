@@ -71,9 +71,8 @@ main( int argc,
     grammar->from_xml( args.grammar_arg );
 
     feature_product->feature_groups().push_back( vector< Feature* >() );
-    for( unsigned int i = CV_FALSE; i < NUM_CVS; i++ ){
-      feature_product->feature_groups().back().push_back( new Feature_CV( false, i ) );
-    }
+    feature_product->feature_groups().back().push_back( new Feature_CV( false, "false" ) );
+    feature_product->feature_groups().back().push_back( new Feature_CV( false, "true" ) );
     
     feature_product->feature_groups().push_back( vector< Feature* >() );
     for( unsigned int i = 0; i < grammar->terminals().size(); i++ ){

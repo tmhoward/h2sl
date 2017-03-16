@@ -42,13 +42,6 @@
 #include "h2sl/grounding_set.h"
 
 namespace h2sl {
-  typedef enum {
-    SYMBOL_TYPE_CONCRETE,
-    SYMBOL_TYPE_ABSTRACT,
-    SYMBOL_TYPE_ALL,
-    NUM_SYMBOL_TYPES
-  } symbol_type_t;
-
   class Symbol_Dictionary {
   public:
     Symbol_Dictionary( const std::map< std::string, std::vector< std::string > >& classNames = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< std::string > >& stringTypes = std::map< std::string, std::vector< std::string > >(), const std::map< std::string, std::vector< int > >& intTypes = std::map< std::string, std::vector< int > >() );

@@ -46,10 +46,10 @@ using namespace h2sl;
 
 void
 evaluate_model( LLM* llm,
-                vector< pair< unsigned int, LLM_X > >& examples ){
-  vector< unsigned int > cvs;
-  cvs.push_back( CV_FALSE );
-  cvs.push_back( CV_TRUE );
+                vector< pair< string, LLM_X > >& examples ){
+  vector< string > cvs;
+  cvs.push_back( "false" );
+  cvs.push_back( "true" );
 
   unsigned int num_correct = 0;
   for( unsigned int i = 0; i < examples.size(); i++ ){
@@ -111,7 +111,7 @@ main( int argc,
   Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary( args.symbol_dictionary_rules_arg );
   Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
 
-  vector< pair< unsigned int, LLM_X > > examples;
+  vector< pair< string, LLM_X > > examples;
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
     cout << "reading file " << args.inputs[ i ] << endl;
     filenames[ i ] = args.inputs[ i ];

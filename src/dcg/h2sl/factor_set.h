@@ -84,7 +84,7 @@ namespace h2sl {
     virtual void search_subspace( std::vector< Factor_Set_Solution >& solutionsVector,
                         const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& childPhraseGroundings,   
                         const std::pair< std::string, std::vector< Grounding* > >& searchSubspace,
-                        const std::vector< unsigned int >& correspondenceVariables,
+                        const std::vector< std::string >& correspondenceVariables,
                         std::vector< bool >& evaluate_feature_types,
                         const Grounding* context,
                         const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false ); 

@@ -70,7 +70,7 @@ operator=( const Feature_Min_Distance_Container& other ){
  */
 bool
 Feature_Min_Distance_Container::
-value( const unsigned int& cv,
+value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
       const Phrase* phrase,
@@ -83,7 +83,7 @@ value( const unsigned int& cv,
  */
 bool
 Feature_Min_Distance_Container::
-value( const unsigned int& cv,
+value( const string& cv,
         const h2sl::Grounding* grounding,
         const vector< pair< const Phrase*, vector< Grounding* > > >& children,
         const Phrase* phrase,

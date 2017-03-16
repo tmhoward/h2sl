@@ -107,8 +107,8 @@ main( int argc,
   // cv features
   feature_set->feature_products().back()->feature_groups().push_back( vector< Feature* >() );
   cout << "adding cv features" << endl;
-  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_CV( false, 1 ) ); 
-  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_CV( false, 2 ) ); 
+  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_CV( false, "false" ) ); 
+  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_CV( false, "true" ) ); 
   // world features
   feature_set->feature_products().back()->feature_groups().push_back( vector< Feature* >() );
   cout << "adding word features" << endl;
