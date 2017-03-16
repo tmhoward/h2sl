@@ -47,8 +47,6 @@ set(BIN_SRCS
     hdcg_demo.cc
     adcg_demo.cc
     dcg_test.cc
-    adcg_demo.cc
-    dcg_test.cc
     hdcg_test.cc)
 #    adcg_test.cc)
 
