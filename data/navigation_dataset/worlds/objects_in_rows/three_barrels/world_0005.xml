@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
   <world>
-    <object name="barrel0" object_type="barrel" object_color="brown" position="-4.68338 -1.85081 0.270293" orientation="-7.39331e-09 -3.61392e-08 0.0116754 0.999932"/>
-    <object name="barrel1" object_type="barrel" object_color="brown" position="-4.18179 -0.144329 0.270293" orientation="-2.50333e-08 -6.29895e-09 0.0116652 0.999932"/>
-    <object name="barrel2" object_type="barrel" object_color="brown" position="-4.11383 2.3915 0.270293" orientation="-6.89161e-09 -2.67319e-08 0.0117223 0.999931"/>
+    <object name="barrel0" object_type="barrel" object_color="red" position="-4.68338 -1.85081 0.270293" orientation="-7.39331e-09 -3.61392e-08 0.0116754 0.999932"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="-4.18179 -0.144329 0.270293" orientation="-2.50333e-08 -6.29895e-09 0.0116652 0.999932"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="-4.11383 2.3915 0.270293" orientation="-6.89161e-09 -2.67319e-08 0.0117223 0.999931"/>
     <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0 0 0 1"/>
     <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
   </world>
