@@ -42,7 +42,8 @@
     </NP>
     <PP>
       <grounding_set>
-        <region_container spatial_relation_type="center">
+        <!--region_container spatial_relation_type="center"-->
+        <region_container region_container_type="center">
           <container container_type="row">
             <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
             <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
@@ -58,7 +59,8 @@
       <IN text="in" order="4"/>
       <NP>
         <grounding_set>
-          <region_container spatial_relation_type="center">
+          <!--region_container spatial_relation_type="center"-->
+          <region_container region_container_type="center">
             <container container_type="row">
               <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
               <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>

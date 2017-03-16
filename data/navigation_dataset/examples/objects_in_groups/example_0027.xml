@@ -22,7 +22,8 @@
     </NP>
     <PP>
       <grounding_set>
-        <region_container spatial_relation_type="center">
+        <!--region_container spatial_relation_type="center"-->
+        <region_container region_container_type="center">
           <container container_type="row">
             <object name="barrel0" object_type="barrel" object_color="brown" position="-4.01707,-2.71231,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="barrel1" object_type="barrel" object_color="brown" position="-4.5992,0.543007,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -36,7 +37,8 @@
       <IN text="in" order="2"/>
       <NP>
         <grounding_set>
-          <region_container spatial_relation_type="center">
+          <!--region_container spatial_relation_type="center"-->
+          <region_container region_container_type="center">
             <container container_type="row">
               <object name="barrel0" object_type="barrel" object_color="brown" position="-4.01707,-2.71231,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="barrel1" object_type="barrel" object_color="brown" position="-4.5992,0.543007,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
