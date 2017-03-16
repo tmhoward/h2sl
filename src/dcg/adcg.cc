@@ -1,4 +1,4 @@
-/**
+/*
  * @file    adcg.cc
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
