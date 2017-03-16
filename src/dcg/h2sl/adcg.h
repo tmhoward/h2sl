@@ -47,16 +47,17 @@
 #include "h2sl/llm.h"
 #include "h2sl/factor_set.h"
 #include "h2sl/symbol_dictionary.h"
+#include "h2sl/dcg.h"
 
 namespace h2sl {
-  class ADCG {
+  class ADCG : public DCG {
   public:
     ADCG();
     virtual ~ADCG();
     ADCG( const ADCG& other );
     ADCG& operator=( const ADCG& other );
 
- virtual bool leaf_search( const Phrase* phrase, i
+ virtual bool leaf_search( const Phrase* phrase, 
                            const Symbol_Dictionary& symbolDictionary, 
                            const Search_Space* searchSpace, 
                            const World* world, LLM* llm, 
@@ -82,18 +83,9 @@ namespace h2sl {
     // Latex
     virtual void to_latex( const std::string& filename )const;
 
-   // Accessors
-   inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
-    inline const Factor_Set* root( void )const{ return _root; };
-
   protected:
-    virtual void _find_leaf( Factor_Set* node, Factor_Set*& leaf );
-    virtual void _fill_phrase( Factor_Set* node, Factor_Set_Solution& solution, Phrase* phrase );
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
-    std::vector< std::pair< double, Phrase* > > _solutions;
-    Factor_Set * _root;
-   
     // ToDo: Add any additional members for ADCG
     // Storing the inferred concrete search space for each.
     // vector < pair< Phrase*, Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 

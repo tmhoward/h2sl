@@ -1,5 +1,5 @@
 /**
- * @file    hdcg.h
+ * @file    hadcg.h
  * @author  Thomas M. Howard (tmhoward@csail.mit.edu)
  *          Matthew R. Walter (mwalter@csail.mit.edu)
  * @version 1.0
@@ -28,26 +28,27 @@
  *
  * @section DESCRIPTION
  *
- * The interface for a class used to represent a Hierarhical Distributed 
- * Correspondence Graph
+ * The interface for a class used to represent a Hierarchially Adaptive 
+ * Distributed Correspondence Graph
  */
 
-#ifndef H2SL_HDCG_H
-#define H2SL_HDCG_H
+#ifndef H2SL_HADCG_H
+#define H2SL_HADCG_H
 
 #include <iostream>
 #include <vector>
 #include <map>
 
 #include "h2sl/dcg.h"
+#include "h2sl/adcg.h"
 
 namespace h2sl {
-  class HDCG {
+  class HADCG {
   public:
-    HDCG();
-    virtual ~HDCG();
-    HDCG( const HDCG& other );
-    HDCG& operator=( const HDCG& other );
+    HADCG();
+    virtual ~HADCG();
+    HADCG( const HADCG& other );
+    HADCG& operator=( const HADCG& other );
     
     virtual bool leaf_search( const Phrase* phrase, const Symbol_Dictionary& symbolDictionary, Search_Space* searchSpace, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
     virtual bool leaf_search( const Phrase* phrase, const Symbol_Dictionary& symbolDictionary, Search_Space* searchSpace, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );  
@@ -56,6 +57,8 @@ namespace h2sl {
 
     inline DCG& dcg( void ){ return _dcg; };
     inline const DCG& dcg( void )const{ return _dcg; };
+    inline ADCG& adcg( void ){ return _adcg; };
+    inline const ADCG& adcg( void )const{ return _adcg; };
     inline std::vector< std::pair< double, Symbol_Dictionary > >& inferred_symbol_dictionaries( void ){ return _inferred_symbol_dictionaries; };
     inline const std::vector< std::pair< double, Symbol_Dictionary > >& inferred_symbol_dictionaries( void )const{ return _inferred_symbol_dictionaries; };
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
@@ -63,13 +66,14 @@ namespace h2sl {
  protected:
 
     DCG _dcg;
+    ADCG _adcg;
     std::vector< std::pair< double, Symbol_Dictionary > > _inferred_symbol_dictionaries;
     std::vector< std::pair< double, Phrase* > > _solutions;
 
   private:
 
   };
-  std::ostream& operator<<( std::ostream& out, const HDCG& other );
+  std::ostream& operator<<( std::ostream& out, const HADCG& other );
 }
 
-#endif /* H2SL_HDCG_H */
+#endif /* H2SL_HADCG_H */

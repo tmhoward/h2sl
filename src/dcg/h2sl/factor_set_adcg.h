@@ -57,23 +57,23 @@ class Factor_Set_ADCG : public Factor_Set {
     Factor_Set_ADCG& operator=( const Factor_Set_ADCG& other );
 
     // Factor Set Search
-    virtual void search( const Search_Space& searchSpace, 
+    virtual void search( const Search_Space* searchSpace, 
                          const Symbol_Dictionary& symbolDictionary,
                          const World* world, LLM* llm, 
                          const unsigned int beamWidth = 4, 
                          const bool& debug = false );
 
-    virtual void search( const Search_Space& searchSpace,
+    virtual void search( const Search_Space* searchSpace,
                          const Symbol_Dictionary& symbolDictionary,
-                         const World* world, const Grounding* grounding, LLM* llm, 
+                         const World* world, const Grounding* context, LLM* llm, 
                          const unsigned int beamWidth = 4, 
                          const bool& debug = false );
 
     // Accessors
     inline std::vector< std::vector< std::pair< unsigned int, Grounding* > > >& abstract_search_spaces( void ){ return _abstract_search_spaces; };
     inline const std::vector< std::vector< std::pair< unsigned int, Grounding* > > >& abstract_search_spaces( void )const{ return _abstract_search_spaces; };
-    inline std::vector< std::vector< unsigned int > >& abstract_correspondence_variables( void ){ return _abstract_correspondence_variables; };
-    inline const std::vector< std::vector< unsigned int > >& abstract_correspondence_variables( void )const{ return _abstract_correspondence_variables; };
+    inline std::vector< std::vector< std::string > >& abstract_correspondence_variables( void ){ return _abstract_correspondence_variables; };
+    inline const std::vector< std::vector< std::string > >& abstract_correspondence_variables( void )const{ return _abstract_correspondence_variables; };
 
   protected:
 
@@ -86,7 +86,7 @@ class Factor_Set_ADCG : public Factor_Set {
 
     // Abstract search space and abstract correspondence variables. 
     std::vector< std::vector< std::pair< unsigned int, Grounding* > > > _abstract_search_spaces;
-    std::vector< std::vector< unsigned int > > _abstract_correspondence_variables;
+    std::vector< std::vector< std::string > > _abstract_correspondence_variables;
   private:
 
   };

@@ -35,9 +35,9 @@ Factor_Set_ADCG::
 Factor_Set_ADCG( const Phrase* phrase ) : Factor_Set( phrase ),
                                               _abstract_search_spaces(),
                                               _abstract_correspondence_variables() {
-  vector< unsigned int > binary_cvs;
-  binary_cvs.push_back( CV_FALSE );
-  binary_cvs.push_back( CV_TRUE );
+  vector< string > binary_cvs;
+  binary_cvs.push_back( "false" );
+  binary_cvs.push_back( "true" );
 
   _abstract_correspondence_variables.push_back( binary_cvs );
 }
@@ -58,7 +58,7 @@ Factor_Set_ADCG&
 Factor_Set_ADCG::
 operator=( const Factor_Set_ADCG& other ) {
   _phrase = other._phrase;
-  _children = other._children;
+  _child_factor_sets = other._child_factor_sets;
   _solutions = other._solutions;
   _abstract_search_spaces = other._abstract_search_spaces;
   _abstract_correspondence_variables = other._abstract_correspondence_variables;
@@ -67,7 +67,7 @@ operator=( const Factor_Set_ADCG& other ) {
 
 void
 Factor_Set_ADCG::
-search( const Search_Space& searchSpace, 
+search( const Search_Space* searchSpace, 
         const Symbol_Dictionary& symbolDictionary,
         const World* world,
         LLM* llm,
@@ -79,10 +79,10 @@ search( const Search_Space& searchSpace,
 
 void
 Factor_Set_ADCG::
-search( const Search_Space& searchSpace, 
+search( const Search_Space* searchSpace, 
         const Symbol_Dictionary& symbolDictionary,
         const World* world,
-        const Grounding* grounding,
+        const Grounding* context,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
@@ -133,7 +133,7 @@ search( const Search_Space& searchSpace,
 
     // search over all of the class-based search spaces
     for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace->grounding_pairs().begin(); it_search_spaces != searchSpace->grounding_pairs().end(); it_search_spaces++ ){
-      map< string, vector< unsigned int > >::const_iterator it_cvs = searchSpace->cvs().find( it_search_spaces->second.first );
+      map< string, vector< string > >::const_iterator it_cvs = searchSpace->cvs().find( it_search_spaces->second.first );
       assert( it_cvs != searchSpace->cvs().end() );
 
       // search the subspace that incrementally populates the solution vectors
@@ -161,7 +161,7 @@ search( const Search_Space& searchSpace,
     cout << "  sorting through " << _solutions.size() << " solutions for \"" << _phrase->words_to_std_string() << "\"" << endl;
   }
 
-  sort( _solutions.begin(), _solutions.end(), factor_set_solution_sort );
+  sort( _solutions.begin(), _solutions.end(), factor_set_adcg_solution_sort );
   if( _solutions.size() > beamWidth ){
     _solutions.erase( _solutions.begin() + beamWidth, _solutions.end() );
   }
