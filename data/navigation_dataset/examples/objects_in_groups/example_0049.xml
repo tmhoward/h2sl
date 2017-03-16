@@ -30,7 +30,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <abstract_container object_type="chair" spatial_relation_type="na" index="first" color="white"/>
+        <abstract_container object_type="chair" num="2" index="first" color="white"/>
         <number value="2"/>
         <object_color object_color="white"/>
         <object_type object_type="chair"/>

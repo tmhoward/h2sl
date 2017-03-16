@@ -36,7 +36,7 @@
         </container>
         <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
         <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
-        <abstract_container object_type="chair" spatial_relation_type="near" index="first" color="na"/>
+        <abstract_container object_type="chair" num="2" index="first" color="na"/>
         <object_type object_type="chair"/>
         <spatial_relation spatial_relation_type="center"/>
         <number value="2"/>
