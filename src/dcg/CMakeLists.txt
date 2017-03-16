@@ -9,7 +9,8 @@ set(GGOS
     adcg_demo.ggo
     dcg_test.ggo
     dcg_test.ggo
-    hdcg_test.ggo)
+    hdcg_test.ggo
+    hadcg_test.ggo)
 #    adcg_test.ggo)
 
 # HEADER FILES
@@ -47,7 +48,8 @@ set(BIN_SRCS
     hdcg_demo.cc
     adcg_demo.cc
     dcg_test.cc
-    hdcg_test.cc)
+    hdcg_test.cc
+    hadcg_test.cc)
 #    adcg_test.cc)
 
 # LIBRARY DEPENDENCIES

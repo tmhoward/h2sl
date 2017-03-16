@@ -610,7 +610,32 @@ main( int argc,
       }
     }
   }
-
+  
+  if( find( it_class_names->second.begin(), it_class_names->second.end(), "rule_index" ) != it_class_names->second.end() ){
+    cout << "adding rule_index symbols" << endl;
+    // index symbols
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Rule_Index >( false ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Rule_Index >( true ) );
+    map< string, vector< int > >::const_iterator it_indices = symbol_dictionary_rules->int_types().find( "index" );
+    if( it_indices != symbol_dictionary_rules->int_types().end() ){
+      for( vector< int >::const_iterator it_index = it_indices->second.begin(); it_index != it_indices->second.end(); it_index++ ){
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Int_Property_Value( false, "rule_index", "index", *it_index ) );
+      }
+    }
+  }
+ 
+  if( find( it_class_names->second.begin(), it_class_names->second.end(), "rule_number" ) != it_class_names->second.end() ){
+    cout << "adding rule_number symbols" << endl;
+    // number symbols
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Rule_Number >( false ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Rule_Number >( true ) );
+    map< string, vector< int > >::const_iterator it_numbers = symbol_dictionary_rules->int_types().find( "number" );
+    if( it_numbers != symbol_dictionary_rules->int_types().end() ){ 
+      for( vector< int >::const_iterator it_number = it_numbers->second.begin(); it_number != it_numbers->second.end(); it_number++ ){ 
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Int_Property_Value( false, "rule_number", "number", *it_number ) ); 
+      }
+    }
+  }
 
   }
 
