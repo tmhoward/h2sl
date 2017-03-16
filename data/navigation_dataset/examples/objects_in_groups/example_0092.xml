@@ -27,26 +27,26 @@
         </grounding_set>
         <NP>
           <grounding_set>
-            <object_property object_type="barrel" relation_type="na" index="second"/> 
+            <object_property object_type="barrel" spatial_relation_type="na" index="2"/> 
           </grounding_set>
           <NP>
             <grounding_set>
-              <object_property object_type="na" relation_type="na" index="second"/> 
-              <index type="second"/>
+              <object_property object_type="na" spatial_relation_type="na" index="2"/> 
+              <index type="2"/>
             </grounding_set>
             <DT text="the" order="2"/>
             <JJ text="second" order="3"/>
           </NP>
           <PP>
             <grounding_set>
-              <object_property object_type="barrel" relation_type="na" index="na"/>
-              <!--object_property object_type="barrel" relation_type="na" index="last"/-->
+              <object_property object_type="barrel" spatial_relation_type="na" index="na"/>
+              <!--object_property object_type="barrel" spatial_relation_type="na" index="last"/-->
             </grounding_set>
             <IN text="to" order="4"/>
             <NP>
               <grounding_set>
-                <object_property object_type="barrel" relation_type="na" index="na"/>
-                <!--object_property object_type="barrel" relation_type="na" index="last"/-->
+                <object_property object_type="barrel" spatial_relation_type="na" index="na"/>
+                <!--object_property object_type="barrel" spatial_relation_type="na" index="last"/-->
                 <object_type object_type="barrel"/>
                 <!--index type="last"/-->
               </grounding_set>

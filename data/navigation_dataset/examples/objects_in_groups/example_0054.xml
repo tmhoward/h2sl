@@ -36,7 +36,7 @@
         </container>
         <object name="barrel2" object_type="barrel" object_color="red" position="4.58655 -4.00757 0.270293" orientation="0,0,0,1"/>
         <object name="barrel3" object_type="barrel" object_color="red" position="3.59789 -4.91597 0.270293" orientation="0,0,0,1"/>
-        <abstract_container object_type="barrel" num="2" index="first" color="na"/>
+        <abstract_container object_type="barrel" number="2" index="1" color="na"/>
         <spatial_relation spatial_relation_type="left"/>
         <number value="2"/>
         <object_type object_type="barrel"/>

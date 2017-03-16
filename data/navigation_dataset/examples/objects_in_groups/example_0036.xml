@@ -16,7 +16,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object_property object_type="barrel" relation_type="right" index="first"/>
+        <object_property object_type="barrel" spatial_relation_type="right" index="1"/>
         <spatial_relation spatial_relation_type="right"/>
         <object_type object_type="barrel"/>
       </grounding_set>

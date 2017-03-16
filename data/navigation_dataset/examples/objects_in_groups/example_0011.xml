@@ -16,8 +16,8 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object_property object_type="cone" relation_type="na" index="second"/>
-        <index type="first"/>
+        <object_property object_type="cone" spatial_relation_type="na" index="2"/>
+        <index type="2"/>
         <object_type object_type="cone"/>
       </grounding_set>
       <DT text="the" order="0"/>

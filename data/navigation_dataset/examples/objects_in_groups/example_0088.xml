@@ -28,8 +28,8 @@
         <NP>
           <grounding_set>
             <object name="barrel1" object_type="barrel" object_color="red" position="-8.1 -2.5 0.270293" orientation="-9.6021e-09 -2.22559e-08 0.0111722 0.999938"/>
-            <object_property object_type="barrel" relation_type="left" index="second"/>
-            <index type="second"/>
+            <object_property object_type="barrel" spatial_relation_type="left" index="2"/>
+            <index type="2"/>
             <spatial_relation spatial_relation_type="left"/>
             <object_type object_type="barrel"/>
           </grounding_set>
@@ -40,13 +40,13 @@
         </NP>
         <PP>
           <grounding_set>
-            <abstract_container object_type="na" num="5" index="first" color="na"/>
+            <abstract_container object_type="na" number="5" index="1" color="na"/>
             <container container_type="row"/>
           </grounding_set>
           <IN text="in" order="6"/>
           <NP>
             <grounding_set>
-              <abstract_container object_type="na" num="5" index="first" color="na"/>
+              <abstract_container object_type="na" number="5" index="1" color="na"/>
               <container container_type="row"/>
             </grounding_set>
             <NP>
@@ -58,12 +58,12 @@
             </NP>
             <PP>
               <grounding_set>
-                <abstract_container object_type="na" num="5" index="first" color="na"/>
+                <abstract_container object_type="na" number="5" index="1" color="na"/>
               </grounding_set>
               <IN text="of" order="9"/>
               <NP>
                 <grounding_set>
-                  <abstract_container object_type="na" num="5" index="first" color="na"/>
+                  <abstract_container object_type="na" number="5" index="1" color="na"/>
                   <number value="5"/>
                 </grounding_set>
                 <CD text="five" order="10"/>

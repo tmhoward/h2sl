@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+2<?xml version="1.0" encoding="UTF-8"?>
 <root>
   <instruction text="the two white chairs in the middle of the row of chairs to the robot's left"/>
   <!-- "file" indicates the which world within certain world type-->
@@ -30,7 +30,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <abstract_container object_type="chair" num="2" index="first" color="white"/>
+        <abstract_container object_type="chair" number="2" index="1" color="white"/>
         <number value="2"/>
         <object_color object_color="white"/>
         <object_type object_type="chair"/>

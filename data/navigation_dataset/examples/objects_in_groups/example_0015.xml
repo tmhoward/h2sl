@@ -18,7 +18,7 @@
     <NP>
       <grounding_set>
         <object name="cone0" object_type="cone" object_color="orange" position="-5.18244 -2.36099 0.00962007" orientation="-5.41185e-08 4.60876e-07 -0.00069644 1"/>
-        <object_property object_type="cone" relation_type="left" index="first"/>
+        <object_property object_type="cone" spatial_relation_type="left" index="1"/>
         <spatial_relation spatial_relation_type="left"/>
         <object_type object_type="cone"/>
       </grounding_set>

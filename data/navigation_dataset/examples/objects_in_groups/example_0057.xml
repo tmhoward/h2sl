@@ -25,7 +25,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object_property object_type="cone" relation_type="far" index="first"/>
+        <object_property object_type="cone" spatial_relation_type="far" index="1"/>
         <spatial_relation spatial_relation_type="far"/>
         <object_type object_type="cone"/>
       </grounding_set>

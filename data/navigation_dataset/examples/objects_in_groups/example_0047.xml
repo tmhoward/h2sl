@@ -26,22 +26,22 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object_property object_type="chair" relation_type="na" index="second"/>
-        <object_property object_type="chair" relation_type="na" index="third"/>
+        <object_property object_type="chair" spatial_relation_type="na" index="2"/>
+        <object_property object_type="chair" spatial_relation_type="na" index="3"/>
       </grounding_set>
       <CC text="and" order="2"/>
       <NP>
         <grounding_set>
-          <object_property object_type="na" relation_type="na" index="second"/>
-          <index type="second"/>
+          <object_property object_type="na" spatial_relation_type="na" index="2"/>
+          <index type="2"/>
         </grounding_set>
         <DT text="the" order="0"/>
         <NN text="second" order="1"/>
       </NP>
       <NP>
         <grounding_set>
-          <object_property object_type="chair" relation_type="na" index="third"/>
-          <index type="third"/>
+          <object_property object_type="chair" spatial_relation_type="na" index="3"/>
+          <index type="3"/>
           <object_type object_type="chair"/>
         </grounding_set>
         <DT text="the" order="3"/>

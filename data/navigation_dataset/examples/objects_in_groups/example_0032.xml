@@ -17,8 +17,8 @@
     <NP>
       <grounding_set>
         <object name="barrel1" object_type="barrel" object_color="brown" position="-5.22908 -1.45664 0.270293" orientation="-2.32072e-08 -4.39246e-08 0.0116438 0.999932"/>
-        <object_property object_type="barrel" relation_type="left" index="second"/>
-        <index type="second"/>
+        <object_property object_type="barrel" spatial_relation_type="left" index="2"/>
+        <index type="2"/>
         <spatial_relation spatial_relation_type="left"/>
         <object_type object_type="barrel"/>
       </grounding_set>
