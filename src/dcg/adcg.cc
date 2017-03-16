@@ -65,9 +65,7 @@ using namespace h2sl;
  * ADCG class constructor
  */
 ADCG::
-ADCG() : _search_spaces(),
-        _correspondence_variables(),
-        _solutions(),
+ADCG() : _solutions(),
         _root( NULL ) {
 
 }
@@ -84,9 +82,7 @@ ADCG::
  * ADCG copy constructor
  */
 ADCG::
-ADCG( const ADCG& other ) : _search_spaces( other._search_spaces ),
-                          _correspondence_variables( other._correspondence_variables ),
-                          _solutions( other._solutions ),
+ADCG( const ADCG& other ) : _solutions( other._solutions ),
                           _root( other._root ) {
 
 }
@@ -97,8 +93,6 @@ ADCG( const ADCG& other ) : _search_spaces( other._search_spaces ),
 ADCG&
 ADCG::
 operator=( const ADCG& other ) {
-  _search_spaces = other._search_spaces;
-  _correspondence_variables = other._correspondence_variables;
   _solutions = other._solutions;
   _root = other._root;
   return (*this);
@@ -107,9 +101,12 @@ operator=( const ADCG& other ) {
 /*
  * fill search spaces
  */
+
+/*
 void
 ADCG::
 fill_search_spaces( const World* world ){
+
   for( unsigned int i = 0; i < _search_spaces.size(); i++ ){
     if( _search_spaces[ i ].second != NULL ){
       delete _search_spaces[ i ].second;
@@ -152,19 +149,23 @@ fill_search_spaces( const World* world ){
 
   return;
 }
+*/
 
 /*
  * leaf search 
  */
 bool
-ADCG::
+DCG::
 leaf_search( const Phrase* phrase,
+              const Symbol_Dictionary& symbolDictionary,
+              const Search_Space* searchSpace,
               const World* world,
               LLM * llm,
               const unsigned int beamWidth,
               const bool& debug ){
-  return leaf_search( phrase, world, NULL, llm, beamWidth, debug );
+  return leaf_search( phrase, symbolDictionary, searchSpace, world, NULL, llm, beamWidth, debug );
 }
+
 
 /*
  * leaf search with context
@@ -172,6 +173,8 @@ leaf_search( const Phrase* phrase,
  bool
 ADCG::
 leaf_search( const Phrase* phrase,
+              const Symbol_Dictionary& symbolDictionary,
+              const Search_Space* searchSpace,
               const World* world,
               const Grounding* context,
               LLM * llm,
@@ -199,9 +202,8 @@ leaf_search( const Phrase* phrase,
     Factor_Set * leaf = NULL;
     _find_leaf( _root, leaf );
     while( leaf != NULL ){
-      leaf->search( _search_spaces,
-                    _correspondence_variables,
-                    _symbol_dictionary,
+      leaf->search( searchSpaces,
+                    symbolDictionary,
                     world,
                     context,
                     llm,
@@ -326,6 +328,7 @@ _fill_factors( Factor_Set* node,
 /*
  * scrape examples function.
  */ 
+/*
 void
 ADCG::
 scrape_examples( const string& filename,
@@ -367,6 +370,7 @@ scrape_examples( const string& filename,
   }
   return;
 }
+*/
 
 /** 
  * imports the DCG class from an XML file
