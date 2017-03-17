@@ -31,7 +31,6 @@
           </grounding_set>
           <NP>
             <grounding_set>
-              <object_property object_type="na" spatial_relation_type="na" index="2"/> 
               <index type="2"/>
             </grounding_set>
             <DT text="the" order="2"/>
@@ -45,10 +44,9 @@
             <IN text="to" order="4"/>
             <NP>
               <grounding_set>
-                <object_property object_type="barrel" spatial_relation_type="na" index="na"/>
-                <!--object_property object_type="barrel" spatial_relation_type="na" index="last"/-->
+                <object_property object_type="barrel" spatial_relation_type="na" index="last"/>
+                <index type="1"/>
                 <object_type object_type="barrel"/>
-                <!--index type="last"/-->
               </grounding_set>
               <JJ text="last" order="5"/>
               <NN text="barrel" order="6"/>
@@ -66,7 +64,7 @@
             </grounding_set>
             <DT text="the" order="8"/>
             <NN text="right" order="9"/>
-          <NP>
+          </NP>
         </PP>
       </NP>
     </PP>

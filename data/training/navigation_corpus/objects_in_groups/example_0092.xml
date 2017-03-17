@@ -30,7 +30,6 @@
           </grounding_set>
           <NP>
             <grounding_set>
-              <object_property object_type="na" spatial_relation_type="na" index="2"/>
               <index value="2"/>
             </grounding_set>
             <DT text="the" order="2"/>
@@ -44,6 +43,7 @@
             <NP>
               <grounding_set>
                 <object_property object_type="barrel" spatial_relation_type="na" index="0"/>
+                <index value="1"/>
                 <object_type object_type="barrel"/>
               </grounding_set>
               <JJ text="last" order="5"/>

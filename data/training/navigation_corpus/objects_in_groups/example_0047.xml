@@ -134,7 +134,6 @@
                   <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 </grounding_set>
                 <DT text="the" order="12"/>
-                <NN text="robot" order="13"/>
               </NP>
             </PP>
           </NP>

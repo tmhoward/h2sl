@@ -25,8 +25,8 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <!--object_property object_type="barrel" spatial_relation_type="na" index="last"/-->
-        <object_property object_type="barrel" spatial_relation_type="na" index="na"/>
+        <object_property object_type="barrel" spatial_relation_type="na" index="1"/>
+        <index type="1"/>
         <object_type object_type="barrel"/>
       </grounding_set>
       <DT text="the" order="0"/>
