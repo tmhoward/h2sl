@@ -56,7 +56,7 @@
       <IN text="in" order="6"/>
       <NP>
         <grounding_set>
-          <contanier container_type="row">
+          <container container_type="row">
             <object name="barrel0" object_type="barrel" object_color="brown" position="-4.60446 -2.15786 0.270293" orientation="-5.55594e-09 1.10949e-08 0.0111799 0.999938"/>
             <object name="barrel1" object_type="barrel" object_color="brown" position="-4.20262 -0.155509 0.270293" orientation="-1.80642e-08 -2.48105e-08 0.0116608 0.999932"/>
             <object name="barrel2" object_type="barrel" object_color="brown" position="-4.2315 1.54949 0.270293" orientation="-9.18534e-09 -2.63438e-08 0.0116607 0.999932"/>
@@ -78,7 +78,7 @@
         </NP>
         <PP>
           <grounding_set>
-            <contanier container_type="row">
+            <container container_type="row">
               <object name="barrel0" object_type="barrel" object_color="brown" position="-4.60446 -2.15786 0.270293" orientation="-5.55594e-09 1.10949e-08 0.0111799 0.999938"/>
               <object name="barrel1" object_type="barrel" object_color="brown" position="-4.20262 -0.155509 0.270293" orientation="-1.80642e-08 -2.48105e-08 0.0116608 0.999932"/>
               <object name="barrel2" object_type="barrel" object_color="brown" position="-4.2315 1.54949 0.270293" orientation="-9.18534e-09 -2.63438e-08 0.0116607 0.999932"/>

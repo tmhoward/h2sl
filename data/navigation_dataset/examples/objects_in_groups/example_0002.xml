@@ -48,7 +48,9 @@
           <object name="cone2" object_type="cone" object_color="orange" position="-4.69759 2.01276 0.00962007" orientation="-5.39675e-08 4.60985e-07 -0.000696445 1"/>
         </grounding_set>
         <NP>
-          <container container_type="row"/>
+          <grounding_set>
+            <container container_type="row"/>
+          </grounding_set>
           <DT text="the" order="4"/>
           <NN text="row" order="5"/>
         </NP>

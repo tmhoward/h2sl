@@ -58,7 +58,9 @@
           <object name="barrel4" object_type="barrel" object_color="brown" position="-4.68339 4.89919 0.270293" orientation="-1.11964e-08 -2.55597e-08 0.0111707 0.999938"/>
         </grounding_set>
         <NP>
-          <container container_type="row"/>
+          <grounding_set>
+            <container container_type="row"/>
+          </grounding_set>
           <DT text="the" order="4"/>
           <NN text="row" order="5"/>
         </NP>

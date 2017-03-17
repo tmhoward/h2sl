@@ -24,6 +24,16 @@
       <NN text="cone" order="2"/>
     </NP>
     <PP>
+      <grounding_set>
+        <container container_type="row">
+          <object name="cone0" object_type="cone" object_color="orange" position="-4.02074 -2.71013 0.00962007" orientation="-5.39563e-08 4.6122e-07 -0.00069644 1"/>
+          <object name="cone1" object_type="cone" object_color="orange" position="-4.60275 0.545181 0.00962007" orientation="-5.20656e-08 4.63002e-07 -0.00069646 1"/>
+          <object name="cone2" object_type="cone" object_color="orange" position="-4.23486 2.57218 0.00962007" orientation="-5.37348e-08 4.61224e-07 -0.00069644 1"/>
+        </container>
+        <object name="cone0" object_type="cone" object_color="orange" position="-4.02074 -2.71013 0.00962007" orientation="-5.39563e-08 4.6122e-07 -0.00069644 1"/>
+        <object name="cone1" object_type="cone" object_color="orange" position="-4.60275 0.545181 0.00962007" orientation="-5.20656e-08 4.63002e-07 -0.00069646 1"/>
+        <object name="cone2" object_type="cone" object_color="orange" position="-4.23486 2.57218 0.00962007" orientation="-5.37348e-08 4.61224e-07 -0.00069644 1"/>
+      </grounding_set>
       <IN text="in" order="3"/>
       <NP>
         <grounding_set>

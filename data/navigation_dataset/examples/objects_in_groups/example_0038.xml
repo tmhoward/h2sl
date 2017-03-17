@@ -107,7 +107,7 @@
               <object name="barrel3" object_type="barrel" object_color="brown" position="-4.23121 -4.17999 0.270293" orientation="-7.49363e-09 -3.72526e-08 0.0112689 0.999937"/>
               <object name="barrel4" object_type="barrel" object_color="brown" position="-4.58761 3.77258 0.270293" orientation="-2.07443e-08 -2.48364e-08 0.0116229 0.999932"/>
             </grounding_set>
-            </NP>
+            <NP>
               <grounding_set>
                 <container container_type="row">
                   <object name="barrel0" object_type="barrel" object_color="brown" position="-4.41208 -2.18244 0.270293" orientation="-9.72257e-09 -2.34812e-08 0.0116345 0.999932"/>
