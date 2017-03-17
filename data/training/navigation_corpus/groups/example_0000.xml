@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="four white chairs to the side of the robot"/>
+  <world time="0">
+    <object name="barrel0" object_type="barrel" object_color="red" position="5.51078,-4.51896,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="5.70478,-5.79336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="4.59777,-3.2152,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="3.67026,-3.63568,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone0" object_type="cone" object_color="orange" position="-6.81,-5.13934,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-6.92304,-2.64793,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-7.90864,0.418486,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-6.5179,1.65635,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone4" object_type="cone" object_color="orange" position="-6.88026,5.58281,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <container container_type="group">
+        <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </container>
+      <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <container container_type="group">
+          <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        </container>
+        <object name="chair0" object_type="chair" object_color="white" position="-2.13121,4.94816,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair3" object_type="chair" object_color="white" position="2.66517,4.6839,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <number value="4"/>
+        <object_color object_color_type="white"/>
+        <object_type object_type="chair"/>
+      </grounding_set>
+      <CD text="four" order="0"/>
+      <JJ text="white" order="1"/>
+      <NNS text="chairs" order="2"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <region spatial_relation_type="side" object_id="husky_mm"/>
+      </grounding_set>
+      <TO text="to" order="3"/>
+      <NP>
+        <grounding_set>
+          <region spatial_relation_type="side" object_id="husky_mm"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <spatial_relation spatial_relation_type="side"/>
+          </grounding_set>
+          <DT text="the" order="4"/>
+          <NN text="side" order="5"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </grounding_set>
+          <IN text="of" order="6"/>
+          <NP>
+            <grounding_set>
+              <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            </grounding_set>
+            <DT text="the" order="7"/>
+            <NN text="robot" order="8"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>

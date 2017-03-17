@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world>
+    <object name="barrel0" object_type="barrel" object_color="red" position="-7.8 -5.0 0.270293" orientation="-9.75629e-08 1.67761e-08 0.0110845 0.999939"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="-8.1 -2.5 0.270293" orientation="-9.6021e-09 -2.22559e-08 0.0111722 0.999938"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="-7.7 0.0 0.270293" orientation="-2.32072e-08 -4.39246e-08 0.0116438 0.999932"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="-8.2 2.5 0.270293" orientation="-1.36717e-08 -8.04259e-08 0.0111494 0.999938"/>
+    <object name="barrel4" object_type="barrel" object_color="red" position="-7.9 5.0 0.270293" orientation="-9.91893e-09 -2.55344e-08 0.0111707 0.999938"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0 0 0 1"/>
+    <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+  </world>
+</root>

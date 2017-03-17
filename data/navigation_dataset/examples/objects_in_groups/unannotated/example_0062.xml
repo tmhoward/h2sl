@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the second rightmost cone behind the robot"/>
+  <!-- "file" indicates the which world within certain world type-->
+  <world time="0" file="row_col_group_0003.xml">
+    <object name="barrel0" object_type="barrel" object_color="red" position="5.58155 -2.58805 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="5.6432 -6.71374 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="4.64608 -3.7834 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="3.86746 -3.6305 0.270293" orientation="0,0,0,1"/>
+    <object name="chair0" object_type="chair" object_color="white" position="-1.80471 5.3792 0.01" orientation="0,0,0,1"/>
+    <object name="chair1" object_type="chair" object_color="white" position="-0.230496 5.49092 0.01" orientation="0,0,0,1"/>
+    <object name="chair2" object_type="chair" object_color="white" position="0.995385 5.49714 0.01" orientation="0,0,0,1"/>
+    <object name="chair3" object_type="chair" object_color="white" position="3.18354 5.36836 0.01" orientation="0,0,0,1"/>
+    <object name="cone0" object_type="cone" object_color="orange" position="-7.72876 -4.34423 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-7.31228 -2.54619 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-7.4909 0.291966 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-7.09878 2.04431 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone4" object_type="cone" object_color="orange" position="-6.59244 5.40553 0.00962007" orientation="0,0,0,1"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
+    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+  </world>
+  <NP>
+    <NP>
+      <DT text="the" order="0"/>
+      <JJ text="second" order="1"/>
+      <JJS text="rightmost" order="2"/>
+      <NN text="cone" order="3"/>
+    </NP>
+    <PP>
+      <IN text="behind" order="4"/>
+      <NP>
+        <DT text="the" order="5"/>
+        <NN text="robot" order="6"/>
+      </NP>
+    </PP>
+  </NP>
+</root>

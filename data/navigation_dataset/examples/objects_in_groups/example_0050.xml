@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the red barrel farthest away from the robot"/>
+  <!-- "file" indicates the which world within certain world type-->
+  <world time="0" file="row_col_group_0001.xml">
+    <object name="barrel0" object_type="barrel" object_color="red" position="5.71427 -3.00605 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="5.87217 -6.16375 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="4.69351 -4.50759 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="4.0918 -4.09989 0.270293" orientation="0,0,0,1"/>
+    <object name="chair0" object_type="chair" object_color="white" position="-2.3894 5.1352 0.01" orientation="0,0,0,1"/>
+    <object name="chair1" object_type="chair" object_color="white" position="-0.496058 5.5354 0.01" orientation="0,0,0,1"/>
+    <object name="chair2" object_type="chair" object_color="white" position="0.636026 4.81068 0.01" orientation="0,0,0,1"/>
+    <object name="chair3" object_type="chair" object_color="white" position="2.27844 5.1918 0.01" orientation="0,0,0,1"/>
+    <object name="cone0" object_type="cone" object_color="orange" position="-6.82242 -4.88362 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-8.05396 -1.94209 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-7.42714 0.325786 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-8.49464 2.97097 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone4" object_type="cone" object_color="orange" position="-8.11758 4.09043 0.00962007" orientation="0,0,0,1"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
+    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <object name="barrel1" object_type="barrel" object_color="red" position="5.87217 -6.16375 0.270293" orientation="0,0,0,1"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <object_property object_type="barrel" spatial_relation_type="na" index="na"/>
+        <object_color object_color="red"/>
+        <object_type object_type="barrel"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <JJ text="red" order="1"/>
+      <NN text="barrel" order="2"/>
+    </NP>
+    <NP>
+      <grounding_set>
+        <region spatial_relation_type="far" object_id="husky_mm"/>
+      </grounding_set>
+      <NP>
+        <grounding_set>
+          <spatial_relation spatial_relation_type="far"/>
+        </grounding_set>
+        <JJS text="farthest" order="3"/>
+      </NP>
+      <PP>
+        <grounding_set>
+          <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+        </grounding_set>
+        <RB text="away" order="4"/>
+        <IN text="from" order="5"/>
+        <NP>
+          <grounding_set>
+            <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+          </grounding_set>
+          <DT text="the" order="6"/>
+          <NN text="robot" order="7"/>
+        </NP>
+      </PP>
+    </NP>
+  </NP>
+</root>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the two chairs in the middle of the row of four white ones"/>
+  <!-- "file" indicates the which world within certain world type-->
+  <world time="0" file="row_col_group_0000.xml">
+    <object name="barrel0" object_type="barrel" object_color="red" position="5.51078 -4.51896 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="5.70478 -5.79336 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="4.59777 -3.2152 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="3.67026 -3.63568 0.270293" orientation="0,0,0,1"/>
+    <object name="chair0" object_type="chair" object_color="white" position="-2.13121 4.94816 0.01" orientation="0,0,0,1"/>
+    <object name="chair1" object_type="chair" object_color="white" position="-0.685016 4.16026 0.01" orientation="0,0,0,1"/>
+    <object name="chair2" object_type="chair" object_color="white" position="0.933675 4.03338 0.01" orientation="0,0,0,1"/>
+    <object name="chair3" object_type="chair" object_color="white" position="2.66517 4.6839 0.01" orientation="0,0,0,1"/>
+    <object name="cone0" object_type="cone" object_color="orange" position="-6.81 -5.13934 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-6.92304 -2.64793 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-7.90864 0.418486 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-6.5179 1.65635 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone4" object_type="cone" object_color="orange" position="-6.88026 5.58281 0.00962007" orientation="0,0,0,1"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
+    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+  </world>
+  <NP>
+    <grounding_set>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <CD text="two" order="1"/>
+      <NNS text="chairs" order="2"/>
+    </NP>
+    <PP>
+      <grounding_set>
+      </grounding_set>
+      <IN text="in" order="3"/>
+      <NP>
+        <grounding_set>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+          </grounding_set>
+          <DT text="the" order="4"/>
+          <NN text="middle" order="5"/>
+        </NP>
+        <PP>
+          <grounding_set>
+          </grounding_set>
+          <IN text="of" order="6"/>
+          <NP>
+            <grounding_set>
+            </grounding_set>
+            <NP>
+              <grounding_set>
+                <container container_type="row"/>
+              </grounding_set>
+              <DT text="the" order="7"/>
+              <NN text="row" order="8"/>
+            </NP>
+            <PP>
+              <grounding_set>
+                <abstract_container type="na" num="4" index="first" color="white"/>
+                <number value="4"/>
+                <object_color object_color="white"/>
+              </grounding_set>
+              <IN text="of" order="9"/>
+              <NP>
+                <grounding_set>
+                  <abstract_container type="na" num="4" index="first" color="white"/>
+                  <number value="4"/>
+                  <object_color object_color="white"/>
+                </grounding_set>
+                <CD text="four" order="10"/>
+                <JJ text="white" order="11"/>
+                <NNS text="ones" order="12"/>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>

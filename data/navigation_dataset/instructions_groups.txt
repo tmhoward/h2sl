@@ -1,0 +1,53 @@
+This document lists the instruction, example filename, and world filename for each example in the 'groups' corpus.
+
+row_col_group:
+  example_0000 (row_col_group_0000) - "four white chairs the the side of the robot"
+  example_0001 (row_col_group_0000) - "a row of chairs at the left side of the robot"
+  example_0002 (row_col_group_0000) - "four chairs at the left side of the robot"
+  example_0031 (row_col_group_0000) - "the four white chairs to the left of the robot"
+
+  example_0003 (row_col_group_0001) - "the group of drums at the right side in front of the robot"
+  example_0004 (row_col_group_0001) - "four drums at the right side in front of the robot"
+  example_0005 (row_col_group_0001) - "the four red barrels on the right side of the robot" 
+  example_0032 (row_col_group_0001) - "the four barrels in front of the robot and to the right"
+  example_0033 (row_col_group_0001) - "the four red barrels to the right of the robot"
+
+  example_0006 (row_col_group_0002) - "the four drums far away on the right side at front of the robot"
+  example_0007 (row_col_group_0002) - "group of drums at right side front of the robot"
+  example_0008 (row_col_group_0002) - "the four red barrels beside the robot"
+  example_0009 (row_col_group_0002) - "the five cones that are behind the robot"
+  example_0010 (row_col_group_0002) - "the row of cones behind the robot"
+  example_0011 (row_col_group_0002) - "the five cones near the back of the robot"
+  example_0034 (row_col_group_0002) - "the four barrels in front of and to the left of the robot"
+
+  example_0012 (row_col_group_0010) - "the four white chairs to the robot's left"
+  example_0013 (row_col_group_0010) - "the row of chairs at the left side of the robot"
+  example_0014 (row_col_group_0010) - "four chairs at the left side of the robot"
+  example_0035 (row_col_group_0010) - "a row of white chairs is on the far left side of the robot"
+  example_0036 (row_col_group_0010) - "the group of chairs to the side of the robot"
+
+  example_0015 (row_col_group_0013) - "the four barrels beside the robot"
+  example_0016 (row_col_group_0013) - "group of drums at right side at front of the robot"
+  example_0017 (row_col_group_0013) - "four drums at right side in front of the robot"
+  example_0037 (row_col_group_0013) - "four red barrels on the right front side of the robot"
+
+  example_0018 (row_col_group_0016) - "the five cones behind the robot"
+  example_0019 (row_col_group_0016) - "the five cones located behind the robot"
+  example_0020 (row_col_group_0016) - "the five cones near the back of the robot"
+  example_0021 (row_col_group_0016) - "the four white chairs to the robot's left"
+  example_0022 (row_col_group_0016) - "the four chairs beside the robot"
+  example_0023 (row_col_group_0016) - "the four chairs at the left side of the robot"
+  example_0024 (row_col_group_0016) - "the four chairs near the left side of the robot"
+  example_0038 (row_col_group_0016) - "the row of cones directly behind the robot"
+  example_0039 (row_col_group_0016) - "the line of cones behind the robot"
+  example_0040 (row_col_group_0016) - "the four white chairs to the left of the robot"
+
+  example_0025 (row_col_group_0020) - "row of chairs at the left side of the robot"
+  example_0026 (row_col_group_0020) - "four chairs near the left side of the robot"
+  example_0027 (row_col_group_0020) - "the white chairs beside the robot"
+  example_0041 (row_col_group_0020) - "the four white chairs to the left of the robot"
+
+  example_0028 (row_col_group_0006) - "the five cones behind the robot"
+  example_0029 (row_col_group_0006) - "the row of cones behind the robot"
+  example_0030 (row_col_group_0006) - "the five cones near the back of the robot"
+  example_0042 (row_col_group_0006) - "the row of orange cones directly behind the robot"

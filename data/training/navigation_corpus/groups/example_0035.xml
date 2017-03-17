@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="a row of white chairs is on the far left side of the robot"/>
+  <world time="0">
+    <object name="barrel0" object_type="barrel" object_color="red" position="5.92393,-4.38877,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="5.93525,-6.04806,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="4.62058,-4.79016,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="3.92314,-2.9407,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone0" object_type="cone" object_color="orange" position="-7.66046,-5.14237,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-7.95964,-2.80337,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-6.74672,0.330846,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-8.32432,1.65151,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="cone4" object_type="cone" object_color="orange" position="-6.59946,5.66039,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <container container_type="row">
+        <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </container>
+      <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <container container_type="row">
+          <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        </container>
+        <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      </grounding_set>
+      <NP>
+        <grounding_set>
+          <container container_type="row"/>
+        </grounding_set>
+        <DT text="a" order="1"/>
+        <NN text="row" order="2"/>
+      </NP>
+      <PP>
+        <grounding_set>
+          <container container_type="group">
+            <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </container>
+          <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        </grounding_set>
+        <IN text="of" order="3"/>
+        <NP>
+          <grounding_set>
+            <container container_type="group">
+              <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            </container>
+            <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object_type object_type="chair"/>
+            <object_color object_color_type="white"/>
+          </grounding_set>
+          <JJ text="white" order="4"/>
+          <NNS text="chairs" order="5"/>
+        </NP>
+      </PP>
+    </NP>
+    <VP>
+      <grounding_set>
+        <region spatial_relation_type="far" object_id="husky_mm"/>
+        <region spatial_relation_type="left" object_id="husky_mm"/>
+      </grounding_set>
+      <VBZ text="is" order="6"/>
+      <PP>
+        <grounding_set>
+          <region spatial_relation_type="far" object_id="husky_mm"/>
+          <region spatial_relation_type="left" object_id="husky_mm"/>
+        </grounding_set>
+        <IN text="on" order="7"/>
+        <NP>
+          <grounding_set>
+            <region spatial_relation_type="far" object_id="husky_mm"/>
+            <region spatial_relation_type="left" object_id="husky_mm"/>
+          </grounding_set>
+          <NP>
+            <grounding_set>
+              <spatial_relation spatial_relation_type="far"/>
+              <spatial_relation spatial_relation_type="left"/>
+            </grounding_set>
+            <DT text="the" order="8"/>
+            <JJ text="far" order="9"/>
+            <JJ text="left" order="10"/>
+            <NN text="side" order="11"/>
+          </NP>
+          <PP>
+            <grounding_set>
+              <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            </grounding_set>
+            <IN text="of" order="12"/>
+            <NP>
+              <grounding_set>
+                <object name="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              </grounding_set>
+              <DT text="the" order="13"/>
+              <NN text="robot" order="14"/>
+            </NP>
+          </PP>
+        </NP>
+      </PP>
+    </VP>
+  </NP>
+</root>

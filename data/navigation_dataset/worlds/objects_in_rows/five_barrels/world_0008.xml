@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
   <world>
-    <object name="barrel0" object_type="barrel" object_color="brown" position="-5.47157 -1.97609 0.270293" orientation="1.05381e-08 -2.22787e-08 0.0116438 0.999932"/>
-    <object name="barrel1" object_type="barrel" object_color="brown" position="-5.14457 -0.660819 0.270293" orientation="-4.71303e-09 -2.57467e-08 0.0110995 0.999938"/>
-    <object name="barrel2" object_type="barrel" object_color="brown" position="-4.71245 2.17658 0.270293" orientation="-1.75163e-09 -2.64556e-08 0.011638 0.999932"/>
-    <object name="barrel3" object_type="barrel" object_color="brown" position="-4.67155 -4.12944 0.270293" orientation="-9.04752e-09 -4.05839e-08 0.0106642 0.999943"/>
-    <object name="barrel4" object_type="barrel" object_color="brown" position="-4.17251 4.11343 0.270293" orientation="-1.99232e-08 -4.68288e-08 0.0116536 0.999932"/>
+    <object name="barrel0" object_type="barrel" object_color="red" position="-5.47157 -1.97609 0.270293" orientation="1.05381e-08 -2.22787e-08 0.0116438 0.999932"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="-5.14457 -0.660819 0.270293" orientation="-4.71303e-09 -2.57467e-08 0.0110995 0.999938"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="-4.71245 2.17658 0.270293" orientation="-1.75163e-09 -2.64556e-08 0.011638 0.999932"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="-4.67155 -4.12944 0.270293" orientation="-9.04752e-09 -4.05839e-08 0.0106642 0.999943"/>
+    <object name="barrel4" object_type="barrel" object_color="red" position="-4.17251 4.11343 0.270293" orientation="-1.99232e-08 -4.68288e-08 0.0116536 0.999932"/>
     <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0 0 0 1"/>
     <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
   </world>

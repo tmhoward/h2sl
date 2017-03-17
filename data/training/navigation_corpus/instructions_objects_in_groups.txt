@@ -1,0 +1,164 @@
+This document provides a list of instructions for the 'objects_in_group' dataset. The dataset is currently composed of two main parts:
+
+1. objects_in_rows - this set of examples all have simple worlds with a single row of varying length composed of either cones or barrels, listed below:
+  -three_cones
+  -four_cones
+  -five_cones
+  -five_cones (actions)
+  -three_barrels
+  -four_barrels
+  -five_barrels
+  -five_barrels (actions)
+
+2. objects_in_groups - this set of examples all have more complicated worlds with mutliple types of groups (rows/columns/rings/etc). The worlds each fall into a category of a general scene layout with variances in the concept parameters; the categories are listed below:
+  -row_col_ring
+  -row_col_group 
+
+
+The rest of this document lists the instruction, example filename, and world filename for each of the world categories listed above.
+ 
+OBJECTS_IN_ROWS
+  three_cones:
+    example_0000 (three_cones/world_0001) - "the first cone from the left in the row of cones in front of the robot"
+    example_0001 (three_cones/world_0001) - "the leftmost cone in the row of cones in front of the robot"
+    example_0002 (three_cones/world_0002) - "the middle cone in the row of cones in front of the robot"
+    example_0003 (three_cones/world_0002) - "the second cone from the left in the row of cones in front of the robot"
+    example_0004 (three_cones/world_0003) - "the first traffic cone from the right in the row of cones"
+    example_0005 (three_cones/world_0003) - "the rightmost cone in the row of cones in front of the robot"
+
+
+  four_cones:
+    example_0006 (four_cones/world_0002) - "the leftmost cone in front of the robot"
+    example_0007 (four_cones/world_0002) - "the first cone from the left in a row of cones in front of the robot"
+    example_0008 (four_cones/world_0003) - "the second leftmost cone in front of the robot."
+    example_0009 (four_cones/world_0003) - "the second cone from the left in the row of cones in front of the robot"
+    example_0010 (four_cones/world_0004) - "the second cone from the right"
+    example_0011 (four_cones/world_0004) - "the second cone from the right in the row of cones in front of the robot"
+    example_0012 (four_cones/world_0005) - "the cone furthest right in the line of cones in front of the robot"
+    example_0013 (four_cones/world_0005) - "the first cone from the right in the row of cones in front of the robot"
+
+  five_cones:
+    example_0014 (five_cones/world_0000) - "the first traffic cone from the left in the row of traffic cones in front of the robot"
+    example_0015 (five_cones/world_0000) - "the leftmost cone in the row of cones in front of the robot"
+    example_0016 (five_cones/world_0001) - "the second leftmost cone in the row of cones in front of the robot"
+    example_0017 (five_cones/world_0001) - "the second cone from the left in the row of cones in front of the robot" 
+    example_0018 (five_cones/world_0002) - "the middle cone in the row of cones in front of the robot"
+    example_0019 (five_cones/world_0002) - "the cone directly in the middle in front of the robot"
+    example_0020 (five_cones/world_0003) - "the second cone fromt the right in the row of cones in front of the robot"
+    example_0021 (five_cones/world_0003) - "the second rightmost cone in the row of cones in front of the robot"
+    example_0022 (five_cones/world_0005) - "the first cone on the right in the row of cones in front of the robot"
+    example_0023 (five_cones/world_0005) - "the rightmost cone in the row of cones in front of the robot"
+
+  three_barrels:
+    example_0024 (three_barrels/world_0000) - "the first barrel from the left in the row of barrels in front of the robot"
+    example_0025 (three_barrels/world_0000) - "the leftmost barrel in front of the robot"
+    example_0026 (three_barrels/world_0001) - "the middle barrel in the row of barrels in front of the robot"
+    example_0027 (three_barrels/world_0001) - "the barrel in the middle of the row of barrels in front of the robot"
+    example_0028 (three_barrels/world_0002) - "the rightmost barrel in the row of barrels in front of the robot"
+    example_0029 (three_barrels/world_0002) - "the first barrel from the right in the row of barrels in front of the robot"
+
+  four_barrels:
+    example_0030 (four_barrels/world_0001) - "the first barrel from the left in the row of barrels in front of the robot"
+    example_0031 (four_barrels/world_0001) - "the very leftmost barrel in front of the robot"
+    example_0032 (four_barrels/world_0002) - "the second leftmost barrel in the row of barrels in front of the robot"
+    example_0033 (four_barrels/world_0002) - "the second barrel from the left in the row of barrels in front of the robot"
+    example_0034 (four_barrels/world_0003) - "the second barrel from the right in the row of barrels in front of the robot"
+    example_0035 (four_barrels/world_0004) - "the first barrel from the right in the row of barrels in front of the robot"
+    example_0036 (four_barrels/world_0004) - "the rightmost barrel in the row of barrels in front of the robot"
+
+  five_barrels:
+    example_0037 (five_barrels/world_0001) - "the leftmost barrel in the row of barrels in front of the robot"
+    example_0038 (five_barrels/world_0001) - "the first barrel from the left in the row of barrels in front of the robot"
+    example_0039 (five_barrels/world_0002) - "The second barrel from the left in the row of barrels in front of the robot"
+    example_0040 (five_barrels/world_0002) - "the second barrel from the left"
+    example_0041 (five_barrels/world_0003) - "the middle barrel in the row of barrels in front of the robot"
+    example_0042 (five_barrels/world_0003) - "the middle barrel"
+    example_0043 (five_barrels/world_0005) - "the second barrel from the right  in the row of barrels in front of the robot"
+    example_0044 (five_barrels/world_0005) - "the first barrel from the right in the row of barrels in front of the robot"
+
+OBJECTS_IN_GROUPS
+  row_col_group:
+    (root groundings: chair1 && chair2 )
+      example_0045 (row_col_group_0000) - "the two chairs in the middle of the row of four white ones"
+      example_0046 (row_col_group_0000) - "the two closest chairs in the row of chairs to the left of the robot"
+      example_0047 (row_col_group_0000) - "the second and the third chair in the row of chairs aside the robot"
+      example_0048 (row_col_group_0000) - "the two middle chairs from the row of four chairs at the left of the robot"
+      example_0049 (row_col_group_0000) - "the two white chairs in the middle of the row of chairs to the robot's left"
+
+    (root groundings: barrel1 )
+      example_0050 (row_col_group_0001) - "the red barrel farthest away from the robot"
+      example_0051 (row_col_group_0001) - "the last barrel from the group of four barrels at the left in front of the robot"
+      example_0052 (row_col_group_0001) - "the leftmost barrel from the left barrels in front of the robot"
+    (root groundings: barrel2 && barrel3 )
+      example_0053 (row_col_group_0001) - "the two of the red barrels that are closest to the robot"    
+
+    (root grounding: barrel 2 & barrel 3 )
+      example_0054 (row_col_group_0002) - "the two leftmost barrels in front of the robot"
+      example_0055 (row_col_group_0002) - "the two barrels that are closest to the robot"
+      example_0056 (row_col_group_0002) - "the two barrels closest to the robot"
+
+    (root grounding: cone0 )
+      example_0057 (row_col_group_0003) - "the farthest cone on the right behind the robot"
+      example_0058 (row_col_group_0003) - "the rightmost cone behind the robot"
+      example_0059 (row_col_group_0003) - "the first right cone from row of fives cones behind the robot"
+    (root grounding: cone1 )
+      example_0060 (row_col_group_0003) - "the second right cone from row of fives cones behind the robot"
+      example_0061 (row_col_group_0003) - "the second right cone behind the robot"
+      example_0062 (row_col_group_0003) - "the second rightmost cone behind the robot"
+
+    (root grounding: cone2)
+      example_0063 (row_col_group_0006) - "the third cone from the right in the row of cones behind the robot"
+      example_0064 (row_col_group_0006) - "the pilon in the middle of the five pilons behind the robot"
+      example_0065 (row_col_group_0006) - "the middle cone in the row behind the robot"
+
+    (root grounding: chair3 ) 
+      example_0066 (row_col_group_0010) - "The first white chair in the row on side of the robot"
+      example_0067 (row_col_group_0010) - "the first chair from the row of four chairs at the left of the robot"
+
+    (root grounding: barrel2 ) 
+      example_0068 (row_col_group_0013) - "the center drum from the right in the group of four drums in front of the robot"
+      example_0069 (row_col_group_0013) - "the middle barrel in the group of barrels to the right of the robot"
+    (root grounding: barrel3 )
+      example_0070 (row_col_group_0013) - "the closest barrel in front of the robot"
+      example_0071 (row_col_group_0013) - "the first barrel in the group of barels in front of the robot"
+      example_0072 (row_col_group_0013) - "the barrel closest to the robot"
+
+    (root grounding: cone2 )
+      example_0073 (row_col_group_0016) - "the middle cone in the row of cones behind the robot"
+      example_0074 (row_col_group_0016) - "the cone in the middle of the row of cones behind the robot"
+      example_0075 (row_col_group_0016) - "the centermost cone behind the robot"
+    (root grounding: cone3 )
+      example_0076 (row_col_group_0016) - "the second leftmost cone in the row of cones behind the robot"
+      example_0077 (row_col_group_0016) - "the second cone from the left in the row of five cones behind the robot"
+      example_0078 (row_col_group_0016) - "the second leftmost cone behind the robot"
+
+ACTIONS - OBJECTS IN ROWS
+  five_cones (world_0010):
+    (root grounding: cone1)
+      example_0079 - "drive to the second leftmost cone in the row of cones"
+      example_0080 - "drive to the second from the left cone in the row of cones"
+    (root grounding: cone2)
+      example_0081 - "drive to the center cone in the row of cones"
+      example_0082 - "drive to the middle cone in the row of cones"
+    (root grounding: cone3)
+      example_0083 - "drive to the second rightmost cone in the row of cones"
+      example_0084 - "drive to the second from the right cone in the row of cones"
+    (root grounding: cone4)
+      example_0085 - "drive to the rightmost cone in the row of cones"
+
+  five_barrels (world_0010):
+    (root grounding: barrel0)
+      example_0086 - "drive to the leftmost cylinder in the row of cylinders"
+      example_0087 - "drive to the ledtmost barrel in the row of barrels"
+    (root grounding: barrel1)
+      example_0088 - "drive to the second leftmost barrel in the line of five"
+      example_0089 - "drive to the second leftmost barrel in the row of barrels"
+    (root grounding: barrel2)
+      example_0090 - "drive to the middle barrel in the row of barrels"
+      example_0091 - "drive to the center cylinder in the row of cylinders"
+    (root grounding: barrel3)
+      example_0092 - "travel to the second to last barrel from the right"
+      example_0093 - "drive to the second rightmost cylinder in the row of cylinders"
+    (root grounding: barrel4)
+      example_0094 - "drive to the rightmost barrel in the row of barrels"
+      example_0095 - "drive to the rightmost cylinder in the row of cylinders"

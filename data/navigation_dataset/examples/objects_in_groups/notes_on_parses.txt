@@ -1,0 +1,10 @@
+example_0012 - unsure how the first part of the sentence should be structured ("the cone furthest right")
+    -I was getting different consituency parses for "the cone furthest right" and "the cone farthest right" when testing on the stanford parser
+
+example_0019 - not confident about the parse for this example
+
+
+example_0054 - unsure how to handle "that are"
+example_0055 - unsure how to handle "that are"
+
+

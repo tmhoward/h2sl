@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="The first white chair in the row on side of the robot"/>
+  <!-- "file" indicates the which world within certain world type-->
+  <world time="0" file="row_col_group_0010.xml">
+    <object name="barrel0" object_type="barrel" object_color="red" position="5.92393 -4.38877 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="5.93525 -6.04806 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="4.62058 -4.79016 0.270293" orientation="0,0,0,1"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="3.92314 -2.9407 0.270293" orientation="0,0,0,1"/>
+    <object name="chair0" object_type="chair" object_color="white" position="-1.6129 4.43668 0.01" orientation="0,0,0,1"/>
+    <object name="chair1" object_type="chair" object_color="white" position="-0.898074 4.94934 0.01" orientation="0,0,0,1"/>
+    <object name="chair2" object_type="chair" object_color="white" position="0.781391 5.7859 0.01" orientation="0,0,0,1"/>
+    <object name="chair3" object_type="chair" object_color="white" position="2.86972 5.66056 0.01" orientation="0,0,0,1"/>
+    <object name="cone0" object_type="cone" object_color="orange" position="-7.66046 -5.14237 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-7.95964 -2.80337 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-6.74672 0.330846 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-8.32432 1.65151 0.00962007" orientation="0,0,0,1"/>
+    <object name="cone4" object_type="cone" object_color="orange" position="-6.59946 5.66039 0.00962007" orientation="0,0,0,1"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0,0,0,1"/>
+    <object name="husky_mm" object_type="robot" object_color="na" position="0.369435 -0.010466 0.38539" orientation="0,0,0,1"/>
+  </world>
+  <NP>
+    <NP>
+      <DT text="the" order="0"/>
+      <JJ text="first" order="1"/>
+      <JJ text="white" order="2"/>
+      <NN text="chair" order="3"/>
+    </NP>
+    <PP>
+      <IN text="in" order="4"/>
+      <NP>
+        <NP>
+          <DT text="the" order="5"/>
+          <NN text="row" order="6"/>
+        </NP>
+        <PP>
+          <IN text="on" order="7"/>
+          <NP>
+            <NP>
+              <NN text="side" order="8"/>
+            </NP>
+            <PP>
+              <IN text="of" order="9"/>
+              <NP>
+                <DT text="the" order="10"/>
+                <NN text="robot" order="11"/>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>

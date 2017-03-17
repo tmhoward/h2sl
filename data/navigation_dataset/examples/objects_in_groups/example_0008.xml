@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the second leftmost cone in front of the robot"/>
+  <!-- "file" indicates the which world within certain world type-->
+  <world time="0" file="four_cones/world_0003">
+    <object name="cone0" object_type="cone" object_color="orange" position="-4.00374 -2.89681 0.00962007" orientation="-5.39536e-08 4.60858e-07 -0.00069644 1"/>
+    <object name="cone1" object_type="cone" object_color="orange" position="-4.28653 -1.68675 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+    <object name="cone2" object_type="cone" object_color="orange" position="-4.63107 1.46776 0.00962007" orientation="-5.37679e-08 4.61088e-07 -0.00069646 1"/>
+    <object name="cone3" object_type="cone" object_color="orange" position="-5.1049 3.39834 0.00962007" orientation="-5.37348e-08 4.61224e-07 -0.00069644 1"/>
+    <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0 0 0 1"/>
+    <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <object name="cone1" object_type="cone" object_color="orange" position="-4.28653 -1.68675 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <object name="cone1" object_type="cone" object_color="orange" position="-4.28653 -1.68675 0.00962007" orientation="-5.40146e-08 4.60793e-07 -0.00069646 1"/>
+        <object_property object_type="cone" spatial_relation_type="left" index="2"/>
+        <spatial_relation spatial_relation_type="left"/>
+        <index type="2"/>
+        <object_type object_type="cone"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <JJ text="second" order="1"/>
+      <JJS text="leftmost" order="2"/>
+      <NN text="cone" order="3"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <region spatial_relation_type="front" object_id="husky"/>
+      </grounding_set>
+      <IN text="in" order="4"/>
+      <NP>
+        <grounding_set>
+          <region spatial_relation_type="front" object_id="husky"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <spatial_relation spatial_relation_type="front"/>
+          </grounding_set>
+          <NN text="front" order="5"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+          </grounding_set>
+          <IN text="of" order="6"/>
+          <NP>
+            <grounding_set>
+              <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
+            </grounding_set>
+            <DT text="the" order="7"/>
+            <NN text="robot" order="8"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>
