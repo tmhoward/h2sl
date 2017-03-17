@@ -114,8 +114,12 @@ value( const string& cv,
         bool found_match = false;
         for( unsigned int i = 0; i < children.size(); i++ ){
           for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-            map< std::string, std::string >::const_iterator it_child = children[ i ].second[ j ]->string_properties().find( _key_child );
-            if( it_child != children[ i ].second[ j ]->string_properties().end() ){
+            map< std::string, std::string >::const_iterator it_child_string = children[ i ].second[ j ]->string_properties().find( _key_child );
+            if( it_child_string != children[ i ].second[ j ]->string_properties().end() ){
+              found_match = true;
+            } 
+            map< std::string, int >::const_iterator it_child_int = children[ i ].second[ j ]->int_properties().find( _key_child );
+            if( it_child_int != children[ i ].second[ j ]->int_properties().end() ){
               found_match = true;
             }   
           }

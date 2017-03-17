@@ -39,6 +39,8 @@
 #include "h2sl/rule_constraint_type.h"
 #include "h2sl/rule_constraint_payload_type.h"
 #include "h2sl/rule_constraint_reference_type.h"
+#include "h2sl/rule_index.h"
+#include "h2sl/rule_number.h"
 #include "h2sl/object.h"
 #include "h2sl/region.h"
 #include "h2sl/constraint.h"
@@ -144,6 +146,10 @@ namespace h2sl {
       out << *static_cast< const Rule_Constraint_Payload_Type* >( &other );
     } else if( dynamic_cast< const Rule_Constraint_Reference_Type* >( &other ) != NULL ){
       out << *static_cast< const Rule_Constraint_Reference_Type* >( &other );
+    } else if( dynamic_cast< const Rule_Index* >( &other ) != NULL ){
+      out << *static_cast< const Rule_Index* >( &other );
+    } else if( dynamic_cast< const Rule_Number* >( &other ) != NULL ){
+      out << *static_cast< const Rule_Number* >( &other );
     } else if( dynamic_cast< const Object* >( &other ) != NULL ){
       out << *static_cast< const Object* >( &other );
     } else if( dynamic_cast< const Region* >( &other ) != NULL ){

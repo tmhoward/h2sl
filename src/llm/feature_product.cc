@@ -137,6 +137,7 @@
 #include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_missing_child_string_property.h"
+#include "h2sl/feature_grounding_string_property_value_matches_child_string_properties.h"
 #include "h2sl/feature_grounding_class_name.h"
 #include "h2sl/feature_region_object_string_property_value.h"
 #include "h2sl/feature_matches_child.h"
@@ -432,6 +433,8 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_string_property_value_missing_child_string_property" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Grounding_String_Property_Value_Missing_Child_String_Property( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_string_property_value_matches_child_string_properties" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Properties( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_grounding_class_name" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Grounding_Class_Name( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_region_object_string_property_value" ) ) == 0 ){

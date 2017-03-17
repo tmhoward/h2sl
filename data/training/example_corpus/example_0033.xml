@@ -23,7 +23,7 @@
         <object_type object_type="chair"/>
       </grounding_set>
       <DT text="the" order="1"/>
-      <JJ text="second" order="2"/>
+      <CD text="second" order="2"/>
       <JJS text="nearest" order="3"/>
       <NN text="chair" order="4"/>
     </NP>

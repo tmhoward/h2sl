@@ -45,6 +45,7 @@
 #include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_missing_child_string_property.h"
+#include "h2sl/feature_grounding_string_property_value_matches_child_string_properties.h"
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_matches_only_child.h"
 #include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
@@ -542,6 +543,10 @@ main( int argc,
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Rule_Spatial_Relation >( true ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Missing_Child_String_Property( false, "rule_spatial_relation", "spatial_relation_type", "na", "spatial_relation_type" ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Missing_Child_String_Property( true, "rule_spatial_relation", "spatial_relation_type", "na", "spatial_relation_type" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Missing_Child_String_Property( false, "rule_spatial_relation", "spatial_relation_type", "na", "index" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Missing_Child_String_Property( true, "rule_spatial_relation", "spatial_relation_type", "na", "index" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Properties( false, "rule_spatial_relation", "spatial_relation_type", "na", { "spatial_relation_type", "index" } ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Properties( true, "rule_spatial_relation", "spatial_relation_type", "na", { "spatial_relation_type", "index" } ) );
   }
 
   if( find( it_class_names->second.begin(), it_class_names->second.end(), "rule_object_type" ) != it_class_names->second.end() ){

@@ -190,9 +190,9 @@ Rule_Index::
 from_xml( xmlNodePtr root ){
   index_value() = 0;
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > index_keys = { "value", "index_value" };
+    vector< string > index_keys = { "value", "index" };
     assert( check_keys( root, index_keys ) );
-    pair< bool, int > index_value_prop = has_prop< int >( root, "index_value" );
+    pair< bool, int > index_value_prop = has_prop< int >( root, "index" );
     if( index_value_prop.first ){
       index_value() = index_value_prop.second;
     }
@@ -227,7 +227,7 @@ Rule_Index::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "rule_index" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "index_value" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -240,7 +240,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Rule_Index& other ){
     out << "Rule_Index(";
-    out << "index_value=\"" << other.index_value() << "\"";
+    out << "index=\"" << other.index_value() << "\"";
     out << ")";
     return out;
   }

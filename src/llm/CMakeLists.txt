@@ -32,6 +32,7 @@ set(HDRS
     h2sl/feature_grounding_int_property_value.h
     h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h
     h2sl/feature_grounding_string_property_value_missing_child_string_property.h
+    h2sl/feature_grounding_string_property_value_matches_child_string_properties.h
     h2sl/feature_grounding_class_name.h
     h2sl/feature_region_object_string_property_value.h
     h2sl/feature_region_object_matches_child.h
@@ -138,6 +139,7 @@ set(SRCS
     feature_grounding_int_property_value.cc
     feature_grounding_string_property_value_matches_child_string_property_value.cc
     feature_grounding_string_property_value_missing_child_string_property.cc
+    feature_grounding_string_property_value_matches_child_string_properties.cc
     feature_grounding_class_name.cc
     feature_region_object_string_property_value.cc
     feature_region_object_matches_child.cc
