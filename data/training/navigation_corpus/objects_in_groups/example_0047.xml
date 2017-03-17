@@ -31,7 +31,6 @@
       <CC text="and" order="2"/>
       <NP>
         <grounding_set>
-          <object_property object_type="na" spatial_relation_type="na" index="2"/>
           <index value="2"/>
         </grounding_set>
         <DT text="the" order="0"/>
