@@ -25,6 +25,7 @@
       <grounding_set>
         <object name="object9-cube-cube-base" object_type="block" object_color="na" position="1.11856,0.661358,0.73615" orientation="6.64398e-08,1.21497e-06,-0.0392197,0.999231" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object_property object_type="block" spatial_relation_type="far" index="1"/>
+        <index type="1"/>
         <object_type object_type="block"/>
         <spatial_relation spatial_relation_type="far"/>
       </grounding_set>

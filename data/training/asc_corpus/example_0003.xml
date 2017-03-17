@@ -35,6 +35,7 @@
         <object name="object0-cube-cube-base" object_type="block" object_color="na" position="0.902484,0.303134,0.73615" orientation="4.10404e-06,7.18221e-07,-0.501836,0.864963" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="object1-cube-cube-base" object_type="block" object_color="na" position="0.74109,0.251459,0.73615" orientation="-0.663722,-0.244023,-0.663605,0.244038" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <abstract_container object_type="block" number="2" index="1" object_color="na"/>
+        <index type="1"/>
         <object_type object_type="block"/>
         <spatial_relation spatial_relation_type="near"/>
         <number value="2"/>

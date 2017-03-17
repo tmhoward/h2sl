@@ -25,6 +25,7 @@
       <NP>
         <grounding_set>
           <object_property object_type="block" spatial_relation_type="na" index="2"/>
+          <index type="2"/>
           <object_type object_type="block"/>
         </grounding_set>
         <DT text="the" order="0"/>
