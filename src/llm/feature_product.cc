@@ -190,6 +190,7 @@
 */
 #include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
 #include "h2sl/feature_object_merge_object_property_container.h"
+#include "h2sl/feature_object_merge_object_type_spatial_relation.h"
 #include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
 
 #include "h2sl/feature_product.h"
@@ -611,9 +612,6 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().push_back( new Feature_Phrase_Has_Ordered_POS_Tag_Pair() );
                   _feature_groups.back().back()->from_xml( l2 );
 /*
-              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_property_merge_object_property_spatial_relation" ) ) == 0 ){
-                  _feature_groups.back().push_back( new Feature_Object_Property_Merge_Object_Property_Spatial_Relation() );
-                  _feature_groups.back().back()->from_xml( l2 );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_matches_empty_child_container" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Container_Matches_Empty_Child_Container() );
                   _feature_groups.back().back()->from_xml( l2 );
@@ -787,6 +785,8 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_property_container" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Container( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_type_spatial_relation" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_abstract_container_spatial_relation" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( l2 ) );
           } else {

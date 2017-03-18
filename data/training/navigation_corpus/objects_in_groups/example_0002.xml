@@ -115,7 +115,7 @@
                       <object name="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                     </grounding_set>
                     <DT text="the" order="11"/>
-                    <NN text="robot" order="0"/>
+                    <NN text="robot" order="12"/>
                   </NP>
                 </PP>
               </NP>

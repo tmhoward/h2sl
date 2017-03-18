@@ -24,8 +24,15 @@ using namespace h2sl;
  * Feature_Object_Merge_Object_Property_Spatial_Relation class constructor
  */
 Feature_Object_Merge_Object_Property_Spatial_Relation::
-Feature_Object_Merge_Object_Property_Spatial_Relation( const bool& invert ) : Feature( invert ) {
-    
+Feature_Object_Merge_Object_Property_Spatial_Relation( const bool& invert,
+                                                        const string& spatialRelationType ) : Feature( invert ) {
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", spatialRelationType );
+}
+
+Feature_Object_Merge_Object_Property_Spatial_Relation::
+Feature_Object_Merge_Object_Property_Spatial_Relation( xmlNodePtr root ) : Feature() {
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
+  from_xml( root );
 }
 
 /**
@@ -51,6 +58,8 @@ Feature_Object_Merge_Object_Property_Spatial_Relation&
 Feature_Object_Merge_Object_Property_Spatial_Relation::
 operator=( const Feature_Object_Merge_Object_Property_Spatial_Relation& other ) {
     _invert = other._invert;
+    _string_properties = other._string_properties;
+    _int_properties = other._int_properties;
     return (*this);
 }
 
@@ -77,143 +86,85 @@ value( const string& cv,
       const Grounding* context){
     const Object * object = dynamic_cast< const Object* >( grounding );
     if( ( object != NULL ) && ( !children.empty() ) ){
-        pair< const Phrase*, const Object_Property* > object_property_child( NULL, NULL );
-        pair< const Phrase*, const Spatial_Relation* > spatial_relation_child( NULL, NULL );
-        
-        for( unsigned int i = 0; i < children.size(); i++ ){
-            for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-                if ( dynamic_cast< const Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
-                    spatial_relation_child.first = children[ i ].first;
-                    spatial_relation_child.second = static_cast< const Spatial_Relation* >( children[ i ].second[ j ] );
-                }
-            }
+    pair< const Phrase*, const Object_Property* > object_property_child( NULL, NULL );
+    pair< const Phrase*, const Container* > container_child( NULL, NULL );
+    // enforce that children come from different phrases
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+        if ( dynamic_cast< const Container* >( children[ i ].second[ j ] ) != NULL ){
+          container_child.first = children[ i ].first;
+          container_child.second = static_cast< const Container* >( children[ i ].second[ j ] );
         }
-        for( unsigned int i = 0; i < children.size(); i++ ){
-            if( children[ i ].first != spatial_relation_child.first ){
-                for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-                    if( dynamic_cast< const Object_Property* >( children[ i ].second[ j ] ) != NULL ){
-                        object_property_child.first = children[ i ].first;
-                       object_property_child.second = static_cast< const Object_Property* >( children[ i ].second[ j ] );
-                    }
-                }
-            }
+      }
+    }
+    for( unsigned int i = 0; i < children.size(); i++ ){
+      if( children[ i ].first != container_child.first ){
+        for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
+          if( dynamic_cast< const Object_Property* >( children[ i ].second[ j ] ) != NULL ){
+            object_property_child.first = children[ i ].first;
+            object_property_child.second = static_cast< const Object_Property* >( children[ i ].second[ j ] );
+          }
         }
-       
-        if( ( object_property_child.first != NULL ) && ( object_property_child.second != NULL ) && 
-            ( spatial_relation_child.first != NULL ) && ( spatial_relation_child.second != NULL ) ){
-            if( ( object_property_child.first->min_word_order() < spatial_relation_child.first->min_word_order() ) ){
-                if( spatial_relation_child.second->relation_type() == string( "center" ) ){
-                    map< string, vector< Object* > >::const_iterator it1 = world->min_center_distance_sorted_objects().find( object_property_child.second->type() );
-                    assert( it1 != world->min_center_distance_sorted_objects().end() );
+      }
+    }
 
-//                    map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
-//                    assert( it2 != world->index_map().end() );
-                    
-                    if( object_property_child.second->index() < it1->second.size() ){
-                        for( unsigned int i = 0; i < object_property_child.second->index(); i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
-                    }
+    if( ( object_property_child.first != NULL ) && ( object_property_child.second != NULL ) && ( container_child.first != NULL ) && ( container_child.second != NULL ) ){
+      if( ( object_property_child.first->min_word_order() < container_child.first->min_word_order() ) && ( object_property_child.second->index() != 0 ) && ( object_property_child.second->relation_type() == spatial_relation_type() ) ){
+        vector< Object* > sorted_objects;
+        for( unsigned int i = 0; i < container_child.second->container().size(); i++ ){
+          Object * container_child_object = dynamic_cast< Object* >( container_child.second->container()[ i ] );
+          if( container_child_object != NULL ){
+            if( container_child_object->type() == object_property_child.second->type() ){
+              sorted_objects.push_back( container_child_object );
+            }
+          }
+        }
 
-                } else if ( spatial_relation_child.second->relation_type() == string( "far" ) ){
-                    map< string, vector< Object* > >::const_iterator it1;
-                    it1 = world->max_distance_sorted_objects().find( object_property_child.second->type() );
+        if( !sorted_objects.empty() ){
+          if( object_property_child.second->index() <= ( int )( sorted_objects.size() ) ){
+            if( sorting_key() == "min_x" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_x_sort );
+            } else if ( sorting_key() == "max_x" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_x_sort );
+            } else if ( sorting_key() == "min_y" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_y_sort );
+            } else if ( sorting_key() == "max_y" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_y_sort );
+            } else if ( sorting_key() == "min_z" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_z_sort );
+            } else if ( sorting_key() == "max_z" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_z_sort );
+            } else if ( sorting_key() == "min_abs_x" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_abs_x_sort );
+            } else if ( sorting_key() == "max_abs_x" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_abs_x_sort );
+            } else if ( sorting_key() == "min_abs_y" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_abs_y_sort );
+            } else if ( sorting_key() == "max_abs_y" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_abs_y_sort );
+            } else if ( sorting_key() == "min_distance" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::min_distance_sort );
+            } else if ( sorting_key() == "max_distance" ){
+              sort( sorted_objects.begin(), sorted_objects.end(), World::max_distance_sort );
+            } else if ( sorting_key() == "min_center_distance" ){
+              World::min_center_distance_sort_objects( sorted_objects );
+            } else if ( sorting_key() == "max_center_distance" ){
+              World::max_center_distance_sort_objects( sorted_objects );
+            }
 
-//                    map<string, unsigned int>::const_iterator it2;
-//                    it2 = world->index_map().find( object_property_child.second->index() );
-                    
-                    if( object_property_child.second->index() < it1->second.size() ){
-                        for( unsigned int i = 0; i < object_property_child.second->index(); i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
-                    }
+            if( object->name() == sorted_objects[ object_property_child.second->index() - 1 ]->name() ){
+              return !_invert;
+            } else {
+              return _invert;
+            }
+          }
+        }
+      }
+    }
+  }
 
-                } else if ( spatial_relation_child.second->relation_type() == string( "near" ) ){
-                    map< string, vector< Object* > >::const_iterator it1;
-                    it1 = world->min_distance_sorted_objects().find( object_property_child.second->type() );
 
-//                    map<string, unsigned int>::const_iterator it2;
-//                    it2 = world->index_map().find( object_property_child.second->index() );
-                    
-                    if( object_property_child.second->index() < it1->second.size() ){
-                        for( unsigned int i = 0; i < object_property_child.second->index(); i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
-                    }
-
-                } else if ( spatial_relation_child.second->relation_type() == string( "left" ) ){
-                    map< string, vector< Object* > >::const_iterator it1 = world->min_y_sorted_objects().find( object_property_child.second->type() );
-                    assert( it1 != world->min_y_sorted_objects().end() );
-
-//                    map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
-//                    assert( it2 != world->index_map().end() );
- 
-                    if( object_property_child.second->index() < it1->second.size() ){
-                        for( unsigned int i = 0; i < object_property_child.second->index(); i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
-                    }
-
-                } else if ( spatial_relation_child.second->relation_type() == string( "right" ) ){
-                    map< string, vector< Object* > >::const_iterator it1 = world->max_y_sorted_objects().find( object_property_child.second->type() );
-                    assert( it1 != world->max_y_sorted_objects().end() );                  
-  
-//                    map<string, unsigned int>::const_iterator it2 = world->index_map().find( object_property_child.second->index() );
-//                    assert( it2 != world->index_map().end() );                   
-
-//                    if( it2->second < it1->second.size() ){
-                      if( object_property_child.second->index() < it1->second.size() ){
-                        for( unsigned int i = 0; i < object_property_child.second->index(); i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
-                    }
-                } else if ( spatial_relation_child.second->relation_type() == string( "back") ){
-                    map< string, vector< Object* > >::const_iterator it1;
-                    it1 = world->max_x_sorted_objects().find( object_property_child.second->type() );
-
-//                    map<string, unsigned int>::const_iterator it2;
-//                    it2 = world->index_map().find( object_property_child.second->index() );
-
-//                    if( it2->second < it1->second.size() ){
-                      if( object_property_child.second->index() < it1->second.size() ){ 
-                        for( unsigned int i = 0; i < object_property_child.second->index(); i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
-                    }
-
-                } else if ( spatial_relation_child.second->relation_type() == string( "front" ) ){
-                    map< string, vector< Object* > >::const_iterator it1;
-                    it1 = world->min_x_sorted_objects().find( object_property_child.second->type() );
-
-//                    map<string, unsigned int>::const_iterator it2;
-//                    it2 = world->index_map().find( object_property_child.second->index() );
-                    
-//                    if( it2->second < it1->second.size() ){
-                      if( object_property_child.second->index() < it1->second.size() ){
-                        for( unsigned int i = 0; i < object_property_child.second->index(); i++ ){
-                            if( *object == *it1->second[ i ] ){
-                                return !_invert;
-                            }
-                        }
-                    }
-               }
-               return _invert;
-           }
-       }
-   }
-    return false;
+  return false;
 }
 
 /**
