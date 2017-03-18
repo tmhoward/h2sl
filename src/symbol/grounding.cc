@@ -34,6 +34,7 @@
 #include <assert.h>
 #include "h2sl/grounding.h"
 #include "h2sl/rule_object_type.h"
+#include "h2sl/rule_container_type.h"
 #include "h2sl/rule_object_color.h"
 #include "h2sl/rule_spatial_relation.h"
 #include "h2sl/rule_constraint_type.h"
@@ -54,6 +55,7 @@
 #include "h2sl/object_color.h"
 #include "h2sl/object_property.h"
 #include "h2sl/object_type.h"
+#include "h2sl/container_type.h"
 #include "h2sl/spatial_relation.h"
 
 using namespace std;
@@ -136,6 +138,8 @@ namespace h2sl {
       out << *static_cast< const Grounding_Set* >( &other ); 
     } else if( dynamic_cast< const Rule_Object_Type* >( &other ) != NULL ){
       out << *static_cast< const Rule_Object_Type* >( &other );
+    } else if( dynamic_cast< const Rule_Container_Type* >( &other ) != NULL ){
+      out << *static_cast< const Rule_Container_Type* >( &other );
     } else if( dynamic_cast< const Rule_Object_Color* >( &other ) != NULL ){
       out << *static_cast< const Rule_Object_Color* >( &other );
     } else if( dynamic_cast< const Rule_Spatial_Relation* >( &other ) != NULL ){
@@ -174,6 +178,8 @@ namespace h2sl {
       out << *static_cast< const Object_Property* >( &other );
     } else if( dynamic_cast< const Object_Type* >( &other ) != NULL ){
       out << *static_cast< const Object_Type* >( &other );
+    } else if( dynamic_cast< const Container_Type* >( &other ) != NULL ){
+      out << *static_cast< const Container_Type* >( &other );
     } else if( dynamic_cast< const Spatial_Relation* >( &other ) != NULL ){
       out << *static_cast< const Spatial_Relation* >( &other );
     }

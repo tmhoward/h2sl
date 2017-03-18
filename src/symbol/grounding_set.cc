@@ -36,6 +36,7 @@
 #include "h2sl/cv.h"
 
 #include "h2sl/rule_object_type.h"
+#include "h2sl/rule_container_type.h"
 #include "h2sl/rule_object_color.h"
 #include "h2sl/rule_spatial_relation.h"
 #include "h2sl/rule_constraint_type.h"
@@ -49,6 +50,7 @@
 #include "h2sl/spatial_relation.h"
 #include "h2sl/object_property.h"
 #include "h2sl/object_type.h"
+#include "h2sl/container_type.h"
 #include "h2sl/object_color.h"
 #include "h2sl/index.h"
 #include "h2sl/number.h"
@@ -248,6 +250,8 @@ from_xml( xmlNodePtr root ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_object_type" ) ) == 0 ){
           _groundings.push_back( new Rule_Object_Type( l1 ) );
+        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_container_type" ) ) == 0 ){
+          _groundings.push_back( new Rule_Container_Type( l1 ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_object_color" ) ) == 0 ){
           _groundings.push_back( new Rule_Object_Color( l1 ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_spatial_relation" ) ) == 0 ){
@@ -280,6 +284,8 @@ from_xml( xmlNodePtr root ){
           _groundings.push_back( new Object_Color( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_type" ) ) == 0 ){
           _groundings.push_back( new Object_Type( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "container_type" ) ) == 0 ){
+          _groundings.push_back( new Container_Type( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "spatial_relation" ) ) == 0 ){
           _groundings.push_back( new Spatial_Relation( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_property" ) ) == 0 ){

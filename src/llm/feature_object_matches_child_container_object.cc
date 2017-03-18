@@ -83,21 +83,24 @@ value( const string& cv,
     const Object * object = dynamic_cast< const Object* >( grounding );
     
     if( object != NULL ){
+      bool found_container = false;
       for( unsigned int i = 0; i < children.size(); i++ ){
         for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
           const Container* container_child = dynamic_cast< Container* >( children[ i ].second[ j ] );
           if( container_child != NULL ){
+            found_container = true;
             for( unsigned int k = 0; k < container_child->container().size(); k++ ){
               if( dynamic_cast< Object* >( container_child->container()[ k ] ) != NULL ) {
                 if( *object == *static_cast< Object* >( container_child->container()[ k ] ) ) { 
                   return !_invert;
-                } else {
-                  return _invert;
                 }
               }
             }
           }
         }
+      }
+      if( found_container ){
+        return _invert;
       }
     }
     return false;

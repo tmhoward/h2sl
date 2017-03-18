@@ -12,6 +12,7 @@ set(GGOS
     object_color_demo.ggo
     object_property_demo.ggo
     object_type_demo.ggo
+    container_type_demo.ggo
     region_demo.ggo
     #constraint_demo.ggo
     region_abstract_container_demo.ggo
@@ -24,6 +25,7 @@ set(HDRS
     h2sl/symbol_dictionary.h
     h2sl/rule.h
     h2sl/rule_object_type.h
+    h2sl/rule_container_type.h
     h2sl/rule_object_color.h
     h2sl/rule_spatial_relation.h
     h2sl/rule_number.h
@@ -40,6 +42,7 @@ set(HDRS
     h2sl/object.h
     h2sl/object_color.h
     h2sl/object_type.h
+    h2sl/container_type.h
     h2sl/object_property.h
     h2sl/region.h
     h2sl/spatial_relation.h
@@ -57,6 +60,7 @@ set(SRCS
     symbol_dictionary.cc
     rule.cc
     rule_object_type.cc
+    rule_container_type.cc
     rule_object_color.cc
     rule_spatial_relation.cc
     rule_number.cc
@@ -73,6 +77,7 @@ set(SRCS
     object.cc
     object_color.cc
     object_type.cc
+    container_type.cc
     object_property.cc
     region.cc
     spatial_relation.cc
@@ -96,6 +101,7 @@ set(BIN_SRCS
     object_color_demo.cc
     object_property_demo.cc
     object_type_demo.cc
+    container_type_demo.cc
     region_demo.cc
     #constraint_demo.cc
     region_abstract_container_demo.cc

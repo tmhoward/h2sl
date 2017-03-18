@@ -34,6 +34,7 @@
 #include <assert.h>
 
 #include "h2sl/rule_object_type.h"
+#include "h2sl/rule_container_type.h"
 #include "h2sl/rule_object_color.h"
 #include "h2sl/rule_spatial_relation.h"
 #include "h2sl/rule_constraint_type.h"
@@ -44,6 +45,7 @@
 #include "h2sl/object.h"
 #include "h2sl/object_property.h"
 #include "h2sl/object_type.h"
+#include "h2sl/container_type.h"
 #include "h2sl/object_color.h"
 #include "h2sl/index.h"
 #include "h2sl/number.h"
@@ -448,6 +450,8 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Region_Merge_Spatial_Relation_And_Region( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_object_type" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Object_Type >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_container_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Container_Type >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_object_color" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Rule_Object_Color >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_rule_spatial_relation" ) ) == 0 ){
@@ -468,6 +472,8 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object_Property >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object_type" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object_Type >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_container_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Child< Container_Type >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_object_color" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Child< Object_Color >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_child_number" ) ) == 0 ){
@@ -496,6 +502,8 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Matches_Only_Child< Object_Property >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_object_type" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Only_Child< Object_Type >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_container_type" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Only_Child< Container_Type >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_object_color" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Only_Child< Object_Color >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_number" ) ) == 0 ){

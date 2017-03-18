@@ -10,6 +10,7 @@
 #include "h2sl/constraint.h"
 #include "h2sl/object_property.h"
 #include "h2sl/object_type.h"
+#include "h2sl/container_type.h"
 #include "h2sl/object_color.h"
 #include "h2sl/number.h"
 #include "h2sl/index.h"
@@ -139,6 +140,7 @@ main( int argc,
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "spatial_relation" ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "object_property" ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "object_type" ) );
+  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "container_type" ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "object_color" ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "number" ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "index" ) );
@@ -367,6 +369,19 @@ main( int argc,
     if( it_object_types != symbol_dictionary->string_types().end() ){
       for( vector< string >::const_iterator it_object_type = it_object_types->second.begin(); it_object_type != it_object_types->second.end(); it_object_type++ ){
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "object_type", "object_type", *it_object_type ) );
+      }
+    }
+  }
+
+  if( find( it_class_names->second.begin(), it_class_names->second.end(), "container_type" ) != it_class_names->second.end() ){
+    cout << "adding container_type symbols" << endl;
+    // container_type symbols
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Container_Type >( false ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Container_Type >( true ) );
+    map< string, vector< string > >::const_iterator it_container_types = symbol_dictionary->string_types().find( "container_type" );
+    if( it_container_types != symbol_dictionary->string_types().end() ){
+      for( vector< string >::const_iterator it_container_type = it_container_types->second.begin(); it_container_type != it_container_types->second.end(); it_container_type++ ){
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "container_type", "container_type", *it_container_type ) );
       }
     }
   }
