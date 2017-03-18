@@ -44,32 +44,6 @@
 using namespace std;
 using namespace h2sl;
 
-string
-extract_instruction( const std::string& filename ){
-  string instruction = "";
-  xmlDoc * doc = NULL;
-  xmlNodePtr root = NULL;
-  doc = xmlReadFile( filename.c_str(), NULL, 0 );
-  if( doc != NULL ){
-    root = xmlDocGetRootElement( doc );
-    if( root->type == XML_ELEMENT_NODE ){
-      xmlNodePtr l1 = NULL;
-      for( l1 = root->children; l1; l1 = l1->next ){
-        if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "instruction" ) ) == 0 ){
-            xmlChar * tmp = xmlGetProp( l1, ( const xmlChar* )( "text" ) );
-            if( tmp != NULL ){
-              instruction = ( char* )( tmp );
-              xmlFree( tmp );
-            }
-          }
-        }
-      }
-    }
-    xmlFreeDoc( doc );
-  }
-  return instruction;
-}
 
 bool
 compare_phrases( const Phrase* first, 
@@ -143,6 +117,10 @@ main( int argc,
     llm->from_xml( args.llm_arg );
   }
 
+  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
+
+  Search_Space * search_space = new Search_Space();
+
   ADCG * adcg = new ADCG();
 
   unsigned int num_correct = 0;
@@ -161,6 +139,10 @@ main( int argc,
     Phrase * truth = new Phrase();
     truth->from_xml( args.inputs[ i ] );
 
+    // update the search space when the world changes
+    search_space->fill_groundings( *symbol_dictionary, world );
+    cout << "search_space:" << *search_space << endl;
+
     vector< Phrase* > phrases;
     if( parser->parse( *grammar, instruction, phrases ) ){
       if( !phrases.empty() ){
@@ -171,7 +153,7 @@ main( int argc,
         for( unsigned int i = 0; i < phrases.size(); i++ ){
           if( phrases[ i ] != NULL ){
             cout << "    running leaf search" << endl;
-            adcg->leaf_search( phrases[ i ], world, context, llm, args.beam_width_arg, true );
+            adcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
             if( !adcg->solutions().empty() ){
               cout << "  parse[" << i << "]:" << *adcg->solutions().front().second << " (" << adcg->solutions().front().first << ")" << endl;
               adcg->solutions().front().second->to_xml( "/tmp/test.xml" ); 
@@ -189,7 +171,7 @@ main( int argc,
         } else {
           cout << "  did not find match" << endl;
           num_incorrect++;
-//          exit(0);
+          exit(0);
         }
       }
     } else {

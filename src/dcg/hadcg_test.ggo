@@ -1,6 +1,6 @@
 package "hadcg_test"
 version "0.0.1"
-purpose "A program used to test the Hierarchical Adaptive Distributed Correspondence Graph (DCG) class."
+purpose "A program used to test the Hierarchical Adaptive Distributed Correspondence Graph (HADCG) class."
 
 option "llm" - "log-linear model file" string required
 option "grammar" - "grammar file" string required
