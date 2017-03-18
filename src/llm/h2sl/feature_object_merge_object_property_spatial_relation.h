@@ -20,7 +20,8 @@ namespace h2sl {
      */
     class Feature_Object_Merge_Object_Property_Spatial_Relation: public Feature {
     public:
-        Feature_Object_Merge_Object_Property_Spatial_Relation( const bool& invert = false );
+        Feature_Object_Merge_Object_Property_Spatial_Relation( const bool& invert = false, const std::string& spatialRelationType = "na" );
+        Feature_Object_Merge_Object_Property_Spatial_Relation( xmlNodePtr root );
         virtual ~Feature_Object_Merge_Object_Property_Spatial_Relation();
         Feature_Object_Merge_Object_Property_Spatial_Relation( const Feature_Object_Merge_Object_Property_Spatial_Relation& other );
         Feature_Object_Merge_Object_Property_Spatial_Relation& operator=( const Feature_Object_Merge_Object_Property_Spatial_Relation& other );
@@ -31,6 +32,9 @@ namespace h2sl {
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
         virtual void from_xml( xmlNodePtr root );
+
+        inline std::string& spatial_relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+        inline const std::string& spatial_relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
         
         virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
         

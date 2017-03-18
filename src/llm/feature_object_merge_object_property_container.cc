@@ -24,13 +24,16 @@ using namespace h2sl;
  */
 Feature_Object_Merge_Object_Property_Container::
 Feature_Object_Merge_Object_Property_Container( const bool& invert,
-                                                const string& sortingKey ) : Feature( invert ) {
+                                                const string& sortingKey,
+                                                const string& spatialRelationType ) : Feature( invert ) {
   insert_prop< std::string >( _string_properties, "sorting_key", sortingKey );    
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", spatialRelationType );    
 }
 
 Feature_Object_Merge_Object_Property_Container::
 Feature_Object_Merge_Object_Property_Container( xmlNodePtr root ) : Feature() {
   insert_prop< std::string >( _string_properties, "sorting_key", "na" );
+  insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
   from_xml( root );
 }
 
@@ -107,9 +110,9 @@ value( const string& cv,
         }
       }
     }
-  
+ 
     if( ( object_property_child.first != NULL ) && ( object_property_child.second != NULL ) && ( container_child.first != NULL ) && ( container_child.second != NULL ) ){
-      if( ( object_property_child.first->min_word_order() < container_child.first->min_word_order() ) && ( object_property_child.second->index() != 0 ) ){
+      if( ( object_property_child.first->min_word_order() < container_child.first->min_word_order() ) && ( object_property_child.second->index() != 0 ) && ( object_property_child.second->relation_type() == spatial_relation_type() ) && (object->type() == object_property_child.second->type() ) ){
         vector< Object* > sorted_objects;
         for( unsigned int i = 0; i < container_child.second->container().size(); i++ ){
           Object * container_child_object = dynamic_cast< Object* >( container_child.second->container()[ i ] );
@@ -326,6 +329,7 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_merge_object_property_container" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( to_std_string( _invert ).c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "sorting_key" ), ( const xmlChar* )( sorting_key().c_str() ) ); 
+  xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( spatial_relation_type().c_str() ) ); 
   xmlAddChild( root, node );
   return;
 }
@@ -339,7 +343,7 @@ from_xml( xmlNodePtr root ){
   _invert = false;
   sorting_key() = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > feature_keys = { "invert", "sorting_key" };
+    vector< string > feature_keys = { "invert", "sorting_key", "spatial_relation_type" };
     assert( check_keys( root, feature_keys ) );
 
     pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
@@ -350,6 +354,11 @@ from_xml( xmlNodePtr root ){
     pair< bool, std::string > sorting_key_prop = has_prop< std::string >( root, "sorting_key" );
     if( sorting_key_prop.first ) {
       sorting_key() = sorting_key_prop.second;
+    }
+
+    pair< bool, std::string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
+    if( spatial_relation_type_prop.first ) {
+      spatial_relation_type() = spatial_relation_type_prop.second;
     }
   }
   return;
@@ -362,7 +371,7 @@ namespace h2sl {
     ostream&
     operator<<( ostream& out,
                const Feature_Object_Merge_Object_Property_Container& other ) {
-      out << "class:\"Feature_Object_Merge_Object_Property_Container\" ";  
+      out << "Feature_Object_Merge_Object_Property_Container:(invert:(" << other.invert() << ") sorting_key:(" << other.sorting_key() << ") spatial_relation_type:(" << other.spatial_relation_type() << "))"; 
       return out;
     }
     
