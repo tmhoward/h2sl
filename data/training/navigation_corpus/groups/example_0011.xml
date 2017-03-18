@@ -49,7 +49,7 @@
         <object name="cone4" object_type="cone" object_color="orange" position="-7.82368,5.46736,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <number value="5"/>
         <object_type object_type="cone"/>
-      <grounding_set/>
+      </grounding_set>
       <DT text="the" order="0"/>
       <CD text="five" order="1"/>
       <NNS text="cones" order="2"/>

@@ -32,6 +32,7 @@
 
 #include "h2sl/common.h"
 #include "h2sl/rule_object_type.h"
+#include "h2sl/rule_container_type.h"
 #include "h2sl/rule_object_color.h"
 #include "h2sl/rule_spatial_relation.h"
 #include "h2sl/rule_number.h"
@@ -43,6 +44,7 @@
 
 #include "h2sl/object_property.h"
 #include "h2sl/object_type.h"
+#include "h2sl/container_type.h"
 #include "h2sl/object_color.h"
 #include "h2sl/object.h"
 #include "h2sl/spatial_relation.h"
@@ -142,6 +144,7 @@ fill_groundings( const Symbol_Dictionary& symbolDictionary,
 
   Object::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Object_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
+  Container_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Object_Color::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Object_Property::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Number::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
@@ -172,6 +175,7 @@ fill_rules( const Symbol_Dictionary& symbolDictionary,
   _cvs.insert( pair< string, vector< string > >( "binary", binary_cvs ) );
 
   Rule_Object_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
+  Rule_Container_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Rule_Object_Color::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Rule_Spatial_Relation::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Rule_Number::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
