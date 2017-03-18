@@ -40,17 +40,17 @@
         <PP>
           <grounding_set>
             <abstract_container object_type="na" number="5" index="1" object_color="na"/>
-            <container container_type="row"/>
+            <container_type container_type="row"/>
           </grounding_set>
           <IN text="in" order="6"/>
           <NP>
             <grounding_set>
               <abstract_container object_type="na" number="5" index="1" object_color="na"/>
-              <container container_type="row"/>
+              <container_type container_type="row"/>
             </grounding_set>
             <NP>
               <grounding_set>
-                <container container_type="row"/>
+                <container_type container_type="row"/>
               </grounding_set>
               <DT text="the" order="7"/>
               <NN text="line" order="8"/>
