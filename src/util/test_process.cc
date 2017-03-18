@@ -59,6 +59,63 @@
 
 using namespace std;
 using namespace h2sl; 
+
+/**
+ * Root: Compare Phrases 
+ */
+bool
+root_compare_phrases( const Phrase& a,
+                      const Phrase& b ){
+  assert( dynamic_cast< const Grounding_Set* >( a.grounding_set() ) != NULL );
+  assert( dynamic_cast< const Grounding_Set* >( b.grounding_set() ) != NULL );
+
+  bool value = ( *( static_cast< const Grounding_Set* >( a.grounding_set() ) ) == *( static_cast< const Grounding_Set* >( b.grounding_set() ) ) );
+
+  return value;
+}
+
+/**
+ * Complete: Compare Phrases 
+ */
+bool
+complete_compare_phrases( const Phrase& a,
+                          const Phrase& b ){
+  assert( dynamic_cast< const Grounding_Set* >( a.grounding_set() ) != NULL );
+  assert( dynamic_cast< const Grounding_Set* >( b.grounding_set() ) != NULL );
+
+  bool value = true;
+  value = value && ( a.children().size() == b.children().size() );
+  if( a.children().size() == b.children().size() ){
+    for( unsigned int i = 0; i < a.children().size(); i++ ){
+      value = value && complete_compare_phrases( *a.children()[ i ], *b.children()[ i ] );
+    }
+  }
+
+  value = value && ( *( static_cast< const Grounding_Set* >( a.grounding_set() ) ) == *( static_cast< const Grounding_Set* >( b.grounding_set() ) ) );
+
+  return value;
+}
+
+/**
+ * Clear the phrase. 
+ */
+void
+clear( Phrase* phrase ){
+  if( phrase != NULL ){
+    if( phrase->grounding_set() != NULL ){
+      delete_ptr< Grounding >( phrase->grounding_set() );
+    }
+    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+      clear( phrase->children()[ i ] );
+    }
+  }
+  return;
+}
+
+
+
+
+
 /**
  * Test Generator Program
  */
