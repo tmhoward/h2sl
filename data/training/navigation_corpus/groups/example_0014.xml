@@ -44,7 +44,7 @@
         <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <number value="4"/>
-        <object_type object_type="chairs"/>
+        <object_type object_type="chair"/>
       </grounding_set>
       <CD text="four" order="0"/>
       <NNS text="chairs" order="1"/>

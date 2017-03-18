@@ -1,0 +1,8 @@
+package "container_type_demo"
+version "0.0.1"
+purpose "A program used to demonstrate the h2sl::Container_Type class."
+
+option "input" i "input string" string optional
+option "output" o "output file" string optional
+
+text ""

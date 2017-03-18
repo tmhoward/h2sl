@@ -46,7 +46,7 @@
       </grounding_set>
       <NP>
         <grounding_set>
-          <container container_type="group"/>
+          <container_type container_type="group"/>
         </grounding_set>
         <DT text="the" order="0"/>
         <NN text="group" order="1"/>

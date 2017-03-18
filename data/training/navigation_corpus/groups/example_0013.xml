@@ -46,7 +46,7 @@
       </grounding_set>
       <NP>
         <grounding_set>
-          <container container_type="row"/>
+          <container_type container_type="row"/>
         </grounding_set>
         <DT text="the" order="0"/>
         <NN text="row" order="1"/>
@@ -77,7 +77,7 @@
             <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object_type object_type="chairs"/>
+            <object_type object_type="chair"/>
           </grounding_set>
           <NNS text="chairs" order="3"/>
         </NP>
