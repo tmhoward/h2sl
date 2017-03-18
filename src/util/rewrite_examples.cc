@@ -46,23 +46,28 @@ using namespace h2sl;
 void
 replace_empty_regions_with_objects( Phrase* phrase, World* world ){
   cout << "function: " << "replace_empty_regions_with_objects" << endl;
-  cout << "checking " << *phrase->grounding_set() << endl;
-  for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
-    Region * region = dynamic_cast< Region* >( *it_grounding );
-    if( region != NULL ){
-      cout << "found region" << endl;
-      if( region->spatial_relation_type() == "na" ){
-        cout << "  found empty region" << endl;
-        map< string, Object* >::iterator it_object = world->objects().find( region->object_id() );
-        assert( it_object != world->objects().end() );
-        cout << "  reassigning grounding to object " << *it_object->second << endl;
-        *it_grounding = it_object->second;
+  if( phrase->grounding_set() != NULL ){
+    cout << "checking " << *phrase->grounding_set() << endl;
+    for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+      Region * region = dynamic_cast< Region* >( *it_grounding );
+      if( region != NULL ){
+        cout << "found region" << endl;
+        if( region->spatial_relation_type() == "na" ){
+          cout << "  found empty region" << endl;
+          map< string, Object* >::iterator it_object = world->objects().find( region->object_id() );
+          assert( it_object != world->objects().end() );
+          cout << "  reassigning grounding to object " << *it_object->second << endl;
+          *it_grounding = it_object->second;
+        }
       }
     }
-  }
 
-  for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
-    replace_empty_regions_with_objects( *it_child, world );
+    for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+      replace_empty_regions_with_objects( *it_child, world );
+    }
+  } else{
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    assert( false );
   }
   return;
 }
@@ -70,22 +75,27 @@ replace_empty_regions_with_objects( Phrase* phrase, World* world ){
 void
 replace_objectless_regions_with_spatial_relations( Phrase* phrase, World* world ){
   cout << "function: " << "replace_objectless_regions_with_spatial_relations" << endl;
-  cout << "checking " << *phrase->grounding_set() << endl;
-  for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
-    Region * region = dynamic_cast< Region* >( *it_grounding );
-    if( region != NULL ){
-      cout << "found region" << endl;
-      if( region->object_id() == "na" ){
-        cout << "  found objectless region" << endl;
-        Spatial_Relation * spatial_relation = new Spatial_Relation( region->spatial_relation_type() );
-        cout << "  reassigning grounding to spatial relation " << *spatial_relation << endl;
-        *it_grounding = spatial_relation;
+  if( phrase->grounding_set() ){
+    cout << "checking " << *phrase->grounding_set() << endl;
+    for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+      Region * region = dynamic_cast< Region* >( *it_grounding );
+      if( region != NULL ){
+        cout << "found region" << endl;
+        if( region->object_id() == "na" ){
+          cout << "  found objectless region" << endl;
+          Spatial_Relation * spatial_relation = new Spatial_Relation( region->spatial_relation_type() );
+          cout << "  reassigning grounding to spatial relation " << *spatial_relation << endl;
+          *it_grounding = spatial_relation;
+        }
       }
     }
-  }
 
-  for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
-    replace_objectless_regions_with_spatial_relations( *it_child, world );
+    for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+      replace_objectless_regions_with_spatial_relations( *it_child, world );
+    }
+  } else{
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    assert( false );
   }
   return;
 }

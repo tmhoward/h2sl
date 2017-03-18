@@ -16,6 +16,7 @@
       <grounding_set>
         <object name="barrel0" object_type="barrel" object_color="brown" position="-5.26362,-2.35682,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object_property object_type="barrel" spatial_relation_type="left" index="1"/>
+        <index value="1"/>
         <spatial_relation spatial_relation_type="left"/>
         <object_type object_type="barrel"/>
       </grounding_set>

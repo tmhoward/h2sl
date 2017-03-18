@@ -2,7 +2,7 @@
 <root>
   <instruction text="the middle barrel in the row of barrels in front of the robot"/>
   <!-- "file" indicates the which world within certain world type-->
-  <world time="0" file="three_barrels/world_0001.xml"/>
+  <world time="0" file="three_barrels/world_0001.xml">
     <object name="barrel0" object_type="barrel" object_color="brown" position="-4.01707 -2.71231 0.270293" orientation="1.78942e-09 -2.57569e-08 0.0117224 0.999931"/>
     <object name="barrel1" object_type="barrel" object_color="brown" position="-4.5992 0.543007 0.270293" orientation="1.49806e-09 -3.40915e-08 0.011628 0.999932"/>
     <object name="barrel2" object_type="barrel" object_color="brown" position="-4.23107 2.56998 0.270293" orientation="-1.8909e-07 2.9793e-07 0.0110163 0.999939"/>
@@ -48,7 +48,9 @@
           <object name="barrel2" object_type="barrel" object_color="brown" position="-4.23107 2.56998 0.270293" orientation="-1.8909e-07 2.9793e-07 0.0110163 0.999939"/>
         </grounding_set>
         <NP>
-          <container container_type="row"/>
+          <grounding_set>
+            <container container_type="row"/>
+          </grounding_set>
           <DT text="the" order="4"/>
           <NN text="row" order="5"/>
         </NP>

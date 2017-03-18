@@ -1,4 +1,4 @@
-2<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <root>
   <instruction text="the two white chairs in the middle of the row of chairs to the robot's left"/>
   <!-- "file" indicates the which world within certain world type-->
@@ -175,7 +175,7 @@
                       <NN text="robot" order="14"/>
                       <POS text="'s" order="15"/>
                     </NP>
-                  <NP>
+                  </NP>
                 </PP>
               </NP>
             </PP>

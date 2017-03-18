@@ -107,7 +107,7 @@
               <object name="cone3" object_type="cone" object_color="orange" position="-5.16977 -5.20854 0.00962007" orientation="-5.39603e-08 4.61199e-07 -0.00069646 1"/>
               <object name="cone4" object_type="cone" object_color="orange" position="-5.29998 4.69644 0.00962007" orientation="-5.39603e-08 4.61199e-07 -0.00069646 1"/>
             </grounding_set>
-            </NP>
+            <NP>
               <grounding_set>
                 <container container_type="row">
                   <object name="cone0" object_type="cone" object_color="orange" position="-4.60818 -2.15566 0.00962007" orientation="-5.37348e-08 4.61224e-07 -0.00069644 1"/>

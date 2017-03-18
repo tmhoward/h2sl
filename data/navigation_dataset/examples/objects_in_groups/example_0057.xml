@@ -26,6 +26,7 @@
     <NP>
       <grounding_set>
         <object_property object_type="cone" spatial_relation_type="far" index="1"/>
+        <index type="1"/>
         <spatial_relation spatial_relation_type="far"/>
         <object_type object_type="cone"/>
       </grounding_set>
@@ -48,7 +49,7 @@
     </PP>
     <PP>
       <grounding_set>
-        <region spatial_relation_type="back" objct_id="husky_mm"/>
+        <region spatial_relation_type="back" object_id="husky_mm"/>
       </grounding_set>
       <IN text="behind" order="6"/>
       <NP>

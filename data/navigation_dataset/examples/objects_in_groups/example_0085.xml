@@ -29,6 +29,7 @@
           <grounding_set>
             <object name="cone4" object_type="cone" object_color="orange" position="-7.9 5.0 0.270293" orientation="-9.91893e-09 -2.55344e-08 0.0111707 0.999938"/>
             <object_property object_type="cone" spatial_relation_type="right" index="1"/>
+            <index type="1"/>
             <spatial_relation spatial_relation_type="right"/>
             <object_type object_type="cone"/>
           </grounding_set>
