@@ -103,7 +103,7 @@ void
 clear( Phrase* phrase ){
   if( phrase != NULL ){
     if( phrase->grounding_set() != NULL ){
-      delete_ptr< Grounding >( phrase->grounding_set() );
+      delete_ptr< Grounding_Set >( phrase->grounding_set() );
     }
     for( unsigned int i = 0; i < phrase->children().size(); i++ ){
       clear( phrase->children()[ i ] );
