@@ -34,6 +34,7 @@ main( int argc,
   }
 
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
+    cout << "Example index: " << i << endl;
     World * world = new World();
     if( world != NULL ){
       world->from_xml( args.inputs[ i ] );
@@ -47,6 +48,11 @@ main( int argc,
       phrase = NULL;
     } else {
       return 1;
+    }
+
+    if( world != NULL ){
+      delete world;
+      world = NULL;
     }
   } 
 
