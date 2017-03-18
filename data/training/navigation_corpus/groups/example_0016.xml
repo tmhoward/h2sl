@@ -78,7 +78,7 @@
           <spatial_relation spatial_relation_type="right"/>
         </grounding_set>
         <JJ text="right" order="4"/>
-        <NN text="side" order="0"/>
+        <NN text="side" order="5"/>
       </NP>
     </PP>
     <PP>
