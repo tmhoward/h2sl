@@ -185,6 +185,7 @@
 #include "h2sl/feature_object_merge_object_different_container.h"
 */
 #include "h2sl/feature_object_merge_object_property_region_container.h"
+#include "h2sl/feature_object_merge_object_type_region_container.h"
 /*
 #include "h2sl/feature_object_merge_object_region_container.h"
 #include "h2sl/feature_object_merge_single_object_different_container.h"
@@ -779,6 +780,8 @@ from_xml( xmlNodePtr root ){
 */
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_property_region_container" ) ) == 0 ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_type_region_container" ) ) == 0 ){
+              _feature_groups.back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( l2 ) );
 /*
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_region_container" ) ) == 0 ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Object_Region_Container() );

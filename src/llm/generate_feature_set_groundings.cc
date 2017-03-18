@@ -43,6 +43,7 @@
 #include "h2sl/feature_object_merge_object_property_container.h"
 #include "h2sl/feature_object_merge_object_type_spatial_relation.h"
 #include "h2sl/feature_object_merge_object_property_region_container.h"
+#include "h2sl/feature_object_merge_object_type_region_container.h"
 #include "h2sl/feature_object_matches_sorted_objects.h"
 #include "h2sl/feature_object_matches_sorted_object.h"
 #include "h2sl/feature_object_matches_child_container_object.h"
@@ -131,6 +132,8 @@ main( int argc,
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Phrase_Has_POS_Tag( false, POS_POS, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Num_Words( false, 0, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
   feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Num_Child_Phrases( false, 0, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
+  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Num_Child_Phrases( false, 1, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
+  feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Phrase_Type_And_Num_Child_Phrases( false, 2, Phrase::phrase_type_t_from_std_string( it_grammar_terminals->first ) ) );
 
   feature_set->feature_products().back()->feature_groups().push_back( vector< Feature* >() );
 
@@ -203,35 +206,51 @@ main( int argc,
       for( vector< string >::const_iterator it_spatial_relation_type = it_spatial_relation_types->second.begin(); it_spatial_relation_type != it_spatial_relation_types->second.end(); it_spatial_relation_type++ ){
 
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_x", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_x", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_x", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_x", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_y", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true "min_y", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_y", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_y", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_z", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_z", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_z", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_z", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_abs_x", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_abs_x", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_abs_x", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_abs_x", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_abs_y", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_abs_y", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_abs_y", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_abs_y", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_distance", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_distance", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_center_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_center_distance", *it_spatial_relation_type ) );
         feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_center_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_center_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_center_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_center_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_x", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_x", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_y", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_y", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_z", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_z", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_abs_x", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_abs_x", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_abs_y", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_abs_y", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_center_distance", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_center_distance", *it_spatial_relation_type ) );
       }
     }
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "min_x" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "max_x" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "min_y" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "max_y" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "min_z" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "max_z" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "min_abs_x" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "max_abs_x" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "min_abs_y" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "max_abs_y" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "min_distance" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "max_distance" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "min_center_distance" ) );
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( false, "max_center_distance" ) );
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object >( false ) ); 
     feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object >( true ) ); 
 
@@ -534,10 +553,10 @@ main( int argc,
     map< string, vector< string > >::const_iterator it_spatial_relation_types = symbol_dictionary->string_types().find( "spatial_relation_type" );
     if( it_spatial_relation_types != symbol_dictionary->string_types().end() ){
       for( vector< string >::const_iterator it_spatial_relation_type = it_spatial_relation_types->second.begin(); it_spatial_relation_type != it_spatial_relation_types->second.end(); it_spatial_relation_type++ ){
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "region_container", "region_container_type", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "region_container", "spatial_relation_type", *it_spatial_relation_type ) );
       } 
     }
-    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region_container", "region_container_type", "spatial_relation", "spatial_relation_type" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region_container", "spatial_relation_type", "spatial_relation", "spatial_relation_type" ) );
   }
 
   }

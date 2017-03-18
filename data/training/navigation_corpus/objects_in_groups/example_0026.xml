@@ -17,6 +17,7 @@
         <object name="barrel1" object_type="barrel" object_color="brown" position="-4.5992,0.543007,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object_property object_type="barrel" spatial_relation_type="center" index="1"/>
         <spatial_relation spatial_relation_type="center"/>
+        <index value="1"/>
         <object_type object_type="barrel"/>
       </grounding_set>
       <DT text="the" order="0"/>
@@ -48,7 +49,7 @@
         </grounding_set>
         <NP>
           <grounding_set>
-            <container container_type="row"/>
+            <container_type container_type="row"/>
           </grounding_set>
           <DT text="the" order="4"/>
           <NN text="row" order="5"/>
@@ -115,7 +116,7 @@
                       <object name="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                     </grounding_set>
                     <DT text="the" order="11"/>
-                    <NN text="robot" order="0"/>
+                    <NN text="robot" order="12"/>
                   </NP>
                 </PP>
               </NP>

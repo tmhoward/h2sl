@@ -21,10 +21,10 @@ using namespace h2sl;
  * Region_Container class constructor. 
  */
 Region_Container::
-Region_Container( const string& region_containerType,
+Region_Container( const string& spatialRelationType,
                  const Container& container ) : Grounding() ,
                                                     _container( container ) {
-            insert_prop< std::string >( _string_properties, "region_container_type", region_containerType);
+            insert_prop< std::string >( _string_properties, "spatial_relation_type", spatialRelationType);
 }
 
 /**
@@ -38,7 +38,7 @@ Region_Container::
 Region_Container::
 Region_Container( xmlNodePtr root ) : Grounding(),
                                        _container() {
-    insert_prop< std::string >( _string_properties, "region_container_type", "na" );
+    insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
     from_xml( root );
 }
 
@@ -228,7 +228,7 @@ Region_Container::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "region_container" ), NULL );
-  xmlNewProp( node, ( const xmlChar* )( "region_container_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "region_container_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "spatial_relation_type" ).c_str() ) );
   _container.to_xml( doc, node );
   
   xmlAddChild( root, node );
@@ -269,17 +269,22 @@ from_xml( xmlNodePtr root ){
   _container = Container();
 
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > symbol_keys = { "type", "region_container_type" };
+    vector< string > symbol_keys = { "type", "spatial_relation_type", "region_container_type" };
     assert( check_keys( root, symbol_keys ) );
 
-    pair< bool, string > region_container_type_prop = has_prop< std::string >( root, "region_container_type" );
-    if( region_container_type_prop.first ) {
-        relation_type() = region_container_type_prop.second;
+    pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
+    if( spatial_relation_type_prop.first ) {
+        relation_type() = spatial_relation_type_prop.second;
     }
-    
-    region_container_type_prop = has_prop< std::string >( root, "type" );
-    if( region_container_type_prop.first ) {
-        relation_type() = region_container_type_prop.second;
+
+    spatial_relation_type_prop = has_prop< std::string >( root, "region_container_type" );
+    if( spatial_relation_type_prop.first ) {
+        relation_type() = spatial_relation_type_prop.second;
+    }
+
+    spatial_relation_type_prop = has_prop< std::string >( root, "type" );
+    if( spatial_relation_type_prop.first ) {
+        relation_type() = spatial_relation_type_prop.second;
     }
   
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
@@ -304,7 +309,7 @@ namespace h2sl {
   operator<<( ostream& out,
               const Region_Container& other ){
     out << "Region_Container(";
-    out << "region_container_type=\"" << other.relation_type() << "\",";
+    out << "spatial_relation_type=\"" << other.relation_type() << "\",";
       out << "container=" << other.container();
     out << ")";
     return out;

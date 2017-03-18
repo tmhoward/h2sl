@@ -49,7 +49,7 @@
         </grounding_set>
         <NP>
           <grounding_set>
-            <container container_type="row"/>
+            <container_type container_type="row"/>
           </grounding_set>
           <DT text="the" order="4"/>
           <NN text="row" order="5"/>

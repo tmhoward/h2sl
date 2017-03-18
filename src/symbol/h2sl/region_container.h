@@ -22,7 +22,7 @@ namespace h2sl {
    */
   class Region_Container : public Grounding {
   public:
-    Region_Container( const std::string& region_containerType = "na",
+    Region_Container( const std::string& spatialRelationType = "na",
                       const Container& container = Container() );
     virtual ~Region_Container();
     Region_Container( const Region_Container& other );
@@ -44,8 +44,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    inline std::string& relation_type( void ){ return get_prop< std::string >( _string_properties, "region_container_type" ); };
-    inline const std::string& relation_type( void )const{ return get_prop< std::string >( _string_properties, "region_container_type" ); };
+    inline std::string& relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+    inline const std::string& relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
     
     inline Container& container( void ){ return _container; };
     inline const Container& container( void )const{ return _container; };

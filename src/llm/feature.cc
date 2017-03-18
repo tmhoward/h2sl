@@ -84,6 +84,7 @@
 #include "h2sl/feature_object_matches_sorted_objects.h"
 #include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
 #include "h2sl/feature_object_merge_object_property_container.h"
+#include "h2sl/feature_object_merge_object_type_region_container.h"
 #include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
 //#include "h2sl/feature_action_object_matches_child.h"
 //#include "h2sl/feature_spatial_relation_matches_child.h"
@@ -322,6 +323,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Object_Property_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Type_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Type_Region_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Merge_Abstract_Container_Spatial_Relation* >( &other );
     //} else if ( dynamic_cast< const Feature_Action_Object_Matches_Child* >( &other ) != NULL ){
