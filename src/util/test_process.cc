@@ -112,50 +112,9 @@ clear( Phrase* phrase ){
   return;
 }
 
-/*
-// Earlier version.
-void
-evaluate_model( LLM* llm,
-                vector< pair< string, LLM_X > >& examples ){
-  vector< string > cvs;
-  cvs.push_back( "false" );
-  cvs.push_back( "true" );
-
-  unsigned int num_correct = 0;
-  for( unsigned int i = 0; i < examples.size(); i++ ){
-    vector< pair < vector< Feature*>, unsigned int > > features;
-   //vector< h2sl::Feature* > features;
-    double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-    if( pygx < 0.5 ){
-      cout << "example " << i << " had pygx " << pygx << endl;
-      cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
-      cout << "         cv:" << examples[ i ].first << endl;
-      if( dynamic_cast< const Grounding* >( examples[ i ].second.grounding() ) != NULL ){
-        cout << "  grounding:" << *static_cast< const Grounding* >( examples[ i ].second.grounding() ) << endl;
-      }
-
-      for( unsigned int j = 0; j < examples[ i ].second.children().size(); j++ ){
-        if( examples[ i ].second.children()[ j ].first != NULL ){
-          cout << "child phrase:(" << *examples[ i ].second.children()[ j ].first << ")" << endl;
-        }
-        for( unsigned int k = 0; k < examples[ i ].second.children()[ j ].second.size(); k++ ){
-          if( dynamic_cast< const Grounding* >( examples[ i ].second.children()[ j ].second[ k ] ) != NULL ){
-            cout << "children[" << j << "][" << k << "]:" << *static_cast< const Grounding* >( examples[ i ].second.children()[ j ].second[ k ] ) << endl;
-          }
-        }
-      }
-      cout << "     phrase:" << *dynamic_cast< const Phrase* >( examples[ i ].second.phrase() ) << endl;
-    } else {
-      num_correct++;
-    }
-  }
-
-  cout << ( double )( num_correct ) / ( double )( examples.size() ) * 100.0 << " accuracy (" << num_correct << "/" << examples.size() << ")" << endl;
-
-  return;
-}
-*/
-
+/**
+ * Evaluate the model. 
+ */
 void
 evaluate_model( LLM* llm,
                 vector< pair< string, LLM_X > >& examples ){
@@ -323,7 +282,7 @@ main( int argc,
       vector< World* > training_worlds( training_set.size(), NULL );
       vector< string > training_filenames( training_set.size() );
 
-      Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_arg );
+      Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
      
       // Load examples from the training set for training the log-linear model.  
       vector< pair< string, LLM_X > > examples;
@@ -341,7 +300,7 @@ main( int argc,
         truth_training_phrases[ j ]->from_xml( training_set[ j ] );
 
         // Check if the phrase has symbols from the symbol dictionary.
-        if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary ) ){
+        if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
           cout << "contains symbols in symbol dictionary" << endl;
         } else {
           cout << "does not contains any symbols in symbol dictionary" << endl;
@@ -349,7 +308,7 @@ main( int argc,
 
         // Search Space: Fill groundings and scrape examples.
         training_search_spaces[ j ] = new Search_Space();
-        training_search_spaces[ j ]->fill_groundings( *symbol_dictionary, training_worlds[ j ] );
+        training_search_spaces[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
         training_search_spaces[ j ]->scrape_examples( training_filenames[ j ], 
                                        	              static_cast< Phrase* >( truth_training_phrases[ j ] ), 
                                                       training_worlds[ j ], examples );
