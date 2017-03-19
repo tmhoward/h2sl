@@ -517,7 +517,8 @@ main( int argc,
   outfile << "stds = [ std_dcg_runtime, std_adcg_runtime, std_hdcg_runtime, std_hadcg_runtime ];" << endl << endl;
   outfile << "close all;" << endl << endl; 
 
-  //matlab code to plot the DCG && ADCG training_set accuracies
+  //MATLAB code to plot various results
+  //plot the DCG training_set accuracy (root && complete)
   outfile << "figure(1);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -525,84 +526,171 @@ main( int argc,
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,training_set_dcg_accuracies_root,200);" << endl;
-  outfile << "scatter(training_ratios,training_set_adcg_accuracies_root,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_adcg_accuracies_root_matrix_means);" << endl;
-  outfile << "legend('DCG','ADCG','Location','SouthWest');" << endl;
-  outfile << "title('Training Set Accuracy vs Holdout');" << endl;
+  outfile << "scatter(training_ratios,training_set_dcg_accuracies_complete,200,'+');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_dcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "legend('DCG root','DCG complete','Location','NorthWest');" << endl;
+  outfile << "title('DCG Training Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
   outfile << "ylhand = get(gca,'ylabel');" << endl;
   outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'dcg-adcg-training-accuracy', 'epsc');" << endl << endl;
-  outfile << "saveas(gcf, 'dcg-adcg-training-accuracy', 'pdf');" << endl << endl;
+  outfile << "saveas(gcf, 'dcg-training-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'dcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
-  //matlab code to plot the HDCG && HADCG training_set accuracies
+  //plot the DCG test_set accuracy (root && complete)
   outfile << "figure(2);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
-  outfile << "scatter(training_ratios,training_set_hdcg_accuracies_root,200);" << endl;
-  outfile << "scatter(training_ratios,training_set_hadcg_accuracies_root,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_hdcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_hadcg_accuracies_root_matrix_means);" << endl;
-  outfile << "legend('HDCG','HADCG','Location','SouthWest');" << endl;
-  outfile << "title('Training Set Accuracy vs Holdout');" << endl;
+  outfile << "scatter(training_ratios,test_set_dcg_accuracies_root,200);" << endl;
+  outfile << "scatter(training_ratios,test_set_dcg_accuracies_complete,200,'+');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_dcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "legend('DCG root','DCG complete','Location','NorthWest');" << endl;
+  outfile << "title('DCG Test Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
   outfile << "ylhand = get(gca,'ylabel');" << endl;
-  outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'hdcg-hadcg-training-accuracy', 'epsc');" << endl << endl;
-  outfile << "saveas(gcf, 'hdcg-hadcg-training-accuracy', 'pdf');" << endl << endl;
+  outfile << "saveas(gcf, 'dcg-test-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'dcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
-  //matlab code to plot the DCG && ADCG test_set accuracies
+  //plot the ADCG training_set accuracy (root && complete)
   outfile << "figure(3);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
-  outfile << "scatter(training_ratios,test_set_dcg_accuracies_root,200);" << endl;
-  outfile << "scatter(training_ratios,test_set_adcg_accuracies_root,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_adcg_accuracies_root_matrix_means);" << endl;
-  outfile << "legend('DCG','ADCG','Location','NorthWest');" << endl;
-  outfile << "title('Test Set Accuracy vs Holdout');" << endl;
+  outfile << "scatter(training_ratios,training_set_adcg_accuracies_root,200);" << endl;
+  outfile << "scatter(training_ratios,training_set_adcg_accuracies_complete,200,'+');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_adcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_adcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "legend('ADCG root','ADCG complete','Location','NorthWest');" << endl;
+  outfile << "title('ADCG Training Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
   outfile << "ylhand = get(gca,'ylabel');" << endl;
-  outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'dcg-adcg-test-accuracy', 'epsc');" << endl << endl;
-  outfile << "saveas(gcf, 'dcg-adcg-test-accuracy', 'pdf');" << endl << endl;
+  outfile << "saveas(gcf, 'adcg-training-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'adcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
-  //matlab code to plot the HDCG && HADCG test_set accuracies
+  //plot the ADCG test_set accuracy (root && complete)
   outfile << "figure(4);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
-  outfile << "scatter(training_ratios,test_set_hdcg_accuracies_root,200);" << endl;
-  outfile << "scatter(training_ratios,test_set_hadcg_accuracies_root,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_hdcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_hadcg_accuracies_root_matrix_means);" << endl;
-  outfile << "legend('HDCG','HADCG','Location','NorthWest');" << endl;
-  outfile << "title('Model Test Set Accuracy vs Holdout');" << endl;
+  outfile << "scatter(training_ratios,test_set_adcg_accuracies_root,200);" << endl;
+  outfile << "scatter(training_ratios,test_set_adcg_accuracies_complete,200,'+');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_adcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_adcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "legend('ADCG root','ADCG complete','Location','NorthWest');" << endl;
+  outfile << "title('ADCG Test Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
   outfile << "ylhand = get(gca,'ylabel');" << endl;
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'hdcg-hadcg-test-accuracy', 'epsc');" << endl << endl;
-  outfile << "saveas(gcf, 'hdcg-hadcg-test-accuracy', 'pdf');" << endl << endl;
- 
-  //matlab code to plot the DCG && ADCG average root-accuracies
+  outfile << "saveas(gcf, 'adcg-test-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'adcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
+
+
+  //plot the HDCG training_set accuracy (root && complete)
   outfile << "figure(5);" << endl;
+  outfile << "hold on;" << endl;
+  outfile << "box on;" << endl;
+  outfile << "grid on;" << endl;
+  outfile << "ylim( [0.0 1.0] );" << endl;
+  outfile << "xlim( [0.1 0.9] );" << endl;
+  outfile << "scatter(training_ratios,training_set_hdcg_accuracies_root,200);" << endl;
+  outfile << "scatter(training_ratios,training_set_hdcg_accuracies_complete,200,'+');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_hdcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_hdcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "legend('HDCG root','HDCG complete','Location','NorthWest');" << endl;
+  outfile << "title('HDCG Training Set Accuracy (root & complete) vs Holdout');" << endl;
+  outfile << "xlhand = get(gca,'xlabel');" << endl;
+  outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
+  outfile << "ylhand = get(gca,'ylabel');" << endl;
+  outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+  outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+  outfile << "saveas(gcf, 'hdcg-training-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'hdcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
+
+  //plot the HDCG test_set accuracy (root && complete)
+  outfile << "figure(6);" << endl;
+  outfile << "hold on;" << endl;
+  outfile << "box on;" << endl;
+  outfile << "grid on;" << endl;
+  outfile << "ylim( [0.0 1.0] );" << endl;
+  outfile << "xlim( [0.1 0.9] );" << endl;
+  outfile << "scatter(training_ratios,test_set_hdcg_accuracies_root,200);" << endl;
+  outfile << "scatter(training_ratios,test_set_hdcg_accuracies_complete,200,'+');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_hdcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_hdcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "legend('HDCG root','HDCG complete','Location','NorthWest');" << endl;
+  outfile << "title('HDCG Test Set Accuracy (root & complete) vs Holdout');" << endl;
+  outfile << "xlhand = get(gca,'xlabel');" << endl;
+  outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
+  outfile << "ylhand = get(gca,'ylabel');" << endl;
+  outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+  outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+  outfile << "saveas(gcf, 'hdcg-test-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'hdcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
+
+
+  //plot the HADCG training_set accuracy (root && complete)
+  outfile << "figure(7);" << endl;
+  outfile << "hold on;" << endl;
+  outfile << "box on;" << endl;
+  outfile << "grid on;" << endl;
+  outfile << "ylim( [0.0 1.0] );" << endl;
+  outfile << "xlim( [0.1 0.9] );" << endl;
+  outfile << "scatter(training_ratios,training_set_hadcg_accuracies_root,200);" << endl;
+  outfile << "scatter(training_ratios,training_set_hadcg_accuracies_complete,200,'+');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_hadcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_hadcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "legend('HADCG root','HADCG complete','Location','NorthWest');" << endl;
+  outfile << "title('HADCG Training Set Accuracy (root & complete) vs Holdout');" << endl;
+  outfile << "xlhand = get(gca,'xlabel');" << endl;
+  outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
+  outfile << "ylhand = get(gca,'ylabel');" << endl;
+  outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+  outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+  outfile << "saveas(gcf, 'hadcg-training-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'hadcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
+
+  //plot the HADCG test_set accuracy (root && complete)
+  outfile << "figure(8);" << endl;
+  outfile << "hold on;" << endl;
+  outfile << "box on;" << endl;
+  outfile << "grid on;" << endl;
+  outfile << "ylim( [0.0 1.0] );" << endl;
+  outfile << "xlim( [0.1 0.9] );" << endl;
+  outfile << "scatter(training_ratios,test_set_hadcg_accuracies_root,200);" << endl;
+  outfile << "scatter(training_ratios,test_set_hadcg_accuracies_complete,200,'+');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_hadcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_hadcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "legend('HADCG root','HADCG complete','Location','NorthWest');" << endl;
+  outfile << "title('HADCG Test Set Accuracy (root & complete) vs Holdout');" << endl;
+  outfile << "xlhand = get(gca,'xlabel');" << endl;
+  outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
+  outfile << "ylhand = get(gca,'ylabel');" << endl;
+  outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+  outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+  outfile << "saveas(gcf, 'hadcg-test-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'hadcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
+
+
+  //matlab code to plot the DCG, ADCG, HDCG, and HADCG average test_set root-accuracies
+  outfile << "figure(9);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
@@ -610,38 +698,85 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "plot(training_ratios_matrix_means,test_set_dcg_accuracies_root_matrix_means, 'b');" << endl;
   outfile << "plot(training_ratios_matrix_means,test_set_adcg_accuracies_root_matrix_means, 'r');" << endl;
-  outfile << "legend('DCG Root','ADCG Root','Location','NorthWest');" << endl;
-  outfile << "title('Test Set Accuracy (root) vs Holdout');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_hdcg_accuracies_root_matrix_means, 'g');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_hadcg_accuracies_root_matrix_means, 'y');" << endl;
+  outfile << "legend('DCG Root','ADCG Root','HDCG Root','HADCG Root','Location','NorthWest');" << endl;
+  outfile << "title('Mean Test Set Accuracy (root) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
   outfile << "ylhand = get(gca,'ylabel');" << endl;
-  outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-test-accuracy-root-vs-complete', 'epsc');" << endl << endl;
-  outfile << "saveas(gcf, 'model-test-accuracy-root-vs-complete', 'pdf');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-test-accuracy-root', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-test-accuracy-root', 'pdf');" << endl << endl;
 
-
-
-
-  outfile << "figure(5);" << endl;
+  //matlab code to plot the DCG, ADCG, HDCG, and HADCG average training_set root-accuracies
+  outfile << "figure(10);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_dcg_accuracies_root_matrix_means, 'b',training_ratios_matrix_means,test_set_dcg_accuracies_complete_matrix_means, 'b:');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_adcg_accuracies_root_matrix_means, 'r',training_ratios_matrix_means,test_set_adcg_accuracies_complete_matrix_means, 'r:');" << endl;
-  outfile << "legend('DCG Root','DCG Complete','ADCG Root', 'ADCG Complete', 'Location','NorthWest');" << endl;
-  outfile << "title('Model Training Set Accuracy vs Holdout');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_root_matrix_means, 'b');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_adcg_accuracies_root_matrix_means, 'r');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_hdcg_accuracies_root_matrix_means, 'g');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_hadcg_accuracies_root_matrix_means, 'y');" << endl;
+  outfile << "legend('DCG Root','ADCG Root','HDCG Root','HADCG Root','Location','NorthWest');" << endl;
+  outfile << "title('Mean Training Set Accuracy (root) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
   outfile << "ylhand = get(gca,'ylabel');" << endl;
   outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-test-accuracy-root-vs-complete', 'epsc');" << endl << endl;
-  outfile << "saveas(gcf, 'model-test-accuracy-root-vs-complete', 'pdf');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-training-accuracy-root', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-training-accuracy-root', 'pdf');" << endl << endl;
+
+  //matlab code to plot the DCG, ADCG, HDCG, and HADCG average test_set complete-accuracies
+  outfile << "figure(11);" << endl;
+  outfile << "hold on;" << endl;
+  outfile << "box on;" << endl;
+  outfile << "grid on;" << endl;
+  outfile << "ylim( [0.0 1.0] );" << endl;
+  outfile << "xlim( [0.1 0.9] );" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_dcg_accuracies_complete_matrix_means, 'b');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_adcg_accuracies_complete_matrix_means, 'r');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_hdcg_accuracies_complete_matrix_means, 'g');" << endl;
+  outfile << "plot(training_ratios_matrix_means,test_set_hadcg_accuracies_complete_matrix_means, 'y');" << endl;
+  outfile << "legend('DCG Complete','ADCG Complete','HDCG Complete','HADCG Complete','Location','NorthWest');" << endl;
+  outfile << "title('Mean Test Set Accuracy (complete) vs Holdout');" << endl;
+  outfile << "xlhand = get(gca,'xlabel');" << endl;
+  outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
+  outfile << "ylhand = get(gca,'ylabel');" << endl;
+  outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+  outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+  outfile << "saveas(gcf, 'model-avg-test-accuracy-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-test-accuracy-complete', 'pdf');" << endl << endl;
+
+  //matlab code to plot the DCG, ADCG, HDCG, and HADCG average training_set complete-accuracies
+  outfile << "figure(12);" << endl;
+  outfile << "hold on;" << endl;
+  outfile << "box on;" << endl;
+  outfile << "grid on;" << endl;
+  outfile << "ylim( [0.0 1.0] );" << endl;
+  outfile << "xlim( [0.1 0.9] );" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_complete_matrix_means, 'b');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_adcg_accuracies_complete_matrix_means, 'r');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_hdcg_accuracies_complete_matrix_means, 'g');" << endl;
+  outfile << "plot(training_ratios_matrix_means,training_set_hadcg_accuracies_complete_matrix_means, 'y');" << endl;
+  outfile << "legend('DCG Complete','ADCG Complete','HDCG Complete','HADCG Complete','Location','NorthWest');" << endl;
+  outfile << "title('Mean Training Set Accuracy (complete) vs Holdout');" << endl;
+  outfile << "xlhand = get(gca,'xlabel');" << endl;
+  outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
+  outfile << "ylhand = get(gca,'ylabel');" << endl;
+  outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+  outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+  outfile << "saveas(gcf, 'model-avg-training-accuracy-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-training-accuracy-complete', 'pdf');" << endl << endl;
+
 
   outfile.close();
 
