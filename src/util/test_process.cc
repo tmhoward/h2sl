@@ -185,22 +185,37 @@ run_tests( const std::vector< std::string >& filenames,
             const unsigned int beam_width,
             const bool debug ){
 
-  /******* Statistics **************************/
-  unsigned int num_correct_root_dcg = 0;
-  unsigned int num_incorrect_root_dcg = 0;
-  unsigned int num_correct_root_adcg = 0;
-  unsigned int num_incorrect_root_adcg = 0;
-  unsigned int num_correct_complete_dcg = 0;
-  unsigned int num_incorrect_complete_dcg = 0;
-  unsigned int num_correct_complete_adcg = 0;
-  unsigned int num_incorrect_complete_adcg = 0;
-
+  /******* Variables to record statistics **************************/
+  // Num objects. Phrases.
   double num_objects = 0.0;
   double num_phrases = 0.0;
 
+  // DCG
+  unsigned int num_correct_root_dcg = 0;
+  unsigned int num_incorrect_root_dcg = 0;
+  unsigned int num_correct_complete_dcg = 0;
+  unsigned int num_incorrect_complete_dcg = 0;
+  // ADCG
+  unsigned int num_correct_root_adcg = 0;
+  unsigned int num_incorrect_root_adcg = 0;
+  unsigned int num_correct_complete_adcg = 0;
+  unsigned int num_incorrect_complete_adcg = 0;
+  // HDCG
+  unsigned int num_correct_root_hdcg = 0;
+  unsigned int num_incorrect_root_hdcg = 0;
+  unsigned int num_correct_complete_hdcg = 0;
+  unsigned int num_incorrect_complete_hdcg = 0;
+  // HADCG
+  unsigned int num_correct_root_hadcg = 0;
+  unsigned int num_incorrect_root_hadcg = 0;
+  unsigned int num_correct_complete_hadcg = 0;
+  unsigned int num_incorrect_complete_hadcg = 0;
+  // Runtime
   double runtime_dcg = 0.0;
   double runtime_adcg = 0.0;
-
+  double runtime_hdcg = 0.0;
+  double runtime_hadcg = 0.0;
+  // Averages.
   double average_runtime_ratio = 0.0;
 
   /******* Iterate over the test group **************************/
@@ -225,11 +240,11 @@ run_tests( const std::vector< std::string >& filenames,
     World * world = new World();
     world->from_xml( filenames[ j ] );
 
-    // Symbol Dictionary and Search Space
+    // Symbol Dictionary 
     Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
+ 
+    // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
-
-    // Fill search space
     struct timeval start_time;
     gettimeofday( &start_time, NULL );
     search_space->fill_groundings( *symbol_dictionary, world );
@@ -237,9 +252,10 @@ run_tests( const std::vector< std::string >& filenames,
     gettimeofday( &end_time, NULL );
     cout << "finished fill_seach_space in " << diff_time( start_time, end_time ) << " seconds" << endl;
 
-    // Context
+    // Grounding context
     Grounding * context = NULL;
 
+    /******************* Running DCG ********************************/
     //DCG: leaf search
     DCG * dcg = new DCG();
     cout << "  running dcg" << endl;
@@ -282,17 +298,18 @@ run_tests( const std::vector< std::string >& filenames,
       num_incorrect_complete_dcg++;
     }
 
+    // Add the dcg_example_node to the example_node in the xml file.
     xmlAddChild( example_node, dcg_example_node );
+    // clear the input_phrase for groundings to run the test for the next model.
     clear( input_phrase );
 
-    /******** ADCG **********/
+    /**************************************** ADCG ******************************************************************/
     ADCG * adcg = new ADCG();
 
     cout << "  running adcg" << endl;
     uint64_t adcg_start_time = current_time();
     adcg->leaf_search( input_phrase, *symbol_dictionary, search_space, world, context, llm, beam_width, debug );
     uint64_t adcg_end_time = current_time();
-
     runtime_adcg += microseconds_to_seconds( adcg_end_time - adcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( adcg->solutions().front().second ) != NULL );
@@ -329,9 +346,102 @@ run_tests( const std::vector< std::string >& filenames,
     }
 
     xmlAddChild( example_node, adcg_example_node );
+    clear( input_phrase );
 
+    /**************************************** HDCG ******************************************************************/
+    HDCG * hdcg = new HDCG();
 
-    /******* Comparative stats *********************/
+    cout << "  running hdcg" << endl;
+    uint64_t hdcg_start_time = current_time();
+    hdcg->leaf_search( input_phrase, *symbol_dictionary, search_space, world, context, llm, beam_width, debug );
+    uint64_t hdcg_end_time = current_time();
+    runtime_hdcg += microseconds_to_seconds( hdcg_end_time - hdcg_start_time );
+
+    assert( dynamic_cast< const Phrase* >( hdcg->solutions().front().second ) != NULL );
+
+    stringstream hdcg_solution_filename;
+    hdcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hdcg_solution_" << filename;
+    hdcg->solutions().front().second->to_xml( hdcg_solution_filename.str() );
+
+    xmlNodePtr hdcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "hdcg" ), NULL );
+    stringstream hdcg_example_runtime_string;
+    hdcg_example_runtime_string << microseconds_to_seconds( hdcg_end_time - hdcg_start_time );
+    xmlNewProp( hdcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( hdcg_example_runtime_string.str().c_str() ) );
+
+    cout << "    runtime:" << hdcg_example_runtime_string.str() << endl;
+
+    if( root_compare_phrases( *truth_phrase, *static_cast< Phrase* >( hdcg->solutions().front().second ) ) ){
+      cout << "    correct (root)" << endl;
+      xmlNewProp( hdcg_example_node, ( const xmlChar* )( "root_correct" ), ( const xmlChar* )( "true" ) );
+      num_correct_root_hdcg++;
+    } else {
+      cout << "    incorrect (root)" << endl;
+      xmlNewProp( hdcg_example_node, ( const xmlChar* )( "root_correct" ), ( const xmlChar* )( "false" ) );
+      num_incorrect_root_hdcg++;
+    }
+
+    if( complete_compare_phrases( *truth_phrase, *static_cast< Phrase* >( hdcg->solutions().front().second ) ) ){
+      cout << "    correct (complete)" << endl;
+      xmlNewProp( hdcg_example_node, ( const xmlChar* )( "complete_correct" ), ( const xmlChar* )( "true" ) );
+      num_correct_complete_hdcg++;
+    } else {
+      cout << "    incorrect (complete)" << endl;
+      xmlNewProp( hdcg_example_node, ( const xmlChar* )( "complete_correct" ), ( const xmlChar* )( "false" ) );
+      num_incorrect_complete_hdcg++;
+    }
+
+    xmlAddChild( example_node, hdcg_example_node );
+    clear( input_phrase );
+
+    /**************************************** HADCG ******************************************************************/
+   
+    HADCG * hadcg = new HADCG();
+
+    cout << "  running hadcg" << endl;
+    uint64_t hadcg_start_time = current_time();
+
+    hadcg->leaf_search( input_phrase, *symbol_dictionary, search_space, world, context, llm, beam_width, debug );
+   
+    uint64_t hadcg_end_time = current_time();
+    runtime_hadcg += microseconds_to_seconds( hadcg_end_time - hadcg_start_time );
+
+    assert( dynamic_cast< const Phrase* >( hadcg->solutions().front().second ) != NULL );
+
+    stringstream hadcg_solution_filename;
+    hadcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hadcg_solution_" << filename;
+    hadcg->solutions().front().second->to_xml( hadcg_solution_filename.str() );
+
+    xmlNodePtr hadcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "hadcg" ), NULL );
+    stringstream hadcg_example_runtime_string;
+    hadcg_example_runtime_string << microseconds_to_seconds( hadcg_end_time - hadcg_start_time );
+    xmlNewProp( hadcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( hadcg_example_runtime_string.str().c_str() ) );
+    
+    cout << "    runtime:" << hadcg_example_runtime_string.str() << endl;
+
+    if( root_compare_phrases( *truth_phrase, *static_cast< Phrase* >( hadcg->solutions().front().second ) ) ){
+      cout << "    correct (root)" << endl;
+      xmlNewProp( hadcg_example_node, ( const xmlChar* )( "root_correct" ), ( const xmlChar* )( "true" ) );
+      num_correct_root_hadcg++;
+    } else {
+      cout << "    incorrect (root)" << endl;
+      xmlNewProp( hadcg_example_node, ( const xmlChar* )( "root_correct" ), ( const xmlChar* )( "false" ) );
+      num_incorrect_root_hadcg++;
+    }
+
+    if( complete_compare_phrases( *truth_phrase, *static_cast< Phrase* >( hadcg->solutions().front().second ) ) ){
+      cout << "    correct (complete)" << endl;
+      xmlNewProp( hadcg_example_node, ( const xmlChar* )( "complete_correct" ), ( const xmlChar* )( "true" ) );
+      num_correct_complete_hadcg++;
+    } else {
+      cout << "    incorrect (complete)" << endl;
+      xmlNewProp( hadcg_example_node, ( const xmlChar* )( "complete_correct" ), ( const xmlChar* )( "false" ) );
+      num_incorrect_complete_hadcg++;
+    }
+
+    xmlAddChild( example_node, hadcg_example_node );
+    clear( input_phrase );
+   
+    /***************************************** Comparative stats ******************************************************/
     double runtime_ratio = microseconds_to_seconds( dcg_end_time - dcg_start_time ) / microseconds_to_seconds( adcg_end_time - adcg_start_time );
     average_runtime_ratio += runtime_ratio;
 
