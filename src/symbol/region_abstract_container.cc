@@ -25,12 +25,12 @@ Region_Abstract_Container( const string& region_abstract_containerType,
 			    const string& objectType,
                             const int& number,
                             const int& index,
-                            const string& colorType ) : Grounding() {
+                            const string& objectColor ) : Grounding() {
   insert_prop< std::string >( _string_properties, "spatial_relation_type", region_abstract_containerType );
   insert_prop< std::string >( _string_properties, "object_type", objectType );
   insert_prop< int >( _int_properties, "number", number );
   insert_prop< int >( _int_properties, "index", index );
-  insert_prop< std::string >( _string_properties, "object_color_type", colorType );
+  insert_prop< std::string >( _string_properties, "object_color", objectColor );
 }
 
 /**
@@ -43,7 +43,7 @@ Region_Abstract_Container( xmlNodePtr root ) : Grounding() {
     insert_prop< std::string >( _string_properties, "object_type", "na" );
     insert_prop< int >( _int_properties, "number", 0 );
     insert_prop< int >( _int_properties, "index", 0 );
-    insert_prop< std::string >( _string_properties, "object_color_type", "na" );
+    insert_prop< std::string >( _string_properties, "object_color", "na" );
     from_xml( root );
 }
 
@@ -169,16 +169,16 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
     map< string, vector< string > >::const_iterator it_object_type_types = symbolDictionary.string_types().find( "object_type" );
     map< string, vector< int > >::const_iterator it_number_value_types = symbolDictionary.int_types().find( "number" );
     map< string, vector< int > >::const_iterator it_index_value_types = symbolDictionary.int_types().find( "index" );
-    map< string, vector< string > >::const_iterator it_object_color_types = symbolDictionary.string_types().find( "object_color" );
+    map< string, vector< string > >::const_iterator it_object_colors = symbolDictionary.string_types().find( "object_color" );
 
     if( ( symbolType == "abstract" ) || ( symbolType == "all" ) ){
-      if( ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) && ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_number_value_types != symbolDictionary.int_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) && ( it_object_color_types != symbolDictionary.string_types().end() ) ){
+      if( ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) && ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_number_value_types != symbolDictionary.int_types().end() ) && ( it_index_value_types != symbolDictionary.int_types().end() ) && ( it_object_colors != symbolDictionary.string_types().end() ) ){
         for( unsigned int i = 0; i < it_spatial_relation_type_types->second.size(); i++ ){
           for( unsigned int j = 0; j < it_object_type_types->second.size(); j++ ){
             for( unsigned int k = 0; k < it_number_value_types->second.size(); k++ ){
               for( unsigned int l = 0; l < it_index_value_types->second.size(); l++ ){
-                for( unsigned int m = 0; m < it_object_color_types->second.size(); m++ ){
-                  it_search_spaces_symbol->second.second.push_back( new Region_Abstract_Container( it_spatial_relation_type_types->second[ i ], it_object_type_types->second[ j ], it_number_value_types->second[ k ], it_index_value_types->second[ l ], it_object_color_types->second[ m ] ) );
+                for( unsigned int m = 0; m < it_object_colors->second.size(); m++ ){
+                  it_search_spaces_symbol->second.second.push_back( new Region_Abstract_Container( it_spatial_relation_type_types->second[ i ], it_object_type_types->second[ j ], it_number_value_types->second[ k ], it_index_value_types->second[ l ], it_object_colors->second[ m ] ) );
                 }
               }
             }
@@ -235,7 +235,7 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_type" ).c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "number" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "number" ) ).c_str() ) );
   xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
-  xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color_type" ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_color" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color" ).c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -277,7 +277,7 @@ from_xml( xmlNodePtr root ){
   color() = "na";
 
   if( root->type == XML_ELEMENT_NODE ){
-    vector< string > region_abstract_container_keys = { "spatial_relation_type", "object_type", "number", "index", "object_color_type" };
+    vector< string > region_abstract_container_keys = { "spatial_relation_type", "object_type", "number", "index", "object_color", "object_color_type" };
     assert( check_keys( root, region_abstract_container_keys ) );
 
     pair< bool, string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
@@ -296,7 +296,11 @@ from_xml( xmlNodePtr root ){
     if( index_prop.first ) {
       index() = index_prop.second;
     }
-    pair< bool, string > color_prop = has_prop< std::string >( root, "object_color_type" );
+    pair< bool, string > color_prop = has_prop< std::string >( root, "object_color" );
+    if( color_prop.first ) {
+      color() = color_prop.second;
+    }
+    color_prop = has_prop< std::string >( root, "object_color_type" );
     if( color_prop.first ) {
       color() = color_prop.second;
     }
@@ -318,7 +322,7 @@ namespace h2sl {
     out << "object_type=\"" << other.type() << "\",";
     out << "number=\"" << other.number() << "\",";
     out << "index=\"" << other.index()  << "\",";
-    out << "object_color_type=\"" << other.color()  << "\",";
+    out << "object_color=\"" << other.color()  << "\",";
     out << "} ";
     return out;
   }

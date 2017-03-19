@@ -20,7 +20,7 @@ namespace h2sl {
      */
     class Feature_Object_Merge_Object_Type_Spatial_Relation: public Feature {
     public:
-        Feature_Object_Merge_Object_Type_Spatial_Relation( const bool& invert = false, const std::string& sortingKey = "na" );
+        Feature_Object_Merge_Object_Type_Spatial_Relation( const bool& invert = false, const std::string& sortingKey = "na", const std::string& spatialRelationType = "na" );
         Feature_Object_Merge_Object_Type_Spatial_Relation( xmlNodePtr root );
         virtual ~Feature_Object_Merge_Object_Type_Spatial_Relation();
         Feature_Object_Merge_Object_Type_Spatial_Relation( const Feature_Object_Merge_Object_Type_Spatial_Relation& other );
@@ -35,6 +35,9 @@ namespace h2sl {
 
         inline std::string& sorting_key( void ){ return get_prop< std::string >( _string_properties, "sorting_key" ); };
         inline const std::string& sorting_key( void )const{ return get_prop< std::string >( _string_properties, "sorting_key" ); };
+        
+        inline std::string& spatial_relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+        inline const std::string& spatial_relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
         
         virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
         
@@ -51,4 +54,4 @@ namespace h2sl {
     std::ostream& operator<<( std::ostream& out, const Feature_Object_Merge_Object_Type_Spatial_Relation& other );
 }
 
-#endif /* H2SL_FEATURE_OBJECT_MERGE_ABSTRACT_CONTAINER_SPATIAL_RELATION_H */
+#endif /* H2SL_FEATURE_OBJECT_MERGE_OBJECT_TYPE_SPATIAL_RELATION_H */

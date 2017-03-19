@@ -24,8 +24,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object_property object_type="barrel" spatial_relation_type="na" index="0"/>
-        <object_color object_color_type="na"/>
+        <object_color object_color_type="red"/>
         <object_type object_type="barrel"/>
       </grounding_set>
       <DT text="the" order="0"/>

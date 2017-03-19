@@ -102,7 +102,7 @@ value( const string& cv,
         if( ( object_property_child.first->min_word_order() < spatial_relation_child.first->min_word_order() ) ){
           if( object_property->type() == object_property_child.second->type() ){
             if( object_property->index() == object_property_child.second->index() ){
-              if( object_property->relation_type() == spatial_relation_child.second->relation_type() ){
+              if( object_property->relation_type() == spatial_relation_child.second->spatial_relation_type() ){
                 return !_invert;
               }
             }
