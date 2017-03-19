@@ -13,7 +13,7 @@
   </world>
   <NP>
     <grounding_set>
-      <object name="cone3" object_type="cone" object_color="orange" position="-5.1049 -4.35167 0.00962007" orientation="-5.39603e-08 4.61199e-07 -0.00069646 1"/>
+      <object name="cone2" object_type="cone" object_color="orange" position="-4.18417 2.35123 0.00962007" orientation="-5.38565e-08 4.60993e-07 -0.00069644 1"/>
     </grounding_set>
     <NP>
       <grounding_set>
