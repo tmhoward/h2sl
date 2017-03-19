@@ -49,7 +49,7 @@ main( int argc,
     xmlNodePtr input_root = NULL;
     input_doc = xmlReadFile( args.inputs[ i ], NULL, 0 );
 
-    //march down the xml tree structure to find the tests
+    //march down the xml tree structure to find the cross-validation tests
     if( input_doc != NULL ){
       input_root = xmlDocGetRootElement( input_doc );
       if( input_root->type == XML_ELEMENT_NODE ){
