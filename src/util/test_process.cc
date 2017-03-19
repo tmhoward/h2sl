@@ -26,6 +26,7 @@
 #include <vector>
 #include <cmath>
 #include <libxml/tree.h>
+#include <glib.h>
 
 #include "h2sl/common.h"
 #include "h2sl/cv.h"
@@ -313,15 +314,138 @@ main( int argc,
                                        	              static_cast< Phrase* >( truth_training_phrases[ j ] ), 
                                                       training_worlds[ j ], examples );
       }
-
-      // Report the training set size.
       cout << "training with " << examples.size() << " examples" << endl;
+
+      // Feature sets in multiple threads.
+      vector< Feature_Set* > feature_sets;
+      for( unsigned int i = 0; i < ( unsigned int ) args.threads_arg; i++ ){
+        feature_sets.push_back( new Feature_Set() );
+        feature_sets.back()->from_xml( args.feature_set_arg );
+        if( !feature_sets.empty() ){
+          cout << "num features:" << feature_sets.back()->size() << endl;
+        }
+      }
+      if( !feature_sets.empty() ){
+       cout << "num features:" << feature_sets.front()->size() << endl;
+      }
+
+      // Add feature sets to LLMs.
+      vector< LLM* > llms;
+      for( unsigned int i = 0; i < ( unsigned int ) args.threads_arg; i++ ){
+        llms.push_back( new LLM( feature_sets[ i ] ) );
+        llms.back()->weights().resize( llms.back()->feature_set()->size() );
+      }
+
+      LLM_Train* llm_train = new LLM_Train( llms );
+
+      // Main LLM Training call.
+      uint64_t train_start_time = current_time();
+      llm_train->train( examples, args.max_iterations_arg, args.lambda_arg, args.epsilon_arg );
+      int64_t train_end_time = current_time();
+      double train_time = microseconds_to_seconds( train_end_time - train_start_time );
+
+      /********* Write out the LLM   **************/
+      stringstream llm_filename_string;
+      if( !args.solution_directory_given ){
+        llm_filename_string << "/tmp/llm_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
+      } else{
+        llm_filename_string << solution_directory.str() << "/llm_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
+      }
+      
+      // write the llm to xml
+      llms.front()->to_xml( llm_filename_string.str() );
+
+      stringstream training_set_size_string;
+      training_set_size_string << training_set.size();
+      xmlNewProp( test_node, ( const xmlChar* )( "training_set_size" ), ( const xmlChar* )( training_set_size_string.str().c_str() ) );
+
+      stringstream test_set_size_string;
+      test_set_size_string << test_set.size();
+      xmlNewProp( test_node, ( const xmlChar* )( "test_set_size" ), ( const xmlChar* )( test_set_size_string.str().c_str() ) );
+
+      stringstream training_ratio_string;
+      training_ratio_string << ( double )( training_set.size() ) / ( double )( training_set.size() + test_set.size() );
+      xmlNewProp( test_node, ( const xmlChar* )( "training_ratio" ), ( const xmlChar* )( training_ratio_string.str().c_str() ) );
+
+      stringstream train_time_string;
+      train_time_string << train_time;
+      xmlNewProp( test_node, ( const xmlChar* )( "train_time" ), ( const xmlChar* )( train_time_string.str().c_str() ) );
+
+      // evaluate the log-linear model
+      cout << "evaluating llm model" << endl;
+      //evaluate_model( llms.front(), examples );
+
+      /*
+      // Evaluate the DCG and DCG_SH models on the training set (if option).
+      if (args.test_training_set_arg) {
+        run_tests( training_set, llms.front(), tests_doc, test_node, "training_set", i, solution_directory.str() );
+        cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
+      }
+
+      // Evaluate the DCG and DCG_SH models on the test set (if option).
+      if (args.test_test_set_arg) {
+        run_tests( test_set, llms.front(), tests_doc, test_node, "test_set", i, solution_directory.str() );
+        cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
+      }
+      */
+
+      xmlAddChild( tests_node, test_node );
+
+      /**** Clean up  *****/
+      if( llm_train != NULL ){
+        delete llm_train;
+        llm_train = NULL;
+      }
+
+      if( symbol_dictionary_groundings != NULL ){
+        delete symbol_dictionary_groundings;
+        symbol_dictionary_groundings = NULL;
+      }
+
+      for( unsigned int i = 0; i < training_search_spaces.size(); i++ ){
+        if( training_search_spaces[ i ] != NULL ){
+          delete training_search_spaces[ i ];
+          training_search_spaces[ i ] = NULL;
+        }
+      }
+      training_search_spaces.clear();
+
+      for( unsigned int i = 0; i < llms.size(); i++ ){
+        if( llms[ i ] != NULL ){
+          delete llms[ i ];
+          llms[ i ] = NULL;
+        }
+      }
+      llms.clear();
+
+      for( unsigned int i = 0; i < feature_sets.size(); i++ ){
+        if( feature_sets[ i ] != NULL ){
+          delete feature_sets[ i ];
+          feature_sets[ i ] = NULL;
+        }
+      }
+      feature_sets.clear();
+
+      for( unsigned int i = 0; i < truth_training_phrases.size(); i++ ){
+        if( truth_training_phrases[ i ] != NULL ){
+          delete truth_training_phrases[ i ];
+          truth_training_phrases[ i ] = NULL;
+        }
+      }
+      truth_training_phrases.clear();
+
+      for( unsigned int i = 0; i < training_worlds.size(); i++ ){
+        if( training_worlds[ i ] != NULL ){
+          delete training_worlds[ i ];
+          training_worlds[ i ] = NULL;
+        }
+      }
+      training_worlds.clear();
 
       // Write output file.
       if( args.output_given ){
         xmlSaveFormatFileEnc( args.output_arg, tests_doc, "UTF-8", 1 );
       }
-
 
     } else {
       cout << "could not read filename \"" << args.inputs[ i ] << "\"" << endl;

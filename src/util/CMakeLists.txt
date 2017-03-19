@@ -45,7 +45,8 @@ set(BIN_SRCS
     test_convert_xml_to_mat.cc)
 
 # LIBRARY DEPENDENCIES
-set(DEPS h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARY} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES})
+set(DEPS h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARY} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} 
+${GLIB_LIBRARIES})
 
 # LIBRARY NAME
 set(LIB h2sl-util)
