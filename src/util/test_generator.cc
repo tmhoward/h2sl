@@ -7,8 +7,8 @@
  *  -the fraction resolution to be used given a minimum and maximum holdout fraction (args.fr_arg, default = 10)
  *  -the minimum and maximum fractions values (args.min_fr_arg, default = 0.2; args.max_fr_arg, default = 0.8)
  *  -the number of cross-validation sets per holdout fraction (args.num_arg, default = 13)
- *  -the set of examples (args.inputs[])
  *  -the output folder (args.output_arg, default = "/tmp/")
+ *  -the set of examples (args.inputs[])
  */
 
 #include "test_generator_cmdline.h"
