@@ -1,0 +1,7 @@
+package "test_combine_results"
+version "1.0"
+purpose "A program used combine test results that are in seperate files but are from the same set of tests"
+
+option "output" o "output filepath/filename.xml" string default="/tmp/test_combined_results.xml" optional
+
+text ""

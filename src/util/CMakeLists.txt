@@ -11,7 +11,8 @@ set(GGOS
     grammar_generator.ggo
     gui_demo.ggo
     test_process.ggo
-    test_generator.ggo)
+    test_generator.ggo
+    test_combine_results.ggo)
 
 # HEADER FILES
 set(HDRS
@@ -38,7 +39,8 @@ set(BIN_SRCS
     grammar_generator.cc
     gui_demo.cc
     test_process.cc
-    test_generator.cc)
+    test_generator.cc
+    test_combine_results.cc)
 
 # LIBRARY DEPENDENCIES
 set(DEPS h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARY} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES})
