@@ -105,6 +105,7 @@
                   <object name="cone2" object_type="cone" object_color="orange" position="-7.7,0,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="cone3" object_type="cone" object_color="orange" position="-8.2,2.5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="cone4" object_type="cone" object_color="orange" position="-7.9,5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                  <object_type object_type="cone"/>
                 </grounding_set>
                 <NNS text="cones" order="10"/>
               </NP>
