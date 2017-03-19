@@ -3,17 +3,17 @@
   <instruction text="the middle barrel"/>
   <!-- "file" indicates the which world within certain world type-->
   <world time="0" file="four_barrels/world_0003.xml">
-    <object name="barrel0" object_type="barrel" object_color="brown" position="-4.47049 -2.70559 0.270293" orientation="-2.35756e-08 -4.33841e-08 0.0116505 0.999932"/>
-    <object name="barrel1" object_type="barrel" object_color="brown" position="-5.46585 -0.210908 0.270293" orientation="-1.16538e-08 -2.21169e-08 0.012053 0.999927"/>
-    <object name="barrel2" object_type="barrel" object_color="brown" position="-4.1805 2.34908 0.270293" orientation="-5.08305e-09 -3.31763e-08 0.0116677 0.999932"/>
-    <object name="barrel3" object_type="barrel" object_color="brown" position="-5.10125 -4.35383 0.270293" orientation="-1.36717e-08 -8.04259e-08 0.0111494 0.999938"/>
-    <object name="barrel4" object_type="barrel" object_color="brown" position="-4.68339 4.89919 0.270293" orientation="-1.11964e-08 -2.55597e-08 0.0111707 0.999938"/>
+    <object name="barrel0" object_type="barrel" object_color="red" position="-4.47049 -2.70559 0.270293" orientation="-2.35756e-08 -4.33841e-08 0.0116505 0.999932"/>
+    <object name="barrel1" object_type="barrel" object_color="red" position="-5.46585 -0.210908 0.270293" orientation="-1.16538e-08 -2.21169e-08 0.012053 0.999927"/>
+    <object name="barrel2" object_type="barrel" object_color="red" position="-4.1805 2.34908 0.270293" orientation="-5.08305e-09 -3.31763e-08 0.0116677 0.999932"/>
+    <object name="barrel3" object_type="barrel" object_color="red" position="-5.10125 -4.35383 0.270293" orientation="-1.36717e-08 -8.04259e-08 0.0111494 0.999938"/>
+    <object name="barrel4" object_type="barrel" object_color="red" position="-4.68339 4.89919 0.270293" orientation="-1.11964e-08 -2.55597e-08 0.0111707 0.999938"/>
     <object name="ground" object_type ="ground" object_color="na" position="0 0 0" orientation="0 0 0 1"/>
     <object name="husky" object_type="robot" object_color="na" position="-0.00114615 0.000733871 0.135478" orientation="-3.09e-06 1.98513e-07 1 0.000961327"/>
   </world>
   <NP>
     <grounding_set>
-      <object name="barrel1" object_type="barrel" object_color="brown" position="-5.46585 -0.210908 0.270293" orientation="-1.16538e-08 -2.21169e-08 0.012053 0.999927"/>
+      <object name="barrel1" object_type="barrel" object_color="red" position="-5.46585 -0.210908 0.270293" orientation="-1.16538e-08 -2.21169e-08 0.012053 0.999927"/>
       <object_property object_type="barrel" spatial_relation_type="center" index="1"/>
       <spatial_relation spatial_relation_type="center"/>
       <object_type object_type="barrel"/>
