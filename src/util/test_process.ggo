@@ -13,4 +13,7 @@ option "output" o "output file" string default="../data/test/results.xml" option
 option "test_training_set" - "test training set" int default="0" optional
 option "test_test_set" - "test test set" int default="1" optional
 
+option "debug" - "debug flag" int default="0" optional
+option "beam_width" - "beam width" int default="2" optional
+
 text ""
