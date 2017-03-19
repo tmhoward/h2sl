@@ -37,12 +37,12 @@
           </NP>
           <PP>
             <grounding_set>
-              <object_property object_type="barrel" spatial_relation_type="na" index="0"/>
+              <object_property object_type="barrel" spatial_relation_type="na" index="1"/>
             </grounding_set>
             <IN text="to" order="4"/>
             <NP>
               <grounding_set>
-                <object_property object_type="barrel" spatial_relation_type="na" index="0"/>
+                <object_property object_type="barrel" spatial_relation_type="na" index="1"/>
                 <index value="1"/>
                 <object_type object_type="barrel"/>
               </grounding_set>

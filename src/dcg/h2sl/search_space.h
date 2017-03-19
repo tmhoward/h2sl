@@ -42,7 +42,7 @@ namespace h2sl {
     virtual void fill_groundings( const Symbol_Dictionary& symbolDictionary, const World* world, const std::string& symbolType = "all" );
     virtual void fill_rules( const Symbol_Dictionary& symbolDictionary, const World* world, const std::string& symbolType = "all" );
     virtual void clear( void );
-    virtual void scrape_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, std::vector< std::pair< std::string, h2sl::LLM_X > >& examples );
+    virtual void scrape_examples( const std::string& filename, const Phrase* phrase, const h2sl::World* world, std::vector< std::pair< std::string, h2sl::LLM_X > >& examples, const unsigned int& sampleMod = 1 );
     virtual void scrape_grounding( Symbol_Dictionary& symbolDictionary, const World* world )const;
   
     virtual unsigned int size( void )const;

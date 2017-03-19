@@ -12,7 +12,7 @@
   </world>
   <NP>
     <grounding_set>
-      <object name="barrel0" object_type="barrel" object_color="brown" position="-4.41208,-2.18244,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object name="barrel3" object_type="barrel" object_color="brown" position="-4.23121,-4.17999,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
     </grounding_set>
     <NP>
       <grounding_set>

@@ -31,6 +31,7 @@
       <grounding_set>
         <abstract_container object_type="barrel" number="2" index="1" object_color="na"/>
         <number value="2"/>
+        <index value="1"/>
         <object_type object_type="barrel"/>
       </grounding_set>
       <DT text="the" order="0"/>

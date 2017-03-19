@@ -128,7 +128,7 @@ main( int argc,
 
     search_spaces[ i ] = new Search_Space();
     search_spaces[ i ]->fill_groundings( *symbol_dictionary, worlds[ i ] );
-    search_spaces[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples );
+    search_spaces[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples, args.sample_mod_arg );
   }
 
   cout << "training with " << examples.size() << " examples" << endl;

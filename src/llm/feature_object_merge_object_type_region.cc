@@ -1,5 +1,5 @@
 /**
- * @file feature_object_merge_object_type_spatial_relation.cc
+ * @file feature_object_merge_object_type_region.cc
  *
  * @brief
  *
@@ -10,56 +10,54 @@
 #include <sstream>
 #include <algorithm>
 
-#include "h2sl/feature_object_merge_object_type_spatial_relation.h"
-//#include "h2sl/object_type.h"
+#include "h2sl/feature_object_merge_object_type_region.h"
 #include "h2sl/object_type.h"
-#include "h2sl/spatial_relation.h"
-#include "h2sl/spatial_relation.h"
+#include "h2sl/region.h"
 #include "h2sl/world.h"
 
 using namespace std;
 using namespace h2sl;
 
 /**
- * Feature_Object_Merge_Object_Type_Spatial_Relation class constructor
+ * Feature_Object_Merge_Object_Type_Region class constructor
  */
-Feature_Object_Merge_Object_Type_Spatial_Relation::
-Feature_Object_Merge_Object_Type_Spatial_Relation( const bool& invert,
+Feature_Object_Merge_Object_Type_Region::
+Feature_Object_Merge_Object_Type_Region( const bool& invert,
                                                     const string& sortingKey,
                                                     const string& spatialRelationType ) : Feature( invert ) {
   insert_prop< std::string >( _string_properties, "sorting_key", sortingKey );
   insert_prop< std::string >( _string_properties, "spatial_relation_type", spatialRelationType );
 }
 
-Feature_Object_Merge_Object_Type_Spatial_Relation::
-Feature_Object_Merge_Object_Type_Spatial_Relation( xmlNodePtr root ) : Feature() {
+Feature_Object_Merge_Object_Type_Region::
+Feature_Object_Merge_Object_Type_Region( xmlNodePtr root ) : Feature() {
   insert_prop< std::string >( _string_properties, "sorting_key", "na" );
   insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
   from_xml( root );
 }
 
 /**
- * Feature_Object_Merge_Object_Type_Spatial_Relation class destructor
+ * Feature_Object_Merge_Object_Type_Region class destructor
  */
-Feature_Object_Merge_Object_Type_Spatial_Relation::
-~Feature_Object_Merge_Object_Type_Spatial_Relation() {
+Feature_Object_Merge_Object_Type_Region::
+~Feature_Object_Merge_Object_Type_Region() {
     
 }
 
 /**
- * Feature_Object_Merge_Object_Type_Spatial_Relation class copy constructor
+ * Feature_Object_Merge_Object_Type_Region class copy constructor
  */
-Feature_Object_Merge_Object_Type_Spatial_Relation::
-Feature_Object_Merge_Object_Type_Spatial_Relation( const Feature_Object_Merge_Object_Type_Spatial_Relation& other ) : Feature( other ) {
+Feature_Object_Merge_Object_Type_Region::
+Feature_Object_Merge_Object_Type_Region( const Feature_Object_Merge_Object_Type_Region& other ) : Feature( other ) {
     
 }
 
 /**
- * Feature_Object_Merge_Object_Type_Spatial_Relation class assignment operator
+ * Feature_Object_Merge_Object_Type_Region class assignment operator
  */
-Feature_Object_Merge_Object_Type_Spatial_Relation&
-Feature_Object_Merge_Object_Type_Spatial_Relation::
-operator=( const Feature_Object_Merge_Object_Type_Spatial_Relation& other ) {
+Feature_Object_Merge_Object_Type_Region&
+Feature_Object_Merge_Object_Type_Region::
+operator=( const Feature_Object_Merge_Object_Type_Region& other ) {
     _invert = other._invert;
     _string_properties = other._string_properties;
     _int_properties = other._int_properties;
@@ -70,7 +68,7 @@ operator=( const Feature_Object_Merge_Object_Type_Spatial_Relation& other ) {
  * returns the value of the feature.
  */
 bool
-Feature_Object_Merge_Object_Type_Spatial_Relation::
+Feature_Object_Merge_Object_Type_Region::
 value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -80,7 +78,7 @@ value( const string& cv,
 }
 
 bool
-Feature_Object_Merge_Object_Type_Spatial_Relation::
+Feature_Object_Merge_Object_Type_Region::
 value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -90,18 +88,18 @@ value( const string& cv,
     const Object * object = dynamic_cast< const Object* >( grounding );
     if( ( object != NULL ) && ( !children.empty() ) ){
     pair< const Phrase*, const Object_Type* > object_type_child( NULL, NULL );
-    pair< const Phrase*, const Spatial_Relation* > spatial_relation_child( NULL, NULL );
+    pair< const Phrase*, const Region* > region_child( NULL, NULL );
     // enforce that children come from different phrases
     for( unsigned int i = 0; i < children.size(); i++ ){
       for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
-        if ( dynamic_cast< const Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
-          spatial_relation_child.first = children[ i ].first;
-          spatial_relation_child.second = static_cast< const Spatial_Relation* >( children[ i ].second[ j ] );
+        if ( dynamic_cast< const Region* >( children[ i ].second[ j ] ) != NULL ){
+          region_child.first = children[ i ].first;
+          region_child.second = static_cast< const Region* >( children[ i ].second[ j ] );
         }
       }
     }
     for( unsigned int i = 0; i < children.size(); i++ ){
-      if( children[ i ].first != spatial_relation_child.first ){
+      if( children[ i ].first != region_child.first ){
         for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
           if( dynamic_cast< const Object_Type* >( children[ i ].second[ j ] ) != NULL ){
             object_type_child.first = children[ i ].first;
@@ -111,8 +109,8 @@ value( const string& cv,
       }
     }
 
-    if( ( object_type_child.first != NULL ) && ( object_type_child.second != NULL ) && ( spatial_relation_child.first != NULL ) && ( spatial_relation_child.second != NULL ) ){
-      if( ( object_type_child.first->min_word_order() < spatial_relation_child.first->min_word_order() ) && ( spatial_relation_child.second->spatial_relation_type() == spatial_relation_type() ) ){
+    if( ( object_type_child.first != NULL ) && ( object_type_child.second != NULL ) && ( region_child.first != NULL ) && ( region_child.second != NULL ) ){
+      if( ( object_type_child.first->min_word_order() < region_child.first->min_word_order() ) && ( region_child.second->spatial_relation_type() == spatial_relation_type() ) ){
         map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
         if( it_sorted_objects_map == world->sorted_objects().end() ){
           cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
@@ -137,12 +135,12 @@ value( const string& cv,
 }
 
 /**
- * exports the Feature_Object_Merge_Object_Type_Spatial_Relation class to an XML file
+ * exports the Feature_Object_Merge_Object_Type_Region class to an XML file
  */
 void
-Feature_Object_Merge_Object_Type_Spatial_Relation::
+Feature_Object_Merge_Object_Type_Region::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-    xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_merge_object_type_spatial_relation" ), NULL );
+    xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_merge_object_type_region" ), NULL );
     xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( to_std_string( _invert ).c_str() ) );
     xmlNewProp( node, ( const xmlChar* )( "sorting_key" ), ( const xmlChar* )( sorting_key().c_str() ) );
     xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( spatial_relation_type().c_str() ) );
@@ -151,10 +149,10 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
 }
 
 /**
- * imports the Feature_Object_Merge_Object_Type_Spatial_Relation class from an XML file
+ * imports the Feature_Object_Merge_Object_Type_Region class from an XML file
  */
 void
-Feature_Object_Merge_Object_Type_Spatial_Relation::
+Feature_Object_Merge_Object_Type_Region::
 from_xml( xmlNodePtr root ){
   _invert = false;
   sorting_key() = "na";
@@ -183,12 +181,12 @@ from_xml( xmlNodePtr root ){
 
 namespace h2sl {
     /**
-     * Feature_Object_Merge_Object_Type_Spatial_Relation class ostream operator
+     * Feature_Object_Merge_Object_Type_Region class ostream operator
      */
     ostream&
     operator<<( ostream& out,
-               const Feature_Object_Merge_Object_Type_Spatial_Relation& other ) {
-        out << "Feature_Object_Merge_Object_Type_Spatial_Relation:(invert:(" << other.invert() << ") sorting_key:(" << other.sorting_key() << ") spatial_relation_type:(" << other.spatial_relation_type() << "))";
+               const Feature_Object_Merge_Object_Type_Region& other ) {
+        out << "Feature_Object_Merge_Object_Type_Region:(invert:(" << other.invert() << ") sorting_key:(" << other.sorting_key() << ") spatial_relation_type:(" << other.spatial_relation_type() << "))";
         return out;
     }
     

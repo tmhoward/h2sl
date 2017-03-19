@@ -26,7 +26,7 @@ namespace h2sl {
                                 const std::string& objectType = "na",
                                 const int& number = 0,
                                 const int& index = 0,
-                                const std::string& colorType = "na" );
+                                const std::string& objectColor = "na" );
                               
 
     virtual ~Region_Abstract_Container();
@@ -70,9 +70,9 @@ namespace h2sl {
               return get_prop< int >( _int_properties, "index" ); };
 
     inline std::string& color( void ){
-              return get_prop< std::string >( _string_properties, "object_color_type" ); };
+              return get_prop< std::string >( _string_properties, "object_color" ); };
     inline const std::string& color( void )const{
-              return get_prop< std::string >( _string_properties, "object_color_type" ); };
+              return get_prop< std::string >( _string_properties, "object_color" ); };
 
     static std::string class_name( void ){ return "region_abstract_container"; };
    

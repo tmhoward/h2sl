@@ -35,10 +35,11 @@
         </container>
         <object name="chair1" object_type="chair" object_color="white" position="-0.685016,4.16026,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="chair2" object_type="chair" object_color="white" position="0.933675,4.03338,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-        <abstract_container object_type="chair" number="2" index="1" object_color="na"/>
+        <region_abstract_container spatial_relation_type="center" object_type="chair" number="2" index="1" object_color="na"/>
         <object_type object_type="chair"/>
         <spatial_relation spatial_relation_type="center"/>
         <number value="2"/>
+        <index value="1"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <CD text="two" order="1"/>

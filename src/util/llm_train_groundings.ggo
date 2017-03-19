@@ -6,6 +6,7 @@ option "symbol_dictionary_groundings" - "groundings symbol_dictionary file" stri
 option "feature_set" - "feature_set file" string required
 option "threads" - "number of threads" int default="4" optional
 option "max_iterations" - "max iterations" int default="50" optional
+option "sample_mod" - "sample mod (1 = all samples)" int default="1" optional
 option "lambda" - "lambda" double default="0.01" optional
 option "epsilon" - "epsilon" double default="0.001" optional
 option "output" - "output file" string default="llm.xml" optional

@@ -39,14 +39,14 @@
         </NP>
         <PP>
           <grounding_set>
-            <abstract_container object_type="na" number="5" index="1" object_color="na"/>
+            <number value="5"/>
             <container_type container_type="row"/>
           </grounding_set>
           <IN text="in" order="6"/>
           <NP>
             <grounding_set>
-              <abstract_container object_type="na" number="5" index="1" object_color="na"/>
               <container_type container_type="row"/>
+              <number value="5"/>
             </grounding_set>
             <NP>
               <grounding_set>
@@ -57,12 +57,11 @@
             </NP>
             <PP>
               <grounding_set>
-                <abstract_container object_type="na" number="5" index="1" object_color="na"/>
+                <number value="5"/>
               </grounding_set>
               <IN text="of" order="9"/>
               <NP>
                 <grounding_set>
-                  <abstract_container object_type="na" number="5" index="1" object_color="na"/>
                   <number value="5"/>
                 </grounding_set>
                 <CD text="five" order="10"/>

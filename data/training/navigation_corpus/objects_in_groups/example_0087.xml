@@ -104,6 +104,7 @@
                   <object name="barrel2" object_type="barrel" object_color="red" position="-7.7,0,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="barrel3" object_type="barrel" object_color="red" position="-8.2,2.5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="barrel4" object_type="barrel" object_color="red" position="-7.9,5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                  <object_type object_type="barrel"/>
                 </grounding_set>
                 <NNS text="barrels" order="9"/>
               </NP>

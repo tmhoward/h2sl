@@ -27,8 +27,9 @@
         <NP>
           <grounding_set>
             <object name="cone2" object_type="cone" object_color="orange" position="-7.7,0,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object_property object_type="cone" spatial_relation_type="center" index="0"/>
+            <object_property object_type="cone" spatial_relation_type="center" index="1"/>
             <spatial_relation spatial_relation_type="center"/>
+            <index value="1"/>
             <object_type object_type="cone"/>
           </grounding_set>
           <DT text="the" order="2"/>
@@ -103,6 +104,7 @@
                   <object name="cone2" object_type="cone" object_color="orange" position="-7.7,0,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="cone3" object_type="cone" object_color="orange" position="-8.2,2.5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="cone4" object_type="cone" object_color="orange" position="-7.9,5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                  <object_type object_type="cone"/>
                 </grounding_set>
                 <NNS text="cones" order="9"/>
               </NP>
