@@ -113,6 +113,46 @@ clear( Phrase* phrase ){
 }
 
 
+void
+evaluate_model( LLM* llm,
+                vector< pair< string, LLM_X > >& examples ){
+  vector< string > cvs;
+  cvs.push_back( "false" );
+  cvs.push_back( "true" );
+
+  unsigned int num_correct = 0;
+  for( unsigned int i = 0; i < examples.size(); i++ ){
+    vector< pair < vector< Feature*>, unsigned int > > features;
+   //vector< h2sl::Feature* > features;
+    double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
+    if( pygx < 0.5 ){
+      cout << "example " << i << " had pygx " << pygx << endl;
+      cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
+      cout << "         cv:" << examples[ i ].first << endl;
+      if( dynamic_cast< const Grounding* >( examples[ i ].second.grounding() ) != NULL ){
+        cout << "  grounding:" << *static_cast< const Grounding* >( examples[ i ].second.grounding() ) << endl;
+      }
+
+      for( unsigned int j = 0; j < examples[ i ].second.children().size(); j++ ){
+        if( examples[ i ].second.children()[ j ].first != NULL ){
+          cout << "child phrase:(" << *examples[ i ].second.children()[ j ].first << ")" << endl;
+        }
+        for( unsigned int k = 0; k < examples[ i ].second.children()[ j ].second.size(); k++ ){
+          if( dynamic_cast< const Grounding* >( examples[ i ].second.children()[ j ].second[ k ] ) != NULL ){
+            cout << "children[" << j << "][" << k << "]:" << *static_cast< const Grounding* >( examples[ i ].second.children()[ j ].second[ k ] ) << endl;
+          }
+        }
+      }
+      cout << "     phrase:" << *dynamic_cast< const Phrase* >( examples[ i ].second.phrase() ) << endl;
+    } else {
+      num_correct++;
+    }
+  }
+
+  cout << ( double )( num_correct ) / ( double )( examples.size() ) * 100.0 << " accuracy (" << num_correct << "/" << examples.size() << ")" << endl;
+
+  return;
+}
 
 
 
