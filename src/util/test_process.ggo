@@ -2,6 +2,7 @@ package "test_process"
 version "1.0"
 purpose "A program used to run tests from examples"
 
+option "symbol_dictionary_groundings" - "groundings symbol_dictionary file" string required
 option "feature_set" - "feature_set file" string required
 option "threads" - "number of threads" int default="8" optional
 option "max_iterations" - "max iterations" int default="200" optional
