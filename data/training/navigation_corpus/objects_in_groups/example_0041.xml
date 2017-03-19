@@ -20,6 +20,7 @@
         <object_property object_type="barrel" spatial_relation_type="center" index="1"/>
         <spatial_relation spatial_relation_type="center"/>
         <object_type object_type="barrel"/>
+        <index value="1"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <JJ text="middle" order="1"/>
