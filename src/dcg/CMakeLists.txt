@@ -10,8 +10,8 @@ set(GGOS
     dcg_test.ggo
     dcg_test.ggo
     hdcg_test.ggo
-    hadcg_test.ggo)
-#    adcg_test.ggo)
+    hadcg_test.ggo
+    adcg_test.ggo)
 
 # HEADER FILES
 set(HDRS
@@ -49,8 +49,8 @@ set(BIN_SRCS
     adcg_demo.cc
     dcg_test.cc
     hdcg_test.cc
-    hadcg_test.cc)
-#    adcg_test.cc)
+    hadcg_test.cc
+    adcg_test.cc)
 
 # LIBRARY DEPENDENCIES
 set(DEPS h2sl-llm h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARY} ${Boost_LIBRARIES} ${LIBXML2_LIBRARIES})
