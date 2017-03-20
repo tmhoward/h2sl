@@ -170,9 +170,9 @@ evaluate_model( LLM* llm,
 /**
  * Run the grounding model comparison tests.
  * Give the list of filenames.
- * Provide the trained LLM.
+ * Provide the trained LLM.a
+ * Pass the symbol_dictionary_path and 
  **/
-
 void
 run_tests( const std::vector< std::string >& filenames,
             LLM*& llm,
@@ -491,20 +491,34 @@ run_tests( const std::vector< std::string >& filenames,
     xmlAddChild( test_group_node, example_node );
   }
 
-/****************************** Write the statistics to XML *************************/
+/****************************** Write the statistics to XML: DCG and ADCG*************************/
 
+  // Average runtime.
   runtime_dcg /= ( double )( filenames.size() );
   runtime_adcg /= ( double )( filenames.size() );
+  runtime_hdcg /= ( double )( filenames.size() );
+  runtime_hadcg /= ( double )( filenames.size() );
+
+  // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
+ 
+  // Average number of phrases and objects 
   num_phrases /= ( double )( filenames.size() );
   num_objects /= ( double )( filenames.size() );
 
+  // Correct root for all models.
   double correct_root_dcg = ( double )( num_correct_root_dcg ) / ( double )( num_correct_root_dcg + num_incorrect_root_dcg );
   double correct_root_adcg = ( double )( num_correct_root_adcg ) / ( double )( num_correct_root_adcg + num_incorrect_root_adcg );
+  double correct_root_hdcg = ( double )( num_correct_root_hdcg ) / ( double )( num_correct_root_hdcg + num_incorrect_root_hdcg );
+  double correct_root_hadcg = ( double )( num_correct_root_hadcg ) / ( double )( num_correct_root_hadcg + num_incorrect_root_hadcg );
 
+  // Correct complete for all models.
   double correct_complete_dcg = ( double )( num_correct_complete_dcg ) / ( double )( num_correct_complete_dcg + num_incorrect_complete_dcg );
   double correct_complete_adcg = ( double )( num_correct_complete_adcg ) / ( double )( num_correct_complete_adcg + num_incorrect_complete_adcg );
+  double correct_complete_hdcg = ( double )( num_correct_complete_hdcg ) / ( double )( num_correct_complete_hdcg + num_incorrect_complete_hdcg );
+  double correct_complete_hadcg = ( double )( num_correct_complete_hadcg ) / ( double )( num_correct_complete_hadcg + num_incorrect_complete_hadcg );
 
+  /******  XML: correct root **************************/ 
   stringstream correct_root_dcg_string;
   correct_root_dcg_string << correct_root_dcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_dcg" ), ( const xmlChar* )( correct_root_dcg_string.str().c_str() ) );
@@ -515,11 +529,29 @@ run_tests( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_adcg" ), ( const xmlChar* )( correct_root_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_adcg" ).c_str() ), ( const xmlChar* )( correct_root_adcg_string.str().c_str() ) );
 
-  stringstream correct_root_ratio_string;
-  correct_root_ratio_string << correct_root_dcg / correct_root_adcg;
-  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_ratio" ), ( const xmlChar* )( correct_root_ratio_string.str().c_str() ) );
-  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_ratio" ).c_str() ), ( const xmlChar* )( correct_root_ratio_string.str().c_str() ) );
+  stringstream correct_root_hdcg_string;
+  correct_root_hdcg_string << correct_root_hdcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_hdcg" ), ( const xmlChar* )( correct_root_hdcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_hdcg" ).c_str() ), ( const xmlChar* )( correct_root_hdcg_string.str().c_str() ) );
 
+  stringstream correct_root_hadcg_string;
+  correct_root_hadcg_string << correct_root_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_hadcg" ), ( const xmlChar* )( correct_root_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_hadcg" ).c_str() ), ( const xmlChar* )( correct_root_hadcg_string.str().c_str() ) );
+
+  /******  XML: correct root ratio for dcg and adcg **************************/ 
+  stringstream correct_root_ratio_dcg_adcg_string;
+  correct_root_ratio_dcg_adcg_string << correct_root_dcg / correct_root_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_ratio_dcg_adcg" ), ( const xmlChar* )( correct_root_ratio_dcg_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_ratio_dcg_adcg" ).c_str() ), ( const xmlChar* )( correct_root_ratio_dcg_adcg_string.str().c_str() ) );
+
+  /******  XML: correct root ratio for hdcg and hadcg **************************/ 
+  stringstream correct_root_ratio_hdcg_hadcg_string;
+  correct_root_ratio_hdcg_hadcg_string << correct_root_hdcg / correct_root_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_ratio_hdcg_hadcg" ), ( const xmlChar* )( correct_root_ratio_hdcg_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_ratio_hdcg_hadcg" ).c_str() ), ( const xmlChar* )( correct_root_ratio_hdcg_hadcg_string.str().c_str() ) );
+
+  /******  XML: correct complete  **************************/ 
   stringstream correct_complete_dcg_string;
   correct_complete_dcg_string << correct_complete_dcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_dcg" ), ( const xmlChar* )( correct_complete_dcg_string.str().c_str() ) );
@@ -530,11 +562,29 @@ run_tests( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_adcg" ), ( const xmlChar* )( correct_complete_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_adcg" ).c_str() ), ( const xmlChar* )( correct_complete_adcg_string.str().c_str() ) );
 
-  stringstream correct_complete_ratio_string;
-  correct_complete_ratio_string << correct_complete_dcg / correct_complete_adcg;
-  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_ratio" ), ( const xmlChar* )( correct_complete_ratio_string.str().c_str() ) );
-  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_ratio" ).c_str() ), ( const xmlChar* )( correct_complete_ratio_string.str().c_str() ) );
+  stringstream correct_complete_hdcg_string;
+  correct_complete_hdcg_string << correct_complete_hdcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_hdcg" ), ( const xmlChar* )( correct_complete_hdcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_hdcg" ).c_str() ), ( const xmlChar* )( correct_complete_hdcg_string.str().c_str() ) );
 
+  stringstream correct_complete_hadcg_string;
+  correct_complete_hadcg_string << correct_complete_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_hadcg" ), ( const xmlChar* )( correct_complete_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_hadcg" ).c_str() ), ( const xmlChar* )( correct_complete_hadcg_string.str().c_str() ) );
+
+  /******  XML: correct complete ratio for dcg and adcg **************************/ 
+  stringstream correct_complete_ratio_dcg_adcg_string;
+  correct_complete_ratio_dcg_adcg_string << correct_complete_dcg / correct_complete_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_ratio_dcg_adcg" ), ( const xmlChar* )( correct_complete_ratio_dcg_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_ratio_dcg_adcg" ).c_str() ), ( const xmlChar* )( correct_complete_ratio_dcg_adcg_string.str().c_str() ) );
+
+  /******  XML: correct complete ratio for hdcg and hadcg **************************/ 
+  stringstream correct_complete_ratio_hdcg_hadcg_string;
+  correct_complete_ratio_hdcg_hadcg_string << correct_complete_hdcg / correct_complete_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_ratio_hdcg_hadcg" ), ( const xmlChar* )( correct_complete_ratio_hdcg_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_ratio_hdcg_hadcg" ).c_str() ), ( const xmlChar* )( correct_complete_ratio_hdcg_hadcg_string.str().c_str() ) );
+
+  /******  XML: runtime  **************************/ 
   stringstream runtime_dcg_string;
   runtime_dcg_string << runtime_dcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_dcg" ), ( const xmlChar* )( runtime_dcg_string.str().c_str() ) );
@@ -545,21 +595,35 @@ run_tests( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_adcg" ), ( const xmlChar* )( runtime_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_adcg" ).c_str() ), ( const xmlChar* )( runtime_adcg_string.str().c_str() ) );
 
+  stringstream runtime_hdcg_string;
+  runtime_hdcg_string << runtime_hdcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hdcg" ), ( const xmlChar* )( runtime_hdcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hdcg" ).c_str() ), ( const xmlChar* )( runtime_hdcg_string.str().c_str() ) );
+
+  stringstream runtime_hadcg_string;
+  runtime_adcg_string << runtime_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hadcg" ), ( const xmlChar* )( runtime_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hadcg" ).c_str() ), ( const xmlChar* )( runtime_hadcg_string.str().c_str() ) );
+
+  /******  XML: runtime  **************************/ 
   stringstream runtime_ratio_string;
   runtime_ratio_string << average_runtime_ratio;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_ratio" ), ( const xmlChar* )( runtime_ratio_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_ratio" ).c_str() ), ( const xmlChar* )( runtime_ratio_string.str().c_str() ) );
 
+  /******  XML: num phrases  **************************/ 
   stringstream num_phrases_string;
   num_phrases_string << num_phrases;
   xmlNewProp( test_group_node, ( const xmlChar* )( "avg_num_phrases" ), ( const xmlChar* )( num_phrases_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_num_phrases" ).c_str() ), ( const xmlChar* )( num_phrases_string.str().c_str() ) );
 
+  /******  XML: num objects  **************************/ 
   stringstream num_objects_string;
   num_objects_string << num_objects;
   xmlNewProp( test_group_node, ( const xmlChar* )( "avg_num_objects" ), ( const xmlChar* )( num_objects_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_num_objects" ).c_str() ), ( const xmlChar* )( num_objects_string.str().c_str() ) );
 
+  /******  XML: num objects  **************************/ 
   stringstream runtime_object_ratio_dcg_string;
   runtime_object_ratio_dcg_string << ( runtime_dcg / num_objects );
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_dcg" ), ( const xmlChar* )( runtime_object_ratio_dcg_string.str().c_str() ) );
@@ -568,15 +632,37 @@ run_tests( const std::vector< std::string >& filenames,
   runtime_object_ratio_adcg_string << ( runtime_adcg / num_objects );
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_adcg" ), ( const xmlChar* )( runtime_object_ratio_adcg_string.str().c_str() ) );
 
- cout << endl;
+  stringstream runtime_object_ratio_hdcg_string;
+  runtime_object_ratio_hdcg_string << ( runtime_hdcg / num_objects );
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_hdcg" ), ( const xmlChar* )( runtime_object_ratio_hdcg_string.str().c_str() ) );
+
+  stringstream runtime_object_ratio_hadcg_string;
+  runtime_object_ratio_hadcg_string << ( runtime_hadcg / num_objects );
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_hadcg" ), ( const xmlChar* )( runtime_object_ratio_hadcg_string.str().c_str() ) );
+
+  /******  console output **************************/ 
+  cout << endl;
   cout << "correct_root_dcg: " << correct_root_dcg << endl;
   cout << "correct_root_adcg: " << correct_root_adcg << endl;
-  cout << "correct_root_ratio_dcg: " << correct_root_ratio_string.str() << endl;
+  cout << "correct_root_hdcg: " << correct_root_hdcg << endl;
+  cout << "correct_root_hadcg: " << correct_root_hadcg << endl;
+
+  cout << "correct_root_ratio_dcg_adcg: " << correct_root_ratio_dcg_adcg_string.str() << endl;
+  cout << "correct_root_ratio_hdcg_hadcg: " << correct_root_ratio_hdcg_hadcg_string.str() << endl;
+
   cout << "correct_complete_dcg: " << correct_complete_dcg << endl;
   cout << "correct_complete_adcg: " << correct_complete_adcg << endl;
-  cout << "correct_complete_ratio_dcg: " << correct_complete_ratio_string.str() << endl;
+  cout << "correct_complete_hdcg: " << correct_complete_hdcg << endl;
+  cout << "correct_complete_hadcg: " << correct_complete_hadcg << endl;
+
+  cout << "correct_complete_ratio_dcg_adcg: " << correct_complete_ratio_dcg_adcg_string.str() << endl;
+  cout << "correct_complete_ratio_hdcg_hadcg: " << correct_complete_ratio_hdcg_hadcg_string.str() << endl;
+
   cout << "runtime_dcg: " << runtime_dcg << endl;
   cout << "runtime_adcg: " << runtime_adcg << endl;
+  cout << "runtime_hdcg: " << runtime_hdcg << endl;
+  cout << "runtime_hadcg: " << runtime_hadcg << endl;
+
   cout << "runtime_ratio: " << average_runtime_ratio << endl << endl;
 
   xmlAddChild( parentNode, test_group_node );
