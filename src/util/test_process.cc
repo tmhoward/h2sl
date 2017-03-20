@@ -925,6 +925,14 @@ main( int argc,
       }
       training_search_spaces_groundings.clear();
 
+      for( unsigned int i = 0; i < training_search_spaces_rules.size(); i++ ){
+        if( training_search_spaces_rules[ i ] != NULL ){
+          delete training_search_spaces_rules[ i ];
+          training_search_spaces_rules[ i ] = NULL;
+        }
+      }
+      training_search_spaces_rules.clear();
+
       for( unsigned int i = 0; i < llms.size(); i++ ){
         if( llms[ i ] != NULL ){
           delete llms[ i ];
