@@ -394,7 +394,6 @@ run_tests( const std::vector< std::string >& filenames,
     clear( input_phrase );
 
     /**************************************** HADCG ******************************************************************/
-   
     HADCG * hadcg = new HADCG();
 
     cout << "  running hadcg" << endl;
@@ -686,7 +685,7 @@ main( int argc,
     exit( 1 );
   }
 
-// Determine the solution directory where solutions  will be created.
+  // Determine the solution directory where solutions  will be created.
   stringstream solution_directory;
   if( !args.solution_directory_given ){
     solution_directory << "/tmp/";
@@ -719,6 +718,7 @@ main( int argc,
     vector< string > training_set;
     vector< string > test_set;
 
+    // XML pointers
     xmlDoc * input_doc = NULL;
     xmlNodePtr input_root = NULL;
     input_doc = xmlReadFile( args.inputs[ i ], NULL, 0 );
@@ -781,12 +781,15 @@ main( int argc,
       cout << "}" << endl;
    
       /********************** Train the Log-linear model *****************/ 
-      vector< Search_Space* > training_search_spaces( training_set.size(), NULL );
+      vector< Search_Space* > training_search_spaces_groundings( training_set.size(), NULL );
+      vector< Search_Space* > training_search_spaces_rules( training_set.size(), NULL );
+
       vector< Phrase* > truth_training_phrases( training_set.size(), NULL );
       vector< World* > training_worlds( training_set.size(), NULL );
       vector< string > training_filenames( training_set.size() );
 
       Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
+      Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary( args.symbol_dictionary_rules_arg );
      
       // Load examples from the training set for training the log-linear model.  
       vector< pair< string, LLM_X > > examples;
@@ -803,19 +806,27 @@ main( int argc,
         truth_training_phrases[ j ] = new Phrase();
         truth_training_phrases[ j ]->from_xml( training_set[ j ] );
 
-        // Check if the phrase has symbols from the symbol dictionary.
+        /************ Search Space fill rules and scrape examples ************************/
+        if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){
+          cout << "contains symbols in rules symbol dictionary" << endl;
+          training_search_spaces_rules[ i ] = new Search_Space();
+          training_search_spaces_rules[ i ]->fill_rules( *symbol_dictionary_rules, training_worlds[ j ] );
+          training_search_spaces_rules[ i ]->scrape_examples( training_filenames[ j ], static_cast< Phrase* >( truth_training_phrases[ j ] ), training_worlds[ j ], examples );
+        } else {
+          cout << "does not contains any rules symbols in symbol dictionary" << endl;
+        }
+
+        /************ Search Space fill groundings and scrape examples. Note: examples is common. ***/
+        // Check if the phrase has symbols from the symbol dictionary groundings.
         if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
           cout << "contains symbols in symbol dictionary" << endl;
+          training_search_spaces_groundings[ j ] = new Search_Space();
+          training_search_spaces_groundings[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
+          training_search_spaces_groundings[ j ]->scrape_examples( training_filenames[ j ], static_cast< Phrase* >( truth_training_phrases[ j ] ), training_worlds[ j ], examples );
         } else {
           cout << "does not contains any symbols in symbol dictionary" << endl;
         }
 
-        // Search Space: Fill groundings and scrape examples.
-        training_search_spaces[ j ] = new Search_Space();
-        training_search_spaces[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
-        training_search_spaces[ j ]->scrape_examples( training_filenames[ j ], 
-                                       	              static_cast< Phrase* >( truth_training_phrases[ j ] ), 
-                                                      training_worlds[ j ], examples );
       }
       cout << "training with " << examples.size() << " examples" << endl;
 
@@ -906,13 +917,13 @@ main( int argc,
         symbol_dictionary_groundings = NULL;
       }
 
-      for( unsigned int i = 0; i < training_search_spaces.size(); i++ ){
-        if( training_search_spaces[ i ] != NULL ){
-          delete training_search_spaces[ i ];
-          training_search_spaces[ i ] = NULL;
+      for( unsigned int i = 0; i < training_search_spaces_groundings.size(); i++ ){
+        if( training_search_spaces_groundings[ i ] != NULL ){
+          delete training_search_spaces_groundings[ i ];
+          training_search_spaces_groundings[ i ] = NULL;
         }
       }
-      training_search_spaces.clear();
+      training_search_spaces_groundings.clear();
 
       for( unsigned int i = 0; i < llms.size(); i++ ){
         if( llms[ i ] != NULL ){
