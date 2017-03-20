@@ -156,7 +156,7 @@
             </NP>
             <PP>
               <grounding_set>
-                <region_container region_container_type="front">
+                <region_container spatial_relation_type="front">
                   <container container_type="group">
                     <object name="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.953973,0.867182,1.22719" orientation="-0.22516,0.675933,0.222164,0.665628" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                     <object name="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.67375,-1.09724,1.22895" orientation="0.318046,0.636681,-0.314288,0.628256" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -168,7 +168,7 @@
               <IN text="in" order="11"/>
               <NP>
                 <grounding_set>
-                  <region_container region_container_type="front">
+                  <region_container spatial_relation_type="front">
                     <container container_type="group">
                       <object name="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.953973,0.867182,1.22719" orientation="-0.22516,0.675933,0.222164,0.665628" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                       <object name="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.67375,-1.09724,1.22895" orientation="0.318046,0.636681,-0.314288,0.628256" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
