@@ -1,0 +1,17 @@
+To generate a set of data partitions (test && training sets for cross-validation), use the following command:
+
+  ./bin/h2sl-test-generator [path to example files]
+
+    example for the asc corpus:
+    ./bin/h2sl-test-generator ../data/training/asc_corpus/example_00*.xml
+
+    example for the navigation 'groups' corpus:
+    ./bin/h2sl-test-generator ../data/training/navigation_corpus/groups/example_00*.xml
+
+  test_generator has optional command line arguments for changing the:
+    -number of 'tests' to generate for a given holdout fraction (default: 10)
+    -the resolution of holdout fractions between the minimum and maximum fractions (default: 13)
+    -the minimum fraction holdout (default: 0.2)
+    -the maximium fraction houldout (default: 0.8)
+    -the output directory in which to place the data partitions (default: /tmp/)
+
