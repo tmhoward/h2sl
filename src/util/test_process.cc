@@ -170,9 +170,9 @@ evaluate_model( LLM* llm,
 /**
  * Run the grounding model comparison tests.
  * Give the list of filenames.
- * Provide the trained LLM.
+ * Provide the trained LLM.a
+ * Pass the symbol_dictionary_path and 
  **/
-
 void
 run_tests( const std::vector< std::string >& filenames,
             LLM*& llm,
@@ -185,22 +185,37 @@ run_tests( const std::vector< std::string >& filenames,
             const unsigned int beam_width,
             const bool debug ){
 
-  /******* Statistics **************************/
-  unsigned int num_correct_root_dcg = 0;
-  unsigned int num_incorrect_root_dcg = 0;
-  unsigned int num_correct_root_adcg = 0;
-  unsigned int num_incorrect_root_adcg = 0;
-  unsigned int num_correct_complete_dcg = 0;
-  unsigned int num_incorrect_complete_dcg = 0;
-  unsigned int num_correct_complete_adcg = 0;
-  unsigned int num_incorrect_complete_adcg = 0;
-
+  /******* Variables to record statistics **************************/
+  // Num objects. Phrases.
   double num_objects = 0.0;
   double num_phrases = 0.0;
 
+  // DCG
+  unsigned int num_correct_root_dcg = 0;
+  unsigned int num_incorrect_root_dcg = 0;
+  unsigned int num_correct_complete_dcg = 0;
+  unsigned int num_incorrect_complete_dcg = 0;
+  // ADCG
+  unsigned int num_correct_root_adcg = 0;
+  unsigned int num_incorrect_root_adcg = 0;
+  unsigned int num_correct_complete_adcg = 0;
+  unsigned int num_incorrect_complete_adcg = 0;
+  // HDCG
+  unsigned int num_correct_root_hdcg = 0;
+  unsigned int num_incorrect_root_hdcg = 0;
+  unsigned int num_correct_complete_hdcg = 0;
+  unsigned int num_incorrect_complete_hdcg = 0;
+  // HADCG
+  unsigned int num_correct_root_hadcg = 0;
+  unsigned int num_incorrect_root_hadcg = 0;
+  unsigned int num_correct_complete_hadcg = 0;
+  unsigned int num_incorrect_complete_hadcg = 0;
+  // Runtime
   double runtime_dcg = 0.0;
   double runtime_adcg = 0.0;
-
+  double runtime_hdcg = 0.0;
+  double runtime_hadcg = 0.0;
+  // Averages.
   double average_runtime_ratio = 0.0;
 
   /******* Iterate over the test group **************************/
@@ -225,11 +240,11 @@ run_tests( const std::vector< std::string >& filenames,
     World * world = new World();
     world->from_xml( filenames[ j ] );
 
-    // Symbol Dictionary and Search Space
+    // Symbol Dictionary 
     Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
+ 
+    // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
-
-    // Fill search space
     struct timeval start_time;
     gettimeofday( &start_time, NULL );
     search_space->fill_groundings( *symbol_dictionary, world );
@@ -237,9 +252,10 @@ run_tests( const std::vector< std::string >& filenames,
     gettimeofday( &end_time, NULL );
     cout << "finished fill_seach_space in " << diff_time( start_time, end_time ) << " seconds" << endl;
 
-    // Context
+    // Grounding context
     Grounding * context = NULL;
 
+    /******************* Running DCG ********************************/
     //DCG: leaf search
     DCG * dcg = new DCG();
     cout << "  running dcg" << endl;
@@ -282,17 +298,18 @@ run_tests( const std::vector< std::string >& filenames,
       num_incorrect_complete_dcg++;
     }
 
+    // Add the dcg_example_node to the example_node in the xml file.
     xmlAddChild( example_node, dcg_example_node );
+    // clear the input_phrase for groundings to run the test for the next model.
     clear( input_phrase );
 
-    /******** ADCG **********/
+    /**************************************** ADCG ******************************************************************/
     ADCG * adcg = new ADCG();
 
     cout << "  running adcg" << endl;
     uint64_t adcg_start_time = current_time();
     adcg->leaf_search( input_phrase, *symbol_dictionary, search_space, world, context, llm, beam_width, debug );
     uint64_t adcg_end_time = current_time();
-
     runtime_adcg += microseconds_to_seconds( adcg_end_time - adcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( adcg->solutions().front().second ) != NULL );
@@ -329,9 +346,101 @@ run_tests( const std::vector< std::string >& filenames,
     }
 
     xmlAddChild( example_node, adcg_example_node );
+    clear( input_phrase );
 
+    /**************************************** HDCG ******************************************************************/
+    HDCG * hdcg = new HDCG();
 
-    /******* Comparative stats *********************/
+    cout << "  running hdcg" << endl;
+    uint64_t hdcg_start_time = current_time();
+    hdcg->leaf_search( input_phrase, *symbol_dictionary, search_space, world, context, llm, beam_width, debug );
+    uint64_t hdcg_end_time = current_time();
+    runtime_hdcg += microseconds_to_seconds( hdcg_end_time - hdcg_start_time );
+
+    assert( dynamic_cast< const Phrase* >( hdcg->solutions().front().second ) != NULL );
+
+    stringstream hdcg_solution_filename;
+    hdcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hdcg_solution_" << filename;
+    hdcg->solutions().front().second->to_xml( hdcg_solution_filename.str() );
+
+    xmlNodePtr hdcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "hdcg" ), NULL );
+    stringstream hdcg_example_runtime_string;
+    hdcg_example_runtime_string << microseconds_to_seconds( hdcg_end_time - hdcg_start_time );
+    xmlNewProp( hdcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( hdcg_example_runtime_string.str().c_str() ) );
+
+    cout << "    runtime:" << hdcg_example_runtime_string.str() << endl;
+
+    if( root_compare_phrases( *truth_phrase, *static_cast< Phrase* >( hdcg->solutions().front().second ) ) ){
+      cout << "    correct (root)" << endl;
+      xmlNewProp( hdcg_example_node, ( const xmlChar* )( "root_correct" ), ( const xmlChar* )( "true" ) );
+      num_correct_root_hdcg++;
+    } else {
+      cout << "    incorrect (root)" << endl;
+      xmlNewProp( hdcg_example_node, ( const xmlChar* )( "root_correct" ), ( const xmlChar* )( "false" ) );
+      num_incorrect_root_hdcg++;
+    }
+
+    if( complete_compare_phrases( *truth_phrase, *static_cast< Phrase* >( hdcg->solutions().front().second ) ) ){
+      cout << "    correct (complete)" << endl;
+      xmlNewProp( hdcg_example_node, ( const xmlChar* )( "complete_correct" ), ( const xmlChar* )( "true" ) );
+      num_correct_complete_hdcg++;
+    } else {
+      cout << "    incorrect (complete)" << endl;
+      xmlNewProp( hdcg_example_node, ( const xmlChar* )( "complete_correct" ), ( const xmlChar* )( "false" ) );
+      num_incorrect_complete_hdcg++;
+    }
+
+    xmlAddChild( example_node, hdcg_example_node );
+    clear( input_phrase );
+
+    /**************************************** HADCG ******************************************************************/
+    HADCG * hadcg = new HADCG();
+
+    cout << "  running hadcg" << endl;
+    uint64_t hadcg_start_time = current_time();
+
+    hadcg->leaf_search( input_phrase, *symbol_dictionary, search_space, world, context, llm, beam_width, debug );
+   
+    uint64_t hadcg_end_time = current_time();
+    runtime_hadcg += microseconds_to_seconds( hadcg_end_time - hadcg_start_time );
+
+    assert( dynamic_cast< const Phrase* >( hadcg->solutions().front().second ) != NULL );
+
+    stringstream hadcg_solution_filename;
+    hadcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hadcg_solution_" << filename;
+    hadcg->solutions().front().second->to_xml( hadcg_solution_filename.str() );
+
+    xmlNodePtr hadcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "hadcg" ), NULL );
+    stringstream hadcg_example_runtime_string;
+    hadcg_example_runtime_string << microseconds_to_seconds( hadcg_end_time - hadcg_start_time );
+    xmlNewProp( hadcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( hadcg_example_runtime_string.str().c_str() ) );
+    
+    cout << "    runtime:" << hadcg_example_runtime_string.str() << endl;
+
+    if( root_compare_phrases( *truth_phrase, *static_cast< Phrase* >( hadcg->solutions().front().second ) ) ){
+      cout << "    correct (root)" << endl;
+      xmlNewProp( hadcg_example_node, ( const xmlChar* )( "root_correct" ), ( const xmlChar* )( "true" ) );
+      num_correct_root_hadcg++;
+    } else {
+      cout << "    incorrect (root)" << endl;
+      xmlNewProp( hadcg_example_node, ( const xmlChar* )( "root_correct" ), ( const xmlChar* )( "false" ) );
+      num_incorrect_root_hadcg++;
+    }
+
+    if( complete_compare_phrases( *truth_phrase, *static_cast< Phrase* >( hadcg->solutions().front().second ) ) ){
+      cout << "    correct (complete)" << endl;
+      xmlNewProp( hadcg_example_node, ( const xmlChar* )( "complete_correct" ), ( const xmlChar* )( "true" ) );
+      num_correct_complete_hadcg++;
+    } else {
+      cout << "    incorrect (complete)" << endl;
+      xmlNewProp( hadcg_example_node, ( const xmlChar* )( "complete_correct" ), ( const xmlChar* )( "false" ) );
+      num_incorrect_complete_hadcg++;
+    }
+
+    xmlAddChild( example_node, hadcg_example_node );
+    clear( input_phrase );
+   
+    /***************************************** Comparative stats ******************************************************/
     double runtime_ratio = microseconds_to_seconds( dcg_end_time - dcg_start_time ) / microseconds_to_seconds( adcg_end_time - adcg_start_time );
     average_runtime_ratio += runtime_ratio;
 
@@ -381,20 +490,34 @@ run_tests( const std::vector< std::string >& filenames,
     xmlAddChild( test_group_node, example_node );
   }
 
-/****************************** Write the statistics to XML *************************/
+/****************************** Write the statistics to XML: DCG and ADCG*************************/
 
+  // Average runtime.
   runtime_dcg /= ( double )( filenames.size() );
   runtime_adcg /= ( double )( filenames.size() );
+  runtime_hdcg /= ( double )( filenames.size() );
+  runtime_hadcg /= ( double )( filenames.size() );
+
+  // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
+ 
+  // Average number of phrases and objects 
   num_phrases /= ( double )( filenames.size() );
   num_objects /= ( double )( filenames.size() );
 
+  // Correct root for all models.
   double correct_root_dcg = ( double )( num_correct_root_dcg ) / ( double )( num_correct_root_dcg + num_incorrect_root_dcg );
   double correct_root_adcg = ( double )( num_correct_root_adcg ) / ( double )( num_correct_root_adcg + num_incorrect_root_adcg );
+  double correct_root_hdcg = ( double )( num_correct_root_hdcg ) / ( double )( num_correct_root_hdcg + num_incorrect_root_hdcg );
+  double correct_root_hadcg = ( double )( num_correct_root_hadcg ) / ( double )( num_correct_root_hadcg + num_incorrect_root_hadcg );
 
+  // Correct complete for all models.
   double correct_complete_dcg = ( double )( num_correct_complete_dcg ) / ( double )( num_correct_complete_dcg + num_incorrect_complete_dcg );
   double correct_complete_adcg = ( double )( num_correct_complete_adcg ) / ( double )( num_correct_complete_adcg + num_incorrect_complete_adcg );
+  double correct_complete_hdcg = ( double )( num_correct_complete_hdcg ) / ( double )( num_correct_complete_hdcg + num_incorrect_complete_hdcg );
+  double correct_complete_hadcg = ( double )( num_correct_complete_hadcg ) / ( double )( num_correct_complete_hadcg + num_incorrect_complete_hadcg );
 
+  /******  XML: correct root **************************/ 
   stringstream correct_root_dcg_string;
   correct_root_dcg_string << correct_root_dcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_dcg" ), ( const xmlChar* )( correct_root_dcg_string.str().c_str() ) );
@@ -405,11 +528,29 @@ run_tests( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_adcg" ), ( const xmlChar* )( correct_root_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_adcg" ).c_str() ), ( const xmlChar* )( correct_root_adcg_string.str().c_str() ) );
 
-  stringstream correct_root_ratio_string;
-  correct_root_ratio_string << correct_root_dcg / correct_root_adcg;
-  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_ratio" ), ( const xmlChar* )( correct_root_ratio_string.str().c_str() ) );
-  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_ratio" ).c_str() ), ( const xmlChar* )( correct_root_ratio_string.str().c_str() ) );
+  stringstream correct_root_hdcg_string;
+  correct_root_hdcg_string << correct_root_hdcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_hdcg" ), ( const xmlChar* )( correct_root_hdcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_hdcg" ).c_str() ), ( const xmlChar* )( correct_root_hdcg_string.str().c_str() ) );
 
+  stringstream correct_root_hadcg_string;
+  correct_root_hadcg_string << correct_root_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_hadcg" ), ( const xmlChar* )( correct_root_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_hadcg" ).c_str() ), ( const xmlChar* )( correct_root_hadcg_string.str().c_str() ) );
+
+  /******  XML: correct root ratio for dcg and adcg **************************/ 
+  stringstream correct_root_ratio_dcg_adcg_string;
+  correct_root_ratio_dcg_adcg_string << correct_root_dcg / correct_root_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_ratio_dcg_adcg" ), ( const xmlChar* )( correct_root_ratio_dcg_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_ratio_dcg_adcg" ).c_str() ), ( const xmlChar* )( correct_root_ratio_dcg_adcg_string.str().c_str() ) );
+
+  /******  XML: correct root ratio for hdcg and hadcg **************************/ 
+  stringstream correct_root_ratio_hdcg_hadcg_string;
+  correct_root_ratio_hdcg_hadcg_string << correct_root_hdcg / correct_root_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_root_ratio_hdcg_hadcg" ), ( const xmlChar* )( correct_root_ratio_hdcg_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_root_ratio_hdcg_hadcg" ).c_str() ), ( const xmlChar* )( correct_root_ratio_hdcg_hadcg_string.str().c_str() ) );
+
+  /******  XML: correct complete  **************************/ 
   stringstream correct_complete_dcg_string;
   correct_complete_dcg_string << correct_complete_dcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_dcg" ), ( const xmlChar* )( correct_complete_dcg_string.str().c_str() ) );
@@ -420,11 +561,29 @@ run_tests( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_adcg" ), ( const xmlChar* )( correct_complete_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_adcg" ).c_str() ), ( const xmlChar* )( correct_complete_adcg_string.str().c_str() ) );
 
-  stringstream correct_complete_ratio_string;
-  correct_complete_ratio_string << correct_complete_dcg / correct_complete_adcg;
-  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_ratio" ), ( const xmlChar* )( correct_complete_ratio_string.str().c_str() ) );
-  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_ratio" ).c_str() ), ( const xmlChar* )( correct_complete_ratio_string.str().c_str() ) );
+  stringstream correct_complete_hdcg_string;
+  correct_complete_hdcg_string << correct_complete_hdcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_hdcg" ), ( const xmlChar* )( correct_complete_hdcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_hdcg" ).c_str() ), ( const xmlChar* )( correct_complete_hdcg_string.str().c_str() ) );
 
+  stringstream correct_complete_hadcg_string;
+  correct_complete_hadcg_string << correct_complete_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_hadcg" ), ( const xmlChar* )( correct_complete_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_hadcg" ).c_str() ), ( const xmlChar* )( correct_complete_hadcg_string.str().c_str() ) );
+
+  /******  XML: correct complete ratio for dcg and adcg **************************/ 
+  stringstream correct_complete_ratio_dcg_adcg_string;
+  correct_complete_ratio_dcg_adcg_string << correct_complete_dcg / correct_complete_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_ratio_dcg_adcg" ), ( const xmlChar* )( correct_complete_ratio_dcg_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_ratio_dcg_adcg" ).c_str() ), ( const xmlChar* )( correct_complete_ratio_dcg_adcg_string.str().c_str() ) );
+
+  /******  XML: correct complete ratio for hdcg and hadcg **************************/ 
+  stringstream correct_complete_ratio_hdcg_hadcg_string;
+  correct_complete_ratio_hdcg_hadcg_string << correct_complete_hdcg / correct_complete_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_ratio_hdcg_hadcg" ), ( const xmlChar* )( correct_complete_ratio_hdcg_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_ratio_hdcg_hadcg" ).c_str() ), ( const xmlChar* )( correct_complete_ratio_hdcg_hadcg_string.str().c_str() ) );
+
+  /******  XML: runtime  **************************/ 
   stringstream runtime_dcg_string;
   runtime_dcg_string << runtime_dcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_dcg" ), ( const xmlChar* )( runtime_dcg_string.str().c_str() ) );
@@ -435,21 +594,35 @@ run_tests( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_adcg" ), ( const xmlChar* )( runtime_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_adcg" ).c_str() ), ( const xmlChar* )( runtime_adcg_string.str().c_str() ) );
 
+  stringstream runtime_hdcg_string;
+  runtime_hdcg_string << runtime_hdcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hdcg" ), ( const xmlChar* )( runtime_hdcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hdcg" ).c_str() ), ( const xmlChar* )( runtime_hdcg_string.str().c_str() ) );
+
+  stringstream runtime_hadcg_string;
+  runtime_adcg_string << runtime_hadcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hadcg" ), ( const xmlChar* )( runtime_hadcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hadcg" ).c_str() ), ( const xmlChar* )( runtime_hadcg_string.str().c_str() ) );
+
+  /******  XML: runtime  **************************/ 
   stringstream runtime_ratio_string;
   runtime_ratio_string << average_runtime_ratio;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_ratio" ), ( const xmlChar* )( runtime_ratio_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_ratio" ).c_str() ), ( const xmlChar* )( runtime_ratio_string.str().c_str() ) );
 
+  /******  XML: num phrases  **************************/ 
   stringstream num_phrases_string;
   num_phrases_string << num_phrases;
   xmlNewProp( test_group_node, ( const xmlChar* )( "avg_num_phrases" ), ( const xmlChar* )( num_phrases_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_num_phrases" ).c_str() ), ( const xmlChar* )( num_phrases_string.str().c_str() ) );
 
+  /******  XML: num objects  **************************/ 
   stringstream num_objects_string;
   num_objects_string << num_objects;
   xmlNewProp( test_group_node, ( const xmlChar* )( "avg_num_objects" ), ( const xmlChar* )( num_objects_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_num_objects" ).c_str() ), ( const xmlChar* )( num_objects_string.str().c_str() ) );
 
+  /******  XML: num objects  **************************/ 
   stringstream runtime_object_ratio_dcg_string;
   runtime_object_ratio_dcg_string << ( runtime_dcg / num_objects );
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_dcg" ), ( const xmlChar* )( runtime_object_ratio_dcg_string.str().c_str() ) );
@@ -458,15 +631,37 @@ run_tests( const std::vector< std::string >& filenames,
   runtime_object_ratio_adcg_string << ( runtime_adcg / num_objects );
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_adcg" ), ( const xmlChar* )( runtime_object_ratio_adcg_string.str().c_str() ) );
 
- cout << endl;
+  stringstream runtime_object_ratio_hdcg_string;
+  runtime_object_ratio_hdcg_string << ( runtime_hdcg / num_objects );
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_hdcg" ), ( const xmlChar* )( runtime_object_ratio_hdcg_string.str().c_str() ) );
+
+  stringstream runtime_object_ratio_hadcg_string;
+  runtime_object_ratio_hadcg_string << ( runtime_hadcg / num_objects );
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_hadcg" ), ( const xmlChar* )( runtime_object_ratio_hadcg_string.str().c_str() ) );
+
+  /******  console output **************************/ 
+  cout << endl;
   cout << "correct_root_dcg: " << correct_root_dcg << endl;
   cout << "correct_root_adcg: " << correct_root_adcg << endl;
-  cout << "correct_root_ratio_dcg: " << correct_root_ratio_string.str() << endl;
+  cout << "correct_root_hdcg: " << correct_root_hdcg << endl;
+  cout << "correct_root_hadcg: " << correct_root_hadcg << endl;
+
+  cout << "correct_root_ratio_dcg_adcg: " << correct_root_ratio_dcg_adcg_string.str() << endl;
+  cout << "correct_root_ratio_hdcg_hadcg: " << correct_root_ratio_hdcg_hadcg_string.str() << endl;
+
   cout << "correct_complete_dcg: " << correct_complete_dcg << endl;
   cout << "correct_complete_adcg: " << correct_complete_adcg << endl;
-  cout << "correct_complete_ratio_dcg: " << correct_complete_ratio_string.str() << endl;
+  cout << "correct_complete_hdcg: " << correct_complete_hdcg << endl;
+  cout << "correct_complete_hadcg: " << correct_complete_hadcg << endl;
+
+  cout << "correct_complete_ratio_dcg_adcg: " << correct_complete_ratio_dcg_adcg_string.str() << endl;
+  cout << "correct_complete_ratio_hdcg_hadcg: " << correct_complete_ratio_hdcg_hadcg_string.str() << endl;
+
   cout << "runtime_dcg: " << runtime_dcg << endl;
   cout << "runtime_adcg: " << runtime_adcg << endl;
+  cout << "runtime_hdcg: " << runtime_hdcg << endl;
+  cout << "runtime_hadcg: " << runtime_hadcg << endl;
+
   cout << "runtime_ratio: " << average_runtime_ratio << endl << endl;
 
   xmlAddChild( parentNode, test_group_node );
@@ -490,7 +685,7 @@ main( int argc,
     exit( 1 );
   }
 
-// Determine the solution directory where solutions  will be created.
+  // Determine the solution directory where solutions  will be created.
   stringstream solution_directory;
   if( !args.solution_directory_given ){
     solution_directory << "/tmp/";
@@ -523,6 +718,7 @@ main( int argc,
     vector< string > training_set;
     vector< string > test_set;
 
+    // XML pointers
     xmlDoc * input_doc = NULL;
     xmlNodePtr input_root = NULL;
     input_doc = xmlReadFile( args.inputs[ i ], NULL, 0 );
@@ -585,12 +781,15 @@ main( int argc,
       cout << "}" << endl;
    
       /********************** Train the Log-linear model *****************/ 
-      vector< Search_Space* > training_search_spaces( training_set.size(), NULL );
+      vector< Search_Space* > training_search_spaces_groundings( training_set.size(), NULL );
+      vector< Search_Space* > training_search_spaces_rules( training_set.size(), NULL );
+
       vector< Phrase* > truth_training_phrases( training_set.size(), NULL );
       vector< World* > training_worlds( training_set.size(), NULL );
       vector< string > training_filenames( training_set.size() );
 
       Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
+      Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary( args.symbol_dictionary_rules_arg );
      
       // Load examples from the training set for training the log-linear model.  
       vector< pair< string, LLM_X > > examples;
@@ -607,19 +806,27 @@ main( int argc,
         truth_training_phrases[ j ] = new Phrase();
         truth_training_phrases[ j ]->from_xml( training_set[ j ] );
 
-        // Check if the phrase has symbols from the symbol dictionary.
+        /************ Search Space fill rules and scrape examples ************************/
+        if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){
+          cout << "contains symbols in rules symbol dictionary" << endl;
+          training_search_spaces_rules[ i ] = new Search_Space();
+          training_search_spaces_rules[ i ]->fill_rules( *symbol_dictionary_rules, training_worlds[ j ] );
+          training_search_spaces_rules[ i ]->scrape_examples( training_filenames[ j ], static_cast< Phrase* >( truth_training_phrases[ j ] ), training_worlds[ j ], examples );
+        } else {
+          cout << "does not contains any rules symbols in symbol dictionary" << endl;
+        }
+
+        /************ Search Space fill groundings and scrape examples. Note: examples is common. ***/
+        // Check if the phrase has symbols from the symbol dictionary groundings.
         if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
           cout << "contains symbols in symbol dictionary" << endl;
+          training_search_spaces_groundings[ j ] = new Search_Space();
+          training_search_spaces_groundings[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
+          training_search_spaces_groundings[ j ]->scrape_examples( training_filenames[ j ], static_cast< Phrase* >( truth_training_phrases[ j ] ), training_worlds[ j ], examples );
         } else {
           cout << "does not contains any symbols in symbol dictionary" << endl;
         }
 
-        // Search Space: Fill groundings and scrape examples.
-        training_search_spaces[ j ] = new Search_Space();
-        training_search_spaces[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
-        training_search_spaces[ j ]->scrape_examples( training_filenames[ j ], 
-                                       	              static_cast< Phrase* >( truth_training_phrases[ j ] ), 
-                                                      training_worlds[ j ], examples );
       }
       cout << "training with " << examples.size() << " examples" << endl;
 
@@ -710,13 +917,13 @@ main( int argc,
         symbol_dictionary_groundings = NULL;
       }
 
-      for( unsigned int i = 0; i < training_search_spaces.size(); i++ ){
-        if( training_search_spaces[ i ] != NULL ){
-          delete training_search_spaces[ i ];
-          training_search_spaces[ i ] = NULL;
+      for( unsigned int i = 0; i < training_search_spaces_groundings.size(); i++ ){
+        if( training_search_spaces_groundings[ i ] != NULL ){
+          delete training_search_spaces_groundings[ i ];
+          training_search_spaces_groundings[ i ] = NULL;
         }
       }
-      training_search_spaces.clear();
+      training_search_spaces_groundings.clear();
 
       for( unsigned int i = 0; i < llms.size(); i++ ){
         if( llms[ i ] != NULL ){
