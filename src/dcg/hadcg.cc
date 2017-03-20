@@ -43,8 +43,8 @@ using namespace std;
 using namespace h2sl;
 
 bool
-solution_sort( const pair< double, Phrase* >& a,
-                const pair< double, Phrase* >& b ){
+solution_sort_hadcg( const pair< double, Phrase* >& a,
+                     const pair< double, Phrase* >& b ){
   return a.first > b.first;
 }
 
@@ -140,7 +140,7 @@ leaf_search( const Phrase* phrase,
     }
 
     // Sort the solution vector.
-    sort( _solutions.begin(), _solutions.end(), solution_sort );
+    sort( _solutions.begin(), _solutions.end(), solution_sort_hadcg );
 
     return true;
   } else {

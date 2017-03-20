@@ -1,0 +1,11 @@
+package "test_generator"
+version "1.0"
+purpose "A program used to generate the test & training set from examples given the number of test 'n' and a fraction resolution 'fr'"
+
+option "num" n "number of tests" int default="10" optional
+option "fr" - "fraction resolution" int default="13" optional
+option "min_fr" - "minimum fraction value" double default="0.2" optional
+option "max_fr" - "maximum fraction value" double default="0.8" optional
+option "output" o "output directory" string default="/tmp/" optional
+
+text ""

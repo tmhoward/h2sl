@@ -43,6 +43,7 @@
 #include <boost/algorithm/string.hpp>
 #include <sys/time.h>
 #include <libxml/tree.h>
+#include <glib.h>
 
 
 namespace h2sl {
