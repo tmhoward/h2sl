@@ -725,6 +725,7 @@ main( int argc,
 
     /** Separate out the training and test set files. Each contain world and the instruction **/
     if( input_doc != NULL ){
+      input_root = xmlDocGetRootElement( input_doc );
       if( input_root->type == XML_ELEMENT_NODE ){
         for( xmlNodePtr l1 = input_root->children; l1; l1 = l1->next ){
           if( l1->type == XML_ELEMENT_NODE ){
