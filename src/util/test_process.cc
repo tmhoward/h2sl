@@ -810,9 +810,9 @@ main( int argc,
         /************ Search Space fill rules and scrape examples ************************/
         if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){
           cout << "contains symbols in rules symbol dictionary" << endl;
-          training_search_spaces_rules[ i ] = new Search_Space();
-          training_search_spaces_rules[ i ]->fill_rules( *symbol_dictionary_rules, training_worlds[ j ] );
-          training_search_spaces_rules[ i ]->scrape_examples( training_filenames[ j ], static_cast< Phrase* >( truth_training_phrases[ j ] ), training_worlds[ j ], examples );
+          training_search_spaces_rules[ j ] = new Search_Space();
+          training_search_spaces_rules[ j ]->fill_rules( *symbol_dictionary_rules, training_worlds[ j ] );
+          training_search_spaces_rules[ j ]->scrape_examples( training_filenames[ j ], static_cast< Phrase* >( truth_training_phrases[ j ] ), training_worlds[ j ], examples );
         } else {
           cout << "does not contains any rules symbols in symbol dictionary" << endl;
         }
