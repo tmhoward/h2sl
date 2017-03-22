@@ -47,6 +47,7 @@ using namespace h2sl;
 bool
 compare_phrases( const Phrase* first, 
                   const Phrase* second ){
+  cout << "in compare_phrases" << endl;
   if( ( first != NULL ) && ( second != NULL ) ){
     const Grounding_Set * first_grounding_set = dynamic_cast< const Grounding_Set* >( first->grounding_set() );
     const Grounding_Set * second_grounding_set = dynamic_cast< const Grounding_Set* >( second->grounding_set() );
@@ -65,21 +66,43 @@ compare_phrases( const Phrase* first,
               }
             }
             if( !found_match ){
+              cout << "no match found, leaving compare_phrases" << endl;
               return false;
             }
           }
         }
       } else {
+        cout << "grounding_sets were different sizes, leaving compare_phrases" << endl;
         return false;
       }
     } else {
+      cout << "a grounding_set was NULL, leaving compare_phrases" << endl;
       return false;
     } 
   } else {
+    cout << "a phrase was NULL, leaving compare_phrases" << endl;
     return false;
   }
+  cout << "found a match, leaving compare_phrases" << endl;
   return true;
 }
+
+/**
+ * Clear the phrase. 
+ */
+void
+clear( Phrase* phrase ){
+  if( phrase != NULL ){
+    if( phrase->grounding_set() != NULL ){
+      delete_ptr< Grounding_Set >( phrase->grounding_set() );
+    }
+    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+      clear( phrase->children()[ i ] );
+    }
+  }
+  return;
+}
+
 
 int
 main( int argc,
@@ -94,7 +117,9 @@ main( int argc,
 
   Parser< Phrase > * parser = new Parser_CYK< Phrase >();
   Grammar * grammar = new Grammar();
-  grammar->from_xml( args.grammar_arg );
+  if( args.grammar_given ){
+    grammar->from_xml( args.grammar_arg );
+  }
 
   Feature_Set * feature_set = new Feature_Set();
   LLM * llm = new LLM( feature_set );
@@ -129,39 +154,67 @@ main( int argc,
     cout << "search_space:" << *search_space << endl;
 
     vector< Phrase* > phrases;
-    if( parser->parse( *grammar, instruction, phrases ) ){
-      if( !phrases.empty() ){
-        cout << "found " << phrases.size() << " phrases" << endl;
-        cout << "  truth:" << *truth << endl;
-        bool found_match = false;
-        unsigned int match_index = 0;
-        for( unsigned int i = 0; i < phrases.size(); i++ ){
-          if( phrases[ i ] != NULL ){
-            dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
-            if( !dcg->solutions().empty() ){
-              cout << "  parse[" << i << "]:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl; 
-              if( compare_phrases( truth, dcg->solutions().front().second ) ){
-                found_match = true;
-                match_index = i;
+    
+    //conditional flow to allow use of parser or not
+    if( !args.grammar_given ){    
+      cout << "grammar not provided, scraping example..." << endl;
+      phrases.push_back( new Phrase() );
+      phrases.back() = truth->dup();
+      clear( phrases.back() );
+      dcg->leaf_search( phrases.back(), *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+      if( !dcg->solutions().empty() ){
+        cout << "solution: " << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl;
+        if( compare_phrases( truth, dcg->solutions().front().second ) ){
+          cout << "solution matches" << endl;
+          num_correct++;
+        } else{
+          cout << "solution does not match" << endl;
+          num_incorrect++;
+        }
+      }
+    } else{
+      cout << "grammar provided, parsing..." << endl;
+      if( parser->parse( *grammar, instruction, phrases ) ){
+        if( !phrases.empty() ){
+          cout << "found " << phrases.size() << " phrases" << endl;
+          cout << "  truth:" << *truth << endl;
+          bool found_match = false;
+          unsigned int match_index = 0;
+          for( unsigned int i = 0; i < phrases.size(); i++ ){
+            if( phrases[ i ] != NULL ){
+              dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+              if( !dcg->solutions().empty() ){
+                cout << "  parse[" << i << "]:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl;
+                if( compare_phrases( truth, dcg->solutions().front().second ) ){
+                  found_match = true;
+                  match_index = i;
+                }
               }
             }
           }
+          if( found_match ){
+            cout << "  phrase[" << match_index << "] matches" << endl;
+            num_correct++;
+          } else {
+            cout << "  did not find match" << endl;
+            num_incorrect++;
+            exit(0);
+          }
         }
-        if( found_match ){
-          cout << "  phrase[" << match_index << "] matches" << endl;
-          num_correct++;
-        } else {
-          cout << "  did not find match" << endl;
-          num_incorrect++;
-          exit(0);
-        }
+      } else {
+        cout << "  could not parse \"" << instruction << "\"" << endl;
+        num_incorrect++;
+        exit(0);
       }
-    } else {
-      cout << "  could not parse \"" << instruction << "\"" << endl;
-      num_incorrect++;
-      exit(0);
-    } 
+    }
 
+    stringstream output_filename;
+    output_filename << "/tmp/input_" << setw( 4 ) << setfill( '0' ) << i << "_dcg_solution.xml";
+    dcg->solutions().front().second->to_xml( output_filename.str() );
+
+    //memory cleanup
+    cout << "beginning memory cleanup" << endl;
+    cout << "deleting phrases[]" << endl;
     for( unsigned int i = 0; i < phrases.size(); i++ ){
       if( phrases[ i ] != NULL ){
         delete phrases[ i ];
@@ -169,15 +222,18 @@ main( int argc,
       }
     }
 
+    cout << "deleting truth" << endl;
     if( truth != NULL ){
       delete truth;
       truth = NULL;
     }
 
+    cout << "deleting world" << endl;
     if( world != NULL ){
       delete world;
       world = NULL;
     } 
+    cout << "end of loop" << endl;
   }
 
   cout << "correctly inferred " << num_correct << " of " << num_correct + num_incorrect << " examples (" << ( double )( num_correct ) / ( double )( num_correct + num_incorrect ) * 100.0 << "%)" << endl;
