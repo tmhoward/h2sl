@@ -44,48 +44,29 @@
 using namespace std;
 using namespace h2sl;
 
+
+/**
+ * Complete: Compare Phrases 
+ */
 bool
-compare_phrases( const Phrase* first, 
-                  const Phrase* second ){
-  cout << "in compare_phrases" << endl;
-  if( ( first != NULL ) && ( second != NULL ) ){
-    const Grounding_Set * first_grounding_set = dynamic_cast< const Grounding_Set* >( first->grounding_set() );
-    const Grounding_Set * second_grounding_set = dynamic_cast< const Grounding_Set* >( second->grounding_set() );
-    if( ( first_grounding_set != NULL ) && ( second_grounding_set != NULL ) ){
-      if( first_grounding_set->groundings().size() == second_grounding_set->groundings().size() ){
-        for( unsigned int i = 0; i < first_grounding_set->groundings().size(); i++ ){
-          if( dynamic_cast< const Constraint* >( first_grounding_set->groundings()[ i ] ) != NULL ){
-            const Constraint* first_grounding_constraint = static_cast< const Constraint* >( first_grounding_set->groundings()[ i ] );
-            bool found_match = false;
-            for( unsigned int j = 0; j < second_grounding_set->groundings().size(); j++ ){
-              if( dynamic_cast< const Constraint* >( second_grounding_set->groundings()[ j ] ) != NULL ){
-                const Constraint* second_grounding_constraint = static_cast< const Constraint* >( second_grounding_set->groundings()[ j ] );
-                if( *first_grounding_constraint == *second_grounding_constraint ){
-                  found_match = true;
-                }
-              }
-            }
-            if( !found_match ){
-              cout << "no match found, leaving compare_phrases" << endl;
-              return false;
-            }
-          }
-        }
-      } else {
-        cout << "grounding_sets were different sizes, leaving compare_phrases" << endl;
-        return false;
-      }
-    } else {
-      cout << "a grounding_set was NULL, leaving compare_phrases" << endl;
-      return false;
-    } 
-  } else {
-    cout << "a phrase was NULL, leaving compare_phrases" << endl;
-    return false;
+compare_phrases( const Phrase& a,
+                const Phrase& b ){
+  assert( dynamic_cast< const Grounding_Set* >( a.grounding_set() ) != NULL );
+  assert( dynamic_cast< const Grounding_Set* >( b.grounding_set() ) != NULL );
+
+  bool value = true;
+  value = value && ( a.children().size() == b.children().size() );
+  if( a.children().size() == b.children().size() ){
+    for( unsigned int i = 0; i < a.children().size(); i++ ){
+      value = value && compare_phrases( *a.children()[ i ], *b.children()[ i ] );
+    }
   }
-  cout << "found a match, leaving compare_phrases" << endl;
-  return true;
+
+  value = value && ( *( static_cast< const Grounding_Set* >( a.grounding_set() ) ) == *( static_cast< const Grounding_Set* >( b.grounding_set() ) ) );
+
+  return value;
 }
+
 
 /**
  * Clear the phrase. 
@@ -164,7 +145,7 @@ main( int argc,
       dcg->leaf_search( phrases.back(), *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
       if( !dcg->solutions().empty() ){
         cout << "solution: " << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl;
-        if( compare_phrases( truth, dcg->solutions().front().second ) ){
+        if( compare_phrases( *truth, *dcg->solutions().front().second ) ){
           cout << "solution matches" << endl;
           num_correct++;
         } else{
@@ -185,7 +166,7 @@ main( int argc,
               dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
               if( !dcg->solutions().empty() ){
                 cout << "  parse[" << i << "]:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl;
-                if( compare_phrases( truth, dcg->solutions().front().second ) ){
+                if( compare_phrases( *truth, *dcg->solutions().front().second ) ){
                   found_match = true;
                   match_index = i;
                 }
