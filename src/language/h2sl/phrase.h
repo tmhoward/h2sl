@@ -36,6 +36,8 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
+#include <map>
 #include <libxml/tree.h>
 
 #include "h2sl/word.h"
@@ -61,7 +63,9 @@ namespace h2sl {
 
   class Phrase {
   public:
-    Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase* >& children = std::vector< Phrase* >(), Grounding_Set* groundingSet = NULL );
+    Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), 
+            const std::vector< Phrase* >& children = std::vector< Phrase* >(), Grounding_Set* groundingSet = NULL, 
+            const std::map< std::string, std::string >& searchSpaceProperties = std::map< std::string, std::string >() );
     virtual ~Phrase();
     Phrase( const Phrase& other );
     Phrase& operator=( const Phrase& other );
@@ -108,13 +112,16 @@ namespace h2sl {
     inline const std::vector< Word >& words( void )const{ return _words; };
     inline Grounding_Set*& grounding_set( void ){ return _grounding_set; };
     inline const Grounding_Set* grounding_set( void )const{ return _grounding_set; };
-
+    inline std::map< std::string, std::string >& search_space_properties( void ){ return _search_space_properties; };
+    inline const std::map< std::string, std::string >& search_space_properties( void )const{ return _search_space_properties; };
+ 
   protected:
     phrase_type_t _type;
     std::string _text;
     std::vector< Word > _words;
     std::vector< Phrase* > _children;
     Grounding_Set * _grounding_set;
+    std::map< std::string, std::string > _search_space_properties;
 
   private:
 
