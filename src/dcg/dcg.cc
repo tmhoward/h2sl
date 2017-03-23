@@ -181,7 +181,7 @@ _fill_phrase( Factor_Set* node,
               Factor_Set_Solution& solution,
               Phrase* phrase ){
   cout << "filling phrase:" << *phrase << endl;
-  cout << "solution: " << solution << endl;
+  cout << "solution:" << solution << endl;
   phrase->grounding_set() = solution.grounding_set()->dup();
   for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
     phrase->children().push_back( node->child_factor_sets()[ i ]->phrase()->dup() );

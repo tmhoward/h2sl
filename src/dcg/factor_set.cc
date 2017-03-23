@@ -97,7 +97,7 @@ namespace h2sl {
     if( other.grounding_set() != NULL ){
       out << "grounding_set:(" << *other.grounding_set() << ")";
     } else{
-      out << "groundings_set:(NULL)";
+      out << "grounding_set:(NULL)";
     }
     return out;
   }
@@ -244,7 +244,7 @@ search( const Search_Space* searchSpace,
     for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
       assert( j < child_solution_indices_cartesian_power[ i ].size() );
       assert( j < _child_factor_sets.size() );
-      assert( ( child_solution_indices_cartesian_power[ i ][ j ] ) < _child_factor_sets[ j ]->solutions().size();
+      assert( ( child_solution_indices_cartesian_power[ i ][ j ] ) < _child_factor_sets[ j ]->solutions().size() );
       solutions_vector.back().back().pygx() *= _child_factor_sets[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx();
       child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _child_factor_sets[ j ]->phrase(), _child_factor_sets[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].grounding_set()->groundings() ) );
     }
