@@ -967,9 +967,9 @@ main( int argc,
       training_worlds.clear();
 
       // Write output file.
-      if( args.output_given ){
-        xmlSaveFormatFileEnc( args.output_arg, tests_doc, "UTF-8", 1 );
-      }
+      stringstream results_filename;
+      results_filename << args.output_arg << "/test_" << setw( 4 ) << setfill( '0' ) << i << "_result.xml";
+      xmlSaveFormatFileEnc( results_filename.str().c_str(), tests_doc, "UTF-8", 1 );
 
     } else {
       cout << "could not read filename \"" << args.inputs[ i ] << "\"" << endl;
@@ -977,11 +977,6 @@ main( int argc,
     }
   }
 
-/*
-  if( args.output_given ){
-    xmlSaveFormatFileEnc( args.output_arg, tests_doc, "UTF-8", 1 );
-  }
-*/
   // Free the XML test_doc
   xmlFreeDoc( tests_doc );
 
