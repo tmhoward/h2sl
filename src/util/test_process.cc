@@ -967,10 +967,13 @@ main( int argc,
       training_worlds.clear();
 
       // Write output file.
+      // get the test number from the filename
+      string filename = args.inputs[ i ];
+      string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
+      // write out the output
       stringstream results_filename;
-      results_filename << args.output_arg << "/test_" << setw( 4 ) << setfill( '0' ) << i << "_result.xml";
+      results_filename << args.output_arg << "/result_" << test_number_string << ".xml";
       xmlSaveFormatFileEnc( results_filename.str().c_str(), tests_doc, "UTF-8", 1 );
-
     } else {
       cout << "could not read filename \"" << args.inputs[ i ] << "\"" << endl;
       assert( false );
