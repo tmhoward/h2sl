@@ -1,0 +1,8 @@
+package "test_convert_xml_to_mat"
+version "1.0"
+purpose "A program used to convert xml results files to matlab files"
+
+option "input" i "input file" string required
+option "output" o "output file" string required
+
+text ""

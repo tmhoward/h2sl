@@ -65,9 +65,9 @@ Factor_Set_Solution::
 Factor_Set_Solution( const Factor_Set_Solution& other ) : _child_solution_indices( other._child_solution_indices ),
                                                           _pygx( other._pygx ),
                                                           _grounding_set( new Grounding_Set() ){
-  if( ( _grounding_set != NULL ) && ( other._grounding_set != NULL ) ){
-    _grounding_set->groundings() = other._grounding_set->groundings();
-  }
+  assert( _grounding_set != NULL );
+  assert( other._grounding_set != NULL );
+  _grounding_set->groundings() = other._grounding_set->groundings();
 }
 
 Factor_Set_Solution&
@@ -75,9 +75,9 @@ Factor_Set_Solution::
 operator=( const Factor_Set_Solution& other ){
   _child_solution_indices = other._child_solution_indices;
   _pygx = other._pygx;
-  if( ( _grounding_set != NULL ) && ( other._grounding_set != NULL ) ){
-    _grounding_set->groundings() = other._grounding_set->groundings();
-  }
+  assert( _grounding_set != NULL );
+  assert( other._grounding_set != NULL );
+  _grounding_set->groundings() = other._grounding_set->groundings();
   return (*this);
 }
 
@@ -96,6 +96,8 @@ namespace h2sl {
     out << "pygx:" << other.pygx() << " ";
     if( other.grounding_set() != NULL ){
       out << "grounding_set:(" << *other.grounding_set() << ")";
+    } else{
+      out << "grounding_set:(NULL)";
     }
     return out;
   }
@@ -207,6 +209,7 @@ search( const Search_Space* searchSpace,
   vector< vector< unsigned int > > child_solution_indices;
   for( unsigned int i = 0; i < _child_factor_sets.size(); i++ ){
     child_solution_indices.push_back( vector< unsigned int >() );
+    assert( i < _child_factor_sets.size() );
     for( unsigned int j = 0; j < _child_factor_sets[ i ]->solutions().size(); j++ ){
       child_solution_indices.back().push_back( j );
     }
@@ -237,7 +240,11 @@ search( const Search_Space* searchSpace,
 
     // generate the child groundings for the cartesian power
     vector< pair< const Phrase*, vector< Grounding* > > > child_groundings;
+    assert( i < child_solution_indices_cartesian_power.size() );
     for( unsigned int j = 0; j < child_solution_indices_cartesian_power[ i ].size(); j++ ){
+      assert( j < child_solution_indices_cartesian_power[ i ].size() );
+      assert( j < _child_factor_sets.size() );
+      assert( ( child_solution_indices_cartesian_power[ i ][ j ] ) < _child_factor_sets[ j ]->solutions().size() );
       solutions_vector.back().back().pygx() *= _child_factor_sets[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].pygx();
       child_groundings.push_back( pair< const Phrase*, vector< Grounding* > >( _child_factor_sets[ j ]->phrase(), _child_factor_sets[ j ]->solutions()[ child_solution_indices_cartesian_power[ i ][ j ] ].grounding_set()->groundings() ) );
     }

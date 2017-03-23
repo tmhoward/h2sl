@@ -180,6 +180,8 @@ DCG::
 _fill_phrase( Factor_Set* node,
               Factor_Set_Solution& solution,
               Phrase* phrase ){
+  cout << "filling phrase:" << *phrase << endl;
+  cout << "solution:" << solution << endl;
   phrase->grounding_set() = solution.grounding_set()->dup();
   for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
     phrase->children().push_back( node->child_factor_sets()[ i ]->phrase()->dup() );
@@ -195,8 +197,11 @@ _fill_phrase( Factor_Set* node,
       phrase->children().back()->grounding_set() = NULL;
     }
 
+    assert( i < node->child_factor_sets().size() );
+    assert( i < solution.child_solution_indices().size() );
+    assert( solution.child_solution_indices()[ i ] < node->child_factor_sets()[ i ]->solutions().size() );
     _fill_phrase( node->child_factor_sets()[ i ],
-                  node->child_factor_sets()[ i ]->solutions()[ i ],
+                  node->child_factor_sets()[ i ]->solutions()[ solution.child_solution_indices()[ i ] ],
                   phrase->children().back() );
 
   }
