@@ -133,6 +133,7 @@ leaf_search( const Phrase* phrase,
         delete _solutions.back().second->grounding_set();
         _solutions.back().second->grounding_set() = NULL;
       }
+   
       _fill_phrase( _root, _root->solutions()[ i ], _solutions.back().second );
     }
 
@@ -195,6 +196,12 @@ _fill_phrase( Factor_Set* node,
       phrase->children().back()->grounding_set() = NULL;
     }
 
+    // if the abstract property is present in the map then copy over. 
+    //phrase->search_space_properties().insert( 
+    //            std::pair< std::string, std::string >( "concrete_size", node->search_space_properties.size() ) );
+    // copy over the search space properties map fromm the factor set node to here.
+    phrase->search_space_properties() = node->search_space_properties();
+ 
     _fill_phrase( node->child_factor_sets()[ i ],
                   node->child_factor_sets()[ i ]->solutions()[ i ],
                   phrase->children().back() );

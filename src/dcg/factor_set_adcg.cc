@@ -197,7 +197,6 @@ search( const Search_Space* searchSpace,
     }
   }
 
-
   /**************** SORT AND TRIM SOLUTIONS ***********************/
   if( debug ){
     cout << "  sorting through " << _solutions.size() << " solutions for \"" << _phrase->words_to_std_string() << "\"" << endl;
@@ -207,6 +206,15 @@ search( const Search_Space* searchSpace,
   if( _solutions.size() > beamWidth ){
     _solutions.erase( _solutions.begin() + beamWidth, _solutions.end() );
   }
+
+  /**************** RECORD THE MAX. ABSTRACT SEARCH SPACE SIZE ***********************/
+  unsigned int tmp = _abstract_search_spaces.front()->size();
+  for( unsigned int i = 0; i < _abstract_search_spaces.size(); i++ ){
+    if ( _abstract_search_spaces[ i ]->size() > tmp ){
+      tmp = _abstract_search_spaces[ i ]->size();
+    }
+  }
+  insert_prop< std::string >( _search_space_properties, "abstract_size", to_std_string( tmp ) );
  
   /**************** PRINT OUT THE SOLUTIONS IF REQD.***********************/
 
