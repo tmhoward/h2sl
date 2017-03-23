@@ -50,6 +50,7 @@ set(HDRS
     h2sl/feature_constraint_reference_type.h
     h2sl/feature_product.h
     h2sl/feature_set.h
+    h2sl/feature_generator.h
     h2sl/feature_abstract_container_matches_child.h
     h2sl/feature_container_matches_child.h
     h2sl/feature_region_container_matches_child.h
@@ -163,6 +164,7 @@ set(SRCS
     feature_constraint_reference_type.cc
     feature_product.cc
     feature_set.cc
+    feature_generator.cc
     feature_abstract_container_matches_child.cc
     feature_container_matches_child.cc
     feature_region_container_matches_child.cc
