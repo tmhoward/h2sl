@@ -103,6 +103,40 @@ operator=( const Grounding_Set& other ) {
   return (*this);
 }
 
+bool
+Grounding_Set::
+operator==( const Grounding_Set& other )const{
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    assert( dynamic_cast< Grounding* >( _groundings[ i ] ) != NULL );
+  }
+  for( unsigned int i = 0; i < other.groundings().size(); i++ ){
+    assert( dynamic_cast< Grounding* >( other.groundings()[ i ] ) != NULL );
+  }
+
+  if( _groundings.size() != other.groundings().size() ){
+    return false;
+  }
+
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    bool found_match = false;
+    for( unsigned int j = 0; j < other.groundings().size(); j++ ){
+      if( *static_cast< const Grounding* >( _groundings[ i ] ) == *static_cast< const Grounding* >( other.groundings()[ j ] ) ){
+        found_match = true;
+      }
+    }
+    if( !found_match ){
+      return false;
+    }
+  }
+  return true;
+}
+
+bool
+Grounding_Set::
+operator!=( const Grounding_Set& other )const{
+  return !( *this == other );
+}
+
 Grounding_Set*
 Grounding_Set::
 dup( void )const{
