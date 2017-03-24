@@ -61,6 +61,24 @@
 using namespace std;
 using namespace h2sl; 
 
+/*
+double
+phrase_average_concrete( const Phrase& a ){
+  return;
+
+}
+
+double
+phrase_average_abstract( const Phrase& a ){
+  double tmp = 0.0;
+  tmp += string_to_int( a.properties()[ "abstract" ] );
+  for( unsigned int i = 0; i < a.children.size(); i++ ) {
+    tmp += phrase_average_abstract( a.children[ i ] );
+  }
+  return tmp;
+}
+*/
+
 /**
  * Root: Compare Phrases 
  */
