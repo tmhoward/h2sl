@@ -300,8 +300,6 @@ from_xml( xmlNodePtr root ){
           _groundings.push_back( new Rule_Index( l1 ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_number" ) ) == 0 ){
           _groundings.push_back( new Rule_Number( l1 ) );
-        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_container_type" ) ) == 0 ){
-          _groundings.push_back( new Rule_Container_Type( l1 ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
           _groundings.push_back( new Object( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
@@ -322,8 +320,6 @@ from_xml( xmlNodePtr root ){
           _groundings.push_back( new Object_Color( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_type" ) ) == 0 ){
           _groundings.push_back( new Object_Type( l1 ) );
-        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "container_type" ) ) == 0 ){
-          _groundings.push_back( new Container_Type( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "spatial_relation" ) ) == 0 ){
           _groundings.push_back( new Spatial_Relation( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_property" ) ) == 0 ){
