@@ -300,6 +300,8 @@ from_xml( xmlNodePtr root ){
           _groundings.push_back( new Rule_Index( l1 ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_number" ) ) == 0 ){
           _groundings.push_back( new Rule_Number( l1 ) );
+        } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_container_type" ) ) == 0 ){
+          _groundings.push_back( new Rule_Container_Type( l1 ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
           _groundings.push_back( new Object( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
@@ -308,6 +310,8 @@ from_xml( xmlNodePtr root ){
           _groundings.push_back( new Constraint( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "container" ) ) == 0 ){
           _groundings.push_back( new Container( l1 ) );
+        } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "container_type" ) ) == 0 ){
+          _groundings.push_back( new Container_Type( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region_container" ) ) == 0 ){
           _groundings.push_back( new Region_Container( l1 ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "index" ) ) == 0 ){
@@ -329,7 +333,7 @@ from_xml( xmlNodePtr root ){
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region_abstract_container" ) ) == 0 ){
           _groundings.push_back( new Region_Abstract_Container( l1 ) );
         } else {
-          cout << "could not identify symbol \"" << l1->name << "\"" << endl;
+          cout << "could not identify symbol \"" << l1->name << "\" in Grounding_Set::from_xml" << endl;
           assert( false );
         }
       }
