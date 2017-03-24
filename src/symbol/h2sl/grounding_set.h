@@ -50,6 +50,8 @@ namespace h2sl {
     virtual ~Grounding_Set();
     Grounding_Set( const Grounding_Set& other );
     Grounding_Set& operator=( const Grounding_Set& other );
+    bool operator==( const Grounding_Set& other )const;
+    bool operator!=( const Grounding_Set& other )const;
     virtual Grounding_Set* dup( void )const;
 
     virtual bool matches_class_name( const std::string& arg )const{ return ( arg == "grounding_set" ); };

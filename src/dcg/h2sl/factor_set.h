@@ -102,14 +102,14 @@ namespace h2sl {
     inline const std::vector< Factor_Set* >& child_factor_sets( void )const{ return _child_factor_sets; };
     inline std::vector< Factor_Set_Solution >& solutions( void ){ return _solutions; };
     inline const std::vector< Factor_Set_Solution >& solutions( void )const{ return _solutions; };
-    inline std::map< std::string, std::string >& search_space_properties( void ){ return _search_space_properties; };
-    inline const std::map< std::string, std::string >& search_space_properties( void )const{ return _search_space_properties; };
+    inline std::map< std::string, std::string >& properties( void ){ return _properties; };
+    inline const std::map< std::string, std::string >& properties( void )const{ return _properties; };
 
   protected:
     const Phrase* _phrase;
     std::vector< Factor_Set* > _child_factor_sets;
     std::vector< Factor_Set_Solution > _solutions;
-    std::map< std::string, std::string > _search_space_properties;
+    std::map< std::string, std::string > _properties;
 
   private:
 

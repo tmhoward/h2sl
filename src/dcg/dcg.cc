@@ -181,6 +181,8 @@ DCG::
 _fill_phrase( Factor_Set* node,
               Factor_Set_Solution& solution,
               Phrase* phrase ){
+  cout << "filling phrase:" << *phrase << endl;
+  cout << "solution:" << solution << endl;
   phrase->grounding_set() = solution.grounding_set()->dup();
   for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
     phrase->children().push_back( node->child_factor_sets()[ i ]->phrase()->dup() );
@@ -196,14 +198,27 @@ _fill_phrase( Factor_Set* node,
       phrase->children().back()->grounding_set() = NULL;
     }
 
-    // if the abstract property is present in the map then copy over. 
-    //phrase->search_space_properties().insert( 
-    //            std::pair< std::string, std::string >( "concrete_size", node->search_space_properties.size() ) );
-    // copy over the search space properties map fromm the factor set node to here.
-    phrase->search_space_properties() = node->search_space_properties();
- 
+    assert( i < node->child_factor_sets().size() );
+    assert( i < solution.child_solution_indices().size() );
+    assert( solution.child_solution_indices()[ i ] < node->child_factor_sets()[ i ]->solutions().size() );
+
+   // Transfer relevant properties. 
+   std::map< std::string, std::string >::const_iterator it;
+   it = node->properties().find( "concrete_size" );
+   if( it != node->properties().end() ){
+     insert_prop< std::string >( phrase->properties(), "concrete_size", it->second );
+   }
+
+   it = node->properties().find( "abstract_size" );
+   if( it != node->properties().end() ){
+     insert_prop< std::string >( phrase->properties(), "abstract_size", it->second );
+   }
+     
+   // cout << "ss size from node" << node->properties()["abstract_size"] << node->properties()["concrete_size"] << endl;
+   // cout << "ss size from phrase" << phrase->properties()["abstract_size"] << phrase->properties()["concrete_size"] << endl;
+
     _fill_phrase( node->child_factor_sets()[ i ],
-                  node->child_factor_sets()[ i ]->solutions()[ i ],
+                  node->child_factor_sets()[ i ]->solutions()[ solution.child_solution_indices()[ i ] ],
                   phrase->children().back() );
 
   }

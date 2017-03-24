@@ -41,13 +41,17 @@ using namespace std;
 using namespace h2sl;
 
 Phrase::
-Phrase( const phrase_type_t& type, const string& text, const vector< Word >& words, const vector< Phrase* >& children, Grounding_Set* groundingSet, const std::map< std::string, std::string >& searchSpaceProperties ) : 
-                                                        _type( type ), 
-                                                        _text( text ), 
-                                                        _words( words ), 
-                                                        _children( children ), 
-                                                        _grounding_set( groundingSet ), 
-                                                        _search_space_properties( searchSpaceProperties ) {
+Phrase( const phrase_type_t& type,
+        const string& text,
+        const vector< Word >& words,
+        const vector< Phrase* >& children,
+        Grounding_Set* groundingSet,
+        const map< string, string >& properties ) : _type( type ),
+                                                    _text( text ),
+                                                    _words( words ),
+                                                    _children( children ),
+                                                    _grounding_set( groundingSet ),
+                                                    _properties( properties ){
 
 }
 
@@ -62,7 +66,7 @@ Phrase( const Phrase& other ) : _type( other._type ),
                                 _words( other._words ),
                                 _children(),
                                 _grounding_set( NULL ),
-                                _search_space_properties( other._search_space_properties ){
+                                _properties( other._properties ){
   for( unsigned int i = 0; i < other._children.size(); i++ ){
     _children.push_back( other._children[ i ]->dup() );
   }
@@ -77,7 +81,7 @@ operator=( const Phrase& other ) {
   _type = other._type;
   _text = other._text;
   _words = other._words;
-  _search_space_properties = other._search_space_properties;
+  _properties = other._properties;
   for( unsigned int i = 0; i < _children.size(); i++ ){
     if( _children[ i ] != NULL ){
       delete _children[ i ];
@@ -92,6 +96,7 @@ operator=( const Phrase& other ) {
   } else {
     _grounding_set = NULL;  
   }
+  _properties = other._properties;
   return (*this);
 }
 
@@ -232,6 +237,9 @@ to_xml( xmlDocPtr doc,
     if( _children[ i ] != NULL ){
       _children[ i ]->to_xml( doc, node );
     }
+  }
+  for( map< string, string >::const_iterator it = _properties.begin(); it != _properties.end(); it++ ){
+    xmlNewProp( node, ( const xmlChar* )( it->first.c_str() ), ( const xmlChar* )( it->second.c_str() ) );
   }
   xmlAddChild( root, node );
   return;
@@ -540,9 +548,17 @@ namespace h2sl {
       out << "grounding_set:{NULL}";
     }
 
-   for( std::map< std::string, std::string >::const_iterator it = other.search_space_properties().begin(); it != other.search_space_properties().end(); ++it ) {
-     out << "search_space_properties:{" << it->first << "," << it->second << "}";
-   }
+ //  for( std::map< std::string, std::string >::const_iterator it = other.search_space_properties().begin(); it != other.search_space_properties().end(); ++it ) {
+ //    out << "search_space_properties:{" << it->first << "," << it->second << "}";
+ //  }
+    out << " properties:{";
+    for( map< string, string >::const_iterator it = other.properties().begin(); it != other.properties().end(); it++ ){
+      out << "(" << it->first << ":" << it->second << ")";
+      if( next( it ) != other.properties().end() ){
+        out << ",";
+      }
+    }
+    out << "}" << endl;
     return out;
   }
 }
