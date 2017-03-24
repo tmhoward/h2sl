@@ -65,18 +65,24 @@ using namespace h2sl;
  * Count the number of phrases for avg. 
  */
 unsigned int
-count_phrases( const Phrase& a ){
-  unsigned int tmp = 1;
-  for( unsigned int i = 0; i < a.children().size(); i++ ) {
-    tmp += count_phrases( *a.children()[ i ] );
-  }
-  return tmp;
+count_phrases( const Phrase* phrase ){
+  if( phrase != NULL ){
+    unsigned int tmp = 1;
+    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+      if( phrase->children()[ i ] != NULL ) {
+        tmp += count_phrases( phrase->children()[ i ] );
+      }
+    }
+    return tmp;
+  } else {
+    return 0;
+  } 
 }
-
 
 /**
  * Aggregate the concrete size for the phrase. 
  */
+/*
 double
 phrase_aggregate_avg_concrete( const Phrase& a ){
   double tmp = 0.0;
@@ -91,10 +97,12 @@ phrase_aggregate_avg_concrete( const Phrase& a ){
   }
   return tmp;
 }
+*/
 
 /**
  * Return the average for the concrete size. 
  */
+/*
 double
 phrase_average_concrete( const Phrase& a ){
   unsigned int number_phrases = count_phrases( a );
@@ -104,11 +112,12 @@ phrase_average_concrete( const Phrase& a ){
     return 0.0;
   }
 }
-
+*/
 
 /**
  * Adds up the average values for abstract size.
  */
+/*
 double
 phrase_aggregate_avg_abstract( const Phrase& a ){
   double tmp = 0.0;
@@ -123,10 +132,12 @@ phrase_aggregate_avg_abstract( const Phrase& a ){
   }
   return tmp;
 }
+*/
 
 /*
  * Return the average for the phrase.
  */
+/*
 double
 phrase_average_abstract( const Phrase& a ){
   unsigned int number_phrases = count_phrases( a );
@@ -136,10 +147,13 @@ phrase_average_abstract( const Phrase& a ){
     return 0.0;
   }
 }
+*/
+
 
 /**
  * Adds up the max. values for abstract size.
  */
+/*
 double
 phrase_aggregate_max_abstract( const Phrase& a ){
   double tmp = 0.0;
@@ -154,11 +168,13 @@ phrase_aggregate_max_abstract( const Phrase& a ){
   }
   return tmp;
 }
+*/
 
 
 /*
  * Return the average for the phrase.
  */
+/*
 double
 phrase_average_max_abstract( const Phrase& a ){
   unsigned int number_phrases = count_phrases( a );
@@ -168,6 +184,8 @@ phrase_average_max_abstract( const Phrase& a ){
     return 0.0;
   }
 }
+*/
+
 
 
 /**
