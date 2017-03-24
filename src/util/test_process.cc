@@ -61,23 +61,114 @@
 using namespace std;
 using namespace h2sl; 
 
-/*
-double
-phrase_average_concrete( const Phrase& a ){
-  return;
-
-}
-
-double
-phrase_average_abstract( const Phrase& a ){
-  double tmp = 0.0;
-  tmp += string_to_int( a.properties()[ "abstract" ] );
-  for( unsigned int i = 0; i < a.children.size(); i++ ) {
-    tmp += phrase_average_abstract( a.children[ i ] );
+/**
+ * Count the number of phrases for avg. 
+ */
+unsigned int
+count_phrases( const Phrase& a ){
+  unsigned int tmp = 1;
+  for( unsigned int i = 0; i < a.children().size(); i++ ) {
+    tmp += count_phrases( *a.children()[ i ] );
   }
   return tmp;
 }
-*/
+
+
+/**
+ * Aggregate the concrete size for the phrase. 
+ */
+double
+phrase_aggregate_avg_concrete( const Phrase& a ){
+  double tmp = 0.0;
+  std::map< std::string, std::string>::const_iterator it;
+  it =  a.properties().find( "concrete_size" );
+  if( it != a.properties().end() ){
+    tmp += std::stod( it->second );
+  }
+  
+  for( unsigned int i = 0; i < a.children().size(); i++ ) {
+    tmp += phrase_aggregate_avg_concrete( *a.children()[ i ] );
+  }
+  return tmp;
+}
+
+/**
+ * Return the average for the concrete size. 
+ */
+double
+phrase_average_concrete( const Phrase& a ){
+  unsigned int number_phrases = count_phrases( a );
+  if ( number_phrases ){
+    return ( phrase_aggregate_avg_concrete( a ) / (double)( number_phrases ) );
+  } else {
+    return 0.0;
+  }
+}
+
+
+/**
+ * Adds up the average values for abstract size.
+ */
+double
+phrase_aggregate_avg_abstract( const Phrase& a ){
+  double tmp = 0.0;
+  std::map< std::string, std::string>::const_iterator it;
+  it =  a.properties().find( "abstract_avg_size" );
+  if( it != a.properties().end() ){
+    tmp += std::stod( it->second );
+  }
+  
+  for( unsigned int i = 0; i < a.children().size(); i++ ) {
+    tmp += phrase_aggregate_avg_abstract( *a.children()[ i ] );
+  }
+  return tmp;
+}
+
+/*
+ * Return the average for the phrase.
+ */
+double
+phrase_average_abstract( const Phrase& a ){
+  unsigned int number_phrases = count_phrases( a );
+  if ( number_phrases ){
+    return ( phrase_aggregate_avg_abstract( a ) / (double)( number_phrases ) );
+  } else {
+    return 0.0;
+  }
+}
+
+/**
+ * Adds up the max. values for abstract size.
+ */
+double
+phrase_aggregate_max_abstract( const Phrase& a ){
+  double tmp = 0.0;
+  std::map< std::string, std::string>::const_iterator it;
+  it =  a.properties().find( "abstract_max_size" );
+  if( it != a.properties().end() ){
+    tmp += std::stod( it->second );
+  }
+  
+  for( unsigned int i = 0; i < a.children().size(); i++ ) {
+    tmp += phrase_aggregate_max_abstract( *a.children()[ i ] );
+  }
+  return tmp;
+}
+
+
+/*
+ * Return the average for the phrase.
+ */
+double
+phrase_average_max_abstract( const Phrase& a ){
+  unsigned int number_phrases = count_phrases( a );
+  if ( number_phrases ){
+    return ( phrase_aggregate_max_abstract( a ) / (double)( number_phrases ) );
+  } else {
+    return 0.0;
+  }
+}
+
 
 /**
  * Root: Compare Phrases 
