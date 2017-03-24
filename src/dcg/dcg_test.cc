@@ -189,9 +189,18 @@ main( int argc,
       }
     }
 
+    // write the solution to xml
+    // get the example number from the filename
+    string filename = args.inputs[ i ];
+    string example_number_string = filename.substr( ( filename.size() - 8 ), 4 );
     stringstream output_filename;
-    output_filename << "/tmp/input_" << setw( 4 ) << setfill( '0' ) << i << "_dcg_solution.xml";
-    dcg->solutions().front().second->to_xml( output_filename.str() );
+    if( args.output_given ){
+      output_filename << args.output_arg << "/dcg_solution_" << example_number_string << ".xml";
+      dcg->solutions().front().second->to_xml( output_filename.str() );
+    } else{
+      output_filename << "/tmp/dcg_solution_" << example_number_string << ".xml";
+      dcg->solutions().front().second->to_xml( output_filename.str() );
+    }
 
     //memory cleanup
     cout << "beginning memory cleanup" << endl;
