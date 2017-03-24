@@ -207,11 +207,22 @@ _fill_phrase( Factor_Set* node,
    it = node->properties().find( "concrete_size" );
    if( it != node->properties().end() ){
      insert_prop< std::string >( phrase->properties(), "concrete_size", it->second );
+   } else {
+     insert_prop< std::string >( phrase->properties(), "concrete_size", "0" );
    }
 
-   it = node->properties().find( "abstract_size" );
+   it = node->properties().find( "abstract_max_size" );
    if( it != node->properties().end() ){
-     insert_prop< std::string >( phrase->properties(), "abstract_size", it->second );
+     insert_prop< std::string >( phrase->properties(), "abstract_max_size", it->second );
+   } else {
+     insert_prop< std::string >( phrase->properties(), "abstract_max_size", "0" );
+   }
+
+    it = node->properties().find( "abstract_avg_size" );
+   if( it != node->properties().end() ){
+     insert_prop< std::string >( phrase->properties(), "abstract_avg_size", it->second );
+   } else {
+     insert_prop< std::string >( phrase->properties(), "abstract_avg_size", "0.0" );
    }
      
    // cout << "ss size from node" << node->properties()["abstract_size"] << node->properties()["concrete_size"] << endl;

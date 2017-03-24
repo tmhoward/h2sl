@@ -208,14 +208,24 @@ search( const Search_Space* searchSpace,
   }
 
   /**************** RECORD THE MAX. ABSTRACT SEARCH SPACE SIZE ***********************/
-  unsigned int tmp = _abstract_search_spaces.front()->size();
+  unsigned int max_size = _abstract_search_spaces.front()->size();
   for( unsigned int i = 0; i < _abstract_search_spaces.size(); i++ ){
-    if ( _abstract_search_spaces[ i ]->size() > tmp ){
-      tmp = _abstract_search_spaces[ i ]->size();
+    if ( _abstract_search_spaces[ i ]->size() > max_size ){
+      max_size = _abstract_search_spaces[ i ]->size();
     }
   }
+
+  double avg_size = 0.0;
+  if( _abstract_search_spaces.size() ) {
+    for( unsigned int i = 0; i < _abstract_search_spaces.size(); i++ ){
+        avg_size += _abstract_search_spaces[ i ]->size();
+    }
+  avg_size /= _abstract_search_spaces.size();
+  }
+
   insert_prop< std::string >( _properties, "concrete_size", to_std_string( searchSpace->size() ) );
-  insert_prop< std::string >( _properties, "abstract_size", to_std_string( tmp ) );
+  insert_prop< std::string >( _properties, "abstract_max_size", to_std_string( max_size ) );
+  insert_prop< std::string >( _properties, "abstract_avg_size", to_std_string( avg_size ) );
   /**************** PRINT OUT THE SOLUTIONS IF REQD.***********************/
 
   if( debug ){

@@ -70,7 +70,7 @@ main( int argc,
 
   cout << "finished fill_seach_space for adcg in " << diff_time( start_time, end_time ) << " seconds" << endl;
 
-  cout << endl << "search_spaces.size(): " << search_space->grounding_pairs().size() << endl << endl;
+  cout << endl << "search_spaces grounding pairs size(): " << search_space->grounding_pairs().size() << endl << endl;
 
   cout << "parsing \"" << args.command_arg << "\"" << endl;
   if( parser->parse( *grammar, args.command_arg, phrases ) ){
