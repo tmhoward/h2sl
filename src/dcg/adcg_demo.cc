@@ -118,6 +118,8 @@ main( int argc,
             }
           }
         }
+      cout << "after adcg inference printing out the phrase:" << endl;
+      cout << *phrases[ i ] << endl;
       }
     }
   }
