@@ -44,6 +44,22 @@
 using namespace std;
 using namespace h2sl;
 
+/**
+ * Clear the phrase. 
+ */
+void
+clear( Phrase* phrase ){
+  if( phrase != NULL ){
+    if( phrase->grounding_set() != NULL ){
+      delete_ptr< Grounding_Set >( phrase->grounding_set() );
+    }
+    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+      clear( phrase->children()[ i ] );
+    }
+  }
+  return;
+}
+
 
 bool
 compare_phrases( const Phrase* first, 
@@ -138,13 +154,16 @@ main( int argc,
 
     Phrase * truth = new Phrase();
     truth->from_xml( args.inputs[ i ] );
+    clear( truth );
 
     // update the search space when the world changes
     search_space->fill_groundings( *symbol_dictionary, world );
     cout << "search_space:" << *search_space << endl;
 
     vector< Phrase* > phrases;
-    if( parser->parse( *grammar, instruction, phrases ) ){
+    phrases.push_back( truth );
+    if( true ){
+    //if( parser->parse( *grammar, instruction, phrases ) ){
       if( !phrases.empty() ){
         cout << "found " << phrases.size() << " phrases" << endl;
         cout << "  truth:" << *truth << endl;
@@ -179,6 +198,13 @@ main( int argc,
       num_incorrect++;
       exit(0);
     } 
+
+
+    cout << "printing phrases" << endl;
+    for( unsigned int i = 0; i < phrases.size(); i++ ){
+        cout << *phrases[ i ] << endl;
+    }
+
 
     for( unsigned int i = 0; i < phrases.size(); i++ ){
       if( phrases[ i ] != NULL ){
