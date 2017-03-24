@@ -135,7 +135,7 @@ main( int argc,
             }
           }
         } 
-      cout << "[after dcg] printing out the phrase:" << endl;
+      cout << "after dcg inference printing out the phrase:" << endl;
       cout << *phrases[ i ] << endl;
       }
     }
