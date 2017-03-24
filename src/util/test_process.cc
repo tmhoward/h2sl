@@ -82,22 +82,53 @@ count_phrases( const Phrase* phrase ){
 /**
  * Aggregate the concrete size for the phrase. 
  */
-/*
+
 double
-phrase_aggregate_avg_concrete( const Phrase& a ){
-  double tmp = 0.0;
-  std::map< std::string, std::string>::const_iterator it;
-  it =  a.properties().find( "concrete_size" );
-  if( it != a.properties().end() ){
-    tmp += std::stod( it->second );
-  }
-  
-  for( unsigned int i = 0; i < a.children().size(); i++ ) {
-    tmp += phrase_aggregate_avg_concrete( *a.children()[ i ] );
-  }
-  return tmp;
+phrase_aggregate_avg_concrete( const Phrase* phrase ){
+  if( phrase != NULL ){
+    double tmp = 0.0;  
+    std::map< std::string, std::string>::const_iterator it;
+    it =  phrase->properties().find( "concrete_size" );
+
+    if( it != phrase->properties().end() ){
+      tmp += std::stod( it->second );
+    }
+
+    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+      if ( phrase->children()[ i ] != NULL) {
+        tmp += phrase_aggregate_avg_concrete( phrase->children()[ i ] );
+      }
+    }
+    return tmp;
+  } else {
+    return 0.0;
+  }  
 }
-*/
+
+double
+phrase_aggregate_property( const Phrase* phrase, const std::string& property ){
+  if( phrase != NULL ){
+    double tmp = 0.0;  
+    std::map< std::string, std::string>::const_iterator it;
+    it =  phrase->properties().find( property );
+
+    if( it != phrase->properties().end() ){
+      tmp += std::stod( it->second );
+
+      for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+        if ( phrase->children()[ i ] != NULL) {
+          tmp += phrase_aggregate_avg_concrete( phrase->children()[ i ] );
+        }
+      }
+      return tmp;
+    }
+  } else {
+    return 0.0;
+  }  
+}
+
+
+
 
 /**
  * Return the average for the concrete size. 
