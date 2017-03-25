@@ -184,25 +184,8 @@ _fill_phrase( Factor_Set* node,
               Phrase* phrase ){
   cout << "filling phrase:" << *phrase << endl;
   cout << "solution:" << solution << endl;
-  phrase->grounding_set() = solution.grounding_set()->dup();
-  for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
-    phrase->children().push_back( node->child_factor_sets()[ i ]->phrase()->dup() );
-    for( unsigned int j = 0; j < phrase->children().back()->children().size(); j++ ){
-      if( phrase->children().back()->children()[ j ] != NULL ){
-        delete phrase->children().back()->children()[ j ];
-        phrase->children().back()->children()[ j ];
-      }
-    }
-    phrase->children().back()->children().clear();
-    if( phrase->children().back()->grounding_set() != NULL ){
-      delete phrase->children().back()->grounding_set();
-      phrase->children().back()->grounding_set() = NULL;
-    }
 
-    assert( i < node->child_factor_sets().size() );
-    assert( i < solution.child_solution_indices().size() );
-    assert( solution.child_solution_indices()[ i ] < node->child_factor_sets()[ i ]->solutions().size() );
-
+  cout << "transfer properties from factor set to phrase:" << endl;
    // Transfer relevant properties. 
    std::map< std::string, std::string >::const_iterator it;
    it = node->properties().find( "concrete_size" );
@@ -228,8 +211,27 @@ _fill_phrase( Factor_Set* node,
      insert_prop< std::string >( phrase->properties(), "abstract_avg_size", "0.0" );
    }
      
-   // cout << "ss size from node" << node->properties()["abstract_size"] << node->properties()["concrete_size"] << endl;
-   // cout << "ss size from phrase" << phrase->properties()["abstract_size"] << phrase->properties()["concrete_size"] << endl;
+  // Copy the grounding set
+  phrase->grounding_set() = solution.grounding_set()->dup();
+
+  // Examine children.
+  for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
+    phrase->children().push_back( node->child_factor_sets()[ i ]->phrase()->dup() );
+    for( unsigned int j = 0; j < phrase->children().back()->children().size(); j++ ){
+      if( phrase->children().back()->children()[ j ] != NULL ){
+        delete phrase->children().back()->children()[ j ];
+        phrase->children().back()->children()[ j ];
+      }
+    }
+    phrase->children().back()->children().clear();
+    if( phrase->children().back()->grounding_set() != NULL ){
+      delete phrase->children().back()->grounding_set();
+      phrase->children().back()->grounding_set() = NULL;
+    }
+
+    assert( i < node->child_factor_sets().size() );
+    assert( i < solution.child_solution_indices().size() );
+    assert( solution.child_solution_indices()[ i ] < node->child_factor_sets()[ i ]->solutions().size() );
 
     _fill_phrase( node->child_factor_sets()[ i ],
                   node->child_factor_sets()[ i ]->solutions()[ solution.child_solution_indices()[ i ] ],

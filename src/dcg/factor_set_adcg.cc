@@ -107,6 +107,7 @@ search( const Search_Space* searchSpace,
     }
   }
 
+  insert_prop< std::string >( _properties, "concrete_size", to_std_string( searchSpace->size() ) );
   /**************** MARCH THROUGH THE CHILD SOLUTION COMBOS***********************/
 
  vector< vector< Factor_Set_Solution > > solutions_vector;
@@ -223,7 +224,6 @@ search( const Search_Space* searchSpace,
   avg_size /= _abstract_search_spaces.size();
   }
 
-  insert_prop< std::string >( _properties, "concrete_size", to_std_string( searchSpace->size() ) );
   insert_prop< std::string >( _properties, "abstract_max_size", to_std_string( max_size ) );
   insert_prop< std::string >( _properties, "abstract_avg_size", to_std_string( avg_size ) );
   /**************** PRINT OUT THE SOLUTIONS IF REQD.***********************/

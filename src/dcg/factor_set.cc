@@ -231,6 +231,9 @@ search( const Search_Space* searchSpace,
     }
   }
 
+  // Record the search space size.
+  insert_prop< std::string >( _properties, "concrete_size", to_std_string( searchSpace->size() ) ); 
+
   vector< vector< Factor_Set_Solution > > solutions_vector;
   // add a Factor_Set_Solution for each combination of children
   for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
@@ -306,9 +309,7 @@ search( const Search_Space* searchSpace,
     }  
   }
 
-  // Record the search space size.
-  insert_prop< std::string >( _properties, "concrete_size", to_std_string( searchSpace->size() ) );
-  
+ 
   return;
 }
 
