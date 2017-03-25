@@ -366,7 +366,9 @@ min_word_order( void )const{
 }
 
 /**
- * Function to return the number of child phrases
+ * Function to return the number of phrases in the 
+ * tree starting from the current node in the tree and 
+ * aggregating over children. 
  */
 unsigned int
 Phrase::
@@ -377,11 +379,56 @@ num_phrases( void )const{
 unsigned int
 Phrase::
 num_phrases( const Phrase* phrase )const{
-  unsigned int tmp = 1;
-  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    tmp += num_phrases( phrase->children()[ i ] );
+  if( phrase != NULL ){
+    unsigned int tmp = 1;
+    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+      if( phrase->children()[ i ] != NULL ){
+        tmp += num_phrases( phrase->children()[ i ] );
+      }
+    }
+    return tmp;
+  } else {
+    return 0;
   }
-  return tmp;
+}
+
+
+/*
+ * Function: Aggregate property.
+ */
+
+double
+Phrase::
+aggregate_property_phrases( const std::string& property )const{
+  return aggregate_property_phrases( this, property );
+}
+
+
+double
+Phrase::
+aggregate_property_phrases( const Phrase* phrase, const std::string& property )const{
+  if( phrase != NULL ){
+    double tmp = 0.0;
+    std::map< std::string, std::string >::const_iterator it;
+    it = phrase->properties().find( property );
+
+    if( it != phrase->properties().end() ){
+      tmp += std::stod( it->second );
+    } else {
+      cout << "in phrase: " << *phrase << endl;
+      cout << "could not find property: " << property << endl;
+      exit(0);
+    }
+
+    for( unsigned int i = 0; i < phrase->children().size(); i++){
+      if( phrase->children()[ i ] != NULL ) {
+        tmp += aggregate_property_phrases( phrase->children()[ i ], property );
+      }
+    }
+    return tmp;
+  } else {
+    return 0.0;
+  }
 }
 
 /**

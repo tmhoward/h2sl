@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cassert>
 #include <sys/time.h>
 #include "h2sl/common.h"
 #include "h2sl/phrase.h"
@@ -127,6 +128,10 @@ main( int argc,
     Phrase * truth = new Phrase();
     truth->from_xml( args.inputs[ i ] );
 
+    Phrase * test = new Phrase();
+    test->from_xml( args.inputs[ i ] );
+    clear( test );
+
     // update the search space when the world changes
     search_space->fill_groundings( *symbol_dictionary, world );
     cout << "search_space:" << *search_space << endl;
@@ -144,9 +149,18 @@ main( int argc,
       //remove the annotations from the copy
       clear( phrases.back() );
       //inference on scraped phrase
-      adcg->leaf_search( phrases.back(), *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
-      if( !adcg->solutions().empty() ){
+      //adcg->leaf_search( phrases.back(), *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+      adcg->leaf_search( test, *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+      if( !adcg->solutions().empty() ){ 
+        cout << "num_phrases: " << to_std_string( adcg->solutions().front().second->num_phrases() ) << endl;
+
         cout << "solution: " << *adcg->solutions().front().second << " (" << adcg->solutions().front().first << ")" << endl;
+
+        //cout << "search space( concrete_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "concrete_size" ) ) ) << endl;
+        cout << "search space( abstract_max_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_max_size" ) ) ) << endl;
+        cout << "search space( abstract_avg_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_avg_size" ) ) ) << endl;
+
+
         //compare the solution to the 'truth'
         if( compare_phrases( *truth, *adcg->solutions().front().second ) ){
           cout << "solution matches" << endl;

@@ -34,6 +34,7 @@
 
 #include <fstream>
 #include <utility>
+#include <cassert>
 
 #include "h2sl/grounding_set.h"
 #include "h2sl/dcg.h"
@@ -207,8 +208,10 @@ _fill_phrase( Factor_Set* node,
    it = node->properties().find( "concrete_size" );
    if( it != node->properties().end() ){
      insert_prop< std::string >( phrase->properties(), "concrete_size", it->second );
+     cout << "found key:" << "concrete_size" << "filling: " << it->second << endl;
    } else {
      insert_prop< std::string >( phrase->properties(), "concrete_size", "0" );
+     cout << "adding the key:" << "concrete_size" << "filling: " << "0" << endl;
    }
 
    it = node->properties().find( "abstract_max_size" );
