@@ -107,7 +107,8 @@ namespace h2sl {
 Factor_Set::
 Factor_Set( const Phrase* phrase ) : _phrase( phrase ),
                                           _child_factor_sets(),
-                                          _solutions() {
+                                          _solutions(),
+                                          _properties() {
 
 }
 
@@ -119,7 +120,8 @@ Factor_Set::
 Factor_Set::
 Factor_Set( const Factor_Set& other ) : _phrase( other._phrase ),
                                                 _child_factor_sets( other._child_factor_sets ),
-                                                _solutions( other._solutions ){
+                                                _solutions( other._solutions ),
+                                                _properties( other._properties ){
 
 }
 
@@ -229,6 +231,9 @@ search( const Search_Space* searchSpace,
     }
   }
 
+  // Record the search space size.
+  insert_prop< std::string >( _properties, "concrete_size", to_std_string( searchSpace->size() ) ); 
+
   vector< vector< Factor_Set_Solution > > solutions_vector;
   // add a Factor_Set_Solution for each combination of children
   for( unsigned int i = 0; i < child_solution_indices_cartesian_power.size(); i++ ){
@@ -304,6 +309,7 @@ search( const Search_Space* searchSpace,
     }  
   }
 
+ 
   return;
 }
 

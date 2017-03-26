@@ -32,6 +32,7 @@
  */
 
 #include <iostream>
+#include <cassert>
 #include <sys/time.h>
 #include "h2sl/common.h"
 #include "h2sl/phrase.h"
@@ -44,56 +45,42 @@
 using namespace std;
 using namespace h2sl;
 
-
-bool
-compare_phrases( const Phrase* first, 
-                  const Phrase* second ){
-  if( ( first != NULL ) && ( second != NULL ) ){
-    const Grounding_Set * first_grounding_set = dynamic_cast< const Grounding_Set* >( first->grounding_set() );
-    const Grounding_Set * second_grounding_set = dynamic_cast< const Grounding_Set* >( second->grounding_set() );
-    if( ( first_grounding_set != NULL ) && ( second_grounding_set != NULL ) ){
-      if( first_grounding_set->groundings().size() == second_grounding_set->groundings().size() ){
-        for( unsigned int i = 0; i < first_grounding_set->groundings().size(); i++ ){
-          if( dynamic_cast< const Object* >( first_grounding_set->groundings()[ i ] ) != NULL ){
-            const Object* first_grounding_object = static_cast< const Object* >( first_grounding_set->groundings()[ i ] );
-            bool found_match = false;
-            for( unsigned int j = 0; j < second_grounding_set->groundings().size(); j++ ){
-              if( dynamic_cast< const Object* >( second_grounding_set->groundings()[ j ] ) != NULL ){
-                const Object* second_grounding_object = static_cast< const Object* >( second_grounding_set->groundings()[ j ] );
-                if( *first_grounding_object == *second_grounding_object ){
-                  found_match = true;
-                }
-              }
-            }
-            if( !found_match ){
-              return false;
-            }
-          } else if( dynamic_cast< const Constraint* >( first_grounding_set->groundings()[ i ] ) != NULL ){
-            const Constraint* first_grounding_constraint = static_cast< const Constraint* >( first_grounding_set->groundings()[ i ] );
-            bool found_match = false;
-            for( unsigned int j = 0; j < second_grounding_set->groundings().size(); j++ ){
-              if( dynamic_cast< const Constraint* >( second_grounding_set->groundings()[ j ] ) != NULL ){
-                const Constraint* second_grounding_constraint = static_cast< const Constraint* >( second_grounding_set->groundings()[ j ] );
-                if( *first_grounding_constraint == *second_grounding_constraint ){
-                  found_match = true;
-                }
-              }
-            }
-            if( !found_match ){
-              return false;
-            }
-          }
-        }
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    } 
-  } else {
-    return false;
+/**
+ * Clear the phrase. 
+ */
+void
+clear( Phrase* phrase ){
+  if( phrase != NULL ){
+    if( phrase->grounding_set() != NULL ){
+      delete_ptr< Grounding_Set >( phrase->grounding_set() );
+    }
+    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+      clear( phrase->children()[ i ] );
+    }
   }
-  return true;
+  return;
+}
+
+/**
+ * Complete: Compare Phrases 
+ */
+bool
+compare_phrases( const Phrase& a,
+                const Phrase& b ){
+  assert( dynamic_cast< const Grounding_Set* >( a.grounding_set() ) != NULL );
+  assert( dynamic_cast< const Grounding_Set* >( b.grounding_set() ) != NULL );
+
+  bool value = true;
+  value = value && ( a.children().size() == b.children().size() );
+  if( a.children().size() == b.children().size() ){
+    for( unsigned int i = 0; i < a.children().size(); i++ ){
+      value = value && compare_phrases( *a.children()[ i ], *b.children()[ i ] );
+    }
+  }
+
+  value = value && ( *( static_cast< const Grounding_Set* >( a.grounding_set() ) ) == *( static_cast< const Grounding_Set* >( b.grounding_set() ) ) );
+
+  return value;
 }
 
 int
@@ -109,7 +96,9 @@ main( int argc,
 
   Parser< Phrase > * parser = new Parser_CYK< Phrase >();
   Grammar * grammar = new Grammar();
-  grammar->from_xml( args.grammar_arg );
+  if( args.grammar_given ){
+    grammar->from_xml( args.grammar_arg );
+  }
 
   Feature_Set * feature_set = new Feature_Set();
   LLM * llm = new LLM( feature_set );
@@ -144,41 +133,95 @@ main( int argc,
     cout << "search_space:" << *search_space << endl;
 
     vector< Phrase* > phrases;
-    if( parser->parse( *grammar, instruction, phrases ) ){
-      if( !phrases.empty() ){
-        cout << "found " << phrases.size() << " phrases" << endl;
-        cout << "  truth:" << *truth << endl;
-        bool found_match = false;
-        unsigned int match_index = 0;
-        for( unsigned int i = 0; i < phrases.size(); i++ ){
-          if( phrases[ i ] != NULL ){
-            cout << "    running leaf search" << endl;
-            adcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
-            if( !adcg->solutions().empty() ){
-              cout << "  parse[" << i << "]:" << *adcg->solutions().front().second << " (" << adcg->solutions().front().first << ")" << endl;
-              adcg->solutions().front().second->to_xml( "/tmp/test.xml" ); 
-              cout << "    comparing phrases" << endl;
-              if( compare_phrases( truth, adcg->solutions().front().second ) ){
-                found_match = true;
-                match_index = i;
+    //phrases.push_back( truth );
+
+    
+    //conditional flow to allow use of parser or not
+    if( !args.grammar_given ){    
+      cout << "grammar not provided, scraping example..." << endl;
+      //add a copy of 'truth' to the phrases vector
+      phrases.push_back( new Phrase() );
+      phrases.back() = truth->dup();
+      //remove the annotations from the copy
+      clear( phrases.back() );
+      //inference on scraped phrase
+      adcg->leaf_search( phrases.back(), *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+      if( !adcg->solutions().empty() ){ 
+        cout << "num_phrases: " << to_std_string( adcg->solutions().front().second->num_phrases() ) << endl;
+
+        cout << "solution: " << *adcg->solutions().front().second << " (" << adcg->solutions().front().first << ")" << endl;
+
+        cout << "search space( concrete_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "concrete_size" ) ) ) << endl;
+        cout << "search space( abstract_max_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_max_size" ) ) ) << endl;
+        cout << "search space( abstract_avg_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_avg_size" ) ) ) << endl;
+        cout << "search space( avg_abstract_avg_size ) : " << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) ) << endl;
+        cout << "search space( avg_abstract_max_size ) : " << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" ) ) << endl;
+        cout << "search space( avg_concrete_size ) : " << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) ) << endl;
+
+        //compare the solution to the 'truth'
+        if( compare_phrases( *truth, *adcg->solutions().front().second ) ) {
+          cout << "solution matches" << endl;
+          num_correct++;
+        } else{
+          cout << "solution does not match" << endl;
+          num_incorrect++;
+        }
+      }
+    } else{
+      cout << "grammar provided, parsing..." << endl;
+      //fill the 'phrases' vector with the results of the parsing
+      if( parser->parse( *grammar, instruction, phrases ) ){
+        if( !phrases.empty() ){
+          cout << "found " << phrases.size() << " phrases" << endl;
+          cout << "  truth:" << *truth << endl;
+          bool found_match = false;
+          unsigned int match_index = 0;
+          for( unsigned int i = 0; i < phrases.size(); i++ ){
+            if( phrases[ i ] != NULL ){
+              adcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
+              if( !adcg->solutions().empty() ){
+                cout << "  parse[" << i << "]:" << *adcg->solutions().front().second << " (" << adcg->solutions().front().first << ")" << endl;
+                if( compare_phrases( *truth, *adcg->solutions().front().second ) ){
+                  found_match = true;
+                  match_index = i;
+                }
               }
             }
           }
+          if( found_match ){
+            cout << "  phrase[" << match_index << "] matches" << endl;
+            num_correct++;
+          } else {
+            cout << "  did not find match" << endl;
+            num_incorrect++;
+            exit(0);
+          }
         }
-        if( found_match ){
-          cout << "  phrase[" << match_index << "] matches" << endl;
-          num_correct++;
-        } else {
-          cout << "  did not find match" << endl;
-          num_incorrect++;
-          exit(0);
-        }
+      } else {
+        cout << "  could not parse \"" << instruction << "\"" << endl;
+        num_incorrect++;
+        exit(0);
       }
-    } else {
-      cout << "  could not parse \"" << instruction << "\"" << endl;
-      num_incorrect++;
-      exit(0);
-    } 
+    }
+
+    cout << "printing phrases" << endl;
+    for( unsigned int i = 0; i < phrases.size(); i++ ){
+        cout << "  " << *phrases[ i ] << endl;
+    }
+
+    // write the solution to xml
+    // get the example number from the filename
+    string filename = args.inputs[ i ];
+    string example_number_string = filename.substr( ( filename.size() - 8 ), 4 );
+    stringstream output_filename;
+    if( args.output_given ){
+      output_filename << args.output_arg << "/adcg_solution_" << example_number_string << ".xml";
+      adcg->solutions().front().second->to_xml( output_filename.str() );
+    } else{
+      output_filename << "/tmp/adcg_solution_" << example_number_string << ".xml";
+      adcg->solutions().front().second->to_xml( output_filename.str() );
+    }
+
 
     for( unsigned int i = 0; i < phrases.size(); i++ ){
       if( phrases[ i ] != NULL ){

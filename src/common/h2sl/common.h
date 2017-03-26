@@ -388,6 +388,15 @@ namespace h2sl {
     return tmp.str();
   }
 
+  /** 
+   * converts unsigned int to string
+   */
+  inline std::string to_std_string( const unsigned int& arg ){
+    std::stringstream tmp;
+    tmp << arg;
+    return tmp.str();
+  }
+
   /**
    * std:vector string formatted
    */

@@ -144,6 +144,14 @@ main( int argc,
       clear( phrases.back() );
       dcg->leaf_search( phrases.back(), *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
       if( !dcg->solutions().empty() ){
+        cout << "num_phrases: " << to_std_string( dcg->solutions().front().second->num_phrases() ) << endl;
+        cout << "search space( abstract_max_size ) : " << to_std_string( dcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_max_size" ) ) ) << endl;
+        cout << "search space( abstract_avg_size ) : " << to_std_string( dcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_avg_size" ) ) ) << endl;
+        cout << "search space( avg_abstract_avg_size ) : " << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) ) << endl;
+        cout << "search space( avg_abstract_max_size ) : " << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" ) ) << endl;
+        cout << "search space( avg_concrete_size ) : " << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) ) << endl;
+        cout << "search space( concrete_size ) : " << to_std_string( dcg->solutions().front().second->aggregate_property_phrases( std::string( "concrete_size" ) ) ) << endl;
+
         cout << "solution: " << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl;
         if( compare_phrases( *truth, *dcg->solutions().front().second ) ){
           cout << "solution matches" << endl;
@@ -165,6 +173,13 @@ main( int argc,
             if( phrases[ i ] != NULL ){
               dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
               if( !dcg->solutions().empty() ){
+                cout << "num_phrases: " << to_std_string( dcg->solutions().front().second->num_phrases() ) << endl;
+                cout << "search space( abstract_max_size ) : " << to_std_string( dcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_max_size" ) ) ) << endl;
+                cout << "search space( abstract_avg_size ) : " << to_std_string( dcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_avg_size" ) ) ) << endl;
+                cout << "search space( avg_abstract_avg_size ) : " << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) ) << endl;
+                cout << "search space( avg_abstract_max_size ) : " << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" ) ) << endl;
+                cout << "search space( avg_concrete_size ) : " << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) ) << endl;
+                cout << "search space( concrete_size ) : " << to_std_string( dcg->solutions().front().second->aggregate_property_phrases( std::string( "concrete_size" ) ) ) << endl;
                 cout << "  parse[" << i << "]:" << *dcg->solutions().front().second << " (" << dcg->solutions().front().first << ")" << endl;
                 if( compare_phrases( *truth, *dcg->solutions().front().second ) ){
                   found_match = true;
@@ -189,9 +204,18 @@ main( int argc,
       }
     }
 
+    // write the solution to xml
+    // get the example number from the filename
+    string filename = args.inputs[ i ];
+    string example_number_string = filename.substr( ( filename.size() - 8 ), 4 );
     stringstream output_filename;
-    output_filename << "/tmp/input_" << setw( 4 ) << setfill( '0' ) << i << "_dcg_solution.xml";
-    dcg->solutions().front().second->to_xml( output_filename.str() );
+    if( args.output_given ){
+      output_filename << args.output_arg << "/dcg_solution_" << example_number_string << ".xml";
+      dcg->solutions().front().second->to_xml( output_filename.str() );
+    } else{
+      output_filename << "/tmp/dcg_solution_" << example_number_string << ".xml";
+      dcg->solutions().front().second->to_xml( output_filename.str() );
+    }
 
     //memory cleanup
     cout << "beginning memory cleanup" << endl;
