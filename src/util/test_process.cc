@@ -196,26 +196,45 @@ run_tests( const std::vector< std::string >& filenames,
   unsigned int num_incorrect_root_dcg = 0;
   unsigned int num_correct_complete_dcg = 0;
   unsigned int num_incorrect_complete_dcg = 0;
+  double num_concrete_dcg = 0.0;
+  double num_abstract_avg_dcg = 0.0;
+  double num_abstract_max_dcg = 0.0;
+
   // ADCG
   unsigned int num_correct_root_adcg = 0;
   unsigned int num_incorrect_root_adcg = 0;
   unsigned int num_correct_complete_adcg = 0;
   unsigned int num_incorrect_complete_adcg = 0;
+  double num_concrete_adcg = 0.0;
+  double num_abstract_avg_adcg = 0.0;
+  double num_abstract_max_adcg = 0.0;
+
   // HDCG
   unsigned int num_correct_root_hdcg = 0;
   unsigned int num_incorrect_root_hdcg = 0;
   unsigned int num_correct_complete_hdcg = 0;
   unsigned int num_incorrect_complete_hdcg = 0;
+
   // HADCG
   unsigned int num_correct_root_hadcg = 0;
   unsigned int num_incorrect_root_hadcg = 0;
   unsigned int num_correct_complete_hadcg = 0;
   unsigned int num_incorrect_complete_hadcg = 0;
+
   // Runtime
   double runtime_dcg = 0.0;
   double runtime_adcg = 0.0;
   double runtime_hdcg = 0.0;
   double runtime_hadcg = 0.0;
+  
+  // Search Space Sizes
+  double dataset_concrete_dcg = 0.0;
+  double dataset_abstract_avg_dcg = 0.0;
+  double dataset_abstract_max_dcg = 0.0;
+  double dataset_concrete_adcg = 0.0;
+  double dataset_abstract_avg_adcg = 0.0;
+  double dataset_abstract_max_adcg = 0.0;
+
   // Averages.
   double average_runtime_ratio = 0.0;
 
@@ -281,16 +300,21 @@ run_tests( const std::vector< std::string >& filenames,
     cout << "    runtime:" << dcg_example_runtime_string.str() << endl;
 
     // Search space size: concrete
-    string dcg_concrete_size_string = to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) );
-    xmlNewProp( dcg_example_node, ( const xmlChar* )( "search_space_concrete_size" ), (const xmlChar* )( dcg_concrete_size_string.c_str() ) );
+    double tmp_dcg_stats = 0.0;
+    
+    tmp_dcg_stats = dcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" );
+    num_concrete_dcg += tmp_dcg_stats;
+    xmlNewProp( dcg_example_node, ( const xmlChar* )( "search_space_concrete_size" ), (const xmlChar* )( to_std_string( tmp_dcg_stats ).c_str() ) );
 
     // Search space size: abstract average
-    string dcg_abstract_avg_size_string = to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) );
-    xmlNewProp( dcg_example_node, ( const xmlChar* )( "search_space_abstract_avg_size" ), (const xmlChar* )( dcg_abstract_avg_size_string.c_str() ) );
+    tmp_dcg_stats = dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" );
+    num_abstract_avg_dcg += tmp_dcg_stats;
+    xmlNewProp( dcg_example_node, ( const xmlChar* )( "search_space_abstract_avg_size" ), (const xmlChar* )( to_std_string( tmp_dcg_stats ).c_str() ) );
 
     // Search space size: abstract max 
-    string dcg_abstract_max_size_string = to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" ) );
-    xmlNewProp( dcg_example_node, ( const xmlChar* )( "search_space_abstract_max_size" ), (const xmlChar* )( dcg_abstract_max_size_string.c_str() ) );
+    tmp_dcg_stats = dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" );
+    num_abstract_max_dcg += tmp_dcg_stats;
+    xmlNewProp( dcg_example_node, ( const xmlChar* )( "search_space_abstract_max_size" ), (const xmlChar* )( to_std_string( tmp_dcg_stats ).c_str() ) );
 
     // Accuracy statistics.
     if( root_compare_phrases( *truth_phrase, *static_cast< Phrase* >( dcg->solutions().front().second ) ) ){
@@ -317,13 +341,13 @@ run_tests( const std::vector< std::string >& filenames,
     xmlAddChild( example_node, dcg_example_node );
     // clear the input_phrase for groundings to run the test for the next model.
     clear( input_phrase );
-
-    cout << "dcg_abstract_avg_size" << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) ) << endl;
-    cout << "dcg_concrete_size" << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) ) << endl;
-    cout << "dcg_search_space_concrete" << dcg_concrete_size_string << endl;
-    cout << "dcg_search_space_abstract_avg" << dcg_abstract_avg_size_string << endl;
-    cout << "dcg_search_space_abstract_max" << dcg_abstract_max_size_string << endl;
  
+    if( debug ) {
+      cout << "dcg_concrete_size" << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) ) << endl;
+      cout << "dcg_abstract_avg_size" << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) ) << endl;
+      cout << "dcg_abstract_avg_size" << to_std_string( dcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" ) ) << endl;
+    }
+    
     /**************************************** ADCG ******************************************************************/
     ADCG * adcg = new ADCG();
 
@@ -348,16 +372,21 @@ run_tests( const std::vector< std::string >& filenames,
     cout << "    runtime:" << adcg_example_runtime_string.str() << endl;
 
     // Search space size: concrete
-    string adcg_concrete_size_string = to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) );
-    xmlNewProp( adcg_example_node, ( const xmlChar* )( "search_space_concrete_size" ), (const xmlChar* )( adcg_concrete_size_string.c_str() ) );
+    double tmp_adcg_stats = 0.0;
+
+    tmp_adcg_stats = adcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" );
+    num_concrete_adcg += tmp_adcg_stats;
+    xmlNewProp( adcg_example_node, ( const xmlChar* )( "search_space_concrete_size" ), (const xmlChar* )( to_std_string( tmp_adcg_stats ).c_str() ) );
 
     // Search space size: abstract average
-    string adcg_abstract_avg_size_string = to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) );
-    xmlNewProp( adcg_example_node, ( const xmlChar* )( "search_space_abstract_avg_size" ), (const xmlChar* )( adcg_abstract_avg_size_string.c_str() ) );
+    tmp_adcg_stats = adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" );
+    num_abstract_avg_adcg += tmp_adcg_stats;
+    xmlNewProp( adcg_example_node, ( const xmlChar* )( "search_space_abstract_avg_size" ), (const xmlChar* )( to_std_string( tmp_adcg_stats ).c_str() ) );
 
     // Search space size: abstract max 
-    string adcg_abstract_max_size_string = to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" ) );
-    xmlNewProp( adcg_example_node, ( const xmlChar* )( "search_space_abstract_max_size" ), (const xmlChar* )( adcg_abstract_max_size_string.c_str() ) );
+    tmp_adcg_stats = adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" );
+    num_abstract_max_adcg += tmp_adcg_stats;
+    xmlNewProp( adcg_example_node, ( const xmlChar* )( "search_space_abstract_max_size" ), (const xmlChar* )( to_std_string( tmp_adcg_stats ).c_str() ) );
 
     // Accuracy
     if( root_compare_phrases( *truth_phrase, *static_cast< Phrase* >( adcg->solutions().front().second ) ) ){
@@ -383,10 +412,12 @@ run_tests( const std::vector< std::string >& filenames,
     xmlAddChild( example_node, adcg_example_node );
     clear( input_phrase );
 
-    cout << "adcg_search_space_concrete" << adcg_concrete_size_string << endl;
-    cout << "adcg_search_space_abstract_avg" << adcg_abstract_avg_size_string << endl;
-    cout << "adcg_search_space_abstract_max" << adcg_abstract_max_size_string << endl;
-
+    if( debug ){
+      cout << "adcg_concrete_size" << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) ) << endl;
+      cout << "adcg_abstract_avg_size" << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) ) << endl;
+      cout << "adcg_abstract_avg_size" << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" ) ) << endl;
+   }
+   
     /**************************************** HDCG ******************************************************************/
     HDCG * hdcg = new HDCG();
 
@@ -556,6 +587,15 @@ run_tests( const std::vector< std::string >& filenames,
   double correct_complete_hdcg = ( double )( num_correct_complete_hdcg ) / ( double )( num_correct_complete_hdcg + num_incorrect_complete_hdcg );
   double correct_complete_hadcg = ( double )( num_correct_complete_hadcg ) / ( double )( num_correct_complete_hadcg + num_incorrect_complete_hadcg );
 
+  // Search Space
+  // Search Space Sizes
+  dataset_concrete_dcg = num_concrete_dcg / ( double )( filenames.size() ) ;
+  dataset_abstract_avg_dcg = num_abstract_avg_dcg / ( double )( filenames.size() ) ;
+  dataset_abstract_max_dcg = num_abstract_avg_dcg / ( double )( filenames.size() );
+  dataset_concrete_adcg = num_concrete_adcg / ( double )( filenames.size() ) ;
+  dataset_abstract_avg_adcg = num_abstract_avg_adcg / ( double )( filenames.size() ) ;
+  dataset_abstract_max_adcg = num_abstract_avg_adcg / ( double )( filenames.size() );
+
   /******  XML: correct root **************************/ 
   stringstream correct_root_dcg_string;
   correct_root_dcg_string << correct_root_dcg;
@@ -703,14 +743,12 @@ run_tests( const std::vector< std::string >& filenames,
 
   cout << "runtime_ratio: " << average_runtime_ratio << endl;
 
-  /*
-  cout << "dcg_search_space_concrete" << dcg_concrete_size_string << endl;
-  cout << "dcg_search_space_abstract_avg" << dcg_abstract_avg_size_string << endl;
-  cout << "dcg_search_space_abstract_max" << dcg_abstract_max_size_string << endl;
-  cout << "adcg_search_space_concrete" << adcg_concrete_size_string << endl;
-  cout << "adcg_search_space_abstract_avg" << adcg_abstract_avg_size_string << endl;
-  cout << "adcg_search_space_abstract_max" << adcg_abstract_max_size_string << endl;
-  */
+  cout << "dcg_search_space_concrete: " << dataset_concrete_dcg << endl;
+  cout << "dcg_search_space_abstract_avg: " << dataset_abstract_avg_dcg << endl;
+  cout << "dcg_search_space_abstract_max: " << dataset_abstract_max_dcg << endl;
+  cout << "adcg_search_space_concrete: " << dataset_concrete_adcg << endl;
+  cout << "adcg_search_space_abstract_avg: " << dataset_abstract_avg_adcg  << endl;
+  cout << "adcg_search_space_abstract_max: " << dataset_abstract_max_adcg << endl;
 
   xmlAddChild( parentNode, test_group_node );
 
