@@ -159,7 +159,7 @@ main( int argc,
         cout << "search space( avg_concrete_size ) : " << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) ) << endl;
 
         //compare the solution to the 'truth'
-        if( compare_phrases( *truth, *adcg->solutions().front().second ) ){
+        if( compare_phrases( *truth, *adcg->solutions().front().second ) {
           cout << "solution matches" << endl;
           num_correct++;
         } else{
