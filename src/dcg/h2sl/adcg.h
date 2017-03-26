@@ -87,15 +87,6 @@ namespace h2sl {
     // helper functions.
     virtual void _fill_factors( Factor_Set* node, const Phrase* phrase, const bool& fill = false );
 
-    // ToDo: Add any additional members for ADCG
-    // Storing the inferred concrete search space for each.
-    // vector < pair< Phrase*, Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 
-    // vector < vector< Symbol_Dictionary > > _inferred_concrete_symbol_dictionaries; 
-    
-    // Storing the abstract search space for each phrase.
-    // vector< pair< Phrase*, Search_Space > > _abstract_search_space;
-    // vector< vector< Search_Space > > _abstract_search_space;
-
   private:
 
   };

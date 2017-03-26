@@ -34,6 +34,7 @@
 
 #include <fstream>
 #include <utility>
+#include <cassert>
 
 #include "h2sl/grounding_set.h"
 #include "h2sl/dcg.h"
@@ -133,6 +134,7 @@ leaf_search( const Phrase* phrase,
         delete _solutions.back().second->grounding_set();
         _solutions.back().second->grounding_set() = NULL;
       }
+   
       _fill_phrase( _root, _root->solutions()[ i ], _solutions.back().second );
     }
 
@@ -182,7 +184,37 @@ _fill_phrase( Factor_Set* node,
               Phrase* phrase ){
   cout << "filling phrase:" << *phrase << endl;
   cout << "solution:" << solution << endl;
+
+  cout << "transfer properties from factor set to phrase:" << endl;
+   // Transfer relevant properties. 
+   std::map< std::string, std::string >::const_iterator it;
+   it = node->properties().find( "concrete_size" );
+   if( it != node->properties().end() ){
+     insert_prop< std::string >( phrase->properties(), "concrete_size", it->second );
+     //cout << "found key:" << "concrete_size" << "filling: " << it->second << endl;
+   } else {
+     insert_prop< std::string >( phrase->properties(), "concrete_size", "0" );
+     //cout << "adding the key:" << "concrete_size" << "filling: " << "0" << endl;
+   }
+
+   it = node->properties().find( "abstract_max_size" );
+   if( it != node->properties().end() ){
+     insert_prop< std::string >( phrase->properties(), "abstract_max_size", it->second );
+   } else {
+     insert_prop< std::string >( phrase->properties(), "abstract_max_size", "0" );
+   }
+
+    it = node->properties().find( "abstract_avg_size" );
+   if( it != node->properties().end() ){
+     insert_prop< std::string >( phrase->properties(), "abstract_avg_size", it->second );
+   } else {
+     insert_prop< std::string >( phrase->properties(), "abstract_avg_size", "0.0" );
+   }
+     
+  // Copy the grounding set
   phrase->grounding_set() = solution.grounding_set()->dup();
+
+  // Examine children.
   for( unsigned int i = 0; i < node->child_factor_sets().size(); i++ ){
     phrase->children().push_back( node->child_factor_sets()[ i ]->phrase()->dup() );
     for( unsigned int j = 0; j < phrase->children().back()->children().size(); j++ ){
@@ -200,6 +232,7 @@ _fill_phrase( Factor_Set* node,
     assert( i < node->child_factor_sets().size() );
     assert( i < solution.child_solution_indices().size() );
     assert( solution.child_solution_indices()[ i ] < node->child_factor_sets()[ i ]->solutions().size() );
+
     _fill_phrase( node->child_factor_sets()[ i ],
                   node->child_factor_sets()[ i ]->solutions()[ solution.child_solution_indices()[ i ] ],
                   phrase->children().back() );
