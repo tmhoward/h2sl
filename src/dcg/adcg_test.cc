@@ -154,6 +154,9 @@ main( int argc,
         cout << "search space( concrete_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "concrete_size" ) ) ) << endl;
         cout << "search space( abstract_max_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_max_size" ) ) ) << endl;
         cout << "search space( abstract_avg_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_avg_size" ) ) ) << endl;
+        cout << "search space( avg_abstract_avg_size ) : " << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_avg_size", "per-phrase-avg" ) ) << endl;
+        cout << "search space( avg_abstract_max_size ) : " << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "abstract_max_size", "per-phrase-avg" ) ) << endl;
+        cout << "search space( avg_concrete_size ) : " << to_std_string( adcg->solutions().front().second->statistic_aggregate_property_phrases( "concrete_size", "per-phrase-avg" ) ) << endl;
 
         //compare the solution to the 'truth'
         if( compare_phrases( *truth, *adcg->solutions().front().second ) ){

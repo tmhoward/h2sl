@@ -417,7 +417,7 @@ aggregate_property_phrases( const Phrase* phrase, const std::string& property )c
     } else {
       cout << "in phrase: " << *phrase << endl;
       cout << "could not find property: " << property << endl;
-      exit(0);
+       exit(0);
     }
 
     for( unsigned int i = 0; i < phrase->children().size(); i++){
@@ -428,6 +428,32 @@ aggregate_property_phrases( const Phrase* phrase, const std::string& property )c
     return tmp;
   } else {
     return 0.0;
+  }
+}
+
+double
+Phrase::
+statistic_aggregate_property_phrases( const std::string& property, 
+                                      const std::string& statistic )const {
+  return statistic_aggregate_property_phrases( this, property, statistic );
+}
+
+double
+Phrase::
+statistic_aggregate_property_phrases( const Phrase* phrase, 
+                                      const std::string& property, 
+                                      const std::string& statistic )const {
+
+  if( statistic.compare( std::string( "per-phrase-avg" ) ) == 0 ) {
+    unsigned int num_phrases = phrase->num_phrases();
+    if ( num_phrases ){
+      return ( aggregate_property_phrases( phrase, property) / (double) (num_phrases) );
+    } else {
+      return 0.0;
+    }
+  } else {
+    cout << "statistic not known." << endl;
+    exit( 0 );
   }
 }
 

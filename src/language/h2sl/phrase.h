@@ -93,7 +93,15 @@ namespace h2sl {
     unsigned int num_words( const Phrase* phrase )const;
 
     double aggregate_property_phrases( const std::string& property )const;
-    double aggregate_property_phrases( const Phrase* phrase, const std::string& property )const;
+    double aggregate_property_phrases( const Phrase* phrase, 
+                                       const std::string& property )const;
+
+    double statistic_aggregate_property_phrases( const std::string& property,
+                                                 const std::string& statistic )const;
+
+    double statistic_aggregate_property_phrases( const Phrase* phrase,
+                                                 const std::string& property,
+                                                 const std::string& statistic )const; 
 
     virtual void to_tikz( const std::string& filename, const std::string& caption = "tbd", const std::string& lavel = "fig:tbd" );
     virtual std::string to_tikz( const Phrase* phrase, std::map< std::string, std::pair< double, double > >& nodes )const;
