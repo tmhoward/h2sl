@@ -82,6 +82,7 @@ main( int argc,
     phrase->from_xml( args.example_arg );
     phrase->clear_grounding_sets();
 
+    cout << endl << "search_spaces grounding pairs size(): " << search_space->grounding_pairs().size() << endl << endl;
     phrase->to_xml( "/tmp/phrase.xml" ); 
 
     search_space->fill_groundings( *symbol_dictionary, world );
@@ -174,6 +175,8 @@ main( int argc,
             }
           } 
         }
+      cout << "after adcg inference printing out the phrase:" << endl;
+      cout << *phrases[ i ] << endl;
       }
     }
 
