@@ -277,8 +277,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_abs_y" ) );
@@ -292,8 +290,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "min_abs_y" ) );
@@ -307,8 +303,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( false, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( false, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( false, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( false, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( false, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( false, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( false, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( false, "min_abs_y", *it_spatial_relation_type ) );
@@ -322,8 +316,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( true, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( true, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( true, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( true, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( true, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( true, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( true, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Spatial_Relation( true, "min_abs_y", *it_spatial_relation_type ) );
@@ -337,8 +329,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( false, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( false, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( false, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( false, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( false, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( false, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( false, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( false, "min_abs_y", *it_spatial_relation_type ) );
@@ -352,8 +342,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( true, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( true, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( true, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( true, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( true, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( true, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( true, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region( true, "min_abs_y", *it_spatial_relation_type ) );
@@ -367,8 +355,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_abs_y", *it_spatial_relation_type ) );
@@ -377,14 +363,11 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_distance", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "min_center_distance", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_center_distance", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( false, "max_center_distance", *it_spatial_relation_type ) );
         //
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_abs_y", *it_spatial_relation_type ) );
@@ -393,14 +376,11 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_distance", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "min_center_distance", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_center_distance", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Container( true, "max_center_distance", *it_spatial_relation_type ) );
         //
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "min_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( false, "min_abs_y", *it_spatial_relation_type ) );
@@ -415,8 +395,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( true, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( true, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( true, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( true, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( true, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( true, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( true, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Property_Spatial_Relation( true, "min_abs_y", *it_spatial_relation_type ) );
@@ -431,8 +409,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( false, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( false, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( false, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( false, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( false, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( false, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( false, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( false, "min_abs_y", *it_spatial_relation_type ) );
@@ -447,8 +423,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( true, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( true, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( true, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( true, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( true, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( true, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( true, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Region_Abstract_Container_Container( true, "min_abs_y", *it_spatial_relation_type ) );
@@ -463,8 +437,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( false, "min_abs_y", *it_spatial_relation_type ) );
@@ -478,8 +450,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( true, "max_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( true, "min_y", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( true, "max_y", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( true, "min_z", *it_spatial_relation_type ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( true, "max_z", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( true, "min_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( true, "max_abs_x", *it_spatial_relation_type ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( true, "min_abs_y", *it_spatial_relation_type ) );
@@ -500,8 +470,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_index, "min_abs_y" ) );
@@ -515,8 +483,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_index, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_index, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_index, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_index, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_index, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_index, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_index, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_index, "min_abs_y" ) );
@@ -535,8 +501,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_number, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_number, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_number, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_number, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_number, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_number, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_number, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( false, *it_number, "min_abs_y" ) );
@@ -550,8 +514,6 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_number, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_number, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_number, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_number, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_number, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_number, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_number, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Sorted_Objects( true, *it_number, "min_abs_y" ) );
@@ -874,8 +836,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Matches_Sorted_Objects( false, *it_number, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Matches_Sorted_Objects( false, *it_number, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Matches_Sorted_Objects( false, *it_number, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Matches_Sorted_Objects( false, *it_number, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Matches_Sorted_Objects( false, *it_number, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Matches_Sorted_Objects( false, *it_number, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Matches_Sorted_Objects( false, *it_number, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Matches_Sorted_Objects( false, *it_number, "min_abs_y" ) );
@@ -893,8 +853,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_abs_y" ) );
@@ -908,8 +866,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region( false, *it_spatial_relation_type, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region( false, *it_spatial_relation_type, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region( false, *it_spatial_relation_type, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region( false, *it_spatial_relation_type, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region( false, *it_spatial_relation_type, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region( false, *it_spatial_relation_type, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region( false, *it_spatial_relation_type, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region( false, *it_spatial_relation_type, "min_abs_y" ) );
@@ -923,8 +879,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_abs_y" ) );
@@ -938,8 +892,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( false, *it_spatial_relation_type, "max_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( false, *it_spatial_relation_type, "min_y" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( false, *it_spatial_relation_type, "max_y" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( false, *it_spatial_relation_type, "min_z" ) );
-        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( false, *it_spatial_relation_type, "max_z" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( false, *it_spatial_relation_type, "min_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( false, *it_spatial_relation_type, "max_abs_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( false, *it_spatial_relation_type, "min_abs_y" ) );

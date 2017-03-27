@@ -93,6 +93,8 @@ namespace h2sl {
 
   };
   std::ostream& operator<<( std::ostream& out, const Object& other );
+
+  std::ostream& operator<<( std::ostream& out, const std::vector< Object* >& other );
 }
 
 #endif /* H2SL_OBJECT_H */

@@ -154,8 +154,15 @@ value( const string& cv,
             } else if ( sorting_key() == "max_center_distance" ){
               World::max_center_distance_sort_objects( sorted_objects );
             } 
-
+/*
+            cout << "object:" << *object << endl;
+            cout << "spatial_relation_type():" << spatial_relation_type() << endl;
+            cout << "sorting_key():" << sorting_key() << endl;
+            cout << "sorted_objects" << sorted_objects << endl;
+            cout << "index:" << object_property_child.second->index() << endl;
+*/    
             if( object->name() == sorted_objects[ object_property_child.second->index() - 1 ]->name() ){
+//              cout << "  FOUND MATCH" << endl;
               return !_invert;
             } else {
               return _invert;

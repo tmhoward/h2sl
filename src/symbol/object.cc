@@ -311,4 +311,22 @@ namespace h2sl {
     out << ")";
     return out;
   }
+    
+  ostream&
+  operator<<( ostream& out,
+              const vector< Object* >& other ) {
+    out << "[" << other.size() << "]:{";
+    for( unsigned int i = 0; i < other.size(); i++ ){
+      if( other[ i ] != NULL ){
+        out << *other[ i ];
+      } else {
+        out << "NULL";
+      }
+      if( i != ( other.size() - 1 ) ){
+        out << ",";
+      }
+    }
+    out << "}";
+    return out;
+  }
 }

@@ -97,7 +97,7 @@ value( const string& cv,
     assert( it_sorted_objects_map != world->sorted_objects().end() );
     map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object->type() );
     assert( it_sorted_objects != it_sorted_objects_map->second.end() );
-    if( number() < ( int )( it_sorted_objects->second.size() ) ){
+    if( (  number() < ( int )( it_sorted_objects->second.size() ) ) && ( it_sorted_objects->second.size() > 1 ) ){
       for( int i = 0; i < number(); i++ ){
         if( object->name() == it_sorted_objects->second[ i ]->name() ){
           return !_invert;
