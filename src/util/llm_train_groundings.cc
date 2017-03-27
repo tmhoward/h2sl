@@ -146,7 +146,11 @@ main( int argc,
   vector< LLM* > llms;
   for( int i = 0; i < args.threads_arg; i++ ){
     llms.push_back( new LLM( feature_sets[ i ] ) );
-    llms.back()->weights().resize( llms.back()->feature_set()->size() );
+    if( args.llm_given ){
+      llms.back()->from_xml( args.llm_arg );
+    } else {
+      llms.back()->weights().resize( llms.back()->feature_set()->size() );
+    }
   }
 
   LLM_Train* llm_train = new LLM_Train( llms );

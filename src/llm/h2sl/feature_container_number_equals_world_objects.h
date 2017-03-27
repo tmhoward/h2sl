@@ -20,7 +20,8 @@ namespace h2sl {
    */
   class Feature_Container_Number_Equals_World_Objects : public Feature {
   public:
-    Feature_Container_Number_Equals_World_Objects( const bool& invert = false );
+    Feature_Container_Number_Equals_World_Objects( const bool& invert = false, const std::string& objectType = "na" );
+    Feature_Container_Number_Equals_World_Objects( xmlNodePtr root );
     Feature_Container_Number_Equals_World_Objects( const Feature_Container_Number_Equals_World_Objects& other );
     virtual ~Feature_Container_Number_Equals_World_Objects();
     Feature_Container_Number_Equals_World_Objects& operator=( const Feature_Container_Number_Equals_World_Objects& other );
@@ -32,6 +33,9 @@ namespace h2sl {
     virtual void from_xml( xmlNodePtr root );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
+
+    inline std::string& object_type( void ){ return get_prop< std::string >( _string_properties, "object_type" ); };
+    inline const std::string& object_type( void )const{ return get_prop< std::string >( _string_properties, "object_type" ); };
 
     virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 

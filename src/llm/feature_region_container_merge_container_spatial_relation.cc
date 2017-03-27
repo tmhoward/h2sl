@@ -10,8 +10,10 @@
 #include <sstream>
 
 #include "h2sl/feature_region_container_merge_container_spatial_relation.h"
+#include "h2sl/object_property.h"
 #include "h2sl/region_container.h"
 #include "h2sl/spatial_relation.h"
+#include "h2sl/region_abstract_container.h"
 
 using namespace std;
 using namespace h2sl;
@@ -86,14 +88,20 @@ value( const string& cv,
           } else if ( dynamic_cast< const Spatial_Relation* >( children[ i ].second[ j ] ) != NULL ){
             spatial_relation_child.first = children[ i ].first;
             spatial_relation_child.second = static_cast< const Spatial_Relation* >( children[ i ].second[ j ] );
-          }
+          } else if ( dynamic_cast< const Object_Property* >( children[ i ].second[ j ] ) != NULL ){
+            // do not consider instances with object properties
+            return false;
+          } else if ( dynamic_cast< const Region_Abstract_Container* >( children[ i ].second[ j ] ) != NULL ){
+            // do not consider instances with region abstract containers
+            return false;
+          } 
         }
       }
 
       if( ( container_child.first != NULL ) && ( container_child.second != NULL ) && ( spatial_relation_child.first != NULL ) && ( spatial_relation_child.second != NULL ) ){ 
         if( _concept_order ){
           if( container_child.first->min_word_order() < spatial_relation_child.first->min_word_order() ){
-            if( region_container->relation_type() == spatial_relation_child.second->relation_type() ){
+            if( region_container->relation_type() == spatial_relation_child.second->spatial_relation_type() ){
               if( region_container->container() == *container_child.second ){
                 return !_invert;
               }
@@ -101,14 +109,8 @@ value( const string& cv,
           }
         } else {
           if( container_child.first->min_word_order() > spatial_relation_child.first->min_word_order() ){
-            if( region_container->relation_type() == spatial_relation_child.second->relation_type() ){
+            if( region_container->relation_type() == spatial_relation_child.second->spatial_relation_type() ){
               if( region_container->container() == *container_child.second ){
-/*
-                cout << "region_container:" << *region_container << endl;
-                cout << "spatial_relation_child:" << *spatial_relation_child.second << endl;
-                cout << "container_child:" << *container_child.second << endl;
-                assert( false );
-*/
                 return !_invert;
               }
             }

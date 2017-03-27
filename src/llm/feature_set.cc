@@ -215,6 +215,8 @@ evaluate( const string& cv,
           const Grounding* context,
           const vector< bool >& evaluateFeatureTypes ){
 
+  cout << "evaluating " << _feature_products.size() << " feature products" << endl;
+
   for( unsigned int i = 0; i < _feature_products.size(); i++ ){
     _feature_products[ i ]->evaluate( cv, grounding, children, phrase, world, context, evaluateFeatureTypes );
   }

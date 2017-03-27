@@ -1,15 +1,16 @@
 package "adcg_demo"
-version "1.0"
-purpose "A program used to demonstrate the Adaptive Distributed Correspondece Graphs( ADCG)"
+version "0.0.1"
+purpose "A program used to demonstrate the Adaptive Distributed Correspondence Graph (ADCG) class."
 
-option "world" - "world file" string required
-option "symbol_dictionary" - "symbol dictionary for model" string required
+option "world" - "world file" string optional
+option "symbol_dictionary_groundings" - "groundings symbol dictionary for model" string required
 option "llm" - "log-linear model file" string required
 option "grammar" - "grammar file" string optional
 option "command" - "command string" string optional
-option "output" o "output file" string optional
+option "example" - "example string" string optional
+option "output" - "output file" string optional
 option "latex_output" - "latex output file" string optional
 option "debug" - "debug flag" int default="0" optional
-option "beam_width" - "beam width" int default="2" optional
+option "beam_width" - "beam width" int default="4" optional
 
 text ""

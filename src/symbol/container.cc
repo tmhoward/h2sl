@@ -81,8 +81,12 @@ operator==( const Container& other )const{
      for( unsigned int i = 0; i < _groundings.size(); i++ ){
        bool found_match = false;
        for( unsigned int j = 0; j < other.container().size(); j++ ){
-         if( _groundings[ i ] == other.container()[ j ] ){
-           found_match = true;
+         if( _groundings[ i ] != NULL ){
+           if( _groundings[ i ]->matches_class_name( "object" ) && other.container()[ j ]->matches_class_name( "object" ) ){
+             if( *static_cast< const Object* >( _groundings[ i ] ) == *static_cast< const Object* >( other.container()[ j ] ) ){
+               found_match = true;
+             }
+           }
          }
        }
        if( !found_match ){
@@ -117,7 +121,7 @@ Container::
 evaluate_cv( const Grounding_Set* groundingSet )const{
   string cv = "false";
   for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
-    if( dynamic_cast< const Container* >( groundingSet->groundings()[ i ] ) ){
+    if( dynamic_cast< const Container* >( groundingSet->groundings()[ i ] ) != NULL ){
       if( *this == *static_cast< const Container* >( groundingSet->groundings()[ i ] ) ){
         cv = "true";
       }

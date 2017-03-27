@@ -20,7 +20,8 @@ namespace h2sl {
    */
   class Feature_Container_Number : public Feature {
   public:
-    Feature_Container_Number( const bool& invert = false, const unsigned int& abstractContainerNumber = 0 );
+    Feature_Container_Number( const bool& invert = false, const int& number = 0 );
+    Feature_Container_Number( xmlNodePtr root );
     Feature_Container_Number( const Feature_Container_Number& other );
     virtual ~Feature_Container_Number();
     Feature_Container_Number& operator=( const Feature_Container_Number& other );
@@ -33,13 +34,12 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    unsigned int& container_number( void );
-    const unsigned int& container_number( void )const;
+    inline int& number( void ){ return get_prop< int >( _int_properties, "number" ); };
+    inline const int& number( void )const{ return get_prop< int >( _int_properties, "number" ); };
 
-    virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
+    virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
   protected:
-    unsigned int _container_number;
 
   private:
 

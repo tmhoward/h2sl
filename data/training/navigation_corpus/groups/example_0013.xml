@@ -53,7 +53,7 @@
       </NP>
       <PP>
         <grounding_set>
-          <container container_type="row">
+          <container container_type="group">
             <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -67,7 +67,7 @@
         <IN text="of" order="2"/>
         <NP>
           <grounding_set>
-            <container container_type="row">
+            <container container_type="group">
               <object name="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>

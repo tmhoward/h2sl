@@ -1,4 +1,4 @@
-package "generate_features"
+package "generate_feature_set_groundings"
 version "1.0"
 purpose "A program used to generate features for symbols"
 

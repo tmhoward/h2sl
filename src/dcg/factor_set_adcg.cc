@@ -79,6 +79,9 @@ search( const Search_Space* searchSpace,
         LLM* llm,
         const unsigned int beamWidth,
         const bool& debug ){
+  if( debug ){
+    cout << "phrase:" << *_phrase << endl;
+  }
   //_search_physical( searchSpace, symbolDictionary, world, llm, beamWidth, debug );
 
   /**************** CREATE CHILD SOLUTION COMBOS ***********************/
@@ -139,28 +142,46 @@ search( const Search_Space* searchSpace,
                         context, world, llm, beamWidth, debug );
 
     }
- 
+
+    if( debug ){
+      for( unsigned int i = 0; i < solutions_vector.back().size(); i++ ){
+        cout << "solutions_vector.back()[" << i << "] (pygx:" << solutions_vector.back()[ i ].pygx() << ")" << endl;
+        cout << "  grounding_set" << *solutions_vector.back()[ i ].grounding_set() << endl;
+        cout << "  child_solution_indices[" << solutions_vector.back()[ i ].child_solution_indices().size() << "]:{";
+        for( unsigned int j = 0; j < solutions_vector.back()[ i ].child_solution_indices().size(); j++ ){
+          cout << "(\"" << _child_factor_sets[ j ]->phrase()->words_to_std_string() << "\":" << solutions_vector.back()[ i ].child_solution_indices()[ j ] << ")";
+          if( j != ( solutions_vector.back()[ i ].child_solution_indices().size() - 1 ) ){
+            cout << ",";
+          }
+        }
+        cout << "}" << endl;
+      }
+    }
+
+    // distribution of inferrred concrete and abstract symbols
+    vector< vector< Factor_Set_Solution > > combined_solutions_vector;
+
     // Symbol dictionaries for the current inference with the child solution combo.
     vector< pair< double, Symbol_Dictionary > > inferred_concrete_symbol_dictionaries;
     // Iterate and scrape the groundings from the solutions found. Record the probabilities.
     for( vector< Factor_Set_Solution >::const_iterator it_solution = solutions_vector.back().begin(); it_solution !=  solutions_vector.back().end(); it_solution++) {
       inferred_concrete_symbol_dictionaries.push_back( pair< double, Symbol_Dictionary >( it_solution->pygx(), Symbol_Dictionary( symbolDictionary, "abstract" ) ) );
-      cout << "current grounding set (" << *it_solution->grounding_set() << ")" << endl;
       it_solution->grounding_set()->scrape_grounding( world, 
                                                      inferred_concrete_symbol_dictionaries.back().second.string_types(), 
                                                      inferred_concrete_symbol_dictionaries.back().second.int_types() );
       inferred_concrete_symbol_dictionaries.back().second.class_names() = symbolDictionary.class_names();
-    }     
 
-    for( vector< pair< double, Symbol_Dictionary > >::const_iterator it_symbol_dictionary = inferred_concrete_symbol_dictionaries.begin(); it_symbol_dictionary != inferred_concrete_symbol_dictionaries.end(); it_symbol_dictionary++ ){
-    // Print out for debug.
+      combined_solutions_vector.push_back( vector< Factor_Set_Solution >() );
+      combined_solutions_vector.back().push_back( *it_solution );
+      
+      // Print out for debug.
       if( debug ){
-        cout << "inferred concrete symbol dictionary (" << it_symbol_dictionary->first << "):(" << it_symbol_dictionary->second << ")" << endl;
+        cout << "inferred concrete symbol dictionary (" << inferred_concrete_symbol_dictionaries.back().first << "):(" << inferred_concrete_symbol_dictionaries.back().second << ")" << endl;
       }
    
       // Creating the ssearch space from the symbol dictionary with abstract flag on.
       _abstract_search_spaces.push_back( new Search_Space() );
-      _abstract_search_spaces.back()->fill_groundings( it_symbol_dictionary->second, world, "abstract" );
+      _abstract_search_spaces.back()->fill_groundings( inferred_concrete_symbol_dictionaries.back().second, world, "abstract" );
 
       // Print out the abstract search space.
       if( debug ){
@@ -170,14 +191,13 @@ search( const Search_Space* searchSpace,
         }
       }
 
-
       // search over the class-based search spaces for the abstract symbols.
       for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_abstract_search_spaces = _abstract_search_spaces.back()->grounding_pairs().begin(); it_abstract_search_spaces != _abstract_search_spaces.back()->grounding_pairs().end(); it_abstract_search_spaces++ ){
         map< string, vector< string > >::const_iterator it_abstract_cvs = _abstract_search_spaces.back()->cvs().find( it_abstract_search_spaces->second.first );
         assert( it_abstract_cvs != _abstract_search_spaces.back()->cvs().end() );
 
         // search the subspace that incrementally populates the solution vectors
-        search_subspace( solutions_vector.back(),
+        search_subspace( combined_solutions_vector.back(),
                         child_groundings,
                         it_abstract_search_spaces->second,
                         it_abstract_cvs->second,
@@ -186,6 +206,34 @@ search( const Search_Space* searchSpace,
 
       }
 
+      if( debug ){
+        for( unsigned int i = 0; i < combined_solutions_vector.back().size(); i++ ){
+          cout << "combined_solutions_vector.back()[" << i << "] (pygx:" << combined_solutions_vector.back()[ i ].pygx() << ")" << endl;
+          cout << "  grounding_set" << *combined_solutions_vector.back()[ i ].grounding_set() << endl;
+          cout << "  child_solution_indices[" << combined_solutions_vector.back()[ i ].child_solution_indices().size() << "]:{";
+          for( unsigned int j = 0; j < combined_solutions_vector.back()[ i ].child_solution_indices().size(); j++ ){
+            cout << "(\"" << _child_factor_sets[ j ]->phrase()->words_to_std_string() << "\":" << combined_solutions_vector.back()[ i ].child_solution_indices()[ j ] << ")";
+            if( j != ( combined_solutions_vector.back()[ i ].child_solution_indices().size() - 1 ) ){
+              cout << ",";
+            } 
+          }
+          cout << "}" << endl;
+        }
+      }
+
+    }
+
+    /**************** FLATTEN THE TMP SOLUTIONS ***********************/
+    solutions_vector.back().clear();
+    for( unsigned int i = 0; i < combined_solutions_vector.size(); i++ ){
+      for( unsigned int j = 0; j < combined_solutions_vector[ i ].size(); j++ ){
+        solutions_vector.back().push_back( combined_solutions_vector[ i ][ j ] );
+      }
+    }
+
+    sort( solutions_vector.back().begin(), solutions_vector.back().end(), factor_set_adcg_solution_sort );
+    if( solutions_vector.back().size() > beamWidth ){
+      solutions_vector.back().erase( solutions_vector.back().begin() + beamWidth, solutions_vector.back().end() );
     }
   }
 
@@ -231,6 +279,7 @@ search( const Search_Space* searchSpace,
       }
       cout << "}" << endl;
     }
+    cout << endl;
   }
 
   return;

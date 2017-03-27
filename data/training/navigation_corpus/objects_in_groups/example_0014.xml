@@ -78,7 +78,7 @@
         </NP>
         <PP>
           <grounding_set>
-            <container container_type="row">
+            <container container_type="group">
               <object name="cone0" object_type="cone" object_color="orange" position="-5.18244,-2.36099,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="cone1" object_type="cone" object_color="orange" position="-4.44324,0.313821,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="cone2" object_type="cone" object_color="orange" position="-5.4863,1.61722,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -94,7 +94,7 @@
           <IN text="of" order="10"/>
           <NP>
             <grounding_set>
-              <container container_type="row">
+              <container container_type="group">
                 <object name="cone0" object_type="cone" object_color="orange" position="-5.18244,-2.36099,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 <object name="cone1" object_type="cone" object_color="orange" position="-4.44324,0.313821,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 <object name="cone2" object_type="cone" object_color="orange" position="-5.4863,1.61722,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -109,7 +109,7 @@
             </grounding_set>
             <NP>
               <grounding_set>
-                <container container_type="row">
+                <container container_type="group">
                   <object name="cone0" object_type="cone" object_color="orange" position="-5.18244,-2.36099,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="cone1" object_type="cone" object_color="orange" position="-4.44324,0.313821,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="cone2" object_type="cone" object_color="orange" position="-5.4863,1.61722,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -128,12 +128,12 @@
             </NP>
             <PP>
               <grounding_set>
-                <spatial_relation spatial_relation_type="front"/>
+                <region spatial_relation_type="front" object_id="husky"/>
               </grounding_set>
               <IN text="in" order="13"/>
               <NP>
                 <grounding_set>
-                  <spatial_relation spatial_relation_type="front"/>
+                  <region spatial_relation_type="front" object_id="husky"/>
                 </grounding_set>
                 <NP>
                   <grounding_set>
