@@ -64,6 +64,7 @@
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_matches_only_child.h"
 #include "h2sl/feature_object_matches_child.h"
+#include "h2sl/feature_region_object_matches_child.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
 #include "h2sl/feature_region_merge_spatial_relation_and_object.h"
 #include "h2sl/feature_region_merge_spatial_relation_and_region.h"
@@ -84,13 +85,18 @@
 #include "h2sl/feature_object_matches_sorted_objects.h"
 #include "h2sl/feature_container_matches_sorted_objects.h"
 #include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
+#include "h2sl/feature_object_merge_region_abstract_container_container.h"
 #include "h2sl/feature_object_merge_object_property_container.h"
+#include "h2sl/feature_object_merge_object_property_spatial_relation.h"
+#include "h2sl/feature_object_merge_object_type_spatial_relation.h"
+#include "h2sl/feature_object_merge_object_type_region.h"
 #include "h2sl/feature_object_merge_object_type_region_container.h"
 #include "h2sl/feature_container_object_type.h"
 #include "h2sl/feature_container_object_color.h"
 #include "h2sl/feature_container_number.h"
 #include "h2sl/feature_container_merge_container_type_container.h"
 #include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
+#include "h2sl/feature_container_merge_region_abstract_container_container.h"
 //#include "h2sl/feature_action_object_matches_child.h"
 //#include "h2sl/feature_spatial_relation_matches_child.h"
 //#include "h2sl/feature_is_abstract_container.h"
@@ -105,6 +111,7 @@
 #include "h2sl/feature_container_is_empty.h"
 //#include "h2sl/feature_container_type_matches_child_container_type.h"
 //#include "h2sl/feature_object_property_merge_object_property_container.h"
+#include "h2sl/feature_object_property_merge_index_object_property.h"
 #include "h2sl/feature_phrase_has_pos_tag.h"
 #include "h2sl/feature_phrase_type_and_phrase_has_pos_tag.h"
 //#include "h2sl/feature_phrase_has_single_pos_tag.h"
@@ -288,6 +295,8 @@ namespace h2sl {
       out << *static_cast< const Feature_Matches_Only_Child< Container >* >( &other );
     } else if( dynamic_cast< const Feature_Object_Matches_Child< Region, Object >* >( &other ) != NULL ){
       out << *static_cast< const Feature_Object_Matches_Child< Region, Object >* >( &other );
+    } else if( dynamic_cast< const Feature_Region_Object_Matches_Child* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Region_Object_Matches_Child* >( &other );
     } else if( dynamic_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other ) != NULL ){
       out << *static_cast< const Feature_Region_Merge_Partially_Known_Regions* >( &other );
     } else if( dynamic_cast< const Feature_Region_Merge_Spatial_Relation_And_Object* >( &other ) != NULL ){
@@ -328,8 +337,16 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Matches_Sorted_Objects* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Region_Abstract_Container_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Region_Abstract_Container_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Object_Property_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Type_Spatial_Relation* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Type_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Type_Region* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Object_Type_Region* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Object_Type_Region_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Object_Type_Region_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Object_Type* >( &other ) != NULL ){
@@ -342,6 +359,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Merge_Container_Type_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Merge_Abstract_Container_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Merge_Region_Abstract_Container_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Merge_Region_Abstract_Container_Container* >( &other );
     //} else if ( dynamic_cast< const Feature_Action_Object_Matches_Child* >( &other ) != NULL ){
     //    out << *static_cast< const Feature_Action_Object_Matches_Child* >( &other );
 /*
@@ -371,9 +390,9 @@ namespace h2sl {
 /*
     } else if ( dynamic_cast< const Feature_Container_Type_Matches_Child_Container_Type* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Type_Matches_Child_Container_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Property_Merge_Object_Property_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Property_Merge_Object_Property_Container* >( &other );
 */
+    } else if ( dynamic_cast< const Feature_Object_Property_Merge_Index_Object_Property* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Property_Merge_Index_Object_Property* >( &other );
     } else if ( dynamic_cast< const Feature_Phrase_Has_POS_Tag* >( &other ) != NULL ){
         out << *static_cast< const Feature_Phrase_Has_POS_Tag* >( &other );
     } else if ( dynamic_cast< const Feature_Phrase_Type_And_Phrase_Has_POS_Tag* >( &other ) != NULL ){

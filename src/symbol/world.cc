@@ -316,6 +316,7 @@ convert_models( xmlNodePtr root ){
                   object->transform().orientation().from_rpy( strtof( data_strings[ 0 ].c_str(), NULL ), 
                                                               strtof( data_strings[ 1 ].c_str(), NULL ), 
                                                               strtof( data_strings[ 2 ].c_str(), NULL ) ) ;
+                  assert( false );
                   xmlFree( tmp );
                   rpy_string.clear();
                   tmp_string.clear();

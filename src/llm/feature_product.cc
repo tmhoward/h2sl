@@ -328,13 +328,18 @@ evaluate( const string& cv,
           const Grounding* context,
           const vector< bool >& evaluateFeatureTypes ){
 
-//  cout << "phrase:" << *phrase << endl;
-
   for( unsigned int i = 0; i < _feature_groups.size(); i++ ){
+    bool expressed_feature_in_feature_group = false;
     for( unsigned int j = 0; j < _feature_groups[ i ].size(); j++ ){
       if( evaluateFeatureTypes[ _feature_groups[ i ][ j ]->type() ] ){
         _values[ i ][ j ] = _feature_groups[ i ][ j ]->value( cv, grounding, children, phrase, world, context );
       }
+      if( _values[ i ][ j ] ){
+        expressed_feature_in_feature_group = true;
+      }
+    }
+    if( !expressed_feature_in_feature_group ){
+      return;
     }
 /*
     cout << "values[" << _values[ i ].size() << "]:{"; 

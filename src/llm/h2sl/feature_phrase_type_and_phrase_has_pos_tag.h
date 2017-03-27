@@ -38,7 +38,7 @@ namespace h2sl {
         inline phrase_type_t& phrase_type( void ){ return _phrase_type; };
         inline const phrase_type_t& phrase_type( void )const{ return _phrase_type; };
 
-        virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
+        virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_LANGUAGE; };
         
     protected:
         unsigned int _pos;

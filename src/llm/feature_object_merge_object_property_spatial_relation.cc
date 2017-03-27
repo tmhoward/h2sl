@@ -99,6 +99,9 @@ value( const string& cv,
         }
       }
     }
+    if( object_property_child.second == NULL ){
+      return false;
+    }
     for( unsigned int i = 0; i < children.size(); i++ ){
       if( children[ i ].first != object_property_child.first ){
         for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){

@@ -55,8 +55,8 @@ evaluate_model( LLM* llm,
   for( unsigned int i = 0; i < examples.size(); i++ ){
     vector< pair< vector< Feature* >, unsigned int > > features;
     double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-    if( pygx < 0.75 ){
-//    if( examples[ i ].first == "true" ){
+//    if( pygx < 0.75 ){
+    if( examples[ i ].first == "true" ){
       cout << "example " << i << " had pygx " << pygx << endl;
       cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
       cout << "         cv:" << examples[ i ].first << endl;
