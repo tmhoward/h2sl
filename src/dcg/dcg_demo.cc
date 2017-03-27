@@ -74,6 +74,8 @@ main( int argc,
   struct timeval start_time;
   struct timeval end_time;
 
+  cout << "finished fill_seach_space in " << diff_time( start_time, end_time ) << " seconds" << endl;
+  cout << endl << "[from search space] search_spaces grounding pairs size(): " << search_space->grounding_pairs().size() << endl << endl;
   if( args.example_given ){
     World * world = new World();
     world->from_xml( args.example_arg );
@@ -172,6 +174,10 @@ main( int argc,
                 dcg->to_latex( tmp.str() );
               }
             }
+          }
+        } 
+      cout << "after dcg inference printing out the phrase:" << endl;
+      cout << *phrases[ i ] << endl;
           } 
         }
       }

@@ -81,6 +81,7 @@ operator=( const Phrase& other ) {
   _type = other._type;
   _text = other._text;
   _words = other._words;
+  _properties = other._properties;
   for( unsigned int i = 0; i < _children.size(); i++ ){
     if( _children[ i ] != NULL ){
       delete _children[ i ];
@@ -110,6 +111,8 @@ operator==( const Phrase& other )const{
     return false;
   } else if ( _children.size() != other._children.size() ){
     return false;
+ // } else if ( _search_space_properties.size() != other._search_space_properties.size() ){
+ //   return false;
   } else {
     for( unsigned int i = 0; i < _words.size(); i++ ){
       if( _words[ i ] != other._words[ i ] ){
@@ -377,7 +380,9 @@ min_word_order( void )const{
 }
 
 /**
- * Function to return the number of child phrases
+ * Function to return the number of phrases in the 
+ * tree starting from the current node in the tree and 
+ * aggregating over children. 
  */
 unsigned int
 Phrase::
@@ -388,11 +393,82 @@ num_phrases( void )const{
 unsigned int
 Phrase::
 num_phrases( const Phrase* phrase )const{
-  unsigned int tmp = 1;
-  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    tmp += num_phrases( phrase->children()[ i ] );
+  if( phrase != NULL ){
+    unsigned int tmp = 1;
+    for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+      if( phrase->children()[ i ] != NULL ){
+        tmp += num_phrases( phrase->children()[ i ] );
+      }
+    }
+    return tmp;
+  } else {
+    return 0;
   }
-  return tmp;
+}
+
+
+/*
+ * Function: Aggregate property.
+ */
+
+double
+Phrase::
+aggregate_property_phrases( const std::string& property )const{
+  return aggregate_property_phrases( this, property );
+}
+
+
+double
+Phrase::
+aggregate_property_phrases( const Phrase* phrase, const std::string& property )const{
+  if( phrase != NULL ){
+    double tmp = 0.0;
+    std::map< std::string, std::string >::const_iterator it;
+    it = phrase->properties().find( property );
+
+    if( it != phrase->properties().end() ){
+      tmp += std::stod( it->second );
+    } else {
+      cout << "in phrase: " << *phrase << endl;
+      cout << "could not find property: " << property << endl;
+       exit(0);
+    }
+
+    for( unsigned int i = 0; i < phrase->children().size(); i++){
+      if( phrase->children()[ i ] != NULL ) {
+        tmp += aggregate_property_phrases( phrase->children()[ i ], property );
+      }
+    }
+    return tmp;
+  } else {
+    return 0.0;
+  }
+}
+
+double
+Phrase::
+statistic_aggregate_property_phrases( const std::string& property, 
+                                      const std::string& statistic )const {
+  return statistic_aggregate_property_phrases( this, property, statistic );
+}
+
+double
+Phrase::
+statistic_aggregate_property_phrases( const Phrase* phrase, 
+                                      const std::string& property, 
+                                      const std::string& statistic )const {
+
+  if( statistic.compare( std::string( "per-phrase-avg" ) ) == 0 ) {
+    unsigned int num_phrases = phrase->num_phrases();
+    if ( num_phrases ){
+      return ( aggregate_property_phrases( phrase, property) / (double) (num_phrases) );
+    } else {
+      return 0.0;
+    }
+  } else {
+    cout << "statistic not known." << endl;
+    exit( 0 );
+  }
 }
 
 /**
@@ -558,6 +634,10 @@ namespace h2sl {
     } else {
       out << "grounding_set:{NULL}";
     }
+
+ //  for( std::map< std::string, std::string >::const_iterator it = other.search_space_properties().begin(); it != other.search_space_properties().end(); ++it ) {
+ //    out << "search_space_properties:{" << it->first << "," << it->second << "}";
+ //  }
     out << " properties:{";
     for( map< string, string >::const_iterator it = other.properties().begin(); it != other.properties().end(); it++ ){
       out << "(" << it->first << ":" << it->second << ")";
