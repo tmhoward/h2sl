@@ -72,6 +72,8 @@ namespace h2sl {
     virtual Phrase* dup( void )const;
     virtual Phrase* dup( const bool& empty )const;
 
+    virtual void clear_grounding_sets( void );
+
     virtual void scrape_groundings( const World * world, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     virtual void scrape_groundings( const World * world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     virtual void scrape_groundings( const World * world, std::map< std::string, std::vector< std::string > >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;

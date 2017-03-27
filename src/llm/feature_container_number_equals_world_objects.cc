@@ -17,8 +17,18 @@ using namespace h2sl;
  * Feature_Container_Number_Equals_World_Objects class constructor
  */
 Feature_Container_Number_Equals_World_Objects::
-Feature_Container_Number_Equals_World_Objects( const bool& invert ) : Feature( invert ) {
+Feature_Container_Number_Equals_World_Objects( const bool& invert,
+                                                const string& objectType ) : Feature( invert ) {
+  insert_prop< std::string >( _string_properties, "object_type", objectType );
+}
 
+/**
+ * Feature_Container_Number_Equals_World_Objects class constructor
+ */
+Feature_Container_Number_Equals_World_Objects::
+Feature_Container_Number_Equals_World_Objects( xmlNodePtr root ) : Feature() {
+  insert_prop< std::string >( _string_properties, "object_type", "na" );
+  from_xml( root );
 }
 
 /**
@@ -26,7 +36,7 @@ Feature_Container_Number_Equals_World_Objects( const bool& invert ) : Feature( i
  */
 Feature_Container_Number_Equals_World_Objects::
 Feature_Container_Number_Equals_World_Objects( const Feature_Container_Number_Equals_World_Objects& other ) : Feature( other ) {
-
+  
 }
 
 /**
@@ -44,6 +54,8 @@ Feature_Container_Number_Equals_World_Objects&
 Feature_Container_Number_Equals_World_Objects::
 operator=( const Feature_Container_Number_Equals_World_Objects& other ){
   _invert = other._invert;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -72,18 +84,16 @@ value( const string& cv,
   if( container != NULL ){
     if( container->container().size() > 0 ){
       vector< Object* > objects;
-      if ( dynamic_cast< Object* >( container->container().front() ) != NULL ) {
-        const Object* container_front_object = static_cast< Object* >( container->container().front());
-        for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
-          if ( it_world_object->second->type() == container_front_object->type() ) {
-            objects.push_back( it_world_object->second );
-          }
+      const Object* container_front_object = static_cast< Object* >( container->container().front());
+      for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
+        if( it_world_object->second->type() == object_type() ) {
+          objects.push_back( it_world_object->second );
         }
-        if ( container->container().size() == objects.size() ) {
-          return !_invert;
-        } else {
-          return _invert;
-        }
+      }
+      if ( container->container().size() == objects.size() ) {
+        return !_invert;
+      } else {
+        return _invert;
       }
     }
   }
@@ -123,12 +133,19 @@ void
 Feature_Container_Number_Equals_World_Objects::
 from_xml( xmlNodePtr root ){
   _invert = false;
+  object_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( const char* )( tmp );
-      _invert = ( bool ) ( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
+    vector< string > feature_keys = { "invert", "object_type" };
+    assert( check_keys( root, feature_keys ) );
+
+    pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
+    if( invert_prop.first ) {
+      _invert = invert_prop.second;
+    }
+
+    pair< bool, std::string > object_type_prop = has_prop< std::string >( root, "object_type" );
+    if( object_type_prop.first ) {
+      object_type() = object_type_prop.second;
     }
   }
 }
@@ -156,9 +173,8 @@ Feature_Container_Number_Equals_World_Objects::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_container_number_equals_world_objects" ), NULL );
-  stringstream invert_string;
-  invert_string << _invert;
-  xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( to_std_string( _invert ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( object_type().c_str() ) );
   xmlAddChild( root, node );
   return;
 }

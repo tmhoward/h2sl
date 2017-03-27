@@ -152,6 +152,20 @@ dup( const bool& empty )const{
 
 void
 Phrase::
+clear_grounding_sets( void ){
+  if( _grounding_set != NULL ){
+    delete _grounding_set;
+    _grounding_set = NULL;
+  }
+  
+  for( vector< Phrase* >::const_iterator it_child = _children.begin(); it_child != _children.end(); it_child++ ){
+    (*it_child)->clear_grounding_sets();
+  }
+  return;
+}
+
+void
+Phrase::
 scrape_groundings( const World * world,
                     map< string, vector< string > >& stringTypes,
                     map< string, vector< int > >& intTypes )const{
@@ -631,7 +645,7 @@ namespace h2sl {
         out << ",";
       }
     }
-    out << "}" << endl;
+    out << "}";
     return out;
   }
 }

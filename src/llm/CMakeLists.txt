@@ -57,6 +57,9 @@ set(HDRS
     #h2sl/feature_action_object_matches_child.h
 #    h2sl/feature_spatial_relation_matches_child.h
 #    h2sl/feature_container_number.h
+    h2sl/feature_container_object_type.h
+    h2sl/feature_container_object_color.h
+    h2sl/feature_container_number.h
     h2sl/feature_container_number_equals_world_objects.h
     h2sl/feature_container_is_empty.h
 #    h2sl/feature_container_type_matches_child_container_type.h
@@ -71,13 +74,14 @@ set(HDRS
 #    h2sl/feature_container_merge_empty_container_container.h
 #    h2sl/feature_container_merge_object_property_container.h
 #    h2sl/feature_container_merge_container_spatial_relation.h
-#    h2sl/feature_region_container_merge_container_spatial_relation.h
+   h2sl/feature_region_container_merge_container_spatial_relation.h
 #    h2sl/feature_region_container_container_matches_child_container.h
 #    h2sl/feature_region_container_type.h
 #    h2sl/feature_region_container_container_type.h
     h2sl/feature_container_type_merge_container_type_number.h
     h2sl/feature_number_merge_container_type_number.h
     h2sl/feature_object_matches_sorted_objects.h
+    h2sl/feature_container_matches_sorted_objects.h
     h2sl/feature_object_matches_sorted_object.h
 #    h2sl/feature_max_x_abstract_container.h
 #    h2sl/feature_max_distance_object_within.h
@@ -128,6 +132,9 @@ set(HDRS
     h2sl/feature_object_merge_object_type_spatial_relation.h
     h2sl/feature_object_merge_object_type_region.h
     h2sl/feature_container_merge_abstract_container_spatial_relation.h
+    h2sl/feature_container_merge_abstract_container_region_container.h
+    h2sl/feature_container_merge_region_abstract_container_container.h
+    h2sl/feature_container_merge_container_type_container.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -171,6 +178,9 @@ set(SRCS
     #feature_action_object_matches_child.cc
 #    feature_spatial_relation_matches_child.cc
 #    feature_container_number.cc
+    feature_container_object_type.cc
+    feature_container_object_color.cc
+    feature_container_number.cc
     feature_container_number_equals_world_objects.cc
     feature_container_is_empty.cc
 #    feature_container_type_matches_child_container_type.cc
@@ -185,13 +195,14 @@ set(SRCS
 #    feature_container_merge_empty_container_container.cc
 #    feature_container_merge_object_property_container.cc
 #    feature_container_merge_container_spatial_relation.cc
-#    feature_region_container_merge_container_spatial_relation.cc
+   feature_region_container_merge_container_spatial_relation.cc
 #    feature_region_container_container_matches_child_container.cc
 #    feature_region_container_type.cc
 #    feature_region_container_container_type.cc
     feature_number_merge_container_type_number.cc
     feature_container_type_merge_container_type_number.cc
     feature_object_matches_sorted_objects.cc
+    feature_container_matches_sorted_objects.cc
     feature_object_matches_sorted_object.cc
 #    feature_max_x_abstract_container.cc
 #    feature_max_distance_object_within.cc
@@ -244,6 +255,10 @@ set(SRCS
     feature_object_merge_object_type_spatial_relation.cc
     feature_object_merge_object_type_region.cc
     feature_container_merge_abstract_container_spatial_relation.cc
+    feature_container_merge_abstract_container_region.cc
+    feature_container_merge_abstract_container_region_container.cc
+    feature_container_merge_region_abstract_container_container.cc
+    feature_container_merge_container_type_container.cc
     llm.cc)
 
 # BINARY SOURCE FILES

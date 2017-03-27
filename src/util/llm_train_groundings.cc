@@ -55,8 +55,8 @@ evaluate_model( LLM* llm,
   for( unsigned int i = 0; i < examples.size(); i++ ){
     vector< pair< vector< Feature* >, unsigned int > > features;
     double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-    if( pygx < 0.75 ){
-//    if( examples[ i ].first == "true" ){
+//    if( pygx < 0.75 ){
+    if( examples[ i ].first == "true" ){
       cout << "example " << i << " had pygx " << pygx << endl;
       cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
       cout << "         cv:" << examples[ i ].first << endl;
@@ -146,7 +146,11 @@ main( int argc,
   vector< LLM* > llms;
   for( int i = 0; i < args.threads_arg; i++ ){
     llms.push_back( new LLM( feature_sets[ i ] ) );
-    llms.back()->weights().resize( llms.back()->feature_set()->size() );
+    if( args.llm_given ){
+      llms.back()->from_xml( args.llm_arg );
+    } else {
+      llms.back()->weights().resize( llms.back()->feature_set()->size() );
+    }
   }
 
   LLM_Train* llm_train = new LLM_Train( llms );

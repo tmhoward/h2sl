@@ -18,18 +18,25 @@ using namespace h2sl;
  */
 Feature_Container_Number::
 Feature_Container_Number( const bool& invert,
-                          const unsigned int& abstractContainerNumber ) : Feature( invert ),
-                                                              _container_number( abstractContainerNumber ) {
+                          const int& number ) : Feature( invert ) {
+  insert_prop< int >( _int_properties, "number", number );
+}
 
+/**
+ * Feature_Container_Number class constructor
+ */
+Feature_Container_Number::
+Feature_Container_Number( xmlNodePtr root ) : Feature() {
+  insert_prop< int >( _int_properties, "number", 0 );
+  from_xml( root );
 }
 
 /**
  * Feature_Container_Number class copy constructor
  */
 Feature_Container_Number::
-Feature_Container_Number( const Feature_Container_Number& other ) : Feature( other ),
-                                                              _container_number( other._container_number ){
-
+Feature_Container_Number( const Feature_Container_Number& other ) : Feature( other ) {
+  
 }
 
 /**
@@ -47,7 +54,8 @@ Feature_Container_Number&
 Feature_Container_Number::
 operator=( const Feature_Container_Number& other ){
   _invert = other._invert;
-  _container_number = other._container_number;
+  _string_properties = other._string_properties;
+  _int_properties = other._int_properties;
   return (*this);
 }
 
@@ -74,7 +82,7 @@ value( const string& cv,
         const Grounding* context ){
   const Container* container = dynamic_cast< const Container* >( grounding );
   if( container != NULL ){
-    if( container->container().size() == _container_number ){
+    if( container->container().size() == number() ){
       return !_invert;
     } else {
       return _invert;
@@ -83,7 +91,7 @@ value( const string& cv,
   return false;
 }
 
-/** 
+/**
  * imports the Feature_Container_Number class from an XML file
  */
 void
@@ -116,19 +124,19 @@ void
 Feature_Container_Number::
 from_xml( xmlNodePtr root ){
   _invert = false;
-  _container_number = 0;
+  number() = 0;
   if( root->type == XML_ELEMENT_NODE ){
-    xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
-    if( tmp != NULL ){
-      string invert_string = ( const char* )( tmp );
-      _invert = ( bool ) ( strtol( invert_string.c_str(), NULL, 10 ) );
-      xmlFree( tmp );
+    vector< string > feature_keys = { "invert", "number" };
+    assert( check_keys( root, feature_keys ) );
+
+    pair< bool, bool > invert_prop = has_prop< bool >( root, "invert" );
+    if( invert_prop.first ) {
+      _invert = invert_prop.second;
     }
-    tmp = xmlGetProp( root, ( const xmlChar* )( "container_number" ) );
-    if( tmp != NULL){
-      string container_number_string = ( const char* )( tmp );
-      _container_number = strtol( container_number_string.c_str(), NULL, 10 );
-      xmlFree( tmp );
+
+    pair< bool, int > number_prop = has_prop< int >( root, "number" );
+    if( number_prop.first ) {
+      number() = number_prop.second;
     }
   }
 }
@@ -156,26 +164,10 @@ Feature_Container_Number::
 to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_container_number" ), NULL );
-  stringstream invert_string;
-  invert_string << _invert;
-  xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
-  stringstream container_number_string;
-  container_number_string << _container_number;
-  xmlNewProp( node, ( const xmlChar* )( "container_number" ), ( const xmlChar* )( container_number_string.str().c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( to_std_string( _invert ).c_str() ) );
+  xmlNewProp( node, ( const xmlChar* )( "number" ), ( const xmlChar* )( to_std_string( number() ).c_str() ) );
   xmlAddChild( root, node );
   return;
-}
-
-unsigned int&
-Feature_Container_Number::
-container_number( void ){
-  return _container_number;
-}
-
-const unsigned int&
-Feature_Container_Number::
-container_number( void )const{
-  return _container_number;
 }
 
 namespace h2sl {
@@ -185,8 +177,7 @@ namespace h2sl {
   ostream&
   operator<<( ostream& out,
               const Feature_Container_Number& other ){
-    out << "class:\"Feature_Container_Number\" ";
-    out << "container_number:\"" << other.container_number() << "\"";
+    out <<"class:\"Feature_Container_Number\" invert:(" << other.invert() << ") number:(" << other.number() << ")";
     return out;
   }
 }

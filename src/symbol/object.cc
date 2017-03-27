@@ -298,14 +298,10 @@ namespace h2sl {
               const Object& other ) {
     out << "Object(";
     out << "name=\"" << other.name() << "\",";
-    out << "object_type=\"" << other.type() << "\"";
-    out << "object_color=\"" << other.color() << "\"";
-    if( other.transform().position().norm() > 0.0 ){
-      out << ",position=" << other.transform().position();
-    }
-    if( !other.transform().orientation().is_identity() ){
-      out << ",orientation=" << other.transform().orientation();
-    }
+    out << "object_type=\"" << other.type() << "\",";
+    out << "object_color=\"" << other.color() << "\",";
+    out << "position=" << other.transform().position() << ",";
+    out << "orientation=" << other.transform().orientation() << ",";
     if( other.linear_velocity().norm() > 0.0 ){
       out << ",linear_velocity=" << other.linear_velocity();
     }

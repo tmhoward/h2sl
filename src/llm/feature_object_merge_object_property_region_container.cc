@@ -97,6 +97,9 @@ value( const string& cv,
         }
       }
     }
+    if( region_container_child.second == NULL ){
+      return false;
+    }
     for( unsigned int i = 0; i < children.size(); i++ ){
       if( children[ i ].first != region_container_child.first ){
         for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){

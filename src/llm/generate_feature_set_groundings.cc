@@ -36,6 +36,7 @@ main( int argc,
     grammar->from_xml( args.grammar_arg );
   } else {
     for( unsigned int i = 0; i < args.inputs_num; i++ ){
+      cout << "reading " << args.inputs[ i ] << endl;
       Phrase * phrase = new Phrase();
       if( phrase != NULL ){
         phrase->from_xml( args.inputs[ i ] );

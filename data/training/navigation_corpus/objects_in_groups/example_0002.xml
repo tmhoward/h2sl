@@ -56,7 +56,7 @@
         </NP>
         <PP>
           <grounding_set>
-            <container container_type="row">
+            <container container_type="group">
               <object name="cone0" object_type="cone" object_color="orange" position="-4.42936,-2.87998,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="cone1" object_type="cone" object_color="orange" position="-4.59122,-0.725139,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="cone2" object_type="cone" object_color="orange" position="-4.69759,2.01276,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -68,7 +68,7 @@
           <IN text="of" order="6"/>
           <NP>
             <grounding_set>
-              <container container_type="row">
+              <container container_type="group">
                 <object name="cone0" object_type="cone" object_color="orange" position="-4.42936,-2.87998,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 <object name="cone1" object_type="cone" object_color="orange" position="-4.59122,-0.725139,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 <object name="cone2" object_type="cone" object_color="orange" position="-4.69759,2.01276,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -79,7 +79,7 @@
             </grounding_set>
             <NP>
               <grounding_set>
-                <container container_type="row">
+                <container container_type="group">
                   <object name="cone0" object_type="cone" object_color="orange" position="-4.42936,-2.87998,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="cone1" object_type="cone" object_color="orange" position="-4.59122,-0.725139,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                   <object name="cone2" object_type="cone" object_color="orange" position="-4.69759,2.01276,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
