@@ -185,7 +185,7 @@ _fill_phrase( Factor_Set* node,
   cout << "filling phrase:" << *phrase << endl;
   cout << "solution:" << solution << endl;
 
-  cout << "transfer properties from factor set to phrase:" << endl;
+   //cout << "transfer properties from factor set to phrase:" << endl;
    // Transfer relevant properties. 
    std::map< std::string, std::string >::const_iterator it;
    it = node->properties().find( "concrete_size" );
