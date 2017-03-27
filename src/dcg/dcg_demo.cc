@@ -180,7 +180,22 @@ main( int argc,
       cout << *phrases[ i ] << endl;
           } 
         }
+
+      if( grammar != NULL ){
+        delete grammar;
+        grammar = NULL;
       }
+
+     if( parser != NULL ){
+        delete parser;
+        parser = NULL;
+      }  
+
+      if( world != NULL ){
+        delete world;
+        world = NULL;
+      }
+
     }
 
     for( unsigned int i = 0; i < phrases.size(); i++ ){
@@ -189,22 +204,6 @@ main( int argc,
         phrases[ i ] = NULL;
       }
     }
-
-    if( grammar != NULL ){
-      delete grammar;
-      grammar = NULL;
-    }
-
-    if( parser != NULL ){
-      delete parser;
-      parser = NULL;
-    }  
-
-    if( world != NULL ){
-      delete world;
-      world = NULL;
-    }
-  }
 
   if( dcg != NULL ){
     delete dcg;
