@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the middle barrel"/>
+  <world time="0">
+    <object id="barrel0" object_type="barrel" object_color="red" position="4.47049,2.70559,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel1" object_type="barrel" object_color="red" position="5.46585,0.210908,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel2" object_type="barrel" object_color="red" position="4.1805,-2.34908,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel3" object_type="barrel" object_color="red" position="5.10125,4.35383,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel4" object_type="barrel" object_color="red" position="4.68339,-4.89919,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,1,0" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <rule_object_type object_type="barrel"/>
+      <rule_object_color object_color="red"/>
+      <rule_spatial_relation spatial_relation_type="center"/>
+      <rule_index index="1"/>
+    </grounding_set>
+    <DT text="the" order="0"/>
+    <JJ text="middle" order="1"/>
+    <NN text="barrel" order="2"/>
+  </NP>
+</root>

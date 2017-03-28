@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the five cones behind the robot"/>
+  <world time="0">
+    <object id="barrel0" object_type="barrel" object_color="red" position="5.65349,-4.45211,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel1" object_type="barrel" object_color="red" position="6.00335,-6.83981,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel2" object_type="barrel" object_color="red" position="4.95401,-3.88929,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel3" object_type="barrel" object_color="red" position="3.52784,-4.10533,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="chair0" object_type="chair" object_color="white" position="-2.07705,4.8789,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="chair1" object_type="chair" object_color="white" position="0.0211734,5.53034,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="chair2" object_type="chair" object_color="white" position="1.32491,5.4832,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="chair3" object_type="chair" object_color="white" position="2.69635,4.1511,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone0" object_type="cone" object_color="orange" position="-8.41142,-5.45123,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone1" object_type="cone" object_color="orange" position="-6.86108,-1.92917,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone2" object_type="cone" object_color="orange" position="-7.08936,0.958266,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone3" object_type="cone" object_color="orange" position="-7.0558,2.20973,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone4" object_type="cone" object_color="orange" position="-8.33922,4.41643,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <rule_container_type container_type="group"/>
+      <rule_object_type object_type="cone"/>
+      <rule_object_color object_color="orange"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <rule_container_type container_type="group"/>
+        <rule_object_type object_type="cone"/>
+        <rule_object_color object_color="orange"/>
+        <rule_number number_value="5"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <CD text="five" order="1"/>
+      <NNS text="cones" order="2"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <rule_object_type object_type="robot"/>
+        <rule_spatial_relation spatial_relation_type="back"/>
+      </grounding_set>
+      <IN text="behind" order="3"/>
+      <NP>
+        <grounding_set>
+          <rule_object_type object_type="robot"/>
+          <rule_object_color object_color="na"/>
+        </grounding_set>
+        <DT text="the" order="4"/>
+        <NN text="robot" order="5"/>
+      </NP>
+    </PP>
+  </NP>
+</root>

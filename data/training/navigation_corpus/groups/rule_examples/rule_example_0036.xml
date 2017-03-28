@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the group of chairs to the side of the robot"/>
+  <world time="0">
+    <object id="barrel0" object_type="barrel" object_color="red" position="5.92393,-4.38877,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel1" object_type="barrel" object_color="red" position="5.93525,-6.04806,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel2" object_type="barrel" object_color="red" position="4.62058,-4.79016,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel3" object_type="barrel" object_color="red" position="3.92314,-2.9407,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="chair0" object_type="chair" object_color="white" position="-1.6129,4.43668,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="chair1" object_type="chair" object_color="white" position="-0.898074,4.94934,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="chair2" object_type="chair" object_color="white" position="0.781391,5.7859,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="chair3" object_type="chair" object_color="white" position="2.86972,5.66056,0.01" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone0" object_type="cone" object_color="orange" position="-7.66046,-5.14237,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone1" object_type="cone" object_color="orange" position="-7.95964,-2.80337,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone2" object_type="cone" object_color="orange" position="-6.74672,0.330846,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone3" object_type="cone" object_color="orange" position="-8.32432,1.65151,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone4" object_type="cone" object_color="orange" position="-6.59946,5.66039,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="husky_mm" object_type="robot" object_color="na" position="0.369435,-0.010466,0.38539" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <rule_container_type container_type="group"/>
+      <rule_object_type object_type="chair"/>
+      <rule_object_color object_color="white"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <rule_container_type container_type="group"/>
+        <rule_object_type object_type="chair"/>
+        <rule_object_color object_color="white"/>
+      </grounding_set>
+      <NP>
+        <grounding_set>
+          <rule_container_type container_type="group"/>
+        </grounding_set>
+        <DT text="the" order="0"/>
+        <NN text="group" order="1"/>
+      </NP>
+      <PP>
+        <grounding_set>
+          <rule_container_type container_type="group"/>
+          <rule_object_type object_type="chair"/>
+          <rule_object_color object_color="white"/>
+        </grounding_set>
+        <IN text="of" order="2"/>
+        <NP>
+          <grounding_set>
+            <rule_container_type container_type="group"/>
+            <rule_object_type object_type="chair"/>
+            <rule_object_color object_color="white"/>
+          </grounding_set>
+          <NNS text="chairs" order="3"/>
+        </NP>
+      </PP>
+    </NP>
+    <PP>
+      <grounding_set>
+        <rule_object_type object_type="robot"/>
+        <rule_spatial_relation spatial_relation_type="side"/>
+      </grounding_set>
+      <TO text="to" order="4"/>
+      <NP>
+        <grounding_set>
+          <rule_object_type object_type="robot"/>
+          <rule_spatial_relation spatial_relation_type="side"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <rule_spatial_relation spatial_relation_type="side"/>
+          </grounding_set>
+          <DT text="the" order="5"/>
+          <NN text="side" order="6"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <rule_object_type object_type="robot"/>
+            <rule_object_color object_color="na"/>
+          </grounding_set>
+          <IN text="of" order="7"/>
+          <NP>
+            <grounding_set>
+              <rule_object_type object_type="robot"/>
+              <rule_object_color object_color="na"/>
+            </grounding_set>
+            <DT text="the" order="8"/>
+            <NN text="robot" order="9"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>

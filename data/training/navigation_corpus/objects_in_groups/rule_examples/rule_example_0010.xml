@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the second cone from the right"/>
+  <world time="0">
+    <object id="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,1,0" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <rule_object_type object_type="cone"/>
+      <rule_object_color object_color="orange"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="na"/>
+        <rule_object_type object_type="cone"/>
+        <rule_index index="2"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <JJ text="second" order="1"/>
+      <NN text="cone" order="2"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="right"/>
+      </grounding_set>
+      <IN text="from" order="3"/>
+      <NP>
+        <grounding_set>
+          <rule_spatial_relation spatial_relation_type="right"/>
+        </grounding_set>
+        <DT text="the" order="4"/>
+        <NN text="right" order="5"/>
+      </NP>
+    </PP>
+  </NP>
+</root>
