@@ -261,8 +261,8 @@ main( int argc,
       double train_time = microseconds_to_seconds( train_end_time - train_start_time );
 
       /********* Append the LLM and both symbol_dictionaries to the input file and save as new file**************/
-      // append the llm to the xml document object
-      llms.front()->to_xml( input_doc, input_root );
+      // force libxml to apply indentation for human readability
+      //xmlKeepBlanksDefault(0);
 
       // add two new xmlNodes to differentiate the symbol_dictionary_rules and symbol_dictionary_groundings
       // add the the symbol_dictionary_groundings first
@@ -275,6 +275,9 @@ main( int argc,
         xmlAddChild( input_root, symbol_dictionary_rules_node );
         symbol_dictionary_rules->to_xml( input_doc, symbol_dictionary_rules_node ); 
       }
+
+      // append the llm to the xml document object
+      llms.front()->to_xml( input_doc, input_root );
 
       // create the name for the new file
       // test_number_string comes from the "report" code above
