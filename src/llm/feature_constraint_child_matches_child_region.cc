@@ -89,7 +89,7 @@ value( const string& cv,
         if( child != NULL ){
           map< string, Object* >::const_iterator it_child_region_object = world->objects().find( child->object_id() );
           assert( it_child_region_object != world->objects().end() );
-          if( ( constraint->reference() == it_child_region_object->second->name() ) && ( constraint->reference_relation() == child->spatial_relation_type() ) ){
+          if( ( constraint->reference() == it_child_region_object->second->id() ) && ( constraint->reference_relation() == child->spatial_relation_type() ) ){
             found_match = true;
           }
         }

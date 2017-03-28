@@ -22,9 +22,9 @@ Rule_Constraint_Reference_Type( const string& constraintReferenceType ) : Rule()
 }
 
 Rule_Constraint_Reference_Type::
-Rule_Constraint_Reference_Type( xmlNodePtr root ) : Rule() {
+Rule_Constraint_Reference_Type( xmlNodePtr root, World* world ) : Rule() {
   insert_prop< std::string >( _string_properties, "constraint_reference_type", "na" );
-  from_xml( root );
+  from_xml( root, world );
 }
 
 /**
@@ -160,7 +160,7 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
  */
 void
 Rule_Constraint_Reference_Type::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -171,7 +171,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_constraint_reference_type" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -188,7 +188,7 @@ from_xml( const string& filename ){
  */
 void
 Rule_Constraint_Reference_Type::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   constraint_reference_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
     vector< string > constraint_reference_type_keys = { "type", "constraint_reference_type" };

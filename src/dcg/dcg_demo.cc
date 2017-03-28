@@ -81,7 +81,7 @@ main( int argc,
     world->from_xml( args.example_arg );
     
     Phrase * phrase = new Phrase();
-    phrase->from_xml( args.example_arg );
+    phrase->from_xml( args.example_arg, world );
     phrase->clear_grounding_sets();
 
     phrase->to_xml( "/tmp/phrase.xml" ); 

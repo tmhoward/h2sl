@@ -124,7 +124,7 @@ value( const string& cv,
         assert( it_sorted_objects != it_sorted_objects_map->second.end() );
 
         if( !it_sorted_objects->second.empty() ){
-          if( object->name() == it_sorted_objects->second[ object_property_child.second->index() - 1 ]->name() ){
+          if( object->id() == it_sorted_objects->second[ object_property_child.second->index() - 1 ]->id() ){
             return !_invert;
           } else {
             return _invert;

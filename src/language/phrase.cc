@@ -56,6 +56,17 @@ Phrase( const phrase_type_t& type,
 }
 
 Phrase::
+Phrase( const string& filename,
+        World* world ) : _type(),
+                          _text(),
+                          _words(),
+                          _children(),
+                          _grounding_set(),
+                          _properties() {
+  from_xml( filename, world ); 
+}
+
+Phrase::
 ~Phrase() {
 
 }
@@ -261,7 +272,8 @@ to_xml( xmlDocPtr doc,
 
 void 
 Phrase::
-from_xml( const std::string& filename ){
+from_xml( const std::string& filename,
+          World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -273,7 +285,7 @@ from_xml( const std::string& filename ){
         if( l1->type == XML_ELEMENT_NODE ){
           for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
             if( xmlStrcmp( l1->name, ( const xmlChar* )( phrase_type_t_to_std_string( ( phrase_type_t )( i ) ).c_str() ) ) == 0 ){
-              from_xml( l1 );
+              from_xml( l1, world );
             }
           }
         }
@@ -286,7 +298,8 @@ from_xml( const std::string& filename ){
 
 void 
 Phrase::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root,
+          World* world ){
   for( unsigned int i = 0; i < _children.size(); i++ ){
     if( _children[ i ] != NULL ){
       delete _children[ i ];
@@ -304,13 +317,13 @@ from_xml( xmlNodePtr root ){
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
-          _grounding_set = new Grounding_Set( l1 );
+          _grounding_set = new Grounding_Set( l1, world );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "grounding" ) ) == 0 ){
           xmlNodePtr l2 = NULL;
           for( l2 = l1->children; l2; l2 = l2->next ){
             if( l2->type == XML_ELEMENT_NODE ){
               if( xmlStrcmp( l2->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
-                _grounding_set = new Grounding_Set( l2 );
+                _grounding_set = new Grounding_Set( l2, world );
               } else{
                 cout << "could not load" << l2->name << endl;
               }
@@ -326,7 +339,7 @@ from_xml( xmlNodePtr root ){
         for( unsigned int i = 0; i < NUM_PHRASE_TYPES; i++ ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( phrase_type_t_to_std_string( ( phrase_type_t )( i ) ).c_str() ) ) == 0 ){
             _children.push_back( new Phrase() );
-            _children.back()->from_xml( l1 );
+            _children.back()->from_xml( l1, world );
           }
         }
       }

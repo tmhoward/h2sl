@@ -161,7 +161,7 @@ value( const string& cv,
                   bool found_object_match = false;
                   if( tmp1 != NULL ){
                     for( unsigned int j = 0; j < container->container().size(); j++ ){
-                      if( tmp1->name() == sorted_objects[ j ]->name() ){
+                      if( tmp1->id() == sorted_objects[ j ]->id() ){
                         found_object_match = true;
                       }
                     } 

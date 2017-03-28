@@ -50,7 +50,7 @@ fill_object_colors( vector< Object_Color* >& object_colors, const string filenam
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "object_color" ) ) == 0 ){
-            object_colors.push_back( new Object_Color( l1 ) );
+            object_colors.push_back( new Object_Color( l1, NULL ) );
           }
         }
       }

@@ -23,9 +23,9 @@ Spatial_Relation( const string& spatialRelationType ) : Grounding() {
 }
 
 Spatial_Relation::
-Spatial_Relation( xmlNodePtr root ) : Grounding() {
+Spatial_Relation( xmlNodePtr root, World* world ) : Grounding() {
     insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
-    from_xml( root );
+    from_xml( root, world );
 }
 
 /**
@@ -161,7 +161,7 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
  */
 void
 Spatial_Relation::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -172,7 +172,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "spatial_relation" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -189,7 +189,7 @@ from_xml( const string& filename ){
  */
 void
 Spatial_Relation::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   spatial_relation_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
     vector< string > spatial_relation_keys = { "type", "spatial_relation_type" };

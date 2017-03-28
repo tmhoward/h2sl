@@ -25,7 +25,7 @@ namespace h2sl {
 
     Rule_Container_Type( const std::string& containerType = "na" );
     Rule_Container_Type( const Rule_Container_Type& other );
-    Rule_Container_Type( xmlNodePtr root );
+    Rule_Container_Type( xmlNodePtr root, World* world );
     virtual ~Rule_Container_Type();
     Rule_Container_Type& operator=( const Rule_Container_Type& other );
     bool operator==( const Rule_Container_Type& other )const;
@@ -39,8 +39,8 @@ namespace h2sl {
     static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& searchSpaces, const std::string& symbolType );
     virtual void fill_rules( const World* world, Grounding_Set* groundingSet )const; 
 
-    virtual void from_xml( const std::string& file );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& file, World* world );
+    virtual void from_xml( xmlNodePtr root, World* world );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 

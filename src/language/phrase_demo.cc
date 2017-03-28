@@ -54,10 +54,15 @@ main( int argc,
     exit(1);
   }
 
+  World * world = new World();
+  if( args.world_given ){
+    world = new World( args.world_arg );
+  }
+
   Phrase * phrase = new Phrase();
 
   if( args.input_given ){
-    phrase->from_xml( args.input_arg );
+    phrase->from_xml( args.input_arg, world );
   } 
 
   //create a duplicate for testing the dup() function

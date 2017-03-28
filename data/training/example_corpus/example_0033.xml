@@ -2,12 +2,12 @@
 <root>
   <instruction text="approach the second nearest chair"/>
   <world time="0">
-    <object name="o0" object_type="robot" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o1" object_type="sink" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o2" object_type="chair" object_color="na" position="1,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o3" object_type="chair" object_color="na" position="2,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o4" object_type="chair" object_color="na" position="3,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o5" object_type="chair" object_color="na" position="4,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o0" object_type="robot" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o1" object_type="sink" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o2" object_type="chair" object_color="na" position="1,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o3" object_type="chair" object_color="na" position="2,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o4" object_type="chair" object_color="na" position="3,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o5" object_type="chair" object_color="na" position="4,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
   </world>
   <VP>
     <grounding_set>
@@ -16,7 +16,7 @@
     <VB text="approach" order="0"/>
     <NP>
       <grounding_set>
-        <object name="o3" object_type="chair" object_color="na" position="2,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object id="o3"/>
         <object_property object_type="chair" spatial_relation_type="near" index="2"/>
         <spatial_relation spatial_relation_type="near"/>
         <index value="2"/>

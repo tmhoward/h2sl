@@ -50,7 +50,7 @@ fill_object_types( vector< Object_Type* >& object_types, const string filename )
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "object_type" ) ) == 0 ){
-            object_types.push_back( new Object_Type( l1 ) );
+            object_types.push_back( new Object_Type( l1, NULL ) );
           }
         }
       }

@@ -118,7 +118,7 @@ main( int argc,
     worlds[ i ]->from_xml( args.inputs[ i ] ); 
   
     phrases[ i ] = new Phrase();
-    phrases[ i ]->from_xml( args.inputs[ i ] ); 
+    phrases[ i ]->from_xml( args.inputs[ i ], worlds[ i ] ); 
 
     if( phrases[ i ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary ) ){
       cout << "contains symbols in symbol dictionary" << endl;

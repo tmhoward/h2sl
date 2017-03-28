@@ -35,6 +35,7 @@
 #include <cstdlib>
 #include "h2sl/grounding.h"
 #include "h2sl/object.h"
+#include "h2sl/world.h"
 #include "grounding_demo_cmdline.h"
 
 using namespace std;
@@ -51,10 +52,15 @@ main( int argc,
     exit(1);
   }
 
+  World * world = NULL;
+  if( args.world_given ){
+    world = new World( args.world_arg );
+  }
+
   Grounding * grounding = new Object();
 
   if( args.input_given ){
-    grounding->from_xml( args.input_arg );
+    grounding->from_xml( args.input_arg, world );
   }
 
   cout << "grounding:(" << *grounding << ")" << endl;

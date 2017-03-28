@@ -161,7 +161,7 @@ value( const string& cv,
             cout << "sorted_objects" << sorted_objects << endl;
             cout << "index:" << object_property_child.second->index() << endl;
 */    
-            if( object->name() == sorted_objects[ object_property_child.second->index() - 1 ]->name() ){
+            if( object->id() == sorted_objects[ object_property_child.second->index() - 1 ]->id() ){
 //              cout << "  FOUND MATCH" << endl;
               return !_invert;
             } else {

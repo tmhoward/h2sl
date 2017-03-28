@@ -159,7 +159,7 @@ value( const string& cv,
             } 
 
             for( int i = 0; i < region_abstract_container_child.second->number(); i++ ){
-              if( object->name() == sorted_objects[ i ]->name() ){
+              if( object->id() == sorted_objects[ i ]->id() ){
                 return !_invert;
               }
             }

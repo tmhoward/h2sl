@@ -47,10 +47,11 @@ Region( const string& spatialRelationType,
 }
 
 Region::
-Region( xmlNodePtr root ) : Grounding() {
+Region( xmlNodePtr root,
+        World* world ) : Grounding() {
   insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
   insert_prop< std::string >( _string_properties, "object_id", "na" );
-  from_xml( root );
+  from_xml( root, world );
 }
 
 Region::
@@ -151,7 +152,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
           if( it_spatial_relation_type_types->second[ i ] != "na" ){
             if( world != NULL ){
               for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
-                it_search_spaces_symbol->second.second.push_back( new Region( it_spatial_relation_type_types->second[ i ], it_world_object->second->name() ) );
+                it_search_spaces_symbol->second.second.push_back( new Region( it_spatial_relation_type_types->second[ i ], it_world_object->second->id() ) );
               }
             }
           }   
@@ -200,7 +201,8 @@ to_xml( xmlDocPtr doc,
 
 void
 Region::
-from_xml( const string& filename ){
+from_xml( const string& filename,
+          World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -211,7 +213,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -223,7 +225,8 @@ from_xml( const string& filename ){
 
 void
 Region::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root,
+          World* world ){
   spatial_relation_type() = "na";
   object_id() = "na";
   if( root->type == XML_ELEMENT_NODE ){
@@ -245,8 +248,8 @@ from_xml( xmlNodePtr root ){
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          Object object( l1 );  
-          object_id() = object.name();
+          Object object( l1, world );  
+          object_id() = object.id();
         }
       }
     }

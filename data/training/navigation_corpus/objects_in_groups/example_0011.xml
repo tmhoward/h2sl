@@ -2,16 +2,16 @@
 <root>
   <instruction text="the second cone from the right in the row of cones in front of the robot"/>
   <world time="0">
-    <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="ground" object_type="ground" object_color="na" position="-0,-0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,1,0" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,1,0" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
   </world>
   <NP>
     <grounding_set>
-      <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+      <object id="cone2"/>
     </grounding_set>
     <NP>
       <grounding_set>
@@ -38,30 +38,20 @@
     </PP>
     <PP>
       <grounding_set>
-        <container container_type="row">
-          <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-        </container>
-        <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-        <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-        <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-        <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <container container_type="row" object_ids="cone0,cone1,cone2,cone3"/>
+        <object id="cone0"/>
+        <object id="cone1"/>
+        <object id="cone2"/>
+        <object id="cone3"/>
       </grounding_set>
       <IN text="in" order="6"/>
       <NP>
         <grounding_set>
-          <container container_type="row">
-            <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          </container>
-          <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <container container_type="row" object_ids="cone0,cone1,cone2,cone3"/>
+          <object id="cone0"/>
+          <object id="cone1"/>
+          <object id="cone2"/>
+          <object id="cone3"/>
         </grounding_set>
         <NP>
           <grounding_set>
@@ -72,43 +62,28 @@
         </NP>
         <PP>
           <grounding_set>
-            <container container_type="group">
-              <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            </container>
-            <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <container container_type="group" object_ids="cone0,cone1,cone2,cone3"/>
+            <object id="cone0"/>
+            <object id="cone1"/>
+            <object id="cone2"/>
+            <object id="cone3"/>
           </grounding_set>
           <IN text="of" order="9"/>
           <NP>
             <grounding_set>
-              <container container_type="group">
-                <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              </container>
-              <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              <container container_type="group" object_ids="cone0,cone1,cone2,cone3"/>
+              <object id="cone0"/>
+              <object id="cone1"/>
+              <object id="cone2"/>
+              <object id="cone3"/>
             </grounding_set>
             <NP>
               <grounding_set>
-                <container container_type="group">
-                  <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                  <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                  <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                  <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                </container>
-                <object name="cone0" object_type="cone" object_color="orange" position="4.18417,3.14877,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                <object name="cone1" object_type="cone" object_color="orange" position="4.68704,0.675394,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                <object name="cone2" object_type="cone" object_color="orange" position="4.18533,-0.917302,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                <object name="cone3" object_type="cone" object_color="orange" position="4.1175,-3.39368,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                <container container_type="group" object_ids="cone0,cone1,cone2,cone3"/>
+                <object id="cone0"/>
+                <object id="cone1"/>
+                <object id="cone2"/>
+                <object id="cone3"/>
                 <object_type object_type="cone"/>
               </grounding_set>
               <NNS text="cones" order="10"/>
@@ -130,12 +105,12 @@
                 </NP>
                 <PP>
                   <grounding_set>
-                    <object name="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,1,0" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                    <object id="husky"/>
                   </grounding_set>
                   <IN text="of" order="13"/>
                   <NP>
                     <grounding_set>
-                      <object name="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,1,0" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                      <object id="husky"/>
                     </grounding_set>
                     <DT text="the" order="14"/>
                     <NN text="robot" order="15"/>

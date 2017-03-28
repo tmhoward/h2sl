@@ -43,7 +43,7 @@ namespace h2sl {
   class Region: public Grounding {
   public:
     Region( const std::string& spatialRelationType = "na", const std::string& objectId = "na" );
-    Region( xmlNodePtr root );
+    Region( xmlNodePtr root, World* world );
     virtual ~Region();
     Region( const Region& other );
     Region& operator=( const Region& other );
@@ -61,8 +61,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    virtual void from_xml( const std::string& filename );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& filename, World* world );
+    virtual void from_xml( xmlNodePtr root, World* world );
 
     inline std::string& spatial_relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
     inline const std::string& spatial_relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };

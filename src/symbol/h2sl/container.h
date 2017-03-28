@@ -27,7 +27,7 @@ namespace h2sl {
                const std::string& containerType = "group" );
 
     Container( const Container& other );
-    Container( xmlNodePtr root );
+    Container( xmlNodePtr root, World* world );
     virtual ~Container();
     Container& operator=( const Container& other );
     bool operator==( const Container& other )const;
@@ -50,8 +50,8 @@ namespace h2sl {
     std::pair< Object*, Object* > bounds( void )const;
     h2sl::Vector3 principal_axis( void )const;
 
-    virtual void from_xml( const std::string& file );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& file, World* world );
+    virtual void from_xml( xmlNodePtr root, World* world );
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
     

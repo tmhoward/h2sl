@@ -50,7 +50,7 @@ fill_index_vector( vector< Index* >& index_vector, const string filename ){
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "index" ) ) == 0 ){
-            index_vector.push_back( new Index( l1 ) );
+            index_vector.push_back( new Index( l1, NULL ) );
           }
         }
       }

@@ -73,9 +73,9 @@ Grounding_Set( const vector< Grounding* >& groundings ) : Grounding(),
 }
 
 Grounding_Set::
-Grounding_Set( xmlNodePtr root ) : Grounding(),
+Grounding_Set( xmlNodePtr root, World* world ) : Grounding(),
                                     _groundings() {
-  from_xml( root );
+  from_xml( root, world );
 }
 
 Grounding_Set::
@@ -253,7 +253,7 @@ to_xml( xmlDocPtr doc,
 
 void
 Grounding_Set::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -264,7 +264,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "grounding_set" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -276,58 +276,58 @@ from_xml( const string& filename ){
 
 void
 Grounding_Set::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   clear();
   if( root->type == XML_ELEMENT_NODE ){
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_object_type" ) ) == 0 ){
-          _groundings.push_back( new Rule_Object_Type( l1 ) );
+          _groundings.push_back( new Rule_Object_Type( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_container_type" ) ) == 0 ){
-          _groundings.push_back( new Rule_Container_Type( l1 ) );
+          _groundings.push_back( new Rule_Container_Type( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_object_color" ) ) == 0 ){
-          _groundings.push_back( new Rule_Object_Color( l1 ) );
+          _groundings.push_back( new Rule_Object_Color( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_spatial_relation" ) ) == 0 ){
-          _groundings.push_back( new Rule_Spatial_Relation( l1 ) );
+          _groundings.push_back( new Rule_Spatial_Relation( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_constraint_type" ) ) == 0 ){
-          _groundings.push_back( new Rule_Constraint_Type( l1 ) );
+          _groundings.push_back( new Rule_Constraint_Type( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_constraint_payload_type" ) ) == 0 ){
-          _groundings.push_back( new Rule_Constraint_Payload_Type( l1 ) );
+          _groundings.push_back( new Rule_Constraint_Payload_Type( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_constraint_reference_type" ) ) == 0 ){
-          _groundings.push_back( new Rule_Constraint_Reference_Type( l1 ) );
+          _groundings.push_back( new Rule_Constraint_Reference_Type( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_index" ) ) == 0 ){
-          _groundings.push_back( new Rule_Index( l1 ) );
+          _groundings.push_back( new Rule_Index( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_number" ) ) == 0 ){
-          _groundings.push_back( new Rule_Number( l1 ) );
+          _groundings.push_back( new Rule_Number( l1, world ) );
         } else if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          _groundings.push_back( new Object( l1 ) );
+          _groundings.push_back( new Object( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region" ) ) == 0 ){
-          _groundings.push_back( new Region( l1 ) );
+          _groundings.push_back( new Region( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint" ) ) == 0 ){
-          _groundings.push_back( new Constraint( l1 ) );
+          _groundings.push_back( new Constraint( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "container" ) ) == 0 ){
-          _groundings.push_back( new Container( l1 ) );
+          _groundings.push_back( new Container( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "container_type" ) ) == 0 ){
-          _groundings.push_back( new Container_Type( l1 ) );
+          _groundings.push_back( new Container_Type( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region_container" ) ) == 0 ){
-          _groundings.push_back( new Region_Container( l1 ) );
+          _groundings.push_back( new Region_Container( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "index" ) ) == 0 ){
-          _groundings.push_back( new Index( l1 ) );
+          _groundings.push_back( new Index( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "number" ) ) == 0 ){
-          _groundings.push_back( new Number( l1 ) );
+          _groundings.push_back( new Number( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_color" ) ) == 0 ){
-          _groundings.push_back( new Object_Color( l1 ) );
+          _groundings.push_back( new Object_Color( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_type" ) ) == 0 ){
-          _groundings.push_back( new Object_Type( l1 ) );
+          _groundings.push_back( new Object_Type( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "spatial_relation" ) ) == 0 ){
-          _groundings.push_back( new Spatial_Relation( l1 ) );
+          _groundings.push_back( new Spatial_Relation( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "object_property" ) ) == 0 ){
-          _groundings.push_back( new Object_Property( l1 ) );
+          _groundings.push_back( new Object_Property( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "abstract_container" ) ) == 0 ){
-          _groundings.push_back( new Abstract_Container( l1 ) );
+          _groundings.push_back( new Abstract_Container( l1, world ) );
         } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "region_abstract_container" ) ) == 0 ){
-          _groundings.push_back( new Region_Abstract_Container( l1 ) );
+          _groundings.push_back( new Region_Abstract_Container( l1, world ) );
         } else {
           cout << "could not identify symbol \"" << l1->name << "\" in Grounding_Set::from_xml" << endl;
           assert( false );

@@ -55,7 +55,7 @@ main( int argc,
   world->from_xml( args.input_arg );
 
   h2sl::Phrase * phrase = new Phrase();
-  phrase->from_xml( args.input_arg );
+  phrase->from_xml( args.input_arg, world );
 
   string instruction = extract_instruction( args.input_arg );
     

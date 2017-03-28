@@ -117,7 +117,7 @@ main( int argc,
     worlds[ i ]->from_xml( args.inputs[ i ] ); 
   
     phrases[ i ] = new Phrase();
-    phrases[ i ]->from_xml( args.inputs[ i ] ); 
+    phrases[ i ]->from_xml( args.inputs[ i ], worlds[ i ] ); 
 
     symbol_dictionaries[ i ] = new Symbol_Dictionary( args.symbol_dictionary_arg );
     cout << "symbol_dictionaries[" << i << "]:" << *symbol_dictionaries[ i ] << endl;

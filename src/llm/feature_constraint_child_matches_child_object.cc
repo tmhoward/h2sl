@@ -87,7 +87,7 @@ value( const string& cv,
       for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
         const Object * child = dynamic_cast< const Object* >( children[ i ].second[ j ] );
         if( child != NULL ){
-          if( ( constraint->reference() == child->name() ) && ( constraint->reference_relation() == "na" ) ){
+          if( ( constraint->reference() == child->id() ) && ( constraint->reference_relation() == "na" ) ){
             found_match = true;
           }
         }

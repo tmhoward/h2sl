@@ -50,7 +50,7 @@ fill_region_abstract_containers( vector< Region_Abstract_Container* >& region_ab
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "region_abstract_container" ) ) == 0 ){
-            region_abstract_containers.push_back( new Region_Abstract_Container( l1 ) );
+            region_abstract_containers.push_back( new Region_Abstract_Container( l1, NULL ) );
           }
         }
       }

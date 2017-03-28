@@ -50,7 +50,7 @@ fill_numbers( vector< Number* >& numbers, const string filename ){
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "number" ) ) == 0 ){
-            numbers.push_back( new Number( l1 ) );
+            numbers.push_back( new Number( l1, NULL ) );
           }
         }
       }

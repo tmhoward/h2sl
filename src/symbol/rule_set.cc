@@ -49,9 +49,9 @@ Rule_Set( const vector< Rule* >& rules ) : Rule(),
 }
 
 Rule_Set::
-Rule_Set( xmlNodePtr root ) : Rule(),
+Rule_Set( xmlNodePtr root, World* world ) : Rule(),
                                     _rules() {
-  from_xml( root );
+  from_xml( root, world );
 }
 
 Rule_Set::
@@ -170,7 +170,7 @@ to_xml( xmlDocPtr doc,
 
 void
 Rule_Set::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -181,7 +181,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "rule_set" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -193,7 +193,7 @@ from_xml( const string& filename ){
 
 void
 Rule_Set::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   clear();
   if( root->type == XML_ELEMENT_NODE ){
     xmlNodePtr l1 = NULL;

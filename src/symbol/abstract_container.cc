@@ -33,13 +33,13 @@ Abstract_Container( const string& objectType,
  * abstract_container constructor from xml node ptr
  */
 Abstract_Container::
-Abstract_Container( xmlNodePtr root ) {
+Abstract_Container( xmlNodePtr root, World* world ) {
   insert_prop< std::string >( _string_properties, "object_type", "na" );
   insert_prop< int >( _int_properties, "number", 0 );
   insert_prop< int >( _int_properties, "index", 0 );
   insert_prop< std::string >( _string_properties, "object_color", "na" );
 
-  from_xml( root );
+  from_xml( root, world );
 }
 
 
@@ -201,7 +201,7 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
  */
 void
 Abstract_Container::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -212,7 +212,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "abstract_container" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -230,7 +230,7 @@ from_xml( const string& filename ){
 
 void
 Abstract_Container::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   type() = "na";
   number() = 0;
   index() = 0;

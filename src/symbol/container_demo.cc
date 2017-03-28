@@ -34,13 +34,15 @@
 #include <iostream>
 #include <cstdlib>
 #include "h2sl/container.h"
+#include "h2sl/world.h"
 #include "container_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
 
 void
-fill_containers( vector< Container* >& containers, const string filename ){
+fill_containers( vector< Container* >& containers, const string filename,
+                  World* world ){
   xmlDoc * doc = NULL;
   xmlNode * root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -50,7 +52,7 @@ fill_containers( vector< Container* >& containers, const string filename ){
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "container" ) ) == 0 ){
-            containers.push_back( new Container( l1 ) );
+            containers.push_back( new Container( l1, world ) );
           }
         }
       }
@@ -69,10 +71,15 @@ main( int argc,
     exit(1);
   }
 
+  World * world = NULL;
+  if( args.world_given ){
+    world = new World( args.world_arg );
+  }
+
   vector< Container* > containers;
 
   if( args.input_given ){
-    fill_containers( containers, args.input_arg );
+    fill_containers( containers, args.input_arg, world );
   }
 
   if( !containers.empty() ){

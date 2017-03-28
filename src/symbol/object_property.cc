@@ -30,11 +30,11 @@ Object_Property( const string& objectType,
 }
 
 Object_Property::
-Object_Property( xmlNodePtr root ) : Grounding() {
+Object_Property( xmlNodePtr root, World* world ) : Grounding() {
     insert_prop< std::string >( _string_properties, "object_type", "na" );
     insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
     insert_prop< int >( _int_properties, "index", 0 );
-    from_xml( root );
+    from_xml( root, world );
 }
 
 
@@ -187,7 +187,7 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
  */
 void
 Object_Property::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -198,7 +198,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "object_property" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -215,7 +215,7 @@ from_xml( const string& filename ){
  */
 void
 Object_Property::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   type() = "na";
   relation_type() = "na";
   index() = 0;

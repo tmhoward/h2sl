@@ -105,18 +105,20 @@ main( int argc,
 
   if( grammar != NULL ){
     for( unsigned int i = 0; i < args.inputs_num; i++ ){
-      Phrase * phrase = new Phrase();
-      if( phrase != NULL ){
-        phrase->from_xml( args.inputs[ i ] ); 
-
-        scrape_phrases( phrase, grammar->terminals(), grammar->non_terminals() ); 
-
-        delete phrase;
-        phrase = NULL;
+      World * world = new World( args.inputs[ i ] );
+      if( world != NULL ){
+        Phrase * phrase = new Phrase( args.inputs[ i ], world );
+        if( phrase != NULL ){
+          Grammar::scrape_phrases( phrase, grammar->terminals(), grammar->non_terminals() );
+          delete phrase;
+          phrase = NULL;
+        }
+        delete world;
+        world = NULL;
       } else {
         return 1;
       }
-    } 
+    }
 
     cout << "grammar terminals[" << grammar->terminals().size() << "{" << endl;
     for( unsigned int i = 0; i < grammar->terminals().size(); i++ ){

@@ -122,7 +122,7 @@ main( int argc,
     world->from_xml( args.inputs[ i ] );
 
     Phrase * truth = new Phrase();
-    truth->from_xml( args.inputs[ i ] );
+    truth->from_xml( args.inputs[ i ], world );
             
     // update the search space when the world changes
     search_space->fill_groundings( *symbol_dictionary, world );

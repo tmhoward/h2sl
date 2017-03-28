@@ -43,7 +43,7 @@ namespace h2sl {
   public:
     Constraint( const std::string& constraintType = "na", const std::string& payload = "na", const std::string& reference = "na", const std::string& referenceRelation = "na" );
     Constraint( const std::string& constraintType,  const std::string& payload, const std::string& payloadRelation, const std::string& reference, const std::string& referenceRelation);
-    Constraint( xmlNodePtr root );
+    Constraint( xmlNodePtr root, World* world );
     virtual ~Constraint();
     Constraint( const Constraint& other );
     Constraint& operator=( const Constraint& other );
@@ -61,8 +61,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    virtual void from_xml( const std::string& filename );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& filename, World* world );
+    virtual void from_xml( xmlNodePtr root, World* world );
 
     inline std::string& constraint_type( void ){ return get_prop< std::string >( _string_properties, "constraint_type" ); };
     inline const std::string& constraint_type( void )const{ return get_prop< std::string >( _string_properties, "constraint_type" ); };

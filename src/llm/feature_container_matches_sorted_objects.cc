@@ -106,7 +106,7 @@ value( const string& cv,
           bool found_object_match = false;
           if( object != NULL ){
             for( unsigned int j = 0; j < number(); j++ ){
-              if( object->name() == it_sorted_objects->second[ j ]->name() ){
+              if( object->id() == it_sorted_objects->second[ j ]->id() ){
                 found_object_match = true;
               }
             }

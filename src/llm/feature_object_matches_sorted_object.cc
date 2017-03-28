@@ -98,7 +98,7 @@ value( const string& cv,
     map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object->type() );
     assert( it_sorted_objects != it_sorted_objects_map->second.end() );
     if( index() < ( int )( it_sorted_objects->second.size() ) ){
-      if( object->name() == it_sorted_objects->second[ index() ]->name() ){
+      if( object->id() == it_sorted_objects->second[ index() ]->id() ){
         return !_invert;
       }
       return _invert; 

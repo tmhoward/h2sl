@@ -64,6 +64,7 @@ namespace h2sl {
   class Phrase {
   public:
     Phrase( const phrase_type_t& type = PHRASE_UNKNOWN, const std::string& text = "na", const std::vector< Word >& words = std::vector< Word >(), const std::vector< Phrase* >& children = std::vector< Phrase* >(), Grounding_Set* groundingSet = NULL, const std::map< std::string, std::string >& properties = std::map< std::string, std::string >() );
+    Phrase( const std::string& filename, World* world );
     virtual ~Phrase();
     Phrase( const Phrase& other );
     Phrase& operator=( const Phrase& other );
@@ -82,8 +83,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    virtual void from_xml( const std::string& filename );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& filename, World* world );
+    virtual void from_xml( xmlNodePtr root, World* world );
 
     bool has_word( const Word& word )const;
     bool has_words( const std::vector< Word >& words )const;

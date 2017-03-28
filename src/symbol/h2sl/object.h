@@ -45,10 +45,10 @@
 namespace h2sl {
   class Object : public Grounding {
   public:
-    Object( const std::string& name = "na", const std::string& objectType = "na", const std::string& objectColor = "na", 
+    Object( const std::string& id = "na", const std::string& objectType = "na", const std::string& objectColor = "na", 
             const Transform& transform = Transform(), const Vector3& linearVelocity = Vector3(), 
-            const Vector3& angularVelocity = Vector3(), const std::string& id = "0" );
-    Object( xmlNodePtr root );
+            const Vector3& angularVelocity = Vector3() );
+    Object( xmlNodePtr root, World* world );
     virtual ~Object();
     Object( const Object& other );
     Object& operator=( const Object& other );
@@ -64,13 +64,15 @@ namespace h2sl {
     virtual void fill_rules( const World* world, Grounding_Set* groundingSet )const;
 
     virtual void to_xml( const std::string& filename )const;
+    virtual void to_xml( const std::string& filename, const bool& writeAllProperties )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
+    virtual void to_xml( xmlDocPtr doc, xmlNodePtr root, const bool& writeAllProperties )const;
 
-    virtual void from_xml( const std::string& filename );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& filename, World* world );
+    virtual void from_xml( xmlNodePtr root, World* world );
 
-    inline std::string& name( void ){ return get_prop< std::string >( _string_properties, "name" ); };
-    inline const std::string& name( void )const{ return get_prop< std::string >( _string_properties, "name" ); };
+    inline std::string& id( void ){ return get_prop< std::string >( _string_properties, "id" ); };
+    inline const std::string& id( void )const{ return get_prop< std::string >( _string_properties, "id" ); };
     inline std::string& type( void ){ return get_prop< std::string >( _string_properties, "object_type" ); };
     inline const std::string& type( void )const{ return get_prop< std::string >( _string_properties, "object_type" ); };
     inline std::string& color( void ){ return get_prop< std::string >( _string_properties, "object_color" ); };

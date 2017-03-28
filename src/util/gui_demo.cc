@@ -81,7 +81,7 @@ main( int argc,
 
   if( args.phrase_given ){
     Phrase * phrase = new Phrase();
-    phrase->from_xml( args.phrase_arg );
+    phrase->from_xml( args.phrase_arg, world );
   
     if( phrase != NULL ){
       delete phrase;

@@ -34,7 +34,6 @@ main( int argc,
   }
 
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
-    cout << "Example index: " << i << endl;
     World * world = new World();
     if( world != NULL ){
       world->from_xml( args.inputs[ i ] );
@@ -42,7 +41,7 @@ main( int argc,
 
     Phrase * phrase = new Phrase();
     if( ( phrase != NULL ) && ( world != NULL ) ){
-      phrase->from_xml( args.inputs[ i ] );
+      phrase->from_xml( args.inputs[ i ], world );
       phrase->scrape_groundings( world, symbol_dictionary->class_names(), symbol_dictionary->string_types(), symbol_dictionary->int_types() );
       delete phrase;
       phrase = NULL;

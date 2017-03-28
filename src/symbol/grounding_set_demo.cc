@@ -34,6 +34,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "h2sl/grounding_set.h"
+#include "h2sl/world.h"
 #include "grounding_set_demo_cmdline.h"
 
 using namespace std;
@@ -50,10 +51,15 @@ main( int argc,
     exit(1);
   }
 
+  World * world = NULL;
+  if( args.world_given ){
+    world = new World( args.world_arg );
+  }
+
   Grounding_Set * grounding_set = new Grounding_Set();
 
   if( args.input_given ){
-    grounding_set->from_xml( args.input_arg );
+    grounding_set->from_xml( args.input_arg, world );
   }
 
   cout << "grounding_set:(" << *grounding_set << ")" << endl;
@@ -65,6 +71,11 @@ main( int argc,
   if( grounding_set != NULL ){
     delete grounding_set;
     grounding_set = NULL;
+  }
+
+  if( world != NULL ){
+    delete world; 
+    world = NULL;
   }
 
   cout << "end of Grounding_Set class demo program" << endl;

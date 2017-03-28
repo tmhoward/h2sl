@@ -116,7 +116,7 @@ paint( QPainter * painter,
   if( _factor != NULL ){
     painter->setPen( QPen( Qt::white, 2.0 ) );
     painter->setFont( QFont( QApplication::font().defaultFamily(), 12, QFont::Bold ) );
-//    painter->drawText( QRect( -18, -18, 36, 36 ), QString::fromStdString( _factor->name() ), QTextOption( Qt::AlignCenter ) );
+//    painter->drawText( QRect( -18, -18, 36, 36 ), QString::fromStdString( _factor->id() ), QTextOption( Qt::AlignCenter ) );
   }
 */
   return;
@@ -425,7 +425,7 @@ update_world( void ){
   _list_widget_world->clear();
   for( map< string, Object* >::const_iterator it_world_object = _world->objects().begin(); it_world_object != _world->objects().end(); it_world_object++ ){
     stringstream item_string;
-    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->name() << " ";
+    item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->id() << " ";
     item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->type() << " ";
     item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->transform().position().to_std_string() << " ";
     item_string << setw( 10 ) << setiosflags( ios::left | ios::fixed ) << it_world_object->second->transform().orientation().to_std_string() << " ";

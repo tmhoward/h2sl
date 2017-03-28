@@ -50,7 +50,7 @@ fill_container_types( vector< Container_Type* >& container_types, const string f
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "container_type" ) ) == 0 ){
-            container_types.push_back( new Container_Type( l1 ) );
+            container_types.push_back( new Container_Type( l1, NULL ) );
           }
         }
       }

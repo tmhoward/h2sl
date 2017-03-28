@@ -88,7 +88,7 @@ value( const string& cv,
   if( constraint != NULL ){
     for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
       if( it_world_object->second != NULL ){
-        if( it_world_object->second->name() == constraint->payload() ){
+        if( it_world_object->second->id() == constraint->payload() ){
           if( it_world_object->second->type() == _payload_type ){
             return !_invert;
           } else {

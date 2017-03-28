@@ -154,7 +154,7 @@ value( const string& cv,
             World::max_center_distance_sort_objects( sorted_objects );
           } 
 
-          if( object->name() == sorted_objects.front()->name() ){
+          if( object->id() == sorted_objects.front()->id() ){
             return !_invert;
           } else {
             return _invert;

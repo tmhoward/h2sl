@@ -91,7 +91,6 @@ scrape_phrases( const Phrase* phrase,
         }
         if( !found_match ){
           terminals[ j ].words().push_back( phrase->words()[ i ].text() );
-          cout << "adding word " << phrase->words()[ i ] << endl;
         }
         break;
       }
@@ -100,16 +99,13 @@ scrape_phrases( const Phrase* phrase,
 
   // check for unique non-terminals 
   Grammar_Non_Terminal grammar_non_terminal( Phrase::phrase_type_t_to_std_string( phrase->type() ) );
-  cout << "phrase:" << phrase->words_to_std_string() << endl;
   // add words  
-  cout << "phrase->words().size():" << phrase->words().size() << endl;
   for( unsigned int i = 0; i < phrase->words().size(); i++ ){
     grammar_non_terminal.elements().push_back( pos_t_to_std_string( phrase->words()[ i ].pos() ) + "[" + phrase->words()[ i ].text() + "]" );
   }
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
     grammar_non_terminal.elements().push_back( Phrase::phrase_type_t_to_std_string( phrase->children()[ i ]->type() ) );
   }
-  cout << "grammar_non_terminal:(" << grammar_non_terminal << ")" << endl;
   bool found_match = false;
   for( unsigned int i = 0; i < nonTerminals.size(); i++ ){
     if( grammar_non_terminal == nonTerminals[ i ] ){
@@ -118,7 +114,6 @@ scrape_phrases( const Phrase* phrase,
   }
   if( !found_match ){
     nonTerminals.push_back( grammar_non_terminal );
-    cout << "adding non_terminal " << grammar_non_terminal << endl;
   }
 
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
@@ -163,7 +158,6 @@ scrape_phrases( const Phrase* phrase,
         }
         if( !found_match ){
           it_terminals->second[ j ].words().push_back( phrase->words()[ i ].text() );
-          cout << "adding word " << phrase->words()[ i ] << endl;
         }
         break;
       }
@@ -172,16 +166,13 @@ scrape_phrases( const Phrase* phrase,
 
   // check for unique non-terminals 
   Grammar_Non_Terminal grammar_non_terminal( Phrase::phrase_type_t_to_std_string( phrase->type() ) );
-  cout << "phrase:" << phrase->words_to_std_string() << endl;
   // add words  
-  cout << "phrase->words().size():" << phrase->words().size() << endl;
   for( unsigned int i = 0; i < phrase->words().size(); i++ ){
     grammar_non_terminal.elements().push_back( pos_t_to_std_string( phrase->words()[ i ].pos() ) + "[" + phrase->words()[ i ].text() + "]" );
   }
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
     grammar_non_terminal.elements().push_back( Phrase::phrase_type_t_to_std_string( phrase->children()[ i ]->type() ) );
   }
-  cout << "grammar_non_terminal:(" << grammar_non_terminal << ")" << endl;
   bool found_match = false;
   for( unsigned int i = 0; i < it_non_terminals->second.size(); i++ ){
     if( grammar_non_terminal == it_non_terminals->second[ i ] ){
@@ -190,7 +181,6 @@ scrape_phrases( const Phrase* phrase,
   }
   if( !found_match ){
     it_non_terminals->second.push_back( grammar_non_terminal );
-    cout << "adding non_terminal " << grammar_non_terminal << endl;
   }
 
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){

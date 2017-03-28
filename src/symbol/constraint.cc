@@ -66,12 +66,12 @@ Constraint( const string& constraintType,
 }
 
 Constraint::
-Constraint( xmlNodePtr root ) : Grounding() {
+Constraint( xmlNodePtr root, World* world ) : Grounding() {
   insert_prop< std::string >( _string_properties, "constraint_type", "na" );
   insert_prop< std::string >( _string_properties, "payload", "na" );
   insert_prop< std::string >( _string_properties, "reference", "na" );
   insert_prop< std::string >( _string_properties, "reference_relation", "na" );
-  from_xml( root );
+  from_xml( root, world );
 }
 
 Constraint::
@@ -190,7 +190,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                 for( map< string, Object* >::const_iterator it_world_object_2 = world->objects().begin(); it_world_object_2 != world->objects().end(); it_world_object_2++ ){
                   if( find( it_constraint_reference_type_types->second.begin(), it_constraint_reference_type_types->second.end(), it_world_object_2->second->type() ) != it_constraint_reference_type_types->second.end() ){
                     if( it_world_object_1->second != it_world_object_2->second ){
-                      it_search_spaces_symbol->second.second.push_back( new Constraint( it_constraint_type_types->second[ i ], it_world_object_1->second->name(), it_world_object_2->second->name(), it_spatial_relation_type_types->second[ k ] ) );
+                      it_search_spaces_symbol->second.second.push_back( new Constraint( it_constraint_type_types->second[ i ], it_world_object_1->second->id(), it_world_object_2->second->id(), it_spatial_relation_type_types->second[ k ] ) );
                     }
                   }
                 }
@@ -250,7 +250,7 @@ to_xml( xmlDocPtr doc,
 
 void
 Constraint::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -261,7 +261,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -273,7 +273,7 @@ from_xml( const string& filename ){
 
 void
 Constraint::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   constraint_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
     vector< string > constraint_keys = { "constraint_type", "payload", "reference", "reference_relation" };

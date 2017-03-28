@@ -32,10 +32,10 @@ Container( const vector< Grounding* >& groundings,
  * Container class constructor using xml
  */
 Container::
-Container( xmlNodePtr root ) : Grounding(),
+Container( xmlNodePtr root, World* world ) : Grounding(),
 _groundings() {
     insert_prop< std::string >( _string_properties, "container_type", "group" );
-    from_xml( root );
+    from_xml( root, world );
 }
 
 /**
@@ -375,10 +375,16 @@ to_xml( xmlDocPtr doc,
         xmlNodePtr root )const{
   xmlNodePtr node = xmlNewDocNode( doc, NULL, ( const xmlChar* )( "container" ), NULL );
   xmlNewProp( node, ( const xmlChar* )( "container_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "container_type").c_str() ) );
+  vector< string > object_ids;
   for( unsigned int i = 0; i < _groundings.size(); i++ ){
-    if( _groundings[ i ] != NULL ){
-      _groundings[ i ]->to_xml( doc, node );
-    }
+    Object * object = dynamic_cast< Object* >( _groundings[ i ] );
+    if( object != NULL ){
+      object_ids.push_back( object->id() );
+    } 
+  } 
+
+  if( !object_ids.empty() ){
+    xmlNewProp( node, ( const xmlChar* )( "object_ids" ), ( const xmlChar* )( std_vector_to_std_string( object_ids, false ).c_str() ) );
   }
   xmlAddChild( root, node );
   return;
@@ -389,7 +395,7 @@ to_xml( xmlDocPtr doc,
  */
 void
 Container::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -400,7 +406,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "container" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -415,7 +421,7 @@ from_xml( const string& filename ){
  */
 void
 Container::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   type() = "group";
   for (unsigned int i = 0; i < _groundings.size(); i++){
     delete _groundings[ i ];
@@ -428,13 +434,24 @@ from_xml( xmlNodePtr root ){
     if( type_prop.first ){
       type() = type_prop.second;
     }
+
+    pair< bool, string > object_ids_prop = has_prop< std::string >( root, "object_ids" );
+    if( object_ids_prop.first ){
+      string object_ids_string;
+      object_ids_string = object_ids_prop.second;
+      vector< string > object_ids = std_vector_from_std_string< string >( object_ids_string );
+      for( vector< string >::const_iterator it_object_id = object_ids.begin(); it_object_id != object_ids.end(); it_object_id++ ){
+        assert( world != NULL );
+        map< string, Object* >::iterator it_object = world->objects().find( *it_object_id );
+        _groundings.push_back( it_object->second );
+      }
+    }
     
     xmlNodePtr l1 = NULL;
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          _groundings.push_back( new Object() );
-          _groundings.back()->from_xml( l1 );
+          _groundings.push_back( new Object( l1, world ) );
         }
       }
     }

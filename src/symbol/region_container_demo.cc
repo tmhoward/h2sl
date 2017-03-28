@@ -34,13 +34,15 @@
 #include <iostream>
 #include <cstdlib>
 #include "h2sl/region_container.h"
+#include "h2sl/world.h"
 #include "region_container_demo_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
 
 void
-fill_region_containers( vector< Region_Container* >& region_containers, const string filename ){
+fill_region_containers( vector< Region_Container* >& region_containers, const string filename,
+                        World* world ){
   xmlDoc * doc = NULL;
   xmlNode * root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -50,7 +52,7 @@ fill_region_containers( vector< Region_Container* >& region_containers, const st
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "region_container" ) ) == 0 ){
-            region_containers.push_back( new Region_Container( l1 ) );
+            region_containers.push_back( new Region_Container( l1, world ) );
           }
         }
       }
@@ -69,10 +71,15 @@ main( int argc,
     exit(1);
   }
 
+  World * world = NULL;
+  if( args.world_given ){
+    world = new World( args.world_arg );
+  }
+
   vector< Region_Container* > region_containers;
 
   if( args.input_given ){
-    fill_region_containers( region_containers, args.input_arg );
+    fill_region_containers( region_containers, args.input_arg, world );
   }
 
   if( !region_containers.empty() ){

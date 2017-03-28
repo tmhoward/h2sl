@@ -23,9 +23,9 @@ Object_Color( const string& object_colorType ) : Grounding() {
 
 
 Object_Color::
-Object_Color( xmlNodePtr root ) : Grounding() {
+Object_Color( xmlNodePtr root, World* world ) : Grounding() {
     insert_prop< std::string >( _string_properties, "object_color_type", "na" );
-    from_xml( root );
+    from_xml( root, world );
 }
 
 /**
@@ -160,7 +160,7 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
  */
 void
 Object_Color::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -171,7 +171,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "object_color" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -188,7 +188,7 @@ from_xml( const string& filename ){
  */
 void
 Object_Color::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   object_color_type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
       pair< bool, string > object_color_type_prop = has_prop< std::string >( root, "object_color_type" );

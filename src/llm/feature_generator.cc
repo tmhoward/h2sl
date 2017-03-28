@@ -136,7 +136,6 @@ namespace h2sl {
                                             const map< string, vector< Grammar_Non_Terminal > >& grammarNonTerminals,
                                             const Symbol_Dictionary& symbolDictionary, 
                                             Feature_Set& featureSet ){
-    cout << "adding grounding features" << endl; 
     for( map< string, vector< Grammar_Terminal > >::const_iterator it_grammar_terminals = grammarTerminals.begin(); it_grammar_terminals != grammarTerminals.end(); it_grammar_terminals++ ){
       cout << "checking phrase " << it_grammar_terminals->first << endl;
   
@@ -199,7 +198,6 @@ namespace h2sl {
 
   void
   feature_generator_add_cv_features( Feature_Set& featureSet ){
-    cout << "adding cv features" << endl;
     featureSet.feature_products().back()->feature_groups().push_back( vector< Feature* >() );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_CV( false, "false" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_CV( false, "true" ) );
@@ -208,7 +206,6 @@ namespace h2sl {
 
   void
   feature_generator_add_class_name_features( Feature_Set& featureSet ){   
-    cout << "adding class name features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "object" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "region" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_Class_Name( false, "constraint" ) );
@@ -231,7 +228,6 @@ namespace h2sl {
                                         const vector< Grammar_Terminal >& grammarTerminals,
                                         const Symbol_Dictionary& symbolDictionary,
                                         Feature_Set& featureSet ){
-    cout << "adding word features" << endl;
     // world features
     featureSet.feature_products().back()->feature_groups().push_back( vector< Feature* >() );
     for( unsigned int i = 0; i < grammarTerminals.size(); i++ ){
@@ -256,7 +252,6 @@ namespace h2sl {
   void
   feature_generator_add_object_features( const Symbol_Dictionary& symbolDictionary,
                                           Feature_Set& featureSet ){
-    cout << "adding object features" << endl;
     // object symbols
     map< string, vector< string > >::const_iterator it_object_types = symbolDictionary.string_types().find( "object_type" );
     if( it_object_types != symbolDictionary.string_types().end() ){
@@ -536,7 +531,6 @@ namespace h2sl {
   void
   feature_generator_add_region_features( const Symbol_Dictionary& symbolDictionary,
                                           Feature_Set& featureSet ){
-    cout << "adding region features" << endl;
     map< string, vector< string > >::const_iterator it_spatial_relation_types = symbolDictionary.string_types().find( "spatial_relation_type" );
     if( it_spatial_relation_types != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_spatial_relation_type = it_spatial_relation_types->second.begin(); it_spatial_relation_type != it_spatial_relation_types->second.end(); it_spatial_relation_type++ ){
@@ -568,7 +562,6 @@ namespace h2sl {
 void
 feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictionary,
                                             Feature_Set& featureSet ){
-  cout << "adding constraint features" << endl;
   map< string, vector< string > >::const_iterator it_constraint_types = symbolDictionary.string_types().find( "constraint_type" );
     if( it_constraint_types != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_constraint_type = it_constraint_types->second.begin(); it_constraint_type != it_constraint_types->second.end(); it_constraint_type++ ){
@@ -583,8 +576,8 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
     }
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Constraint >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Constraint >( true ) );
-    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "constraint", "reference", "object", "name" ) );
-    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "constraint", "reference", "object", "name" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "constraint", "reference", "object", "id" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "constraint", "reference", "object", "id" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "constraint", "reference_relation", "region", "spatial_relation_type" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "constraint", "reference_relation", "region", "spatial_relation_type" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "constraint", "reference", "region", "object_id" ) );
@@ -599,7 +592,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_spatial_relation_features( const Symbol_Dictionary& symbolDictionary,
                                                    Feature_Set& featureSet ){
-    cout << "adding spatial relation features" << endl;
     map< string, vector< string > >::const_iterator it_spatial_relation_types = symbolDictionary.string_types().find( "spatial_relation_type" );
     if( it_spatial_relation_types != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_spatial_relation_type = it_spatial_relation_types->second.begin(); it_spatial_relation_type != it_spatial_relation_types->second.end(); it_spatial_relation_type++ ){
@@ -618,7 +610,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_object_type_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding object type features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object_Type >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object_Type >( true ) );
     map< string, vector< string > >::const_iterator it_object_types = symbolDictionary.string_types().find( "object_type" );
@@ -633,7 +624,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_object_color_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding object color features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object_Color >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object_Color >( true ) );
     map< string, vector< string > >::const_iterator it_object_colors = symbolDictionary.string_types().find( "object_color" );
@@ -648,7 +638,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_object_property_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding object property features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object_Property >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Object_Property >( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Property_Merge_Index_Object_Property( false ) );
@@ -677,7 +666,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_container_type_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding container type features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Container_Type >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Container_Type >( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Type_Merge_Container_Type_Number( false ) );
@@ -710,7 +698,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_number_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding number features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Number >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Number >( true ) );
     map< string, vector< int > >::const_iterator it_numbers = symbolDictionary.int_types().find( "number" );  
@@ -725,7 +712,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_abstract_container_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding abstract container features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Abstract_Container >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Abstract_Container >( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects( false ) );
@@ -761,7 +747,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_region_abstract_container_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding region abstract container features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Region_Abstract_Container >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Region_Abstract_Container >( true ) );
     map< string, vector< string > >::const_iterator it_spatial_relation_types = symbolDictionary.string_types().find( "spatial_relation_type" );
@@ -800,7 +785,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_container_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding container features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Container >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Container >( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Is_Empty( false ) );
@@ -908,7 +892,6 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_region_container_features( const Symbol_Dictionary& symbolDictionary,
                                                   Feature_Set& featureSet ){
-    cout << "adding region container features" << endl;
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Region_Container >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Region_Container >( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Region_Container_Matches_Child( false ) );

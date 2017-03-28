@@ -88,7 +88,7 @@ value( const string& cv,
         if( child != NULL ){
           map< string, Object* >::const_iterator it_child_region_object = world->objects().find( child->object_id() );
           assert( it_child_region_object != world->objects().end() );
-          if( constraint->payload() == it_child_region_object->second->name() ){
+          if( constraint->payload() == it_child_region_object->second->id() ){
             return !_invert;
           }
         }

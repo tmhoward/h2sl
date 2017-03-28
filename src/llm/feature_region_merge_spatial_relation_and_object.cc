@@ -96,7 +96,7 @@ value( const string& cv,
       for( vector< const Spatial_Relation* >::const_iterator it_child_spatial_relation = child_spatial_relations.begin(); it_child_spatial_relation != child_spatial_relations.end(); it_child_spatial_relation++ ){
         for( vector< const Object* >::const_iterator it_child_object = child_objects.begin(); it_child_object != child_objects.end(); it_child_object++ ){
           if( region->spatial_relation_type() == (*it_child_spatial_relation)->spatial_relation_type() ){
-            if( region->object_id() == (*it_child_object)->name() ){
+            if( region->object_id() == (*it_child_object)->id() ){
               return !_invert;
             } 
           }

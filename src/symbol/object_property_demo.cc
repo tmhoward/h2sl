@@ -50,7 +50,7 @@ fill_object_propertys( vector< Object_Property* >& object_propertys, const strin
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "object_property" ) ) == 0 ){
-            object_propertys.push_back( new Object_Property( l1 ) );
+            object_propertys.push_back( new Object_Property( l1, NULL ) );
           }
         }
       }

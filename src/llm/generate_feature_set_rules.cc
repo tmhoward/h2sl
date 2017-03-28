@@ -87,12 +87,16 @@ main( int argc,
     grammar->from_xml( args.grammar_arg );
   } else {
     for( unsigned int i = 0; i < args.inputs_num; i++ ){
-      Phrase * phrase = new Phrase();
-      if( phrase != NULL ){
-        phrase->from_xml( args.inputs[ i ] );
-        Grammar::scrape_phrases( phrase, grammar_terminals, grammar_non_terminals );
-        delete phrase;
-        phrase = NULL;
+      World * world = new World( args.inputs[ i ] );
+      if( world != NULL ){
+        Phrase * phrase = new Phrase( args.inputs[ i ], world );
+        if( phrase != NULL ){
+          Grammar::scrape_phrases( phrase, grammar_terminals, grammar_non_terminals );
+          delete phrase;
+          phrase = NULL;
+        }
+        delete world;
+        world = NULL;
       } else {
         return 1;
       }

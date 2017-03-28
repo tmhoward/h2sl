@@ -50,7 +50,7 @@ fill_spatial_relations( vector< Spatial_Relation* >& spatial_relations, const st
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "spatial_relation" ) ) == 0 ){
-            spatial_relations.push_back( new Spatial_Relation( l1 ) );
+            spatial_relations.push_back( new Spatial_Relation( l1, NULL ) );
           }
         }
       }

@@ -23,9 +23,9 @@ Object_Type( const string& objectType ) : Grounding() {
 
 
 Object_Type::
-Object_Type( xmlNodePtr root ) : Grounding() {
+Object_Type( xmlNodePtr root, World* world ) : Grounding() {
     insert_prop< std::string >( _string_properties, "object_type", "na" );
-    from_xml( root );
+    from_xml( root, world );
 }
 
 
@@ -162,7 +162,7 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
  */
 void
 Object_Type::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -173,7 +173,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "object_type" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -190,7 +190,7 @@ from_xml( const string& filename ){
  */
 void
 Object_Type::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
     vector< string > object_keys = { "type", "object_type" };

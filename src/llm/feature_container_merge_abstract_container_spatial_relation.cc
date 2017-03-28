@@ -138,7 +138,7 @@ value( const string& cv,
               for( int i = 0; i < abstract_container_child.second->number(); i++ ){
                 bool found_object_match = false;
                 for( unsigned int j = 0; j < sorted_objects.size(); j++ ){
-                  if( it_sorted_objects->second[ i ]->name() == sorted_objects[ j ]->name() ){
+                  if( it_sorted_objects->second[ i ]->id() == sorted_objects[ j ]->id() ){
                     found_object_match = true;
                   }
                 }

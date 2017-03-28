@@ -81,7 +81,7 @@ main( int argc,
     world->from_xml( args.inputs[ i ] );
 
     h2sl::Phrase * phrase = new Phrase();
-    phrase->from_xml( args.inputs[ i ] );
+    phrase->from_xml( args.inputs[ i ], world );
 
     cout << "loading \"" << args.inputs[ i ] << "\"" << endl;
 

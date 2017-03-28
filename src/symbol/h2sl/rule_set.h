@@ -43,7 +43,7 @@ namespace h2sl {
   class Rule_Set: public Rule {
   public:
     Rule_Set( const std::vector< Rule* >& rules = std::vector< Rule* >() );
-    Rule_Set( xmlNodePtr root );
+    Rule_Set( xmlNodePtr root, World* world );
     virtual ~Rule_Set();
     Rule_Set( const Rule_Set& other );
     Rule_Set& operator=( const Rule_Set& other );
@@ -60,7 +60,7 @@ namespace h2sl {
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
     virtual void from_xml( const std::string& filename );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( xmlNodePtr root, World* world );
 
     inline std::vector< Rule* >& rules( void ){ return _rules; };
     inline const std::vector< Rule* >& rules( void )const{ return _rules; };

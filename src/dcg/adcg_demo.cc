@@ -79,7 +79,7 @@ main( int argc,
     world->from_xml( args.example_arg );
     
     Phrase * phrase = new Phrase();
-    phrase->from_xml( args.example_arg );
+    phrase->from_xml( args.example_arg, world );
     phrase->clear_grounding_sets();
 
     cout << endl << "search_spaces grounding pairs size(): " << search_space->grounding_pairs().size() << endl << endl;

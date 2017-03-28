@@ -248,17 +248,17 @@ run_tests( const std::vector< std::string >& filenames,
     xmlNodePtr example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "example" ), NULL );
     xmlNewProp( example_node, ( const xmlChar* )( "filename" ), ( const xmlChar* )( filenames[ j ].c_str() ) );
 
-    // Phrase truth. Note no parsing.
-    Phrase* truth_phrase = new Phrase();
-    truth_phrase->from_xml( filenames[ j ] );
-    // Phrase input.
-    Phrase * input_phrase = new Phrase();
-    input_phrase->from_xml( filenames[ j ] );
-    clear( input_phrase );
-
     // World
     World * world = new World();
     world->from_xml( filenames[ j ] );
+
+    // Phrase truth. Note no parsing.
+    Phrase* truth_phrase = new Phrase();
+    truth_phrase->from_xml( filenames[ j ], world );
+    // Phrase input.
+    Phrase * input_phrase = new Phrase();
+    input_phrase->from_xml( filenames[ j ], world );
+    clear( input_phrase );
 
     // Symbol Dictionary 
     Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
@@ -891,7 +891,7 @@ main( int argc,
 
         // Load phrase
         truth_training_phrases[ j ] = new Phrase();
-        truth_training_phrases[ j ]->from_xml( training_set[ j ] );
+        truth_training_phrases[ j ]->from_xml( training_set[ j ], training_worlds[ j ] );
 
         /************ Search Space fill rules and scrape examples ************************/
         if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){

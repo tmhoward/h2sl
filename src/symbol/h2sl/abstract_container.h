@@ -32,7 +32,7 @@ namespace h2sl {
                         const std::string& colorType = "na" );                   
 
     Abstract_Container( const Abstract_Container& other );
-    Abstract_Container( xmlNodePtr root );
+    Abstract_Container( xmlNodePtr root, World* world );
     virtual ~Abstract_Container();
     Abstract_Container& operator=( const Abstract_Container& other );
     bool operator==( const Abstract_Container& other )const;
@@ -69,8 +69,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    virtual void from_xml( const std::string& file );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& file, World* world );
+    virtual void from_xml( xmlNodePtr root, World* world );
 
     static std::string class_name( void ){ return "abstract_container"; };
 

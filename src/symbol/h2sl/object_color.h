@@ -26,7 +26,7 @@ namespace h2sl {
     public:
         Object_Color( const std::string& object_colorType = "na" );
         Object_Color( const Object_Color& other );
-        Object_Color( xmlNodePtr root );
+        Object_Color( xmlNodePtr root, World* world );
         virtual ~Object_Color();
         Object_Color& operator=( const Object_Color& other );
         bool operator==( const Object_Color& other )const;
@@ -40,8 +40,8 @@ namespace h2sl {
         static void fill_search_space( const Symbol_Dictionary& symbolDictionary, const World* world, std::map< std::string, std::pair< std::string, std::vector< Grounding* > > >& searchSpaces, const std::string& symbolType ); 
         virtual void fill_rules( const World* world, Grounding_Set* groundingSet )const;
      
-        virtual void from_xml( const std::string& file );
-        virtual void from_xml( xmlNodePtr root );
+        virtual void from_xml( const std::string& file, World* world );
+        virtual void from_xml( xmlNodePtr root, World* world );
         virtual void to_xml( const std::string& file )const;
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         

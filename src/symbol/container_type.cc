@@ -23,9 +23,9 @@ Container_Type( const string& containerType ) : Grounding() {
 
 
 Container_Type::
-Container_Type( xmlNodePtr root ) : Grounding() {
+Container_Type( xmlNodePtr root, World* world ) : Grounding() {
     insert_prop< std::string >( _string_properties, "container_type", "na" );
-    from_xml( root );
+    from_xml( root, world );
 }
 
 
@@ -162,7 +162,7 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
  */
 void
 Container_Type::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -173,7 +173,7 @@ from_xml( const string& filename ){
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "container_type" ) ) == 0 ){
-            from_xml( l1 );
+            from_xml( l1, world );
           }
         }
       }
@@ -190,7 +190,7 @@ from_xml( const string& filename ){
  */
 void
 Container_Type::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   type() = "na";
   if( root->type == XML_ELEMENT_NODE ){
     vector< string > container_keys = { "type", "container_type" };

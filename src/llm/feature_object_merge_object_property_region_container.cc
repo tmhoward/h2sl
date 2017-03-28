@@ -155,7 +155,7 @@ value( const string& cv,
               World::max_center_distance_sort_objects( sorted_objects );
             } 
 
-            if( object->name() == sorted_objects[ object_property_child.second->index() - 1 ]->name() ){
+            if( object->id() == sorted_objects[ object_property_child.second->index() - 1 ]->id() ){
               return !_invert;
             } else {
               return _invert;
@@ -171,7 +171,7 @@ value( const string& cv,
           map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( abstract_container_child.second->type() );
           assert( it_sorted_objects != it_sorted_objects_map->second.end() );
           for( unsigned int i = 0; i < abstract_container_child.second->number(); i++ ){
-            if( object->name() == it_sorted_objects->second[ i ]->name() ){
+            if( object->id() == it_sorted_objects->second[ i ]->id() ){
               return !_invert;
             }
           }

@@ -99,31 +99,6 @@ operator!=( const Grounding& other )const{
   return !( *this == other );
 }
 
-void 
-Grounding::
-to_xml( const string& filename )const{
-  return;
-}
-
-void 
-Grounding::
-to_xml( xmlDocPtr doc, 
-        xmlNodePtr root )const{
-  return;
-}
-
-void 
-Grounding::
-from_xml( const string& filename ){
-  return;
-}
-
-void 
-Grounding::
-from_xml( xmlNodePtr root ){
-  return;
-}
-
 bool
 Grounding::
 _equals( const Grounding& other )const{

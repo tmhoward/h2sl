@@ -2,10 +2,10 @@
 <root>
   <instruction text="drive to the desk and the seat"/>
   <world time="0">
-    <object name="o0" object_type="robot" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o1" object_type="box" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o2" object_type="table" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-    <object name="o3" object_type="chair" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o0" object_type="robot" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o1" object_type="box" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o2" object_type="table" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="o3" object_type="chair" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
   </world>
   <VP>
     <grounding_set>
@@ -15,26 +15,26 @@
     <VB text="drive" order="0"/>
     <PP>
       <grounding_set>
-        <object name="o2" object_type="table" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-        <object name="o3" object_type="chair" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+        <object id="o2"/>
+        <object id="o3"/>
       </grounding_set>
       <TO text="to" order="0"/>
       <NP>
         <grounding_set>
-          <object name="o2" object_type="table" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="o3" object_type="chair" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object id="o2"/>
+          <object id="o3"/>
         </grounding_set>
         <CC text="and" order="0"/>
         <NP>
           <grounding_set>
-            <object name="o2" object_type="table" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="o2"/>
           </grounding_set>
           <DT text="the" order="0"/>
           <NN text="desk" order="0"/>
         </NP>
         <NP>
           <grounding_set>
-            <object name="o3" object_type="chair" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="o3"/>
           </grounding_set>
           <DT text="the" order="0"/>
           <NN text="seat" order="0"/>

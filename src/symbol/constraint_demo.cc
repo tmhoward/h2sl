@@ -50,7 +50,7 @@ fill_constraints( vector< Constraint* >& constraints, const string filename ){
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "constraint" ) ) == 0 ){
-            constraints.push_back( new Constraint( l1 ) );
+            constraints.push_back( new Constraint( l1, NULL ) );
           }
         }
       }

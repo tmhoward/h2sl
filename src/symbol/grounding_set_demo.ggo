@@ -3,6 +3,7 @@ version "0.0.1"
 purpose "A program used to demonstrate the h2sl::Grounding_Set class."
 
 option "input" i "input string" string optional
+option "world" w "world string" string optional
 option "output" o "output file" string optional
 
 text ""

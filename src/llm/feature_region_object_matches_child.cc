@@ -91,7 +91,7 @@ value( const string& cv,
       for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
         const Object * child = dynamic_cast< const Object* >( children[ i ].second[ j ] );
         if( child != NULL ){
-          if( region->object_id() == child->name() ){
+          if( region->object_id() == child->id() ){
             return !_invert;
           }
         }

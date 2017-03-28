@@ -62,7 +62,7 @@ main( int argc,
     for( map< string, vector< Object* > >::const_iterator it_sorted_typed_objects = it_sorted_objects->second.begin(); it_sorted_typed_objects != it_sorted_objects->second.end(); it_sorted_typed_objects++ ){
       cout << "  " << it_sorted_typed_objects->first << "[" << it_sorted_typed_objects->second.size() << "]:{";
       for( unsigned int i = 0; i < it_sorted_typed_objects->second.size(); i++ ){
-        cout << it_sorted_typed_objects->second[ i ]->name();
+        cout << it_sorted_typed_objects->second[ i ]->id();
         if( i != ( it_sorted_typed_objects->second.size() - 1 ) ){
           cout << ",";
         }

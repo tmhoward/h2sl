@@ -46,7 +46,7 @@ namespace h2sl {
   class Grounding_Set: public Grounding {
   public:
     Grounding_Set( const std::vector< Grounding* >& groundings = std::vector< Grounding* >() );
-    Grounding_Set( xmlNodePtr root );
+    Grounding_Set( xmlNodePtr root, World* world );
     virtual ~Grounding_Set();
     Grounding_Set( const Grounding_Set& other );
     Grounding_Set& operator=( const Grounding_Set& other );
@@ -68,8 +68,8 @@ namespace h2sl {
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    virtual void from_xml( const std::string& filename );
-    virtual void from_xml( xmlNodePtr root );
+    virtual void from_xml( const std::string& filename, World* world );
+    virtual void from_xml( xmlNodePtr root, World* world );
 
     inline std::vector< Grounding* >& groundings( void ){ return _groundings; };
     inline const std::vector< Grounding* >& groundings( void )const{ return _groundings; };

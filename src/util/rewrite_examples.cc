@@ -44,6 +44,37 @@ using namespace std;
 using namespace h2sl;
 
 void
+rewrite_objects( Phrase* phrase, World* world ){
+  cout << "function: " << "rewrite_objects" << endl;
+  if( phrase->grounding_set() != NULL ){
+    cout << "checking " << *phrase->grounding_set() << endl;
+    for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+      Object * object = dynamic_cast< Object* >( *it_grounding );
+      if( object != NULL ){
+        cout << "found object" << endl;
+        map< string, Object* >::iterator it_object = world->objects().find( object->id() );
+        assert( it_object != world->objects().end() );
+        cout << "  reassigning grounding to object " << *it_object->second << endl;
+        *object = *(it_object->second);
+      }
+    }
+
+    for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+      rewrite_objects( *it_child, world );
+    }
+  } else{
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    assert( false );
+  }
+  return;
+}
+
+void
+rewrite_containers( Phrase* phrase, World* world ){
+  return;
+}
+
+void
 replace_empty_regions_with_objects( Phrase* phrase, World* world ){
   cout << "function: " << "replace_empty_regions_with_objects" << endl;
   if( phrase->grounding_set() != NULL ){
@@ -115,7 +146,7 @@ main( int argc,
     world->from_xml( args.inputs[ i ] );
 
     h2sl::Phrase * phrase = new Phrase();
-    phrase->from_xml( args.inputs[ i ] );
+    phrase->from_xml( args.inputs[ i ], world );
 
     replace_empty_regions_with_objects( phrase, world );
     replace_objectless_regions_with_spatial_relations( phrase, world );

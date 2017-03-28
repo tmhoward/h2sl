@@ -36,10 +36,10 @@ Region_Container::
 }
 
 Region_Container::
-Region_Container( xmlNodePtr root ) : Grounding(),
+Region_Container( xmlNodePtr root, World* world ) : Grounding(),
                                        _container() {
     insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
-    from_xml( root );
+    from_xml( root, world );
 }
 
 /**
@@ -240,7 +240,7 @@ to_xml( xmlDocPtr doc,
  */
 void
 Region_Container::
-from_xml( const string& filename ){
+from_xml( const string& filename, World* world ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -250,7 +250,7 @@ from_xml( const string& filename ){
     for( l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "region_container" ) ) == 0 ){
-          from_xml( l1 );
+          from_xml( l1, world );
         }
       }
     }
@@ -264,7 +264,7 @@ from_xml( const string& filename ){
  */
 void
 Region_Container::
-from_xml( xmlNodePtr root ){
+from_xml( xmlNodePtr root, World* world ){
   relation_type() = "na";
   _container = Container();
 
@@ -290,7 +290,7 @@ from_xml( xmlNodePtr root ){
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
             if( xmlStrcmp( l1->name, ( const xmlChar* )( "container" ) ) == 0 ){
-                _container.from_xml( l1 );
+                _container.from_xml( l1, world );
             }
         }
     }

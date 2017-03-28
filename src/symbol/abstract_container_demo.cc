@@ -50,7 +50,7 @@ fill_abstract_containers( vector< Abstract_Container* >& abstract_containers, co
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( "abstract_container" ) ) == 0 ){
-            abstract_containers.push_back( new Abstract_Container( l1 ) );
+            abstract_containers.push_back( new Abstract_Container( l1, NULL ) );
           }
         }
       }

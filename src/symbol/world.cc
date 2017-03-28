@@ -180,7 +180,7 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "time" ), ( const xmlChar* )( time_string.str().c_str() ) );
   for( map< string, Object* >::const_iterator it_world_object = _objects.begin(); it_world_object != _objects.end(); it_world_object++ ){
     if( it_world_object->second != NULL ){
-      it_world_object->second->to_xml( doc, node );
+      it_world_object->second->to_xml( doc, node, true );
     }
   }
   xmlAddChild( root, node );
@@ -236,8 +236,8 @@ from_xml( xmlNodePtr root ){
     for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
       if( l1->type == XML_ELEMENT_NODE ){
         if( xmlStrcmp( l1->name, ( const xmlChar* )( "object" ) ) == 0 ){
-          Object * object = new Object( l1 );
-          _objects.insert( pair< string, Object* >( object->name(), object ) );
+          Object * object = new Object( l1, NULL );
+          _objects.insert( pair< string, Object* >( object->id(), object ) );
         }
       }
     }
@@ -265,24 +265,24 @@ convert_models( xmlNodePtr root ){
             if( l2->type == XML_ELEMENT_NODE ){
               if( xmlStrcmp( l2->name, ( const xmlChar* )( "body" ) ) == 0 ){
                 Object * object = new Object();
-                // get body->id and set it to object->name()
+                // get body->id and set it to object->id()
                 xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "id" ) );
                 if( tmp != NULL ){
                   string id_string = ( char* )( tmp );
-                  object->name() = id_string.c_str();
+                  object->id() = id_string.c_str();
                   xmlFree( tmp );
                   id_string.clear();
                 }
 
-                //assign object->type() from object->name()
-                if( !object->name().empty() ){
-                  if( object->name().find( "baxter-left_hand" ) != std::string::npos ){
+                //assign object->type() from object->id()
+                if( !object->id().empty() ){
+                  if( object->id().find( "baxter-left_hand" ) != std::string::npos ){
                     object->type() = std::string( "robot" );
-                  } else if( object->name().find( "baxter-right_hand" ) != std::string::npos ){
+                  } else if( object->id().find( "baxter-right_hand" ) != std::string::npos ){
                     object->type() = std::string( "robot" );
-                  } else if( object->name().find( "cube-cube-base" ) != std::string::npos ){
+                  } else if( object->id().find( "cube-cube-base" ) != std::string::npos ){
                     object->type() = std::string( "block" );
-                  } else if( object->name().find( "table-table-table" ) != std::string::npos ){
+                  } else if( object->id().find( "table-table-table" ) != std::string::npos ){
                     object->type() = std::string( "table" );
                   } else{
                     object->type() = std::string( "na" );
@@ -322,7 +322,7 @@ convert_models( xmlNodePtr root ){
                   tmp_string.clear();
                 }
             
-                _objects.insert( pair< string, Object* >( object->name(), object ) );
+                _objects.insert( pair< string, Object* >( object->id(), object ) );
               }
             }
           }
