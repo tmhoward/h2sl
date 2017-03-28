@@ -763,7 +763,7 @@ run_tests( const std::vector< std::string >& filenames,
 int
 main( int argc,
       char* argv[] ){
-  cout << "start of test_process program" << endl;
+  cout << "start of test_process_inference program" << endl;
 
   // Determine the arguments provided.
   gengetopt_args_info args;
@@ -771,7 +771,7 @@ main( int argc,
     exit( 1 );
   }
 
-  // Determine the solution directory where solutions  will be created.
+  // Determine the solution directory where solutions will be created.
   stringstream solution_directory;
   if( !args.solution_directory_given ){
     solution_directory << "/tmp/";
@@ -794,7 +794,143 @@ main( int argc,
   // test_node child node for root.
   xmlAddChild( tests_root, tests_node );
 
-  /********** Do evaluation for each training and test set partition of the full corpus *****************/
+  /********** Load up the LLM for the corresponding partition *****************/
+  
+  // Iterate over the partitions. 
+  for( unsigned int i = 0; i < args.inputs_num; i++ ){
+    // Load the files for testing.
+    xmlNodePtr test_node = xmlNewDocNode( tests_doc, NULL, ( xmlChar* )( "test" ), NULL );
+    xmlNewProp( test_node, ( const xmlChar* )( "filename" ), ( const xmlChar* )( args.inputs[ i ]  ) );
+
+    vector< string > training_set;
+    vector< string > test_set;
+
+    // Load the filename for the current partition. 
+    xmlDoc * input_doc = NULL;
+    xmlNodePtr input_root = NULL;
+    input_doc = xmlReadFile( args.inputs[ i ], NULL, 0 );
+
+   /*
+    if( input_doc != NULL ){
+      input_root = xmlDocGetRootElement( input_doc );
+      if( input_root->type == XML_ELEMENT_NODE ){
+        for( xmlNodePtr l1 = input_root->children; l1; l1 = l1->next ){
+          if( l1->type == XML_ELEMENT_NODE ){
+            if ( xmlStrcmp( l1->name, ( const xmlChar* )( "test_set" ) ) == 0 ){
+              for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+                if( l2->type == XML_ELEMENT_NODE ){
+                  if( xmlStrcmp( l2->name, ( const xmlChar* )( "filename" ) ) == 0 ){
+                    xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "text" ) );
+                    if( tmp != NULL ){
+                      // push_back the test set file name.
+                      test_set.push_back( ( char* )( tmp ) );
+                      xmlFree( tmp );
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        xmlFreeDoc( input_doc );
+      }
+      */
+
+     /** Separate out the training and test set files. Each contain world and the instruction **/
+    if( input_doc != NULL ){
+      input_root = xmlDocGetRootElement( input_doc );
+      if( input_root->type == XML_ELEMENT_NODE ){
+        for( xmlNodePtr l1 = input_root->children; l1; l1 = l1->next ){
+          if( l1->type == XML_ELEMENT_NODE ){
+            if( xmlStrcmp( l1->name, ( const xmlChar* )( "training_set" ) ) == 0 ){
+              for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+                if( l2->type == XML_ELEMENT_NODE ){
+                  if( xmlStrcmp( l2->name, ( const xmlChar* )( "filename" ) ) == 0 ){
+                    xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "text" ) );
+                    if( tmp != NULL ){
+                      // push_back the training set file name.
+                      training_set.push_back( ( char* )( tmp ) );
+                      xmlFree( tmp );
+                    }
+                  }
+                }
+              }
+            } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "test_set" ) ) == 0 ){
+              for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+                if( l2->type == XML_ELEMENT_NODE ){
+                  if( xmlStrcmp( l2->name, ( const xmlChar* )( "filename" ) ) == 0 ){
+                    xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "text" ) );
+                    if( tmp != NULL ){
+                      // push_back the test set file name.
+                      test_set.push_back( ( char* )( tmp ) );
+                      xmlFree( tmp );
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        xmlFreeDoc( input_doc );
+      }
+ 
+
+    // Load the trained LLM.
+    string filename = args.inputs[ i ];
+    string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
+    cout << "test_number_string: " << test_number_string << endl;
+
+    // Form the filename. 
+    stringstream input_file_with_llm;
+    input_file_with_llm << args.output_arg << "/test_with_llm" << test_number_string << ".xml";
+    cout << "input_file_with_llm: " << test_number_string << endl;
+
+    // Create the LLM. Load from the xml.
+    cout << "Creating the LLM model. " << endl;
+    Feature_Set * feature_set = new Feature_Set();
+    LLM * llm  = new LLM( feature_set );
+    llm->from_xml( input_file_with_llm.str() );
+ 
+    // Write out the statistics related ot the data set partition.
+    stringstream training_set_size_string;
+    training_set_size_string << training_set.size();
+    xmlNewProp( test_node, ( const xmlChar* )( "training_set_size" ), ( const xmlChar* )( training_set_size_string.str().c_str() ) );
+
+    stringstream test_set_size_string;
+    test_set_size_string << test_set.size();
+    xmlNewProp( test_node, ( const xmlChar* )( "test_set_size" ), ( const xmlChar* )( test_set_size_string.str().c_str() ) );
+
+    stringstream training_ratio_string;
+    training_ratio_string << ( double )( training_set.size() ) / ( double )( training_set.size() + test_set.size() );
+    xmlNewProp( test_node, ( const xmlChar* )( "training_ratio" ), ( const xmlChar* )( training_ratio_string.str().c_str() ) );
+
+    stringstream train_time_string;
+    train_time_string << train_time;
+    xmlNewProp( test_node, ( const xmlChar* )( "train_time" ), ( const xmlChar* )( train_time_string.str().c_str() ) );
+ 
+    /********************* Run Inference Tests******************/
+    // Evaluate the DCG and ADCG models on the training set (if option).
+    if (args.test_training_set_arg) {
+      run_tests( training_set, llm, tests_doc, test_node, "training_set", i, solution_directory.str(),
+                 args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
+      cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
+    }
+
+    // Evaluate the DCG and ADCG models on the test set (if option).
+    if (args.test_test_set_arg) {
+      run_tests( training_set, llm, tests_doc, test_node, "test_set", i, solution_directory.str(),
+                 args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
+      cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
+    }
+
+    // Add the child node in the xml document.
+    xmlAddChild( tests_node, test_node );
+
+  }
+
+
+
+
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
 
     xmlNodePtr test_node = xmlNewDocNode( tests_doc, NULL, ( xmlChar* )( "test" ), NULL );
