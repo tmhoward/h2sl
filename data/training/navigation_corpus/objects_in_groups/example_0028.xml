@@ -27,9 +27,9 @@
     <PP>
       <grounding_set>
         <container container_type="row">
-          <object name="barrel0" object_type="barrel" object_color="red" position="-4.42577,-2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="barrel1" object_type="barrel" object_color="red" position="-4.58768,-0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-          <object name="barrel2" object_type="barrel" object_color="red" position="-4.69399,2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          <object name="barrel2" object_type="barrel" object_color="red" position="4.69399,-2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         </container>
         <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
         <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -39,9 +39,9 @@
       <NP>
         <grounding_set>
           <container container_type="row">
-            <object name="barrel0" object_type="barrel" object_color="red" position="-4.42577,-2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object name="barrel1" object_type="barrel" object_color="red" position="-4.58768,-0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-            <object name="barrel2" object_type="barrel" object_color="red" position="-4.69399,2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object name="barrel2" object_type="barrel" object_color="red" position="4.69399,-2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           </container>
           <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
           <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -57,9 +57,9 @@
         <PP>
           <grounding_set>
             <container container_type="group">
-              <object name="barrel0" object_type="barrel" object_color="red" position="-4.42577,-2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              <object name="barrel1" object_type="barrel" object_color="red" position="-4.58768,-0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-              <object name="barrel2" object_type="barrel" object_color="red" position="-4.69399,2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+              <object name="barrel2" object_type="barrel" object_color="red" position="4.69399,-2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             </container>
             <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
             <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -69,9 +69,9 @@
           <NP>
             <grounding_set>
               <container container_type="group">
-                <object name="barrel0" object_type="barrel" object_color="red" position="-4.42577,-2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                <object name="barrel1" object_type="barrel" object_color="red" position="-4.58768,-0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                <object name="barrel2" object_type="barrel" object_color="red" position="-4.69399,2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                <object name="barrel2" object_type="barrel" object_color="red" position="4.69399,-2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               </container>
               <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
               <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
@@ -80,9 +80,9 @@
             <NP>
               <grounding_set>
                 <container container_type="group">
-                  <object name="barrel0" object_type="barrel" object_color="red" position="-4.42577,-2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                  <object name="barrel1" object_type="barrel" object_color="red" position="-4.58768,-0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
-                  <object name="barrel2" object_type="barrel" object_color="red" position="-4.69399,2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                  <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                  <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+                  <object name="barrel2" object_type="barrel" object_color="red" position="4.69399,-2.0105,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 </container>
                 <object name="barrel0" object_type="barrel" object_color="red" position="4.42577,2.88225,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
                 <object name="barrel1" object_type="barrel" object_color="red" position="4.58768,0.727336,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
