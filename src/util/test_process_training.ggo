@@ -1,0 +1,19 @@
+package "test_process"
+version "1.0"
+purpose "A program used to run tests from examples"
+
+option "symbol_dictionary_groundings" - "groundings symbol_dictionary file" string required
+option "symbol_dictionary_rules" - "rules symbol_dictionary file" string required
+option "feature_set" - "feature_set file" string required
+option "output" o "output directory" string required
+option "threads" - "number of threads"  int default="8" optional
+option "max_iterations" - "max iterations" int default="200" optional
+option "lambda" - "lambda" double default="0.001" optional
+option "epsilon" - "epsilon" double default="0.0001" optional
+option "solution_directory" s "individual solution directory" string optional
+option "test_training_set" - "test training set" int default="0" optional
+option "test_test_set" - "test test set" int default="1" optional
+option "debug" - "debug flag" int default="0" optional
+option "beam_width" - "beam width" int default="2" optional
+
+text ""
