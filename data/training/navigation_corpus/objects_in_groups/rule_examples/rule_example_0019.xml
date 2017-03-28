@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the cone directly in the middle in front of the robot"/>
+  <world time="0">
+    <object id="cone0" object_type="cone" object_color="orange" position="5.25791,2.16275,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone1" object_type="cone" object_color="orange" position="4.33425,-0.418386,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone2" object_type="cone" object_color="orange" position="4.80436,-2.4943,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone3" object_type="cone" object_color="orange" position="4.55058,4.79513,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cone4" object_type="cone" object_color="orange" position="4.00374,-4.85319,0.00962007" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,1,0" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <rule_object_type object_type="cone"/>
+      <rule_object_color object_color="orange"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="na"/>
+        <rule_object_type object_type="cone"/>
+        <rule_index index="1"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <NN text="cone" order="1"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="center"/>
+      </grounding_set>
+      <IN text="in" order="3"/>
+      <ADVP>
+        <grounding_set/>
+        <RB text="directly" order="2"/>
+      </ADVP>
+      <NP>
+        <grounding_set>
+          <rule_spatial_relation spatial_relation_type="center"/>
+        </grounding_set>
+        <DT text="the" order="4"/>
+        <NN text="middle" order="5"/>
+      </NP>
+    </PP>
+    <PP>
+      <grounding_set>
+        <rule_object_type object_type="robot"/>
+        <rule_spatial_relation spatial_relation_type="front"/>
+      </grounding_set>
+      <IN text="in" order="6"/>
+      <NP>
+        <grounding_set>
+          <rule_object_type object_type="robot"/>
+          <rule_spatial_relation spatial_relation_type="front"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <rule_spatial_relation spatial_relation_type="front"/>
+          </grounding_set>
+          <NN text="front" order="7"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <rule_object_type object_type="robot"/>
+            <rule_object_color object_color="na"/>
+          </grounding_set>
+          <IN text="of" order="8"/>
+          <NP>
+            <grounding_set>
+              <rule_object_type object_type="robot"/>
+              <rule_object_color object_color="na"/>
+            </grounding_set>
+            <DT text="the" order="9"/>
+            <NN text="robot" order="10"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>

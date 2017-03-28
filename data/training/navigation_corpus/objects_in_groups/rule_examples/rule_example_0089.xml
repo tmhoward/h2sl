@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="drive to the second leftmost barrel in the row of barrels"/>
+  <world time="0">
+    <object id="barrel0" object_type="barrel" object_color="red" position="7.8,5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel1" object_type="barrel" object_color="red" position="8.1,2.5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel2" object_type="barrel" object_color="red" position="7.7,0,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel3" object_type="barrel" object_color="red" position="8.2,-2.5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="barrel4" object_type="barrel" object_color="red" position="7.9,-5,0.270293" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground" object_type="ground" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="husky" object_type="robot" object_color="na" position="-0.00114615,0.000733871,0.135478" orientation="0,0,1,0" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <VP>
+    <grounding_set>
+      <rule_constraint_type constraint_type="inside"/>
+      <rule_constraint_payload_type constraint_payload_type="robot"/>
+      <rule_constraint_reference_type constraint_reference_type="barrel"/>
+      <rule_spatial_relation spatial_relation_type="na"/>
+    </grounding_set>
+    <VB text="drive" order="0"/>
+    <PP>
+      <grounding_set>
+        <rule_object_type object_type="barrel"/>
+        <rule_object_color object_color="red"/>
+      </grounding_set>
+      <IN text="to" order="1"/>
+      <NP>
+        <grounding_set>
+          <rule_object_type object_type="barrel"/>
+          <rule_object_color object_color="red"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <rule_object_type object_type="barrel"/>
+            <rule_object_color object_color="red"/>
+            <rule_spatial_relation spatial_relation_type="left"/>
+            <rule_index index="2"/>
+          </grounding_set>
+          <DT text="the" order="2"/>
+          <JJ text="second" order="3"/>
+          <JJS text="leftmost" order="4"/>
+          <NN text="barrel" order="5"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <rule_container_type container_type="row"/>
+            <rule_object_type object_type="barrel"/>
+            <rule_object_color object_color="red"/>
+          </grounding_set>
+          <IN text="in" order="6"/>
+          <NP>
+            <grounding_set>
+              <rule_container_type container_type="row"/>
+              <rule_object_type object_type="barrel"/>
+              <rule_object_color object_color="red"/>
+            </grounding_set>
+            <NP>
+              <grounding_set>
+                <rule_container_type container_type="row"/>
+              </grounding_set>
+              <DT text="the" order="7"/>
+              <NN text="row" order="8"/>
+            </NP>
+            <PP>
+              <grounding_set>
+                <rule_container_type container_type="group"/>
+                <rule_object_type object_type="barrel"/>
+                <rule_object_color object_color="red"/>
+              </grounding_set>
+              <IN text="of" order="9"/>
+              <NP>
+                <grounding_set>
+                  <rule_container_type container_type="group"/>
+                  <rule_object_type object_type="barrel"/>
+                  <rule_object_color object_color="red"/>
+                </grounding_set>
+                <NNS text="barrels" order="10"/>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </VP>
+</root>
