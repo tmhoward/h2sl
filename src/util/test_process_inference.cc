@@ -810,33 +810,7 @@ main( int argc,
     xmlNodePtr input_root = NULL;
     input_doc = xmlReadFile( args.inputs[ i ], NULL, 0 );
 
-   /*
-    if( input_doc != NULL ){
-      input_root = xmlDocGetRootElement( input_doc );
-      if( input_root->type == XML_ELEMENT_NODE ){
-        for( xmlNodePtr l1 = input_root->children; l1; l1 = l1->next ){
-          if( l1->type == XML_ELEMENT_NODE ){
-            if ( xmlStrcmp( l1->name, ( const xmlChar* )( "test_set" ) ) == 0 ){
-              for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
-                if( l2->type == XML_ELEMENT_NODE ){
-                  if( xmlStrcmp( l2->name, ( const xmlChar* )( "filename" ) ) == 0 ){
-                    xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "text" ) );
-                    if( tmp != NULL ){
-                      // push_back the test set file name.
-                      test_set.push_back( ( char* )( tmp ) );
-                      xmlFree( tmp );
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        xmlFreeDoc( input_doc );
-      }
-      */
-
-     /** Separate out the training and test set files. Each contain world and the instruction **/
+    // Separate out the training and test set files. Each contain world and the instruction
     if( input_doc != NULL ){
       input_root = xmlDocGetRootElement( input_doc );
       if( input_root->type == XML_ELEMENT_NODE ){
@@ -874,224 +848,23 @@ main( int argc,
         xmlFreeDoc( input_doc );
       }
  
+      // Load the trained LLM.
+      string filename = args.inputs[ i ];
+      string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
+      cout << "test_number_string: " << test_number_string << endl;
 
-    // Load the trained LLM.
-    string filename = args.inputs[ i ];
-    string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
-    cout << "test_number_string: " << test_number_string << endl;
+      // Form the filename. 
+      stringstream input_file_with_llm; 
+      input_file_with_llm << args.output_arg << "/test_with_llm" << test_number_string << ".xml";
+      cout << "input_file_with_llm: " << test_number_string << endl;
 
-    // Form the filename. 
-    stringstream input_file_with_llm;
-    input_file_with_llm << args.output_arg << "/test_with_llm" << test_number_string << ".xml";
-    cout << "input_file_with_llm: " << test_number_string << endl;
-
-    // Create the LLM. Load from the xml.
-    cout << "Creating the LLM model. " << endl;
-    Feature_Set * feature_set = new Feature_Set();
-    LLM * llm  = new LLM( feature_set );
-    llm->from_xml( input_file_with_llm.str() );
+      // Create the LLM. Load from the xml.
+      cout << "Creating the LLM model. " << endl;
+      Feature_Set * feature_set = new Feature_Set();
+      LLM * llm  = new LLM( feature_set );
+      llm->from_xml( input_file_with_llm.str() );
  
-    // Write out the statistics related ot the data set partition.
-    stringstream training_set_size_string;
-    training_set_size_string << training_set.size();
-    xmlNewProp( test_node, ( const xmlChar* )( "training_set_size" ), ( const xmlChar* )( training_set_size_string.str().c_str() ) );
-
-    stringstream test_set_size_string;
-    test_set_size_string << test_set.size();
-    xmlNewProp( test_node, ( const xmlChar* )( "test_set_size" ), ( const xmlChar* )( test_set_size_string.str().c_str() ) );
-
-    stringstream training_ratio_string;
-    training_ratio_string << ( double )( training_set.size() ) / ( double )( training_set.size() + test_set.size() );
-    xmlNewProp( test_node, ( const xmlChar* )( "training_ratio" ), ( const xmlChar* )( training_ratio_string.str().c_str() ) );
-
-    stringstream train_time_string;
-    train_time_string << train_time;
-    xmlNewProp( test_node, ( const xmlChar* )( "train_time" ), ( const xmlChar* )( train_time_string.str().c_str() ) );
- 
-    /********************* Run Inference Tests******************/
-    // Evaluate the DCG and ADCG models on the training set (if option).
-    if (args.test_training_set_arg) {
-      run_tests( training_set, llm, tests_doc, test_node, "training_set", i, solution_directory.str(),
-                 args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
-      cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
-    }
-
-    // Evaluate the DCG and ADCG models on the test set (if option).
-    if (args.test_test_set_arg) {
-      run_tests( training_set, llm, tests_doc, test_node, "test_set", i, solution_directory.str(),
-                 args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
-      cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
-    }
-
-    // Add the child node in the xml document.
-    xmlAddChild( tests_node, test_node );
-
-  }
-
-
-
-
-  for( unsigned int i = 0; i < args.inputs_num; i++ ){
-
-    xmlNodePtr test_node = xmlNewDocNode( tests_doc, NULL, ( xmlChar* )( "test" ), NULL );
-    xmlNewProp( test_node, ( const xmlChar* )( "filename" ), ( const xmlChar* )( args.inputs[ i ]  ) );
-
-    // Vectors store list of training set and test set file names.
-    vector< string > training_set;
-    vector< string > test_set;
-
-    // XML pointers
-    xmlDoc * input_doc = NULL;
-    xmlNodePtr input_root = NULL;
-    input_doc = xmlReadFile( args.inputs[ i ], NULL, 0 );
-
-    /** Separate out the training and test set files. Each contain world and the instruction **/
-    if( input_doc != NULL ){
-      input_root = xmlDocGetRootElement( input_doc );
-      if( input_root->type == XML_ELEMENT_NODE ){
-        for( xmlNodePtr l1 = input_root->children; l1; l1 = l1->next ){
-          if( l1->type == XML_ELEMENT_NODE ){
-            if( xmlStrcmp( l1->name, ( const xmlChar* )( "training_set" ) ) == 0 ){
-              for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
-                if( l2->type == XML_ELEMENT_NODE ){
-                  if( xmlStrcmp( l2->name, ( const xmlChar* )( "filename" ) ) == 0 ){
-                    xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "text" ) );
-                    if( tmp != NULL ){
-                      // push_back the training set file name.
-                      training_set.push_back( ( char* )( tmp ) );
-                      xmlFree( tmp );
-                    }
-                  }
-                }
-              }
-            } else if ( xmlStrcmp( l1->name, ( const xmlChar* )( "test_set" ) ) == 0 ){
-              for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
-                if( l2->type == XML_ELEMENT_NODE ){
-                  if( xmlStrcmp( l2->name, ( const xmlChar* )( "filename" ) ) == 0 ){
-                    xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "text" ) );
-                    if( tmp != NULL ){
-                      // push_back the test set file name.
-                      test_set.push_back( ( char* )( tmp ) );
-                      xmlFree( tmp );
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        xmlFreeDoc( input_doc );
-      }
-      
-     /******************** Report ******************************************/
-     // Test number (partition of the corpus), training set and test set size.
-      cout << "test " << i << endl << endl;
-      cout << "training_set[" << training_set.size() << "]:{";
-      for( unsigned int j = 0; j < training_set.size(); j++ ){
-        cout << training_set[ j ];
-        if( j != ( training_set.size() - 1 ) ){
-          cout << ",";
-        }
-      }
-      cout << "}" << endl;
-      cout << "test_set[" << test_set.size() << "]:{";
-      for( unsigned int j = 0; j < test_set.size(); j++ ){
-        cout << test_set[ j ];
-        if( j != ( test_set.size() - 1 ) ){
-          cout << ",";
-        }
-      }
-      cout << "}" << endl;
-   
-      /********************** Train the Log-linear model *****************/ 
-      vector< Search_Space* > training_search_spaces_groundings( training_set.size(), NULL );
-      vector< Search_Space* > training_search_spaces_rules( training_set.size(), NULL );
-
-      vector< Phrase* > truth_training_phrases( training_set.size(), NULL );
-      vector< World* > training_worlds( training_set.size(), NULL );
-      vector< string > training_filenames( training_set.size() );
-
-      Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
-      Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary( args.symbol_dictionary_rules_arg );
-     
-      // Load examples from the training set for training the log-linear model.  
-      vector< pair< string, LLM_X > > examples;
-      for( unsigned int j = 0; j < training_set.size(); j++ ){
-        // Get the filename.
-        training_filenames[ j ] = training_set[ j ];
-        cout << "reading file " << training_set[ j ] << endl;
-
-        // Load world
-        training_worlds[ j ] = new World();
-        training_worlds[ j ]->from_xml( training_set[ j ] );
-
-        // Load phrase
-        truth_training_phrases[ j ] = new Phrase();
-        truth_training_phrases[ j ]->from_xml( training_set[ j ], training_worlds[ j ] );
-
-        /************ Search Space fill rules and scrape examples ************************/
-        if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){
-          cout << "contains symbols in rules symbol dictionary" << endl;
-          training_search_spaces_rules[ j ] = new Search_Space();
-          training_search_spaces_rules[ j ]->fill_rules( *symbol_dictionary_rules, training_worlds[ j ] );
-          training_search_spaces_rules[ j ]->scrape_examples( training_filenames[ j ], static_cast< Phrase* >( truth_training_phrases[ j ] ), training_worlds[ j ], examples );
-        } else {
-          cout << "does not contains any rules symbols in symbol dictionary" << endl;
-        }
-
-        /************ Search Space fill groundings and scrape examples. Note: examples is common. ***/
-        // Check if the phrase has symbols from the symbol dictionary groundings.
-        if( truth_training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
-          cout << "contains symbols in symbol dictionary" << endl;
-          training_search_spaces_groundings[ j ] = new Search_Space();
-          training_search_spaces_groundings[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
-          training_search_spaces_groundings[ j ]->scrape_examples( training_filenames[ j ], static_cast< Phrase* >( truth_training_phrases[ j ] ), training_worlds[ j ], examples );
-        } else {
-          cout << "does not contains any symbols in symbol dictionary" << endl;
-        }
-
-      }
-      cout << "training with " << examples.size() << " examples" << endl;
-
-      // Feature sets in multiple threads.
-      vector< Feature_Set* > feature_sets;
-      for( unsigned int i = 0; i < ( unsigned int ) args.threads_arg; i++ ){
-        feature_sets.push_back( new Feature_Set() );
-        feature_sets.back()->from_xml( args.feature_set_arg );
-        if( !feature_sets.empty() ){
-          cout << "num features:" << feature_sets.back()->size() << endl;
-        }
-      }
-      if( !feature_sets.empty() ){
-       cout << "num features:" << feature_sets.front()->size() << endl;
-      }
-
-      // Add feature sets to LLMs.
-      vector< LLM* > llms;
-      for( unsigned int i = 0; i < ( unsigned int ) args.threads_arg; i++ ){
-        llms.push_back( new LLM( feature_sets[ i ] ) );
-        llms.back()->weights().resize( llms.back()->feature_set()->size() );
-      }
-
-      LLM_Train* llm_train = new LLM_Train( llms );
-
-      // Main LLM Training call.
-      uint64_t train_start_time = current_time();
-      llm_train->train( examples, args.max_iterations_arg, args.lambda_arg, args.epsilon_arg );
-      int64_t train_end_time = current_time();
-      double train_time = microseconds_to_seconds( train_end_time - train_start_time );
-
-      /********* Write out the LLM   **************/
-      stringstream llm_filename_string;
-      if( !args.solution_directory_given ){
-        llm_filename_string << "/tmp/llm_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
-      } else{
-        llm_filename_string << solution_directory.str() << "/llm_" << setw( 4 ) << setfill( '0' ) << i << ".xml";
-      }
-      
-      // write the llm to xml
-      llms.front()->to_xml( llm_filename_string.str() );
-
+      // Write out the statistics related ot the data set partition.
       stringstream training_set_size_string;
       training_set_size_string << training_set.size();
       xmlNewProp( test_node, ( const xmlChar* )( "training_set_size" ), ( const xmlChar* )( training_set_size_string.str().c_str() ) );
@@ -1104,108 +877,47 @@ main( int argc,
       training_ratio_string << ( double )( training_set.size() ) / ( double )( training_set.size() + test_set.size() );
       xmlNewProp( test_node, ( const xmlChar* )( "training_ratio" ), ( const xmlChar* )( training_ratio_string.str().c_str() ) );
 
-      stringstream train_time_string;
-      train_time_string << train_time;
-      xmlNewProp( test_node, ( const xmlChar* )( "train_time" ), ( const xmlChar* )( train_time_string.str().c_str() ) );
-
-      /********************* Evaluate the log-linear model ******************/
-      cout << "evaluating llm model" << endl;
-      evaluate_model( llms.front(), examples );
+      // Think about the LLM training timing.
+//    stringstream train_time_string;
+//    train_time_string << train_time;
+//    xmlNewProp( test_node, ( const xmlChar* )( "train_time" ), ( const xmlChar* )( train_time_string.str().c_str() ) );
  
       /********************* Run Inference Tests******************/
       // Evaluate the DCG and ADCG models on the training set (if option).
       if (args.test_training_set_arg) {
-        run_tests( training_set, llms.front(), tests_doc, test_node, "training_set", i, solution_directory.str(),
+        run_tests( training_set, llm, tests_doc, test_node, "training_set", i, solution_directory.str(),
                    args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Evaluate the DCG and ADCG models on the test set (if option).
       if (args.test_test_set_arg) {
-        run_tests( training_set, llms.front(), tests_doc, test_node, "test_set", i, solution_directory.str(),
+        run_tests( training_set, llm, tests_doc, test_node, "test_set", i, solution_directory.str(),
                    args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
-     
+
+      // Add the child node in the xml document.
       xmlAddChild( tests_node, test_node );
 
-      /**** Clean up  *****/
-      if( llm_train != NULL ){
-        delete llm_train;
-        llm_train = NULL;
-      }
+      /**** Memore clean up  *****/
+      delete_ptr< LLM >( llm );
+      delete_ptr< Feature_Set  >( feature_set );
 
-      if( symbol_dictionary_groundings != NULL ){
-        delete symbol_dictionary_groundings;
-        symbol_dictionary_groundings = NULL;
-      }
-
-      for( unsigned int i = 0; i < training_search_spaces_groundings.size(); i++ ){
-        if( training_search_spaces_groundings[ i ] != NULL ){
-          delete training_search_spaces_groundings[ i ];
-          training_search_spaces_groundings[ i ] = NULL;
-        }
-      }
-      training_search_spaces_groundings.clear();
-
-      for( unsigned int i = 0; i < training_search_spaces_rules.size(); i++ ){
-        if( training_search_spaces_rules[ i ] != NULL ){
-          delete training_search_spaces_rules[ i ];
-          training_search_spaces_rules[ i ] = NULL;
-        }
-      }
-      training_search_spaces_rules.clear();
-
-      for( unsigned int i = 0; i < llms.size(); i++ ){
-        if( llms[ i ] != NULL ){
-          delete llms[ i ];
-          llms[ i ] = NULL;
-        }
-      }
-      llms.clear();
-
-      for( unsigned int i = 0; i < feature_sets.size(); i++ ){
-        if( feature_sets[ i ] != NULL ){
-          delete feature_sets[ i ];
-          feature_sets[ i ] = NULL;
-        }
-      }
-      feature_sets.clear();
-
-      for( unsigned int i = 0; i < truth_training_phrases.size(); i++ ){
-        if( truth_training_phrases[ i ] != NULL ){
-          delete truth_training_phrases[ i ];
-          truth_training_phrases[ i ] = NULL;
-        }
-      }
-      truth_training_phrases.clear();
-
-      for( unsigned int i = 0; i < training_worlds.size(); i++ ){
-        if( training_worlds[ i ] != NULL ){
-          delete training_worlds[ i ];
-          training_worlds[ i ] = NULL;
-        }
-      }
-      training_worlds.clear();
-
-      // Write output file.
-      // get the test number from the filename
-      string filename = args.inputs[ i ];
-      string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
       // write out the output
       stringstream results_filename;
       results_filename << args.output_arg << "/result_" << test_number_string << ".xml";
       xmlSaveFormatFileEnc( results_filename.str().c_str(), tests_doc, "UTF-8", 1 );
+
     } else {
       cout << "could not read filename \"" << args.inputs[ i ] << "\"" << endl;
       assert( false );
     }
   }
-
+ 
   // Free the XML test_doc
   xmlFreeDoc( tests_doc );
 
   cout << "end of test_process program" << endl;
   return 0;
 }
-
