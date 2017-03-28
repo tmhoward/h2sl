@@ -260,14 +260,26 @@ main( int argc,
       int64_t train_end_time = current_time();
       double train_time = microseconds_to_seconds( train_end_time - train_start_time );
 
-      /********* Append the LLM to the input file and save as new file**************/
+      /********* Append the LLM and both symbol_dictionaries to the input file and save as new file**************/
       // append the llm to the xml document object
       llms.front()->to_xml( input_doc, input_root );
+
+      // add two new xmlNodes to differentiate the symbol_dictionary_rules and symbol_dictionary_groundings
+      // add the the symbol_dictionary_groundings first
+      xmlNodePtr symbol_dictionary_groundings_node = xmlNewDocNode( input_doc, NULL, ( const xmlChar* )( "symbol_dictionary_groundings" ), NULL ); 
+      xmlAddChild( input_root, symbol_dictionary_groundings_node );
+      symbol_dictionary_groundings->to_xml( input_doc, symbol_dictionary_groundings_node ); 
+
+      if( symbol_dictionary_rules != NULL ){
+        xmlNodePtr symbol_dictionary_rules_node = xmlNewDocNode( input_doc, NULL, ( const xmlChar* )( "symbol_dictionary_rules" ), NULL ); 
+        xmlAddChild( input_root, symbol_dictionary_rules_node );
+        symbol_dictionary_rules->to_xml( input_doc, symbol_dictionary_rules_node ); 
+      }
 
       // create the name for the new file
       // test_number_string comes from the "report" code above
       stringstream input_file_with_llm;
-      input_file_with_llm << args.output_arg << "/test_with_llm" << test_number_string << ".xml";
+      input_file_with_llm << args.output_arg << "/test_collated_" << test_number_string << ".xml";
       
       //save the file
       xmlSaveFormatFileEnc( input_file_with_llm.str().c_str(), input_doc, "UTF-8", 1 );
