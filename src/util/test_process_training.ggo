@@ -1,6 +1,6 @@
 package "test_process_training"
 version "1.0"
-purpose "A program used to run tests from examples"
+purpose "A program used to train llms from provided data partitions"
 
 option "symbol_dictionary_groundings" - "groundings symbol_dictionary file" string required
 option "symbol_dictionary_rules" - "rules symbol_dictionary file" string required
