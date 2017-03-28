@@ -50,10 +50,8 @@
 #include "h2sl/constraint.h"
 #include "h2sl/spatial_relation.h"
 
-//#include "h2sl/dcg.h"
-//#include "h2sl/hdcg.h"
-//#include "h2sl/adcg.h"
-//#include "h2sl/hadcg.h"
+#include "h2sl/search_space.h"
+
 
 using namespace std;
 using namespace h2sl; 
@@ -135,7 +133,7 @@ main( int argc,
     xmlNodePtr input_root = NULL;
     input_doc = xmlReadFile( args.inputs[ i ], NULL, 0 );
 
-    /** Separate out the training and test set files. Each contain world and the instruction **/
+    /** Read the training_set files. Each contain world and the instruction **/
     if( input_doc != NULL ){
       input_root = xmlDocGetRootElement( input_doc );
       if( input_root->type == XML_ELEMENT_NODE ){
@@ -173,10 +171,68 @@ main( int argc,
         }
       }
       cout << "}" << endl;
-   
+
       /********************** Train the Log-linear model *****************/ 
+      //initialize the vectors to hold the search spaces
+      vector< Search_Space* > training_search_spaces_groundings( training_set.size(), NULL );
+      vector< Search_Space* > training_search_spaces_rules( training_set.size(), NULL );
+
+      //initialize the vector to hold the example file and associated world
+      vector< Phrase* > training_phrases( training_set.size(), NULL );
+      vector< World* > training_worlds( training_set.size(), NULL );
+
+      //load the symbol_dictionaries;
+      Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
+      Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary();
+      if( args.symbol_dictionary_rules_given ){
+        symbol_dictionary_rules->from_xml( args.symbol_dictionary_rules_arg );
+      } else{
+        cout << "No symbol_dictionary_rules file provided" << endl;
+        if( symbol_dictionary_rules != NULL ){
+          delete symbol_dictionary_rules;
+          symbol_dictionary_rules = NULL;
+        }
+      }
+     
       // Load examples from the training set for training the log-linear model.  
       vector< pair< string, LLM_X > > examples;
+      for( unsigned int j = 0; j < training_set.size(); j++ ){
+        // Get the filename.
+        //training_filenames[ j ] = training_set[ j ];
+        cout << "reading file " << training_set[ j ] << endl;
+
+        // Load world
+        training_worlds[ j ] = new World();
+        training_worlds[ j ]->from_xml( training_set[ j ] );
+
+        // Load phrase
+        training_phrases[ j ] = new Phrase();
+        training_phrases[ j ]->from_xml( training_set[ j ], training_worlds[ j ] );
+
+        /************ Search Space fill rules and scrape examples ************************/
+        if( args.symbol_dictionary_rules_given ){
+          if( training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){
+            cout << "contains symbols in rules symbol dictionary" << endl;
+            training_search_spaces_rules[ j ] = new Search_Space();
+            training_search_spaces_rules[ j ]->fill_rules( *symbol_dictionary_rules, training_worlds[ j ] );
+            training_search_spaces_rules[ j ]->scrape_examples( training_set[ j ], static_cast< Phrase* >( training_phrases[ j ] ), training_worlds[ j ], examples );
+          } else {
+            cout << "does not contains any rules symbols in symbol dictionary" << endl;
+          }
+        }
+
+        /************ Search Space fill groundings and scrape examples. Note: examples is common. ***/
+        // Check if the phrase has symbols from the symbol dictionary groundings.
+        if( training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
+          cout << "contains symbols in symbol dictionary" << endl;
+          training_search_spaces_groundings[ j ] = new Search_Space();
+          training_search_spaces_groundings[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
+          training_search_spaces_groundings[ j ]->scrape_examples( training_set[ j ], static_cast< Phrase* >( training_phrases[ j ] ), training_worlds[ j ], examples );
+        } else {
+          cout << "does not contains any symbols in symbol dictionary" << endl;
+        }
+
+      }
       cout << "training with " << examples.size() << " examples" << endl;
 
       // Feature sets in multiple threads.
@@ -249,8 +305,6 @@ main( int argc,
       xmlFreeDoc( input_doc );
     }
   }
-
   cout << "end of test_process_training program" << endl;
   return 0;
 }
-
