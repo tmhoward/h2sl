@@ -144,7 +144,7 @@ namespace h2sl {
 
     inline std::vector< LLM* >& llms( void ){ return _llms; };
     inline std::vector< std::pair< std::string, LLM_X > >*& examples( void ){ return _examples; };
-    inline std::vector< double > gradient( void ){ return _gradient; };
+    inline std::vector< double >& gradient( void ){ return _gradient; };
     inline std::vector< std::vector< std::vector< unsigned int > > >& indices( void ){ return _indices; };
     inline std::vector< std::vector< std::vector< Feature* > > >& features( void ){ return _features; };
 
