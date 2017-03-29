@@ -122,8 +122,8 @@ main( int argc,
     exit( 1 );
   }
 
-  /********** Train a llm for each provided training_set partition && 
-              save it to a new xml file that also contains the data partitions *****************/
+  /********** Train a llm for each provided training_set partition && save it to a new xml 
+              file that also contains both the data partitions and the symbol dictionaries *****************/
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
     // Vector to store list of training set filenames
     vector< string > training_set;
@@ -177,7 +177,7 @@ main( int argc,
       vector< Search_Space* > training_search_spaces_groundings( training_set.size(), NULL );
       vector< Search_Space* > training_search_spaces_rules( training_set.size(), NULL );
 
-      //initialize the vector to hold the example file and associated world
+      //initialize the vectors to hold the example file and associated world
       vector< Phrase* > training_phrases( training_set.size(), NULL );
       vector< World* > training_worlds( training_set.size(), NULL );
 
@@ -198,7 +198,6 @@ main( int argc,
       vector< pair< string, LLM_X > > examples;
       for( unsigned int j = 0; j < training_set.size(); j++ ){
         // Get the filename.
-        //training_filenames[ j ] = training_set[ j ];
         cout << "reading file " << training_set[ j ] << endl;
 
         // Load world
@@ -215,7 +214,8 @@ main( int argc,
             cout << "contains symbols in rules symbol dictionary" << endl;
             training_search_spaces_rules[ j ] = new Search_Space();
             training_search_spaces_rules[ j ]->fill_rules( *symbol_dictionary_rules, training_worlds[ j ] );
-            training_search_spaces_rules[ j ]->scrape_examples( training_set[ j ], static_cast< Phrase* >( training_phrases[ j ] ), training_worlds[ j ], examples );
+            //training_search_spaces_rules[ j ]->scrape_examples( training_set[ j ], static_cast< Phrase* >( training_phrases[ j ] ), training_worlds[ j ], examples );
+            training_search_spaces_rules[ j ]->scrape_examples( training_set[ j ], training_phrases[ j ], training_worlds[ j ], examples );
           } else {
             cout << "does not contains any rules symbols in symbol dictionary" << endl;
           }
@@ -227,7 +227,8 @@ main( int argc,
           cout << "contains symbols in symbol dictionary" << endl;
           training_search_spaces_groundings[ j ] = new Search_Space();
           training_search_spaces_groundings[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
-          training_search_spaces_groundings[ j ]->scrape_examples( training_set[ j ], static_cast< Phrase* >( training_phrases[ j ] ), training_worlds[ j ], examples );
+          //training_search_spaces_groundings[ j ]->scrape_examples( training_set[ j ], static_cast< Phrase* >( training_phrases[ j ] ), training_worlds[ j ], examples );
+          training_search_spaces_groundings[ j ]->scrape_examples( training_set[ j ], training_phrases[ j ], training_worlds[ j ], examples );
         } else {
           cout << "does not contains any symbols in symbol dictionary" << endl;
         }
