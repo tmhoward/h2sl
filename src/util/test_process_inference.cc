@@ -113,12 +113,14 @@ clear( Phrase* phrase ){
   return;
 }
 
-
 /**
  * Load the symbol dictionary for rules from the provided test xml file
+ * Return type is a boolean:
+ *    TRUE = a symbol_dictionary of dictionary_type was found and loaded
+ *    FALSE = no symbol_dictionary of dictionary_type was found
  */
-void
-load_symbol_dictionary_rules( string filename, Symbol_Dictionary*& symbol_dictionary ){
+bool
+load_symbol_dictionary( string filename, string dictionary_type, Symbol_Dictionary*& symbol_dictionary ){
   xmlDoc * doc = NULL;
   xmlNodePtr root = NULL;
   doc = xmlReadFile( filename.c_str(), NULL, 0 );
@@ -128,41 +130,19 @@ load_symbol_dictionary_rules( string filename, Symbol_Dictionary*& symbol_dictio
       xmlNodePtr l1 = NULL;
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "symbol_dictionary_rules" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( dictionary_type.c_str() ) ) == 0 ){
             symbol_dictionary->from_xml( l1 );
+            xmlFreeDoc( doc );
+            return true;
           }
         }
       }
     }
-    xmlFreeDoc( doc );
   }
-  return;
-}
-
-
-/**
- * Load the symbol dictionary for groundings from the provided test xml file
- */
-void
-load_symbol_dictionary_groundings( string filename, Symbol_Dictionary*& symbol_dictionary ){
-  xmlDoc * doc = NULL;
-  xmlNodePtr root = NULL;
-  doc = xmlReadFile( filename.c_str(), NULL, 0 );
   if( doc != NULL ){
-    root = xmlDocGetRootElement( doc );
-    if( root->type == XML_ELEMENT_NODE ){
-      xmlNodePtr l1 = NULL;
-      for( l1 = root->children; l1; l1 = l1->next ){
-        if( l1->type == XML_ELEMENT_NODE ){
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "symbol_dictionary_groundings" ) ) == 0 ){
-            symbol_dictionary->from_xml( l1 );
-          }
-        }
-      }
-    }
     xmlFreeDoc( doc );
   }
-  return;
+  return false;
 }
 
 /**
@@ -1980,7 +1960,11 @@ main( int argc,
 
       //Create the symbol dictionary for groundings. Load from the xml
       Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary();
-      load_symbol_dictionary_groundings( args.inputs[ i ], symbol_dictionary_groundings );
+      load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_groundings", symbol_dictionary_groundings );
+
+      //Create the symbol dictionary for rules. Load from the xml
+      //Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary();
+      //load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_rules", symbol_dictionary_rules );
  
       // Write out the statistics related ot the data set partition.
       stringstream training_set_size_string;
@@ -2022,6 +2006,8 @@ main( int argc,
       /**** Memory clean up  *****/
       delete_ptr< LLM >( llm );
       delete_ptr< Feature_Set  >( feature_set );
+      delete_ptr< Symbol_Dictionary  >( symbol_dictionary_groundings );
+      //delete_ptr< Symbol_Dictionary  >( symbol_dictionary_rules );
 
       // write out the output
       // grab the test number from the filename
