@@ -15,7 +15,7 @@
  * ToDo: also add the H-DCG and H-ADCG models for evaluation.
  */
 
-#include "test_process_cmdline.h"
+#include "test_process_inference_cmdline.h"
 #include <boost/filesystem/path.hpp>
 
 #include <assert.h>
