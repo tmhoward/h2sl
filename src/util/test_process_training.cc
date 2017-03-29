@@ -264,6 +264,12 @@ main( int argc,
       /********* Append the LLM and both symbol_dictionaries to the input file and save as new file**************/
       // force libxml to apply indentation for human readability
       //xmlKeepBlanksDefault(0);
+    
+      // add the training runtime information
+      xmlNodePtr training_runtime_node = xmlNewDocNode( input_doc, NULL, ( const xmlChar* )( "training_runtime" ), NULL ); 
+      xmlNewProp( training_runtime_node, ( const xmlChar* )( "train_time" ), ( const xmlChar* )( std::to_string( train_time ).c_str() ) );
+      xmlAddChild( input_root, training_runtime_node );
+      
 
       // add two new xmlNodes to differentiate the symbol_dictionary_rules and symbol_dictionary_groundings
       // add the the symbol_dictionary_groundings first
