@@ -515,10 +515,10 @@ main( int argc,
     map< string, vector< string > >::const_iterator it_spatial_relation_types = symbol_dictionary->string_types().find( "spatial_relation_type" );
     if( it_spatial_relation_types != symbol_dictionary->string_types().end() ){
       for( vector< string >::const_iterator it_spatial_relation_type = it_spatial_relation_types->second.begin(); it_spatial_relation_type != it_spatial_relation_types->second.end(); it_spatial_relation_type++ ){
-        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "region_container", "region_container_type", *it_spatial_relation_type ) );
+        feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "region_container", "spatial_relation_type", *it_spatial_relation_type ) );
       } 
     }
-    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region_container", "region_container_type", "spatial_relation", "spatial_relation_type" ) );
+    feature_set->feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "region_container", "spatial_relation_type", "spatial_relation", "spatial_relation_type" ) );
   }
 
   }
