@@ -113,6 +113,58 @@ clear( Phrase* phrase ){
   return;
 }
 
+
+/**
+ * Load the symbol dictionary for groundings from the provided test xml file
+ */
+void
+load_symbol_dictionary_rules( string filename, Symbol_Dictionary*& symbol_dictionary ){
+  xmlDoc * doc = NULL;
+  xmlNodePtr root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      xmlNodePtr l1 = NULL;
+      for( l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "symbol_dictionary_rules" ) ) == 0 ){
+            symbol_dictionary->from_xml( l1 );
+          }
+        }
+      }
+    }
+    xmlFreeDoc( doc );
+  }
+  return;
+}
+
+
+/**
+ * Load the symbol dictionary for groundings from the provided test xml file
+ */
+void
+load_symbol_dictionary_groundings( string filename, Symbol_Dictionary*& symbol_dictionary ){
+  xmlDoc * doc = NULL;
+  xmlNodePtr root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      xmlNodePtr l1 = NULL;
+      for( l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "symbol_dictionary_groundings" ) ) == 0 ){
+            symbol_dictionary->from_xml( l1 );
+          }
+        }
+      }
+    }
+    xmlFreeDoc( doc );
+  }
+  return;
+}
+
 /**
  * Evaluate the model. 
  */
@@ -182,7 +234,8 @@ run_tests( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            const string& symbol_dictionary_groundings_path, 
+            //const string& symbol_dictionary_groundings_path, 
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
 
@@ -261,7 +314,7 @@ run_tests( const std::vector< std::string >& filenames,
     clear( input_phrase );
 
     // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
+    //Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
  
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
@@ -849,20 +902,25 @@ main( int argc,
       }
  
       // Load the trained LLM.
-      string filename = args.inputs[ i ];
-      string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
-      cout << "test_number_string: " << test_number_string << endl;
+      //string filename = args.inputs[ i ];
+      //string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
+      //cout << "test_number_string: " << test_number_string << endl;
 
       // Form the filename. 
-      stringstream input_file_with_llm; 
-      input_file_with_llm << args.output_arg << "/test_with_llm" << test_number_string << ".xml";
-      cout << "input_file_with_llm: " << test_number_string << endl;
+      //stringstream input_file_with_llm; 
+      //input_file_with_llm << args.output_arg << "/test_with_llm" << test_number_string << ".xml";
+      //cout << "input_file_with_llm: " << test_number_string << endl;
 
       // Create the LLM. Load from the xml.
       cout << "Creating the LLM model. " << endl;
+      cout << "Loading: " << args.inputs[ i ];
       Feature_Set * feature_set = new Feature_Set();
       LLM * llm  = new LLM( feature_set );
-      llm->from_xml( input_file_with_llm.str() );
+      llm->from_xml( args.inputs[ i ] );
+
+      //Create the symbol dictionary for groundings. Load from the xml
+      Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary();
+      load_symbol_dictionary_groundings( args.inputs[ i ], symbol_dictionary_groundings );
  
       // Write out the statistics related ot the data set partition.
       stringstream training_set_size_string;
@@ -886,25 +944,30 @@ main( int argc,
       // Evaluate the DCG and ADCG models on the training set (if option).
       if (args.test_training_set_arg) {
         run_tests( training_set, llm, tests_doc, test_node, "training_set", i, solution_directory.str(),
-                   args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
+                   //args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Evaluate the DCG and ADCG models on the test set (if option).
       if (args.test_test_set_arg) {
-        run_tests( training_set, llm, tests_doc, test_node, "test_set", i, solution_directory.str(),
-                   args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
+        run_tests( test_set, llm, tests_doc, test_node, "test_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Add the child node in the xml document.
       xmlAddChild( tests_node, test_node );
 
-      /**** Memore clean up  *****/
+      /**** Memory clean up  *****/
       delete_ptr< LLM >( llm );
       delete_ptr< Feature_Set  >( feature_set );
 
       // write out the output
+      // grab the test number from the filename
+      string filename = args.inputs[ i ];
+      string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
+      // use the test number to name the output file
       stringstream results_filename;
       results_filename << args.output_arg << "/result_" << test_number_string << ".xml";
       xmlSaveFormatFileEnc( results_filename.str().c_str(), tests_doc, "UTF-8", 1 );
