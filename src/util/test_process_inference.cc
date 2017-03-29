@@ -115,7 +115,7 @@ clear( Phrase* phrase ){
 
 
 /**
- * Load the symbol dictionary for groundings from the provided test xml file
+ * Load the symbol dictionary for rules from the provided test xml file
  */
 void
 load_symbol_dictionary_rules( string filename, Symbol_Dictionary*& symbol_dictionary ){
