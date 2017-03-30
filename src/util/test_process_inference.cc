@@ -1356,9 +1356,6 @@ run_tests( const std::vector< std::string >& filenames,
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
 
-    // Symbol Dictionary 
-    //Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
- 
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
     struct timeval start_time;
@@ -1873,26 +1870,26 @@ main( int argc,
   }
   cout << "solution_directory: " << solution_directory.str() << endl;
 
-  // XML: test document
-  xmlDocPtr tests_doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
-  // Node ptr for root
-  xmlNodePtr tests_root = xmlNewDocNode( tests_doc, NULL, ( xmlChar* )( "root" ), NULL );
-  xmlDocSetRootElement( tests_doc, tests_root );
+  // XML: results document
+  xmlDocPtr results_doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+  // Node ptr for root node of the results document
+  xmlNodePtr results_root = xmlNewDocNode( results_doc, NULL, ( xmlChar* )( "root" ), NULL );
+  xmlDocSetRootElement( results_doc, results_root );
   // Node ptr for test node
-  xmlNodePtr tests_node = xmlNewDocNode( tests_doc, NULL, ( xmlChar* )( "tests" ), NULL );
+  xmlNodePtr results_node = xmlNewDocNode( results_doc, NULL, ( xmlChar* )( "results" ), NULL );
   // Number. Added as a node property.
   stringstream num_string;
   num_string << args.inputs_num;
-  xmlNewProp( tests_node, ( const xmlChar* )( "num" ), ( const xmlChar* )( num_string.str().c_str() ) );
+  xmlNewProp( results_node, ( const xmlChar* )( "num" ), ( const xmlChar* )( num_string.str().c_str() ) );
   // test_node child node for root.
-  xmlAddChild( tests_root, tests_node );
+  xmlAddChild( results_root, results_node );
 
   /********** Load up the LLM for the corresponding partition *****************/
   
   // Iterate over the partitions. 
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
     // Load the files for testing.
-    xmlNodePtr test_node = xmlNewDocNode( tests_doc, NULL, ( xmlChar* )( "test" ), NULL );
+    xmlNodePtr test_node = xmlNewDocNode( results_doc, NULL, ( xmlChar* )( "test" ), NULL );
     xmlNewProp( test_node, ( const xmlChar* )( "filename" ), ( const xmlChar* )( args.inputs[ i ]  ) );
 
     vector< string > training_set;
@@ -1941,16 +1938,6 @@ main( int argc,
         xmlFreeDoc( input_doc );
       }
  
-      // Load the trained LLM.
-      //string filename = args.inputs[ i ];
-      //string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
-      //cout << "test_number_string: " << test_number_string << endl;
-
-      // Form the filename. 
-      //stringstream input_file_with_llm; 
-      //input_file_with_llm << args.output_arg << "/test_with_llm" << test_number_string << ".xml";
-      //cout << "input_file_with_llm: " << test_number_string << endl;
-
       // Create the LLM. Load from the xml.
       cout << "Creating the LLM model. " << endl;
       cout << "Loading: " << args.inputs[ i ];
@@ -1979,29 +1966,23 @@ main( int argc,
       training_ratio_string << ( double )( training_set.size() ) / ( double )( training_set.size() + test_set.size() );
       xmlNewProp( test_node, ( const xmlChar* )( "training_ratio" ), ( const xmlChar* )( training_ratio_string.str().c_str() ) );
 
-      // Think about the LLM training timing.
-//    stringstream train_time_string;
-//    train_time_string << train_time;
-//    xmlNewProp( test_node, ( const xmlChar* )( "train_time" ), ( const xmlChar* )( train_time_string.str().c_str() ) );
- 
       /********************* Run Inference Tests******************/
       // Evaluate the DCG and ADCG models on the training set (if option).
       if (args.test_training_set_arg) {
-        run_tests( training_set, llm, tests_doc, test_node, "training_set", i, solution_directory.str(),
-                   //args.symbol_dictionary_groundings_arg, args.beam_width_arg, args.debug_arg );
+        run_tests( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Evaluate the DCG and ADCG models on the test set (if option).
       if (args.test_test_set_arg) {
-        run_tests( test_set, llm, tests_doc, test_node, "test_set", i, solution_directory.str(),
+        run_tests( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Add the child node in the xml document.
-      xmlAddChild( tests_node, test_node );
+      xmlAddChild( results_node, test_node );
 
       /**** Memory clean up  *****/
       delete_ptr< LLM >( llm );
@@ -2016,7 +1997,7 @@ main( int argc,
       // use the test number to name the output file
       stringstream results_filename;
       results_filename << args.output_arg << "/result_" << test_number_string << ".xml";
-      xmlSaveFormatFileEnc( results_filename.str().c_str(), tests_doc, "UTF-8", 1 );
+      xmlSaveFormatFileEnc( results_filename.str().c_str(), results_doc, "UTF-8", 1 );
 
     } else {
       cout << "could not read filename \"" << args.inputs[ i ] << "\"" << endl;
@@ -2025,20 +2006,8 @@ main( int argc,
   }
  
   // Free the XML test_doc
-  xmlFreeDoc( tests_doc );
+  xmlFreeDoc( results_doc );
 
   cout << "end of test_process program" << endl;
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
