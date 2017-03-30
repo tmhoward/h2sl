@@ -11,6 +11,8 @@ set(GGOS
     grammar_generator.ggo
     gui_demo.ggo
     test_process.ggo
+    test_process_training.ggo
+    test_process_inference.ggo
     test_generator.ggo
     test_combine_results.ggo
     test_convert_xml_to_mat.ggo)
@@ -40,6 +42,8 @@ set(BIN_SRCS
     grammar_generator.cc
     gui_demo.cc
     test_process.cc
+    test_process_training.cc
+    test_process_inference.cc
     test_generator.cc
     test_combine_results.cc
     test_convert_xml_to_mat.cc)

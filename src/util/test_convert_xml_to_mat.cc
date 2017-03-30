@@ -113,7 +113,7 @@ main( int argc,
       for( xmlNodePtr l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           //look for a node named "tests"
-          if( xmlStrcmp( l1->name, ( const xmlChar* )( "tests" ) ) == 0 ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "results" ) ) == 0 ){
             //loop through each child node of the "tests" xml node
             for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
               if( l2->type == XML_ELEMENT_NODE ){
