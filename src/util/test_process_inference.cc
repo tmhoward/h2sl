@@ -131,9 +131,15 @@ load_symbol_dictionary( string filename, string dictionary_type, Symbol_Dictiona
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( dictionary_type.c_str() ) ) == 0 ){
-            symbol_dictionary->from_xml( l1 );
-            xmlFreeDoc( doc );
-            return true;
+            for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+              if( l2->type == XML_ELEMENT_NODE ){
+                if( xmlStrcmp( l2->name, ( const xmlChar* )( "symbol_dictionary" ) ) == 0 ){
+                  symbol_dictionary->from_xml( l2 );
+                  xmlFreeDoc( doc );
+                  return true;
+                }
+              }
+            }
           }
         }
       }
@@ -212,10 +218,10 @@ run_tests_dcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            const string& symbol_dictionary_groundings_path, 
+            //const string& symbol_dictionary_groundings_path, 
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
-
   /******* Variables to record statistics **************************/
   // Num objects. Phrases.
   double num_objects = 0.0;
@@ -264,7 +270,7 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     clear( input_phrase );
 
     // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
+    //Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
  
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
@@ -273,7 +279,6 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     search_space->fill_groundings( *symbol_dictionary, world );
     struct timeval end_time;
     gettimeofday( &end_time, NULL );
-    cout << "finished fill_seach_space in " << diff_time( start_time, end_time ) << " seconds" << endl;
 
     // Grounding context
     Grounding * context = NULL;
@@ -1276,7 +1281,7 @@ run_tests( const std::vector< std::string >& filenames,
             xmlNodePtr& parentNode,
             const string& testGroup,
             const unsigned int cur_test_num,
-           const string& solution_directory, 
+            const string& solution_directory, 
             //const string& symbol_dictionary_groundings_path, 
             const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
@@ -1940,18 +1945,26 @@ main( int argc,
  
       // Create the LLM. Load from the xml.
       cout << "Creating the LLM model. " << endl;
-      cout << "Loading: " << args.inputs[ i ];
+      cout << "Loading: " << args.inputs[ i ] << endl;
       Feature_Set * feature_set = new Feature_Set();
       LLM * llm  = new LLM( feature_set );
       llm->from_xml( args.inputs[ i ] );
 
       //Create the symbol dictionary for groundings. Load from the xml
+      cout << "Loading the symbol_dictionary_groundings" << endl;
       Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary();
-      load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_groundings", symbol_dictionary_groundings );
+      if( !load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_groundings", symbol_dictionary_groundings ) ){
+        cout << "failed to load symbol_dictionary_groundings" << endl;
+        assert( false );
+      }
 
       //Create the symbol dictionary for rules. Load from the xml
+      //cout << "Loading the symbol_dictionary_rules" << endl;
       //Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary();
-      //load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_rules", symbol_dictionary_rules );
+      //if( !load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_rules", symbol_dictionary_rules ) ){
+        //cout << "failed to load symbol_dictionary_rules" << endl;
+        //assert( false );
+      //}
  
       // Write out the statistics related ot the data set partition.
       stringstream training_set_size_string;
@@ -1970,6 +1983,7 @@ main( int argc,
       // Evaluate the DCG and ADCG models on the training set (if option).
       if (args.test_training_set_arg) {
         run_tests( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+        //run_tests_dcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
@@ -1977,6 +1991,7 @@ main( int argc,
       // Evaluate the DCG and ADCG models on the test set (if option).
       if (args.test_test_set_arg) {
         run_tests( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+        //run_tests_dcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
