@@ -279,6 +279,7 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     search_space->fill_groundings( *symbol_dictionary, world );
     struct timeval end_time;
     gettimeofday( &end_time, NULL );
+    cout << "finished fill_seach_space in " << diff_time( start_time, end_time ) << " seconds" << endl;
 
     // Grounding context
     Grounding * context = NULL;
