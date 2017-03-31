@@ -116,35 +116,37 @@ value( const string& cv,
             map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
             if( it_sorted_objects_map == world->sorted_objects().end() ){
               cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+              assert( false );
             }
-            assert( it_sorted_objects_map != world->sorted_objects().end() );
+            //assert( it_sorted_objects_map != world->sorted_objects().end() );
             map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( abstract_container_child.second->type() );
-            assert( it_sorted_objects != it_sorted_objects_map->second.end() );
-
-            vector< Object* > sorted_objects;
-            for( unsigned int i = 0; i < container->container().size(); i++ ){
-              Object * container_object = dynamic_cast< Object* >( container->container()[ i ] );
-              if( container_object != NULL ){
-                sorted_objects.push_back( container_object );
+            //assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+            if( it_sorted_objects != it_sorted_objects_map->second.end() ){
+              vector< Object* > sorted_objects;
+              for( unsigned int i = 0; i < container->container().size(); i++ ){
+                Object * container_object = dynamic_cast< Object* >( container->container()[ i ] );
+                if( container_object != NULL ){
+                  sorted_objects.push_back( container_object );
+                }
+              }
+        
+              if( ( int )( sorted_objects.size() ) == abstract_container_child.second->number() ){
+                bool all_objects_match = true;
+                for( int i = 0; i < abstract_container_child.second->number(); i++ ){
+                  bool found_object_match = false;
+                  for( unsigned int j = 0; j < sorted_objects.size(); j++ ){
+                    if( it_sorted_objects->second[ i ]->id() == sorted_objects[ j ]->id() ){
+                      found_object_match = true;
+                    }
+                  }
+                  all_objects_match = all_objects_match && found_object_match;
+                }
+      
+                if( all_objects_match ){
+                  return !_invert;
+                }
               }
             }
-      
-            if( ( int )( sorted_objects.size() ) == abstract_container_child.second->number() ){
-              bool all_objects_match = true;
-              for( int i = 0; i < abstract_container_child.second->number(); i++ ){
-                bool found_object_match = false;
-                for( unsigned int j = 0; j < sorted_objects.size(); j++ ){
-                  if( it_sorted_objects->second[ i ]->id() == sorted_objects[ j ]->id() ){
-                    found_object_match = true;
-                  }
-                }
-                all_objects_match = all_objects_match && found_object_match;
-              }
-    
-              if( all_objects_match ){
-                return !_invert;
-              }
-            }      
           }
           return _invert;
         }
