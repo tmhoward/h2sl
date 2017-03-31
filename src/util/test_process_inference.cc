@@ -242,6 +242,23 @@ evaluate_model( LLM* llm,
 }
 
 
+/*
+ * Helper function to write the solutions file.
+ * Includes the world and parse information.
+ */
+void
+solution_to_xml( const string& filename,
+                 const World* const& world, 
+                 const Phrase* const& phrase ){
+  xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+  xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+  xmlDocSetRootElement( doc, root );
+  world->to_xml( doc, root );
+  phrase->to_xml( doc, root );
+  xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
+  xmlFreeDoc( doc );
+  return;
+}
 
 /* 
  * Run tests for the DCG model. 
@@ -328,10 +345,12 @@ run_tests_dcg( const std::vector< std::string >& filenames,
 
     assert( dynamic_cast< const Phrase* >( dcg->solutions().front().second ) != NULL );
 
+    // Write the solution
     stringstream dcg_solution_filename;
-    dcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_dcg_solution_" << filename;
-    dcg->solutions().front().second->to_xml( dcg_solution_filename.str() );
+    dcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_dcg_solution_" << filename; 
+    solution_to_xml( dcg_solution_filename.str(), world, dcg->solutions().front().second );
 
+    // Write the metrics    
     xmlNodePtr dcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "dcg" ), NULL );
 
     // Runtime.
@@ -593,7 +612,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
 
     stringstream adcg_solution_filename;
     adcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_adcg_solution_" << filename;
-    adcg->solutions().front().second->to_xml( adcg_solution_filename.str() );
+    solution_to_xml( adcg_solution_filename.str(), world, adcg->solutions().front().second );
 
     xmlNodePtr adcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "adcg" ), NULL );
 
@@ -856,7 +875,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
 
     stringstream hdcg_solution_filename;
     hdcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hdcg_solution_" << filename;
-    hdcg->solutions().front().second->to_xml( hdcg_solution_filename.str() );
+    solution_to_xml( hdcg_solution_filename.str(), world, hdcg->solutions().front().second );
 
     xmlNodePtr hdcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "hdcg" ), NULL );
 
@@ -1118,7 +1137,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
 
     stringstream hadcg_solution_filename;
     hadcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hadcg_solution_" << filename;
-    hadcg->solutions().front().second->to_xml( hadcg_solution_filename.str() );
+    solution_to_xml( hadcg_solution_filename.str(), world, hadcg->solutions().front().second );
 
     xmlNodePtr hadcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "hadcg" ), NULL );
 
