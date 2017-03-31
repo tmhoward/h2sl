@@ -122,7 +122,7 @@ value( const string& cv,
             map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( abstract_container_child.second->type() );
             //assert( it_sorted_objects != it_sorted_objects_map->second.end() );
             if( it_sorted_objects != it_sorted_objects_map->second.end() ){
-              for( int i = 0; i < abstract_container_child.second->number(); i++ ){
+              for( unsigned int i = 0; i < abstract_container_child.second->number(); i++ ){
                 if( object->id() == it_sorted_objects->second[ i ]->id() ){
                   return !_invert;
                 }

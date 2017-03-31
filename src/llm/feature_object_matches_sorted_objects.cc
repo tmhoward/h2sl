@@ -99,8 +99,8 @@ value( const string& cv,
     map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object->type() );
     //assert( it_sorted_objects != it_sorted_objects_map->second.end() );
     if( it_sorted_objects != it_sorted_objects_map->second.end() ){
-      if( (  number() < ( int )( it_sorted_objects->second.size() ) ) && ( it_sorted_objects->second.size() > 1 ) ){
-        for( int i = 0; i < number(); i++ ){
+      if( (  number() < ( unsigned int )( it_sorted_objects->second.size() ) ) && ( it_sorted_objects->second.size() > 1 ) ){
+        for( unsigned int i = 0; i < number(); i++ ){
           if( object->id() == it_sorted_objects->second[ i ]->id() ){
             return !_invert;
           }

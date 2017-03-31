@@ -130,9 +130,9 @@ value( const string& cv,
                 }
               }
         
-              if( ( int )( sorted_objects.size() ) == abstract_container_child.second->number() ){
+              if( ( unsigned int )( sorted_objects.size() ) == abstract_container_child.second->number() ){
                 bool all_objects_match = true;
-                for( int i = 0; i < abstract_container_child.second->number(); i++ ){
+                for( unsigned int i = 0; i < abstract_container_child.second->number(); i++ ){
                   bool found_object_match = false;
                   for( unsigned int j = 0; j < sorted_objects.size(); j++ ){
                     if( it_sorted_objects->second[ i ]->id() == sorted_objects[ j ]->id() ){
