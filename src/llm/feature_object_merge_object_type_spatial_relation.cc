@@ -87,8 +87,8 @@ value( const string& cv,
       const Phrase* phrase,
       const World* world,
       const Grounding* context){
-    const Object * object = dynamic_cast< const Object* >( grounding );
-    if( ( object != NULL ) && ( !children.empty() ) ){
+  const Object * object = dynamic_cast< const Object* >( grounding );
+  if( ( object != NULL ) && ( !children.empty() ) ){
     pair< const Phrase*, const Object_Type* > object_type_child( NULL, NULL );
     pair< const Phrase*, const Spatial_Relation* > spatial_relation_child( NULL, NULL );
     // enforce that children come from different phrases
@@ -113,12 +113,31 @@ value( const string& cv,
 
     if( ( object_type_child.first != NULL ) && ( object_type_child.second != NULL ) && ( spatial_relation_child.first != NULL ) && ( spatial_relation_child.second != NULL ) ){
       if( ( object_type_child.first->min_word_order() < spatial_relation_child.first->min_word_order() ) && ( spatial_relation_child.second->spatial_relation_type() == spatial_relation_type() ) ){
+        //it_sorted_objects_map is a map< string, vector< Object* > >:: iterator - this is a sorted list of objects in the world according to the sorting key
         map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
+        //if it is not empty, that means there was a sorted vector of the type "sorting_key()"
         if( it_sorted_objects_map == world->sorted_objects().end() ){
           cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
         }
+        //check that the vector of objects is not a null
         assert( it_sorted_objects_map != world->sorted_objects().end() );
+        //it_sorted_objects 
         map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object_type_child.second->type() );
+        cout << "sorting_key(): " << sorting_key() << endl;
+        cout << "object_type_child.second->type(): " << object_type_child.second->type() << endl;
+        if( it_sorted_objects == it_sorted_objects_map->second.end() ){
+          cout << "object_type_child->first: " << *object_type_child.first << endl;
+          //print out the it_sorted_objects_map
+          cout << "it_sorted_objects_map: " << endl;
+          for( map< string, vector< Object* > >::const_iterator it_tmp = it_sorted_objects_map->second.begin(); it_tmp != it_sorted_objects_map->second.end(); ++it_tmp ){
+            cout << "  it_tmp->first: " << it_tmp->first << endl;
+            vector< Object* > tmp_objects = it_tmp->second;
+            for( unsigned int k = 0; k < tmp_objects.size(); k++ ){
+              cout << "  it_tmp->second[ " << k << " ]: " << *tmp_objects[ k ] << endl;
+            }
+          }
+          phrase->to_xml( "/tmp/phrase_debug.xml" );
+        }
         assert( it_sorted_objects != it_sorted_objects_map->second.end() );
        
         if( !it_sorted_objects->second.empty() ){
