@@ -57,6 +57,33 @@ using namespace std;
 using namespace h2sl; 
 
 /**
+ * Function to replace the groundings with rules for the hdcg/hadcg rule examples
+ */
+void
+replace_groundings_with_rules( Phrase* phrase, 
+                                World* world ){
+  //create a new grounding_set object for the rule symbols
+  Grounding_Set * grounding_set_rules = new Grounding_Set();
+
+  //loop through each grounding in the current phrase's grounding_set
+  for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+    //replace the current grounding with rules
+    (*it_grounding)->fill_rules( world, grounding_set_rules );
+  }
+
+  //assign the new grounding_set to the phrase
+  phrase->grounding_set() = grounding_set_rules;
+  
+  //recursive call to replace all child phrase groundings
+  for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+    replace_groundings_with_rules( *it_child, world );
+  }
+  return;
+}
+
+
+
+/**
  * Evaluate the model. 
  */
 void
@@ -126,7 +153,7 @@ main( int argc,
               file that also contains both the data partitions and the symbol dictionaries *****************/
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
     // Vector to store list of training set filenames
-    vector< string > training_set;
+    vector< string > training_set_filenames;
 
     // XML pointers
     xmlDoc * input_doc = NULL;
@@ -146,7 +173,7 @@ main( int argc,
                     xmlChar * tmp = xmlGetProp( l2, ( const xmlChar* )( "text" ) );
                     if( tmp != NULL ){
                       // push_back the training set file name.
-                      training_set.push_back( ( char* )( tmp ) );
+                      training_set_filenames.push_back( ( char* )( tmp ) );
                       xmlFree( tmp );
                     }
                   }
@@ -163,27 +190,20 @@ main( int argc,
       string filename = args.inputs[ i ];
       string test_number_string = filename.substr( ( filename.size() - 8 ), 4 );
       cout << "test " << test_number_string << endl;
-      cout << "  training_set[" << training_set.size() << "]:{";
-      for( unsigned int j = 0; j < training_set.size(); j++ ){
-        cout << training_set[ j ];
-        if( j != ( training_set.size() - 1 ) ){
+      cout << "  training_set_filenames[" << training_set_filenames.size() << "]:{";
+      for( unsigned int j = 0; j < training_set_filenames.size(); j++ ){
+        cout << training_set_filenames[ j ];
+        if( j != ( training_set_filenames.size() - 1 ) ){
           cout << ",";
         }
       }
       cout << "}" << endl;
 
       /********************** Train the Log-linear model *****************/ 
-      //initialize the vectors to hold the search spaces
-      vector< Search_Space* > training_search_spaces_groundings( training_set.size(), NULL );
-      vector< Search_Space* > training_search_spaces_rules( training_set.size(), NULL );
-
-      //initialize the vectors to hold the example file and associated world
-      vector< Phrase* > training_phrases( training_set.size(), NULL );
-      vector< World* > training_worlds( training_set.size(), NULL );
-
-      //load the symbol_dictionaries;
+      // load the symbol_dictionaries;
       Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
       Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary();
+      // only load the rules dictionary if provided
       if( args.symbol_dictionary_rules_given ){
         symbol_dictionary_rules->from_xml( args.symbol_dictionary_rules_arg );
       } else{
@@ -193,47 +213,53 @@ main( int argc,
           symbol_dictionary_rules = NULL;
         }
       }
-     
-      // Load examples from the training set for training the log-linear model.  
+
+      // load the worlds, phrases, and symbol_spaces && fill the examples
+      vector< Phrase* > training_phrases;
+      vector< World* > training_worlds;
+      vector< Search_Space* > training_search_spaces_groundings;
+      vector< Search_Space* > training_search_spaces_rules;
       vector< pair< string, LLM_X > > examples;
-      for( unsigned int j = 0; j < training_set.size(); j++ ){
-        // Get the filename.
-        cout << "reading file " << training_set[ j ] << endl;
+      for( unsigned int j = 0; j < training_set_filenames.size(); j++ ){
+        // load world
+        training_worlds.push_back( new World() );
+        training_worlds.back()->from_xml( training_set_filenames[ j ] );
 
-        // Load world
-        training_worlds[ j ] = new World();
-        training_worlds[ j ]->from_xml( training_set[ j ] );
+        // load phrase
+        training_phrases.push_back( new Phrase() );
+        training_phrases.back()->from_xml( training_set_filenames[ j ], training_worlds.back() );
 
-        // Load phrase
-        training_phrases[ j ] = new Phrase();
-        training_phrases[ j ]->from_xml( training_set[ j ], training_worlds[ j ] );
-
-        /************ Search Space fill rules and scrape examples ************************/
-        if( args.symbol_dictionary_rules_given ){
-          if( training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){
-            cout << "contains symbols in rules symbol dictionary" << endl;
-            training_search_spaces_rules[ j ] = new Search_Space();
-            training_search_spaces_rules[ j ]->fill_rules( *symbol_dictionary_rules, training_worlds[ j ] );
-            //training_search_spaces_rules[ j ]->scrape_examples( training_set[ j ], static_cast< Phrase* >( training_phrases[ j ] ), training_worlds[ j ], examples );
-            training_search_spaces_rules[ j ]->scrape_examples( training_set[ j ], training_phrases[ j ], training_worlds[ j ], examples );
-          } else {
-            cout << "does not contains any rules symbols in symbol dictionary" << endl;
-          }
-        }
-
-        /************ Search Space fill groundings and scrape examples. Note: examples is common. ***/
+        // Search Space fill groundings and scrape examples. Note: examples is common
         // Check if the phrase has symbols from the symbol dictionary groundings.
-        if( training_phrases[ j ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
+        if( training_phrases.back()->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
           cout << "contains symbols in symbol dictionary" << endl;
-          training_search_spaces_groundings[ j ] = new Search_Space();
-          training_search_spaces_groundings[ j ]->fill_groundings( *symbol_dictionary_groundings, training_worlds[ j ] );
-          //training_search_spaces_groundings[ j ]->scrape_examples( training_set[ j ], static_cast< Phrase* >( training_phrases[ j ] ), training_worlds[ j ], examples );
-          training_search_spaces_groundings[ j ]->scrape_examples( training_set[ j ], training_phrases[ j ], training_worlds[ j ], examples );
+          training_search_spaces_groundings.push_back( new Search_Space() );
+          training_search_spaces_groundings.back()->fill_groundings( *symbol_dictionary_groundings, training_worlds.back() );
+          training_search_spaces_groundings.back()->scrape_examples( training_set_filenames[ j ], training_phrases.back(), training_worlds.back(), examples );
         } else {
           cout << "does not contains any symbols in symbol dictionary" << endl;
         }
 
+        // if symbol_dictionary_rules given, add the rule phrases
+        if( args.symbol_dictionary_rules_given ){
+          // generate the rule phrase
+          Phrase * rule_phrase = training_phrases.back()->dup();
+          replace_groundings_with_rules( rule_phrase, training_worlds.back() );
+          
+          // add the rule phrase to the vector of training phrases
+          training_phrases.push_back( rule_phrase );
+
+          if( training_phrases.back()->contains_symbol_in_symbol_dictionary( *symbol_dictionary_rules ) ){
+            cout << "contains symbols in rules symbol dictionary" << endl;
+            training_search_spaces_rules.push_back( new Search_Space() );
+            training_search_spaces_rules.back()->fill_rules( *symbol_dictionary_rules, training_worlds.back() );
+            training_search_spaces_rules.back()->scrape_examples( training_set_filenames[ j ], training_phrases.back(), training_worlds.back(), examples );
+          } else {
+            cout << "does not contains any rules symbols in symbol dictionary" << endl;
+          }
+        }
       }
+     
       cout << "training with " << examples.size() << " examples" << endl;
 
       // Feature sets in multiple threads.
@@ -277,7 +303,7 @@ main( int argc,
       xmlAddChild( input_root, symbol_dictionary_groundings_node );
       symbol_dictionary_groundings->to_xml( input_doc, symbol_dictionary_groundings_node ); 
 
-      if( symbol_dictionary_rules != NULL ){
+      if( args.symbol_dictionary_rules_given ){
         xmlNodePtr symbol_dictionary_rules_node = xmlNewDocNode( input_doc, NULL, ( const xmlChar* )( "symbol_dictionary_rules" ), NULL ); 
         xmlAddChild( input_root, symbol_dictionary_rules_node );
         symbol_dictionary_rules->to_xml( input_doc, symbol_dictionary_rules_node ); 
@@ -321,6 +347,47 @@ main( int argc,
       }
       feature_sets.clear();
 
+      for( unsigned int i = 0; i < training_phrases.size(); i++ ){
+        if( training_phrases[ i ] != NULL ){
+          delete training_phrases[ i ];
+          training_phrases[ i ] = NULL;
+        }
+      }
+      training_phrases.clear();
+
+      for( unsigned int i = 0; i < training_worlds.size(); i++ ){
+        if( training_worlds[ i ] != NULL ){
+          delete training_worlds[ i ];
+          training_worlds[ i ] = NULL;
+        }
+      }
+      training_worlds.clear();
+
+      for( unsigned int i = 0; i < training_search_spaces_groundings.size(); i++ ){
+        if( training_search_spaces_groundings[ i ] != NULL ){
+          delete training_search_spaces_groundings[ i ];
+          training_search_spaces_groundings[ i ] = NULL;
+        }
+      }
+      training_search_spaces_groundings.clear();
+
+      for( unsigned int i = 0; i < training_search_spaces_rules.size(); i++ ){
+        if( training_search_spaces_rules[ i ] != NULL ){
+          delete training_search_spaces_rules[ i ];
+          training_search_spaces_rules[ i ] = NULL;
+        }
+      }
+      training_search_spaces_rules.clear();
+
+      if( symbol_dictionary_groundings != NULL ){
+        delete symbol_dictionary_groundings;
+        symbol_dictionary_groundings = NULL;
+      }
+
+      if( symbol_dictionary_rules != NULL ){
+        delete symbol_dictionary_rules;
+        symbol_dictionary_rules = NULL;
+      }
     }
     //free the xml pointers
     if( input_doc != NULL ){
