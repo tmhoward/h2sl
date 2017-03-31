@@ -2006,34 +2006,66 @@ main( int argc,
       xmlNewProp( test_node, ( const xmlChar* )( "training_runtime" ), ( const xmlChar* )( load_training_runtime( args.inputs[ i ] ).c_str() ) ); 
 
       /********************* Run Inference Tests******************/
+      stringstream model_string;
+      model_string << args.model_arg;
       // Evaluate the DCG and ADCG models on the training set (if option).
       if (args.test_training_set_arg) {
-        run_tests( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+        cout << "evaluation on training set" << endl;  
+       if( !model_string.str().compare( "dcg" ) ) { 
+          cout << " starting dcg " << endl; 
+          run_tests_dcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        //run_tests_dcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        //run_tests_adcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        //run_tests_hdcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        //run_tests_hadcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "adcg" ) ) {
+          cout << " starting adcg " << endl; 
+          run_tests_adcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg ); 
+        } else if ( !model_string.str().compare( "hdcg" ) ) {
+          cout << " starting hdcg " << endl; 
+          run_tests_hdcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "hadcg" ) ) {
+          cout << " starting hadcg " << endl; 
+          run_tests_hadcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "all" ) ) {
+          cout << " starting all " << endl; 
+          run_tests( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                      symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else {
+          cout << "model: " << model_string.str() << "does not exist."  <<endl;
+          exit(0);
+        }
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Evaluate the DCG and ADCG models on the test set (if option).
       if (args.test_test_set_arg) {
-        run_tests( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+        cout << "evaluation on test set" << endl; 
+        if( !model_string.str().compare( "dcg" ) ) { 
+          cout << " starting dcg " << endl; 
+          run_tests_dcg( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        //run_tests_dcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        //run_tests_adcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        //run_tests_hdcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        //run_tests_hadcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
+        } else if ( !model_string.str().compare( "adcg" ) ) {
+          cout << " starting adcg " << endl; 
+          run_tests_adcg( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg ); 
+        } else if ( !model_string.str().compare( "hdcg" ) ) {
+          cout << " starting hdcg " << endl; 
+          run_tests_hdcg( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "hadcg" ) ) {
+          cout << " starting hadcg " << endl; 
+          run_tests_hadcg( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "all" ) ) {
+          cout << " starting all " << endl; 
+          run_tests( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+                      symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else {
+          cout << "model: " << model_string.str() << "does not exist."  <<endl;
+          exit(0);
+        }
+       cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Add the child node in the xml document.
