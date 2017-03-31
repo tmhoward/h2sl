@@ -84,7 +84,6 @@ value( const string& cv,
   if( container != NULL ){
     if( container->container().size() > 0 ){
       vector< Object* > objects;
-      const Object* container_front_object = static_cast< Object* >( container->container().front());
       for( map< string, Object* >::const_iterator it_world_object = world->objects().begin(); it_world_object != world->objects().end(); it_world_object++ ){
         if( it_world_object->second->type() == object_type() ) {
           objects.push_back( it_world_object->second );
