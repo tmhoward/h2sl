@@ -91,14 +91,16 @@ value( const string& cv,
   const Constraint * constraint = dynamic_cast< const Constraint* >( grounding );
   if( constraint != NULL ){
     map< string, Object* >::const_iterator it_constraint_payload = world->objects().find( constraint->payload() );
-    assert( it_constraint_payload != world->objects().end() );
-    map< std::string, std::string >::const_iterator it = it_constraint_payload->second->string_properties().find( _key );
-    if( it != it_constraint_payload->second->string_properties().end() ){
-      if( it->second == _symbol ){
-        return !_invert;
-      } else {
-        return _invert;
-      } 
+    //assert( it_constraint_payload != world->objects().end() );
+    if( it_constraint_payload != world->objects().end() ){
+      map< std::string, std::string >::const_iterator it = it_constraint_payload->second->string_properties().find( _key );
+      if( it != it_constraint_payload->second->string_properties().end() ){
+        if( it->second == _symbol ){
+          return !_invert;
+        } else {
+          return _invert;
+        } 
+      }
     }
   }
   return false;

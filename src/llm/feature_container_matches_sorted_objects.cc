@@ -94,29 +94,34 @@ value( const string& cv,
     map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
     if( it_sorted_objects_map == world->sorted_objects().end() ){
       cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+      assert( false );
     }
-    assert( it_sorted_objects_map != world->sorted_objects().end() );
-    if( !container->container().empty() ){
-      map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( dynamic_cast< const Object* >( container->container().front() )->type() );
-      assert( it_sorted_objects != it_sorted_objects_map->second.end() );
-      if( number() < ( int )( it_sorted_objects->second.size() ) ){
-        bool all_objects_match = true;
-        for( unsigned int i = 0; i < container->container().size(); i++ ){
-          Object * object = dynamic_cast< Object* >( container->container()[ i ] );
-          bool found_object_match = false;
-          if( object != NULL ){
-            for( unsigned int j = 0; j < number(); j++ ){
-              if( object->id() == it_sorted_objects->second[ j ]->id() ){
-                found_object_match = true;
+    //assert( it_sorted_objects_map != world->sorted_objects().end() );
+    if( it_sorted_objects_map != world->sorted_objects().end() ){
+      if( !container->container().empty() ){
+        map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( dynamic_cast< const Object* >( container->container().front() )->type() );
+        //assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+        if( it_sorted_objects != it_sorted_objects_map->second.end() ){
+          if( number() < ( int )( it_sorted_objects->second.size() ) ){
+            bool all_objects_match = true;
+            for( unsigned int i = 0; i < container->container().size(); i++ ){
+              Object * object = dynamic_cast< Object* >( container->container()[ i ] );
+              bool found_object_match = false;
+              if( object != NULL ){
+                for( unsigned int j = 0; j < number(); j++ ){
+                  if( object->id() == it_sorted_objects->second[ j ]->id() ){
+                    found_object_match = true;
+                  }
+                }
               }
+              all_objects_match = all_objects_match && found_object_match;
+            }
+            if( all_objects_match ){
+              return !_invert;
+            } else {
+              return _invert; 
             }
           }
-          all_objects_match = all_objects_match && found_object_match;
-        }
-        if( all_objects_match ){
-          return !_invert;
-        } else {
-          return _invert; 
         }
       }
     }

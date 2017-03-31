@@ -88,9 +88,11 @@ value( const string& cv,
         const Region * child = dynamic_cast< const Region* >( children[ i ].second[ j ] );
         if( child != NULL ){
           map< string, Object* >::const_iterator it_child_region_object = world->objects().find( child->object_id() );
-          assert( it_child_region_object != world->objects().end() );
-          if( ( constraint->reference() == it_child_region_object->second->id() ) && ( constraint->reference_relation() == child->spatial_relation_type() ) ){
-            found_match = true;
+          //assert( it_child_region_object != world->objects().end() );
+          if( it_child_region_object != world->objects().end() ){
+            if( ( constraint->reference() == it_child_region_object->second->id() ) && ( constraint->reference_relation() == child->spatial_relation_type() ) ){
+              found_match = true;
+            }
           }
         }
       }   

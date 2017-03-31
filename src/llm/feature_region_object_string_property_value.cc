@@ -93,8 +93,9 @@ value( const string& cv,
     map< string, Object* >::const_iterator it_region_object = world->objects().find( region->object_id() );
     if( it_region_object == world->objects().end() ){
       cout << "cannot find object \"" << region->object_id() << "\"" << endl;
+      assert( false );
     }
-    assert( it_region_object != world->objects().end() );
+    //assert( it_region_object != world->objects().end() );
     map< std::string, std::string >::const_iterator it = it_region_object->second->string_properties().find( _key );
     if( it != it_region_object->second->string_properties().end() ){
       if( it->second == _symbol ){
