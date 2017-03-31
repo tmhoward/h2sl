@@ -460,11 +460,10 @@ run_tests_dcg( const std::vector< std::string >& filenames,
   double correct_root_dcg = ( double )( num_correct_root_dcg ) / ( double )( num_correct_root_dcg + num_incorrect_root_dcg );
   // Correct complete for all models.
   double correct_complete_dcg = ( double )( num_correct_complete_dcg ) / ( double )( num_correct_complete_dcg + num_incorrect_complete_dcg );
-  // Search Space
   // Search Space Sizes
   dataset_concrete_dcg = num_concrete_dcg / ( double )( filenames.size() ) ;
   dataset_abstract_avg_dcg = num_abstract_avg_dcg / ( double )( filenames.size() ) ;
-  dataset_abstract_max_dcg = num_abstract_avg_dcg / ( double )( filenames.size() );
+  dataset_abstract_max_dcg = num_abstract_max_dcg / ( double )( filenames.size() );
 
   /******  XML: correct root **************************/ 
   stringstream correct_root_dcg_string;
@@ -506,6 +505,26 @@ run_tests_dcg( const std::vector< std::string >& filenames,
   stringstream runtime_object_ratio_dcg_string;
   runtime_object_ratio_dcg_string << ( runtime_dcg / num_objects );
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_dcg" ), ( const xmlChar* )( runtime_object_ratio_dcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "runtime_object_ratio_dcg" ).c_str() ), ( const xmlChar* )( runtime_object_ratio_dcg_string.str().c_str() ) );
+
+  /******  XML: dataset concrete dcg   **************************/ 
+  stringstream dataset_concrete_dcg_string;
+  dataset_concrete_dcg_string << dataset_concrete_dcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_concrete_dcg" ), ( const xmlChar* )( dataset_concrete_dcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_concrete_dcg" ).c_str() ), ( const xmlChar* )( dataset_concrete_dcg_string.str().c_str() ) );
+
+  /******  XML: dataset abstract avg dcg   **************************/ 
+  stringstream dataset_abstract_avg_dcg_string;
+  dataset_abstract_avg_dcg_string << dataset_abstract_avg_dcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_avg_dcg" ), ( const xmlChar* )( dataset_abstract_avg_dcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_avg_dcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_avg_dcg_string.str().c_str() ) );
+
+  /******  XML: dataset abstract max dcg   **************************/ 
+  stringstream dataset_abstract_max_dcg_string;
+  dataset_abstract_max_dcg_string << dataset_abstract_max_dcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_max_dcg" ), ( const xmlChar* )( dataset_abstract_max_dcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_max_dcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_max_dcg_string.str().c_str() ) );
+
 
   /******  console output **************************/ 
   cout << endl;
@@ -723,11 +742,10 @@ run_tests_adcg( const std::vector< std::string >& filenames,
   double correct_root_adcg = ( double )( num_correct_root_adcg ) / ( double )( num_correct_root_adcg + num_incorrect_root_adcg );
   // Correct complete for all models.
   double correct_complete_adcg = ( double )( num_correct_complete_adcg ) / ( double )( num_correct_complete_adcg + num_incorrect_complete_adcg );
-  // Search Space
   // Search Space Sizes
   dataset_concrete_adcg = num_concrete_adcg / ( double )( filenames.size() ) ;
   dataset_abstract_avg_adcg = num_abstract_avg_adcg / ( double )( filenames.size() ) ;
-  dataset_abstract_max_adcg = num_abstract_avg_adcg / ( double )( filenames.size() );
+  dataset_abstract_max_adcg = num_abstract_max_adcg / ( double )( filenames.size() );
 
   /******  XML: correct root **************************/
   stringstream correct_root_adcg_string;
@@ -770,6 +788,25 @@ run_tests_adcg( const std::vector< std::string >& filenames,
   stringstream runtime_object_ratio_adcg_string;
   runtime_object_ratio_adcg_string << ( runtime_adcg / num_objects );
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_adcg" ), ( const xmlChar* )( runtime_object_ratio_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "runtime_object_ratio_adcg" ).c_str() ), ( const xmlChar* )( runtime_object_ratio_adcg_string.str().c_str() ) );
+
+  /******  XML: dataset concrete dcg   **************************/ 
+  stringstream dataset_concrete_adcg_string;
+  dataset_concrete_adcg_string << dataset_concrete_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_concrete_adcg" ), ( const xmlChar* )( dataset_concrete_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_concrete_adcg" ).c_str() ), ( const xmlChar* )( dataset_concrete_adcg_string.str().c_str() ) );
+
+  /******  XML: dataset abstract avg dcg   **************************/ 
+  stringstream dataset_abstract_avg_adcg_string;
+  dataset_abstract_avg_adcg_string << dataset_abstract_avg_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_avg_adcg" ), ( const xmlChar* )( dataset_abstract_avg_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_avg_adcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_avg_adcg_string.str().c_str() ) );
+
+  /******  XML: dataset abstract max dcg   **************************/ 
+  stringstream dataset_abstract_max_adcg_string;
+  dataset_abstract_max_adcg_string << dataset_abstract_max_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_max_adcg" ), ( const xmlChar* )( dataset_abstract_max_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_max_adcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_max_adcg_string.str().c_str() ) );
 
   /******  console output **************************/
   cout << endl;
@@ -990,7 +1027,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
   // Search Space Sizes
   dataset_concrete_hdcg = num_concrete_hdcg / ( double )( filenames.size() ) ;
   dataset_abstract_avg_hdcg = num_abstract_avg_hdcg / ( double )( filenames.size() ) ;
-  dataset_abstract_max_hdcg = num_abstract_avg_hdcg / ( double )( filenames.size() );
+  dataset_abstract_max_hdcg = num_abstract_max_hdcg / ( double )( filenames.size() );
 
   /******  XML: correct root **************************/ 
   stringstream correct_root_hdcg_string;
@@ -1252,7 +1289,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
   // Search Space Sizes
   dataset_concrete_hadcg = num_concrete_hadcg / ( double )( filenames.size() ) ;
   dataset_abstract_avg_hadcg = num_abstract_avg_hadcg / ( double )( filenames.size() ) ;
-  dataset_abstract_max_hadcg = num_abstract_avg_hadcg / ( double )( filenames.size() );
+  dataset_abstract_max_hadcg = num_abstract_max_hadcg / ( double )( filenames.size() );
 
   /******  XML: correct root **************************/ 
   stringstream correct_root_hadcg_string;
