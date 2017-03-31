@@ -135,7 +135,9 @@ load_symbol_dictionary( string filename, string dictionary_type, Symbol_Dictiona
               if( l2->type == XML_ELEMENT_NODE ){
                 if( xmlStrcmp( l2->name, ( const xmlChar* )( "symbol_dictionary" ) ) == 0 ){
                   symbol_dictionary->from_xml( l2 );
-                  xmlFreeDoc( doc );
+                  if( doc != NULL ){
+                    xmlFreeDoc( doc );
+                  }
                   return true;
                 }
               }
@@ -149,6 +151,40 @@ load_symbol_dictionary( string filename, string dictionary_type, Symbol_Dictiona
     xmlFreeDoc( doc );
   }
   return false;
+}
+
+/**
+ * load the training runtime for the log-linear model
+ * returns a string of the runtime value
+ */
+string
+load_training_runtime( string filename ){
+  xmlDoc * doc = NULL;
+  xmlNodePtr root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      xmlNodePtr l1 = NULL;
+      for( l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "training_runtime" ) ) == 0 ){
+            pair< bool, string > training_runtime_prop = has_prop< std::string >( l1, "train_time" );
+            if( training_runtime_prop.first ){
+              if( doc != NULL ){
+                xmlFreeDoc( doc );
+              }
+              return training_runtime_prop.second;
+            }
+          }
+        }
+      }
+    }
+  }
+  if( doc != NULL ){
+    xmlFreeDoc( doc );
+  }
+  return "na";
 }
 
 /**
@@ -218,7 +254,6 @@ run_tests_dcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            //const string& symbol_dictionary_groundings_path, 
             const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
@@ -269,9 +304,6 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
 
-    // Symbol Dictionary 
-    //Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
- 
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
     struct timeval start_time;
@@ -484,7 +516,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory,
-            const string& symbol_dictionary_groundings_path,
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
 
@@ -534,9 +566,6 @@ run_tests_adcg( const std::vector< std::string >& filenames,
     Phrase * input_phrase = new Phrase();
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
-
-    // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
 
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
@@ -750,7 +779,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            const string& symbol_dictionary_groundings_path, 
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
 
@@ -801,9 +830,6 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
 
-    // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
- 
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
     struct timeval start_time;
@@ -1015,7 +1041,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            const string& symbol_dictionary_groundings_path, 
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
 
@@ -1066,9 +1092,6 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
 
-    // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
- 
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
     struct timeval start_time;
@@ -1283,7 +1306,6 @@ run_tests( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            //const string& symbol_dictionary_groundings_path, 
             const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
@@ -1979,21 +2001,38 @@ main( int argc,
       stringstream training_ratio_string;
       training_ratio_string << ( double )( training_set.size() ) / ( double )( training_set.size() + test_set.size() );
       xmlNewProp( test_node, ( const xmlChar* )( "training_ratio" ), ( const xmlChar* )( training_ratio_string.str().c_str() ) );
+      
+      // maintain the training runtime information
+      xmlNewProp( test_node, ( const xmlChar* )( "training_runtime" ), ( const xmlChar* )( load_training_runtime( args.inputs[ i ] ).c_str() ) ); 
 
       /********************* Run Inference Tests******************/
       // Evaluate the DCG and ADCG models on the training set (if option).
       if (args.test_training_set_arg) {
         run_tests( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
-        //run_tests_dcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        //run_tests_dcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        //run_tests_adcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        //run_tests_hdcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        //run_tests_hadcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Evaluate the DCG and ADCG models on the test set (if option).
       if (args.test_test_set_arg) {
         run_tests( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
-        //run_tests_dcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        //run_tests_dcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        //run_tests_adcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        //run_tests_hdcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        //run_tests_hadcg( test_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   //symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
