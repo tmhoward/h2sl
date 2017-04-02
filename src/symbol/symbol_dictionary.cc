@@ -75,9 +75,9 @@ Symbol_Dictionary( const Symbol_Dictionary& other,
                     const string& symbolType ) : _class_names( other._class_names ),
                                                  _string_types(),
                                                  _int_types() {
-  vector< string > string_properties_keys_concrete = { "object_type", "object_color", "spatial_relation_type", "constraint_payload_type", "constraint_reference_type", "constraint_type" };
+  vector< string > string_properties_keys_concrete = { "object_type", "object_color", "spatial_relation_type", "constraint_payload_type", "constraint_reference_type", "constraint_type", "container_type" };
   vector< string > int_properties_keys_concrete = { "index", "number" };
-  vector< string > string_properties_keys_abstract = { "container_type" }; 
+  vector< string > string_properties_keys_abstract = {}; 
   vector< string > int_properties_keys_abstract = {};
 
   if( symbolType == "all" ){

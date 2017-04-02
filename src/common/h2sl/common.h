@@ -632,6 +632,19 @@ namespace h2sl {
     return tmp;
   };
 
+  /** 
+   * check to see if a symbol is in a vector
+   */
+  template< class A >
+  inline bool has_in_vector( const A& arg, std::vector< A >& args ){
+    for( unsigned int i = 0; i < args.size(); i++ ){
+      if( arg == args[ i ] ){
+        return true;
+      }
+    }
+    return false;
+  }  
+
   /**  
    * find a symbol in a vector of pairs, where the pair consists of a symbol and a vector
    */

@@ -231,8 +231,22 @@ search( const Search_Space* searchSpace,
     }
   }
 
+  unsigned int concrete_size = 0;
+  unsigned int abstract_avg_size = 0;  
+  unsigned int abstract_max_size = 0;  
+
   // Record the search space size.
-  insert_prop< std::string >( _properties, "concrete_size", to_std_string( searchSpace->size() ) ); 
+  for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_search_spaces = searchSpace->grounding_pairs().begin(); it_search_spaces != searchSpace->grounding_pairs().end(); it_search_spaces++ ){
+    if( ( it_search_spaces->first == "container" ) || ( it_search_spaces->first == "region_container" ) || ( it_search_spaces->first == "abstract_container" ) || ( it_search_spaces->first == "region_abstract_container" ) || ( it_search_spaces->first == "object_property" ) ){
+      abstract_avg_size += it_search_spaces->second.second.size();
+      abstract_max_size += it_search_spaces->second.second.size();
+    } else {
+      concrete_size += it_search_spaces->second.second.size(); 
+    } 
+  }
+  insert_prop< std::string >( _properties, "concrete_size", to_std_string( concrete_size ) ); 
+  insert_prop< std::string >( _properties, "abstract_avg_size", to_std_string( abstract_avg_size ) ); 
+  insert_prop< std::string >( _properties, "abstract_max_size", to_std_string( abstract_max_size ) ); 
 
   vector< vector< Factor_Set_Solution > > solutions_vector;
   // add a Factor_Set_Solution for each combination of children
