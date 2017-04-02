@@ -151,6 +151,8 @@ main( int argc,
 
         cout << "solution: " << *adcg->solutions().front().second << " (" << adcg->solutions().front().first << ")" << endl;
 
+
+        cout << endl << "Average statistics for the phrase" << endl;
         cout << "search space( concrete_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "concrete_size" ) ) ) << endl;
         cout << "search space( abstract_max_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_max_size" ) ) ) << endl;
         cout << "search space( abstract_avg_size ) : " << to_std_string( adcg->solutions().front().second->aggregate_property_phrases( std::string( "abstract_avg_size" ) ) ) << endl;
