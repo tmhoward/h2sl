@@ -170,6 +170,13 @@ search( const Search_Space* searchSpace,
       it_solution->grounding_set()->scrape_grounding( world, 
                                                      inferred_concrete_symbol_dictionaries.back().second.string_types(), 
                                                      inferred_concrete_symbol_dictionaries.back().second.int_types() );
+      for( unsigned int j = 0; j < child_groundings.size(); j++ ){
+        for( unsigned int k = 0; k < child_groundings[ j ].second.size(); k++ ){
+          child_groundings[ j ].second[ k ]->scrape_grounding( world, 
+                                                    inferred_concrete_symbol_dictionaries.back().second.string_types(),
+                                                    inferred_concrete_symbol_dictionaries.back().second.int_types() );
+        }
+      }
       inferred_concrete_symbol_dictionaries.back().second.class_names() = symbolDictionary.class_names();
 
       combined_solutions_vector.push_back( vector< Factor_Set_Solution >() );
@@ -257,19 +264,21 @@ search( const Search_Space* searchSpace,
   }
 
   /**************** RECORD THE MAX. ABSTRACT SEARCH SPACE SIZE ***********************/
-  unsigned int max_size = _abstract_search_spaces.front()->size();
+  unsigned int max_size = 0.0;
   for( unsigned int i = 0; i < _abstract_search_spaces.size(); i++ ){
-    if ( _abstract_search_spaces[ i ]->size() > max_size ){
+    if( i == 0 ){
+      max_size = _abstract_search_spaces[ i ]->size();
+    } else if ( _abstract_search_spaces[ i ]->size() > max_size ){
       max_size = _abstract_search_spaces[ i ]->size();
     }
   }
 
   double avg_size = 0.0;
-  if( _abstract_search_spaces.size() ) {
+  if( !_abstract_search_spaces.empty() ) {
     for( unsigned int i = 0; i < _abstract_search_spaces.size(); i++ ){
-        avg_size += _abstract_search_spaces[ i ]->size();
+      avg_size += _abstract_search_spaces[ i ]->size();
     }
-  avg_size /= _abstract_search_spaces.size();
+    avg_size /= ( double )( _abstract_search_spaces.size() );
   }
 
   insert_prop< std::string >( _properties, "abstract_max_size", to_std_string( max_size ) );
