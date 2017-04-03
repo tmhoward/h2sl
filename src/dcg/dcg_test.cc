@@ -108,7 +108,7 @@ main( int argc,
     llm->from_xml( args.llm_arg );
   }
 
-  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
+  Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( args.sd_arg );
 
   Search_Space * search_space = new Search_Space();
 

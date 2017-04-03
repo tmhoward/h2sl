@@ -3,7 +3,7 @@ version "0.0.1"
 purpose "A program used to test the Distributed Correspondence Graph (DCG) class."
 
 option "llm" - "log-linear model file" string required
-option "symbol_dictionary_groundings" - "symbol dictionary file" string required
+option "sd" - "symbol dictionary file" string required
 option "grammar" - "grammar file" string optional
 option "output" - "output file" string optional
 option "debug" - "debug flag" int default="0" optional

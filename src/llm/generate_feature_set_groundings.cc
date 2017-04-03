@@ -26,7 +26,7 @@ main( int argc,
   }  
 
   Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary();
-  symbol_dictionary->from_xml( args.symbol_dictionary_groundings_arg );  
+  symbol_dictionary->from_xml( args.sd_arg );  
 
   map< string, vector< Grammar_Terminal > > grammar_terminals;
   map< string, vector< Grammar_Non_Terminal > > grammar_non_terminals;
