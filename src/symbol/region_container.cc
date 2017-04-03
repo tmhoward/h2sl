@@ -234,17 +234,19 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                 }
               }
               if( ( !container_objects.empty() ) || ( container_objects.size() == objects.size() ) || has_in_vector< unsigned int >( container_objects.size(), numbers ) ){
-                for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
-                  for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
-                    it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, it_container_type_types->second[ k ] ) ) );
-                  }
-                }
                 if( it_container_type_types != symbolDictionary.string_types().end() ){
                   for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
                     for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
                       it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, it_container_type_types->second[ k ] ) ) );
                     }
                   }
+                //}
+                //if( it_container_type_types != symbolDictionary.string_types().end() ){
+                //  for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
+                //    for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
+                //      it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, it_container_type_types->second[ k ] ) ) );
+                //    }
+                //   }
                 } else {
                   for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
                     it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, "group" ) ) );
