@@ -6,6 +6,7 @@ option "symbol_dictionary_groundings" - "groundings symbol_dictionary file" stri
 option "symbol_dictionary_rules" - "rules symbol_dictionary file" string optional
 option "feature_set" - "feature_set file" string required
 option "output" o "output directory" string required
+option "evaluate_model" - "evaluate the learned model" int default="1" optional
 option "threads" - "number of threads"  int default="8" optional
 option "max_iterations" - "max iterations" int default="200" optional
 option "lambda" - "lambda" double default="0.001" optional
