@@ -139,7 +139,7 @@ copy_xml_node_properties( const xmlNodePtr source_node, xmlNodePtr& target_node 
 
 
 /**
- * Combine Test Results Program
+ * Combine Test Model Results Program
  */
 int
 main( int argc,
