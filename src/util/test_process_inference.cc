@@ -187,61 +187,6 @@ load_training_runtime( string filename ){
   return "na";
 }
 
-/**
- * Evaluate the model. 
- */
-void
-evaluate_model( LLM* llm,
-                vector< pair< string, LLM_X > >& examples ){
-  vector< string > cvs;
-  cvs.push_back( "false" );
-  cvs.push_back( "true" );
-
-  unsigned int num_correct = 0;
-  for( unsigned int i = 0; i < examples.size(); i++ ){
-    vector< pair< vector< Feature* >, unsigned int > > features;
-    double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-    //if( pygx < 0.75 ){
-    if( false ){
-//    if( examples[ i ].first == "true" ){
-      cout << "example " << i << " had pygx " << pygx << endl;
-      cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
-      cout << "         cv:" << examples[ i ].first << endl;
-      cout << "  grounding:" << *examples[ i ].second.grounding() << endl;
-      for( unsigned int j = 0; j < examples[ i ].second.children().size(); j++ ){
-        if( examples[ i ].second.children()[ j ].first != NULL ){
-          cout << "child phrase:(" << *examples[ i ].second.children()[ j ].first << ")" << endl;
-        }
-        for( unsigned int k = 0; k < examples[ i ].second.children()[ j ].second.size(); k++ ){
-          cout << "children[" << j << "]:" << *examples[ i ].second.children()[ j ].second[ k ] << endl;
-        }
-      }
-      cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
-
-      cout << "     features[" << features.size() << "]" << endl;
-      for( unsigned int j = 0; j < features.size(); j++ ){
-          cout << "      ";
-        for( unsigned int k = 0; k < features[ j ].first.size(); k++ ){
-          cout << "(" << *features[ j ].first[ k ] << ")";
-          if( k != ( features[ j ].first.size() - 1 ) ){
-            cout << ",";
-          }
-        }
-        cout << ") index:" << features[ j ].second << " weight:" << llm->weights()[ features[ j ].second ] << endl;
-      }
-
-      cout << endl;
-    } else {
-      num_correct++;
-    }
-  }
-
-  cout << ( double )( num_correct ) / ( double )( examples.size() ) * 100.0 << " accuracy (" << num_correct << "/" << examples.size() << ")" << endl;
-
-  return;
-}
-
-
 /*
  * Helper function to write the solutions file.
  * Includes the world and parse information.
@@ -434,11 +379,12 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< DCG >( dcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -716,11 +662,12 @@ run_tests_adcg( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< ADCG >( adcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -997,11 +944,12 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< HDCG >( hdcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -1259,11 +1207,12 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< HADCG >( hadcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -1724,12 +1673,15 @@ run_tests( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< DCG >( dcg );
     delete_ptr< ADCG >( adcg );
+    delete_ptr< HDCG >( hdcg );
+    delete_ptr< HADCG >( hadcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
