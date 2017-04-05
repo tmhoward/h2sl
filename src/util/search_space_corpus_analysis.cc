@@ -24,6 +24,24 @@ using namespace std;
 
 
 /**
+ * Helper function to export a vector of doubles to a stringstream variable
+ */
+string
+export_vector_double( vector< double >& data ){
+  stringstream tmp;
+  tmp << " = [";
+  for( unsigned int i = 0; i < data.size(); i++ ){
+    tmp << data[ i ];
+    if( i != ( data.size() - 1 ) ){
+      tmp << "; ";
+    }
+  }
+  tmp << "];";
+  return tmp.str();
+}
+
+
+/**
  * Function to return the average of a vector of doubles
  */
 double
@@ -504,6 +522,13 @@ main( int argc,
     }
   }
 
+
+  // Writing out the table.
+
+
+  // writing out the vector
+
+
   cout << "DCG concrete size:" << endl;
   if( dcg_ss_concrete_wm.size() > 0 ){
     cout << "DCG" << endl;
@@ -537,9 +562,6 @@ main( int argc,
     cout << "No DCG search space information" << endl;
   }
   cout << endl;
-
-
-
 
  
   if( hdcg_runtimes.size() > 0 ){
