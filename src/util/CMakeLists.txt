@@ -16,7 +16,8 @@ set(GGOS
     test_process_inference.ggo
     test_generator.ggo
     test_combine_results.ggo
-    test_convert_xml_to_mat.ggo)
+    test_convert_xml_to_mat.ggo
+    search_space_corpus_analysis.ggo)
 
 # HEADER FILES
 set(HDRS
@@ -48,7 +49,8 @@ set(BIN_SRCS
     test_process_inference.cc
     test_generator.cc
     test_combine_results.cc
-    test_convert_xml_to_mat.cc)
+    test_convert_xml_to_mat.cc
+    search_space_corpus_analysis.cc)
 
 # LIBRARY DEPENDENCIES
 set(DEPS h2sl-dcg h2sl-llm h2sl-parser h2sl-language h2sl-symbol h2sl-common ${LBFGS_LIBRARY} ${QT_LIBRARIES} ${LIBXML2_LIBRARIES} ${Boost_LIBRARIES} 
