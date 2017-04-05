@@ -322,8 +322,10 @@ main( int argc,
       
 
       /********************* Evaluate the log-linear model ******************/
-      cout << "evaluating llm model" << endl;
-      evaluate_model( llms.front(), examples );
+      if( args.evaluate_model_arg ){
+        cout << "evaluating llm model" << endl;
+        evaluate_model( llms.front(), examples );
+      }
  
       /**** Clean up  *****/
       if( llm_train != NULL ){

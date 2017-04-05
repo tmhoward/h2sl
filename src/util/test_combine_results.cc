@@ -37,10 +37,10 @@ main( int argc,
   xmlNodePtr results_root = xmlNewDocNode( results_doc, NULL, ( xmlChar* )( "root" ), NULL );
   xmlDocSetRootElement( results_doc, results_root );
 
-  //create a "tests" xml node
-  xmlNodePtr tests_node = xmlNewDocNode( results_doc, NULL, ( xmlChar* )( "tests" ), NULL );
+  //create a "results" xml node
+  xmlNodePtr results_node = xmlNewDocNode( results_doc, NULL, ( xmlChar* )( "results" ), NULL );
   unsigned int num_results = 0;
-  xmlAddChild( results_root, tests_node );
+  xmlAddChild( results_root, results_node );
 
   //loop through each provided results xml file
   for( int i = 0; i < args.inputs_num; i++ ){
@@ -49,24 +49,24 @@ main( int argc,
     xmlNodePtr input_root = NULL;
     input_doc = xmlReadFile( args.inputs[ i ], NULL, 0 );
 
-    //march down the xml tree structure to find the cross-validation tests
+    //march down the xml tree structure to find the cross-validation results
     if( input_doc != NULL ){
       input_root = xmlDocGetRootElement( input_doc );
       if( input_root->type == XML_ELEMENT_NODE ){
         //loop through each child of the root node
         for( xmlNodePtr l1 = input_root->children; l1; l1 = l1->next ){
           if( l1->type == XML_ELEMENT_NODE ){
-            //look for a node named "tests"
-            if( xmlStrcmp( l1->name, ( const xmlChar* )( "tests" ) ) == 0 ){
-              //loop through each child node of the "tests" xml node
+            //look for a node named "results"
+            if( xmlStrcmp( l1->name, ( const xmlChar* )( "results" ) ) == 0 ){
+              //loop through each child node of the "results" xml node
               for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
                 if( l2->type == XML_ELEMENT_NODE ){
                   //look for a node named "test"
                   if( xmlStrcmp( l2->name, ( const xmlChar* )( "test" ) ) == 0 ){
                     //increment the num_results counter
                     num_results++;
-                    //add the test to the "tests" xml node of the combined results xml file
-                    xmlAddChild( tests_node, l2 );
+                    //add the test to the "results" xml node of the combined results xml file
+                    xmlAddChild( results_node, l2 );
                   }
                 }
               }
@@ -82,10 +82,10 @@ main( int argc,
   }  
   
   //add a "num" property to the "test" xml node of the combined results xml file
-    //num is the number of tests
+    //num is the number of results
   stringstream num_results_string;
   num_results_string << num_results;
-  xmlNewProp( tests_node, ( const xmlChar* )( "num" ), ( const xmlChar* )( num_results_string.str().c_str() ) );
+  xmlNewProp( results_node, ( const xmlChar* )( "num" ), ( const xmlChar* )( num_results_string.str().c_str() ) );
 
   //save the new combined results file to the provided filepath & filename
   cout << "saving to file " << args.output_arg << endl;

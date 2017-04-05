@@ -1,0 +1,10 @@
+package "test_combine_model_results"
+version "1.0"
+purpose "A program used combine test results of different models for the same data partitions"
+
+option "source_model" - "model name for the source model" string required
+option "source" - "filepath and filename of the first results file for a single model" string required
+option "target" - "filepath and filename of the second results file for a different model" string required
+option "output" o "output filepath/filename.xml" string default="/tmp/test_combined_model_results.xml" optional
+
+text ""
