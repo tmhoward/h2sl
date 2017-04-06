@@ -48,6 +48,8 @@ namespace h2sl {
     virtual ~World();
     World( const World& other );
     World& operator=( const World& other );
+    bool operator==( const World& other )const;
+    bool operator!=( const World& other )const;
     virtual World* dup( void )const;
 
     // xml read and write functions
