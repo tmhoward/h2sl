@@ -10,10 +10,11 @@
 
 #include "search_space_corpus_analysis_cmdline.h"
 
-#include <math.h> //sqrt()
+#include <math.h> 
 #include <assert.h>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <iomanip>
 #include <vector>
 #include <map>
@@ -485,7 +486,6 @@ main( int argc,
       } 
     }
 
-
     // Print out the final numbers.
     cout << " World Size " << " Num examples" << " DCG concrete + s.d. " << " DCG abstract avg + s.d. " << "" <<" DCG abstract max + s.d."; 
     cout << " ADCG concrete + s.d. " << " ADCG abstract avg + s.d. " << "" <<" ADCG abstract max + s.d." << endl; 
@@ -498,10 +498,27 @@ main( int argc,
       cout << to_string( it_wm_results->second[ 9 ] ) << " pm " << to_string( it_wm_results->second[ 10 ] ) << " "; 
       cout << to_string( it_wm_results->second[ 11 ] ) << " pm " << to_string( it_wm_results->second[ 12 ] ) << " " << endl; 
     }
-  }
 
   //===========  Writing out the table ================================================================================
-
+  // Writing out the table if the filename is given.
+  if( args.output_text_given ){
+    cout << "Writing the tex file" << endl;
+    ofstream textfile;
+    textfile.open( args.output_text_arg, std::ofstream::binary );
+    // Print out the final numbers.
+    textfile << " World Size " << " Num examples" << " DCG concrete + s.d. " << " DCG abstract avg + s.d. " << "" <<" DCG abstract max + s.d."; 
+    textfile << " ADCG concrete + s.d. " << " ADCG abstract avg + s.d. " << "" <<" ADCG abstract max + s.d." << endl; 
+    for( map< string, vector< double > >::const_iterator it_wm_results = wm_results.begin(); it_wm_results != wm_results.end(); ++it_wm_results ){
+      textfile << it_wm_results->first << ": "  << to_string( it_wm_results->second[ 0 ] )  << " ";
+      textfile << to_string( it_wm_results->second[ 1 ] ) << " pm " << to_string( it_wm_results->second[ 2 ] ) << " ";
+      textfile << to_string( it_wm_results->second[ 3 ] ) << " pm " << to_string( it_wm_results->second[ 4 ] ) << " "; 
+      textfile << to_string( it_wm_results->second[ 5 ] ) << " pm " << to_string( it_wm_results->second[ 6 ] ) << " "; 
+      textfile << to_string( it_wm_results->second[ 7 ] ) << " pm " << to_string( it_wm_results->second[ 8 ] ) << " "; 
+      textfile << to_string( it_wm_results->second[ 9 ] ) << " pm " << to_string( it_wm_results->second[ 10 ] ) << " "; 
+      textfile << to_string( it_wm_results->second[ 11 ] ) << " pm " << to_string( it_wm_results->second[ 12 ] ) << " " << endl; 
+    }
+    textfile.close();
+  }
 
   //======= writing out the vector of values for the scatter plot =====================================================
 
@@ -524,7 +541,62 @@ main( int argc,
 
   cout <<  "ADCG: abstract_max_size" << endl;
   cout << "adcg_ss_abstract_max_size" << export_vector_double( adcg_ss_abstract_max_size ) << endl;
+
+  //create the matlab file using the output argument
+  if( args.output_script_given ){
+    cout << "Writing the matlab script" << endl;
+
+    ofstream outfile;
+    outfile.open( args.output_script_arg, std::ofstream::binary );
+    outfile << "\% program to plot the search space statistics from the h2sl::search_space_corpus_analysis program" << endl;
+
+    //newline to output matlab file
+    outfile << endl;
+    outfile << "clear all;" << endl << endl;
+
+    // DCG parameters for the instruction-level plot.
+    outfile << "dcg_ss_concrete_size" << export_vector_double( dcg_ss_concrete_size ) << endl;
+    outfile << "dcg_ss_abstract_avg_size" << export_vector_double( dcg_ss_abstract_avg_size ) << endl;
+    outfile << "dcg_ss_abstract_max_size" << export_vector_double( dcg_ss_abstract_max_size ) << endl;
+    outfile << "baseline = dcg_ss_concrete_size + dcg_ss_abstract_avg_size;" << endl;
+    outfile << endl << endl;
+
+    // ADCG parameters for the instruction-level plot.
+    outfile << "adcg_ss_concrete_size" << export_vector_double( adcg_ss_concrete_size ) << endl;
+    outfile << "adcg_ss_abstract_avg_size" << export_vector_double( adcg_ss_abstract_avg_size ) << endl;
+    outfile << "adcg_ss_abstract_max_size" << export_vector_double( adcg_ss_abstract_max_size ) << endl;
+    outfile << "adaptive_avg = adcg_ss_concrete_size + adcg_ss_abstract_avg_size;" << endl;
+    outfile << "adaptive_max = adcg_ss_concrete_size + adcg_ss_abstract_max_size;" << endl;
+    outfile << endl << endl;
+
+    // Plot the figure now.
+    outfile << "figure(1);" << endl;
+    outfile << "hold on;" << endl;
+    outfile << "box on;" << endl;
+    outfile << "grid on;" << endl;
+    //outfile << "ylim( [0.0 1.0] );" << endl;
+    //outfile << "xlim( [0.1 0.9] );" << endl;
+    outfile << "scatter(baseline,baseline,200);" << endl;
+    outfile << "scatter(baseline,adaptive_avg,200,'+');" << endl;
+    outfile << "scatter(baseline,adaptive_max,200,'^');" << endl;
+    //outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_dcg_accuracies_complete_matrix_means);" << endl;
+    outfile << "legend('DCG','ADCG avg', 'ADCG max','Location','NorthWest');" << endl;
+    outfile << "title('Search space comparison');" << endl;
+    outfile << "xlhand = get(gca,'xlabel');" << endl;
+    outfile << "set(xlhand,'string','Total search space size','fontsize',15);" << endl;
+    outfile << "ylhand = get(gca,'ylabel');" << endl;
+    outfile << "set(ylhand,'string','Instantiated search space size','fontsize',15);" << endl;
+    outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+    outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
  
+    outfile << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison', 'epsc');" << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison', 'pdf');" << endl << endl;
+    outfile.close();
+  } // matlab script writing ends here.
+ 
+  } // Check for vectors not being zero ends here.
+
   /*
   cout << "DCG concrete size:" << endl;
   if( dcg_ss_concrete_wm.size() > 0 ){
@@ -595,6 +667,6 @@ main( int argc,
  
   */
   
- cout << "end of scrape_results_runtime_vs_world_size program" << endl;
+  cout << "end of scrape_results_runtime_vs_world_size program" << endl;
   return 0;
 }
