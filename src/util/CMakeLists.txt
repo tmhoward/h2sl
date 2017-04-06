@@ -16,7 +16,6 @@ set(GGOS
     test_process_inference.ggo
     test_generator.ggo
     test_combine_results.ggo
-    test_convert_xml_to_mat.ggo
     search_space_corpus_analysis.ggo
     test_combine_model_results.ggo
     test_convert_xml_to_mat.ggo)
@@ -51,7 +50,6 @@ set(BIN_SRCS
     test_process_inference.cc
     test_generator.cc
     test_combine_results.cc
-    test_convert_xml_to_mat.cc
     search_space_corpus_analysis.cc
     test_combine_model_results.cc
     test_convert_xml_to_mat.cc)
