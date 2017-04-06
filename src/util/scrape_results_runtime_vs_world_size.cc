@@ -19,6 +19,8 @@
 #include <libxml/tree.h>
 #include <glib.h>
 
+#include "h2sl/world.h"
+
 using namespace std;
 
 
@@ -80,6 +82,11 @@ main( int argc,
   map< string, vector< double > > adcg_runtimes;
   map< string, vector< double > > hdcg_runtimes;
   map< string, vector< double > > hadcg_runtimes;
+
+  // data structure to keep track of unique worlds per world size
+  // map key_value: the world size as a string
+  // map mapped_value: a vector of each unique world for the key_value size
+  map< string, vector< const h2sl::World > > world_models;
   
   // XML pointers to read the input file
   xmlDoc * input_doc = NULL;
@@ -208,6 +215,37 @@ main( int argc,
                                         xmlFree( runtime );
                                       }
                                     }
+                                    if( xmlStrcmp( l5->name, ( const xmlChar* )( "world" ) ) == 0 ){
+                                      // load the world from the xml node
+                                      h2sl::World * tmp = new h2sl::World();
+                                      tmp->from_xml( l5 );
+                                      if( tmp != NULL ){
+                                        // get the vector of worlds for that world size
+                                        map< string, vector< const h2sl::World > >::iterator it_worlds = world_models.find( to_string( tmp->objects().size() ) );
+                                        if( it_worlds != world_models.end() ){
+                                          // check whether the tmp world model matches any in the vector
+                                          bool found_match = false;
+                                          for( unsigned int i = 0; i < it_worlds->second.size(); i++ ){
+                                            if( *tmp == it_worlds->second[ i ] ){
+                                              found_match = true;
+                                            }
+                                          }
+                                          // if the world does not exist in the vector, add it; otherwise ignore and move on
+                                          if(  !found_match ){
+                                            it_worlds->second.push_back( *tmp );
+                                          }
+                                        } else{
+                                          // the vector for the world size does not exist, so make it and add duplicate of current world*
+                                          world_models.insert(
+                                            pair< string, vector< const h2sl::World > >( to_string( tmp->objects().size() ), vector< const h2sl::World >( 1, *tmp ) ) 
+                                          );
+
+                                        }
+                                        // dynamic memory clean up
+                                        delete tmp;
+                                        tmp = NULL;
+                                      }
+                                    }
                                   }
                                 }
                                 // free the xmlChar pointer
@@ -238,6 +276,7 @@ main( int argc,
       double runtime_standard_deviation = standard_deviation( it_dcg_runtimes->second );
       // find the standard deviation
       cout << "  world size: " << it_dcg_runtimes->first << endl;
+      cout << "  # of examples: " << it_dcg_runtimes->second.size() << endl;
       cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
       cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
     }
@@ -254,6 +293,7 @@ main( int argc,
       double runtime_standard_deviation = standard_deviation( it_adcg_runtimes->second );
       // find the standard deviation
       cout << "  world size: " << it_adcg_runtimes->first << endl;
+      cout << "  # of examples: " << it_adcg_runtimes->second.size() << endl;
       cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
       cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
     }
@@ -270,6 +310,7 @@ main( int argc,
       double runtime_standard_deviation = standard_deviation( it_hdcg_runtimes->second );
       // find the standard deviation
       cout << "  world size: " << it_hdcg_runtimes->first << endl;
+      cout << "  # of examples: " << it_hdcg_runtimes->second.size() << endl;
       cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
       cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
     }
@@ -286,11 +327,20 @@ main( int argc,
       double runtime_standard_deviation = standard_deviation( it_hadcg_runtimes->second );
       // find the standard deviation
       cout << "  world size: " << it_hadcg_runtimes->first << endl;
+      cout << "  # of examples: " << it_hadcg_runtimes->second.size() << endl;
       cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
       cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
     }
   } else{
     cout << "No HADCG runtime statistics to report." << endl;
+  }
+  cout << endl;
+
+  if( world_models.size() > 0 ){
+    cout << "World Information - Number of Worlds" << endl;
+    for( map< string, vector< const h2sl::World> >::const_iterator it_world_models = world_models.begin(); it_world_models != world_models.end(); ++it_world_models ){
+      cout << "world size( " << it_world_models->first << " ): " << it_world_models->second.size() << endl;
+    }
   }
   cout << endl;
  
