@@ -376,39 +376,49 @@ main( int argc,
   outfile << "clear all;" << endl << endl;
 
   //add extracted relevant properties to the output matlab file
+  outfile << "\% extracted relevant properties; used for constructing matrices for plots" << endl;
   outfile << "training_set_sizes" << export_vector_double( training_set_sizes ) << endl;
-  outfile << "training_ratios" << export_vector_double( training_ratios ) << endl;
+  outfile << "training_ratios" << export_vector_double( training_ratios ) << endl << endl;
   //add extracted DCG results to the output matlab file
+  outfile << "\% DCG training_set/test_set accuracy && runtime results" << endl;
+  outfile << "\% later converted to matrix form" << endl;
   outfile << "training_set_dcg_runtimes" << export_vector_double( training_set_dcg_runtimes ) << endl;
   outfile << "test_set_dcg_runtimes" << export_vector_double( test_set_dcg_runtimes ) << endl;
   outfile << "training_set_dcg_accuracies_root" << export_vector_double( training_set_dcg_accuracies_root ) << endl;
   outfile << "test_set_dcg_accuracies_root" << export_vector_double( test_set_dcg_accuracies_root ) << endl;
   outfile << "training_set_dcg_accuracies_complete" << export_vector_double( training_set_dcg_accuracies_complete ) << endl;
-  outfile << "test_set_dcg_accuracies_complete" << export_vector_double( test_set_dcg_accuracies_complete ) << endl;
+  outfile << "test_set_dcg_accuracies_complete" << export_vector_double( test_set_dcg_accuracies_complete ) << endl << endl;
   //add extracted ADCG results to the output matlab file
+  outfile << "\% ADCG training_set/test_set accuracy && runtime results" << endl;
+  outfile << "\% later converted to matrix form" << endl;
   outfile << "training_set_adcg_runtimes" << export_vector_double( training_set_adcg_runtimes ) << endl;
   outfile << "test_set_adcg_runtimes" << export_vector_double( test_set_adcg_runtimes ) << endl;
   outfile << "training_set_adcg_accuracies_root" << export_vector_double( training_set_adcg_accuracies_root ) << endl;
-  outfile << "test_set_adcg_accuracies_root" << export_vector_double( test_set_adcg_accuracies_root ) << endl << endl;
+  outfile << "test_set_adcg_accuracies_root" << export_vector_double( test_set_adcg_accuracies_root ) << endl;
   outfile << "training_set_adcg_accuracies_complete" << export_vector_double( training_set_adcg_accuracies_complete ) << endl;
   outfile << "test_set_adcg_accuracies_complete" << export_vector_double( test_set_adcg_accuracies_complete ) << endl << endl;
   //add extracted HDCG results to the output matlab file
+  outfile << "\% HDCG training_set/test_set accuracy && runtime results" << endl;
+  outfile << "\% later converted to matrix form" << endl;
   outfile << "training_set_hdcg_runtimes" << export_vector_double( training_set_hdcg_runtimes ) << endl;
   outfile << "test_set_hdcg_runtimes" << export_vector_double( test_set_hdcg_runtimes ) << endl;
   outfile << "training_set_hdcg_accuracies_root" << export_vector_double( training_set_hdcg_accuracies_root ) << endl;
-  outfile << "test_set_hdcg_accuracies_root" << export_vector_double( test_set_hdcg_accuracies_root ) << endl << endl;
+  outfile << "test_set_hdcg_accuracies_root" << export_vector_double( test_set_hdcg_accuracies_root ) << endl;
   outfile << "training_set_hdcg_accuracies_complete" << export_vector_double( training_set_hdcg_accuracies_complete ) << endl;
   outfile << "test_set_hdcg_accuracies_complete" << export_vector_double( test_set_hdcg_accuracies_complete ) << endl << endl;
   //add extracted HADCG results to the output matlab file
+  outfile << "\% HADCG training_set/test_set accuracy && runtime results" << endl;
+  outfile << "\% later converted to matrix form" << endl;
   outfile << "training_set_hadcg_runtimes" << export_vector_double( training_set_hadcg_runtimes ) << endl;
   outfile << "test_set_hadcg_runtimes" << export_vector_double( test_set_hadcg_runtimes ) << endl;
   outfile << "training_set_hadcg_accuracies_root" << export_vector_double( training_set_hadcg_accuracies_root ) << endl;
-  outfile << "test_set_hadcg_accuracies_root" << export_vector_double( test_set_hadcg_accuracies_root ) << endl << endl;
+  outfile << "test_set_hadcg_accuracies_root" << export_vector_double( test_set_hadcg_accuracies_root ) << endl;
   outfile << "training_set_hadcg_accuracies_complete" << export_vector_double( training_set_hadcg_accuracies_complete ) << endl;
   outfile << "test_set_hadcg_accuracies_complete" << export_vector_double( test_set_hadcg_accuracies_complete ) << endl << endl;
 
 
   //matlab code to generate the training_set indices
+  outfile << "\% extract each unique training_set size" << endl;
   outfile << "training_indices = [];" << endl;
   outfile << "for i=1:size(training_set_sizes,1)" << endl;
   outfile << "  if(isempty(find(training_indices == training_set_sizes(i))))" << endl;
@@ -417,6 +427,8 @@ main( int argc,
   outfile << "end" << endl << endl;
 
   //matlab code to generate a matrix of training_ratios
+  outfile << "\% initialize matrices to be filled on a per-test basis" << endl;
+  outfile << "\% each element is a result or property of a single cross validation test" << endl;
   outfile << "training_ratios_matrix = zeros(size(training_indices,1),size(training_ratios,1)/size(training_indices,1));" << endl;
 
   //matlab code to generate zeros-matrices for the extracted DCG results
@@ -441,6 +453,8 @@ main( int argc,
   outfile << "test_set_hadcg_accuracies_complete_matrix = zeros(size(training_indices,1),size(training_ratios,1)/size(training_indices,1));" << endl;
 
   //matlab code to fill in each of the zeros-matrices for each model
+  outfile << "\% fill each cell of each matrix with the appropriate value" << endl;
+  outfile << "\% once finished, the filled matrices can be used for plotting" << endl;
   outfile << "indices = ones([size(training_indices,1),1]);" << endl;
   outfile << "for i=1:size(training_set_sizes,1)" << endl;
   outfile << "  for j=1:size(training_indices,1)" << endl;
@@ -472,6 +486,7 @@ main( int argc,
   outfile << "end" << endl << endl;
 
   //matlab code to find the training_set and test_set mean accuracy (root && complete) for each model
+  outfile << "\% find the mean accuracy (root && complete) for each model" << endl;
   outfile << "training_ratios_matrix_means = mean(training_ratios_matrix,2);" << endl;
   //mean accuracies for the DCG model extracted results
   outfile << "training_set_dcg_accuracies_root_matrix_means = mean(training_set_dcg_accuracies_root_matrix,2);" << endl;
@@ -496,29 +511,32 @@ main( int argc,
 
   //matlab code to find the mean and standard-deviation for the extracted runtime results
   //mean && standard-deviation for the DCG extracted runtime results
+  outfile << "\% find the mean and standard deviation for the runtimes for each model" << endl;
   outfile << "total_dcg_runtime = [ training_set_dcg_runtimes; test_set_dcg_runtimes ];" << endl;
   outfile << "mean_dcg_runtime = mean( total_dcg_runtime );" << endl;
   outfile << "std_dcg_runtime = std( total_dcg_runtime );" << endl << endl;
   //mean && standard-deviation for the ADCG extracted runtime results
-  outfile << "total_adcg_runtime = [ training_set_adcg_runtimes; test_set_adcg_runtimes ];" << endl << endl;
+  outfile << "total_adcg_runtime = [ training_set_adcg_runtimes; test_set_adcg_runtimes ];" << endl;
   outfile << "mean_adcg_runtime = mean( total_adcg_runtime );" << endl;
   outfile << "std_adcg_runtime = std( total_adcg_runtime );" << endl << endl;
   //mean && standard-deviation for the HDCG extracted runtime results
-  outfile << "total_hdcg_runtime = [ training_set_hdcg_runtimes; test_set_hdcg_runtimes ];" << endl << endl;
+  outfile << "total_hdcg_runtime = [ training_set_hdcg_runtimes; test_set_hdcg_runtimes ];" << endl;
   outfile << "mean_hdcg_runtime = mean( total_hdcg_runtime );" << endl;
   outfile << "std_hdcg_runtime = std( total_hdcg_runtime );" << endl << endl;
   //mean && standard-deviation for the HADCG extracted runtime results
-  outfile << "total_hadcg_runtime = [ training_set_hadcg_runtimes; test_set_hadcg_runtimes ];" << endl << endl;
+  outfile << "total_hadcg_runtime = [ training_set_hadcg_runtimes; test_set_hadcg_runtimes ];" << endl;
   outfile << "mean_hadcg_runtime = mean( total_hadcg_runtime );" << endl;
   outfile << "std_hadcg_runtime = std( total_hadcg_runtime );" << endl << endl;
 
   //combine the means and the standard-deviations for plotting
+  outfile << "\% combine the runtime statistics to allow for plotting" << endl;
   outfile << "means = [ mean_dcg_runtime, mean_adcg_runtime, mean_hdcg_runtime, mean_hadcg_runtime ];" << endl;
   outfile << "stds = [ std_dcg_runtime, std_adcg_runtime, std_hdcg_runtime, std_hadcg_runtime ];" << endl << endl;
   outfile << "close all;" << endl << endl; 
 
   //MATLAB code to plot various results
   //plot the DCG training_set accuracy (root && complete)
+  outfile << "\% plot the DCG training_set accuracies" << endl;
   outfile << "figure(1);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -536,10 +554,11 @@ main( int argc,
   outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'dcg-training-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'dcg-training-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'dcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
   //plot the DCG test_set accuracy (root && complete)
+  outfile << "\% plot the DCG test_set accuracies" << endl;
   outfile << "figure(2);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -557,10 +576,11 @@ main( int argc,
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'dcg-test-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'dcg-test-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'dcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
   //plot the ADCG training_set accuracy (root && complete)
+  outfile << "\% plot the ADCG training_set accuracies" << endl;
   outfile << "figure(3);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -578,10 +598,11 @@ main( int argc,
   outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'adcg-training-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'adcg-training-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'adcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
   //plot the ADCG test_set accuracy (root && complete)
+  outfile << "\% plot the ADCG test_set accuracies" << endl;
   outfile << "figure(4);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -599,11 +620,12 @@ main( int argc,
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'adcg-test-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'adcg-test-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'adcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
 
   //plot the HDCG training_set accuracy (root && complete)
+  outfile << "\% plot the HDCG training_set accuracies" << endl;
   outfile << "figure(5);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -621,10 +643,11 @@ main( int argc,
   outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'hdcg-training-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'hdcg-training-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'hdcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
   //plot the HDCG test_set accuracy (root && complete)
+  outfile << "\% plot the HDCG test_set accuracies" << endl;
   outfile << "figure(6);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -642,11 +665,12 @@ main( int argc,
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'hdcg-test-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'hdcg-test-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'hdcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
 
   //plot the HADCG training_set accuracy (root && complete)
+  outfile << "\% plot the HADCG training_set accuracies" << endl;
   outfile << "figure(7);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -664,10 +688,11 @@ main( int argc,
   outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'hadcg-training-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'hadcg-training-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'hadcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
   //plot the HADCG test_set accuracy (root && complete)
+  outfile << "\% plot the HADCG test_set accuracies" << endl;
   outfile << "figure(8);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -685,11 +710,12 @@ main( int argc,
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'hadcg-test-accuracy-root-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'hadcg-test-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'hadcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
 
   //matlab code to plot the DCG, ADCG, HDCG, and HADCG average test_set root-accuracies
+  outfile << "\% plot all of the models' average test_set root accuracies" << endl;
   outfile << "figure(9);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -708,10 +734,11 @@ main( int argc,
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-avg-test-accuracy-root', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-test-accuracy-root', 'epsc');" << endl;
   outfile << "saveas(gcf, 'model-avg-test-accuracy-root', 'pdf');" << endl << endl;
 
   //matlab code to plot the DCG, ADCG, HDCG, and HADCG average training_set root-accuracies
+  outfile << "\% plot all of the models' average training_set root accuracies" << endl;
   outfile << "figure(10);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -730,10 +757,11 @@ main( int argc,
   outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-avg-training-accuracy-root', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-training-accuracy-root', 'epsc');" << endl;
   outfile << "saveas(gcf, 'model-avg-training-accuracy-root', 'pdf');" << endl << endl;
 
   //matlab code to plot the DCG, ADCG, HDCG, and HADCG average test_set complete-accuracies
+  outfile << "\% plot all of the models' average test_set complete accuracies" << endl;
   outfile << "figure(11);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -752,10 +780,11 @@ main( int argc,
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-avg-test-accuracy-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-test-accuracy-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'model-avg-test-accuracy-complete', 'pdf');" << endl << endl;
 
   //matlab code to plot the DCG, ADCG, HDCG, and HADCG average training_set complete-accuracies
+  outfile << "\% plot all of the models' average training_set complete accuracies" << endl;
   outfile << "figure(12);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -774,7 +803,7 @@ main( int argc,
   outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-avg-training-accuracy-complete', 'epsc');" << endl << endl;
+  outfile << "saveas(gcf, 'model-avg-training-accuracy-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'model-avg-training-accuracy-complete', 'pdf');" << endl << endl;
 
 
