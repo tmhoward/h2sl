@@ -247,31 +247,7 @@ main( int argc,
  
                                     }
                                     if( xmlStrcmp( l5->name, ( const xmlChar* )( "adcg" ) ) == 0 ){
-                                      // look for the "runtime" property; this is the runtime for the given model
-				      /*
-                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
-                                      if( runtime != NULL ){
-                                        // convert runtime to a stringstream type for using as a string
-                                        stringstream runtime_string;
-                                        runtime_string << runtime;
-                                        // check whether "adcg_runtimes" has a key_value matching num_world_objects_string
-                                        map< string, vector< double > >::iterator it_adcg_runtimes = adcg_runtimes.find( num_world_objects_string.str() );
-                                        // check the return of map::find()
-                                        // if not map::end(), the key_value exists
-                                        // else, insert the new world size key_value
-                                        if( it_adcg_runtimes != adcg_runtimes.end() ){
-                                          it_adcg_runtimes->second.push_back( std::stod( runtime_string.str() ) );
-                                        } else{
-                                          adcg_runtimes.insert( 
-                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( runtime_string.str() ) ) ) 
-                                          );
-                                        }
-                                        // free the xmlChar pointer
-                                        xmlFree( runtime );
-                                      }
-                                      */
-
-                                      // =========== DCG SEARCH SPACE CONCRETE ================
+                                     // =========== DCG SEARCH SPACE CONCRETE ================
                                       xmlChar * ss_concrete = xmlGetProp( l5, ( const xmlChar* )( "search_space_concrete_size" ) );
                                       if( ss_concrete != NULL ){
                                         stringstream ss_concrete_string;
@@ -306,7 +282,6 @@ main( int argc,
                                         }
                                         xmlFree( ss_abstract_avg);
                                       }
-
 
                                       // =========== DCG SEARCH SPACE ABSTRACT AVG ================
                                       xmlChar * ss_abstract_max = xmlGetProp( l5, ( const xmlChar* )( "search_space_abstract_max_size" ) );
@@ -416,12 +391,14 @@ main( int argc,
       std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_dcg_ss_concrete_wm->first );
       if( it_wm_results != wm_results.end() ){
         cout << "avg. concrete" << average( it_dcg_ss_concrete_wm->second ) << endl;
+        it_wm_results->second.push_back( it_dcg_ss_concrete_wm->second.size() );
         it_wm_results->second.push_back( average( it_dcg_ss_concrete_wm->second ) );
         it_wm_results->second.push_back( standard_deviation( it_dcg_ss_concrete_wm->second ) );
       } else {
         wm_results.insert( pair< string, vector< double > >( it_dcg_ss_concrete_wm->first, vector< double >() ) );
         it_wm_results = wm_results.find( it_dcg_ss_concrete_wm->first );
         cout << "avg. concrete" << average( it_dcg_ss_concrete_wm->second ) << endl;
+        it_wm_results->second.push_back( it_dcg_ss_concrete_wm->second.size() );
         it_wm_results->second.push_back( average( it_dcg_ss_concrete_wm->second ) );
         it_wm_results->second.push_back( standard_deviation( it_dcg_ss_concrete_wm->second ) );
       }
@@ -510,25 +487,45 @@ main( int argc,
 
 
     // Print out the final numbers.
-    cout << " World Size " << " DCG concrete + s.d. " << " DCG abstract avg + s.d. " << "" <<" DCG abstract max + s.d."; 
+    cout << " World Size " << " Num examples" << " DCG concrete + s.d. " << " DCG abstract avg + s.d. " << "" <<" DCG abstract max + s.d."; 
     cout << " ADCG concrete + s.d. " << " ADCG abstract avg + s.d. " << "" <<" ADCG abstract max + s.d." << endl; 
     for( map< string, vector< double > >::const_iterator it_wm_results = wm_results.begin(); it_wm_results != wm_results.end(); ++it_wm_results ){
-      cout << it_wm_results->first << ": "  << to_string( it_wm_results->second[ 0 ] ) << " pm " << to_string( it_wm_results->second[ 1 ] ) << " ";
-      cout << to_string( it_wm_results->second[ 2 ] ) << " pm " << to_string( it_wm_results->second[ 3 ] ) << " ";
-      cout << to_string( it_wm_results->second[ 4 ] ) << " pm " << to_string( it_wm_results->second[ 5 ] ) << " "; 
-      cout << to_string( it_wm_results->second[ 6 ] ) << " pm " << to_string( it_wm_results->second[ 7 ] ) << " "; 
-      cout << to_string( it_wm_results->second[ 8 ] ) << " pm " << to_string( it_wm_results->second[ 9 ] ) << " "; 
-      cout << to_string( it_wm_results->second[ 10 ] ) << " pm " << to_string( it_wm_results->second[ 11 ] ) << " " << endl; 
+      cout << it_wm_results->first << ": "  << to_string( it_wm_results->second[ 0 ] )  << " ";
+      cout << to_string( it_wm_results->second[ 1 ] ) << " pm " << to_string( it_wm_results->second[ 2 ] ) << " ";
+      cout << to_string( it_wm_results->second[ 3 ] ) << " pm " << to_string( it_wm_results->second[ 4 ] ) << " "; 
+      cout << to_string( it_wm_results->second[ 5 ] ) << " pm " << to_string( it_wm_results->second[ 6 ] ) << " "; 
+      cout << to_string( it_wm_results->second[ 7 ] ) << " pm " << to_string( it_wm_results->second[ 8 ] ) << " "; 
+      cout << to_string( it_wm_results->second[ 9 ] ) << " pm " << to_string( it_wm_results->second[ 10 ] ) << " "; 
+      cout << to_string( it_wm_results->second[ 11 ] ) << " pm " << to_string( it_wm_results->second[ 12 ] ) << " " << endl; 
     }
   }
 
-
-  // Writing out the table.
-
-
-  // writing out the vector
+  //===========  Writing out the table ================================================================================
 
 
+  //======= writing out the vector of values for the scatter plot =====================================================
+
+  // DCG parameters for the instruction-level plot.
+  cout <<  "DCG: concrete search space" << endl;
+  cout << "dcg_ss_concrete_size" << export_vector_double( dcg_ss_concrete_size ) << endl;
+ 
+  cout <<  "DCG: abstract_avg_size" << endl;
+  cout << "dcg_ss_abstract_avg_size" << export_vector_double( dcg_ss_abstract_avg_size ) << endl;
+
+  cout <<  "DCG: abstract_max_size" << endl;
+  cout << "dcg_ss_abstract_max_size" << export_vector_double( dcg_ss_abstract_max_size ) << endl;
+
+  // ADCG parameters for the instruction-level plot.
+  cout <<  "ADCG: concrete search space" << endl;
+  cout << "adcg_ss_concrete_size" << export_vector_double( adcg_ss_concrete_size ) << endl;
+ 
+  cout <<  "ADCG: abstract_avg_size" << endl;
+  cout << "adcg_ss_abstract_avg_size" << export_vector_double( adcg_ss_abstract_avg_size ) << endl;
+
+  cout <<  "ADCG: abstract_max_size" << endl;
+  cout << "adcg_ss_abstract_max_size" << export_vector_double( adcg_ss_abstract_max_size ) << endl;
+ 
+  /*
   cout << "DCG concrete size:" << endl;
   if( dcg_ss_concrete_wm.size() > 0 ){
     cout << "DCG" << endl;
@@ -596,6 +593,8 @@ main( int argc,
   }
   cout << endl;
  
+  */
+  
  cout << "end of scrape_results_runtime_vs_world_size program" << endl;
   return 0;
 }
