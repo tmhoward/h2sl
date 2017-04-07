@@ -570,7 +570,7 @@ main( int argc,
     outfile << "adaptive_max = adcg_ss_concrete_size + adcg_ss_abstract_max_size;" << endl;
     outfile << endl << endl;
 
-    // Plot the figure now.
+    // Plot the search space figure. 
     outfile << "figure(1);" << endl;
     outfile << "hold on;" << endl;
     outfile << "box on;" << endl;
@@ -589,10 +589,36 @@ main( int argc,
     outfile << "set(ylhand,'string','Instantiated search space size','fontsize',15);" << endl;
     outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
     outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
- 
+
     outfile << endl << endl;
     outfile << "saveas(gcf, 'search_space_comparison', 'epsc');" << endl << endl;
     outfile << "saveas(gcf, 'search_space_comparison', 'pdf');" << endl << endl;
+ 
+    // Plot the log-log scale figure. 
+    outfile << "figure(2);" << endl;
+    outfile << "hold on;" << endl;
+    outfile << "box on;" << endl;
+    outfile << "grid on;" << endl;
+    //outfile << "ylim( [0.0 1.0] );" << endl;
+    //outfile << "xlim( [0.1 0.9] );" << endl;
+    outfile << "scatter(baseline,baseline,200);" << endl;
+    outfile << "scatter(baseline,adaptive_avg,200,'+');" << endl;
+    outfile << "scatter(baseline,adaptive_max,200,'^');" << endl;
+    //outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_dcg_accuracies_complete_matrix_means);" << endl;
+    outfile << "legend('DCG','ADCG avg', 'ADCG max','Location','NorthWest');" << endl;
+    outfile << "title('Search space comparison log-log scale');" << endl;
+    outfile << "xlhand = get(gca,'xlabel');" << endl;
+    outfile << "set(xlhand,'string','Total search space size (log-scale) ','fontsize',15);" << endl;
+    outfile << "ylhand = get(gca,'ylabel');" << endl;
+    outfile << "set(ylhand,'string','Instantiated search space size (log-scale)','fontsize',15);" << endl;
+    outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+    outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+    outfile << "set(gca, 'xscale', 'log');" << endl;
+    outfile << "set(gca, 'yscale', 'log');" << endl; 
+ 
+    outfile << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison log log scale', 'epsc');" << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison log log scale', 'pdf');" << endl << endl;
     outfile.close();
   } // matlab script writing ends here.
  
