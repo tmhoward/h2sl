@@ -15,3 +15,46 @@ To generate a set of data partitions (test && training sets for cross-validation
     -the maximium fraction houldout (default: 0.8)
     -the output directory in which to place the data partitions (default: /tmp/)
 
+
+To train a set of log-linear models from the newly created data partitions, use the following command:
+
+  ./bin/h2sl-test-process-training --symbol_dictionary_groundings [path to symbol dictionary for the groundings] --feature_set [path to the feature set file] --output [filepath to the output directory] [path the test files]
+
+    example for the combined navigation corpus:
+  ./bin/h2sl-test-process-training --symbol_dictionary_groundings ../data/training/navigation_corpus/combined/symbol_dictionary_groundings_combined.xml --feature_set ../data/training/navigation_corpus/combined/feature_set_groundings_combined.xml --output ../data/cross_validation_partitions/combined_nav_corpora/collated_0000/ ../data/cross_validation_partitions/combined_nav_corpora/0000/test_0*
+
+  test_process_training has optional command line arguments:
+    -symbol_dictionary_rules to provide the addtional symbol dictionary for training hierarchical DCG models (e.g. HDCG/HADCG) (default: NONE)
+    -evaluate_model boolean flag to toggle whether to evaluate each model and print to terminal (default: true)
+    -threads integer to specify the number of threads to use when training
+    -max_iterations integer to bound the number of iterations during feature weight learning
+    
+
+To test the performance of a set of log-linear models on cross-validation data partitions, use the following command:
+
+  ./bin/h2sl-test-process-inference --model {name of model, or "all"} --feature_set [path to the feature set file] --output [directory for test results] --solution_directory [directory for individual example solutions] [path to the trained models]
+
+  example for the combined navigation corpus:
+  ./bin/h2sl-test-process-inference --model adcg --feature_set ../data/training/navigation_corpus/combined/feature_set_groundings_combined.xml --output ../data/results/adcg_results/ --solution_directory ../data/results/adcg_results/solutions/ ../data/cross_validation_partitions/combined_nav_corpora/collated_0000/*
+
+  test_process_inference has optional command line arguments:
+    -model (required) can be {dcg, adcg, hdcg, hadcg, all}
+    -solution_directory the filepath to save the top solution for each example for each model (default: /tmp/)
+    -test_training_set boolean flag to test the model on the training data partition (default: false)
+    -test_test_set boolean flag to test the model on the test data partition (default: true)
+
+NOTE: When using test_process_inference, it may often be useful to only test the inference of a specific model or to distribute the processing of one/all models over multiple machines. Depending on how the result files are organized, make use of the following tools.
+
+Case 1: Results for the same model's/models' (DCG/ADCG/HDCG/HADCG/ALL) performance using different trained log-linear models (e.g. llm from combined_nav_corpora/0000/test_0000.xml vs llm from combined_nav_corpora/0000/test_0001.xml). Run,
+
+  ./bin/h2sl-test-combine-results --output [directory for the combined results file] [list of results files to combine, can be more than one]
+
+  example:
+  ./bin/h2sl-test-combine-results --output /tmp/ ../data/results/results_all_0000-0049.xml ../data/results/results_all_0050-0099.xml
+
+Case 2: Results for different models' (DCG vs ADCG) performance using the same trained log-linear models. Run,
+
+  ./bin/h2sl-test-combine-model-results --source_model [name of the model in the first results file] --source [filepath to the first results file] --target [filepath to the second results file] --output [filepath and filename of the combined results file]
+
+  example:
+  ./bin/h2sl-test-combine-model-results --source_model dcg --source ../data/results/results_dcg_all.xml --target ../data/results/results_adcg_all.xml --output /tmp/results_dcg_adcg_all.xml
