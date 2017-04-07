@@ -173,7 +173,8 @@ main( int argc,
                   // loop through each child of "test" && look for "training_set"
                   for( xmlNodePtr l3 = l2->children; l3; l3 = l3->next ){
                     if( l3->type == XML_ELEMENT_NODE ){
-                      if( xmlStrcmp( l3->name, ( const xmlChar* )( "test_set" ) ) == 0 ){
+                      //if( xmlStrcmp( l3->name, ( const xmlChar* )( "test_set" ) ) == 0 ){
+                      if( xmlStrcmp( l3->name, ( const xmlChar* )( "training_set" ) ) == 0 ){
                         // loop through each child of "training_set" && look for "example"
                         // each "example" node contains the world size information
                         for( xmlNodePtr l4 = l3->children; l4; l4 = l4->next ){
