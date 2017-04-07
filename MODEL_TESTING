@@ -58,3 +58,11 @@ Case 2: Results for different models' (DCG vs ADCG) performance using the same t
 
   example:
   ./bin/h2sl-test-combine-model-results --source_model dcg --source ../data/results/results_dcg_all.xml --target ../data/results/results_adcg_all.xml --output /tmp/results_dcg_adcg_all.xml
+
+
+To generate a matlab program to plot the results, run:
+
+  ./bin/h2sl-test-convert-xml-to-mat --input [filepath to the results file] --output [filepath and filename of the matlab program file]
+
+  example:
+  ./bin/h2sl-test-convert-xml-to-mat --input ../data/results/results_dcg_adcg_all.xml --output /tmp/results_dcg_adcg_all.m
