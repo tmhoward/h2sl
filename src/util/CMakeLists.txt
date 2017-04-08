@@ -10,7 +10,7 @@ set(GGOS
 #    llm_train_adcg.ggo
     grammar_generator.ggo
     gui_demo.ggo
-    scrape_results_runtime_vs_world_size.ggo 
+#    scrape_results_runtime_vs_world_size.ggo 
     test_process.ggo
     test_process_training.ggo
     test_process_inference.ggo
@@ -44,7 +44,7 @@ set(BIN_SRCS
 #    llm_train_adcg.cc
     grammar_generator.cc
     gui_demo.cc
-    scrape_results_runtime_vs_world_size.cc 
+ #   scrape_results_runtime_vs_world_size.cc 
     test_process.cc
     test_process_training.cc
     test_process_inference.cc
