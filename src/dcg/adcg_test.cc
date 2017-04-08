@@ -74,7 +74,11 @@ compare_phrases( const Phrase& a,
   value = value && ( a.children().size() == b.children().size() );
   if( a.children().size() == b.children().size() ){
     for( unsigned int i = 0; i < a.children().size(); i++ ){
-      value = value && compare_phrases( *a.children()[ i ], *b.children()[ i ] );
+      bool tmp = compare_phrases( *a.children()[ i ], *b.children()[ i ] );
+      if( !tmp ){
+        cout << "phrases " << endl << "  " << *a.children()[ i ] << endl << "   and" << endl << "  " << *b.children()[ i ] << " did not match" << endl;
+      }
+      value = value && tmp;
     }
   }
 
@@ -115,6 +119,9 @@ main( int argc,
   unsigned int num_correct = 0;
   unsigned int num_incorrect = 0;
 
+  vector< string > correct_filenames;
+  vector< string > incorrect_filenames;
+
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
     cout << "reading file " << args.inputs[ i ] << endl;
     string instruction = extract_instruction( args.inputs[ i ] );
@@ -135,7 +142,6 @@ main( int argc,
     vector< Phrase* > phrases;
     //phrases.push_back( truth );
 
-    
     //conditional flow to allow use of parser or not
     if( !args.grammar_given ){    
       cout << "grammar not provided, scraping example..." << endl;
@@ -160,10 +166,12 @@ main( int argc,
 
         //compare the solution to the 'truth'
         if( compare_phrases( *truth, *adcg->solutions().front().second ) ) {
-          cout << "solution matches" << endl;
+          cout << "solution matches" << endl; 
+          correct_filenames.push_back( args.inputs[ i ] );
           num_correct++;
         } else{
           cout << "solution does not match" << endl;
+          incorrect_filenames.push_back( args.inputs[ i ] );
           num_incorrect++;
         }
       }
@@ -242,6 +250,25 @@ main( int argc,
   }
 
   cout << "correctly inferred " << num_correct << " of " << num_correct + num_incorrect << " examples (" << ( double )( num_correct ) / ( double )( num_correct + num_incorrect ) * 100.0 << "%)" << endl;
+
+  cout << "correct_filenames[" << correct_filenames.size() << "]:{";
+  for( unsigned int i = 0; i < correct_filenames.size(); i++ ){
+    cout << correct_filenames[ i ];
+    if( i != ( correct_filenames.size() - 1 ) ) {
+      cout << ","; 
+    }
+  }
+  cout << "}" << endl;
+
+  cout << "incorrect_filenames[" << incorrect_filenames.size() << "]:{";
+  for( unsigned int i = 0; i < incorrect_filenames.size(); i++ ){
+    cout << incorrect_filenames[ i ];
+    if( i != ( incorrect_filenames.size() - 1 ) ) {
+      cout << ",";
+    }
+  }
+  cout << "}" << endl;
+
 
   if( adcg != NULL ){
     delete adcg;

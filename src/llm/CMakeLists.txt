@@ -74,6 +74,7 @@ set(HDRS
 #    h2sl/feature_container_merge_empty_container_container.h
 #    h2sl/feature_container_merge_object_property_container.h
 #    h2sl/feature_container_merge_container_spatial_relation.h
+   h2sl/feature_container_merge_container_region.h
    h2sl/feature_region_container_merge_container_spatial_relation.h
 #    h2sl/feature_region_container_container_matches_child_container.h
 #    h2sl/feature_region_container_type.h
@@ -82,6 +83,7 @@ set(HDRS
     h2sl/feature_number_merge_container_type_number.h
     h2sl/feature_object_matches_sorted_objects.h
     h2sl/feature_container_matches_sorted_objects.h
+    h2sl/feature_container_container_type_matches_child_region_container_container_container_type.h
     h2sl/feature_object_matches_sorted_object.h
 #    h2sl/feature_max_x_abstract_container.h
 #    h2sl/feature_max_distance_object_within.h
@@ -195,6 +197,7 @@ set(SRCS
 #    feature_container_merge_empty_container_container.cc
 #    feature_container_merge_object_property_container.cc
 #    feature_container_merge_container_spatial_relation.cc
+    feature_container_merge_container_region.cc
    feature_region_container_merge_container_spatial_relation.cc
 #    feature_region_container_container_matches_child_container.cc
 #    feature_region_container_type.cc
@@ -203,6 +206,7 @@ set(SRCS
     feature_container_type_merge_container_type_number.cc
     feature_object_matches_sorted_objects.cc
     feature_container_matches_sorted_objects.cc
+    feature_container_container_type_matches_child_region_container_container_container_type.cc
     feature_object_matches_sorted_object.cc
 #    feature_max_x_abstract_container.cc
 #    feature_max_distance_object_within.cc

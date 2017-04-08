@@ -87,7 +87,7 @@ namespace h2sl {
                         const std::vector< std::string >& correspondenceVariables,
                         std::vector< bool >& evaluate_feature_types,
                         const Grounding* context,
-                        const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false ); 
+                        const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false, const bool& printGroundings = false ); 
 
     virtual void search( const Search_Space* searchSpace,
                          const Symbol_Dictionary& symbolDictionary,

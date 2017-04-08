@@ -86,6 +86,7 @@
 #include "h2sl/feature_container_matches_empty_child_container.h"
 #include "h2sl/feature_container_merge_empty_container_container.h"
 #include "h2sl/feature_container_merge_object_property_container.h"
+#include "h2sl/feature_container_merge_container_region.h"
 #include "h2sl/feature_container_min_distance.h"
 #include "h2sl/feature_container_max_distance.h"
 #include "h2sl/feature_container_number.h"
@@ -94,6 +95,7 @@
 #include "h2sl/feature_container_number.h"
 #include "h2sl/feature_container_number_equals_world_objects.h"
 #include "h2sl/feature_container_type_matches_child_container_type.h"
+#include "h2sl/feature_container_container_type_matches_child_region_container_container_container_type.h"
 
 #include "h2sl/feature_is_abstract_container.h"
 #include "h2sl/feature_is_object.h"
@@ -637,6 +639,8 @@ from_xml( xmlNodePtr root ){
                   _feature_groups.back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_is_empty" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Container_Is_Empty( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_container_type_matches_child_region_container_container_container_type" ) ) == 0 ){
+                  _feature_groups.back().push_back( new Feature_Container_Container_Type_Matches_Child_Region_Container_Container_Container_Type( l2 ) );
 /*
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_type_matches_child_container_type" ) ) == 0 ){
                   _feature_groups.back().push_back( new Feature_Container_Type_Matches_Child_Container_Type() );
@@ -854,6 +858,8 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Container_Merge_Region_Abstract_Container_Container( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_container_type_container" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Container_Merge_Container_Type_Container( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_container_region" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Container_Merge_Container_Region( l2 ) );
           } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );

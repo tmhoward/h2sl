@@ -210,7 +210,7 @@ search( const Search_Space* searchSpace,
                         it_abstract_search_spaces->second,
                         it_abstract_cvs->second,
                         evaluate_feature_types,
-                        context, world, llm, beamWidth, debug );
+                        context, world, llm, beamWidth, debug, true );
 
       }
 

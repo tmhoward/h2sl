@@ -117,6 +117,14 @@ value( const string& cv,
         }
         assert( it_sorted_objects_map != world->sorted_objects().end() );
         map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object_type_child.second->type() );
+        if( it_sorted_objects == it_sorted_objects_map->second.end() ){
+          cout << "cannot find object \"" << object_type_child.second->type() << "\"" << endl; 
+          for( unsigned int i = 0; i < children.size(); i++ ){
+            for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){ 
+              cout << "  child grounding[" << i << "][" << j << "]:" << *children[ i ].second[ j ] << endl;
+            }
+          }
+        }
         assert( it_sorted_objects != it_sorted_objects_map->second.end() );
        
         if( !it_sorted_objects->second.empty() ){

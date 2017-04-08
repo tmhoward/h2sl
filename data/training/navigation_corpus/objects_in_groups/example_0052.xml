@@ -58,8 +58,12 @@
             <object id="barrel1"/>
             <object id="barrel2"/>
             <object id="barrel3"/>
+            <region_abstract_container spatial_relation_type="left" object_type="barrel" number="4" index="1" object_color="na"/>
             <spatial_relation spatial_relation_type="left"/>
             <object_type object_type="barrel"/>
+            <object_color object_color_type="na"/>
+            <index value="1"/>
+            <number value="4"/>
           </grounding_set>
           <DT text="the" order="4"/>
           <JJ text="left" order="5"/>

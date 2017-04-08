@@ -95,6 +95,7 @@
 #include "h2sl/feature_container_object_color.h"
 #include "h2sl/feature_container_number.h"
 #include "h2sl/feature_container_merge_container_type_container.h"
+#include "h2sl/feature_container_merge_container_region.h"
 #include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
 #include "h2sl/feature_container_merge_region_abstract_container_container.h"
 //#include "h2sl/feature_action_object_matches_child.h"
@@ -357,172 +358,24 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Number* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Merge_Container_Type_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Merge_Container_Type_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Container_Merge_Container_Region* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Container_Merge_Container_Region* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Merge_Abstract_Container_Spatial_Relation* >( &other );
     } else if ( dynamic_cast< const Feature_Container_Merge_Region_Abstract_Container_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Merge_Region_Abstract_Container_Container* >( &other );
-    //} else if ( dynamic_cast< const Feature_Action_Object_Matches_Child* >( &other ) != NULL ){
-    //    out << *static_cast< const Feature_Action_Object_Matches_Child* >( &other );
-/*
-    } else if ( dynamic_cast< const Feature_Spatial_Relation_Matches_Child* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Spatial_Relation_Matches_Child* >( &other );
-    } else if ( dynamic_cast< const Feature_Is_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Is_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Is_Object* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Is_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Is_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Is_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Is_Region* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Is_Region* >( &other );
-    } else if ( dynamic_cast< const Feature_Is_Region_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Is_Region_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Is_Region_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Is_Region_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Is_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Is_Spatial_Relation* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Number* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Number* >( &other );
-    //} else if ( dynamic_cast< const Feature_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
-    //    out << *static_cast< const Feature_Container_Number_Equals_World_Objects* >( &other );
-*/
     } else if ( dynamic_cast< const Feature_Container_Is_Empty* >( &other ) != NULL ){
         out << *static_cast< const Feature_Container_Is_Empty* >( &other );
-/*
-    } else if ( dynamic_cast< const Feature_Container_Type_Matches_Child_Container_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Type_Matches_Child_Container_Type* >( &other );
-*/
     } else if ( dynamic_cast< const Feature_Object_Property_Merge_Index_Object_Property* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Property_Merge_Index_Object_Property* >( &other );
     } else if ( dynamic_cast< const Feature_Phrase_Has_POS_Tag* >( &other ) != NULL ){
         out << *static_cast< const Feature_Phrase_Has_POS_Tag* >( &other );
     } else if ( dynamic_cast< const Feature_Phrase_Type_And_Phrase_Has_POS_Tag* >( &other ) != NULL ){
         out << *static_cast< const Feature_Phrase_Type_And_Phrase_Has_POS_Tag* >( &other );
-/*
-    } else if ( dynamic_cast< const Feature_Phrase_Has_Single_POS_Tag* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Phrase_Has_Single_POS_Tag* >( &other );
-    } else if ( dynamic_cast< const Feature_Phrase_Has_Ordered_POS_Tag_Pair* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Phrase_Has_Ordered_POS_Tag_Pair* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Property_Merge_Object_Property_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Property_Merge_Object_Property_Spatial_Relation* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Matches_Empty_Child_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Matches_Empty_Child_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Merge_Empty_Container_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Merge_Empty_Container_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Merge_Object_Property_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Merge_Object_Property_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Merge_Container_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Merge_Container_Spatial_Relation* >( &other );
-    } else if ( dynamic_cast< const Feature_Region_Container_Merge_Container_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Region_Container_Merge_Container_Spatial_Relation* >( &other );
-    //} else if ( dynamic_cast< const Feature_Region_Container_Container_Matches_Child_Container* >( &other ) != NULL ){
-    //    out << *static_cast< const Feature_Region_Container_Container_Matches_Child_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Region_Container_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Region_Container_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Region_Container_Container_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Region_Container_Container_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Property_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Property_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Property_Relation_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Property_Relation_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Property_Index* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Property_Index* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_X_Object* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_X_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Max_X_Object* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Max_X_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Max_Y_Object* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Max_Y_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Y_Object* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Y_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Max_X_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Max_X_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Distance_Object* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Distance_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Max_Distance_Object* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Max_Distance_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Max_Distance_Object_Within* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Max_Distance_Object_Within* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Distance_Object_Within* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Distance_Object_Within* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Center_Distance_Object* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Center_Distance_Object* >( &other );
-    } else if ( dynamic_cast< const Feature_Max_Y_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Max_Y_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Y_Index_Abstract_Container_Region_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_X_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_X_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Y_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Y_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Distance_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Distance_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Distance_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Distance_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Abs_Y_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Abs_Y_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Dominant_X_Shape* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Dominant_X_Shape* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Dominant_Y_Shape* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Dominant_Y_Shape* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Dominant_Z_Shape* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Dominant_Z_Shape* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Non_Dominant_XYZ_Shape* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Non_Dominant_XYZ_Shape* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_X_Container_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_X_Container_Abstract_Container_Spatial_Relation* >( &other );
-    } else if ( dynamic_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Objects_Shape_Matches_Container_Type* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_Y_Container_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Y_Container_Abstract_Container_Spatial_Relation* >( &other );
-    } else if ( dynamic_cast< const Feature_Max_Y_Container_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Max_Y_Container_Abstract_Container* >( &other );
-    }  else if ( dynamic_cast< const Feature_Min_Abs_Y_Container_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_Abs_Y_Container_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_X_Container_Region_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_X_Container_Region_Abstract_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Min_X_Region_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Min_X_Region_Abstract_Container_Spatial_Relation* >( &other );
-    } else if ( dynamic_cast< const Feature_Max_X_Region_Abstract_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Max_X_Region_Abstract_Container* >( &other );
-    //} else if ( dynamic_cast< const Feature_Object_Matches_Child* >( &other ) != NULL ){
-    //    out << *static_cast< const Feature_Object_Matches_Child* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Min_Distance* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Min_Distance* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Max_Distance* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Max_Distance* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Number_Matches_World_Object_Number* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Number_Matches_World_Object_Number* >( &other );
-    } else if ( dynamic_cast< const Feature_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Container_Number_Equals_World_Objects* >( &other );
-*/
     } else if ( dynamic_cast< const Feature_Object_Matches_Child_Container_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Matches_Child_Container_Object* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Matches_Child_Region_Container_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Matches_Child_Region_Container_Object* >( &other );
-/*
-    } else if ( dynamic_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Abstract_Container_Number_Equals_World_Objects* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Object_Property_Spatial_Relation* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Object_Container* >( &other );
-    //} else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Index_Region_Container* >( &other ) != NULL ){
-    //    out << *static_cast< const Feature_Object_Merge_Abstract_Container_Index_Region_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Container_Pair* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Container_Pair* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Different_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Object_Different_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Region_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Object_Property_Region_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Object_Region_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Object_Region_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Single_Object_Different_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Single_Object_Different_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Region_Container* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Abstract_Container_Region_Container* >( &other );
-    } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
-        out << *static_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other );
-*/
     } else {
       cout << "could not load \"" << typeid( other ).name() << "\"" << endl;
     } 

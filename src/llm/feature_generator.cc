@@ -129,8 +129,10 @@
 #include "h2sl/feature_container_merge_abstract_container_region_container.h"
 #include "h2sl/feature_container_merge_region_abstract_container_container.h"
 #include "h2sl/feature_container_merge_container_type_container.h"
+#include "h2sl/feature_container_merge_container_region.h"
 #include "h2sl/feature_container_is_empty.h"
 #include "h2sl/feature_container_matches_sorted_objects.h"
+#include "h2sl/feature_container_container_type_matches_child_region_container_container_container_type.h"
 
 // region container features
 #include "h2sl/feature_region_container_matches_child.h"
@@ -861,6 +863,10 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Is_Empty( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Type_Container( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Type_Container( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Region( false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Region( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Container_Type_Matches_Child_Region_Container_Container_Container_Type( false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Container_Type_Matches_Child_Region_Container_Container_Container_Type( true ) );
     map< string, vector< string > >::const_iterator it_container_types = symbolDictionary.string_types().find( "container_type" );
     if( it_container_types != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_container_type = it_container_types->second.begin(); it_container_type != it_container_types->second.end(); it_container_type++ ){

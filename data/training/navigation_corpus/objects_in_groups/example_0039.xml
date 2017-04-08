@@ -19,6 +19,7 @@
         <object_property object_type="barrel" spatial_relation_type="na" index="2"/>
         <index value="2"/>
         <object_type object_type="barrel"/>
+        <spatial_relation spatial_relation_type="na"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <JJ text="second" order="1"/>

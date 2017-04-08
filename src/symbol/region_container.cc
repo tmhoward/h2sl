@@ -116,6 +116,7 @@ scrape_grounding( const World * world,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( "spatial_relation_type", relation_type(), stringTypes );
+  _container.scrape_grounding( world, stringTypes, intTypes );
   return;
 }
 
@@ -233,20 +234,13 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                   container_objects.push_back( dynamic_cast< Grounding* >( objects[ k ] ) );
                 }
               }
-              if( ( !container_objects.empty() ) || ( container_objects.size() == objects.size() ) || has_in_vector< unsigned int >( container_objects.size(), numbers ) ){
+              if( ( container_objects.size() > 1 ) || ( container_objects.size() == objects.size() ) || has_in_vector< unsigned int >( container_objects.size(), numbers ) ){
                 if( it_container_type_types != symbolDictionary.string_types().end() ){
                   for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
                     for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
                       it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, it_container_type_types->second[ k ] ) ) );
                     }
                   }
-                //}
-                //if( it_container_type_types != symbolDictionary.string_types().end() ){
-                //  for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
-                //    for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
-                //      it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, it_container_type_types->second[ k ] ) ) );
-                //    }
-                //   }
                 } else {
                   for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
                     it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, "group" ) ) );
