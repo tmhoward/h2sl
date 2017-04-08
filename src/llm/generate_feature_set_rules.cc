@@ -79,5 +79,4 @@ main( int argc,
   cout << "end of generate feature set program" << endl;
   return 0;
 }
-                                                                             82,1          Bot
 
