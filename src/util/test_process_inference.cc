@@ -235,6 +235,7 @@ run_tests_dcg( const std::vector< std::string >& filenames,
 
   // Runtime
   double runtime_dcg = 0.0;
+  double runtime_dcg_norm = 0.0;
  
   // Search Space Sizes
   double dataset_concrete_dcg = 0.0;
@@ -289,6 +290,10 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     runtime_dcg += microseconds_to_seconds( dcg_end_time - dcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( dcg->solutions().front().second ) != NULL );
+    // If the number of phrases are more than one then compute norm.
+    if ( dcg->solutions().front().second->num_phrases() ){
+      runtime_dcg_norm += microseconds_to_seconds( ( dcg_end_time - dcg_start_time ) / ( dcg->solutions().front().second->num_phrases() ) );
+    }
 
     // Write the solution
     stringstream dcg_solution_filename;
@@ -303,6 +308,12 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     dcg_example_runtime_string << microseconds_to_seconds( dcg_end_time - dcg_start_time );
     xmlNewProp( dcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( dcg_example_runtime_string.str().c_str() ) );
     cout << "    runtime:" << dcg_example_runtime_string.str() << endl;
+
+    // Runtime normalised.
+    stringstream dcg_example_runtime_norm_string;
+    dcg_example_runtime_norm_string << microseconds_to_seconds( ( dcg_end_time - dcg_start_time ) / ( dcg->solutions().front().second->num_phrases() ) ); 
+    xmlNewProp( dcg_example_node, ( const xmlChar* )( "runtime_norm" ), ( const xmlChar* )( dcg_example_runtime_norm_string.str().c_str() ) );
+    cout << "    runtime norm:" << dcg_example_runtime_norm_string.str() << endl;
 
     // Search space size: concrete
     double tmp_dcg_stats = 0.0;
@@ -394,6 +405,7 @@ run_tests_dcg( const std::vector< std::string >& filenames,
 
   // Average runtime.
   runtime_dcg /= ( double )( filenames.size() );
+  runtime_dcg_norm /= ( double )( filenames.size() );
 
   // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
@@ -428,6 +440,12 @@ run_tests_dcg( const std::vector< std::string >& filenames,
   runtime_dcg_string << runtime_dcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_dcg" ), ( const xmlChar* )( runtime_dcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_dcg" ).c_str() ), ( const xmlChar* )( runtime_dcg_string.str().c_str() ) );
+
+  /******  XML: runtime  **************************/ 
+  stringstream runtime_dcg_norm_string;
+  runtime_dcg_norm_string << runtime_dcg_norm;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_dcg_norm" ), ( const xmlChar* )( runtime_dcg_norm_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_dcg_norm" ).c_str() ), ( const xmlChar* )( runtime_dcg_norm_string.str().c_str() ) );
 
   /******  XML: runtime  **************************/ 
   stringstream runtime_ratio_string;
@@ -471,13 +489,13 @@ run_tests_dcg( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_max_dcg" ), ( const xmlChar* )( dataset_abstract_max_dcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_max_dcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_max_dcg_string.str().c_str() ) );
 
-
   /******  console output **************************/ 
   cout << endl;
   cout << "correct_root_dcg: " << correct_root_dcg << endl;
 
   cout << "correct_complete_dcg: " << correct_complete_dcg << endl;
   cout << "runtime_dcg: " << runtime_dcg << endl;
+  cout << "runtime_dcg_norm: " << runtime_dcg_norm << endl;
 
   cout << "dcg_search_space_concrete: " << dataset_concrete_dcg << endl;
   cout << "dcg_search_space_abstract_avg: " << dataset_abstract_avg_dcg << endl;
@@ -520,6 +538,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
 
   // Runtime
   double runtime_adcg = 0.0;
+  double runtime_adcg_norm = 0.0;
 
   // Search Space Sizes
   double dataset_concrete_adcg = 0.0;
@@ -574,6 +593,10 @@ run_tests_adcg( const std::vector< std::string >& filenames,
     runtime_adcg += microseconds_to_seconds( adcg_end_time - adcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( adcg->solutions().front().second ) != NULL );
+    // If the number of phrases are more than one then compute norm.
+    if ( adcg->solutions().front().second->num_phrases() ){
+      runtime_adcg_norm += microseconds_to_seconds( ( adcg_end_time - adcg_start_time ) / ( adcg->solutions().front().second->num_phrases() )  );
+    }
 
     stringstream adcg_solution_filename;
     adcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_adcg_solution_" << filename;
@@ -586,6 +609,12 @@ run_tests_adcg( const std::vector< std::string >& filenames,
     adcg_example_runtime_string << microseconds_to_seconds( adcg_end_time - adcg_start_time );
     xmlNewProp( adcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( adcg_example_runtime_string.str().c_str() ) );
     cout << "    runtime:" << adcg_example_runtime_string.str() << endl;
+
+    // Runtime normalised.
+    stringstream adcg_example_runtime_norm_string;
+    adcg_example_runtime_norm_string << microseconds_to_seconds( ( adcg_end_time - adcg_start_time ) / ( adcg->solutions().front().second->num_phrases() ) ); 
+    xmlNewProp( adcg_example_node, ( const xmlChar* )( "runtime_norm" ), ( const xmlChar* )( adcg_example_runtime_norm_string.str().c_str() ) );
+    cout << "    runtime norm:" << adcg_example_runtime_norm_string.str() << endl;
 
     // Search space size: concrete
     double tmp_adcg_stats = 0.0;
@@ -677,6 +706,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
 
   // Average runtime.
   runtime_adcg /= ( double )( filenames.size() );
+  runtime_adcg_norm /= ( double )( filenames.size() );
 
   // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
@@ -706,12 +736,17 @@ run_tests_adcg( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_adcg" ), ( const xmlChar* )( correct_complete_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_adcg" ).c_str() ), ( const xmlChar* )( correct_complete_adcg_string.str().c_str() ) );
 
-
  /******  XML: runtime  **************************/
   stringstream runtime_adcg_string;
   runtime_adcg_string << runtime_adcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_adcg" ), ( const xmlChar* )( runtime_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_adcg" ).c_str() ), ( const xmlChar* )( runtime_adcg_string.str().c_str() ) );
+
+ /******  XML: runtime normalised  **************************/
+  stringstream runtime_adcg_norm_string;
+  runtime_adcg_norm_string << runtime_adcg_norm;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_adcg_norm" ), ( const xmlChar* )( runtime_adcg_norm_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_adcg_norm" ).c_str() ), ( const xmlChar* )( runtime_adcg_norm_string.str().c_str() ) );
 
   /******  XML: runtime  **************************/
   stringstream runtime_ratio_string;
@@ -761,6 +796,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
 
   cout << "correct_complete_adcg: " << correct_complete_adcg << endl;
   cout << "runtime_adcg: " << runtime_adcg << endl;
+  cout << "runtime_adcg_norm: " << runtime_adcg_norm << endl;
 
   cout << "adcg_search_space_concrete: " << dataset_concrete_adcg << endl;
   cout << "adcg_search_space_abstract_avg: " << dataset_abstract_avg_adcg << endl;
@@ -802,6 +838,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
 
   // Runtime
   double runtime_hdcg = 0.0;
+  double runtime_hdcg_norm = 0.0;
  
   // Search Space Sizes
   double dataset_concrete_hdcg = 0.0;
@@ -856,6 +893,10 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
     runtime_hdcg += microseconds_to_seconds( hdcg_end_time - hdcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( hdcg->solutions().front().second ) != NULL );
+    // If the number of phrases are more than one then compute norm.
+    if ( hdcg->solutions().front().second->num_phrases() ){
+      runtime_hdcg_norm += microseconds_to_seconds( ( hdcg_end_time - hdcg_start_time ) / ( hdcg->solutions().front().second->num_phrases() )  );
+    }
 
     stringstream hdcg_solution_filename;
     hdcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hdcg_solution_" << filename;
@@ -868,6 +909,12 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
     hdcg_example_runtime_string << microseconds_to_seconds( hdcg_end_time - hdcg_start_time );
     xmlNewProp( hdcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( hdcg_example_runtime_string.str().c_str() ) );
     cout << "    runtime:" << hdcg_example_runtime_string.str() << endl;
+
+    // Runtime normalised.
+    stringstream hdcg_example_runtime_norm_string;
+    hdcg_example_runtime_norm_string << microseconds_to_seconds( ( hdcg_end_time - hdcg_start_time ) / ( hdcg->solutions().front().second->num_phrases() ) ); 
+    xmlNewProp( hdcg_example_node, ( const xmlChar* )( "runtime_norm" ), ( const xmlChar* )( hdcg_example_runtime_norm_string.str().c_str() ) );
+    cout << "    runtime norm:" << hdcg_example_runtime_norm_string.str() << endl;
 
     // Search space size: concrete
     double tmp_hdcg_stats = 0.0;
@@ -959,6 +1006,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
 
   // Average runtime.
   runtime_hdcg /= ( double )( filenames.size() );
+  runtime_hdcg_norm /= ( double )( filenames.size() );
 
   // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
@@ -995,6 +1043,12 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hdcg" ), ( const xmlChar* )( runtime_hdcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hdcg" ).c_str() ), ( const xmlChar* )( runtime_hdcg_string.str().c_str() ) );
 
+  /******  XML: runtime normalised  **************************/ 
+  stringstream runtime_hdcg_norm_string;
+  runtime_hdcg_norm_string << runtime_hdcg_norm;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hdcg_norm" ), ( const xmlChar* )( runtime_hdcg_norm_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hdcg_norm" ).c_str() ), ( const xmlChar* )( runtime_hdcg_norm_string.str().c_str() ) );
+
   /******  XML: runtime  **************************/ 
   stringstream runtime_ratio_string;
   runtime_ratio_string << average_runtime_ratio;
@@ -1024,6 +1078,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
 
   cout << "correct_complete_hdcg: " << correct_complete_hdcg << endl;
   cout << "runtime_hdcg: " << runtime_hdcg << endl;
+  cout << "runtime_hdcg_norm: " << runtime_hdcg_norm << endl;
 
   cout << "hdcg_search_space_concrete: " << dataset_concrete_hdcg << endl;
   cout << "hdcg_search_space_abstract_avg: " << dataset_abstract_avg_hdcg << endl;
@@ -1065,6 +1120,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
 
   // Runtime
   double runtime_hadcg = 0.0;
+  double runtime_hadcg_norm = 0.0;
  
   // Search Space Sizes
   double dataset_concrete_hadcg = 0.0;
@@ -1119,6 +1175,10 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
     runtime_hadcg += microseconds_to_seconds( hadcg_end_time - hadcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( hadcg->solutions().front().second ) != NULL );
+    // If the number of phrases are more than one then compute norm.
+    if ( hadcg->solutions().front().second->num_phrases() ){
+      runtime_hadcg_norm += microseconds_to_seconds( ( hadcg_end_time - hadcg_start_time ) / ( hadcg->solutions().front().second->num_phrases() )  );
+    }
 
     stringstream hadcg_solution_filename;
     hadcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hadcg_solution_" << filename;
@@ -1131,6 +1191,12 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
     hadcg_example_runtime_string << microseconds_to_seconds( hadcg_end_time - hadcg_start_time );
     xmlNewProp( hadcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( hadcg_example_runtime_string.str().c_str() ) );
     cout << "    runtime:" << hadcg_example_runtime_string.str() << endl;
+
+    // Runtime normalised.
+    stringstream hadcg_example_runtime_norm_string;
+    hadcg_example_runtime_norm_string << microseconds_to_seconds( ( hadcg_end_time - hadcg_start_time ) / ( hadcg->solutions().front().second->num_phrases() ) ); 
+    xmlNewProp( hadcg_example_node, ( const xmlChar* )( "runtime_norm" ), ( const xmlChar* )( hadcg_example_runtime_norm_string.str().c_str() ) );
+    cout << "    runtime norm:" << hadcg_example_runtime_norm_string.str() << endl;
 
     // Search space size: concrete
     double tmp_hadcg_stats = 0.0;
@@ -1222,6 +1288,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
 
   // Average runtime.
   runtime_hadcg /= ( double )( filenames.size() );
+  runtime_hadcg_norm /= ( double )( filenames.size() );
 
   // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
@@ -1258,6 +1325,12 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hadcg" ), ( const xmlChar* )( runtime_hadcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hadcg" ).c_str() ), ( const xmlChar* )( runtime_hadcg_string.str().c_str() ) );
 
+  /******  XML: runtime normalised **************************/ 
+  stringstream runtime_hadcg_norm_string;
+  runtime_hadcg_norm_string << runtime_hadcg_norm;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hadcg_norm" ), ( const xmlChar* )( runtime_hadcg_norm_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hadcg_norm" ).c_str() ), ( const xmlChar* )( runtime_hadcg_norm_string.str().c_str() ) );
+
   /******  XML: runtime  **************************/ 
   stringstream runtime_ratio_string;
   runtime_ratio_string << average_runtime_ratio;
@@ -1287,6 +1360,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
 
   cout << "correct_complete_hadcg: " << correct_complete_hadcg << endl;
   cout << "runtime_hadcg: " << runtime_hadcg << endl;
+  cout << "runtime_hadcg_norm: " << runtime_hadcg_norm << endl;
 
   cout << "hadcg_search_space_concrete: " << dataset_concrete_hadcg << endl;
   cout << "hadcg_search_space_abstract_avg: " << dataset_abstract_avg_hadcg << endl;
