@@ -37,6 +37,10 @@
 #include "h2sl/world.h"
 #include "h2sl/region.h"
 #include "h2sl/spatial_relation.h"
+#include "h2sl/object_property.h"
+#include "h2sl/abstract_container.h"
+#include "h2sl/region_abstract_container.h"
+#include "h2sl/object_color.h"
 #include "h2sl/phrase.h"
 #include "rewrite_examples_cmdline.h"
 
@@ -131,6 +135,212 @@ replace_objectless_regions_with_spatial_relations( Phrase* phrase, World* world 
   return;
 }
 
+void
+add_spatial_relation_to_object_property( Phrase* phrase, World* world ){
+  cout << "function: " << "add_spatial_relation_to_object_property" << endl;
+  if( phrase->grounding_set() ){
+    vector< Grounding* > new_groundings;
+    cout << "checking " << *phrase->grounding_set() << endl;
+    for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+      Object_Property * object_property = dynamic_cast< Object_Property* >( *it_grounding );
+      if( object_property != NULL ){
+        cout << "found object_property" << endl;
+        bool found_spatial_relation = false;
+        for( vector< Grounding* >::iterator it_other_grounding = phrase->grounding_set()->groundings().begin(); it_other_grounding != phrase->grounding_set()->groundings().end(); it_other_grounding++ ){
+          Spatial_Relation * spatial_relation = dynamic_cast< Spatial_Relation* >( *it_other_grounding );
+          if( spatial_relation != NULL ){
+            if( spatial_relation->spatial_relation_type() == object_property->relation_type() ){
+              found_spatial_relation = true;
+            }  
+          } 
+        }
+        if( !found_spatial_relation ){
+          new_groundings.push_back( new Spatial_Relation( object_property->relation_type() ) );
+        }
+      }
+    }
+
+    for( vector< Grounding* >::iterator it_new_grounding = new_groundings.begin(); it_new_grounding != new_groundings.end(); it_new_grounding++ ){
+      phrase->grounding_set()->groundings().push_back( *it_new_grounding );
+    }
+
+    for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+      add_spatial_relation_to_object_property( *it_child, world );
+    }
+  } else{
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    assert( false );
+  }
+  return;
+}
+
+void
+add_object_color_to_abstract_container( Phrase* phrase, World* world ){
+  cout << "function: " << "add_object_color_to_abstract_container" << endl;
+  if( phrase->grounding_set() ){
+    cout << "checking " << *phrase->grounding_set() << endl;
+    vector< Grounding* > new_groundings;
+
+    for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+      Abstract_Container * abstract_container = dynamic_cast< Abstract_Container* >( *it_grounding );
+      if( abstract_container != NULL ){
+        cout << "found abstract_container" << endl;
+        bool found_object_color = false;
+        for( vector< Grounding* >::iterator it_other_grounding = phrase->grounding_set()->groundings().begin(); it_other_grounding != phrase->grounding_set()->groundings().end(); it_other_grounding++ ){
+          cout << "checking " << *it_other_grounding << endl;
+          Object_Color * object_color = dynamic_cast< Object_Color* >( *it_other_grounding );
+          if( object_color != NULL ){
+            if( object_color->object_color_type() == abstract_container->color() ){
+              found_object_color = true;
+            }
+          }
+        }
+        if( !found_object_color ){
+          new_groundings.push_back( new Object_Color( abstract_container->color() ) );
+        }
+      }
+    }
+
+    for( vector< Grounding* >::iterator it_new_grounding = new_groundings.begin(); it_new_grounding != new_groundings.end(); it_new_grounding++ ){
+      phrase->grounding_set()->groundings().push_back( *it_new_grounding );
+    }
+
+    for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+      add_object_color_to_abstract_container( *it_child, world );
+    }
+  } else{
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    assert( false );
+  }
+  return;
+}
+
+void
+add_object_type_to_abstract_container( Phrase* phrase, World* world ){
+  cout << "function: " << "add_object_type_to_abstract_container" << endl;
+  if( phrase->grounding_set() ){
+    vector< Grounding* > new_groundings;
+
+    cout << "checking " << *phrase->grounding_set() << endl;
+    for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+      Abstract_Container * abstract_container = dynamic_cast< Abstract_Container* >( *it_grounding );
+      if( abstract_container != NULL ){
+        cout << "found abstract_container" << endl;
+        bool found_object_type = false;
+        for( vector< Grounding* >::iterator it_other_grounding = phrase->grounding_set()->groundings().begin(); it_other_grounding != phrase->grounding_set()->groundings().end(); it_other_grounding++ ){
+          Object_Type * object_type = dynamic_cast< Object_Type* >( *it_other_grounding );
+          if( object_type != NULL ){
+            if( object_type->type() == abstract_container->type() ){
+              found_object_type = true;
+            }
+          }
+        }
+        if( !found_object_type ){
+          new_groundings.push_back( new Object_Type( abstract_container->type() ) );
+        }
+      }
+    }
+
+    for( vector< Grounding* >::iterator it_new_grounding = new_groundings.begin(); it_new_grounding != new_groundings.end(); it_new_grounding++ ){
+      phrase->grounding_set()->groundings().push_back( *it_new_grounding );
+    }
+
+    for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+      add_object_type_to_abstract_container( *it_child, world );
+    }
+  } else{
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    assert( false );
+  }
+  return;
+}
+
+void
+add_object_color_to_region_abstract_container( Phrase* phrase, World* world ){
+  cout << "function: " << "add_object_color_to_region_abstract_container" << endl;
+  if( phrase->grounding_set() ){
+    vector< Grounding* > new_groundings;
+
+    cout << "checking " << *phrase->grounding_set() << endl;
+    for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+      cout << "checking " << *it_grounding << endl;
+      Region_Abstract_Container * region_abstract_container = dynamic_cast< Region_Abstract_Container* >( *it_grounding );
+      if( region_abstract_container != NULL ){
+        cout << "found region_abstract_container" << endl;
+        bool found_object_color = false;
+        for( vector< Grounding* >::iterator it_other_grounding = phrase->grounding_set()->groundings().begin(); it_other_grounding != phrase->grounding_set()->groundings().end(); it_other_grounding++ ){
+          cout << "checking " << *it_other_grounding << endl;
+          Object_Color * object_color = dynamic_cast< Object_Color* >( *it_other_grounding );
+          if( object_color != NULL ){
+            cout << "found object_color" << endl;
+            if( object_color->object_color_type() == region_abstract_container->color() ){
+              found_object_color = true;
+            }
+          }
+        }
+        if( !found_object_color ){
+          cout << "adding object_color" << endl;
+          new_groundings.push_back( new Object_Color( region_abstract_container->color() ) );
+          cout << "done adding object_color" << endl;
+        }
+      }
+    }
+
+    for( vector< Grounding* >::iterator it_new_grounding = new_groundings.begin(); it_new_grounding != new_groundings.end(); it_new_grounding++ ){
+      phrase->grounding_set()->groundings().push_back( *it_new_grounding );
+    }
+
+    for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+      cout << "adding object_color_to_region_abstract_container " << *it_child << endl;
+      add_object_color_to_region_abstract_container( *it_child, world );
+    }
+  } else{
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    assert( false );
+  }
+  return;
+}
+
+void
+add_object_type_to_region_abstract_container( Phrase* phrase, World* world ){
+  cout << "function: " << "add_object_type_to_abstract_container" << endl;
+  if( phrase->grounding_set() ){
+    vector< Grounding* > new_groundings;
+  
+    cout << "checking " << *phrase->grounding_set() << endl;
+    for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
+      Region_Abstract_Container * region_abstract_container = dynamic_cast< Region_Abstract_Container* >( *it_grounding );
+      if( region_abstract_container != NULL ){
+        cout << "found region_abstract_container" << endl;
+        bool found_object_type = false;
+        for( vector< Grounding* >::iterator it_other_grounding = phrase->grounding_set()->groundings().begin(); it_other_grounding != phrase->grounding_set()->groundings().end(); it_other_grounding++ ){
+          Object_Type * object_type = dynamic_cast< Object_Type* >( *it_other_grounding );
+          if( object_type != NULL ){
+            if( object_type->type() == region_abstract_container->type() ){
+              found_object_type = true;
+            }
+          }
+        }
+        if( !found_object_type ){
+          new_groundings.push_back( new Object_Type( region_abstract_container->type() ) );
+        }
+      }
+    }
+
+    for( vector< Grounding* >::iterator it_new_grounding = new_groundings.begin(); it_new_grounding != new_groundings.end(); it_new_grounding++ ){
+      phrase->grounding_set()->groundings().push_back( *it_new_grounding );
+    }
+
+    for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
+      add_object_type_to_region_abstract_container( *it_child, world );
+    }
+  } else{
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    assert( false );
+  }
+  return;
+}
+
 int
 main( int argc,
       char* argv[] ) {
@@ -150,6 +360,11 @@ main( int argc,
 
     replace_empty_regions_with_objects( phrase, world );
     replace_objectless_regions_with_spatial_relations( phrase, world );
+    add_spatial_relation_to_object_property( phrase, world );
+    add_object_color_to_abstract_container( phrase, world );
+    add_object_type_to_abstract_container( phrase, world );
+    add_object_color_to_region_abstract_container( phrase, world );
+    add_object_type_to_region_abstract_container( phrase, world );
 
     string instruction = extract_instruction( args.inputs[ i ] );
     

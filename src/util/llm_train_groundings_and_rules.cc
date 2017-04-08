@@ -108,8 +108,8 @@ main( int argc,
   vector< World* > worlds( args.inputs_num, NULL );
   vector< string > filenames( args.inputs_num );
 
-  Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary( args.symbol_dictionary_rules_arg );
-  Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.symbol_dictionary_groundings_arg );
+  Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary( args.sdr_arg );
+  Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary( args.sdg_arg );
 
   vector< pair< string, LLM_X > > examples;
   for( unsigned int i = 0; i < args.inputs_num; i++ ){

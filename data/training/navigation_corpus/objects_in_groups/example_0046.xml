@@ -34,6 +34,7 @@
         <object_type object_type="chair"/>
         <spatial_relation spatial_relation_type="near"/>
         <number value="2"/>
+        <object_color object_color_type="na"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <CD text="two" order="1"/>

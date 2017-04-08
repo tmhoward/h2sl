@@ -1,10 +1,10 @@
-package "dcg_test"
+package "hdcg_test"
 version "0.0.1"
-purpose "A program used to test the Distributed Correspondence Graph (DCG) class."
+purpose "A program used to test the Heirarchical Distributed Correspondence Graph (HDCG) class."
 
 option "llm" - "log-linear model file" string required
-option "grammar" - "grammar file" string required
-option "symbol_dictionary_groundings" - "symbol dictionary file" string required
+option "sd" - "symbol dictionary file" string required
+option "grammar" - "grammar file" string optional
 option "output" - "output file" string optional
 option "debug" - "debug flag" int default="0" optional
 option "beam_width" - "beam width" int default="4" optional 

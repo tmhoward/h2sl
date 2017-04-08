@@ -47,12 +47,17 @@ namespace h2sl {
                                                   const std::map< std::string, std::vector< Grammar_Non_Terminal > >& grammarNonTerminals,
                                                   const Symbol_Dictionary& symbolDictionary, 
                                                   Feature_Set& featureSet );
+  void feature_generator_add_rule_features( const std::map< std::string, std::vector< Grammar_Terminal > >& grammarTerminals,
+                                            const std::map< std::string, std::vector< Grammar_Non_Terminal > >& grammarNonTerminals,
+                                            const Symbol_Dictionary& symbolDictionary,
+                                            Feature_Set& featureSet );
   void feature_generator_add_cv_features( Feature_Set& featureSet );
   void feature_generator_add_word_features( const phrase_type_t& phraseType,
                                             const std::vector< Grammar_Terminal >& grammarTerminals,
                                             const Symbol_Dictionary& symbolDictionary,
                                             Feature_Set& featureSet );
-  void feature_generator_add_class_name_features( Feature_Set& featureSet );
+  void feature_generator_add_grounding_class_name_features( Feature_Set& featureSet );
+  void feature_generator_add_rule_class_name_features( Feature_Set& featureSet );
   void feature_generator_add_object_features( const Symbol_Dictionary& symbolDictionary, 
                                               Feature_Set& featureSet );
   void feature_generator_add_region_features( const Symbol_Dictionary& symbolDictionary, 
@@ -81,6 +86,22 @@ namespace h2sl {
                                                         Feature_Set& featureSet );
   void feature_generator_add_region_container_features( const Symbol_Dictionary& symbolDictionary, 
                                                         Feature_Set& featureSet );
+  void feature_generator_add_rule_spatial_relation_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
+  void feature_generator_add_rule_object_type_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
+  void feature_generator_add_rule_object_color_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
+  void feature_generator_add_rule_constraint_type_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
+  void feature_generator_add_rule_constraint_payload_type_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
+  void feature_generator_add_rule_constraint_reference_type_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
+  void feature_generator_add_rule_index_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
+  void feature_generator_add_rule_number_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
 
 }
 

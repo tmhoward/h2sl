@@ -20,7 +20,7 @@
   </world>
   <NP>
     <grounding_set>
-      <container container_type="group" object_ids="chair1,chair2"/>
+      <container container_type="row" object_ids="chair1,chair2"/>
       <object id="chair1"/>
       <object id="chair2"/>
     </grounding_set>
@@ -29,7 +29,7 @@
         <abstract_container object_type="chair" number="2" index="1" object_color="white"/>
         <number value="2"/>
         <index value="1"/>
-        <object_color object_color_type="na"/>
+        <object_color object_color_type="white"/>
         <object_type object_type="chair"/>
       </grounding_set>
       <DT text="the" order="0"/>

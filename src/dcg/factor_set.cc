@@ -156,7 +156,7 @@ search_subspace( vector< Factor_Set_Solution >& solutionsVector,
                   const vector< string >& correspondenceVariables,
 		  vector < bool >& evaluate_feature_types,
                   const Grounding* context,
-                  const World * world, LLM* llm, const unsigned int beamWidth, const bool& debug) {
+                  const World * world, LLM* llm, const unsigned int beamWidth, const bool& debug, const bool& printGroundings ) {
   // Obtain the size of the search space for that class. 
   for( unsigned int i = 0; i < searchSubspace.second.size(); i++ ){
     vector< Factor_Set_Solution > new_solutions_vector;
@@ -173,6 +173,9 @@ search_subspace( vector< Factor_Set_Solution >& solutionsVector,
         // add the new solution to the solutions vector (make a copy of the previous solution)
         new_solutions_vector.push_back( solutionsVector[ j ] );
         if( correspondenceVariables[ k ] == "true" ){
+          if( printGroundings ){
+            cout << "value:" << value << " grounding:" << *searchSubspace.second[ i ]  << endl;
+          }
           new_solutions_vector.back().grounding_set()->groundings().push_back( searchSubspace.second[ i ] );   
         }
         // Update the pygx likelihoods (all multiplied as independent).

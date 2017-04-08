@@ -18,6 +18,7 @@
         <object_property object_type="cone" spatial_relation_type="na" index="2"/>
         <object_type object_type="cone"/>
         <index value="2"/>
+        <spatial_relation spatial_relation_type="na"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <JJ text="second" order="1"/>

@@ -24,7 +24,8 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object_property object_type="barrel" spatial_relation_type="na" index="1"/>
+        <object_property object_type="barrel" spatial_relation_type="far" index="1"/>
+        <spatial_relation spatial_relation_type="far"/>
         <index value="1"/>
         <object_type object_type="barrel"/>
       </grounding_set>
