@@ -126,13 +126,16 @@ value( const string& cv,
             }
           }
         }
-        assert( it_sorted_objects != it_sorted_objects_map->second.end() );
-       
-        if( !it_sorted_objects->second.empty() ){
-          if( object->id() == it_sorted_objects->second.front()->id() ){
-            return !_invert; 
-          } else {
-            return _invert;
+      
+        // Making the change as earlier features. 
+        //assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+        if( it_sorted_objects != it_sorted_objects_map->second.end() ){ 
+          if( !it_sorted_objects->second.empty() ){
+            if( object->id() == it_sorted_objects->second.front()->id() ){
+              return !_invert; 
+            } else {
+              return _invert;
+            }
           } 
         } 
       }
