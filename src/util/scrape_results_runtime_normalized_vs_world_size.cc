@@ -1,13 +1,13 @@
 /**
- * @file scrape_results_runtime_vs_world_size.cc
+ * @file scrape_results_runtime_norm_vs_world_size.cc
  *
  * @brief
  *
- * Scrape a partition result for statistics about runtime per world size
+ * Scrape a partition result for statistics about runtime_norm per world size
  *
  */
 
-#include "scrape_results_runtime_vs_world_size_cmdline.h"
+#include "scrape_results_runtime_normalized_vs_world_size_cmdline.h"
 
 #include <math.h> //sqrt()
 #include <assert.h>
@@ -62,12 +62,12 @@ standard_deviation( const vector< double >& tmp ){
 }
 
 /**
- * Program to scrape a partition result for statistics about inference runtime per world size
+ * Program to scrape a partition result for statistics about inference runtime_norm per world size
  */
 int
 main( int argc,
       char* argv[] ){
-  cout << "start of scrape_results_runtime_vs_world_size program" << endl;
+  cout << "start of scrape_results_runtime_normalized_vs_world_size program" << endl;
 
   // Determine the arguments provided.
   gengetopt_args_info args;
@@ -125,7 +125,7 @@ main( int argc,
                                   if( l5->type == XML_ELEMENT_NODE ){
                                     if( xmlStrcmp( l5->name, ( const xmlChar* )( "dcg" ) ) == 0 ){
                                       // look for the "runtime" property; this is the runtime for the given model
-                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
+                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime_norm" ) );
                                       if( runtime != NULL ){
                                         // convert runtime to a stringstream type for using as a string
                                         stringstream runtime_string;
@@ -148,7 +148,7 @@ main( int argc,
                                     }
                                     if( xmlStrcmp( l5->name, ( const xmlChar* )( "adcg" ) ) == 0 ){
                                       // look for the "runtime" property; this is the runtime for the given model
-                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
+                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime_norm" ) );
                                       if( runtime != NULL ){
                                         // convert runtime to a stringstream type for using as a string
                                         stringstream runtime_string;
@@ -171,7 +171,7 @@ main( int argc,
                                     }
                                     if( xmlStrcmp( l5->name, ( const xmlChar* )( "hdcg" ) ) == 0 ){
                                       // look for the "runtime" property; this is the runtime for the given model
-                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
+                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime_norm" ) );
                                       if( runtime != NULL ){
                                         // convert runtime to a stringstream type for using as a string
                                         stringstream runtime_string;
@@ -194,7 +194,7 @@ main( int argc,
                                     }
                                     if( xmlStrcmp( l5->name, ( const xmlChar* )( "hadcg" ) ) == 0 ){
                                       // look for the "runtime" property; this is the runtime for the given model
-                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
+                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime_norm" ) );
                                       if( runtime != NULL ){
                                         // convert runtime to a stringstream type for using as a string
                                         stringstream runtime_string;
@@ -277,8 +277,8 @@ main( int argc,
       // find the standard deviation
       cout << "  world size: " << it_dcg_runtimes->first << endl;
       cout << "  # of examples: " << it_dcg_runtimes->second.size() << endl;
-      cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
+      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
+      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
     }
   } else{
     cout << "No DCG runtime statistics to report." << endl;
@@ -294,8 +294,8 @@ main( int argc,
       // find the standard deviation
       cout << "  world size: " << it_adcg_runtimes->first << endl;
       cout << "  # of examples: " << it_adcg_runtimes->second.size() << endl;
-      cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
+      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
+      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
     }
   } else{
     cout << "No ADCG runtime statistics to report." << endl;
@@ -311,8 +311,8 @@ main( int argc,
       // find the standard deviation
       cout << "  world size: " << it_hdcg_runtimes->first << endl;
       cout << "  # of examples: " << it_hdcg_runtimes->second.size() << endl;
-      cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
+      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
+      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
     }
   } else{
     cout << "No HDCG runtime statistics to report." << endl;
@@ -328,8 +328,8 @@ main( int argc,
       // find the standard deviation
       cout << "  world size: " << it_hadcg_runtimes->first << endl;
       cout << "  # of examples: " << it_hadcg_runtimes->second.size() << endl;
-      cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
+      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
+      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
     }
   } else{
     cout << "No HADCG runtime statistics to report." << endl;
@@ -349,6 +349,6 @@ main( int argc,
   if( input_doc != NULL ){
     xmlFreeDoc( input_doc );
   }
-  cout << "end of scrape_results_runtime_vs_world_size program" << endl;
+  cout << "end of scrape_results_runtime_normalized_vs_world_size program" << endl;
   return 0;
 }

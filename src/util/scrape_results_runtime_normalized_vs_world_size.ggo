@@ -1,6 +1,6 @@
-package "scrape_results_runtime_vs_world_size"
+package "scrape_results_runtime_normalized_vs_world_size"
 version "1.0"
-purpose "A program used to generate statistics regarding inference runtime per world size"
+purpose "A program used to generate statistics regarding inference runtime normalized per world size"
 
 option "input" i "input results file to be scraped" string required
 
