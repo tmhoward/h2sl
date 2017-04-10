@@ -24,4 +24,9 @@
 # DCG: Case II: Entire corpus.
 ../build/bin/h2sl-test-process-inference --model dcg --feature_set ../data/training/navigation_corpus/combined/feature_set_groundings_combined.xml --output ../data/results/results-dcg-full-corpus/ --solution_directory ../data/results/results-dcg-full-corpus/solutions/ ../data/cross_validation_partitions/combined_nav_corpora/collated_0001/test_*.xml --beam_width 1 --test_training_set 0 --test_test_set 1
 
+# =============================  COMBINING THE RESULTS =======================================
+../build//bin/h2sl-test-combine-model-results --source_model dcg --source ../data/results/results-dcg-adcg-full-corpus/result_dcg_0129.xml --target ../data/results/results-dcg-adcg-full-corpus/result_adcg_0129.xml --output ../data/results/results-dcg-adcg-full-corpus/result_dcg_adcg_all.xml
+
+# =============================  MATLAB CONVERSION ===========================================
+../build/bin/h2sl-test-convert-xml-to-mat --input ../data/results/results-dcg-adcg-full-corpus/result_dcg_adcg_all.xml --output ../data/results/results-dcg-adcg-full-corpus/result_dcg_adcg_all_backup.m
 
