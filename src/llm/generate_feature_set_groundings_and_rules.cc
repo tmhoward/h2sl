@@ -7,7 +7,7 @@
  */
 
 #include "h2sl/feature_generator.h"
-#include "generate_feature_set_groundings_cmdline.h"
+#include "generate_feature_set_groundings_and_rules_cmdline.h"
 
 using namespace std;
 using namespace h2sl;
