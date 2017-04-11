@@ -295,8 +295,8 @@ main( int argc,
       // find the standard deviation
       cout << "  world size: " << it_dcg_runtimes->first << endl;
       cout << "  # of examples: " << it_dcg_runtimes->second.size() << endl;
-      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
+      cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
+      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
 
       // add the number of examples for the current world size to the total
       number_of_examples = number_of_examples + it_dcg_runtimes->second.size();
@@ -310,8 +310,8 @@ main( int argc,
     cout << endl << "  Total: " << endl;
     cout << "    # of examples: " << number_of_examples << endl; 
     cout << "    # of worlds: " << number_of_worlds << endl; 
-    cout << "    avg runtime: " << to_string( average( all_runtimes ) ) << endl;
-    cout << "    std runtime: " << to_string( standard_deviation( all_runtimes ) ) << endl;
+    cout << "    runtime avg: " << to_string( average( all_runtimes ) ) << endl;
+    cout << "    runtime std: " << to_string( standard_deviation( all_runtimes ) ) << endl;
   } else{
     cout << "No DCG runtime statistics to report." << endl;
   }
@@ -329,8 +329,8 @@ main( int argc,
       // find the standard deviation
       cout << "  world size: " << it_adcg_runtimes->first << endl;
       cout << "  # of examples: " << it_adcg_runtimes->second.size() << endl;
-      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
+      cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
+      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
 
       // add the number of examples for the current world size to the total
       number_of_examples = number_of_examples + it_adcg_runtimes->second.size();
@@ -344,8 +344,8 @@ main( int argc,
     cout << endl << "  Total: " << endl;
     cout << "    # of examples: " << number_of_examples << endl; 
     cout << "    # of worlds: " << number_of_worlds << endl; 
-    cout << "    avg runtime: " << to_string( average( all_runtimes ) ) << endl;
-    cout << "    std runtime: " << to_string( standard_deviation( all_runtimes ) ) << endl;
+    cout << "    runtime avg: " << to_string( average( all_runtimes ) ) << endl;
+    cout << "    runtime std: " << to_string( standard_deviation( all_runtimes ) ) << endl;
   } else{
     cout << "No ADCG runtime statistics to report." << endl;
   }
@@ -363,8 +363,8 @@ main( int argc,
       // find the standard deviation
       cout << "  world size: " << it_hdcg_runtimes->first << endl;
       cout << "  # of examples: " << it_hdcg_runtimes->second.size() << endl;
-      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl;
-      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl;
+      cout << "    runtime avg: " << to_string( runtime_average ) << endl;
+      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl;
 
       // add the number of examples for the current world size to the total
       number_of_examples = number_of_examples + it_hdcg_runtimes->second.size();
@@ -378,8 +378,8 @@ main( int argc,
     cout << endl << "  Total: " << endl;
     cout << "    # of examples: " << number_of_examples << endl;
     cout << "    # of worlds: " << number_of_worlds << endl;
-    cout << "    avg runtime: " << to_string( average( all_runtimes ) ) << endl;
-    cout << "    std runtime: " << to_string( standard_deviation( all_runtimes ) ) << endl;
+    cout << "    runtime avg: " << to_string( average( all_runtimes ) ) << endl;
+    cout << "    runtime std: " << to_string( standard_deviation( all_runtimes ) ) << endl;
   } else{
     cout << "No HDCG runtime statistics to report." << endl;
   }
@@ -397,8 +397,8 @@ main( int argc,
       // find the standard deviation
       cout << "  world size: " << it_hadcg_runtimes->first << endl;
       cout << "  # of examples: " << it_hadcg_runtimes->second.size() << endl;
-      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl;
-      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl;
+      cout << "    runtime avg: " << to_string( runtime_average ) << endl;
+      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl;
 
       // add the number of examples for the current world size to the total
       number_of_examples = number_of_examples + it_hadcg_runtimes->second.size();
@@ -412,8 +412,8 @@ main( int argc,
     cout << endl << "  Total: " << endl;
     cout << "    # of examples: " << number_of_examples << endl;
     cout << "    # of worlds: " << number_of_worlds << endl;
-    cout << "    avg runtime: " << to_string( average( all_runtimes ) ) << endl;
-    cout << "    std runtime: " << to_string( standard_deviation( all_runtimes ) ) << endl;
+    cout << "    runtime avg: " << to_string( average( all_runtimes ) ) << endl;
+    cout << "    runtime std: " << to_string( standard_deviation( all_runtimes ) ) << endl;
   } else{
     cout << "No HADCG runtime statistics to report." << endl;
   }
