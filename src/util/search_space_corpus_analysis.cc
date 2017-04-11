@@ -697,6 +697,6 @@ main( int argc,
  
   */
   
-  cout << "end of scrape_results_runtime_vs_world_size program" << endl;
+  cout << "end of search space corpus analysis program" << endl;
   return 0;
 }
