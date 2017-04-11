@@ -593,7 +593,8 @@ main( int argc,
     outfile << endl << endl;
     outfile << "saveas(gcf, 'search_space_comparison', 'epsc');" << endl << endl;
     outfile << "saveas(gcf, 'search_space_comparison', 'pdf');" << endl << endl;
- 
+
+    /* 
     // Plot the log-log scale figure. 
     outfile << "figure(2);" << endl;
     outfile << "hold on;" << endl;
@@ -619,6 +620,8 @@ main( int argc,
     outfile << endl << endl;
     outfile << "saveas(gcf, 'search_space_comparison log log scale', 'epsc');" << endl << endl;
     outfile << "saveas(gcf, 'search_space_comparison log log scale', 'pdf');" << endl << endl;
+    */
+  
     outfile.close();
   } // matlab script writing ends here.
  

@@ -6,21 +6,6 @@
  * Program used to combine the results of cross-validation tests for different models that are in separate xml files
  */
 
-#include "test_combine_model_results_cmdline.h"
-#include <boost/filesystem/path.hpp>
-
-//#include <string.h>
-#include <assert.h>
-#include <iostream>
-#include <iomanip>
-#include <sstream>
-#include <libxml/tree.h>
-
-#include "h2sl/common.h"
-
-using namespace std;
-using namespace h2sl;
-
 /*
   Main algorithm to combine the model result information:
     1. Loop through each test ( "test" xml node ) in the source file. For each,
@@ -37,6 +22,22 @@ using namespace h2sl;
          12. Loop through the example's children to find the XML node with name {source model name}
          13. Add the node as a child to the target's "example" node
 */
+
+#include "test_combine_model_results_cmdline.h"
+#include <boost/filesystem/path.hpp>
+
+//#include <string.h>
+#include <assert.h>
+#include <iostream>
+#include <iomanip>
+#include <sstream>
+#include <libxml/tree.h>
+
+#include "h2sl/common.h"
+
+using namespace std;
+using namespace h2sl;
+
 
 /*
  * Function to return the "results" node for a provided root node

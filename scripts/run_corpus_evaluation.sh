@@ -27,6 +27,9 @@
 # =============================  COMBINING THE RESULTS =======================================
 ../build//bin/h2sl-test-combine-model-results --source_model dcg --source ../data/results/results-dcg-adcg-full-corpus/result_dcg_0129.xml --target ../data/results/results-dcg-adcg-full-corpus/result_adcg_0129.xml --output ../data/results/results-dcg-adcg-full-corpus/result_dcg_adcg_all.xml
 
+../build//bin/h2sl-test-combine-model-results --source_model dcg --source ../data/results/results-dcg-adcg-single/result_dcg_single.xml --target ../data/results/results-dcg-adcg-single/result_adcg_single.xml --output ../data/results/results-dcg-adcg-single/result_dcg_adcg_single.xml
+
+
 # =============================  MATLAB CONVERSION ===========================================
 ../build/bin/h2sl-test-convert-xml-to-mat --input ../data/results/results-dcg-adcg-full-corpus/result_dcg_adcg_all.xml --output ../data/results/results-dcg-adcg-full-corpus/result_dcg_adcg_all_backup.m
 
