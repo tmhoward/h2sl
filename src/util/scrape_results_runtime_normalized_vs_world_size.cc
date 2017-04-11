@@ -266,12 +266,30 @@ main( int argc,
     }
   }
 
+  // Report information about the number of worlds
+  // Scope Decision: Keep the total number of worlds for later reports
+  unsigned int number_of_worlds = 0;
+  if( world_models.size() > 0 ){
+    cout << "World Information - Number of Worlds" << endl;
+    for( map< string, vector< const h2sl::World> >::const_iterator it_world_models = world_models.begin(); it_world_models != world_models.end(); ++it_world_models ){
+      cout << "world size( " << it_world_models->first << " ): " << it_world_models->second.size() << endl;
+      // add to the total number of worlds
+      number_of_worlds = number_of_worlds + it_world_models->second.size();
+    }
+    cout << "  Total # of Worlds: " << number_of_worlds << endl;
+  }
+  cout << endl;
+
   // Report runtime statistics per model per world size
   cout << "Reporting runtime statistics:" << endl;
+
+  // Report DCG runtime statistics
   if( dcg_runtimes.size() > 0 ){
     cout << "DCG" << endl;
+    unsigned int number_of_examples = 0; // counter for the total number of examples
+    vector< double > all_runtimes; // vector of all of the runtime for this model
     for( map< string, vector< double > >::const_iterator it_dcg_runtimes = dcg_runtimes.begin(); it_dcg_runtimes != dcg_runtimes.end(); ++it_dcg_runtimes ){
-      // find the average runtime
+      // find the average runtime for the examples with the current world size
       double runtime_average = average( it_dcg_runtimes->second );
       double runtime_standard_deviation = standard_deviation( it_dcg_runtimes->second );
       // find the standard deviation
@@ -279,16 +297,33 @@ main( int argc,
       cout << "  # of examples: " << it_dcg_runtimes->second.size() << endl;
       cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
       cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
+
+      // add the number of examples for the current world size to the total
+      number_of_examples = number_of_examples + it_dcg_runtimes->second.size();
+
+      // update the all_runtimes vector with each runtime from the current world size
+      for( unsigned int i = 0; i < it_dcg_runtimes->second.size(); i++ ){
+        all_runtimes.push_back( it_dcg_runtimes->second[ i ] );
+      }
     }
+    // find the results for the total
+    cout << endl << "  Total: " << endl;
+    cout << "    # of examples: " << number_of_examples << endl; 
+    cout << "    # of worlds: " << number_of_worlds << endl; 
+    cout << "    avg runtime: " << to_string( average( all_runtimes ) ) << endl;
+    cout << "    std runtime: " << to_string( standard_deviation( all_runtimes ) ) << endl;
   } else{
     cout << "No DCG runtime statistics to report." << endl;
   }
   cout << endl;
 
+  // Report ADCG runtime statistics
   if( adcg_runtimes.size() > 0 ){
     cout << "ADCG" << endl;
+    unsigned int number_of_examples = 0; // counter for the total number of examples
+    vector< double > all_runtimes; // vector of all of the runtime for this model
     for( map< string, vector< double > >::const_iterator it_adcg_runtimes = adcg_runtimes.begin(); it_adcg_runtimes != adcg_runtimes.end(); ++it_adcg_runtimes ){
-      // find the average runtime
+      // find the average runtime for the examples with the current world size
       double runtime_average = average( it_adcg_runtimes->second );
       double runtime_standard_deviation = standard_deviation( it_adcg_runtimes->second );
       // find the standard deviation
@@ -296,54 +331,94 @@ main( int argc,
       cout << "  # of examples: " << it_adcg_runtimes->second.size() << endl;
       cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
       cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
+
+      // add the number of examples for the current world size to the total
+      number_of_examples = number_of_examples + it_adcg_runtimes->second.size();
+
+      // update the all_runtimes vector with each runtime from the current world size
+      for( unsigned int i = 0; i < it_adcg_runtimes->second.size(); i++ ){
+        all_runtimes.push_back( it_adcg_runtimes->second[ i ] );
+      }
     }
+    // find the results for the total
+    cout << endl << "  Total: " << endl;
+    cout << "    # of examples: " << number_of_examples << endl; 
+    cout << "    # of worlds: " << number_of_worlds << endl; 
+    cout << "    avg runtime: " << to_string( average( all_runtimes ) ) << endl;
+    cout << "    std runtime: " << to_string( standard_deviation( all_runtimes ) ) << endl;
   } else{
     cout << "No ADCG runtime statistics to report." << endl;
   }
   cout << endl;
- 
+
+  // Report HDCG runtime statistics
   if( hdcg_runtimes.size() > 0 ){
     cout << "HDCG" << endl;
+    unsigned int number_of_examples = 0; // counter for the total number of examples
+    vector< double > all_runtimes; // vector of all of the runtime for this model
     for( map< string, vector< double > >::const_iterator it_hdcg_runtimes = hdcg_runtimes.begin(); it_hdcg_runtimes != hdcg_runtimes.end(); ++it_hdcg_runtimes ){
-      // find the average runtime
+      // find the average runtime for the examples with the current world size
       double runtime_average = average( it_hdcg_runtimes->second );
       double runtime_standard_deviation = standard_deviation( it_hdcg_runtimes->second );
       // find the standard deviation
       cout << "  world size: " << it_hdcg_runtimes->first << endl;
       cout << "  # of examples: " << it_hdcg_runtimes->second.size() << endl;
-      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
+      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl;
+      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl;
+
+      // add the number of examples for the current world size to the total
+      number_of_examples = number_of_examples + it_hdcg_runtimes->second.size();
+
+      // update the all_runtimes vector with each runtime from the current world size
+      for( unsigned int i = 0; i < it_hdcg_runtimes->second.size(); i++ ){
+        all_runtimes.push_back( it_hdcg_runtimes->second[ i ] );
+      }
     }
+    // find the results for the total
+    cout << endl << "  Total: " << endl;
+    cout << "    # of examples: " << number_of_examples << endl;
+    cout << "    # of worlds: " << number_of_worlds << endl;
+    cout << "    avg runtime: " << to_string( average( all_runtimes ) ) << endl;
+    cout << "    std runtime: " << to_string( standard_deviation( all_runtimes ) ) << endl;
   } else{
     cout << "No HDCG runtime statistics to report." << endl;
   }
   cout << endl;
- 
+
+  // Report HADCG runtime statistics
   if( hadcg_runtimes.size() > 0 ){
     cout << "HADCG" << endl;
+    unsigned int number_of_examples = 0; // counter for the total number of examples
+    vector< double > all_runtimes; // vector of all of the runtime for this model
     for( map< string, vector< double > >::const_iterator it_hadcg_runtimes = hadcg_runtimes.begin(); it_hadcg_runtimes != hadcg_runtimes.end(); ++it_hadcg_runtimes ){
-      // find the average runtime
+      // find the average runtime for the examples with the current world size
       double runtime_average = average( it_hadcg_runtimes->second );
       double runtime_standard_deviation = standard_deviation( it_hadcg_runtimes->second );
       // find the standard deviation
       cout << "  world size: " << it_hadcg_runtimes->first << endl;
       cout << "  # of examples: " << it_hadcg_runtimes->second.size() << endl;
-      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl; 
+      cout << "    runtime norm avg: " << to_string( runtime_average ) << endl;
+      cout << "    runtime norm std: " << to_string( runtime_standard_deviation ) << endl;
+
+      // add the number of examples for the current world size to the total
+      number_of_examples = number_of_examples + it_hadcg_runtimes->second.size();
+
+      // update the all_runtimes vector with each runtime from the current world size
+      for( unsigned int i = 0; i < it_hadcg_runtimes->second.size(); i++ ){
+        all_runtimes.push_back( it_hadcg_runtimes->second[ i ] );
+      }
     }
+    // find the results for the total
+    cout << endl << "  Total: " << endl;
+    cout << "    # of examples: " << number_of_examples << endl;
+    cout << "    # of worlds: " << number_of_worlds << endl;
+    cout << "    avg runtime: " << to_string( average( all_runtimes ) ) << endl;
+    cout << "    std runtime: " << to_string( standard_deviation( all_runtimes ) ) << endl;
   } else{
     cout << "No HADCG runtime statistics to report." << endl;
   }
   cout << endl;
 
-  if( world_models.size() > 0 ){
-    cout << "World Information - Number of Worlds" << endl;
-    for( map< string, vector< const h2sl::World> >::const_iterator it_world_models = world_models.begin(); it_world_models != world_models.end(); ++it_world_models ){
-      cout << "world size( " << it_world_models->first << " ): " << it_world_models->second.size() << endl;
-    }
-  }
-  cout << endl;
- 
   // Memory cleanup
   // free the xml pointers
   if( input_doc != NULL ){
