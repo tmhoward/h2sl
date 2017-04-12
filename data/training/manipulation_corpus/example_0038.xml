@@ -19,38 +19,31 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object id="O2-cube-cube-base"/>
-        <object_property object_type="block" spatial_relation_type="right" index="2"/>
-        <spatial_relation spatial_relation_type="right"/>
+        <object_property object_type="block" spatial_relation_type="na" index="2"/>
+        <index value="2"/>
+        <object_type object_type="block"/>
+        <spatial_relation spatial_relation_type="na"/>
       </grounding_set>
-      <NP>
-        <grounding_set>
-          <object_property object_type="block" spatial_relation_type="na" index="2"/>
-          <index value="2"/>
-          <object_type object_type="block"/>
-          <spatial_relation spatial_relation_type="na"/>
-        </grounding_set>
-        <DT text="the" order="0"/>
-        <JJ text="second" order="1"/>
-        <NN text="block" order="2"/>
-      </NP>
-      <PP>
-        <grounding_set>
-          <spatial_relation spatial_relation_type="right"/>
-        </grounding_set>
-        <IN text="from" order="3"/>
-        <NP>
-          <grounding_set>
-            <spatial_relation spatial_relation_type="right"/>
-          </grounding_set>
-          <DT text="the" order="4"/>
-          <NN text="right" order="5"/>
-        </NP>
-      </PP>
+      <DT text="the" order="0"/>
+      <JJ text="second" order="1"/>
+      <NN text="block" order="2"/>
     </NP>
     <PP>
       <grounding_set>
-        <container container_type="group" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base,O6-cube-cube-base,O7-cube-cube-base"/>
+        <spatial_relation spatial_relation_type="right"/>
+      </grounding_set>
+      <IN text="from" order="3"/>
+      <NP>
+        <grounding_set>
+          <spatial_relation spatial_relation_type="right"/>
+        </grounding_set>
+        <DT text="the" order="4"/>
+        <NN text="right" order="5"/>
+      </NP>
+    </PP>
+    <PP>
+      <grounding_set>
+        <container container_type="row" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base,O6-cube-cube-base,O7-cube-cube-base"/>
         <object id="O1-cube-cube-base"/>
         <object id="O2-cube-cube-base"/>
         <object id="O3-cube-cube-base"/>
@@ -62,7 +55,7 @@
       <IN text="in" order="6"/>
       <NP>
         <grounding_set>
-          <container container_type="group" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base,O6-cube-cube-base,O7-cube-cube-base"/>
+          <container container_type="row" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base,O6-cube-cube-base,O7-cube-cube-base"/>
           <object id="O1-cube-cube-base"/>
           <object id="O2-cube-cube-base"/>
           <object id="O3-cube-cube-base"/>
@@ -73,7 +66,7 @@
         </grounding_set>
         <NP>
           <grounding_set>
-            <container container_type="group"/>
+            <container_type container_type="row"/>
           </grounding_set>
           <DT text="the" order="7"/>
           <NN text="row" order="8"/>
@@ -111,9 +104,11 @@
                 <object id="O5-cube-cube-base"/>
                 <object id="O6-cube-cube-base"/>
                 <object id="O7-cube-cube-base"/>
-                <abstract_container object_type="block" number="7" index="1" object_color="na"/>
                 <object_type object_type="block"/>
-                <object_color object_color_type="na"/>
+                <!--abstract_container object_type="block" number="7" index="1" object_color="na"/>
+                <number value="7"/>
+                <index value="1"/>
+                <object_color object_color_type="na"/-->
               </grounding_set>
               <NNS text="blocks" order="10"/>
             </NP>
