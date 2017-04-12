@@ -2,6 +2,12 @@
 
 # =============================  PARTITION GENERATION ========================================
 # Random partition generation
+# Case I: Full partition single file - Note that this generates two files (100% test set and 100% training set)
+./bin/h2sl-test-generator --num=1 --fr=2 --min_fr=0.0 --max_fr=1.0 ../data/training/navigation_corpus/groups/example_00*.xml ../data/training/navigation_corpus/objects_in_groups/example_00*.xml
+mv /tmp/test_0001.xml ../data/cross_validaton_partitions/combined_nav_corpora/0002/test_full.xml
+
+# Case II: Corpus.
+./bin/h2sl-test-generator --output ../data/cross_validation_partitions/combined_nav_corpora/0002/ ../data/training/navigation_corpus/groups/example_00*.xml ../data/training/navigation_corpus/objects_in_groups/example_00*.xml
 
 # =============================  TRAINING ========================================
 # Training of the training partition and creation of LLM and insertion of the symbol dictionary
