@@ -39,7 +39,7 @@
           <object_type object_type="block"/>
           <spatial_relation spatial_relation_type="far"/>
           <number value="2"/>
-          <index value="1">
+          <index value="1"/>
           <object_color object_color_type="na"/>
         </grounding_set>
         <DT text="the" order="0"/>
