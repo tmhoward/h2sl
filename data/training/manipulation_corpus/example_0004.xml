@@ -25,8 +25,8 @@
       <grounding_set>
         <object id="object9-cube-cube-base"/>
         <object_property object_type="block" spatial_relation_type="far" index="1"/>
-        <index value="1"/>
         <object_type object_type="block"/>
+        <index value="1"/>
         <spatial_relation spatial_relation_type="far"/>
       </grounding_set>
       <DT text="the" order="0"/>
@@ -35,7 +35,7 @@
     </NP>
     <PP>
       <grounding_set>
-        <container container_type="group" object_ids="object5-cube-cube-base,object3-cube-cube-base,object0-cube-cube-base"/>
+        <container container_type="column" object_ids="object5-cube-cube-base,object3-cube-cube-base,object0-cube-cube-base"/>
         <object id="object5-cube-cube-base"/>
         <object id="object3-cube-cube-base"/>
         <object id="object0-cube-cube-base"/>
@@ -43,14 +43,14 @@
       <IN text="of" order="3"/>
       <NP>
         <grounding_set>
-          <container container_type="group" object_ids="object5-cube-cube-base,object3-cube-cube-base,object0-cube-cube-base"/>
+          <container container_type="column" object_ids="object5-cube-cube-base,object3-cube-cube-base,object0-cube-cube-base"/>
           <object id="object5-cube-cube-base"/>
           <object id="object3-cube-cube-base"/>
           <object id="object0-cube-cube-base"/>
         </grounding_set>
         <NP>
           <grounding_set>
-            <container container_type="group"/>
+            <container_type container_type="column"/>
           </grounding_set>
           <DT text="the" order="4"/>
           <NN text="column" order="5"/>
@@ -74,6 +74,7 @@
               <grounding_set>
                 <abstract_container object_type="block" number="3" index="1" object_color="na"/>
                 <number value="3"/>
+                <index value="1"/>
                 <object_type object_type="block"/>
                 <object_color object_color_type="na"/>
               </grounding_set>
