@@ -27,7 +27,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <container container_type="group"/>
+        <container_type container_type="group"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <NN text="group" order="1"/>
@@ -54,6 +54,7 @@
             <abstract_container object_type="block" number="4" index="1" object_color="na"/>
             <object_type object_type="block"/>
             <number value="4"/>
+            <index value="1"/>
             <object_color object_color_type="na"/>
           </grounding_set>
           <CD text="four" order="3"/>
