@@ -117,6 +117,9 @@ main( int argc,
   unsigned int num_correct = 0;
   unsigned int num_incorrect = 0;
 
+  vector< string > correct_filenames;
+  vector< string > incorrect_filenames;
+
   for( unsigned int i = 0; i < args.inputs_num; i++ ){
     cout << "reading file " << args.inputs[ i ] << endl;
     string instruction = extract_instruction( args.inputs[ i ] );
@@ -155,9 +158,11 @@ main( int argc,
         cout << "solution: " << *hadcg->solutions().front().second << " (" << hadcg->solutions().front().first << ")" << endl;
         if( compare_phrases( *truth, *hadcg->solutions().front().second ) ){
           cout << "solution matches" << endl;
+          correct_filenames.push_back( args.inputs[ i ] );
           num_correct++;
         } else{
           cout << "solution does not match" << endl;
+          incorrect_filenames.push_back( args.inputs[ i ] );
           num_incorrect++;
         }
       }
@@ -190,9 +195,11 @@ main( int argc,
           }
           if( found_match ){
             cout << "  phrase[" << match_index << "] matches" << endl;
+            correct_filenames.push_back( args.inputs[ i ] );
             num_correct++;
           } else {
             cout << "  did not find match" << endl;
+            incorrect_filenames.push_back( args.inputs[ i ] );
             num_incorrect++;
             exit(0);
           }
@@ -242,6 +249,24 @@ main( int argc,
   }
 
   cout << "correctly inferred " << num_correct << " of " << num_correct + num_incorrect << " examples (" << ( double )( num_correct ) / ( double )( num_correct + num_incorrect ) * 100.0 << "%)" << endl;
+
+  cout << "correct_filenames[" << correct_filenames.size() << "]:{";
+  for( unsigned int i = 0; i < correct_filenames.size(); i++ ){
+    cout << correct_filenames[ i ];
+    if( i != ( correct_filenames.size() - 1 ) ) {
+      cout << ",";
+    }
+  }
+  cout << "}" << endl;
+
+  cout << "incorrect_filenames[" << incorrect_filenames.size() << "]:{";
+  for( unsigned int i = 0; i < incorrect_filenames.size(); i++ ){
+    cout << incorrect_filenames[ i ];
+    if( i != ( incorrect_filenames.size() - 1 ) ) {
+      cout << ",";
+    }
+  }
+  cout << "}" << endl;
 
   if( hadcg != NULL ){
     delete hadcg;
