@@ -16,7 +16,7 @@
 ../build/bin/h2sl-generate-feature-set-groundings-and-rules ../data/training/navigation_corpus/groups/example_00*.xml ../data/training/navigation_corpus/groups/rule_example_00*.xml ../data/training/navigation_corpus/objects_in_groups/example_00*.xml ../data/training/navigation_corpus/objects_in_groups/rule_example_00*.xml --sd sdc_hdcg_nav.xml --output fs_hdcg_nav.xml
 
 # train models
-../build/bin/h2sl-llm-train-groundings-and-rules ../data/training/navigation_corpus/groups/example_00*.xml ../data/training/navigation_corpus/groups/rule_example_00*.xml ../data/training/navigation_corpus/objects_in_groups/example_00*.xml ../data/training/navigation_corpus/objects_in_groups/rule_example_00*.xml --sdg sdg_hdcg_nav.xml --sdr sdr_hdcg_nav.xml --feature_set fs_hdcg_nav.xml --max_iterations 200 --output llm_hdcg_nav.xml
+../build/bin/h2sl-llm-train-groundings-and-rules ../data/training/navigation_corpus/groups/example_00*.xml ../data/training/navigation_corpus/groups/rule_example_00*.xml ../data/training/navigation_corpus/objects_in_groups/example_00*.xml ../data/training/navigation_corpus/objects_in_groups/rule_example_00*.xml --sdg sdg_hdcg_nav.xml --sdr sdr_hdcg_nav.xml --feature_set fs_hdcg_nav.xml --max_iterations 200 --output llm_hdcg_nav.xml --threads 16
 
 
 
