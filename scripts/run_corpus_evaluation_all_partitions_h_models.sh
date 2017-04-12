@@ -3,9 +3,9 @@
 # =============================  TRAINING ========================================
 # Training of the training partition and creation of LLM and insertion of the symbol dictionary
 # Case II: Corpus. Multiple files.
-mkdir -p ../data/cross_validation_partitions/combined_nav_corpora/collated_all_partitions_trained
+mkdir -p ../data/cross_validation_partitions/combined_nav_corpora/collated_all_partitions
 
-../build/bin/h2sl-test-process-training ../data/cross_validation_partitions/combined_nav_corpora/all_partitions/test_*.xml --symbol_dictionary_groundings ../data/training/navigation_corpus/combined/sdg_hdcg_nav.xml --feature_set ../data/training/navigation_corpus/combined/fs_hdcg_nav.xml --output ../data/cross_validation_partitions/combined_nav_corpora/collated_all_partitions_trained/ --evaluate_model 0 --threads 16
+../build/bin/h2sl-test-process-training ../data/cross_validation_partitions/combined_nav_corpora/all_partitions/test_*.xml --symbol_dictionary_groundings ../data/training/navigation_corpus/combined/sdg_hdcg_nav.xml --feature_set ../data/training/navigation_corpus/combined/fs_hdcg_nav.xml --output ../data/cross_validation_partitions/combined_nav_corpora/collated_all_partitions/ --evaluate_model 0 --threads 16
 
 # =============================  INFERENCE ========================================
 
