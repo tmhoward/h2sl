@@ -27,13 +27,14 @@
         <object_property object_type="block" spatial_relation_type="center" index="1"/>
         <spatial_relation spatial_relation_type="center"/>
         <object_type object_type="block"/>
+        <index value="1"/>
       </grounding_set>
       <JJ text="middle" order="0"/>
       <NN text="block" order="1"/>
     </NP>
     <PP>
       <grounding_set>
-        <container container_type="group" object_ids="object9-cube-cube-base,object8-cube-cube-base,object7-cube-cube-base,object6-cube-cube-base,object3-cube-cube-base"/>
+        <container container_type="row" object_ids="object9-cube-cube-base,object8-cube-cube-base,object7-cube-cube-base,object6-cube-cube-base,object3-cube-cube-base"/>
         <object id="object9-cube-cube-base"/>
         <object id="object8-cube-cube-base"/>
         <object id="object7-cube-cube-base"/>
@@ -43,7 +44,7 @@
       <IN text="of" order="2"/>
       <NP>
         <grounding_set>
-          <container container_type="group" object_ids="object9-cube-cube-base,object8-cube-cube-base,object7-cube-cube-base,object6-cube-cube-base,object3-cube-cube-base"/>
+          <container container_type="row" object_ids="object9-cube-cube-base,object8-cube-cube-base,object7-cube-cube-base,object6-cube-cube-base,object3-cube-cube-base"/>
           <object id="object9-cube-cube-base"/>
           <object id="object8-cube-cube-base"/>
           <object id="object7-cube-cube-base"/>
@@ -52,7 +53,7 @@
         </grounding_set>
         <NP>
           <grounding_set>
-            <container container_type="group"/>
+            <container_type container_type="row"/>
           </grounding_set>
           <DT text="the" order="3"/>
           <NN text="row" order="4"/>
@@ -81,6 +82,7 @@
                 <abstract_container object_type="block" number="5" index="1" object_color="na"/>
                 <object_type object_type="block"/>
                 <number value="5"/>
+                <index value="1"/>
                 <object_color object_color_type="na"/>
               </grounding_set>
               <CD text="five" order="6"/>
