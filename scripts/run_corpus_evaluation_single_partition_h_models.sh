@@ -25,11 +25,11 @@ mkdir -p ../data/results/results_hadcg_single/results_beam_width_4/solutions
 ../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/navigation_corpus/combined/fs_hdcg_nav.xml --output ../data/results/results_hadcg_single/results_beam_width_4/ --solution_directory ../data/results/results_hadcg_single/results_beam_width_4/solutions/ ../data/cross_validation_partitions/combined_nav_corpora/collated_single_partition/test_collated_full.xml --beam_width 4 --test_training_set 1 --test_test_set 0
 
 # ============================= combining results  =======================================
-mkdir -p ../data/results/results_hadcg_single/results_beam_width_1/solutions
+mkdir -p ../data/results/results_hdcg_hadcg_single/results_beam_width_1/solutions
 
 ../build//bin/h2sl-test-combine-model-results --source_model hdcg --source ../data/results/results_hdcg_single/results_beam_width_1/result_full.xml --target ../data/results/results_hadcg_single/results_beam_width_1/result_full.xml --output ../data/results/results_hdcg_hadcg_single/results_beam_width_1/result_hdcg_hadcg_single.xml
 
-mkdir -p ../data/results/results_hadcg_single/results_beam_width_4/solutions
+mkdir -p ../data/results/results_hdcg_hadcg_single/results_beam_width_4/solutions
 
 ../build//bin/h2sl-test-combine-model-results --source_model hdcg --source ../data/results/results_hdcg_single/results_beam_width_1/result_full.xml --target ../data/results/results_hadcg_single/results_beam_width_4/result_full.xml --output ../data/results/results_hdcg_hadcg_single/results_beam_width_4/result_hdcg_hadcg_single.xml
 
