@@ -2,6 +2,10 @@
 
 # =============================  partition ========================================
 # Random partition generation
+# Case I: Training set is composed of all examples. Note that this command produces two files (test_0000.xml is 100% test set && test_0001.xml is 100% training_set)
+../build/bin/h2sl-test-generator --num=1 --fr=2 --min_fr=0.0 --max_fr=1.0 ../data/training/navigation_corpus/groups/example_00*.xml ../data/training/navigation_corpus/objects_in_groups/example_00*.xml
+mkdir -p ../data/cross_validation_partitions/combined_nav_corpora/collated_single_partition
+mv /tmp/test_0001.xml ../data/cross_validation_partitions/combined_nav_corpora/collated_single_partition/test_full.xml
 
 # =============================  training ========================================
 # Training of the training partition and creation of LLM and insertion of the symbol dictionary
