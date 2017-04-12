@@ -28,11 +28,11 @@
         <container container_type="group" object_ids="object0-cube-cube-base,object1-cube-cube-base"/>
         <object id="object0-cube-cube-base"/>
         <object id="object1-cube-cube-base"/>
-        <abstract_container object_type="block" number="2" index="1" object_color="na"/>
-        <index value="1"/>
+        <region_abstract_container spatial_relation_type="near" object_type="block" number="2" index="1" object_color="na"/>
         <object_type object_type="block"/>
         <spatial_relation spatial_relation_type="near"/>
         <number value="2"/>
+        <index value="1"/>
         <object_color object_color_type="na"/>
       </grounding_set>
       <DT text="the" order="0"/>
