@@ -87,7 +87,7 @@
               <grounding_set>
                 <region spatial_relation_type="front" object_id="husky"/>
               </grounding_set>
-              <IN text="in" order="8"/>
+              <IN text="in" order="11"/>
               <NP>
                 <grounding_set>
                   <region spatial_relation_type="front" object_id="husky"/>
@@ -96,19 +96,19 @@
                   <grounding_set>
                     <spatial_relation spatial_relation_type="front"/>
                   </grounding_set>
-                  <NN text="front" order="9"/>
+                  <NN text="front" order="12"/>
                 </NP>
                 <PP>
                   <grounding_set>
                     <object id="husky"/>
                   </grounding_set>
-                  <IN text="of" order="10"/>
+                  <IN text="of" order="13"/>
                   <NP>
                     <grounding_set>
                       <object id="husky"/>
                     </grounding_set>
-                    <DT text="the" order="11"/>
-                    <NN text="robot" order="12"/>
+                    <DT text="the" order="14"/>
+                    <NN text="robot" order="15"/>
                   </NP>
                 </PP>
               </NP>

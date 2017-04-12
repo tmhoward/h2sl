@@ -98,6 +98,8 @@ namespace h2sl {
                                                               Feature_Set& featureSet );
   void feature_generator_add_rule_constraint_reference_type_features( const Symbol_Dictionary& symbolDictionary, 
                                                               Feature_Set& featureSet );
+  void feature_generator_add_rule_container_type_features( const Symbol_Dictionary& symbolDictionary, 
+                                                              Feature_Set& featureSet );
   void feature_generator_add_rule_index_features( const Symbol_Dictionary& symbolDictionary, 
                                                               Feature_Set& featureSet );
   void feature_generator_add_rule_number_features( const Symbol_Dictionary& symbolDictionary, 
