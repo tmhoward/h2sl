@@ -28,6 +28,10 @@ set(HDRS
     h2sl/feature_matches_child.ipp
     h2sl/feature_matches_only_child.h
     h2sl/feature_matches_only_child.ipp
+    h2sl/feature_matches_first_child.h
+    h2sl/feature_matches_first_child.ipp
+    h2sl/feature_merge_children.h
+    h2sl/feature_merge_children.ipp
     h2sl/feature_grounding_string_property_value.h
     h2sl/feature_grounding_int_property_value.h
     h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h
@@ -137,6 +141,13 @@ set(HDRS
     h2sl/feature_container_merge_abstract_container_region_container.h
     h2sl/feature_container_merge_region_abstract_container_container.h
     h2sl/feature_container_merge_container_type_container.h
+    h2sl/feature_rule_object_type_merge_rule_object_types.h
+    h2sl/feature_rule_object_type_merge_rule_container_type_rule_object_type.h
+    h2sl/feature_rule_object_color_merge_rule_object_type_rule_spatial_relation.h
+    h2sl/feature_rule_spatial_relation_merge_rule_spatial_relations.h
+    h2sl/feature_rule_spatial_relation_merge_rule_spatial_relation_rule_container_type.h
+    h2sl/feature_rule_container_type_merge_rule_container_types.h
+    h2sl/feature_rule_index_merge_rule_container_type_rule_index.h
     h2sl/llm.h)
 
 # QT HEADER FILES
@@ -263,6 +274,13 @@ set(SRCS
     feature_container_merge_abstract_container_region_container.cc
     feature_container_merge_region_abstract_container_container.cc
     feature_container_merge_container_type_container.cc
+    feature_rule_object_type_merge_rule_object_types.cc
+    feature_rule_object_type_merge_rule_container_type_rule_object_type.cc
+    feature_rule_object_color_merge_rule_object_type_rule_spatial_relation.cc
+    feature_rule_spatial_relation_merge_rule_spatial_relations.cc
+    feature_rule_spatial_relation_merge_rule_spatial_relation_rule_container_type.cc
+    feature_rule_container_type_merge_rule_container_types.cc
+    feature_rule_index_merge_rule_container_type_rule_index.cc
     llm.cc)
 
 # BINARY SOURCE FILES

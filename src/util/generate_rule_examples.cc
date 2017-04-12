@@ -47,18 +47,12 @@ using namespace h2sl;
 void
 replace_groundings_with_rules( Phrase* phrase, 
                                 World* world ){
-  cout << "checking " << *phrase->grounding_set() << endl;
   Grounding_Set * grounding_set_rules = new Grounding_Set();
   for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
-    cout << "  replacing in class " << *(*it_grounding) << endl;
     (*it_grounding)->fill_rules( world, grounding_set_rules );
   }
 
-  cout << "grounding_set_rules" << *grounding_set_rules << endl;
-
   phrase->grounding_set() = grounding_set_rules;
-
-  cout << "phrase->grounding_set()->groundings().size():" << phrase->grounding_set()->groundings().size() << endl;
 
   for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
     replace_groundings_with_rules( *it_child, world );
@@ -90,8 +84,6 @@ main( int argc,
     cout << "instruction:\"" << instruction << "\"" << endl;    
     
     replace_groundings_with_rules( phrase, world );
-
-    cout << "done replacing, writing to file" << endl;
 
     xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
     xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
