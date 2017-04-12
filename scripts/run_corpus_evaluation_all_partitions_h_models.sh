@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# =============================  PARTITION ========================================
+# Random partition generation
+# Case II: Generate cross validation data partitions using the default settings
+mkdir -p ../data/cross_validation_partitions/combined_nav_corpora/all_partitions
+../build/bin/h2sl-test-generator --output ../data/cross_validation_partitions/combined_nav_corpora/all_partitions/ ../data/training/navigation_corpus/groups/example_00*.xml ../data/training/navigation_corpus/objects_in_groups/example_00*
+
 # =============================  TRAINING ========================================
 # Training of the training partition and creation of LLM and insertion of the symbol dictionary
 # Case II: Corpus. Multiple files.
