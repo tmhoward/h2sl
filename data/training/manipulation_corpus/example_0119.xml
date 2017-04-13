@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the first block on the right in front of the robot"/>
+  <world time="0">
+    <object id="O1-cube-cube-base" object_type="block" object_color="na" position="0.824468,-0.295548,0.737727" orientation="-4.37127e-06,1.35846e-05,-0.0196153,0.999808" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O2-cube-cube-base" object_type="block" object_color="na" position="0.873169,-0.149994,0.737724" orientation="-6.24682e-06,1.32313e-05,-5.89204e-05,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O3-cube-cube-base" object_type="block" object_color="na" position="0.850991,9.61735e-06,0.737723" orientation="-7.11188e-06,1.49213e-05,3.20263e-05,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O4-cube-cube-base" object_type="block" object_color="na" position="0.870029,0.150008,0.737721" orientation="-5.84717e-06,1.24992e-05,0.000145342,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O5-cube-cube-base" object_type="block" object_color="na" position="0.976401,0.300087,0.737716" orientation="-1.03865e-05,1.42788e-05,-0.000713415,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.883294,0.895492,1.2272" orientation="-0.244769,0.669078,0.241487,0.658868" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.718083,-1.08192,1.22895" orientation="0.299343,0.645686,-0.29583,0.637156" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="table-table-table-base" object_type="table" object_color="na" position="0.874999,-3.72987e-07,-0.0117897" orientation="-5.48321e-06,1.36336e-05,4.62436e-07,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <object id="O1-cube-cube-base"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <object_property object_type="block" spatial_relation_type="na" index="1"/>
+        <object_type object_type="block"/>
+        <index value="1"/>
+        <spatial_relation spatial_relation_type="na"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <JJ text="first" order="1"/>
+      <NN text="block" order="2"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <spatial_relation spatial_relation_type="right"/>
+      </grounding_set>
+      <IN text="from" order="3"/>
+      <NP>
+        <grounding_set>
+          <spatial_relation spatial_relation_type="right"/>
+        </grounding_set>
+        <DT text="the" order="4"/>
+        <NN text="right" order="5"/>
+      </NP>
+    </PP>
+    <PP>
+      <grounding_set>
+        <region_container spatial_relation_type="front">
+          <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+        </region_container>
+        <object id="baxter1-baxter-left_hand"/>
+        <object id="baxter1-baxter-right_hand"/>
+      </grounding_set>
+      <IN text="in" order="6"/>
+      <NP>
+        <grounding_set>
+          <region_container spatial_relation_type="front">
+            <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+          </region_container>
+          <object id="baxter1-baxter-left_hand"/>
+          <object id="baxter1-baxter-right_hand"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <spatial_relation spatial_relation_type="front"/>
+          </grounding_set>
+          <NN text="front" order="7"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+            <object id="baxter1-baxter-left_hand"/>
+            <object id="baxter1-baxter-right_hand"/>
+          </grounding_set>
+          <IN text="of" order="8"/>
+          <NP>
+            <grounding_set>
+              <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+              <object id="baxter1-baxter-left_hand"/>
+              <object id="baxter1-baxter-right_hand"/>
+            </grounding_set>
+            <DT text="the" order="9"/>
+            <NN text="robot" order="10"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>
