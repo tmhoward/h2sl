@@ -146,11 +146,26 @@ main( int argc,
   map< string, vector< double > > adcg_ss_abstract_max_wm;
 
   // HDCG
-  map< string, vector< double > > hdcg_runtimes;
+  // map< string, vector< double > > hdcg_runtimes;
+  vector< double > hdcg_ss_concrete_size;
+  vector< double > hdcg_ss_abstract_avg_size;
+  vector< double > hdcg_ss_abstract_max_size;
+
+  map< string, vector< double > > hdcg_ss_concrete_wm;
+  map< string, vector< double > > hdcg_ss_abstract_avg_wm;
+  map< string, vector< double > > hdcg_ss_abstract_max_wm;
 
   // HADCG
-  map< string, vector< double > > hadcg_runtimes;
-  
+  //map< string, vector< double > > hadcg_runtimes;
+  vector< double > hadcg_ss_concrete_size;
+  vector< double > hadcg_ss_abstract_avg_size;
+  vector< double > hadcg_ss_abstract_max_size;
+
+  map< string, vector< double > > hadcg_ss_concrete_wm;
+  map< string, vector< double > > hadcg_ss_abstract_avg_wm;
+  map< string, vector< double > > hadcg_ss_abstract_max_wm;
+
+  // Iterate over the input files.  
   for ( unsigned int i = 0; i < args.inputs_num; i++ ){
   
   // XML pointers to read the input file
@@ -304,7 +319,67 @@ main( int argc,
                                       }
  
 
-                                    }
+                                    } // adcg block ends
+
+                                    if( xmlStrcmp( l5->name, ( const xmlChar* )( "hdcg" ) ) == 0 ){
+                                     // =========== HDCG SEARCH SPACE CONCRETE ================
+                                      xmlChar * ss_concrete = xmlGetProp( l5, ( const xmlChar* )( "search_space_concrete_size" ) );
+                                      if( ss_concrete != NULL ){
+                                        stringstream ss_concrete_string;
+                                        ss_concrete_string << ss_concrete;
+					hdcg_ss_concrete_size.push_back( std::stod( ss_concrete_string.str() ) );
+
+                                        map< string, vector< double > >::iterator it_hdcg_ss_concrete_wm = hdcg_ss_concrete_wm.find( num_world_objects_string.str() );
+                                        if( it_hdcg_ss_concrete_wm != hdcg_ss_concrete_wm.end() ){
+                                          it_hdcg_ss_concrete_wm->second.push_back( std::stod( ss_concrete_string.str() ) );
+                                        } else{
+                                          hdcg_ss_concrete_wm.insert( 
+                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( ss_concrete_string.str() ) ) ) 
+                                          );
+                                        }
+                                        xmlFree( ss_concrete );
+                                      }
+
+                                      // =========== HDCG SEARCH SPACE ABSTRACT AVG ================
+                                      xmlChar * ss_abstract_avg = xmlGetProp( l5, ( const xmlChar* )( "search_space_abstract_avg_size" ) );
+                                      if( ss_abstract_avg != NULL ){
+                                        stringstream ss_abstract_avg_string;
+                                        ss_abstract_avg_string << ss_abstract_avg;
+					hdcg_ss_abstract_avg_size.push_back( std::stod( ss_abstract_avg_string.str() ) );
+
+                                        map< string, vector< double > >::iterator it_hdcg_ss_abstract_avg_wm = hdcg_ss_abstract_avg_wm.find( num_world_objects_string.str() );
+                                        if( it_hdcg_ss_abstract_avg_wm != hdcg_ss_abstract_avg_wm.end() ){
+                                          it_hdcg_ss_abstract_avg_wm->second.push_back( std::stod( ss_abstract_avg_string.str() ) );
+                                        } else{
+                                          hdcg_ss_abstract_avg_wm.insert( 
+                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( ss_abstract_avg_string.str() ) ) ) 
+                                          );
+                                        }
+                                        xmlFree( ss_abstract_avg);
+                                      }
+
+                                      // =========== HDCG SEARCH SPACE ABSTRACT AVG ================
+                                      xmlChar * ss_abstract_max = xmlGetProp( l5, ( const xmlChar* )( "search_space_abstract_max_size" ) );
+                                      if( ss_abstract_max != NULL ){
+                                        stringstream ss_abstract_max_string;
+                                        ss_abstract_max_string << ss_abstract_max;
+					hdcg_ss_abstract_max_size.push_back( std::stod( ss_abstract_max_string.str() ) );
+
+                                        map< string, vector< double > >::iterator it_hdcg_ss_abstract_max_wm = hdcg_ss_abstract_max_wm.find( num_world_objects_string.str() );
+                                        if( it_hdcg_ss_abstract_max_wm != hdcg_ss_abstract_max_wm.end() ){
+                                          it_hdcg_ss_abstract_max_wm->second.push_back( std::stod( ss_abstract_max_string.str() ) );
+                                        } else{
+                                          hdcg_ss_abstract_max_wm.insert( 
+                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( ss_abstract_max_string.str() ) ) ) 
+                                          );
+                                        }
+                                        xmlFree( ss_abstract_max);
+                                      }
+ 
+
+                                    } // hdcg block ends
+ 
+				    /*
                                     if( xmlStrcmp( l5->name, ( const xmlChar* )( "hdcg" ) ) == 0 ){
                                       // look for the "runtime" property; this is the runtime for the given model
                                       xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
@@ -328,6 +403,67 @@ main( int argc,
                                         xmlFree( runtime );
                                       }
                                     }
+                                    */
+
+                                    if( xmlStrcmp( l5->name, ( const xmlChar* )( "hadcg" ) ) == 0 ){
+                                     // =========== HADCG SEARCH SPACE CONCRETE ================
+                                      xmlChar * ss_concrete = xmlGetProp( l5, ( const xmlChar* )( "search_space_concrete_size" ) );
+                                      if( ss_concrete != NULL ){
+                                        stringstream ss_concrete_string;
+                                        ss_concrete_string << ss_concrete;
+					hadcg_ss_concrete_size.push_back( std::stod( ss_concrete_string.str() ) );
+
+                                        map< string, vector< double > >::iterator it_hadcg_ss_concrete_wm = hdcg_ss_concrete_wm.find( num_world_objects_string.str() );
+                                        if( it_hadcg_ss_concrete_wm != hadcg_ss_concrete_wm.end() ){
+                                          it_hadcg_ss_concrete_wm->second.push_back( std::stod( ss_concrete_string.str() ) );
+                                        } else{
+                                          hadcg_ss_concrete_wm.insert( 
+                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( ss_concrete_string.str() ) ) ) 
+                                          );
+                                        }
+                                        xmlFree( ss_concrete );
+                                      }
+
+                                      // =========== HADCG SEARCH SPACE ABSTRACT AVG ================
+                                      xmlChar * ss_abstract_avg = xmlGetProp( l5, ( const xmlChar* )( "search_space_abstract_avg_size" ) );
+                                      if( ss_abstract_avg != NULL ){
+                                        stringstream ss_abstract_avg_string;
+                                        ss_abstract_avg_string << ss_abstract_avg;
+					hadcg_ss_abstract_avg_size.push_back( std::stod( ss_abstract_avg_string.str() ) );
+
+                                        map< string, vector< double > >::iterator it_hadcg_ss_abstract_avg_wm = hadcg_ss_abstract_avg_wm.find( num_world_objects_string.str() );
+                                        if( it_hadcg_ss_abstract_avg_wm != hadcg_ss_abstract_avg_wm.end() ){
+                                          it_hadcg_ss_abstract_avg_wm->second.push_back( std::stod( ss_abstract_avg_string.str() ) );
+                                        } else{
+                                          hadcg_ss_abstract_avg_wm.insert( 
+                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( ss_abstract_avg_string.str() ) ) ) 
+                                          );
+                                        }
+                                        xmlFree( ss_abstract_avg);
+                                      }
+
+                                      // =========== HADCG SEARCH SPACE ABSTRACT AVG ================
+                                      xmlChar * ss_abstract_max = xmlGetProp( l5, ( const xmlChar* )( "search_space_abstract_max_size" ) );
+                                      if( ss_abstract_max != NULL ){
+                                        stringstream ss_abstract_max_string;
+                                        ss_abstract_max_string << ss_abstract_max;
+					hadcg_ss_abstract_max_size.push_back( std::stod( ss_abstract_max_string.str() ) );
+
+                                        map< string, vector< double > >::iterator it_hadcg_ss_abstract_max_wm = hadcg_ss_abstract_max_wm.find( num_world_objects_string.str() );
+                                        if( it_hadcg_ss_abstract_max_wm != hadcg_ss_abstract_max_wm.end() ){
+                                          it_hadcg_ss_abstract_max_wm->second.push_back( std::stod( ss_abstract_max_string.str() ) );
+                                        } else{
+                                          hadcg_ss_abstract_max_wm.insert( 
+                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( ss_abstract_max_string.str() ) ) ) 
+                                          );
+                                        }
+                                        xmlFree( ss_abstract_max);
+                                      }
+ 
+
+                                    } // hadcg block ends
+
+				   /*
                                     if( xmlStrcmp( l5->name, ( const xmlChar* )( "hadcg" ) ) == 0 ){
                                       // look for the "runtime" property; this is the runtime for the given model
                                       xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
@@ -351,6 +487,7 @@ main( int argc,
                                         xmlFree( runtime );
                                       }
                                     }
+                                    */
                                   }
                                 }
                                 // free the xmlChar pointer
@@ -378,9 +515,9 @@ main( int argc,
     xmlFreeDoc( input_doc );
   }
  
-  }
+  } // XML file parsing ends.
 
-  cout << "Search Space Sizes" << endl;
+  cout << " Determining the Search Space sizes" << endl;
 
   if( ( dcg_ss_concrete_wm.size() > 0 ) && ( dcg_ss_abstract_avg_wm.size() > 0 ) && ( dcg_ss_abstract_max_wm.size() > 0 ) &&  
       (  adcg_ss_concrete_wm.size() > 0 ) && ( adcg_ss_abstract_avg_wm.size() > 0 ) && ( adcg_ss_abstract_max_wm.size() > 0 ) ){
@@ -438,6 +575,9 @@ main( int argc,
       } 
     }
 
+
+    //====================  ADCG  ==============================================================
+
     // ADCG: concrete numbers.
     for( map< string, vector< double > >::const_iterator it_adcg_ss_concrete_wm = adcg_ss_concrete_wm.begin(); it_adcg_ss_concrete_wm != adcg_ss_concrete_wm.end(); ++it_adcg_ss_concrete_wm ){
       std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_adcg_ss_concrete_wm->first );
@@ -487,7 +627,109 @@ main( int argc,
       } 
     }
 
-    // Print out the final numbers.
+    //====================  HDCG  ==============================================================
+
+    // HDCG: concrete numbers.
+    for( map< string, vector< double > >::const_iterator it_hdcg_ss_concrete_wm = hdcg_ss_concrete_wm.begin(); it_hdcg_ss_concrete_wm != hdcg_ss_concrete_wm.end(); ++it_hdcg_ss_concrete_wm ){
+      std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_hdcg_ss_concrete_wm->first );
+      if( it_wm_results != wm_results.end() ){
+        cout << "HDCG: avg. concrete" << average( it_hdcg_ss_concrete_wm->second ) << endl;
+        it_wm_results->second.push_back( average( it_hdcg_ss_concrete_wm->second ) );
+        cout << "sd " << standard_deviation( it_hdcg_ss_concrete_wm->second ) << endl;
+        it_wm_results->second.push_back( standard_deviation( it_hdcg_ss_concrete_wm->second ) );
+      } else {
+        wm_results.insert( pair< string, vector< double > >( it_hdcg_ss_concrete_wm->first, vector< double >() ) );
+        it_wm_results = wm_results.find( it_hdcg_ss_concrete_wm->first );
+        it_wm_results->second.push_back( average( it_hdcg_ss_concrete_wm->second ) );
+        it_wm_results->second.push_back( standard_deviation( it_hdcg_ss_concrete_wm->second ) );
+      }
+    }
+    
+    // HDCG: Abstract avg. 
+    for( map< string, vector< double > >::const_iterator it_hdcg_ss_abstract_avg_wm = hdcg_ss_abstract_avg_wm.begin(); it_hdcg_ss_abstract_avg_wm != hdcg_ss_abstract_avg_wm.end(); ++it_hdcg_ss_abstract_avg_wm ){
+      std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_hdcg_ss_abstract_avg_wm->first );
+      if( it_wm_results != wm_results.end() ){
+        cout << "HDCG: avg. abstract avg" << average( it_hdcg_ss_abstract_avg_wm->second ) << endl;
+        it_wm_results->second.push_back( average( it_hdcg_ss_abstract_avg_wm->second ) );
+        cout << "sd" << standard_deviation( it_hdcg_ss_abstract_avg_wm->second ) << endl;
+        it_wm_results->second.push_back( standard_deviation( it_hdcg_ss_abstract_avg_wm->second ) );
+      } else {
+        wm_results.insert( pair< string, vector< double > >( it_hdcg_ss_abstract_avg_wm->first, vector< double >() ) );
+        it_wm_results = wm_results.find( it_hdcg_ss_abstract_avg_wm->first );
+        it_wm_results->second.push_back( average( it_hdcg_ss_abstract_avg_wm->second ) );
+        it_wm_results->second.push_back( standard_deviation( it_hdcg_ss_abstract_avg_wm->second ) );
+      }
+    }
+
+    // HDCG: Abstract max 
+    for( map< string, vector< double > >::const_iterator it_hdcg_ss_abstract_max_wm = hdcg_ss_abstract_max_wm.begin(); it_hdcg_ss_abstract_max_wm != hdcg_ss_abstract_max_wm.end(); ++it_hdcg_ss_abstract_max_wm ){
+      std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_hdcg_ss_abstract_max_wm->first );
+      if( it_wm_results != wm_results.end() ){
+        cout << "HDCG avg. abstract max" << average( it_hdcg_ss_abstract_max_wm->second ) << endl;
+        it_wm_results->second.push_back( average( it_hdcg_ss_abstract_max_wm->second ) );
+        cout << "sd" << standard_deviation( it_hdcg_ss_abstract_max_wm->second ) << endl;
+        it_wm_results->second.push_back( standard_deviation( it_hdcg_ss_abstract_max_wm->second ) );
+      } else {
+        wm_results.insert( pair< string, vector< double > >( it_hdcg_ss_abstract_max_wm->first, vector< double >() ) );
+        it_wm_results = wm_results.find( it_hdcg_ss_abstract_max_wm->first );
+        cout << "avg. abstract max" << average( it_hdcg_ss_abstract_max_wm->second ) << endl;
+        it_wm_results->second.push_back( average( it_hdcg_ss_abstract_max_wm->second ) );
+        it_wm_results->second.push_back( standard_deviation( it_hdcg_ss_abstract_max_wm->second ) );
+      } 
+    }
+
+     //====================  HADCG  ==============================================================
+
+    // HADCG: concrete numbers.
+    for( map< string, vector< double > >::const_iterator it_hadcg_ss_concrete_wm = hadcg_ss_concrete_wm.begin(); it_hadcg_ss_concrete_wm != hadcg_ss_concrete_wm.end(); ++it_hadcg_ss_concrete_wm ){
+      std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_hadcg_ss_concrete_wm->first );
+      if( it_wm_results != wm_results.end() ){
+        cout << "HADCG: avg. concrete" << average( it_hadcg_ss_concrete_wm->second ) << endl;
+        it_wm_results->second.push_back( average( it_hadcg_ss_concrete_wm->second ) );
+        cout << "sd " << standard_deviation( it_hadcg_ss_concrete_wm->second ) << endl;
+        it_wm_results->second.push_back( standard_deviation( it_hadcg_ss_concrete_wm->second ) );
+      } else {
+        wm_results.insert( pair< string, vector< double > >( it_hadcg_ss_concrete_wm->first, vector< double >() ) );
+        it_wm_results = wm_results.find( it_hadcg_ss_concrete_wm->first );
+        it_wm_results->second.push_back( average( it_hadcg_ss_concrete_wm->second ) );
+        it_wm_results->second.push_back( standard_deviation( it_hadcg_ss_concrete_wm->second ) );
+      }
+    }
+    
+    // HADCG: Abstract avg. 
+    for( map< string, vector< double > >::const_iterator it_hadcg_ss_abstract_avg_wm = hadcg_ss_abstract_avg_wm.begin(); it_hadcg_ss_abstract_avg_wm != hadcg_ss_abstract_avg_wm.end(); ++it_hadcg_ss_abstract_avg_wm ){
+      std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_hadcg_ss_abstract_avg_wm->first );
+      if( it_wm_results != wm_results.end() ){
+        cout << "HADCG: avg. abstract avg" << average( it_hadcg_ss_abstract_avg_wm->second ) << endl;
+        it_wm_results->second.push_back( average( it_hadcg_ss_abstract_avg_wm->second ) );
+        cout << "sd" << standard_deviation( it_hadcg_ss_abstract_avg_wm->second ) << endl;
+        it_wm_results->second.push_back( standard_deviation( it_hadcg_ss_abstract_avg_wm->second ) );
+      } else {
+        wm_results.insert( pair< string, vector< double > >( it_hadcg_ss_abstract_avg_wm->first, vector< double >() ) );
+        it_wm_results = wm_results.find( it_hadcg_ss_abstract_avg_wm->first );
+        it_wm_results->second.push_back( average( it_hadcg_ss_abstract_avg_wm->second ) );
+        it_wm_results->second.push_back( standard_deviation( it_hadcg_ss_abstract_avg_wm->second ) );
+      }
+    }
+
+    // HADCG: Abstract max 
+    for( map< string, vector< double > >::const_iterator it_hadcg_ss_abstract_max_wm = hadcg_ss_abstract_max_wm.begin(); it_hadcg_ss_abstract_max_wm != hadcg_ss_abstract_max_wm.end(); ++it_hadcg_ss_abstract_max_wm ){
+      std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_hadcg_ss_abstract_max_wm->first );
+      if( it_wm_results != wm_results.end() ){
+        cout << "HADCG avg. abstract max" << average( it_hadcg_ss_abstract_max_wm->second ) << endl;
+        it_wm_results->second.push_back( average( it_hadcg_ss_abstract_max_wm->second ) );
+        cout << "sd" << standard_deviation( it_hadcg_ss_abstract_max_wm->second ) << endl;
+        it_wm_results->second.push_back( standard_deviation( it_hadcg_ss_abstract_max_wm->second ) );
+      } else {
+        wm_results.insert( pair< string, vector< double > >( it_hadcg_ss_abstract_max_wm->first, vector< double >() ) );
+        it_wm_results = wm_results.find( it_hadcg_ss_abstract_max_wm->first );
+        cout << "avg. abstract max" << average( it_hadcg_ss_abstract_max_wm->second ) << endl;
+        it_wm_results->second.push_back( average( it_hadcg_ss_abstract_max_wm->second ) );
+        it_wm_results->second.push_back( standard_deviation( it_hadcg_ss_abstract_max_wm->second ) );
+      } 
+    }
+
+    //====================  PRINT the timing results: DCG - ADCG  ==============================================================
     cout << " World Size " << " Num examples" << " DCG concrete + s.d. " << " DCG abstract avg + s.d. " << "" <<" DCG abstract max + s.d."; 
     cout << " ADCG concrete + s.d. " << " ADCG abstract avg + s.d. " << "" <<" ADCG abstract max + s.d." << endl; 
     for( map< string, vector< double > >::const_iterator it_wm_results = wm_results.begin(); it_wm_results != wm_results.end(); ++it_wm_results ){
@@ -500,13 +742,27 @@ main( int argc,
       cout << to_string( it_wm_results->second[ 11 ] ) << " pm " << to_string( it_wm_results->second[ 12 ] ) << " " << endl; 
     }
 
+    //====================  PRINT the timing results: HDCG - HADCG  ==============================================================
+    cout << " World Size " << " Num examples" << " HDCG concrete + s.d. " << " HDCG abstract avg + s.d. " << "" <<" HDCG abstract max + s.d."; 
+    cout << " HADCG concrete + s.d. " << " HADCG abstract avg + s.d. " << "" <<" HADCG abstract max + s.d." << endl; 
+    for( map< string, vector< double > >::const_iterator it_wm_results = wm_results.begin(); it_wm_results != wm_results.end(); ++it_wm_results ){
+      cout << it_wm_results->first << ": "  << to_string( it_wm_results->second[ 0 ] )  << " ";
+      cout << to_string( it_wm_results->second[ 13 ] ) << " pm " << to_string( it_wm_results->second[ 14 ] ) << " ";
+      cout << to_string( it_wm_results->second[ 15 ] ) << " pm " << to_string( it_wm_results->second[ 16 ] ) << " "; 
+      cout << to_string( it_wm_results->second[ 17 ] ) << " pm " << to_string( it_wm_results->second[ 18 ] ) << " "; 
+      cout << to_string( it_wm_results->second[ 19 ] ) << " pm " << to_string( it_wm_results->second[ 20 ] ) << " "; 
+      cout << to_string( it_wm_results->second[ 21 ] ) << " pm " << to_string( it_wm_results->second[ 22 ] ) << " "; 
+      cout << to_string( it_wm_results->second[ 23 ] ) << " pm " << to_string( it_wm_results->second[ 24 ] ) << " " << endl; 
+    }
+
   //===========  Writing out the table ================================================================================
   // Writing out the table if the filename is given.
   if( args.output_text_given ){
     cout << "Writing the tex file" << endl;
     ofstream textfile;
     textfile.open( args.output_text_arg, std::ofstream::binary );
-    // Print out the final numbers.
+
+    // Print numbers for DCG and ADCG
     textfile << " World Size " << " Num examples" << " DCG concrete + s.d. " << " DCG abstract avg + s.d. " << "" <<" DCG abstract max + s.d."; 
     textfile << " ADCG concrete + s.d. " << " ADCG abstract avg + s.d. " << "" <<" ADCG abstract max + s.d." << endl; 
     for( map< string, vector< double > >::const_iterator it_wm_results = wm_results.begin(); it_wm_results != wm_results.end(); ++it_wm_results ){
@@ -517,7 +773,20 @@ main( int argc,
       textfile << to_string( it_wm_results->second[ 7 ] ) << " pm " << to_string( it_wm_results->second[ 8 ] ) << " "; 
       textfile << to_string( it_wm_results->second[ 9 ] ) << " pm " << to_string( it_wm_results->second[ 10 ] ) << " "; 
       textfile << to_string( it_wm_results->second[ 11 ] ) << " pm " << to_string( it_wm_results->second[ 12 ] ) << " " << endl; 
-    }
+    } 
+
+    // Print numbers for HDCG and HADCG
+    textfile << " World Size " << " Num examples" << " HDCG concrete + s.d. " << " HDCG abstract avg + s.d. " << "" <<" HDCG abstract max + s.d."; 
+    textfile << " HADCG concrete + s.d. " << " HADCG abstract avg + s.d. " << "" <<" HADCG abstract max + s.d." << endl; 
+    for( map< string, vector< double > >::const_iterator it_wm_results = wm_results.begin(); it_wm_results != wm_results.end(); ++it_wm_results ){
+      textfile << it_wm_results->first << ": "  << to_string( it_wm_results->second[ 0 ] )  << " ";
+      textfile << to_string( it_wm_results->second[ 13 ] ) << " pm " << to_string( it_wm_results->second[ 14 ] ) << " ";
+      textfile << to_string( it_wm_results->second[ 15 ] ) << " pm " << to_string( it_wm_results->second[ 16 ] ) << " "; 
+      textfile << to_string( it_wm_results->second[ 17 ] ) << " pm " << to_string( it_wm_results->second[ 18 ] ) << " "; 
+      textfile << to_string( it_wm_results->second[ 19 ] ) << " pm " << to_string( it_wm_results->second[ 20 ] ) << " "; 
+      textfile << to_string( it_wm_results->second[ 21 ] ) << " pm " << to_string( it_wm_results->second[ 22 ] ) << " "; 
+      textfile << to_string( it_wm_results->second[ 23 ] ) << " pm " << to_string( it_wm_results->second[ 24 ] ) << " " << endl; 
+    } 
     textfile.close();
   }
 
