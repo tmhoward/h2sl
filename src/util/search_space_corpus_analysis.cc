@@ -460,7 +460,6 @@ main( int argc,
 
 
   // Memory cleanup
-  // free the xml pointers
   if( input_doc != NULL ){
     xmlFreeDoc( input_doc );
   }
@@ -468,13 +467,10 @@ main( int argc,
   } // XML file parsing ends.
 
   cout << " Determining the Search Space sizes" << endl;
-
-//  if( ( dcg_ss_concrete_wm.size() > 0 ) && ( dcg_ss_abstract_avg_wm.size() > 0 ) && ( dcg_ss_abstract_max_wm.size() > 0 ) &&  
-//      (  adcg_ss_concrete_wm.size() > 0 ) && ( adcg_ss_abstract_avg_wm.size() > 0 ) && ( adcg_ss_abstract_max_wm.size() > 0 ) && 
-//      (  hdcg_ss_concrete_wm.size() > 0 ) && ( hdcg_ss_abstract_avg_wm.size() > 0 ) && ( hdcg_ss_abstract_max_wm.size() > 0 ) &&
-//      (  hadcg_ss_concrete_wm.size() > 0 ) && ( hadcg_ss_abstract_avg_wm.size() > 0 ) && ( hadcg_ss_abstract_max_wm.size() > 0 ) ){
-
-  if(true) {  
+  if( ( dcg_ss_concrete_wm.size() > 0 ) && ( dcg_ss_abstract_avg_wm.size() > 0 ) && ( dcg_ss_abstract_max_wm.size() > 0 ) &&  
+      (  adcg_ss_concrete_wm.size() > 0 ) && ( adcg_ss_abstract_avg_wm.size() > 0 ) && ( adcg_ss_abstract_max_wm.size() > 0 ) && 
+      (  hdcg_ss_concrete_wm.size() > 0 ) && ( hdcg_ss_abstract_avg_wm.size() > 0 ) && ( hdcg_ss_abstract_max_wm.size() > 0 ) &&
+      (  hadcg_ss_concrete_wm.size() > 0 ) && ( hadcg_ss_abstract_avg_wm.size() > 0 ) && ( hadcg_ss_abstract_max_wm.size() > 0 ) ){
 
     // Map to store the WM results.
     std::map< std::string, vector< double> > wm_results;
@@ -528,7 +524,6 @@ main( int argc,
         it_wm_results->second.push_back( standard_deviation( it_dcg_ss_abstract_max_wm->second ) );
       } 
     }
-
 
     //====================  ADCG  ==============================================================
 
@@ -721,12 +716,12 @@ main( int argc,
     textfile << " ADCG concrete + s.d. " << " ADCG abstract avg + s.d. " << "" <<" ADCG abstract max + s.d." << endl; 
     for( map< string, vector< double > >::const_iterator it_wm_results = wm_results.begin(); it_wm_results != wm_results.end(); ++it_wm_results ){
       textfile << it_wm_results->first << ": "  << to_string( it_wm_results->second[ 0 ] )  << " ";
-      textfile << to_string( it_wm_results->second[ 1 ] ) << " pm " << to_string( it_wm_results->second[ 2 ] ) << " ";
-      textfile << to_string( it_wm_results->second[ 3 ] ) << " pm " << to_string( it_wm_results->second[ 4 ] ) << " "; 
-      textfile << to_string( it_wm_results->second[ 5 ] ) << " pm " << to_string( it_wm_results->second[ 6 ] ) << " "; 
-      textfile << to_string( it_wm_results->second[ 7 ] ) << " pm " << to_string( it_wm_results->second[ 8 ] ) << " "; 
-      textfile << to_string( it_wm_results->second[ 9 ] ) << " pm " << to_string( it_wm_results->second[ 10 ] ) << " "; 
-      textfile << to_string( it_wm_results->second[ 11 ] ) << " pm " << to_string( it_wm_results->second[ 12 ] ) << " " << endl; 
+      textfile << "$" << to_string( it_wm_results->second[ 1 ] ) << " \\pm " << to_string( it_wm_results->second[ 2 ] ) << "$" << " ";
+      textfile << "$" << to_string( it_wm_results->second[ 3 ] ) << " \\pm " << to_string( it_wm_results->second[ 4 ] ) << "$" << " "; 
+      textfile << "$" << to_string( it_wm_results->second[ 5 ] ) << " \\pm " << to_string( it_wm_results->second[ 6 ] ) << "$" << " "; 
+      textfile << "$" << to_string( it_wm_results->second[ 7 ] ) << " \\pm " << to_string( it_wm_results->second[ 8 ] ) << "$" << " "; 
+      textfile << "$" << to_string( it_wm_results->second[ 9 ] ) << " \\pm " << to_string( it_wm_results->second[ 10 ] ) << "$" << " "; 
+      textfile << "$" << to_string( it_wm_results->second[ 11 ] ) << " \\pm " << to_string( it_wm_results->second[ 12 ] ) << "$" << " \\\\ " <<  endl; 
     } 
 
     // Print numbers for HDCG and HADCG
@@ -734,12 +729,13 @@ main( int argc,
     textfile << " HADCG concrete + s.d. " << " HADCG abstract avg + s.d. " << "" <<" HADCG abstract max + s.d." << endl; 
     for( map< string, vector< double > >::const_iterator it_wm_results = wm_results.begin(); it_wm_results != wm_results.end(); ++it_wm_results ){
       textfile << it_wm_results->first << ": "  << to_string( it_wm_results->second[ 0 ] )  << " ";
-      textfile << to_string( it_wm_results->second[ 13 ] ) << " pm " << to_string( it_wm_results->second[ 14 ] ) << " ";
-      textfile << to_string( it_wm_results->second[ 15 ] ) << " pm " << to_string( it_wm_results->second[ 16 ] ) << " "; 
-      textfile << to_string( it_wm_results->second[ 17 ] ) << " pm " << to_string( it_wm_results->second[ 18 ] ) << " "; 
-      textfile << to_string( it_wm_results->second[ 19 ] ) << " pm " << to_string( it_wm_results->second[ 20 ] ) << " "; 
-      textfile << to_string( it_wm_results->second[ 21 ] ) << " pm " << to_string( it_wm_results->second[ 22 ] ) << " "; 
-      textfile << to_string( it_wm_results->second[ 23 ] ) << " pm " << to_string( it_wm_results->second[ 24 ] ) << " " << endl; 
+      textfile << "& $" << to_string( it_wm_results->second[ 13 ] ) << " \\pm " << to_string( it_wm_results->second[ 14 ] ) << "$ " << " ";
+      textfile << "& $" << to_string( it_wm_results->second[ 15 ] ) << " \\pm " << to_string( it_wm_results->second[ 16 ] ) << "$ " << " ";
+      // For HDCG no max avg.
+      //textfile << "& $" << to_string( it_wm_results->second[ 17 ] ) << " \\pm " << to_string( it_wm_results->second[ 18 ] ) << "$ " << " ";  
+      textfile << "& $" << to_string( it_wm_results->second[ 19 ] ) << " \\pm " << to_string( it_wm_results->second[ 20 ] ) << "$ " << " "; 
+      textfile << "& $" << to_string( it_wm_results->second[ 21 ] ) << " \\pm " << to_string( it_wm_results->second[ 22 ] ) << "$ " << " "; 
+      textfile << "& $" << to_string( it_wm_results->second[ 23 ] ) << " \\pm " << to_string( it_wm_results->second[ 24 ] ) << "$ " << " \\\\ " << endl; 
     } 
     textfile.close();
   }
@@ -809,11 +805,27 @@ main( int argc,
     outfile << "adcg_ss_concrete_size" << export_vector_double( adcg_ss_concrete_size ) << endl;
     outfile << "adcg_ss_abstract_avg_size" << export_vector_double( adcg_ss_abstract_avg_size ) << endl;
     outfile << "adcg_ss_abstract_max_size" << export_vector_double( adcg_ss_abstract_max_size ) << endl;
-    outfile << "adaptive_avg = adcg_ss_concrete_size + adcg_ss_abstract_avg_size;" << endl;
-    outfile << "adaptive_max = adcg_ss_concrete_size + adcg_ss_abstract_max_size;" << endl;
+    outfile << "adcg_adaptive_avg = adcg_ss_concrete_size + adcg_ss_abstract_avg_size;" << endl;
+    outfile << "adcg_adaptive_max = adcg_ss_concrete_size + adcg_ss_abstract_max_size;" << endl;
     outfile << endl << endl;
 
-    // Plot the search space figure. 
+    // HDCG parameters for the instruction-level plot.
+    outfile << "hdcg_ss_concrete_size" << export_vector_double( hdcg_ss_concrete_size ) << endl;
+    outfile << "hdcg_ss_abstract_avg_size" << export_vector_double( hdcg_ss_abstract_avg_size ) << endl;
+    outfile << "hdcg_ss_abstract_max_size" << export_vector_double( hdcg_ss_abstract_max_size ) << endl;
+    outfile << "hdcg_adaptive_avg = hdcg_ss_concrete_size + hdcg_ss_abstract_avg_size;" << endl;
+    //outfile << "adaptive_max = hdcg_ss_concrete_size + hdcg_ss_abstract_max_size;" << endl;
+    outfile << endl << endl;
+
+    // HADCG parameters for the instruction-level plot.
+    outfile << "hadcg_ss_concrete_size" << export_vector_double( hadcg_ss_concrete_size ) << endl;
+    outfile << "hadcg_ss_abstract_avg_size" << export_vector_double( hadcg_ss_abstract_avg_size ) << endl;
+    outfile << "hadcg_ss_abstract_max_size" << export_vector_double( hadcg_ss_abstract_max_size ) << endl;
+    outfile << "hadcg_adaptive_avg = hadcg_ss_concrete_size + hadcg_ss_abstract_avg_size;" << endl;
+    outfile << "hadcg_adaptive_max = hadcg_ss_concrete_size + hadcg_ss_abstract_max_size;" << endl;
+    outfile << endl << endl;
+
+    // DCG - ADCG plot. Plot the search space figure. 
     outfile << "figure(1);" << endl;
     outfile << "hold on;" << endl;
     outfile << "box on;" << endl;
@@ -821,9 +833,8 @@ main( int argc,
     //outfile << "ylim( [0.0 1.0] );" << endl;
     //outfile << "xlim( [0.1 0.9] );" << endl;
     outfile << "scatter(baseline,baseline,200);" << endl;
-    outfile << "scatter(baseline,adaptive_avg,200,'+');" << endl;
-    outfile << "scatter(baseline,adaptive_max,200,'^');" << endl;
-    //outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_dcg_accuracies_complete_matrix_means);" << endl;
+    outfile << "scatter(baseline,adcg_adaptive_avg,200,'+');" << endl;
+    outfile << "scatter(baseline,adcg_adaptive_max,200,'^');" << endl;
     outfile << "legend('DCG','ADCG avg', 'ADCG max','Location','NorthWest');" << endl;
     outfile << "title('Search space comparison');" << endl;
     outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -836,6 +847,95 @@ main( int argc,
     outfile << endl << endl;
     outfile << "saveas(gcf, 'search_space_comparison', 'epsc');" << endl << endl;
     outfile << "saveas(gcf, 'search_space_comparison', 'pdf');" << endl << endl;
+
+    // HDCG - HADCG plot. Plot the search space figure. 
+    outfile << "figure(2);" << endl;
+    outfile << "hold on;" << endl;
+    outfile << "box on;" << endl;
+    outfile << "grid on;" << endl;
+    outfile << "scatter(baseline,baseline,200);" << endl;
+    outfile << "scatter(baseline,hdcg_adaptive_avg,200,'.');" << endl;
+    outfile << "scatter(baseline,hadcg_adaptive_avg,200,'+');" << endl;
+    outfile << "scatter(baseline,hadcg_adaptive_max,200,'^');" << endl;
+    outfile << "legend('DCG','HDCG avg', 'HADCG avg', 'HADCG avg max', 'Location','NorthWest');" << endl;
+    outfile << "title('Search space comparison');" << endl;
+    outfile << "xlhand = get(gca,'xlabel');" << endl;
+    outfile << "set(xlhand,'string','Total search space size','fontsize',15);" << endl;
+    outfile << "ylhand = get(gca,'ylabel');" << endl;
+    outfile << "set(ylhand,'string','Instantiated search space size','fontsize',15);" << endl;
+    outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+    outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+
+    outfile << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison', 'epsc');" << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison', 'pdf');" << endl << endl;
+
+    // All combined plot. Plot the search space figure. 
+    outfile << "figure(3);" << endl;
+    outfile << "hold on;" << endl;
+    outfile << "box on;" << endl;
+    outfile << "grid on;" << endl;
+    outfile << "scatter(baseline,baseline,200);" << endl;
+    outfile << "scatter(baseline,hdcg_adaptive_avg,200,'.');" << endl;
+    outfile << "scatter(baseline,adcg_adaptive_avg,200,'*');" << endl;
+    outfile << "scatter(baseline,hadcg_adaptive_avg,200,'^');" << endl;
+    outfile << "legend('DCG','HDCG avg.', 'ADCG avg.',  'HADCG avg.', 'Location','NorthWest');" << endl;
+    outfile << "title('Search space comparison');" << endl;
+    outfile << "xlhand = get(gca,'xlabel');" << endl;
+    outfile << "set(xlhand,'string','Total search space size','fontsize',15);" << endl;
+    outfile << "ylhand = get(gca,'ylabel');" << endl;
+    outfile << "set(ylhand,'string','Instantiated search space size','fontsize',15);" << endl;
+    outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+    outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+    outfile << "set(gca, 'yscale', 'log');" << endl; 
+
+    outfile << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison_all', 'epsc');" << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison_all', 'pdf');" << endl << endl;
+
+    // DCG - HDCG  plot. Plot the search space figure. 
+    outfile << "figure(4);" << endl;
+    outfile << "hold on;" << endl;
+    outfile << "box on;" << endl;
+    outfile << "grid on;" << endl;
+    outfile << "scatter(baseline,baseline,200);" << endl;
+    outfile << "scatter(baseline,hdcg_adaptive_avg,200,'.');" << endl;
+    outfile << "legend('DCG','HDCG avg','Location','NorthWest');" << endl;
+    outfile << "title('Search space comparison');" << endl;
+    outfile << "xlhand = get(gca,'xlabel');" << endl;
+    outfile << "set(xlhand,'string','Total search space size','fontsize',15);" << endl;
+    outfile << "ylhand = get(gca,'ylabel');" << endl;
+    outfile << "set(ylhand,'string','Instantiated search space size','fontsize',15);" << endl;
+    outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+    outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+    outfile << "set(gca, 'yscale', 'log');" << endl; 
+
+    outfile << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison_dcg_hdcg', 'epsc');" << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison_dcg_hdcg', 'pdf');" << endl << endl;
+
+    // ADCG - HADCG  plot. Plot the search space figure. 
+    outfile << "figure(5);" << endl;
+    outfile << "hold on;" << endl;
+    outfile << "box on;" << endl;
+    outfile << "grid on;" << endl;
+    outfile << "scatter(baseline,adcg_adaptive_avg,200,'+');" << endl;
+    outfile << "scatter(baseline,adcg_adaptive_max,200,'^');" << endl;
+    outfile << "scatter(baseline,hadcg_adaptive_avg,200,'*');" << endl; 
+    outfile << "scatter(baseline,hadcg_adaptive_max,200,'.');" << endl;
+    outfile << "legend('ADCG avg', 'ADCG max', 'HADCG avg', 'HADCG max', 'Location','NorthWest');" << endl;
+    outfile << "title('Search space comparison');" << endl;
+    outfile << "xlhand = get(gca,'xlabel');" << endl;
+    outfile << "set(xlhand,'string','Total search space size','fontsize',15);" << endl;
+    outfile << "ylhand = get(gca,'ylabel');" << endl;
+    outfile << "set(ylhand,'string','Instantiated search space size','fontsize',15);" << endl;
+    outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
+    outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
+    outfile << "set(gca, 'yscale', 'log');" << endl; 
+
+    outfile << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison_adcg_hadcg', 'epsc');" << endl << endl;
+    outfile << "saveas(gcf, 'search_space_comparison_adcg_hadcg', 'pdf');" << endl << endl;
 
     /* 
     // Plot the log-log scale figure. 
@@ -869,76 +969,6 @@ main( int argc,
   } // matlab script writing ends here.
  
   } // Check for vectors not being zero ends here.
-
-  /*
-  cout << "DCG concrete size:" << endl;
-  if( dcg_ss_concrete_wm.size() > 0 ){
-    cout << "DCG" << endl;
-    for( map< string, vector< double > >::const_iterator it_dcg_ss_concrete_wm = dcg_ss_concrete_wm.begin(); it_dcg_ss_concrete_wm != dcg_ss_concrete_wm.end(); ++it_dcg_ss_concrete_wm ){
-      // find the average runtime
-      double ss_concrete_average = average( it_dcg_ss_concrete_wm->second );
-      double ss_concrete_standard_deviation = standard_deviation( it_dcg_ss_concrete_wm->second );
-      // find the standard deviation
-      cout << "  world size: " << it_dcg_ss_concrete_wm->first << endl;
-      cout << "    concrete average: " << to_string( ss_concrete_average ) << endl; 
-      cout << "    concrete average std: " << to_string( ss_concrete_standard_deviation ) << endl; 
-    }
-  } else{
-    cout << "No DCG search space information" << endl;
-  }
-  cout << endl;
-
-  cout << "DCG concrete size:" << endl;
-  if( dcg_ss_concrete_wm.size() > 0 ){
-    cout << "DCG" << endl;
-    for( map< string, vector< double > >::const_iterator it_dcg_ss_concrete_wm = dcg_ss_concrete_wm.begin(); it_dcg_ss_concrete_wm != dcg_ss_concrete_wm.end(); ++it_dcg_ss_concrete_wm ){
-      // find the average runtime
-      double ss_concrete_average = average( it_dcg_ss_concrete_wm->second );
-      double ss_concrete_standard_deviation = standard_deviation( it_dcg_ss_concrete_wm->second );
-      // find the standard deviation
-      cout << "  world size: " << it_dcg_ss_concrete_wm->first << endl;
-      cout << "    concrete average: " << to_string( ss_concrete_average ) << endl; 
-      cout << "    concrete average std: " << to_string( ss_concrete_standard_deviation ) << endl; 
-    }
-  } else{
-    cout << "No DCG search space information" << endl;
-  }
-  cout << endl;
-
- 
-  if( hdcg_runtimes.size() > 0 ){
-      cout << "HDCG" << endl;
-      for( map< string, vector< double > >::const_iterator it_hdcg_runtimes = hdcg_runtimes.begin(); it_hdcg_runtimes != hdcg_runtimes.end(); ++it_hdcg_runtimes ){
-        // find the average runtime
-        double runtime_average = average( it_hdcg_runtimes->second );
-        double runtime_standard_deviation = standard_deviation( it_hdcg_runtimes->second );
-        // find the standard deviation
-        cout << "  world size: " << it_hdcg_runtimes->first << endl;
-        cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
-        cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
-    }
-  } else{
-    cout << "No HDCG runtime statistics to report." << endl;
-  }
-  cout << endl;
- 
-  if( hadcg_runtimes.size() > 0 ){
-    cout << "HADCG" << endl;
-    for( map< string, vector< double > >::const_iterator it_hadcg_runtimes = hadcg_runtimes.begin(); it_hadcg_runtimes != hadcg_runtimes.end(); ++it_hadcg_runtimes ){
-      // find the average runtime
-      double runtime_average = average( it_hadcg_runtimes->second );
-      double runtime_standard_deviation = standard_deviation( it_hadcg_runtimes->second );
-      // find the standard deviation
-      cout << "  world size: " << it_hadcg_runtimes->first << endl;
-      cout << "    runtime avg: " << to_string( runtime_average ) << endl; 
-      cout << "    runtime std: " << to_string( runtime_standard_deviation ) << endl; 
-    }
-  } else{
-    cout << "No HADCG runtime statistics to report." << endl;
-  }
-  cout << endl;
- 
-  */
   
   cout << "end of search space corpus analysis program" << endl;
   return 0;
