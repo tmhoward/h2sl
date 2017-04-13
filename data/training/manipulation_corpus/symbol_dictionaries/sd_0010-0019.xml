@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <symbol_dictionary>
+    <class_names>
+      <ADJP class_names=""/>
+      <ADVP class_names=""/>
+      <M class_names=""/>
+      <NP class_names="container,object,abstract_container,number,index,object_type,object_color,spatial_relation,region_abstract_container,container_type,region_container,region"/>
+      <PHRASE_UNKNOWN class_names=""/>
+      <PP class_names="spatial_relation,container,object,region_container,abstract_container,object_color,number,index,object_type,region"/>
+      <PRT class_names=""/>
+      <S class_names=""/>
+      <SBAR class_names=""/>
+      <VP class_names=""/>
+      <WHNP class_names=""/>
+      <WHVP class_names=""/>
+    </class_names>
+    <string_property key="container_type" value="group,column,row,robot"/>
+    <string_property key="object_color" value="na,red"/>
+    <string_property key="object_type" value="block,robot,table"/>
+    <string_property key="spatial_relation_type" value="front,far,left,right,near"/>
+    <int_property key="index" value="1"/>
+    <int_property key="number" value="10,3,2,4"/>
+  </symbol_dictionary>
+</root>
