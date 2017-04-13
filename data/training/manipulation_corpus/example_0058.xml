@@ -40,6 +40,7 @@
         <DT text="the" order="5"/>
         <NN text="left" order="6"/>
       </NP>
+    </PP>
     <PP>
       <grounding_set>
         <container container_type="row" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
