@@ -20,7 +20,7 @@
   </world>
   <NP>
     <grounding_set>
-      <container container_type="row" object_ids="O2-cube-cube-base,O5-cube-cube-base,O6-cube-cube-base,O7-cube-cube-base"/>
+      <container container_type="group" object_ids="O2-cube-cube-base,O5-cube-cube-base,O6-cube-cube-base,O7-cube-cube-base"/>
       <object id="O2-cube-cube-base"/>
       <object id="O5-cube-cube-base"/>
       <object id="O6-cube-cube-base"/>
@@ -28,7 +28,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <container_type container_type="row"/>
+        <container_type container_type="group"/>
       </grounding_set>
       <DT text="a" order="0"/>
       <JJ text="horizontal" order="1"/>
