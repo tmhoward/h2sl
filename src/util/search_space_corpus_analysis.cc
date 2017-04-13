@@ -56,6 +56,7 @@ average( const vector< double >& vector ){
   if( vector.size() ){
     tmp = ( tmp / vector.size() );
   } else {
+    cout << "vector of size 0" << endl;
     tmp = 0.0;
   }
   return tmp;
@@ -379,32 +380,6 @@ main( int argc,
 
                                     } // hdcg block ends
  
-				    /*
-                                    if( xmlStrcmp( l5->name, ( const xmlChar* )( "hdcg" ) ) == 0 ){
-                                      // look for the "runtime" property; this is the runtime for the given model
-                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
-                                      if( runtime != NULL ){
-                                        // convert runtime to a stringstream type for using as a string
-                                        stringstream runtime_string;
-                                        runtime_string << runtime;
-                                        // check whether "hdcg_runtimes" has a key_value matching num_world_objects_string
-                                        map< string, vector< double > >::iterator it_hdcg_runtimes = hdcg_runtimes.find( num_world_objects_string.str() );
-                                        // check the return of map::find()
-                                        // if not map::end(), the key_value exists
-                                        // else, insert the new world size key_value
-                                        if( it_hdcg_runtimes != hdcg_runtimes.end() ){
-                                          it_hdcg_runtimes->second.push_back( std::stod( runtime_string.str() ) );
-                                        } else{
-                                          hdcg_runtimes.insert( 
-                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( runtime_string.str() ) ) ) 
-                                          );
-                                        }
-                                        // free the xmlChar pointer
-                                        xmlFree( runtime );
-                                      }
-                                    }
-                                    */
-
                                     if( xmlStrcmp( l5->name, ( const xmlChar* )( "hadcg" ) ) == 0 ){
                                      // =========== HADCG SEARCH SPACE CONCRETE ================
                                       xmlChar * ss_concrete = xmlGetProp( l5, ( const xmlChar* )( "search_space_concrete_size" ) );
@@ -413,7 +388,7 @@ main( int argc,
                                         ss_concrete_string << ss_concrete;
 					hadcg_ss_concrete_size.push_back( std::stod( ss_concrete_string.str() ) );
 
-                                        map< string, vector< double > >::iterator it_hadcg_ss_concrete_wm = hdcg_ss_concrete_wm.find( num_world_objects_string.str() );
+                                        map< string, vector< double > >::iterator it_hadcg_ss_concrete_wm = hadcg_ss_concrete_wm.find( num_world_objects_string.str() );
                                         if( it_hadcg_ss_concrete_wm != hadcg_ss_concrete_wm.end() ){
                                           it_hadcg_ss_concrete_wm->second.push_back( std::stod( ss_concrete_string.str() ) );
                                         } else{
@@ -463,32 +438,7 @@ main( int argc,
 
                                     } // hadcg block ends
 
-				   /*
-                                    if( xmlStrcmp( l5->name, ( const xmlChar* )( "hadcg" ) ) == 0 ){
-                                      // look for the "runtime" property; this is the runtime for the given model
-                                      xmlChar * runtime = xmlGetProp( l5, ( const xmlChar* )( "runtime" ) );
-                                      if( runtime != NULL ){
-                                        // convert runtime to a stringstream type for using as a string
-                                        stringstream runtime_string;
-                                        runtime_string << runtime;
-                                        // check whether "hadcg_runtimes" has a key_value matching num_world_objects_string
-                                        map< string, vector< double > >::iterator it_hadcg_runtimes = hadcg_runtimes.find( num_world_objects_string.str() );
-                                        // check the return of map::find()
-                                        // if not map::end(), the key_value exists
-                                        // else, insert the new world size key_value
-                                        if( it_hadcg_runtimes != hadcg_runtimes.end() ){
-                                          it_hadcg_runtimes->second.push_back( std::stod( runtime_string.str() ) );
-                                        } else{
-                                          hadcg_runtimes.insert( 
-                                            pair< string, vector< double > >( num_world_objects_string.str(), vector< double >( 1, std::stod( runtime_string.str() ) ) ) 
-                                          );
-                                        }
-                                        // free the xmlChar pointer
-                                        xmlFree( runtime );
-                                      }
-                                    }
-                                    */
-                                  }
+                                 }
                                 }
                                 // free the xmlChar pointer
                                 xmlFree( num_world_objects );
@@ -519,8 +469,12 @@ main( int argc,
 
   cout << " Determining the Search Space sizes" << endl;
 
-  if( ( dcg_ss_concrete_wm.size() > 0 ) && ( dcg_ss_abstract_avg_wm.size() > 0 ) && ( dcg_ss_abstract_max_wm.size() > 0 ) &&  
-      (  adcg_ss_concrete_wm.size() > 0 ) && ( adcg_ss_abstract_avg_wm.size() > 0 ) && ( adcg_ss_abstract_max_wm.size() > 0 ) ){
+//  if( ( dcg_ss_concrete_wm.size() > 0 ) && ( dcg_ss_abstract_avg_wm.size() > 0 ) && ( dcg_ss_abstract_max_wm.size() > 0 ) &&  
+//      (  adcg_ss_concrete_wm.size() > 0 ) && ( adcg_ss_abstract_avg_wm.size() > 0 ) && ( adcg_ss_abstract_max_wm.size() > 0 ) && 
+//      (  hdcg_ss_concrete_wm.size() > 0 ) && ( hdcg_ss_abstract_avg_wm.size() > 0 ) && ( hdcg_ss_abstract_max_wm.size() > 0 ) &&
+//      (  hadcg_ss_concrete_wm.size() > 0 ) && ( hadcg_ss_abstract_avg_wm.size() > 0 ) && ( hadcg_ss_abstract_max_wm.size() > 0 ) ){
+
+  if(true) {  
 
     // Map to store the WM results.
     std::map< std::string, vector< double> > wm_results;
@@ -811,6 +765,26 @@ main( int argc,
 
   cout <<  "ADCG: abstract_max_size" << endl;
   cout << "adcg_ss_abstract_max_size" << export_vector_double( adcg_ss_abstract_max_size ) << endl;
+
+  // HDCG parameters for the instruction-level plot.
+  cout <<  "HDCG: concrete search space" << endl;
+  cout << "hdcg_ss_concrete_size" << export_vector_double( hdcg_ss_concrete_size ) << endl;
+ 
+  cout <<  "HDCG: abstract_avg_size" << endl;
+  cout << "hdcg_ss_abstract_avg_size" << export_vector_double( hdcg_ss_abstract_avg_size ) << endl;
+
+  cout <<  "HDCG: abstract_max_size" << endl;
+  cout << "hdcg_ss_abstract_max_size" << export_vector_double( hdcg_ss_abstract_max_size ) << endl;
+
+  // HADCG parameters for the instruction-level plot.
+  cout <<  "HADCG: concrete search space" << endl;
+  cout << "hadcg_ss_concrete_size" << export_vector_double( hadcg_ss_concrete_size ) << endl;
+ 
+  cout <<  "HADCG: abstract_avg_size" << endl;
+  cout << "hadcg_ss_abstract_avg_size" << export_vector_double( hadcg_ss_abstract_avg_size ) << endl;
+
+  cout <<  "HADCG: abstract_max_size" << endl;
+  cout << "hadcg_ss_abstract_max_size" << export_vector_double( hadcg_ss_abstract_max_size ) << endl;
 
   //create the matlab file using the output argument
   if( args.output_script_given ){
