@@ -65,8 +65,8 @@
             <object id="O6-cube-cube-base"/>
             <object id="O7-cube-cube-base"/>
             <object_type object_type="block"/>
-            <!--abstract_container object_type="block" number="7" index="1" object_color="na"/>
             <number value="7"/>
+            <!--abstract_container object_type="block" number="7" index="1" object_color="na"/>
             <index value="1"/>
             <object_color object_color_type="na"/-->
           </grounding_set>

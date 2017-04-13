@@ -65,6 +65,7 @@
             <object id="O6-cube-cube-base"/>
             <object id="O7-cube-cube-base"/>
             <object_type object_type="block"/>
+            <number value="7"/>
           </grounding_set>
           <CD text="seven" order="3"/>
           <NNS text="blocks" order="4"/>

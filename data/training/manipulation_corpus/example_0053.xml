@@ -93,7 +93,8 @@
                 <object id="object3-cube-cube-base"/>
                 <object id="object4-cube-cube-base"/>
                 <object_type object_type="block"/>
-                <!--object_color object_color_type="red"/-->
+                <number value="5"/>
+                <object_color object_color_type="red"/>
               </grounding_set>
               <CD text="five" order="10"/>
               <JJ text="red" order="11"/>

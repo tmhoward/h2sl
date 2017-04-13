@@ -44,11 +44,8 @@
         <object id="object7-cube-cube-base"/>
         <object id="object8-cube-cube-base"/>
         <object id="object9-cube-cube-base"/>
-        <abstract_container object_type="block" number="10" index="1" object_color="na"/>
         <number value="10"/>
-        <index value="1"/>
         <object_type object_type="block"/>
-        <object_color object_color_type="na"/>
       </grounding_set>
       <PDT text="all" order="0"/>
       <DT text="the" order="1"/>
