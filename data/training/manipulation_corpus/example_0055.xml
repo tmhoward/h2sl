@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the first block on the left in the row of blocks in front of the robot"/>
+  <world time="0">
+    <object id="O1-cube-cube-base" object_type="block" object_color="na" position="0.94773,-0.610433,0.737727" orientation="2.29491e-06,1.4162e-05,0.421055,0.907035" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O2-cube-cube-base" object_type="block" object_color="na" position="0.945792,-0.336278,0.737724" orientation="-4.61221e-06,1.22065e-05,0.000191407,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O3-cube-cube-base" object_type="block" object_color="na" position="0.880605,-0.0227044,0.737722" orientation="-4.19464e-06,1.22622e-05,6.05501e-05,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O4-cube-cube-base" object_type="block" object_color="na" position="0.917703,0.349352,0.737717" orientation="-6.01625e-06,1.42704e-05,-0.00197358,0.999998" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O5-cube-cube-base" object_type="block" object_color="na" position="0.863231,0.540612,0.737717" orientation="-4.11569e-06,1.40306e-05,0.0158534,0.999874" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.741384,1.01492,1.22719" orientation="-0.290758,0.650416,0.28678,0.640449" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.852473,-0.966273,1.22896" orientation="0.25366,0.664961,-0.250745,0.656209" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="table-table-table-base" object_type="table" object_color="na" position="0.874999,-5.36932e-07,-0.0117897" orientation="-5.48271e-06,1.36314e-05,4.16255e-07,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <object id="O5-cube-cube-base"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <object_property object_type="block" spatial_relation_type="na" index="1"/>
+        <index value="1"/>
+        <object_type object_type="block"/>
+        <spatial_relation spatial_relation_type="na"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <JJ text="first" order="1"/>
+      <NN text="block" order="2"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <spatial_relation spatial_relation_type="left"/>
+      </grounding_set>
+      <IN text="on" order="3"/>
+      <NP>
+        <grounding_set>
+          <spatial_relation spatial_relation_type="left"/>
+        </grounding_set>
+        <DT text="the" order="4"/>
+        <NN text="left" order="5"/>
+      </NP>
+    </PP>
+    <PP>
+      <grounding_set>
+        <container container_type="row" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
+        <object id="O1-cube-cube-base"/>
+        <object id="O2-cube-cube-base"/>
+        <object id="O3-cube-cube-base"/>
+        <object id="O4-cube-cube-base"/>
+        <object id="O5-cube-cube-base"/>
+      </grounding_set>
+      <IN text="in" order="6"/>
+      <NP>
+        <grounding_set>
+          <container container_type="row" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
+          <object id="O1-cube-cube-base"/>
+          <object id="O2-cube-cube-base"/>
+          <object id="O3-cube-cube-base"/>
+          <object id="O4-cube-cube-base"/>
+          <object id="O5-cube-cube-base"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <container_type container_type="row"/>
+          </grounding_set>
+          <DT text="the" order="7"/>
+          <NN text="row" order="8"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <container container_type="group" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
+            <object id="O1-cube-cube-base"/>
+            <object id="O2-cube-cube-base"/>
+            <object id="O3-cube-cube-base"/>
+            <object id="O4-cube-cube-base"/>
+            <object id="O5-cube-cube-base"/>
+          </grounding_set>
+          <IN text="of" order="9"/>
+          <NP>
+            <grounding_set>
+              <container container_type="group" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
+              <object id="O1-cube-cube-base"/>
+              <object id="O2-cube-cube-base"/>
+              <object id="O3-cube-cube-base"/>
+              <object id="O4-cube-cube-base"/>
+              <object id="O5-cube-cube-base"/>
+            </grounding_set>
+            <NP>
+              <grounding_set>
+                <container container_type="group" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
+                <object id="O1-cube-cube-base"/>
+                <object id="O2-cube-cube-base"/>
+                <object id="O3-cube-cube-base"/>
+                <object id="O4-cube-cube-base"/>
+                <object id="O5-cube-cube-base"/>
+                <object_type object_type="block"/>
+              </grounding_set>
+              <NNS text="blocks" order="10"/>
+            </NP>
+            <PP>
+              <grounding_set>
+                <region_container spatial_relation_type="front">
+                  <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+                </region_container>
+                <object id="baxter1-baxter-left_hand"/>
+                <object id="baxter1-baxter-right_hand"/>
+              </grounding_set>
+              <IN text="in" order="11"/>
+              <NP>
+                <grounding_set>
+                  <region_container spatial_relation_type="front">
+                    <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+                  </region_container>
+                  <object id="baxter1-baxter-left_hand"/>
+                  <object id="baxter1-baxter-right_hand"/>
+                </grounding_set>
+                <NP>
+                  <grounding_set>
+                    <spatial_relation spatial_relation_type="front"/>
+                  </grounding_set>
+                  <NN text="front" order="12"/>
+                </NP>
+                <PP>
+                  <grounding_set>
+                    <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+                    <object id="baxter1-baxter-left_hand"/>
+                    <object id="baxter1-baxter-right_hand"/>
+                  </grounding_set>
+                  <IN text="of" order="13"/>
+                  <NP>
+                    <grounding_set>
+                      <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+                      <object id="baxter1-baxter-left_hand"/>
+                      <object id="baxter1-baxter-right_hand"/>
+                    </grounding_set>
+                    <DT text="the" order="14"/>
+                    <NN text="robot" order="15"/>
+                  </NP>
+                </PP>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>

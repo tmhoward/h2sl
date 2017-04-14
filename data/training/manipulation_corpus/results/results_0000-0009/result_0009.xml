@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <results num="1">
+    <test filename="../data/training/manipulation_corpus/test_files/test_collated_0000-0009.xml" training_set_size="7" test_set_size="0" training_ratio="1" training_runtime="34.472358" training_set_correct_root_adcg="0.285714" training_set_correct_complete_adcg="0.285714" training_set_runtime_adcg="9.6728" training_set_runtime_adcg_norm="1.63924" training_set_runtime_ratio="0" training_set_num_phrases="7" training_set_num_objects="14" training_setruntime_object_ratio_adcg="0.690914" training_set_dataset_concrete_adcg="31" training_set_dataset_abstract_avg_adcg="236.048" training_set_dataset_abstract_max_adcg="327.806">
+      <training_set correct_root_adcg="0.285714" correct_complete_adcg="0.285714" runtime_adcg="9.6728" runtime_adcg_norm="1.63924" runtime_ratio="0" avg_num_phrases="7" avg_num_objects="14" runtime_object_ratio_adcg="0.690914" dataset_concrete_adcg="31" dataset_abstract_avg_adcg="236.048" dataset_abstract_max_adcg="327.806">
+        <example filename="../data/training/manipulation_corpus/example_0001.xml" num_phrases="10" world_objects="14" runtime_object_ratio_adcg="0.48244">
+          <adcg runtime="6.75415" runtime_norm="0.675415" search_space_concrete_size="31" search_space_abstract_avg_size="102.2" search_space_abstract_max_size="203.8" root_correct="false" complete_correct="false"/>
+          <world time="0">
+            <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.349619,1.16126,1.60794" orientation="-0.0904007,0.391826,0.720737,0.564657" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.689825,-0.961224,1.07318" orientation="0.575972,0.471578,-0.0219704,0.667374" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object0-cube-cube-base" object_type="block" object_color="na" position="0.902484,0.303134,0.73615" orientation="4.10404e-06,7.18221e-07,-0.501836,0.864963" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.74109,0.251459,0.73615" orientation="-0.663722,-0.244023,-0.663605,0.244038" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object2-cube-cube-base" object_type="block" object_color="na" position="1.00332,0.516338,0.73615" orientation="-2.04036e-06,3.66284e-07,0.581881,0.813274" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object3-cube-cube-base" object_type="block" object_color="na" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object4-cube-cube-base" object_type="block" object_color="na" position="0.926397,0.553298,0.73615" orientation="-5.85894e-07,-4.81674e-07,-0.375334,0.92689" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object5-cube-cube-base" object_type="block" object_color="na" position="1.14879,0.576187,0.73615" orientation="-2.10207e-06,1.12453e-06,-0.94424,0.329257" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object6-cube-cube-base" object_type="block" object_color="na" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object7-cube-cube-base" object_type="block" object_color="na" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object8-cube-cube-base" object_type="block" object_color="na" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="table-table-table-base" object_type="table" object_color="na" position="1.0002,0.000257949,-0.0122251" orientation="-3.93159e-09,7.6115e-08,0.000128641,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </world>
+        </example>
+        <example filename="../data/training/manipulation_corpus/example_0002.xml" num_phrases="7" world_objects="14" runtime_object_ratio_adcg="0.800656">
+          <adcg runtime="11.2092" runtime_norm="1.60131" search_space_concrete_size="31" search_space_abstract_avg_size="217.8" search_space_abstract_max_size="290.3" root_correct="false" complete_correct="false"/>
+          <world time="0">
+            <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.349619,1.16126,1.60794" orientation="-0.0904007,0.391826,0.720737,0.564657" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.689825,-0.961224,1.07318" orientation="0.575972,0.471578,-0.0219704,0.667374" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object0-cube-cube-base" object_type="block" object_color="na" position="0.902484,0.303134,0.73615" orientation="4.10404e-06,7.18221e-07,-0.501836,0.864963" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.74109,0.251459,0.73615" orientation="-0.663722,-0.244023,-0.663605,0.244038" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object2-cube-cube-base" object_type="block" object_color="na" position="1.00332,0.516338,0.73615" orientation="-2.04036e-06,3.66284e-07,0.581881,0.813274" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object3-cube-cube-base" object_type="block" object_color="na" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object4-cube-cube-base" object_type="block" object_color="na" position="0.926397,0.553298,0.73615" orientation="-5.85894e-07,-4.81674e-07,-0.375334,0.92689" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object5-cube-cube-base" object_type="block" object_color="na" position="1.14879,0.576187,0.73615" orientation="-2.10207e-06,1.12453e-06,-0.94424,0.329257" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object6-cube-cube-base" object_type="block" object_color="na" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object7-cube-cube-base" object_type="block" object_color="na" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object8-cube-cube-base" object_type="block" object_color="na" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="table-table-table-base" object_type="table" object_color="na" position="1.0002,0.000257949,-0.0122251" orientation="-3.93159e-09,7.6115e-08,0.000128641,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </world>
+        </example>
+        <example filename="../data/training/manipulation_corpus/example_0003.xml" num_phrases="4" world_objects="14" runtime_object_ratio_adcg="0.86889">
+          <adcg runtime="12.1645" runtime_norm="3.04111" search_space_concrete_size="31" search_space_abstract_avg_size="508" search_space_abstract_max_size="508.5" root_correct="true" complete_correct="true"/>
+          <world time="0">
+            <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.349619,1.16126,1.60794" orientation="-0.0904007,0.391826,0.720737,0.564657" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.689825,-0.961224,1.07318" orientation="0.575972,0.471578,-0.0219704,0.667374" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object0-cube-cube-base" object_type="block" object_color="na" position="0.902484,0.303134,0.73615" orientation="4.10404e-06,7.18221e-07,-0.501836,0.864963" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.74109,0.251459,0.73615" orientation="-0.663722,-0.244023,-0.663605,0.244038" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object2-cube-cube-base" object_type="block" object_color="na" position="1.00332,0.516338,0.73615" orientation="-2.04036e-06,3.66284e-07,0.581881,0.813274" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object3-cube-cube-base" object_type="block" object_color="na" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object4-cube-cube-base" object_type="block" object_color="na" position="0.926397,0.553298,0.73615" orientation="-5.85894e-07,-4.81674e-07,-0.375334,0.92689" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object5-cube-cube-base" object_type="block" object_color="na" position="1.14879,0.576187,0.73615" orientation="-2.10207e-06,1.12453e-06,-0.94424,0.329257" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object6-cube-cube-base" object_type="block" object_color="na" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object7-cube-cube-base" object_type="block" object_color="na" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object8-cube-cube-base" object_type="block" object_color="na" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="table-table-table-base" object_type="table" object_color="na" position="1.0002,0.000257949,-0.0122251" orientation="-3.93159e-09,7.6115e-08,0.000128641,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </world>
+        </example>
+        <example filename="../data/training/manipulation_corpus/example_0004.xml" num_phrases="10" world_objects="14" runtime_object_ratio_adcg="0.811075">
+          <adcg runtime="11.355" runtime_norm="1.1355" search_space_concrete_size="31" search_space_abstract_avg_size="152.8" search_space_abstract_max_size="203.7" root_correct="false" complete_correct="false"/>
+          <world time="0">
+            <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.142854,1.19839,0.957253" orientation="-0.549491,0.731964,0.332955,0.22678" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.920661,-0.673788,1.5824" orientation="0.283103,0.425877,0.0411236,0.858365" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object0-cube-cube-base" object_type="block" object_color="na" position="1.17944,-0.427886,0.73615" orientation="2.93449e-07,2.98515e-06,-0.353919,0.935276" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.821698,0.349521,0.73615" orientation="0.566683,-0.422687,0.56694,0.422831" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object2-cube-cube-base" object_type="block" object_color="na" position="0.908539,0.20324,0.73615" orientation="1.88049e-06,-3.64203e-05,-0.0104208,0.999946" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object3-cube-cube-base" object_type="block" object_color="na" position="0.774183,-0.251886,0.73615" orientation="-0.676936,-0.203833,-0.677244,0.203838" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object4-cube-cube-base" object_type="block" object_color="na" position="0.996622,-0.0634606,0.73615" orientation="-1.68905e-06,-6.07961e-07,0.00559877,0.999984" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object5-cube-cube-base" object_type="block" object_color="na" position="0.927737,-0.332794,0.73615" orientation="0.592273,-0.386277,-0.386278,0.592277" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object6-cube-cube-base" object_type="block" object_color="na" position="1.05213,0.515082,0.73615" orientation="-0.700309,-0.0976077,-0.700309,0.0980222" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object7-cube-cube-base" object_type="block" object_color="na" position="0.910862,0.00680389,0.73615" orientation="-0.0795181,0.70262,0.0795196,0.702622" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object8-cube-cube-base" object_type="block" object_color="na" position="0.96925,0.527563,0.73615" orientation="-1.16355e-06,-5.00612e-06,-0.813535,0.581516" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.11856,0.661358,0.73615" orientation="6.64398e-08,1.21497e-06,-0.0392197,0.999231" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="table-table-table-base" object_type="table" object_color="na" position="0.99998,7.53728e-05,-0.012225" orientation="-1.05075e-09,7.58762e-10,-5.4477e-05,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </world>
+        </example>
+        <example filename="../data/training/manipulation_corpus/example_0007.xml" num_phrases="4" world_objects="14" runtime_object_ratio_adcg="0.849793">
+          <adcg runtime="11.8971" runtime_norm="2.97427" search_space_concrete_size="31" search_space_abstract_avg_size="380.6" search_space_abstract_max_size="507.5" root_correct="true" complete_correct="true"/>
+          <world time="0">
+            <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.584959,1.08514,1.41966" orientation="-0.324953,0.378217,0.366589,0.785474" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="1.03085,-0.566315,1.35665" orientation="0.177299,0.726623,-0.016616,0.663557" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object0-cube-cube-base" object_type="block" object_color="na" position="1.14996,0.244552,0.73615" orientation="-3.4078e-06,1.84657e-06,-0.447457,0.894306" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.863214,0.264301,0.73615" orientation="1.02625e-06,-1.24774e-07,-0.932406,0.361412" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object2-cube-cube-base" object_type="block" object_color="na" position="0.847578,-0.607726,0.73615" orientation="-1.62628e-06,-4.51126e-06,0.901434,0.432917" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object3-cube-cube-base" object_type="block" object_color="na" position="1.0897,-0.335123,0.73615" orientation="1.08569e-05,-1.3439e-05,-0.0231614,0.999732" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object4-cube-cube-base" object_type="block" object_color="na" position="1.19811,0.188847,0.73615" orientation="2.22177e-07,4.40445e-06,-0.699069,0.715054" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object5-cube-cube-base" object_type="block" object_color="na" position="0.980659,0.546017,0.73615" orientation="-3.44496e-09,-2.63895e-06,-0.527615,0.849484" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object6-cube-cube-base" object_type="block" object_color="na" position="0.889083,0.479437,0.73615" orientation="0.598968,-0.375864,-0.375838,0.598923" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object7-cube-cube-base" object_type="block" object_color="na" position="0.816975,-0.372529,0.73615" orientation="-0.700278,-0.0980334,-0.700279,0.0980309" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object8-cube-cube-base" object_type="block" object_color="na" position="1.1392,-0.418383,0.73615" orientation="1.03891e-06,-4.83987e-07,0.237246,0.97145" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.02711,0.250359,0.73615" orientation="-0.704594,-0.0595505,-0.704595,0.0595529" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="table-table-table-base" object_type="table" object_color="na" position="1.00008,5.56677e-05,-0.012225" orientation="-8.89402e-10,1.33426e-08,-4.63025e-05,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </world>
+        </example>
+        <example filename="../data/training/manipulation_corpus/example_0008.xml" num_phrases="7" world_objects="14" runtime_object_ratio_adcg="0.502174">
+          <adcg runtime="7.03044" runtime_norm="1.00435" search_space_concrete_size="31" search_space_abstract_avg_size="145.4" search_space_abstract_max_size="290.4" root_correct="false" complete_correct="false"/>
+          <world time="0">
+            <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.584959,1.08514,1.41966" orientation="-0.324953,0.378217,0.366589,0.785474" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="1.03085,-0.566315,1.35665" orientation="0.177299,0.726623,-0.016616,0.663557" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object0-cube-cube-base" object_type="block" object_color="na" position="1.14996,0.244552,0.73615" orientation="-3.4078e-06,1.84657e-06,-0.447457,0.894306" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.863214,0.264301,0.73615" orientation="1.02625e-06,-1.24774e-07,-0.932406,0.361412" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object2-cube-cube-base" object_type="block" object_color="na" position="0.847578,-0.607726,0.73615" orientation="-1.62628e-06,-4.51126e-06,0.901434,0.432917" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object3-cube-cube-base" object_type="block" object_color="na" position="1.0897,-0.335123,0.73615" orientation="1.08569e-05,-1.3439e-05,-0.0231614,0.999732" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object4-cube-cube-base" object_type="block" object_color="na" position="1.19811,0.188847,0.73615" orientation="2.22177e-07,4.40445e-06,-0.699069,0.715054" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object5-cube-cube-base" object_type="block" object_color="na" position="0.980659,0.546017,0.73615" orientation="-3.44496e-09,-2.63895e-06,-0.527615,0.849484" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object6-cube-cube-base" object_type="block" object_color="na" position="0.889083,0.479437,0.73615" orientation="0.598968,-0.375864,-0.375838,0.598923" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object7-cube-cube-base" object_type="block" object_color="na" position="0.816975,-0.372529,0.73615" orientation="-0.700278,-0.0980334,-0.700279,0.0980309" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object8-cube-cube-base" object_type="block" object_color="na" position="1.1392,-0.418383,0.73615" orientation="1.03891e-06,-4.83987e-07,0.237246,0.97145" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.02711,0.250359,0.73615" orientation="-0.704594,-0.0595505,-0.704595,0.0595529" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="table-table-table-base" object_type="table" object_color="na" position="1.00008,5.56677e-05,-0.012225" orientation="-8.89402e-10,1.33426e-08,-4.63025e-05,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </world>
+        </example>
+        <example filename="../data/training/manipulation_corpus/example_0009.xml" num_phrases="7" world_objects="14" runtime_object_ratio_adcg="0.52137">
+          <adcg runtime="7.29919" runtime_norm="1.04274" search_space_concrete_size="31" search_space_abstract_avg_size="145.5" search_space_abstract_max_size="290.4" root_correct="false" complete_correct="false"/>
+          <world time="0">
+            <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.699068,1.06116,1.17546" orientation="-0.0862796,0.828213,0.483453,0.269987" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.638704,-0.836323,1.89229" orientation="0.0759642,0.0897673,-0.195408,0.973646" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object0-cube-cube-base" object_type="block" object_color="na" position="1.00928,-0.554897,0.73615" orientation="-9.69287e-06,-6.20161e-07,-0.923444,0.383734" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.878274,0.236705,0.73615" orientation="-0.132525,-0.694575,0.69458,0.132522" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object2-cube-cube-base" object_type="block" object_color="na" position="0.998909,0.0999756,0.73615" orientation="2.75165e-06,-2.6909e-06,-0.999655,0.0262583" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object3-cube-cube-base" object_type="block" object_color="na" position="0.764302,0.0389512,0.73615" orientation="-5.79438e-07,-1.00232e-07,0.535783,0.844356" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object4-cube-cube-base" object_type="block" object_color="na" position="0.992368,-0.172812,0.73615" orientation="1.54195e-05,-1.75298e-05,-0.0613619,0.998116" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object5-cube-cube-base" object_type="block" object_color="na" position="1.12942,0.0906933,0.73615" orientation="-0.456248,-0.540444,-0.456003,0.540203" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object6-cube-cube-base" object_type="block" object_color="na" position="0.927328,0.152393,0.73615" orientation="0.704924,-0.0554827,-0.0554727,0.70493" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object7-cube-cube-base" object_type="block" object_color="na" position="0.817534,-0.526432,0.73615" orientation="-3.90675e-06,2.35632e-06,-0.928389,0.371609" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object8-cube-cube-base" object_type="block" object_color="na" position="0.997004,-0.0572518,0.73615" orientation="-6.70353e-06,-2.16095e-06,-0.0405447,0.999178" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.13624,0.0183099,0.73615" orientation="-5.34739e-06,2.94089e-06,0.285096,0.958499" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+            <object id="table-table-table-base" object_type="table" object_color="na" position="1.00063,0.00011262,-0.012225" orientation="2.80387e-08,5.45705e-08,0.000142944,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+          </world>
+        </example>
+      </training_set>
+    </test>
+  </results>
+</root>
