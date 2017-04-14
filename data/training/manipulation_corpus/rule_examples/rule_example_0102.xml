@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the third red block from the right in a horizontal row of red blocks in front of the robot"/>
+  <world time="0">
+    <object id="O1-cube-cube-base" object_type="block" object_color="na" position="0.891136,-0.450016,0.737718" orientation="4.43876e-06,-1.26524e-05,0.00155739,0.999999" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O2-cube-cube-base" object_type="block" object_color="na" position="0.97354,-0.300012,0.737722" orientation="5.84727e-06,-1.40025e-05,-0.000295197,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O3-cube-cube-base" object_type="block" object_color="na" position="0.919465,-0.150019,0.737722" orientation="7.03961e-06,-1.36853e-05,-0.000108556,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O4-cube-cube-base" object_type="block" object_color="na" position="0.834767,-2.39878e-05,0.737721" orientation="5.5952e-06,-1.23215e-05,-0.000195186,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O5-cube-cube-base" object_type="block" object_color="na" position="0.805475,0.149994,0.737722" orientation="4.93108e-06,-1.29784e-05,-5.11104e-06,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O6-cube-cube-base" object_type="block" object_color="na" position="0.81339,0.300115,0.737724" orientation="5.18223e-06,-1.34668e-05,0.000117284,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O7-cube-cube-base" object_type="block" object_color="na" position="0.840011,0.450003,0.737726" orientation="4.19253e-06,-1.22864e-05,0.00505403,0.999987" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.953973,0.867182,1.22719" orientation="-0.22516,0.675933,0.222164,0.665628" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.67375,-1.09724,1.22895" orientation="0.318046,0.636681,-0.314288,0.628256" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="table-table-table-base" object_type="table" object_color="na" position="0.874999,-2.01051e-07,-0.0117897" orientation="5.48386e-06,-1.36268e-05,3.97648e-07,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <rule_object_type object_type="block"/>
+      <rule_object_color object_color="na"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="na"/>
+        <rule_object_type object_type="block"/>
+        <rule_index index="3"/>
+        <rule_object_color object_color="red"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <JJ text="third" order="1"/>
+      <JJ text="red" order="2"/>
+      <NN text="block" order="3"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="right"/>
+      </grounding_set>
+      <IN text="from" order="4"/>
+      <NP>
+        <grounding_set>
+          <rule_spatial_relation spatial_relation_type="right"/>
+        </grounding_set>
+        <DT text="the" order="5"/>
+        <NN text="right" order="6"/>
+      </NP>
+    </PP>
+    <PP>
+      <grounding_set>
+        <rule_container_type container_type="row"/>
+        <rule_object_type object_type="block"/>
+        <rule_object_color object_color="na"/>
+      </grounding_set>
+      <IN text="in" order="7"/>
+      <NP>
+        <grounding_set>
+          <rule_container_type container_type="row"/>
+          <rule_object_type object_type="block"/>
+          <rule_object_color object_color="na"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <rule_container_type container_type="row"/>
+          </grounding_set>
+          <DT text="a" order="8"/>
+          <JJ text="horizontal" order="9"/>
+          <NN text="row" order="10"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <rule_container_type container_type="group"/>
+            <rule_object_type object_type="block"/>
+            <rule_object_color object_color="na"/>
+          </grounding_set>
+          <IN text="of" order="11"/>
+          <NP>
+            <grounding_set>
+              <rule_container_type container_type="group"/>
+              <rule_object_type object_type="block"/>
+              <rule_object_color object_color="na"/>
+            </grounding_set>
+            <NP>
+              <grounding_set>
+                <rule_container_type container_type="group"/>
+                <rule_object_type object_type="block"/>
+                <rule_object_color object_color="na"/>
+                <rule_object_color object_color="red"/>
+              </grounding_set>
+              <CD text="red" order="12"/>
+              <NNS text="blocks" order="13"/>
+            </NP>
+            <PP>
+              <grounding_set>
+                <rule_container_type container_type="group"/>
+                <rule_spatial_relation spatial_relation_type="front"/>
+                <rule_object_type object_type="robot"/>
+                <rule_object_color object_color="na"/>
+              </grounding_set>
+              <IN text="in" order="14"/>
+              <NP>
+                <grounding_set>
+                  <rule_container_type container_type="group"/>
+                  <rule_spatial_relation spatial_relation_type="front"/>
+                  <rule_object_type object_type="robot"/>
+                  <rule_object_color object_color="na"/>
+                </grounding_set>
+                <NP>
+                  <grounding_set>
+                    <rule_spatial_relation spatial_relation_type="front"/>
+                  </grounding_set>
+                  <NN text="front" order="15"/>
+                </NP>
+                <PP>
+                  <grounding_set>
+                    <rule_container_type container_type="group"/>
+                    <rule_object_type object_type="robot"/>
+                    <rule_object_color object_color="na"/>
+                  </grounding_set>
+                  <IN text="of" order="16"/>
+                  <NP>
+                    <grounding_set>
+                      <rule_container_type container_type="group"/>
+                      <rule_object_type object_type="robot"/>
+                      <rule_object_color object_color="na"/>
+                    </grounding_set>
+                    <DT text="the" order="17"/>
+                    <NN text="robot" order="18"/>
+                  </NP>
+                </PP>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>
