@@ -1,3 +1,0 @@
-To recreate the bug, run:
-
-./bin/h2sl-test-process-inference --feature_set ../data/training/navigation_corpus/combined/feature_set_groundings_combined.xml --output ../data/results/results_0000/ --solution_directory ../data/results/results_0000/solutions/ ../data/cross_validation_partitions/combined_nav_corpora/collated_0000/debug_test.xml --model adcg
