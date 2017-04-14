@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="all the blocks in front"/>
+  <world time="0">
+    <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.911062,0.829574,1.32531" orientation="-0.275689,0.472792,0.124326,0.827651" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.313309,-1.18565,1.5722" orientation="0.175547,0.411653,-0.661514,0.601768" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object0-cube-cube-base" object_type="block" object_color="na" position="0.954122,-0.34879,0.73615" orientation="-0.407449,-0.577916,0.577917,0.407444" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.830884,0.538888,0.73615" orientation="-0.135785,0.693945,-0.693949,0.135788" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object2-cube-cube-base" object_type="block" object_color="na" position="0.938611,-0.082175,0.73615" orientation="0.532909,-0.464767,0.53291,0.464765" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object3-cube-cube-base" object_type="block" object_color="na" position="0.852216,-0.215158,0.73615" orientation="2.94423e-05,-1.91139e-06,-0.0404775,0.99918" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object4-cube-cube-base" object_type="block" object_color="na" position="0.88705,0.35802,0.73615" orientation="3.9994e-06,-3.58335e-06,0.328818,0.944393" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object5-cube-cube-base" object_type="block" object_color="na" position="0.981429,0.289035,0.73615" orientation="-0.664629,-0.241391,0.24139,0.664627" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object6-cube-cube-base" object_type="block" object_color="na" position="1.11917,0.484901,0.73615" orientation="3.00511e-08,6.71696e-06,-0.805684,0.592345" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object7-cube-cube-base" object_type="block" object_color="na" position="0.991728,0.520831,0.73615" orientation="-5.78111e-06,-9.73432e-06,-0.0914874,0.995806" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object8-cube-cube-base" object_type="block" object_color="na" position="1.08654,0.0670497,0.73615" orientation="0.652727,0.272037,-0.65262,0.272085" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.19591,0.533738,0.73615" orientation="-0.149486,-0.691123,0.691125,0.149498" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="table-table-table-base" object_type="table" object_color="na" position="0.999936,5.0659e-05,-0.012225" orientation="-2.63749e-09,9.91989e-10,-5.0612e-05,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <container container_type="group" object_ids="object0-cube-cube-base,object1-cube-cube-base,object2-cube-cube-base,object3-cube-cube-base,object4-cube-cube-base,object5-cube-cube-base,object6-cube-cube-base,object7-cube-cube-base,object8-cube-cube-base,object9-cube-cube-base"/>
+      <object id="object0-cube-cube-base"/>
+      <object id="object1-cube-cube-base"/>
+      <object id="object2-cube-cube-base"/>
+      <object id="object3-cube-cube-base"/>
+      <object id="object4-cube-cube-base"/>
+      <object id="object5-cube-cube-base"/>
+      <object id="object6-cube-cube-base"/>
+      <object id="object7-cube-cube-base"/>
+      <object id="object8-cube-cube-base"/>
+      <object id="object9-cube-cube-base"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <container container_type="group" object_ids="object0-cube-cube-base,object1-cube-cube-base,object2-cube-cube-base,object3-cube-cube-base,object4-cube-cube-base,object5-cube-cube-base,object6-cube-cube-base,object7-cube-cube-base,object8-cube-cube-base,object9-cube-cube-base"/>
+        <object id="object0-cube-cube-base"/>
+        <object id="object1-cube-cube-base"/>
+        <object id="object2-cube-cube-base"/>
+        <object id="object3-cube-cube-base"/>
+        <object id="object4-cube-cube-base"/>
+        <object id="object5-cube-cube-base"/>
+        <object id="object6-cube-cube-base"/>
+        <object id="object7-cube-cube-base"/>
+        <object id="object8-cube-cube-base"/>
+        <object id="object9-cube-cube-base"/>
+        <number value="10"/>
+        <object_type object_type="block"/>
+      </grounding_set>
+      <PDT text="all" order="0"/>
+      <DT text="the" order="1"/>
+      <NNS text="blocks" order="2"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <spatial_relation spatial_relation_type="front"/>
+      </grounding_set>
+      <IN text="in" order="3"/>
+      <NP>
+        <grounding_set>
+          <spatial_relation spatial_relation_type="front"/>
+        </grounding_set>
+        <NN text="front" order="4"/>
+      </NP>
+    </PP>
+  </NP>
+</root>

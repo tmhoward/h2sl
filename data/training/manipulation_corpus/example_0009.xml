@@ -31,7 +31,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <container container_type="group"/>
+        <container_type container_type="group"/>
       </grounding_set>
       <NN text="group" order="0"/>
     </NP>
@@ -65,6 +65,7 @@
             <abstract_container object_type="block" number="8" index="1" object_color="na"/>
             <object_type object_type="block"/>
             <number value="8"/>
+            <index value="1"/>
             <object_color object_color_type="na"/>
           </grounding_set>
           <CD text="eight" order="2"/>

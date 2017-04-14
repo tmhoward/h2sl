@@ -20,8 +20,8 @@
         <object id="object2-cube-cube-base"/>
         <object_property object_type="block" spatial_relation_type="center" index="1"/>
         <spatial_relation spatial_relation_type="center"/>
-        <object_type object_type="block"/>
         <index value="1"/>
+        <object_type object_type="block"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <JJ text="middle" order="1"/>
@@ -29,7 +29,7 @@
     </NP>
     <PP>
       <grounding_set>
-        <container container_type="group" object_ids="object0-cube-cube-base,object1-cube-cube-base,object2-cube-cube-base,object3-cube-cube-base,object4-cube-cube-base"/>
+        <container container_type="column" object_ids="object0-cube-cube-base,object1-cube-cube-base,object2-cube-cube-base,object3-cube-cube-base,object4-cube-cube-base"/>
         <object id="object0-cube-cube-base"/>
         <object id="object1-cube-cube-base"/>
         <object id="object2-cube-cube-base"/>
@@ -39,7 +39,7 @@
       <IN text="in" order="3"/>
       <NP>
         <grounding_set>
-          <container container_type="group" object_ids="object0-cube-cube-base,object1-cube-cube-base,object2-cube-cube-base,object3-cube-cube-base,object4-cube-cube-base"/>
+          <container container_type="column" object_ids="object0-cube-cube-base,object1-cube-cube-base,object2-cube-cube-base,object3-cube-cube-base,object4-cube-cube-base"/>
           <object id="object0-cube-cube-base"/>
           <object id="object1-cube-cube-base"/>
           <object id="object2-cube-cube-base"/>
@@ -48,7 +48,7 @@
         </grounding_set>
         <NP>
           <grounding_set>
-            <container container_type="group"/>
+            <container_type container_type="column"/>
           </grounding_set>
           <DT text="the" order="4"/>
           <NN text="column" order="5"/>
@@ -80,9 +80,11 @@
                 <object id="object2-cube-cube-base"/>
                 <object id="object3-cube-cube-base"/>
                 <object id="object4-cube-cube-base"/>
-                <abstract_container object_type="block" number="5" index="1" object_color="na"/>
                 <object_type object_type="block"/>
-                <object_color object_color_type="na"/>
+                <!--abstract_container object_type="block" number="5" index="1" object_color="na"/>
+                <number value="5"/>
+                <index value="1"/>
+                <object_color object_color_type="na"/-->
               </grounding_set>
               <NNS text="blocks" order="7"/>
             </NP>

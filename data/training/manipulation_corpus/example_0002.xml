@@ -19,14 +19,14 @@
   </world>
   <NP>
     <grounding_set>
-      <container container_type="group" object_ids="object4-cube-cube-base,object5-cube-cube-base,object2-cube-cube-base"/>
+      <container container_type="column" object_ids="object4-cube-cube-base,object5-cube-cube-base,object2-cube-cube-base"/>
       <object id="object4-cube-cube-base"/>
       <object id="object5-cube-cube-base"/>
       <object id="object2-cube-cube-base"/>
     </grounding_set>
     <NP>
       <grounding_set>
-        <container container_type="group"/>
+        <container_type container_type="column"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <NN text="column" order="1"/>
@@ -50,6 +50,7 @@
           <grounding_set>
             <abstract_container object_type="block" number="3" index="1" object_color="na"/>
             <number value="3"/>
+            <index value="1"/>
             <object_type object_type="block"/>
             <object_color object_color_type="na"/>
           </grounding_set>
