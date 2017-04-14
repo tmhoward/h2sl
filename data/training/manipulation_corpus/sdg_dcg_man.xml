@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <symbol_dictionary>
+    <class_names>
+      <ADJP class_names=""/>
+      <ADVP class_names=""/>
+      <M class_names=""/>
+      <NP class_names="object,object_property,spatial_relation,object_type,index,container,container_type,abstract_container,number,object_color,region_abstract_container,region_container,region"/>
+      <PHRASE_UNKNOWN class_names=""/>
+      <PP class_names="container,object,spatial_relation,region_container,abstract_container,object_color,number,index,object_type,region,container_type"/>
+      <PRT class_names=""/>
+      <S class_names=""/>
+      <SBAR class_names=""/>
+      <VP class_names="constraint"/>
+      <WHNP class_names=""/>
+      <WHVP class_names=""/>
+    </class_names>
+    <string_property key="constraint_payload_type" value="block"/>
+    <string_property key="constraint_reference_type" value="robot"/>
+    <string_property key="constraint_type" value="inside"/>
+    <string_property key="container_type" value="row,group,column,robot"/>
+    <string_property key="object_color" value="na,red"/>
+    <string_property key="object_type" value="block,robot,table"/>
+    <string_property key="spatial_relation_type" value="center,right,left,near,front,far,na,back"/>
+    <int_property key="index" value="1,2,3,4,5"/>
+    <int_property key="number" value="5,3,2,4,8,10,12,7"/>
+  </symbol_dictionary>
+</root>
