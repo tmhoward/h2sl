@@ -10,7 +10,7 @@ mv /tmp/test_0001.xml ../data/cross_validation_partitions/combined_nav_corpora/c
 # =============================  training ========================================
 # Training of the training partition and creation of LLM and insertion of the symbol dictionary
 # Case I: Full partition single file. Picks the partition from single_partition and puts the trained llm and features used in collated_single_partition_trained
-../build/bin/h2sl-test-process-training ../data/cross_validation_partitions/combined_nav_corpora/single_partition/test_full.xml --symbol_dictionary_groundings ../data/training/navigation_corpus/combined/sdg_hdcg_nav.xml --feature_set ../data/training/navigation_corpus/combined/fs_hdcg_nav.xml --output ../data/cross_validation_partitions/combined_nav_corpora/collated_single_partition_trained/ --evaluate_model 1 --threads 16
+../build/bin/h2sl-test-process-training ../data/cross_validation_partitions/combined_nav_corpora/single_partition/test_full.xml --symbol_dictionary_groundings ../data/training/navigation_corpus/combined/sdg_hdcg_nav.xml --feature_set ../data/training/navigation_corpus/combined/fs_hdcg_nav.xml --output ../data/cross_validation_partitions/combined_nav_corpora/collated_single_partition/ --evaluate_model 1 --threads 16
 
 # =============================  inference  ========================================
 # HDCG: Case I: Full corpus one file. 
@@ -42,4 +42,6 @@ mkdir -p ../data/results/results_hdcg_hadcg_single/results_beam_width_4/solution
 
 # ============================  Search space data for table and scatter plot ==================================================
 # Search Space Table
-../build/bin/h2sl-search-space-corpus-analysis ../data/results/results_hdcg_single/results_beam_width_1/result_full.xml ../data/results/results_hadcg_single/results_beam_width_4/result_full.xml --output_script evaluation_search_space_hdcg_hadcg.m --output_text evaluation_search_space_hdcg_hadcg.txt
+#../build/bin/h2sl-search-space-corpus-analysis ../data/results/results_hdcg_single/results_beam_width_1/result_full.xml ../data/results/results_hadcg_single/results_beam_width_4/result_full.xml --output_script evaluation_search_space_hdcg_hadcg.m --output_text evaluation_search_space_hdcg_hadcg.txt
+
+../build/bin/h2sl-search-space-corpus-analysis ../data/results/results-dcg-single/results/result_full.xml ../data/results/results-adcg-single/result_full.xml ../data/results/results_hdcg_single/results_beam_width_1/result_full.xml ../data/results/results_hadcg_single/results_beam_width_4/result_full.xml --output_script evaluation_search_space_hdcg_hadcg.m --output_text evaluation_search_space_hdcg_hadcg.txt
