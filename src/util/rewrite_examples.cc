@@ -51,14 +51,14 @@ void
 rewrite_objects( Phrase* phrase, World* world ){
   cout << "function: " << "rewrite_objects" << endl;
   if( phrase->grounding_set() != NULL ){
-    cout << "checking " << *phrase->grounding_set() << endl;
+    cout << "checking " << *( phrase->grounding_set() ) << endl;
     for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
       Object * object = dynamic_cast< Object* >( *it_grounding );
       if( object != NULL ){
         cout << "found object" << endl;
         map< string, Object* >::iterator it_object = world->objects().find( object->id() );
         assert( it_object != world->objects().end() );
-        cout << "  reassigning grounding to object " << *it_object->second << endl;
+        cout << "  reassigning grounding to object " << *( it_object->second ) << endl;
         *object = *(it_object->second);
       }
     }
@@ -67,7 +67,7 @@ rewrite_objects( Phrase* phrase, World* world ){
       rewrite_objects( *it_child, world );
     }
   } else{
-    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *( phrase ) << endl;
     assert( false );
   }
   return;
@@ -82,7 +82,7 @@ void
 replace_empty_regions_with_objects( Phrase* phrase, World* world ){
   cout << "function: " << "replace_empty_regions_with_objects" << endl;
   if( phrase->grounding_set() != NULL ){
-    cout << "checking " << *phrase->grounding_set() << endl;
+    cout << "checking " << *( phrase->grounding_set() ) << endl;
     for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
       Region * region = dynamic_cast< Region* >( *it_grounding );
       if( region != NULL ){
@@ -91,7 +91,7 @@ replace_empty_regions_with_objects( Phrase* phrase, World* world ){
           cout << "  found empty region" << endl;
           map< string, Object* >::iterator it_object = world->objects().find( region->object_id() );
           assert( it_object != world->objects().end() );
-          cout << "  reassigning grounding to object " << *it_object->second << endl;
+          cout << "  reassigning grounding to object " << *( it_object->second ) << endl;
           *it_grounding = it_object->second;
         }
       }
@@ -101,7 +101,7 @@ replace_empty_regions_with_objects( Phrase* phrase, World* world ){
       replace_empty_regions_with_objects( *it_child, world );
     }
   } else{
-    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *( phrase ) << endl;
     assert( false );
   }
   return;
@@ -111,7 +111,7 @@ void
 replace_objectless_regions_with_spatial_relations( Phrase* phrase, World* world ){
   cout << "function: " << "replace_objectless_regions_with_spatial_relations" << endl;
   if( phrase->grounding_set() ){
-    cout << "checking " << *phrase->grounding_set() << endl;
+    cout << "checking " << *( phrase->grounding_set() ) << endl;
     for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
       Region * region = dynamic_cast< Region* >( *it_grounding );
       if( region != NULL ){
@@ -119,7 +119,7 @@ replace_objectless_regions_with_spatial_relations( Phrase* phrase, World* world 
         if( region->object_id() == "na" ){
           cout << "  found objectless region" << endl;
           Spatial_Relation * spatial_relation = new Spatial_Relation( region->spatial_relation_type() );
-          cout << "  reassigning grounding to spatial relation " << *spatial_relation << endl;
+          cout << "  reassigning grounding to spatial relation " << *( spatial_relation ) << endl;
           *it_grounding = spatial_relation;
         }
       }
@@ -129,7 +129,7 @@ replace_objectless_regions_with_spatial_relations( Phrase* phrase, World* world 
       replace_objectless_regions_with_spatial_relations( *it_child, world );
     }
   } else{
-    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *( phrase ) << endl;
     assert( false );
   }
   return;
@@ -140,7 +140,7 @@ add_spatial_relation_to_object_property( Phrase* phrase, World* world ){
   cout << "function: " << "add_spatial_relation_to_object_property" << endl;
   if( phrase->grounding_set() ){
     vector< Grounding* > new_groundings;
-    cout << "checking " << *phrase->grounding_set() << endl;
+    cout << "checking " << *( phrase->grounding_set() ) << endl;
     for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
       Object_Property * object_property = dynamic_cast< Object_Property* >( *it_grounding );
       if( object_property != NULL ){
@@ -168,7 +168,7 @@ add_spatial_relation_to_object_property( Phrase* phrase, World* world ){
       add_spatial_relation_to_object_property( *it_child, world );
     }
   } else{
-    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *( phrase ) << endl;
     assert( false );
   }
   return;
@@ -178,7 +178,7 @@ void
 add_object_color_to_abstract_container( Phrase* phrase, World* world ){
   cout << "function: " << "add_object_color_to_abstract_container" << endl;
   if( phrase->grounding_set() ){
-    cout << "checking " << *phrase->grounding_set() << endl;
+    cout << "checking " << *( phrase->grounding_set() ) << endl;
     vector< Grounding* > new_groundings;
 
     for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
@@ -187,7 +187,7 @@ add_object_color_to_abstract_container( Phrase* phrase, World* world ){
         cout << "found abstract_container" << endl;
         bool found_object_color = false;
         for( vector< Grounding* >::iterator it_other_grounding = phrase->grounding_set()->groundings().begin(); it_other_grounding != phrase->grounding_set()->groundings().end(); it_other_grounding++ ){
-          cout << "checking " << *it_other_grounding << endl;
+          cout << "checking " << **( it_other_grounding ) << endl;
           Object_Color * object_color = dynamic_cast< Object_Color* >( *it_other_grounding );
           if( object_color != NULL ){
             if( object_color->object_color_type() == abstract_container->color() ){
@@ -209,7 +209,7 @@ add_object_color_to_abstract_container( Phrase* phrase, World* world ){
       add_object_color_to_abstract_container( *it_child, world );
     }
   } else{
-    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *( phrase ) << endl;
     assert( false );
   }
   return;
@@ -221,7 +221,7 @@ add_object_type_to_abstract_container( Phrase* phrase, World* world ){
   if( phrase->grounding_set() ){
     vector< Grounding* > new_groundings;
 
-    cout << "checking " << *phrase->grounding_set() << endl;
+    cout << "checking " << *( phrase->grounding_set() ) << endl;
     for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
       Abstract_Container * abstract_container = dynamic_cast< Abstract_Container* >( *it_grounding );
       if( abstract_container != NULL ){
@@ -249,7 +249,7 @@ add_object_type_to_abstract_container( Phrase* phrase, World* world ){
       add_object_type_to_abstract_container( *it_child, world );
     }
   } else{
-    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *( phrase ) << endl;
     assert( false );
   }
   return;
@@ -261,15 +261,15 @@ add_object_color_to_region_abstract_container( Phrase* phrase, World* world ){
   if( phrase->grounding_set() ){
     vector< Grounding* > new_groundings;
 
-    cout << "checking " << *phrase->grounding_set() << endl;
+    cout << "checking " << *( phrase->grounding_set() ) << endl;
     for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
-      cout << "checking " << *it_grounding << endl;
+      cout << "checking " << **( it_grounding ) << endl;
       Region_Abstract_Container * region_abstract_container = dynamic_cast< Region_Abstract_Container* >( *it_grounding );
       if( region_abstract_container != NULL ){
         cout << "found region_abstract_container" << endl;
         bool found_object_color = false;
         for( vector< Grounding* >::iterator it_other_grounding = phrase->grounding_set()->groundings().begin(); it_other_grounding != phrase->grounding_set()->groundings().end(); it_other_grounding++ ){
-          cout << "checking " << *it_other_grounding << endl;
+          cout << "checking " << **( it_other_grounding ) << endl;
           Object_Color * object_color = dynamic_cast< Object_Color* >( *it_other_grounding );
           if( object_color != NULL ){
             cout << "found object_color" << endl;
@@ -291,11 +291,11 @@ add_object_color_to_region_abstract_container( Phrase* phrase, World* world ){
     }
 
     for( vector< Phrase* >::iterator it_child = phrase->children().begin(); it_child != phrase->children().end(); it_child++ ){
-      cout << "adding object_color_to_region_abstract_container " << *it_child << endl;
+      cout << "adding object_color_to_region_abstract_container " << **( it_child ) << endl;
       add_object_color_to_region_abstract_container( *it_child, world );
     }
   } else{
-    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *( phrase ) << endl;
     assert( false );
   }
   return;
@@ -307,7 +307,7 @@ add_object_type_to_region_abstract_container( Phrase* phrase, World* world ){
   if( phrase->grounding_set() ){
     vector< Grounding* > new_groundings;
   
-    cout << "checking " << *phrase->grounding_set() << endl;
+    cout << "checking " << *( phrase->grounding_set() ) << endl;
     for( vector< Grounding* >::iterator it_grounding = phrase->grounding_set()->groundings().begin(); it_grounding != phrase->grounding_set()->groundings().end(); it_grounding++ ){
       Region_Abstract_Container * region_abstract_container = dynamic_cast< Region_Abstract_Container* >( *it_grounding );
       if( region_abstract_container != NULL ){
@@ -335,7 +335,7 @@ add_object_type_to_region_abstract_container( Phrase* phrase, World* world ){
       add_object_type_to_region_abstract_container( *it_child, world );
     }
   } else{
-    cout << "phrase->grounding_set() was NULL, printing phrase: " << *phrase << endl;
+    cout << "phrase->grounding_set() was NULL, printing phrase: " << *( phrase ) << endl;
     assert( false );
   }
   return;
