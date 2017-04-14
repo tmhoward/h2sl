@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="pick up the furthest red block on the right"/>
+  <world time="0">
+    <object id="baxter-baxter-left_hand" object_type="robot" object_color="na" position="0.797293,0.991507,1.22651" orientation="-0.27203,0.658777,0.268108,0.648175" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter-baxter-right_hand" object_type="robot" object_color="na" position="0.794158,-0.992736,1.22819" orientation="0.272825,0.657681,-0.269408,0.648415" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cube1-cube-cube-base" object_type="block" object_color="na" position="0.549966,-0.500066,0.736325" orientation="7.47266e-06,-1.46251e-05,-0.00150445,0.999999" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cube2-cube-cube-base" object_type="block" object_color="na" position="0.549834,-0.200081,0.736329" orientation="1.10127e-05,-1.78133e-05,-0.00114804,0.999999" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cube3-cube-cube-base" object_type="block" object_color="na" position="0.649801,0.199993,0.736339" orientation="7.58526e-06,-1.57228e-05,-0.000447891,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="cube4-cube-cube-base" object_type="block" object_color="na" position="0.59922,0.50094,0.736342" orientation="6.99776e-06,-1.46317e-05,-0.00633456,0.99998" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="table-table-table-base" object_type="table" object_color="na" position="0.874642,-0.000231879,-0.0117011" orientation="7.72376e-06,-1.53489e-05,0.000254677,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <VP>
+    <grounding_set>
+      <rule_constraint_type constraint_type="inside"/>
+      <rule_constraint_payload_type constraint_payload_type="block"/>
+      <rule_constraint_reference_type constraint_reference_type="robot"/>
+      <rule_spatial_relation spatial_relation_type="na"/>
+    </grounding_set>
+    <VB text="pick" order="0"/>
+    <PRT>
+      <grounding_set/>
+      <RP text="up" order="1"/>
+    </PRT>
+    <NP>
+      <grounding_set>
+        <rule_object_type object_type="block"/>
+        <rule_object_color object_color="na"/>
+      </grounding_set>
+      <NP>
+        <grounding_set>
+          <rule_object_type object_type="block"/>
+          <rule_object_color object_color="na"/>
+          <rule_spatial_relation spatial_relation_type="far"/>
+          <rule_index index="1"/>
+        </grounding_set>
+        <DT text="the" order="2"/>
+        <JJS text="furthest" order="3"/>
+        <JJ text="red" order="4"/>
+        <NN text="block" order="5"/>
+      </NP>
+      <PP>
+        <grounding_set>
+          <rule_spatial_relation spatial_relation_type="right"/>
+        </grounding_set>
+        <IN text="on" order="6"/>
+        <NP>
+          <grounding_set>
+            <rule_spatial_relation spatial_relation_type="right"/>
+          </grounding_set>
+          <DT text="the" order="7"/>
+          <NN text="right" order="8"/>
+        </NP>
+      </PP>
+    </NP>
+  </VP>
+</root>

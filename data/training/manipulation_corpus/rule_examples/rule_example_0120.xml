@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the first block on the left in front of the robot"/>
+  <world time="0">
+    <object id="O1-cube-cube-base" object_type="block" object_color="na" position="0.896522,-0.30001,0.737719" orientation="5.37899e-06,-1.42139e-05,0.000143625,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O2-cube-cube-base" object_type="block" object_color="na" position="0.876394,-0.150012,0.737721" orientation="5.50096e-06,-1.30916e-05,-3.25299e-06,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O3-cube-cube-base" object_type="block" object_color="na" position="0.829879,-2.70958e-05,0.737721" orientation="5.15668e-06,-1.36157e-05,-0.000141196,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O4-cube-cube-base" object_type="block" object_color="na" position="0.846979,0.149997,0.737723" orientation="5.22809e-06,-1.32212e-05,0.0019314,0.999998" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O5-cube-cube-base" object_type="block" object_color="na" position="0.818679,0.299984,0.737724" orientation="4.86124e-06,-1.33384e-05,-0.0033131,0.999995" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.801994,1.01367,1.22719" orientation="-0.268658,0.659852,0.264986,0.649769" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.779186,-0.970497,1.22895" orientation="0.275958,0.656021,-0.272748,0.647373" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="table-table-table-base" object_type="table" object_color="na" position="0.874999,-1.06244e-07,-0.0117897" orientation="5.48386e-06,-1.36279e-05,4.21669e-07,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <rule_object_type object_type="block"/>
+      <rule_object_color object_color="na"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="na"/>
+        <rule_object_type object_type="block"/>
+        <rule_index index="1"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <JJ text="first" order="1"/>
+      <NN text="block" order="2"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="left"/>
+      </grounding_set>
+      <IN text="on" order="3"/>
+      <NP>
+        <grounding_set>
+          <rule_spatial_relation spatial_relation_type="left"/>
+        </grounding_set>
+        <DT text="the" order="4"/>
+        <NN text="left" order="5"/>
+      </NP>
+    </PP>
+    <PP>
+      <grounding_set>
+        <rule_container_type container_type="group"/>
+        <rule_spatial_relation spatial_relation_type="front"/>
+        <rule_object_type object_type="robot"/>
+        <rule_object_color object_color="na"/>
+      </grounding_set>
+      <IN text="in" order="6"/>
+      <NP>
+        <grounding_set>
+          <rule_container_type container_type="group"/>
+          <rule_spatial_relation spatial_relation_type="front"/>
+          <rule_object_type object_type="robot"/>
+          <rule_object_color object_color="na"/>
+        </grounding_set>
+        <NP>
+          <grounding_set>
+            <rule_spatial_relation spatial_relation_type="front"/>
+          </grounding_set>
+          <NN text="front" order="7"/>
+        </NP>
+        <PP>
+          <grounding_set>
+            <rule_container_type container_type="group"/>
+            <rule_object_type object_type="robot"/>
+            <rule_object_color object_color="na"/>
+          </grounding_set>
+          <IN text="of" order="8"/>
+          <NP>
+            <grounding_set>
+              <rule_container_type container_type="group"/>
+              <rule_object_type object_type="robot"/>
+              <rule_object_color object_color="na"/>
+            </grounding_set>
+            <DT text="the" order="9"/>
+            <NN text="robot" order="10"/>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </NP>
+</root>
