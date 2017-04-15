@@ -30,7 +30,8 @@ ylhand = get(gca,'ylabel');
 set(ylhand,'string','Instantiated search space size','fontsize',15);
 set(gcf, 'PaperPosition', [0 0 6 6]);
 set(gcf, 'PaperSize', [6 6]);
-
+set(gca, 'yscale', 'log');
+set(gca, 'xscale', 'log');
 
 saveas(gcf, 'search_space_comparison', 'epsc');
 
