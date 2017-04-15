@@ -41,22 +41,22 @@
 # HDCG: Case I: Full corpus one file. 
 mkdir -p ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/solutions
 
-../build/bin/h2sl-test-process-inference --model hdcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/ --solution_directory ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 1 --test_training_set 1 --test_test_set 0
+../build/bin/h2sl-test-process-inference --model hdcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/training/manipulation_corpus/results_hdcg_single/results_beam_width_1/ --solution_directory ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 1 --test_training_set 1 --test_test_set 0
 
 # ADCG: Case I: Full corpus one file. Beam 1.
 mkdir -p ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/solutions
 
-../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 1 --test_training_set 1 --test_test_set 0
+../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/training/manipulation_corpus/results_hadcg_single/results_beam_width_1/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 1 --test_training_set 1 --test_test_set 0
 
 # HADCG: Case I: Full corpus one file. Beam 4.
 mkdir -p ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_4/solutions
 
-../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_4/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_4/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 4 --test_training_set 1 --test_test_set 0
+../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/training/manipulation_corpus/results_hadcg_single/results_beam_width_4/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_4/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 4 --test_training_set 1 --test_test_set 0
 
 # HADCG: Case I: Full corpus one file. Beam 2.
 mkdir -p ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/solutions
 
-../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 2 --test_training_set 1 --test_test_set 0
+../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/training/manipulation_corpus/results_hadcg_single/results_beam_width_2/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 2 --test_training_set 1 --test_test_set 0
 
 # ============================= combining results  =======================================
 mkdir -p ../data/results/manipulation_corpus/results_hdcg_hadcg_single/results_beam_width_1/solutions
@@ -76,9 +76,9 @@ mkdir -p ../data/results/manipulation_corpus/results_hdcg_hadcg_single/results_b
 
 # ============================  Search space data for table and scatter plot ==================================================
 # Search Space Table
-#../build/bin/h2sl-search-space-corpus-analysis-dcg-adcg ../data/results/manipulation_corpus/results_dcg_single/results_beam_width_1/result_full.xml ../data/results/manipulation_corpus/results_adcg_single/results_beam_width_1/result_full.xml --output_script evaluation_search_space_dcg_adcg_man_beam_1.m --output_text evaluation_search_space_dcg_adcg_man_beam_1.txt
+../build/bin/h2sl-search-space-corpus-analysis-hdcg-hadcg ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/result_full.xml ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/result_full.xml --output_script evaluation_search_space_hdcg_hadcg_man_beam_1.m --output_text evaluation_search_space_hdcg_hadcg_man_beam_1.txt
 
-#../build/bin/h2sl-search-space-corpus-analysis-dcg-adcg ../data/results/manipulation_corpus/results_dcg_single/results_beam_width_1/result_full.xml ../data/results/manipulation_corpus/results_adcg_single/results_beam_width_2/result_full.xml --output_script evaluation_search_space_dcg_adcg_man_beam_2.m --output_text evaluation_search_space_dcg_adcg_man_beam_2.txt
+../build/bin/h2sl-search-space-corpus-analysis-hdcg-hadcg ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/result_full.xml ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/result_full.xml --output_script evaluation_search_space_hdcg_hadcg_man_beam_2.m --output_text evaluation_search_space_hdcg_hadcg_man_beam_2.txt
 
 
 
