@@ -1,0 +1,71 @@
+start of scrape_results_runtime_normalized_vs_world_size program
+World Information - Number of Worlds
+world size( 10 ): 5
+world size( 14 ): 5
+world size( 15 ): 1
+world size( 7 ): 1
+world size( 8 ): 9
+  Total # of Worlds: 21
+
+Reporting runtime statistics:
+DCG
+  world size: 10
+  # of examples: 62
+    runtime norm avg: 1.776575
+    runtime norm std: 0.024742
+  world size: 14
+  # of examples: 10
+    runtime norm avg: 12.923150
+    runtime norm std: 0.483560
+  world size: 15
+  # of examples: 13
+    runtime norm avg: 56.123723
+    runtime norm std: 0.617576
+  world size: 7
+  # of examples: 4
+    runtime norm avg: 0.500470
+    runtime norm std: 0.022111
+  world size: 8
+  # of examples: 45
+    runtime norm avg: 0.821576
+    runtime norm std: 0.008189
+
+  Total: 
+    # of examples: 134
+    # of worlds: 21
+    runtime norm avg: 7.522092
+    runtime norm std: 16.223911
+
+ADCG
+  world size: 10
+  # of examples: 62
+    runtime norm avg: 0.079063
+    runtime norm std: 0.009114
+  world size: 14
+  # of examples: 10
+    runtime norm avg: 0.823556
+    runtime norm std: 0.257163
+  world size: 15
+  # of examples: 13
+    runtime norm avg: 1.926320
+    runtime norm std: 1.358045
+  world size: 7
+  # of examples: 4
+    runtime norm avg: 0.036786
+    runtime norm std: 0.001485
+  world size: 8
+  # of examples: 45
+    runtime norm avg: 0.059234
+    runtime norm std: 0.001853
+
+  Total: 
+    # of examples: 134
+    # of worlds: 21
+    runtime norm avg: 0.305913
+    runtime norm std: 0.710659
+
+No HDCG runtime statistics to report.
+
+No HADCG runtime statistics to report.
+
+end of scrape_results_runtime_normalized_vs_world_size program
