@@ -234,7 +234,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                   container_objects.push_back( dynamic_cast< Grounding* >( objects[ k ] ) );
                 }
               }
-              if( ( container_objects.size() > 1 ) || ( container_objects.size() == objects.size() ) || has_in_vector< unsigned int >( container_objects.size(), numbers ) ){
+              if( ( container_objects.size() > 1 ) && ( ( container_objects.size() == objects.size() ) || has_in_vector< unsigned int >( container_objects.size(), numbers ) ) ){
                 if( it_container_type_types != symbolDictionary.string_types().end() ){
                   for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
                     for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
