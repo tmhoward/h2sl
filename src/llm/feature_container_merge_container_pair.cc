@@ -1,5 +1,5 @@
 /**
- * @file feature_object_merge_container_pair.cc
+ * @file feature_container_merge_container_pair.cc
  *
  * @brief
  *
@@ -10,7 +10,7 @@
 #include <sstream>
 #include <algorithm>
 
-#include "h2sl/feature_object_merge_container_pair.h"
+#include "h2sl/feature_container_merge_container_pair.h"
 #include "h2sl/abstract_container.h"
 #include "h2sl/region_container.h"
 #include "h2sl/world.h"
@@ -19,42 +19,42 @@ using namespace std;
 using namespace h2sl;
 
 /**
- * Feature_Object_Merge_Container_Pair class constructor
+ * Feature_Container_Merge_Container_Pair class constructor
  */
-Feature_Object_Merge_Container_Pair::
-Feature_Object_Merge_Container_Pair( const bool& invert,
+Feature_Container_Merge_Container_Pair::
+Feature_Container_Merge_Container_Pair( const bool& invert,
                                       const string& sortingKey ) : Feature( invert ) {
   insert_prop< std::string >( _string_properties, "sorting_key", sortingKey ); 
 }
 
-Feature_Object_Merge_Container_Pair::
-Feature_Object_Merge_Container_Pair( xmlNodePtr root ) : Feature() {
+Feature_Container_Merge_Container_Pair::
+Feature_Container_Merge_Container_Pair( xmlNodePtr root ) : Feature() {
   insert_prop< std::string >( _string_properties, "sorting_key", "na" );
   from_xml( root );
 }
 
 /**
- * Feature_Object_Merge_Container_Pair class destructor
+ * Feature_Container_Merge_Container_Pair class destructor
  */
-Feature_Object_Merge_Container_Pair::
-~Feature_Object_Merge_Container_Pair() {
+Feature_Container_Merge_Container_Pair::
+~Feature_Container_Merge_Container_Pair() {
     
 }
 
 /**
- * Feature_Object_Merge_Container_Pair class copy constructor
+ * Feature_Container_Merge_Container_Pair class copy constructor
  */
-Feature_Object_Merge_Container_Pair::
-Feature_Object_Merge_Container_Pair( const Feature_Object_Merge_Container_Pair& other ) : Feature( other ) {
+Feature_Container_Merge_Container_Pair::
+Feature_Container_Merge_Container_Pair( const Feature_Container_Merge_Container_Pair& other ) : Feature( other ) {
     
 }
 
 /**
- * Feature_Object_Merge_Container_Pair class assignment operator
+ * Feature_Container_Merge_Container_Pair class assignment operator
  */
-Feature_Object_Merge_Container_Pair&
-Feature_Object_Merge_Container_Pair::
-operator=( const Feature_Object_Merge_Container_Pair& other ) {
+Feature_Container_Merge_Container_Pair&
+Feature_Container_Merge_Container_Pair::
+operator=( const Feature_Container_Merge_Container_Pair& other ) {
     _invert = other._invert;
     _string_properties = other._string_properties;
     _int_properties = other._int_properties;
@@ -65,7 +65,7 @@ operator=( const Feature_Object_Merge_Container_Pair& other ) {
  * returns the value of the feature.
  */
 bool
-Feature_Object_Merge_Container_Pair::
+Feature_Container_Merge_Container_Pair::
 value( const string& cv,
       const Grounding* grounding,
       const vector< pair< const Phrase*, vector< Grounding* > > >& children,
@@ -76,15 +76,24 @@ value( const string& cv,
 
 
 bool
-Feature_Object_Merge_Container_Pair::
+Feature_Container_Merge_Container_Pair::
 value( const string& cv,
       const h2sl::Grounding* grounding,
       const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
       const h2sl::Phrase* phrase,
       const World* world,
       const Grounding* context ){
-    const Object * object = dynamic_cast< const Object* >( grounding );
-    if( ( object != NULL ) && ( !children.empty() ) ){
+    const Container * container = dynamic_cast< const Container* >( grounding );
+    if( ( container != NULL ) && ( !children.empty() ) ){
+
+      vector< Object* > container_objects;
+      for( unsigned int i = 0; i < container->container().size(); i++ ){
+        Object * container_object = dynamic_cast< Object* >( container->container()[ i ] );
+        if( container_object != NULL ){
+          container_objects.push_back( container_object );
+        }
+      }
+
       pair< const h2sl::Phrase*, const Container* > first_container_child( NULL, NULL );
       pair< const h2sl::Phrase*, const Container* > second_container_child( NULL, NULL );
 
@@ -117,6 +126,10 @@ value( const string& cv,
       }
       
       if( ( first_container_child.first != NULL ) && ( first_container_child.second != NULL ) && ( second_container_child.first != NULL ) && ( second_container_child.second != NULL ) ){
+        if( first_container_child.second->type() != container->type() ){
+          return false;
+        }
+
         vector< Object* > first_sorted_objects;
         for( unsigned int i = 0; i < first_container_child.second->container().size(); i++ ){
           Object * first_container_child_object = dynamic_cast< Object* >( first_container_child.second->container()[ i ] );
@@ -124,8 +137,8 @@ value( const string& cv,
             first_sorted_objects.push_back( first_container_child_object );
           }
         }
- 
-        if( !first_sorted_objects.empty() ){ 
+
+        if( ( !first_sorted_objects.empty() ) && ( container_objects.size() == first_sorted_objects.size() ) ){ 
           // first check for a property of the first container objects
           if( sorting_key() == "min_x" ){
             sort( first_sorted_objects.begin(), first_sorted_objects.end(), World::min_x_sort );
@@ -220,15 +233,24 @@ value( const string& cv,
               } else if ( sorting_key() == "max_center_distance" ){
                 World::max_center_distance_sort_objects( second_sorted_objects );
               }
-            
+           
+              bool all_match = true; 
               for( unsigned int i = 0; i < first_sorted_objects.size(); i++ ){
-                if( second_sorted_objects[ i ] != NULL ){
-                  if( second_sorted_objects[ i ]->id() == object->id() ){
-                    return !_invert;
+                bool found_object_match = false;
+                for( unsigned int j = 0; j < container_objects.size(); j++ ){
+                  if( ( second_sorted_objects[ i ] != NULL ) && ( container_objects[ j ] != NULL ) ){
+                    if( second_sorted_objects[ i ]->id() == container_objects[ j ]->id() ){
+                      found_object_match = true;
+                    }
                   }
                 }
+                all_match = all_match && found_object_match;
               }    
-              return _invert;
+              if( all_match ){
+                return !_invert;
+              } else {
+                return _invert;
+              }
             }
           }
    
@@ -282,12 +304,12 @@ value( const string& cv,
 }
 
 /**
- * exports the Feature_Object_Merge_Container_Pair class to an XML file
+ * exports the Feature_Container_Merge_Container_Pair class to an XML file
  */
 void
-Feature_Object_Merge_Container_Pair::
+Feature_Container_Merge_Container_Pair::
 to_xml( xmlDocPtr doc, xmlNodePtr root )const{
-    xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_object_merge_container_pair" ), NULL );
+    xmlNodePtr node = xmlNewDocNode( doc, NULL, ( xmlChar* )( "feature_container_merge_container_pair" ), NULL );
     stringstream invert_string;
     invert_string << _invert;
     xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
@@ -297,10 +319,10 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
 }
 
 /**
- * imports the Feature_Object_Merge_Container_Pair class from an XML file
+ * imports the Feature_Container_Merge_Container_Pair class from an XML file
  */
 void
-Feature_Object_Merge_Container_Pair::
+Feature_Container_Merge_Container_Pair::
 from_xml( xmlNodePtr root ){
     _invert = false;
     sorting_key() = "na";
@@ -325,12 +347,12 @@ from_xml( xmlNodePtr root ){
 
 namespace h2sl {
     /**
-     * Feature_Object_Merge_Container_Pair class ostream operator
+     * Feature_Container_Merge_Container_Pair class ostream operator
      */
     ostream&
     operator<<( ostream& out,
-               const Feature_Object_Merge_Container_Pair& other ) {
-      out << "class:\"Feature_Object_Merge_Container_Pair\" sorting_key:(" << other.sorting_key() << ")";  
+               const Feature_Container_Merge_Container_Pair& other ) {
+      out << "class:\"Feature_Container_Merge_Container_Pair\" sorting_key:(" << other.sorting_key() << ")";  
       return out;
     }
     

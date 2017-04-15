@@ -20,7 +20,7 @@ namespace h2sl {
      */
     class Feature_Container_Merge_Container_Type_Container: public Feature {
     public:
-        Feature_Container_Merge_Container_Type_Container( const bool& invert = false );
+        Feature_Container_Merge_Container_Type_Container( const bool& invert = false, const bool& order = false );
         Feature_Container_Merge_Container_Type_Container( xmlNodePtr root );
         virtual ~Feature_Container_Merge_Container_Type_Container();
         Feature_Container_Merge_Container_Type_Container( const Feature_Container_Merge_Container_Type_Container& other );
@@ -33,9 +33,13 @@ namespace h2sl {
         
         virtual void from_xml( xmlNodePtr root );
         
+        inline bool& order( void ){ return _order; };
+        inline const bool& order( void )const{ return _order; };
+
         virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
         
     protected:
+        bool _order;
         
     private:
         

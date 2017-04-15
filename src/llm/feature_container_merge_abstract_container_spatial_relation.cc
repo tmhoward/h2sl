@@ -147,10 +147,11 @@ value( const string& cv,
     
               if( all_objects_match ){
                 return !_invert;
+              } else {
+                return _invert;
               }
             }      
           }
-          return _invert;
         }
       }
     }

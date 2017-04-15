@@ -22,9 +22,23 @@ using namespace h2sl;
  * Feature_Object_Merge_Abstract_Container_Region_Container class constructor
  */
 Feature_Object_Merge_Abstract_Container_Region_Container::
-Feature_Object_Merge_Abstract_Container_Region_Container( const bool& invert ) : Feature( invert ) {
-    
+Feature_Object_Merge_Abstract_Container_Region_Container( const bool& invert,
+                                                          const string& spatialRelationType,
+                                                          const string& sortingKey ) : Feature( invert ) {
+   insert_prop< std::string >( _string_properties, "spatial_relation_type", spatialRelationType );
+   insert_prop< std::string >( _string_properties, "sorting_key", sortingKey );
+ 
 }
+
+/**
+ * Feature_Object_Merge_Abstract_Container_Region_Container class constructor
+ */
+Feature_Object_Merge_Abstract_Container_Region_Container::
+Feature_Object_Merge_Abstract_Container_Region_Container( xmlNodePtr root ) : Feature() {
+   insert_prop< std::string >( _string_properties, "spatial_relation_type", "na" );
+   insert_prop< std::string >( _string_properties, "sorting_key", "na" );
+  from_xml( root );
+} 
 
 /**
  * Feature_Object_Merge_Abstract_Container_Region_Container class destructor
@@ -49,6 +63,8 @@ Feature_Object_Merge_Abstract_Container_Region_Container&
 Feature_Object_Merge_Abstract_Container_Region_Container::
 operator=( const Feature_Object_Merge_Abstract_Container_Region_Container& other ) {
     _invert = other._invert;
+    _string_properties = other._string_properties;
+    _int_properties = other._int_properties;
     return (*this);
 }
 
@@ -65,25 +81,14 @@ value( const string& cv,
     return value( cv, grounding, children, phrase, world, NULL );
 }
 
-
 bool
 Feature_Object_Merge_Abstract_Container_Region_Container::
 value( const string& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
+      const Grounding* grounding,
+      const vector< pair< const Phrase*, vector< Grounding* > > >& children,
+      const Phrase* phrase,
       const World* world,
       const Grounding* context){
-    
-}
-
-/*bool
-Feature_Object_Merge_Abstract_Container_Region_Container::
-value( const string& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
-      const World* world ){
     const Object * object = dynamic_cast< const Object* >( grounding );
     if( ( object != NULL ) && ( !children.empty() ) ){
       pair< const h2sl::Phrase*, const Abstract_Container* > abstract_container_child( NULL, NULL );
@@ -111,69 +116,33 @@ value( const string& cv,
       if( ( abstract_container_child.first != NULL ) && ( abstract_container_child.second != NULL ) && ( region_container_child.first != NULL ) && ( region_container_child.second != NULL ) ){ 
         unsigned int num_matching_objects = 0;
         for( unsigned int i = 0; i < region_container_child.second->container().container().size(); i++ ){
-          if( abstract_container_child.second->type() == region_container_child.second->container().container()[ i ]->type() ){
-            num_matching_objects++;
-          }
-        }
-
-
-        if( ( abstract_container_child.first->min_word_order() < region_container_child.first->min_word_order() ) && ( num_matching_objects == 0 ) ){
-          const World * h2sl_nsf_nri_mvli_world = dynamic_cast< const World* >( world );
-          if( region_container_child.second->type() == Spatial_Relation::TYPE_NEAR ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->min_distance_sorted_objects()[ abstract_container_child.second->type() ].size() ){
-              for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->min_distance_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
-                  return !_invert;
-                }
-              }
-            }
-          } else if( region_container_child.second->type() == Spatial_Relation::TYPE_FAR ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->max_distance_sorted_objects()[ abstract_container_child.second->type() ].size() ){
-              for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->max_distance_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
-                  return !_invert;
-                }
-              }
-            }
-          } else if( region_container_child.second->type() == Spatial_Relation::TYPE_LEFT ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->max_y_sorted_objects()[ abstract_container_child.second->type() ].size() ){
-              for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->max_y_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
-                  return !_invert;
-                }
-              }
-            }
-          } else if( region_container_child.second->type() == Spatial_Relation::TYPE_RIGHT ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->min_y_sorted_objects()[ abstract_container_child.second->type() ].size() ){
-              for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->min_y_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){ 
-                  return !_invert;
-                }
-              }
-            }
-          } else if ( region_container_child.second->type() == Spatial_Relation::TYPE_FRONT ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->min_x_sorted_objects()[ abstract_container_child.second->type() ].size() ){
-              for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){ 
-                if( *object == *h2sl_nsf_nri_mvli_world->min_x_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
-                  return !_invert;
-                }
-              }
-            }
-          } else if ( region_container_child.second->type() == Spatial_Relation::TYPE_BACK ){
-            if( abstract_container_child.second->num() < h2sl_nsf_nri_mvli_world->max_x_sorted_objects()[ abstract_container_child.second->type() ].size() ){
-              for( unsigned int i = 0; i < abstract_container_child.second->num(); i++ ){
-                if( *object == *h2sl_nsf_nri_mvli_world->max_x_sorted_objects()[ abstract_container_child.second->type() ][ i ] ){
-                  return !_invert;
-                }
-              }
+          if( dynamic_cast< const Object* >( region_container_child.second->container().container()[ i ] ) != NULL ){
+            if( abstract_container_child.second->type() == static_cast< const Object* >( region_container_child.second->container().container()[ i ] )->type() ){
+              num_matching_objects++;
             }
           }
         }
-        return _invert;
+
+        if( ( abstract_container_child.first->min_word_order() < region_container_child.first->min_word_order() ) && ( num_matching_objects == 0 ) && ( region_container_child.second->relation_type() == spatial_relation_type() ) ){
+          map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
+          if( it_sorted_objects_map == world->sorted_objects().end() ){
+            cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+          }
+          assert( it_sorted_objects_map != world->sorted_objects().end() );
+          map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( abstract_container_child.second->type() );
+          if( it_sorted_objects != it_sorted_objects_map->second.end() ){
+            for( int i = 0; i < abstract_container_child.second->number(); i++ ){
+              if( object->id() == it_sorted_objects->second[ i ]->id() ){
+                return !_invert;
+              }
+            }
+          }
+          return _invert;
+        }
       }
     }
     return false;
-}*/
+}
 
 /**
  * exports the Feature_Object_Merge_Abstract_Container_Region_Container class to an XML file
@@ -185,6 +154,8 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
     stringstream invert_string;
     invert_string << _invert;
     xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
+    xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( spatial_relation_type().c_str() ) );
+    xmlNewProp( node, ( const xmlChar* )( "sorting_key" ), ( const xmlChar* )( sorting_key().c_str() ) );
     xmlAddChild( root, node );
     return;
 }
@@ -196,13 +167,29 @@ void
 Feature_Object_Merge_Abstract_Container_Region_Container::
 from_xml( xmlNodePtr root ){
     _invert = false;
+    spatial_relation_type() = "na";
+    sorting_key() = "na";
     if( root->type == XML_ELEMENT_NODE ){
+      vector< string > feature_keys = { "invert", "spatial_relation_type", "sorting_key" };
+      assert( check_keys( root, feature_keys ) );
+
         xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
         if( tmp != NULL ){
             string invert_string = ( char* )( tmp );
             _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
             xmlFree( tmp );
         }
+    
+        pair< bool, std::string > spatial_relation_type_prop = has_prop< std::string >( root, "spatial_relation_type" );
+        if( spatial_relation_type_prop.first ) {
+          spatial_relation_type() = spatial_relation_type_prop.second;
+        }
+
+        pair< bool, std::string > sorting_key_prop = has_prop< std::string >( root, "sorting_key" );
+        if( sorting_key_prop.first ) {
+          sorting_key() = sorting_key_prop.second;
+        }
+
     }
     return;
 }

@@ -93,6 +93,10 @@
 #include "h2sl/feature_object_matches_sorted_object.h"
 #include "h2sl/feature_object_matches_child_container_object.h"
 #include "h2sl/feature_object_matches_child_region_container_object.h"
+#include "h2sl/feature_is_in_a_container.h"
+#include "h2sl/feature_object_shape_abstract_container.h"
+#include "h2sl/feature_object_merge_abstract_container_region_container.h"
+#include "h2sl/feature_object_merge_container_pair.h"
 
 // region features
 #include "h2sl/feature_region_object_matches_child.h"
@@ -103,6 +107,7 @@
 // constraint features
 #include "h2sl/feature_constraint_payload_string_property_value.h"
 #include "h2sl/feature_constraint_reference_matches_child.h"
+#include "h2sl/feature_constraint_object_relationship.h"
 
 // object property features
 #include "h2sl/feature_object_property_merge_index_object_property.h"
@@ -136,6 +141,7 @@
 #include "h2sl/feature_container_is_empty.h"
 #include "h2sl/feature_container_matches_sorted_objects.h"
 #include "h2sl/feature_container_container_type_matches_child_region_container_container_container_type.h"
+#include "h2sl/feature_container_merge_container_pair.h"
 
 // region container features
 #include "h2sl/feature_region_container_matches_child.h"
@@ -361,6 +367,39 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "object", "object_color", *it_object_color ) );
       }
     }
+    map< string, vector< string > >::const_iterator it_container_types = symbolDictionary.string_types().find( "container_type" );
+    if( it_container_types != symbolDictionary.string_types().end() ){
+      for( vector< string >::const_iterator it_container_type = it_container_types->second.begin(); it_container_type != it_container_types->second.end(); it_container_type++ ){
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Is_In_A_Container( false, *it_container_type ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Is_In_A_Container( true, *it_container_type ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Shape_Abstract_Container( false, *it_container_type ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Shape_Abstract_Container( true, *it_container_type ) );
+      }
+    }
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "min_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "min_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "max_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "max_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "min_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "min_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "max_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "max_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "min_abs_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "min_abs_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "max_abs_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "max_abs_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "min_abs_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "min_abs_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "max_abs_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "max_abs_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "min_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "min_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "max_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "max_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "min_center_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "min_center_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( false, "max_center_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Container_Pair( true, "max_center_distance" ) );
     map< string, vector< string > >::const_iterator it_spatial_relation_types = symbolDictionary.string_types().find( "spatial_relation_type" );
     if( it_spatial_relation_types != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_spatial_relation_type = it_spatial_relation_types->second.begin(); it_spatial_relation_type != it_spatial_relation_types->second.end(); it_spatial_relation_type++ ){
@@ -376,6 +415,19 @@ namespace h2sl {
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_distance" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "min_center_distance" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( false, *it_spatial_relation_type, "max_center_distance" ) );
+        //
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_x" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_x" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_y" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_y" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_abs_x" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_abs_x" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_abs_y" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_abs_y" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_distance" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_distance" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "min_center_distance" ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Region_Container( false, *it_spatial_relation_type, "max_center_distance" ) );
         //
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "min_x" ) );
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Merge_Abstract_Container_Spatial_Relation( true, *it_spatial_relation_type, "max_x" ) );
@@ -619,6 +671,14 @@ namespace h2sl {
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Child_Container_Object( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Child_Region_Container_Object( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Object_Matches_Child_Region_Container_Object( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Object, Container >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Object, Container >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Object, Container >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Object, Container >( true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Object, Region_Container >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Object, Region_Container >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Object, Region_Container >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Object, Region_Container >( true, true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "object", "object_type", "object", "object_type" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "object", "object_type", "object", "object_type" ) );
   return;
@@ -672,6 +732,15 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
     }
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Constraint >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Constraint >( true ) );
+    map< string, vector< string > >::const_iterator it_object_types = symbolDictionary.string_types().find( "object_type" );
+    if( it_object_types != symbolDictionary.string_types().end() ){
+      for( vector< string >::const_iterator it_object_type = it_object_types->second.begin(); it_object_type != it_object_types->second.end(); it_object_type++ ){
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Constraint_Object_Relationship( false, "min_distance", *it_object_type ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Constraint_Object_Relationship( false, "max_distance",  *it_object_type ) );
+      }
+    }
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "constraint", "payload", "object", "id" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "constraint", "payload", "object", "id" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "constraint", "reference", "object", "id" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "constraint", "reference", "object", "id" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "constraint", "reference_relation", "region", "spatial_relation_type" ) );
@@ -782,6 +851,12 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
                                                   Feature_Set& featureSet ){
   featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Index >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Index >( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Index >( false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Index >( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Index, Region_Container >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Index, Region_Container >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Index, Region_Container >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Index, Region_Container >( true, true ) );
     map< string, vector< int > >::const_iterator it_indices = symbolDictionary.int_types().find( "index" );
     if( it_indices != symbolDictionary.int_types().end() ){
       for( vector< int >::const_iterator it_index = it_indices->second.begin(); it_index != it_indices->second.end(); it_index++ ){
@@ -796,6 +871,12 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
                                                   Feature_Set& featureSet ){
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Number >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Number >( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Number >( false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Number >( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Number, Region_Container >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Number, Region_Container >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Number, Region_Container >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Number, Region_Container >( true, true ) );
     map< string, vector< int > >::const_iterator it_numbers = symbolDictionary.int_types().find( "number" );  
     if( it_numbers != symbolDictionary.int_types().end() ){
       for( vector< int >::const_iterator it_number = it_numbers->second.begin(); it_number != it_numbers->second.end(); it_number++ ){
@@ -810,6 +891,16 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
                                                   Feature_Set& featureSet ){
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Abstract_Container >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Abstract_Container >( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Abstract_Container >( false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Abstract_Container >( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Abstract_Container, Object >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Abstract_Container, Object >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Abstract_Container, Object >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Abstract_Container, Object >( true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Abstract_Container, Region_Container >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Abstract_Container, Region_Container >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Abstract_Container, Region_Container >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Abstract_Container, Region_Container >( true, true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Abstract_Container_Number_Equals_World_Objects( true ) );
     map< string, vector< string > >::const_iterator it_object_types = symbolDictionary.string_types().find( "object_type" );
@@ -885,12 +976,42 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Container >( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Is_Empty( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Is_Empty( true ) );
-    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Type_Container( false ) );
-    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Type_Container( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Type_Container( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Type_Container( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Type_Container( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Type_Container( true, true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Region( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Region( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Container_Type_Matches_Child_Region_Container_Container_Container_Type( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Container_Type_Matches_Child_Region_Container_Container_Container_Type( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "min_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "min_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "max_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "max_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "min_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "min_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "max_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "max_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "min_abs_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "min_abs_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "max_abs_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "max_abs_x" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "min_abs_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "min_abs_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "max_abs_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "max_abs_y" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "min_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "min_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "max_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "max_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "min_center_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "min_center_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "max_center_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "max_center_distance" ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( true, true ) );
     map< string, vector< string > >::const_iterator it_container_types = symbolDictionary.string_types().find( "container_type" );
     if( it_container_types != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_container_type = it_container_types->second.begin(); it_container_type != it_container_types->second.end(); it_container_type++ ){
@@ -1147,6 +1268,14 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Spatial_Relation >( true, false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Spatial_Relation >( false, true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Spatial_Relation >( true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Index >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Index >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Index >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Index >( true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Number >( false, false ) ); 
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Number >( true, false ) ); 
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Number >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Number >( true, true ) );
     map< string, vector< string > >::const_iterator it_container_types = symbolDictionary.string_types().find( "container_type" );
     if( it_container_types != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_container_type = it_container_types->second.begin(); it_container_type != it_container_types->second.end(); it_container_type++ ){

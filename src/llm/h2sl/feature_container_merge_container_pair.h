@@ -1,13 +1,13 @@
 /**
- * @file feature_object_merge_container_pair.h
+ * @file feaure_container_merge_container_pair.h
  *
  * @brief
  *
  * Class used to describe a feature container matches child..
  */
 
-#ifndef H2SL_FEATURE_OBJECT_MERGE_CONTAINER_PAIR_H
-#define H2SL_FEATURE_OBJECT_MERGE_CONTAINER_PAIR_H
+#ifndef H2SL_FEATURE_CONTAINER_MERGE_CONTAINER_PAIR_H
+#define H2SL_FEATURE_CONTAINER_MERGE_CONTAINER_PAIR_H
 
 #include <iostream>
 #include <libxml/tree.h>
@@ -16,15 +16,15 @@
 
 namespace h2sl {
     /**
-     * Feature_Object_Merge_Container_Pair
+     * Feature_Container_Merge_Container_Pair
      */
-    class Feature_Object_Merge_Container_Pair: public Feature {
+    class Feature_Container_Merge_Container_Pair: public Feature {
     public:
-        Feature_Object_Merge_Container_Pair( const bool& invert = false, const std::string& sortingKey = "na" );
-        Feature_Object_Merge_Container_Pair( xmlNodePtr root );
-        virtual ~Feature_Object_Merge_Container_Pair();
-        Feature_Object_Merge_Container_Pair( const Feature_Object_Merge_Container_Pair& other );
-        Feature_Object_Merge_Container_Pair& operator=( const Feature_Object_Merge_Container_Pair& other );
+        Feature_Container_Merge_Container_Pair( const bool& invert = false, const std::string& sortingKey = "na" );
+        Feature_Container_Merge_Container_Pair( xmlNodePtr root );
+        virtual ~Feature_Container_Merge_Container_Pair();
+        Feature_Container_Merge_Container_Pair( const Feature_Container_Merge_Container_Pair& other );
+        Feature_Container_Merge_Container_Pair& operator=( const Feature_Container_Merge_Container_Pair& other );
         
         virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const Phrase* phrase, const World* world );
         virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
@@ -45,13 +45,13 @@ namespace h2sl {
     };
     
     /**
-     * Feature_Object_Merge_Container_Pair class ostream operator
+     * Feature_Container_Merge_Container_Pair class ostream operator
      */
     
-    std::ostream& operator<<( std::ostream& out, const Feature_Object_Merge_Container_Pair& other );
+    std::ostream& operator<<( std::ostream& out, const Feature_Container_Merge_Container_Pair& other );
 }
 
-#endif /* H2SL_FEATURE_OBJECT_MERGE_CONTAINER_PAIR_H */
+#endif /* H2SL_FEATURE_CONTAINER_MERGE_CONTAINER_PAIR_H */
 
 
 

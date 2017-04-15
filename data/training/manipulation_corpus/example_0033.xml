@@ -12,7 +12,7 @@
   </world>
   <VP>
     <grounding_set>
-      <constraint constraint_type="inside" payload="cube1-cube-cube-base" reference="baxter-baxter-left_hand" reference_relation="na"/>
+      <constraint constraint_type="inside" payload="cube1-cube-cube-base" reference="baxter-baxter-right_hand" reference_relation="na"/>
     </grounding_set>
     <VB text="pick" order="0"/>
     <PRT>
