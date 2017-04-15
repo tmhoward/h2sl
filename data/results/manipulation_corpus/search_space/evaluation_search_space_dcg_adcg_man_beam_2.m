@@ -21,7 +21,7 @@ box on;
 grid on;
 scatter(baseline,baseline,200);
 scatter(baseline,adcg_adaptive_avg,200,'+');
-scatter(baseline,adcg_adaptive_max,200,'^');
+scatter(baseline,adcg_adaptive_max,200,'s');
 legend('DCG','ADCG avg', 'ADCG max','Location','NorthWest');
 title('Search space comparison');
 xlhand = get(gca,'xlabel');
@@ -30,9 +30,10 @@ ylhand = get(gca,'ylabel');
 set(ylhand,'string','Instantiated search space size','fontsize',15);
 set(gcf, 'PaperPosition', [0 0 6 6]);
 set(gcf, 'PaperSize', [6 6]);
+set(gca, 'yscale', 'log');
+set(gca, 'xscale', 'log');
 
+saveas(gcf, 'search_space_comparison_dcg_adcg_man_beam_width_2', 'epsc');
 
-saveas(gcf, 'search_space_comparison', 'epsc');
-
-saveas(gcf, 'search_space_comparison', 'pdf');
+saveas(gcf, 'search_space_comparison_dcg_adcg_man_beam_width_2', 'pdf');
 
