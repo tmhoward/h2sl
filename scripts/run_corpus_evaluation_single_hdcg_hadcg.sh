@@ -41,22 +41,22 @@
 # HDCG: Case I: Full corpus one file. 
 mkdir -p ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/solutions
 
-../build/bin/h2sl-test-process-inference --model hdcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/training/manipulation_corpus/results_hdcg_single/results_beam_width_1/ --solution_directory ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 1 --test_training_set 1 --test_test_set 0
+../build/bin/h2sl-test-process-inference --model hdcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/ --solution_directory ../data/results/manipulation_corpus/results_hdcg_single/results_beam_width_1/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 1 --test_training_set 1 --test_test_set 0
 
 # ADCG: Case I: Full corpus one file. Beam 1.
 mkdir -p ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/solutions
 
-../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/training/manipulation_corpus/results_hadcg_single/results_beam_width_1/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 1 --test_training_set 1 --test_test_set 0
+../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_1/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 1 --test_training_set 1 --test_test_set 0
 
 # HADCG: Case I: Full corpus one file. Beam 4.
 mkdir -p ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_4/solutions
 
-../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/training/manipulation_corpus/results_hadcg_single/results_beam_width_4/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_4/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 4 --test_training_set 1 --test_test_set 0
+../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_4/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_4/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 4 --test_training_set 1 --test_test_set 0
 
 # HADCG: Case I: Full corpus one file. Beam 2.
 mkdir -p ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/solutions
 
-../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/training/manipulation_corpus/results_hadcg_single/results_beam_width_2/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 2 --test_training_set 1 --test_test_set 0
+../build/bin/h2sl-test-process-inference --model hadcg --feature_set ../data/training/manipulation_corpus/fs_hdcg_man.xml --output ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/ --solution_directory ../data/results/manipulation_corpus/results_hadcg_single/results_beam_width_2/solutions/ ../data/cross_validation_partitions/manipulation_corpus/collated_single_partition/test_collated_full_h_models.xml --beam_width 2 --test_training_set 1 --test_test_set 0
 
 # ============================= combining results  =======================================
 mkdir -p ../data/results/manipulation_corpus/results_hdcg_hadcg_single/results_beam_width_1/solutions
