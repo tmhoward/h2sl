@@ -26,11 +26,7 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <abstract_container object_type="na" number="2" index="1" object_color="na"/>
         <number value="2"/>
-        <index value="1"/>
-        <object_type object_type="na"/>
-        <object_color object_color_type="na"/>
       </grounding_set>
       <DT text="the" order="0"/>
       <CD text="two" order="1"/>
