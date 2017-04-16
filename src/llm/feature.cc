@@ -181,6 +181,8 @@
 #include "h2sl/feature_object_merge_abstract_container_region_container.h"
 //#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
 
+#include "h2sl/feature_rule_container_type_equals_world_objects.h"
+
 #include "h2sl/feature_is_in_a_container.h"
 #include "h2sl/feature_object_shape_abstract_container.h"
 #include "h2sl/feature_object_merge_container_pair.h"
@@ -389,6 +391,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Shape_Abstract_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Container_Pair* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Container_Pair* >( &other );
+    } else if ( dynamic_cast< const Feature_Rule_Container_Type_Equals_World_Objects* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Rule_Container_Type_Equals_World_Objects* >( &other );
     } else {
       cout << "could not load \"" << typeid( other ).name() << "\"" << endl;
     } 

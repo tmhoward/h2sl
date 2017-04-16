@@ -83,9 +83,8 @@
                 <object id="object4-cube-cube-base"/>
                 <object_type object_type="block"/>
                 <number value="5"/>
-                <!--abstract_container object_type="block" number="5" index="1" object_color="na"/>
                 <index value="1"/>
-                <object_color object_color_type="na"/-->
+                <object_color object_color_type="na"/>
               </grounding_set>
               <CD text="five" order="8"/>
               <NNS text="blocks" order="9"/>

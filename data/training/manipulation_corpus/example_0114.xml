@@ -17,7 +17,6 @@
     </grounding_set>
     <NP>
       <grounding_set>
-        <object id="object0-cube-cube-base"/>
         <object_property object_type="block" spatial_relation_type="na" index="1"/>
         <index value="1"/>
         <object_type object_type="block"/>

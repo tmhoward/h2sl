@@ -106,10 +106,7 @@
                 <object id="O7-cube-cube-base"/>
                 <object_type object_type="block"/>
                 <number value="7"/>
-                <object_color object_color_type="red"/>
-                <!--abstract_container object_type="block" number="7" index="1" object_color="red"/>
-                <index value="1"/>
-                <object_color object_color_type="red"/-->
+                <object_color object_color_type="na"/>
               </grounding_set>
               <CD text="seven" order="10"/>
               <JJ text="red" order="11"/>

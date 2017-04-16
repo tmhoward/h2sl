@@ -48,6 +48,7 @@
           <object id="barrel2"/>
           <object id="barrel3"/>
           <object_type object_type="barrel"/>
+          <object_color object_color="na"/>
         </grounding_set>
         <DT text="the" order="3"/>
         <JJ text="red" order="4"/>

@@ -78,6 +78,7 @@
 #include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_missing_child_string_property.h"
+#include "h2sl/feature_grounding_string_property_value_matches_child_string_properties.h"
 #include "h2sl/feature_grounding_class_name.h"
 
 // object features
@@ -160,6 +161,8 @@
 
 // rule_container_type features
 #include "h2sl/feature_rule_container_type_merge_rule_container_types.h"
+#include "h2sl/feature_rule_container_type_merge_rule_object_types.h"
+#include "h2sl/feature_rule_container_type_equals_world_objects.h"
 
 // rule_index features
 #include "h2sl/feature_rule_index_merge_rule_container_type_rule_index.h"
@@ -1194,8 +1197,18 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
                                                     Feature_Set& featureSet ){
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Rule_Object_Color >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Rule_Object_Color >( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Rule_Object_Color >( false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Rule_Object_Color >( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Object_Color_Merge_Rule_Object_Type_Rule_Spatial_Relation( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Object_Color_Merge_Rule_Object_Type_Rule_Spatial_Relation( true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Spatial_Relation >( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Spatial_Relation >( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Spatial_Relation >( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Spatial_Relation >( true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Container_Type >( false, false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Container_Type >( true, false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Container_Type >( false, true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Container_Type >( true, true, true ) );
     map< string, vector< string > >::const_iterator it_object_colors = symbolDictionary.string_types().find( "object_color" );
     if( it_object_colors != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_object_color = it_object_colors->second.begin(); it_object_color != it_object_colors->second.end(); it_object_color++ ){
@@ -1252,6 +1265,12 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
   void
   feature_generator_add_rule_container_type_features( const Symbol_Dictionary& symbolDictionary,
                                                                   Feature_Set& featureSet ){
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Container_Type_Merge_Rule_Container_Types( false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Container_Type_Merge_Rule_Container_Types( true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Container_Type_Merge_Rule_Container_Types( false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Container_Type_Merge_Rule_Container_Types( true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Container_Type_Merge_Rule_Object_Types( false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Container_Type_Merge_Rule_Object_Types( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Rule_Container_Type >( false ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Child< Rule_Container_Type >( true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Matches_Only_Child< Rule_Container_Type >( false ) );
@@ -1280,8 +1299,21 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
     if( it_container_types != symbolDictionary.string_types().end() ){
       for( vector< string >::const_iterator it_container_type = it_container_types->second.begin(); it_container_type != it_container_types->second.end(); it_container_type++ ){
         featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value( false, "rule_container_type", "container_type", *it_container_type ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Properties( false, "rule_container_type", "container_type", *it_container_type, vector< string >( 1, "number" ) ) );
+        featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Properties( true, "rule_container_type", "container_type", *it_container_type, vector< string >( 1, "number" ) ) );
       }
     }
+
+    map< string, vector< string > >::const_iterator it_object_types = symbolDictionary.string_types().find( "object_type" );
+    map< string, vector< int > >::const_iterator it_numbers = symbolDictionary.int_types().find( "number" );
+    if( ( it_object_types != symbolDictionary.string_types().end() ) && ( it_numbers != symbolDictionary.int_types().end() ) ){
+      for( vector< string >::const_iterator it_object_type = it_object_types->second.begin(); it_object_type != it_object_types->second.end(); it_object_type++ ){
+        for( vector< int >::const_iterator it_number = it_numbers->second.begin(); it_number != it_numbers->second.end(); it_number++ ){
+          featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Rule_Container_Type_Equals_World_Objects( false, *it_object_type, *it_number ) );
+        }
+      }
+    }
+
     return;
   }
 

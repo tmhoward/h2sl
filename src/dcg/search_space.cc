@@ -183,7 +183,6 @@ fill_rules( const Symbol_Dictionary& symbolDictionary,
   Rule_Constraint_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Rule_Constraint_Payload_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Rule_Constraint_Reference_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
-  Rule_Container_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   return;
 }
 

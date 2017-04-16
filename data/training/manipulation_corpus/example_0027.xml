@@ -68,9 +68,6 @@
           <object_type object_type="block"/>
           <number value="12"/>
           <object_color object_color_type="na"/>
-          <!--abstract_container object_type="block" number="12" index="1" object_color="na"/>
-          <index value="1"/>
-          <object_color object_color_type="na"/-->
         </grounding_set>
         <PDT text="all" order="1"/>
         <DT text="the" order="2"/>

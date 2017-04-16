@@ -85,10 +85,6 @@
             <object id="O9-cube-cube-base"/>
             <object_type object_type="block"/>
             <object_color object_color_type="na"/>
-            <!--abstract_container object_type="block" number="12" index="1" object_color="red"/>
-            <number value="12"/>
-            <index value="1"/>
-            <object_color object_color_type="red"/-->
           </grounding_set>
           <DT text="the" order="2"/>
           <JJ text="red" order="3"/>

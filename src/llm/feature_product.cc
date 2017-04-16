@@ -230,6 +230,8 @@
 #include "h2sl/feature_rule_spatial_relation_merge_rule_spatial_relations.h"
 #include "h2sl/feature_rule_spatial_relation_merge_rule_spatial_relation_rule_container_type.h"
 #include "h2sl/feature_rule_container_type_merge_rule_container_types.h"
+#include "h2sl/feature_rule_container_type_merge_rule_object_types.h"
+#include "h2sl/feature_rule_container_type_equals_world_objects.h"
 #include "h2sl/feature_rule_index_merge_rule_container_type_rule_index.h"
 
 #include "h2sl/feature_product.h"
@@ -539,6 +541,8 @@ from_xml( xmlNodePtr root ){
                 _feature_groups.back().push_back( new Feature_Matches_Only_Child< Rule_Spatial_Relation >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_rule_container_type" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Only_Child< Rule_Container_Type >( l2 ) );
+              } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_rule_object_color" ) ) == 0 ){
+                _feature_groups.back().push_back( new Feature_Matches_Only_Child< Rule_Object_Color >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_object" ) ) == 0 ){
                 _feature_groups.back().push_back( new Feature_Matches_Only_Child< Object >( l2 ) );
               } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_matches_only_child_object_property" ) ) == 0 ){
@@ -904,6 +908,10 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Rule_Spatial_Relation_Merge_Rule_Spatial_Relation_Rule_Container_Type( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_rule_container_type_merge_rule_container_types" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Rule_Container_Type_Merge_Rule_Container_Types( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_rule_container_type_equals_world_objects" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Rule_Container_Type_Equals_World_Objects( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_rule_container_type_merge_rule_object_types" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Rule_Container_Type_Merge_Rule_Object_Types( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_rule_index_merge_rule_container_type_rule_index" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Rule_Index_Merge_Rule_Container_Type_Rule_Index( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_object_container" ) ) == 0 ){
@@ -938,6 +946,10 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Index >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_container_type_rule_number" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Container_Type, Rule_Number >( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_object_color_rule_spatial_relation" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Spatial_Relation >( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_object_color_rule_container_type" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Object_Color, Rule_Container_Type >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_is_in_a_container" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Is_In_A_Container( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_shape_abstract_container" ) ) == 0 ){

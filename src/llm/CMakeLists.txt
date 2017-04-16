@@ -151,6 +151,8 @@ set(HDRS
     h2sl/feature_rule_spatial_relation_merge_rule_spatial_relations.h
     h2sl/feature_rule_spatial_relation_merge_rule_spatial_relation_rule_container_type.h
     h2sl/feature_rule_container_type_merge_rule_container_types.h
+    h2sl/feature_rule_container_type_merge_rule_object_types.h
+    h2sl/feature_rule_container_type_equals_world_objects.h
     h2sl/feature_rule_index_merge_rule_container_type_rule_index.h
     h2sl/llm.h)
 
@@ -288,6 +290,8 @@ set(SRCS
     feature_rule_spatial_relation_merge_rule_spatial_relations.cc
     feature_rule_spatial_relation_merge_rule_spatial_relation_rule_container_type.cc
     feature_rule_container_type_merge_rule_container_types.cc
+    feature_rule_container_type_merge_rule_object_types.cc
+    feature_rule_container_type_equals_world_objects.cc
     feature_rule_index_merge_rule_container_type_rule_index.cc
     llm.cc)
 
