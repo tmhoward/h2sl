@@ -73,6 +73,7 @@
 
 #include "h2sl/feature_is_in_a_container.h"
 #include "h2sl/feature_object_shape_abstract_container.h"
+#include "h2sl/feature_container_shape_abstract_container.h"
 
 #include "h2sl/feature_abstract_container_matches_child.h"
 
@@ -208,8 +209,8 @@
 */
 #include "h2sl/feature_object_merge_object_property_region_container.h"
 #include "h2sl/feature_object_merge_object_type_region_container.h"
-/*
 #include "h2sl/feature_object_merge_object_region_container.h"
+/*
 #include "h2sl/feature_object_merge_single_object_different_container.h"
 */
 #include "h2sl/feature_object_merge_abstract_container_region_container.h"
@@ -219,6 +220,7 @@
 #include "h2sl/feature_object_merge_object_type_spatial_relation.h"
 #include "h2sl/feature_object_merge_object_type_region.h"
 #include "h2sl/feature_container_merge_abstract_container_spatial_relation.h"
+#include "h2sl/feature_container_merge_abstract_container_container_type.h"
 #include "h2sl/feature_container_merge_abstract_container_region.h"
 #include "h2sl/feature_container_merge_abstract_container_region_container.h"
 #include "h2sl/feature_container_merge_region_abstract_container_container.h"
@@ -864,9 +866,9 @@ from_xml( xmlNodePtr root ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Object_Property_Region_Container( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_type_region_container" ) ) == 0 ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Object_Type_Region_Container( l2 ) );
-/*
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_object_region_container" ) ) == 0 ){
-              _feature_groups.back().push_back( new Feature_Object_Merge_Object_Region_Container() );
+              _feature_groups.back().push_back( new Feature_Object_Merge_Object_Region_Container( l2 ) );
+/*
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_merge_single_object_different_container" ) ) == 0 ){
               _feature_groups.back().push_back( new Feature_Object_Merge_Single_Object_Different_Container() );
               _feature_groups.back().back()->from_xml( l2 );
@@ -886,6 +888,8 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Object_Merge_Object_Type_Region( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_abstract_container_spatial_relation" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Container_Merge_Abstract_Container_Spatial_Relation( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_abstract_container_container_type" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Container_Merge_Abstract_Container_Container_Type( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_abstract_container_region" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Container_Merge_Abstract_Container_Region( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_merge_abstract_container_region_container" ) ) == 0 ){
@@ -924,6 +928,8 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Abstract_Container, Object >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_abstract_container_region_container" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Abstract_Container, Region_Container >( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_abstract_container_region" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Merge_Children< Abstract_Container, Region >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_number_region_container" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Number, Region_Container >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_index_region_container" ) ) == 0 ){
@@ -934,8 +940,12 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Object_Type, Rule_Container_Type >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_index_rule_spatial_relation" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Index, Rule_Spatial_Relation >( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_index_rule_object_type" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Index, Rule_Object_Type >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_index_rule_container_type" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Index, Rule_Container_Type >( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_number_rule_object_type" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Number, Rule_Object_Type >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_number_rule_spatial_relation" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Rule_Number, Rule_Spatial_Relation >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_rule_number_rule_container_type" ) ) == 0 ){
@@ -954,6 +964,8 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Is_In_A_Container( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_object_shape_abstract_container" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Object_Shape_Abstract_Container( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_container_shape_abstract_container" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Container_Shape_Abstract_Container( l2 ) );
           } else {
                 cout << "could not load feature " << l2->name << endl;
                 assert( false );

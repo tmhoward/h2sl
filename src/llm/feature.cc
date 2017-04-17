@@ -63,6 +63,7 @@
 #include "h2sl/feature_type.h"
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_matches_only_child.h"
+#include "h2sl/feature_merge_children.h"
 #include "h2sl/feature_object_matches_child.h"
 #include "h2sl/feature_region_object_matches_child.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
@@ -393,6 +394,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Merge_Container_Pair* >( &other );
     } else if ( dynamic_cast< const Feature_Rule_Container_Type_Equals_World_Objects* >( &other ) != NULL ){
         out << *static_cast< const Feature_Rule_Container_Type_Equals_World_Objects* >( &other );
+    } else if ( dynamic_cast< const Feature_Merge_Children< Object, Container >* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Merge_Children< Object, Container >* >( &other );
     } else {
       cout << "could not load \"" << typeid( other ).name() << "\"" << endl;
     } 

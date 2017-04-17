@@ -37,15 +37,11 @@
     <PP>
       <grounding_set>
         <abstract_container object_type="block" number="4" index="1" object_color="na"/>
-        <object_color object_color_type="na"/>
-        <object_type object_type="block"/>
       </grounding_set>
       <IN text="of" order="3"/>
       <NP>
         <grounding_set>
           <abstract_container object_type="block" number="4" index="1" object_color="na"/>
-          <object_color object_color_type="na"/>
-          <object_type object_type="block"/>
         </grounding_set>
         <NP>
           <grounding_set>
@@ -61,16 +57,16 @@
         </NP>
         <PP>
           <grounding_set>
-            <object id="table-table-table-base"/>
+            <region spatial_relation_type="side" object_id="table-table-table-base"/>
           </grounding_set>
           <IN text="on" order="7"/>
           <NP>
             <grounding_set>
-              <object id="table-table-table-base"/>
+              <region spatial_relation_type="side" object_id="table-table-table-base"/>
             </grounding_set>
             <NP>
               <grounding_set>
-                <object id="table-table-table-base"/>
+                <spatial_relation spatial_relation_type="side"/>
               </grounding_set>
               <CD text="one" order="8"/>
               <NN text="end" order="9"/>

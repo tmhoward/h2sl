@@ -46,7 +46,9 @@ using namespace h2sl;
 
 void
 evaluate_model( LLM* llm,
-                vector< pair< string, LLM_X > >& examples ){
+                vector< pair< string, LLM_X > >& examples,
+                const bool& showPhrase = false,
+                const bool& showFeatures = true ){
   vector< string > cvs;
   cvs.push_back( "false" );
   cvs.push_back( "true" );
@@ -69,18 +71,18 @@ evaluate_model( LLM* llm,
           cout << "children[" << j << "]:" << *examples[ i ].second.children()[ j ].second[ k ] << endl;
         }
       }
-      cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
-
-      cout << "     features[" << features.size() << "]" << endl;
-      for( unsigned int j = 0; j < features.size(); j++ ){
-          cout << "      ";
-        for( unsigned int k = 0; k < features[ j ].first.size(); k++ ){
-          cout << "(" << *features[ j ].first[ k ] << ")";
-          if( k != ( features[ j ].first.size() - 1 ) ){
-            cout << ",";
+      if( showPhrase ){
+        cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
+      }
+    
+      if( showFeatures ){
+        cout << "     features[" << features.size() << "]" << endl;
+        for( unsigned int j = 0; j < features.size(); j++ ){
+          cout << "      index:" << features[ j ].second << " weight:" << llm->weights()[ features[ j ].second ] << endl;
+          for( unsigned int k = 0; k < features[ j ].first.size(); k++ ){
+            cout << "        [" << k << "]:" << *features[ j ].first[ k ] << endl;
           }
         }
-        cout << ") index:" << features[ j ].second << " weight:" << llm->weights()[ features[ j ].second ] << endl;
       }
 
       cout << endl;

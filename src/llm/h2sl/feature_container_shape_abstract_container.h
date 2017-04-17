@@ -1,13 +1,13 @@
 /**
- * @file feature_object_shape_abstract_container.h
+ * @file feature_container_shape_abstract_container.h
  * 
  * @brief
  * 
  * Class used to describe a feature of the abstract_container number
  */
 
-#ifndef H2SL_FEATURE_OBJECT_SHAPE_ABSTRACT_CONTAINER_H
-#define H2SL_FEATURE_OBJECT_SHAPE_ABSTRACT_CONTAINER_H
+#ifndef H2SL_FEATURE_CONTAINER_SHAPE_ABSTRACT_CONTAINER_H
+#define H2SL_FEATURE_CONTAINER_SHAPE_ABSTRACT_CONTAINER_H
 
 #include <iostream>
 #include <libxml/tree.h>
@@ -16,23 +16,23 @@
 #include "h2sl/object.h"
 namespace h2sl {
   /**
-   * Feature_Object_Shape_Abstract_Container class definition
+   * Feature_Container_Shape_Abstract_Container class definition
    */
-  class Feature_Object_Shape_Abstract_Container : public Feature {
+  class Feature_Container_Shape_Abstract_Container : public Feature {
   public:
-    Feature_Object_Shape_Abstract_Container( const bool& invert = false, const std::string& containerType = "na" );
-    Feature_Object_Shape_Abstract_Container( xmlNodePtr root );
-    Feature_Object_Shape_Abstract_Container( const Feature_Object_Shape_Abstract_Container& other );
-    virtual ~Feature_Object_Shape_Abstract_Container();
-    Feature_Object_Shape_Abstract_Container& operator=( const Feature_Object_Shape_Abstract_Container& other );
+    Feature_Container_Shape_Abstract_Container( const bool& invert = false, const std::string& containerType = "na" );
+    Feature_Container_Shape_Abstract_Container( xmlNodePtr root );
+    Feature_Container_Shape_Abstract_Container( const Feature_Container_Shape_Abstract_Container& other );
+    virtual ~Feature_Container_Shape_Abstract_Container();
+    Feature_Container_Shape_Abstract_Container& operator=( const Feature_Container_Shape_Abstract_Container& other );
 
     virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world );
     virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const Phrase*, std::vector< Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
     
     std::pair< double, double > convert_to_rho_theta(double x, double y);   
  
-    bool in_a_row( const Object* local_root_object, std::vector< Object* >& all_objects, const Object* global_root_object, unsigned int container_size, unsigned int counter );    
-    bool in_a_column( const Object* local_root_object, std::vector< Object* >& all_objects, const Object* global_root_object, unsigned int container_size, unsigned int counter );    
+    bool in_a_row( std::vector< Object* >& all_objects, unsigned int container_size, unsigned int counter );    
+    bool in_a_column( std::vector< Object* >& all_objects, unsigned int container_size, unsigned int counter );    
     bool in_a_tower();    
 
     virtual void from_xml( const std::string& file );
@@ -69,9 +69,9 @@ namespace h2sl {
   };
 
   /** 
-   * Feature_Object_Shape_Abstract_Container class ostream operator
+   * Feature_Container_Shape_Abstract_Container class ostream operator
    */
-  std::ostream& operator<<( std::ostream& out, const Feature_Object_Shape_Abstract_Container& other );
+  std::ostream& operator<<( std::ostream& out, const Feature_Container_Shape_Abstract_Container& other );
 }
 
-#endif /* H2SL_FEATURE_OBJECT_SHAPE_ABSTRACT_CONTAINER_H */
+#endif /* H2SL_FEATURE_CONTAINER_SHAPE_ABSTRACT_CONTAINER_H */

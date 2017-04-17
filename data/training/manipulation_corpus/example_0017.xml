@@ -37,8 +37,6 @@
     <PP>
       <grounding_set>
         <abstract_container object_type="block" number="4" index="1" object_color="na"/>
-        <object_color object_color_type="na"/>
-        <object_type object_type="block"/>
       </grounding_set>
       <IN text="of" order="3"/>
       <NP>

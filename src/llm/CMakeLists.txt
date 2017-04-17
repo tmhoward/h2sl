@@ -40,6 +40,7 @@ set(HDRS
     h2sl/feature_grounding_class_name.h
     h2sl/feature_is_in_a_container.h
     h2sl/feature_object_shape_abstract_container.h
+    h2sl/feature_container_shape_abstract_container.h
     h2sl/feature_region_object_string_property_value.h
     h2sl/feature_region_object_matches_child.h
     h2sl/feature_region_merge_spatial_relation_and_object.h
@@ -133,7 +134,7 @@ set(HDRS
 #    h2sl/feature_object_merge_object_different_container.h
     h2sl/feature_object_merge_object_property_region_container.h
     h2sl/feature_object_merge_object_type_region_container.h
-#    h2sl/feature_object_merge_object_region_container.h
+    h2sl/feature_object_merge_object_region_container.h
 #    h2sl/feature_object_merge_single_object_different_container.h
     h2sl/feature_object_merge_abstract_container_region_container.h
     h2sl/feature_object_merge_abstract_container_spatial_relation.h
@@ -142,6 +143,7 @@ set(HDRS
     h2sl/feature_object_merge_object_type_spatial_relation.h
     h2sl/feature_object_merge_object_type_region.h
     h2sl/feature_container_merge_abstract_container_spatial_relation.h
+    h2sl/feature_container_merge_abstract_container_container_type.h
     h2sl/feature_container_merge_abstract_container_region_container.h
     h2sl/feature_container_merge_region_abstract_container_container.h
     h2sl/feature_container_merge_container_type_container.h
@@ -177,6 +179,7 @@ set(SRCS
     feature_grounding_class_name.cc
     feature_is_in_a_container.cc
     feature_object_shape_abstract_container.cc
+    feature_container_shape_abstract_container.cc
     feature_region_object_string_property_value.cc
     feature_region_object_matches_child.cc
     feature_region_merge_spatial_relation_and_object.cc
@@ -271,7 +274,7 @@ set(SRCS
 #    feature_object_merge_object_different_container.cc
     feature_object_merge_object_property_region_container.cc
     feature_object_merge_object_type_region_container.cc
-#    feature_object_merge_object_region_container.cc
+    feature_object_merge_object_region_container.cc
 #    feature_object_merge_single_object_different_container.cc
     feature_object_merge_abstract_container_region_container.cc
     feature_object_merge_abstract_container_spatial_relation.cc
@@ -280,6 +283,7 @@ set(SRCS
     feature_object_merge_object_type_spatial_relation.cc
     feature_object_merge_object_type_region.cc
     feature_container_merge_abstract_container_spatial_relation.cc
+    feature_container_merge_abstract_container_container_type.cc
     feature_container_merge_abstract_container_region.cc
     feature_container_merge_abstract_container_region_container.cc
     feature_container_merge_region_abstract_container_container.cc

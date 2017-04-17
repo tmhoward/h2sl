@@ -25,6 +25,12 @@ Feature_Object_Merge_Object_Region_Container( const bool& invert ) : Feature( in
     
 }
 
+
+Feature_Object_Merge_Object_Region_Container::
+Feature_Object_Merge_Object_Region_Container( xmlNodePtr root ) : Feature() {
+  from_xml( root );
+}
+
 /**
  * Feature_Object_Merge_Object_Region_Container class destructor
  */
@@ -76,16 +82,6 @@ value( const string& cv,
       const h2sl::Phrase* phrase,
       const World* world,
       const Grounding* context ){
-    
-}
-
-/*bool
-Feature_Object_Merge_Object_Region_Container::
-value( const string& cv,
-      const h2sl::Grounding* grounding,
-      const vector< pair< const h2sl::Phrase*, vector< h2sl::Grounding* > > >& children,
-      const h2sl::Phrase* phrase,
-      const World* world ){
     const Object * object = dynamic_cast< const Object* >( grounding );
     if( ( object != NULL ) && ( !children.empty() ) ){
       pair< const h2sl::Phrase*, const Object* > object_child( NULL, NULL );
@@ -112,79 +108,27 @@ value( const string& cv,
 
       if( ( object_child.first != NULL ) && ( object_child.second != NULL ) && ( region_container_child.first != NULL ) && ( region_container_child.second != NULL ) ){ 
         if( object_child.first->min_word_order() < region_container_child.first->min_word_order() ){
-          vector< Object* > sorted_objects = region_container_child.second->container().container();
-          const World * h2sl_nsf_nri_mvli_world = dynamic_cast< const World* >( world );
-          if( *object_child.second == *h2sl_nsf_nri_mvli_world->max_distance_sorted_objects()[ object_child.second->type() ][ 0 ] ){
-            if( sorted_objects.size() > 0 ){
-              if( region_container_child.second->type() == Spatial_Relation::TYPE_LEFT ){
-                std::sort( sorted_objects.begin(), sorted_objects.end(), World::max_y_sort );
-                if( *object == *sorted_objects[ 0 ] ){
-                  return !_invert;
-                }
-              } else if( region_container_child.second->type() == Spatial_Relation::TYPE_RIGHT ){
-                std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_y_sort );
-                if( *object == *sorted_objects[ 0 ] ){
-                  return !_invert;
-                }
-              } else if( region_container_child.second->type() == Spatial_Relation::TYPE_BACK ){
-                std::sort( sorted_objects.begin(), sorted_objects.end(), World::max_x_sort );
-                if( *object == *sorted_objects[ 0 ] ){
-                  return !_invert;
-                }
-              } else if( region_container_child.second->type() == Spatial_Relation::TYPE_FRONT ){
-                std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_x_sort );
-                if( *object == *sorted_objects[ 0 ] ){
-                  return !_invert;
-                }
-              }
-            }
-          } else if( *object_child.second == *h2sl_nsf_nri_mvli_world->max_distance_sorted_objects()[ object_child.second->type() ][ 1 ] ){
-            if( sorted_objects.size() > 1 ){
-              if( region_container_child.second->type() == Spatial_Relation::TYPE_LEFT ){
-                std::sort( sorted_objects.begin(), sorted_objects.end(), World::max_y_sort );
-                if( *object == *sorted_objects[ 1 ] ){
-                  return !_invert;
-                }
-              } else if( region_container_child.second->type() == Spatial_Relation::TYPE_RIGHT ){
-                std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_y_sort );
-                if( *object == *sorted_objects[ 1 ] ){
-                  return !_invert;
-                }
-              } else if( region_container_child.second->type() == Spatial_Relation::TYPE_BACK ){
-                std::sort( sorted_objects.begin(), sorted_objects.end(), World::max_x_sort );
-                if( *object == *sorted_objects[ 1 ] ){
-                  return !_invert;
-                }
-              } else if( region_container_child.second->type() == Spatial_Relation::TYPE_FRONT ){
-                std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_x_sort );
-                if( *object == *sorted_objects[ 1 ] ){
-                  return !_invert;
-                }
-              }
-            }
-          } else if( *object_child.second == *h2sl_nsf_nri_mvli_world->min_distance_sorted_objects()[ object_child.second->type() ][ 0 ] ){
-            if( sorted_objects.size() > 0 ){
-              std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_distance_sort );
-              // look for the max distance object from within the container
-              if( *object == *sorted_objects[ 0 ] ){
-                return !_invert;
-              }
-            }
-          } else if( *object_child.second == *h2sl_nsf_nri_mvli_world->min_distance_sorted_objects()[ object_child.second->type() ][ 1 ] ){
-            if( sorted_objects.size() > 1 ){
-              std::sort( sorted_objects.begin(), sorted_objects.end(), World::min_distance_sort );
-              // look for the max distance object from within the container
-              if( *object == *sorted_objects[ 1 ] ){
-                return !_invert;
+          bool found_object_type_in_region_container_objects = false;
+          for( unsigned int i = 0; i < region_container_child.second->container().container().size(); i++ ){
+            Object * region_container_object = dynamic_cast< Object* >( region_container_child.second->container().container()[ i ] );
+            if( region_container_object != NULL ){
+              if( object->type() == region_container_object->type() ){
+                found_object_type_in_region_container_objects = true;
               }
             }
           }
+          if( !found_object_type_in_region_container_objects ){
+            if( object->id() == object_child.second->id() ){
+              return !_invert;
+            } else {
+              return _invert;
+            }
+          }
         }
-        return _invert;
       }
     }
     return false;
-}*/
+}
 
 /**
  * exports the Feature_Object_Merge_Object_Region_Container class to an XML file

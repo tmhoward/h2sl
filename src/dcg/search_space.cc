@@ -221,7 +221,7 @@ scrape_examples( const string& filename,
     for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
       // uncomment to prune search space for feature implementation 
 //      if( (*it_grounding)->matches_class_name( "container" ) || (*it_grounding)->matches_class_name( "region_container" ) ){
-//      if( !(*it_grounding)->matches_class_name( "spatial_relation" ) ){
+//      if( !(*it_grounding)->matches_class_name( "container" ) ){
 //        break;
 //      }
       map< string, vector< string > >::const_iterator it_cvs = _cvs.find( it_groundings->second.first );
