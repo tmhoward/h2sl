@@ -51,24 +51,24 @@
             <spatial_relation spatial_relation_type="front"/>
           </grounding_set>
           <NN text="front" order="4"/>
-          <PP>
+        </NP>
+        <PP>
+          <grounding_set>
+            <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
+            <object id="baxter1-baxter-left_hand"/>
+            <object id="baxter1-baxter-right_hand"/>
+          </grounding_set>
+          <IN text="of" order="5"/>
+          <NP>
             <grounding_set>
               <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
               <object id="baxter1-baxter-left_hand"/>
               <object id="baxter1-baxter-right_hand"/>
             </grounding_set>
-            <IN text="of" order="5"/>
-            <NP>
-              <grounding_set>
-                <container container_type="group" object_ids="baxter1-baxter-left_hand,baxter1-baxter-right_hand"/>
-                <object id="baxter1-baxter-left_hand"/>
-                <object id="baxter1-baxter-right_hand"/>
-              </grounding_set>
-              <DT text="the" order="6"/>
-              <NN text="robot" order="7"/>
-            </NP>
-          </PP>
-        </NP>
+            <DT text="the" order="6"/>
+            <NN text="robot" order="7"/>
+          </NP>
+        </PP>
       </NP>
     </PP>
   </NP>

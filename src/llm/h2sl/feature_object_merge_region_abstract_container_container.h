@@ -20,7 +20,7 @@ namespace h2sl {
      */
     class Feature_Object_Merge_Region_Abstract_Container_Container: public Feature {
     public:
-        Feature_Object_Merge_Region_Abstract_Container_Container( const bool& invert = false, const std::string& sortingKey = "na", const std::string& spatialRelationType = "na" );
+        Feature_Object_Merge_Region_Abstract_Container_Container( const bool& invert = false, const bool& objectMatch = false, const std::string& sortingKey = "na", const std::string& spatialRelationType = "na" );
         Feature_Object_Merge_Region_Abstract_Container_Container( xmlNodePtr root );
         virtual ~Feature_Object_Merge_Region_Abstract_Container_Container();
         Feature_Object_Merge_Region_Abstract_Container_Container( const Feature_Object_Merge_Region_Abstract_Container_Container& other );
@@ -37,6 +37,9 @@ namespace h2sl {
         inline const std::string& sorting_key( void )const{ return get_prop< std::string >( _string_properties, "sorting_key" ); };
         inline std::string& spatial_relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
         inline const std::string& spatial_relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+
+        inline bool& object_match( void ){ return _object_match; };
+        inline const bool& object_match( void )const{ return _object_match; };
  
         virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
         

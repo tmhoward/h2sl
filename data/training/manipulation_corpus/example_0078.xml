@@ -82,6 +82,8 @@
                 <object id="O5-cube-cube-base"/>
                 <object_type object_type="block"/>
                 <number value="5"/>
+                <index value="1"/>
+                <object_color object_color_type="na"/>
               </grounding_set>
               <CD text="five" order="7"/>
               <NNS text="blocks" order="8"/>

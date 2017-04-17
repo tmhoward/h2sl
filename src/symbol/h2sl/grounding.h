@@ -81,6 +81,8 @@ namespace h2sl {
 
   };
   std::ostream& operator<<( std::ostream& out, const Grounding& other );
+  
+  std::ostream& operator<<( std::ostream& out, const std::vector< Grounding* >& other );
 }
 
 #endif /* H2SL_GROUNDING_H */

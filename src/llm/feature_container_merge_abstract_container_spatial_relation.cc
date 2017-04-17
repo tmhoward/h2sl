@@ -146,14 +146,16 @@ value( const string& cv,
                   }
                   all_objects_match = all_objects_match && found_object_match;
                 }
-      
-                if( all_objects_match ){
-                  return !_invert;
-                }
-              }      
-            }
+               all_objects_match = all_objects_match && found_object_match;
+              }
+    
+              if( all_objects_match ){
+                return !_invert;
+              } else {
+                return _invert;
+              }
+            }      
           }
-          return _invert;
         }
       }
     }

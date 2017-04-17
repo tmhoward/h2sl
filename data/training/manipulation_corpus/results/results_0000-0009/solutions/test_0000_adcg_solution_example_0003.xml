@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <world time="0">
+    <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.349619,1.16126,1.60794" orientation="-0.0904007,0.391826,0.720737,0.564657" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.689825,-0.961224,1.07318" orientation="0.575972,0.471578,-0.0219704,0.667374" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="ground-plane-plane-base" object_type="na" object_color="na" position="0,0,0" orientation="0,0,0,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object0-cube-cube-base" object_type="block" object_color="na" position="0.902484,0.303134,0.73615" orientation="4.10404e-06,7.18221e-07,-0.501836,0.864963" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object1-cube-cube-base" object_type="block" object_color="na" position="0.74109,0.251459,0.73615" orientation="-0.663722,-0.244023,-0.663605,0.244038" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object2-cube-cube-base" object_type="block" object_color="na" position="1.00332,0.516338,0.73615" orientation="-2.04036e-06,3.66284e-07,0.581881,0.813274" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object3-cube-cube-base" object_type="block" object_color="na" position="1.07487,-0.00286469,0.73615" orientation="-4.42618e-06,9.01921e-07,0.0575357,0.998343" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object4-cube-cube-base" object_type="block" object_color="na" position="0.926397,0.553298,0.73615" orientation="-5.85894e-07,-4.81674e-07,-0.375334,0.92689" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object5-cube-cube-base" object_type="block" object_color="na" position="1.14879,0.576187,0.73615" orientation="-2.10207e-06,1.12453e-06,-0.94424,0.329257" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object6-cube-cube-base" object_type="block" object_color="na" position="1.03937,-0.119417,0.73615" orientation="3.97185e-06,1.25278e-07,0.0214259,0.99977" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object7-cube-cube-base" object_type="block" object_color="na" position="1.00697,-0.439534,0.73615" orientation="0.291842,0.644071,-0.291841,0.644073" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object8-cube-cube-base" object_type="block" object_color="na" position="1.02234,-0.318397,0.73615" orientation="0.678978,0.197459,0.197461,0.678975" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="object9-cube-cube-base" object_type="block" object_color="na" position="1.15694,-0.525037,0.73615" orientation="-1.14818e-06,6.14308e-06,0.317087,0.948397" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="table-table-table-base" object_type="table" object_color="na" position="1.0002,0.000257949,-0.0122251" orientation="-3.93159e-09,7.6115e-08,0.000128641,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP abstract_avg_size="1017" abstract_max_size="1018" concrete_size="31">
+    <grounding_set>
+      <object id="object0-cube-cube-base"/>
+      <object id="object1-cube-cube-base"/>
+      <container container_type="group" object_ids="object0-cube-cube-base,object1-cube-cube-base"/>
+    </grounding_set>
+    <NP abstract_avg_size="1015" abstract_max_size="1016" concrete_size="31">
+      <grounding_set>
+        <index value="1"/>
+        <number value="2"/>
+        <object id="object0-cube-cube-base"/>
+        <object id="object1-cube-cube-base"/>
+        <object_color object_color_type="na"/>
+        <object_type object_type="block"/>
+        <spatial_relation spatial_relation_type="near"/>
+        <container container_type="group" object_ids="object0-cube-cube-base,object1-cube-cube-base"/>
+        <region_abstract_container spatial_relation_type="near" object_type="block" number="2" index="1" object_color="na"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <JJS text="nearest" order="1"/>
+      <CD text="two" order="2"/>
+      <NNS text="blocks" order="3"/>
+    </NP>
+    <PP abstract_avg_size="0" abstract_max_size="0" concrete_size="31">
+      <grounding_set>
+        <spatial_relation spatial_relation_type="front"/>
+      </grounding_set>
+      <IN text="in" order="4"/>
+      <NP abstract_avg_size="0" abstract_max_size="0" concrete_size="31">
+        <grounding_set>
+          <spatial_relation spatial_relation_type="front"/>
+        </grounding_set>
+        <DT text="the" order="5"/>
+        <NN text="front" order="6"/>
+      </NP>
+    </PP>
+  </NP>
+</root>

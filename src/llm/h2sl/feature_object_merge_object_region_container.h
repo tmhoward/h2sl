@@ -21,6 +21,7 @@ namespace h2sl {
     class Feature_Object_Merge_Object_Region_Container: public Feature {
     public:
         Feature_Object_Merge_Object_Region_Container( const bool& invert = false );
+        Feature_Object_Merge_Object_Region_Container( xmlNodePtr root );
         virtual ~Feature_Object_Merge_Object_Region_Container();
         Feature_Object_Merge_Object_Region_Container( const Feature_Object_Merge_Object_Region_Container& other );
         Feature_Object_Merge_Object_Region_Container& operator=( const Feature_Object_Merge_Object_Region_Container& other );

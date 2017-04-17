@@ -93,6 +93,7 @@
                 <object id="O6-cube-cube-base"/>
                 <object id="O7-cube-cube-base"/>
                 <number value="7"/>
+                <object_color object_color_type="na"/>
                 <object_type object_type="block"/>
               </grounding_set>
               <CD text="seven" order="7"/>
