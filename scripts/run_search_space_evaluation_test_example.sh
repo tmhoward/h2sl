@@ -24,9 +24,3 @@ mkdir -p ${SSEOD}/test/hadcg/output
 # test hadcg models
 ../build/bin/h2sl-test-process-inference ${SSEOD}/test/hadcg/collated/test_*.xml --model hadcg --feature_set ${SSEOD}/fs_hdcg.xml --solution_directory ${SSEOD}/test/hadcg/solution/ --beam_width 2 --test_training_set 1 --test_test_set 1 --output ${SSEOD}/test/hadcg/output/
 
-# Search Space Table
-# ../build/bin/h2sl-search-space-corpus-analysis ../data/results/results-dcg-single/results/result_full.xml ../data/results/results-adcg-single/result_full.xml
- 
-# ../build/bin/h2sl-search-space-corpus-analysis ../data/results/results-dcg-single/results/result_full.xml ../data/results/results-adcg-single/result_full.xml --output_script evaluation_search_space.m --output_text evaluation_search_space.txt
-
-
