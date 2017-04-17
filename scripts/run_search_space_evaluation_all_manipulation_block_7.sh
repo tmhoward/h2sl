@@ -1,6 +1,6 @@
 #!/bin/bash
-export ED=../data/training/example_corpus/
-export SSEOD=../data/training/example_corpus/search_space_evaluation_output/
+export ED=../data/training/manipulation_corpus/
+export SSEOD=../data/training/manipulation_corpus/search_space_evaluation_output/
 echo ${SSEOD}
 
 export GROUNDING_EXAMPLES=${ED}/example_0*.xml

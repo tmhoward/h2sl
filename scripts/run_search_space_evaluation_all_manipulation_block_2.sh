@@ -1,6 +1,6 @@
 #!/bin/bash
-export ED=../data/training/example_corpus/
-export SSEOD=../data/training/example_corpus/search_space_evaluation_output/
+export ED=../data/training/manipulation_corpus/
+export SSEOD=../data/training/manipulation_corpus/search_space_evaluation_output/
 echo ${SSEOD}
 
 export GROUNDING_EXAMPLES=${ED}/example_0*.xml
@@ -41,7 +41,7 @@ echo "generating feature set for hdcg and hadcg models"
 
 # generate tests
 echo "generating tests"
-../build/bin/h2sl-test-generator --num=5 --fr=1 --min_fr=0.8 --max_fr=0.8 ${GROUNDING_EXAMPLES} --output ${SSEOD}/test/
+../build/bin/h2sl-test-generator --num=5 --fr=2 --min_fr=0.3 --max_fr=0.35 ${GROUNDING_EXAMPLES} --output ${SSEOD}/test/
 
 # train dcg and adcg models
 echo "training dcg models"
