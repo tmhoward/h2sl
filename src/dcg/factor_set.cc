@@ -169,7 +169,7 @@ search_subspace( vector< Factor_Set_Solution >& solutionsVector,
                                   childPhraseGroundings, _phrase, world, context, 
                                   correspondenceVariables, evaluate_feature_types );
         // Language feature sets are evaluated only once for efficiency.
-//        evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
+        evaluate_feature_types[ FEATURE_TYPE_LANGUAGE ] = false;
         // add the new solution to the solutions vector (make a copy of the previous solution)
         new_solutions_vector.push_back( solutionsVector[ j ] );
         if( correspondenceVariables[ k ] == "true" ){
