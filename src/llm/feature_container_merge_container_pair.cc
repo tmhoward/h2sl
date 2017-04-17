@@ -126,7 +126,7 @@ value( const string& cv,
       }
       
       if( ( first_container_child.first != NULL ) && ( first_container_child.second != NULL ) && ( second_container_child.first != NULL ) && ( second_container_child.second != NULL ) ){
-        if( first_container_child.second->type() != container->type() ){
+        if( second_container_child.second->type() != container->type() ){
           return false;
         }
 

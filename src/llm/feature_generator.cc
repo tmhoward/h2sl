@@ -1050,10 +1050,14 @@ feature_generator_add_constraint_features( const Symbol_Dictionary& symbolDictio
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "min_center_distance" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( false, "max_center_distance" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Container_Merge_Container_Pair( true, "max_center_distance" ) );
-    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( false, false ) );
-    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( true, false ) );
-    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( false, true ) );
-    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( false, false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( true, false, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( false, true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( true, true, false ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( false, false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( true, false, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( false, true, true ) );
+    featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( true, true, true ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "container", "container_type", "container_type", "container_type" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( true, "container", "container_type", "container_type", "container_type" ) );
     featureSet.feature_products().back()->feature_groups().back().push_back( new Feature_Grounding_String_Property_Value_Matches_Child_String_Property_Value( false, "container", "container_type", "container", "container_type" ) );

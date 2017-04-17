@@ -922,6 +922,8 @@ from_xml( xmlNodePtr root ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Object, Container >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_container_spatial_relation" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Container, Spatial_Relation >( l2 ) );
+          } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_container_region_container" ) ) == 0 ){
+            _feature_groups.back().push_back( new Feature_Merge_Children< Container, Region_Container >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_object_region_container" ) ) == 0 ){
             _feature_groups.back().push_back( new Feature_Merge_Children< Object, Region_Container >( l2 ) );
           } else if ( xmlStrcmp( l2->name, ( const xmlChar* )( "feature_merge_children_abstract_container_object" ) ) == 0 ){
