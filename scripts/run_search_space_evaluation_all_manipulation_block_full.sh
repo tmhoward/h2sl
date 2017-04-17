@@ -41,7 +41,7 @@ echo "generating feature set for hdcg and hadcg models"
 
 # generate tests
 echo "generating tests"
-../build/bin/h2sl-test-generator --num=5 --fr=13 --min_fr=0.2 --max_fr=0.8 ${GROUNDING_EXAMPLES} --output ${SSEOD}/test/
+../build/bin/h2sl-test-generator --num=5 --fr=1 --min_fr=1.0 --max_fr=1.0 ${GROUNDING_EXAMPLES} --output ${SSEOD}/test/
 
 # train dcg and adcg models
 echo "training dcg models"
@@ -75,16 +75,16 @@ mkdir -p ${SSEOD}/test/adcg/output
 mkdir -p ${SSEOD}/test/hadcg/output
 
 # test dcg models
- ../build/bin/h2sl-test-process-inference ${SSEOD}/test/dcg/collated/test_*.xml --model dcg --feature_set ${SSEOD}/fs_dcg.xml --solution_directory ${SSEOD}/test/dcg/solution/ --beam_width 1 --test_training_set 1 --test_test_set 1 --output ${SSEOD}/test/dcg/output/
+ ../build/bin/h2sl-test-process-inference ${SSEOD}/test/dcg/collated/test_*.xml --model dcg --feature_set ${SSEOD}/fs_dcg.xml --solution_directory ${SSEOD}/test/dcg/solution/ --beam_width 1 --test_training_set 1 --test_test_set 0 --output ${SSEOD}/test/dcg/output/
 
 # test adcg models
- ../build/bin/h2sl-test-process-inference ${SSEOD}/test/adcg/collated/test_*.xml --model adcg --feature_set ${SSEOD}/fs_dcg.xml --solution_directory ${SSEOD}/test/adcg/solution/ --beam_width 1 --test_training_set 1 --test_test_set 1 --output ${SSEOD}/test/adcg/output/
+ ../build/bin/h2sl-test-process-inference ${SSEOD}/test/adcg/collated/test_*.xml --model adcg --feature_set ${SSEOD}/fs_dcg.xml --solution_directory ${SSEOD}/test/adcg/solution/ --beam_width 1 --test_training_set 1 --test_test_set 0 --output ${SSEOD}/test/adcg/output/
 
 # test hdcg models
-../build/bin/h2sl-test-process-inference ${SSEOD}/test/hdcg/collated/test_*.xml --model hdcg --feature_set ${SSEOD}/fs_hdcg.xml --solution_directory ${SSEOD}/test/hdcg/solution/ --beam_width 1 --test_training_set 1 --test_test_set 1 --output ${SSEOD}/test/hdcg/output/
+../build/bin/h2sl-test-process-inference ${SSEOD}/test/hdcg/collated/test_*.xml --model hdcg --feature_set ${SSEOD}/fs_hdcg.xml --solution_directory ${SSEOD}/test/hdcg/solution/ --beam_width 1 --test_training_set 1 --test_test_set 0 --output ${SSEOD}/test/hdcg/output/
 
 # test hadcg models
-../build/bin/h2sl-test-process-inference ${SSEOD}/test/hadcg/collated/test_*.xml --model hadcg --feature_set ${SSEOD}/fs_hdcg.xml --solution_directory ${SSEOD}/test/hadcg/solution/ --beam_width 1 --test_training_set 1 --test_test_set 1 --output ${SSEOD}/test/hadcg/output/
+../build/bin/h2sl-test-process-inference ${SSEOD}/test/hadcg/collated/test_*.xml --model hadcg --feature_set ${SSEOD}/fs_hdcg.xml --solution_directory ${SSEOD}/test/hadcg/solution/ --beam_width 1 --test_training_set 1 --test_test_set 0 --output ${SSEOD}/test/hadcg/output/
 
 # list results models
 echo "listing dcg output results"
