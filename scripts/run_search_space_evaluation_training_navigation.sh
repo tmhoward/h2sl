@@ -1,9 +1,9 @@
 #!/bin/bash
-export ED=../data/training/example_corpus/
-export SSEOD=../data/training/example_corpus/search_space_evaluation_output/
+export ED=../data/training/navigation_corpus/
+export SSEOD=../data/training/navigation_corpus/search_space_evaluation_output/
 echo ${SSEOD}
 
-export GROUNDING_EXAMPLES=${ED}/example_0*.xml
+export GROUNDING_EXAMPLES=${ED}/groups/example_0*.xml
 
 # create results directory
 mkdir -p ${SSEOD}
@@ -21,7 +21,7 @@ mkdir -p ${SSEOD}/test/hadcg/collated
 echo "generating rule examples"
 ../build/bin/h2sl-generate-rule-examples ${GROUNDING_EXAMPLES}
 
-export RULE_EXAMPLES=${ED}/rule_example_0*.xml
+export RULE_EXAMPLES=${ED}/groups/rule_example_0*.xml
 
 # symbol dictionary generation
 echo "generating symbol dictionary for dcg groundings"
