@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <training_set size="9">
+    <filename text="../data/training/manipulation_corpus/example_0111.xml"/>
+    <filename text="../data/training/manipulation_corpus/example_0112.xml"/>
+    <filename text="../data/training/manipulation_corpus/example_0113.xml"/>
+    <filename text="../data/training/manipulation_corpus/example_0114.xml"/>
+    <filename text="../data/training/manipulation_corpus/example_0115.xml"/>
+    <filename text="../data/training/manipulation_corpus/example_0116.xml"/>
+    <filename text="../data/training/manipulation_corpus/example_0117.xml"/>
+    <filename text="../data/training/manipulation_corpus/example_0118.xml"/>
+    <filename text="../data/training/manipulation_corpus/example_0119.xml"/>
+  </training_set>
+  <test_set size="0"/>
+</root>

@@ -12,8 +12,10 @@
 template< class A, class B >
 Feature_Merge_Children< A, B >::
 Feature_Merge_Children( const bool& invert,
-                                const bool& order ) : Feature( invert ),
-                                                              _order( order ) {
+                                const bool& order,
+                                const bool& same ) : Feature( invert ),
+                                                              _order( order ),
+                                                              _same( same ) {
 
 }
 
@@ -23,7 +25,8 @@ Feature_Merge_Children( const bool& invert,
 template< class A, class B >
 Feature_Merge_Children< A, B >::
 Feature_Merge_Children( xmlNodePtr root ) : Feature(),
-                                                    _order( 0 ) {
+                                                    _order( false ),
+                                                    _same( false ) {
   from_xml( root );
 }
 
@@ -33,7 +36,8 @@ Feature_Merge_Children( xmlNodePtr root ) : Feature(),
 template< class A, class B >
 Feature_Merge_Children< A, B >::
 Feature_Merge_Children( const Feature_Merge_Children< A, B >& other ) : Feature( other ),
-                                                                                    _order( other._order ) {
+                                                                                    _order( other._order ),
+                                                                                    _same( other._same ) {
 
 }
 
@@ -55,6 +59,7 @@ Feature_Merge_Children< A, B >::
 operator=( const Feature_Merge_Children& other ){
   _invert = other._invert;
   _order = other._order;
+  _same = other._same;
   return (*this);
 }
 
@@ -97,7 +102,7 @@ value( const std::string& cv,
       return false;
     }
     for( unsigned int i = 0; i < children.size(); i++ ){
-      if( children[ i ].first != a_child.first ){
+      if( ( !_same && ( children[ i ].first != a_child.first ) ) || ( _same && ( children[ i ].first == a_child.first ) ) ){
         for( unsigned int j = 0; j < children[ i ].second.size(); j++ ){
           if( b_child.first == NULL ){
             if( dynamic_cast< const B* >( children[ i ].second[ j ] ) != NULL ){
@@ -111,7 +116,7 @@ value( const std::string& cv,
 
     if( ( a_child.first != NULL ) && ( a_child.second != NULL ) && ( b_child.first != NULL ) && ( b_child.second != NULL ) ){
       if( _order ){
-        if( a_child.first->min_word_order() > b_child.first->min_word_order() ){
+        if( ( !_same && ( a_child.first->min_word_order() > b_child.first->min_word_order() ) ) || _same ){
           if( *a == *a_child.second ){
             return !_invert;
           } else {
@@ -119,7 +124,7 @@ value( const std::string& cv,
           }
         }
       } else {
-        if( a_child.first->min_word_order() < b_child.first->min_word_order() ){
+        if( ( !_same && ( a_child.first->min_word_order() < b_child.first->min_word_order() ) ) || _same ){
           if( *a == *a_child.second ){
             return !_invert;
           } else {
@@ -168,6 +173,7 @@ Feature_Merge_Children< A, B >::
 from_xml( xmlNodePtr root ){
   _invert = false;
   _order = false;
+  _same = false;
   if( root->type == XML_ELEMENT_NODE ){
     xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
     if( tmp != NULL ){
@@ -179,6 +185,11 @@ from_xml( xmlNodePtr root ){
     std::pair< bool, bool > order_prop = has_prop< bool >( root, "order" );
     if( order_prop.first ) {
       _order = order_prop.second;
+    }
+
+    std::pair< bool, bool > same_prop = has_prop< bool >( root, "same" );
+    if( same_prop.first ) {
+      _same = same_prop.second;
     }
   }
   return;
@@ -215,6 +226,9 @@ to_xml( xmlDocPtr doc,
   std::stringstream order_string;
   order_string << _order;
   xmlNewProp( node, ( const xmlChar* )( "order" ), ( const xmlChar* )( order_string.str().c_str() ) );
+  std::stringstream same_string;
+  same_string << _same;
+  xmlNewProp( node, ( const xmlChar* )( "same" ), ( const xmlChar* )( same_string.str().c_str() ) );
   xmlAddChild( root, node );
   return;
 }
@@ -226,6 +240,6 @@ template< class A, class B >
 std::ostream&
 operator<<( std::ostream& out,
             const Feature_Merge_Children< A, B >& other ){
-  out << "Feature_Merge_Children:( invert:\"" << other.invert() << " order:\"" << other.order() << "\")";
+  out << "Feature_Merge_Children:( invert:\"" << other.invert() << " order:\"" << other.order() << " same:\"" << other.same() << "\")";
   return out;
 }

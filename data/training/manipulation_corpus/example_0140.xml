@@ -95,7 +95,7 @@
                 <object id="O6-cube-cube-base"/>
                 <object id="O7-cube-cube-base"/>
                 <object_type object_type="block"/>
-                <object_color object_color_type="red"/>
+                <object_color object_color_type="na"/>
               </grounding_set>
               <JJ text="red" order="9"/>
               <NNS text="blocks" order="10"/>

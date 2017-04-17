@@ -113,6 +113,15 @@ value( const string& cv,
       if( ( abstract_container_child.first != NULL ) && ( abstract_container_child.second != NULL ) && ( region_container_child.first != NULL ) && ( region_container_child.second != NULL ) ){
         if( ( abstract_container_child.first->min_word_order() < region_container_child.first->min_word_order() ) ){
           if( ( region_container_child.second->relation_type() == spatial_relation_type() ) && ( container->container().size() == abstract_container_child.second->number() ) ){
+            map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
+            if( it_sorted_objects_map == world->sorted_objects().end() ){
+              cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+            }
+            assert( it_sorted_objects_map != world->sorted_objects().end() );
+            map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( abstract_container_child.second->type() );
+            assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+
+/*
             vector< Object* > sorted_objects;
             for( unsigned int i = 0; i < region_container_child.second->container().container().size(); i++ ){
               Object * region_container_child_object = dynamic_cast< Object* >( region_container_child.second->container().container()[ i ] );
@@ -154,14 +163,15 @@ value( const string& cv,
                 } else if ( sorting_key() == "max_center_distance" ){
                   World::max_center_distance_sort_objects( sorted_objects );
                 }
-
+*/
+              if( container->container().size() <= it_sorted_objects->second.size() ){
                 bool all_objects_match = true;
                 for( unsigned int i = 0; i < container->container().size(); i++ ){
                   Object * tmp1 = dynamic_cast< Object* >( container->container()[ i ] );
                   bool found_object_match = false;
                   if( tmp1 != NULL ){
                     for( unsigned int j = 0; j < container->container().size(); j++ ){
-                      if( tmp1->id() == sorted_objects[ j ]->id() ){
+                      if( tmp1->id() == it_sorted_objects->second[ j ]->id() ){
                         found_object_match = true;
                       }
                     } 
@@ -172,11 +182,11 @@ value( const string& cv,
                 }
                 if( all_objects_match ){
                   return !_invert;
+                } else {
+                  return _invert;
                 }  
               }
-            }      
           }
-          return _invert;
         }
       }
     }

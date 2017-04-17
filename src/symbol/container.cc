@@ -136,6 +136,7 @@ scrape_grounding( const World * world,
                   map< string, vector< string > >& stringTypes,
                   map< string, vector< int > >& intTypes )const{
   insert_unique< std::string >( "container_type", type(), stringTypes );
+  insert_unique< int >( "number", ( int )( _groundings.size() ), intTypes );
   for( vector< Grounding* >::const_iterator it_grounding = _groundings.begin(); it_grounding != _groundings.end(); it_grounding++ ){
     ( *it_grounding )->scrape_grounding( world, stringTypes, intTypes );
   }
@@ -242,7 +243,7 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                   container_objects.push_back( dynamic_cast< Grounding* >( objects[ k ] ) );
                 }
               }
-              if( ( container_objects.size() > 1 ) || ( container_objects.size() == objects.size() ) || has_in_vector< unsigned int >( container_objects.size(), numbers ) ){
+              if( ( container_objects.size() > 1 ) && ( ( container_objects.size() == objects.size() ) || has_in_vector< unsigned int >( container_objects.size(), numbers ) ) ){
                 if( it_container_type_types != symbolDictionary.string_types().end() ){
                   for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
                     it_search_spaces_symbol->second.second.push_back( new Container( container_objects, it_container_type_types->second[ k ] ) );
@@ -250,7 +251,6 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                 } else {
                   it_search_spaces_symbol->second.second.push_back( new Container( container_objects, "group" ) );
                 }
-
               }
             }
           }
