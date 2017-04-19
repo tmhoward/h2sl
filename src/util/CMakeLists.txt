@@ -20,6 +20,7 @@ set(GGOS
     search_space_corpus_analysis.ggo
     search_space_corpus_analysis_dcg_adcg.ggo
     search_space_corpus_analysis_hdcg_hadcg.ggo
+    test_combine_any_results.ggo
     test_combine_model_results.ggo
     test_convert_xml_to_mat.ggo)
 
@@ -57,6 +58,7 @@ set(BIN_SRCS
     search_space_corpus_analysis.cc
     search_space_corpus_analysis_dcg_adcg.cc
     search_space_corpus_analysis_hdcg_hadcg.cc
+    test_combine_any_results.cc
     test_combine_model_results.cc
     test_convert_xml_to_mat.cc)
 
