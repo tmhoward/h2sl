@@ -87,7 +87,6 @@ namespace h2sl {
   template< class C >
   void insert_unique_grounding( Grounding_Set* groundingSet, 
                                 C& grounding ){
-    std::cout << "checking grounding " << grounding << std::endl;
     if( groundingSet != NULL ){
       bool new_grounding = true;
       for( unsigned int i = 0; i < groundingSet->groundings().size(); i++ ){
@@ -99,9 +98,7 @@ namespace h2sl {
         }
       }
       if( new_grounding ){
-        std::cout << "adding grounding " << grounding << " to grounding set" << std::endl;
         groundingSet->groundings().push_back( grounding.dup() );
-        std::cout << "groundingSet->groundings().size():" << groundingSet->groundings().size() << std::endl;
       }
     }
     return;

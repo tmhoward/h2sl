@@ -41,7 +41,7 @@
     </PP>
     <PP>
       <grounding_set>
-        <container container_type="group" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
+        <container container_type="row" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
         <object id="O1-cube-cube-base"/>
         <object id="O2-cube-cube-base"/>
         <object id="O3-cube-cube-base"/>
@@ -51,7 +51,7 @@
       <IN text="in" order="6"/>
       <NP>
         <grounding_set>
-          <container container_type="group" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
+          <container container_type="row" object_ids="O1-cube-cube-base,O2-cube-cube-base,O3-cube-cube-base,O4-cube-cube-base,O5-cube-cube-base"/>
           <object id="O1-cube-cube-base"/>
           <object id="O2-cube-cube-base"/>
           <object id="O3-cube-cube-base"/>
@@ -60,7 +60,7 @@
         </grounding_set>
         <NP>
           <grounding_set>
-            <container_type container_type="group"/>
+            <container_type container_type="row"/>
           </grounding_set>
           <DT text="a" order="7"/>
           <JJ text="horizontal" order="8"/>
@@ -95,6 +95,8 @@
                 <object id="O5-cube-cube-base"/>
                 <object_type object_type="block"/>
                 <number value="5"/>
+                <index value="1"/>
+                <object_color object_color="na"/>
               </grounding_set>
               <CD text="five" order="11"/>
               <NNS text="blocks" order="12"/>

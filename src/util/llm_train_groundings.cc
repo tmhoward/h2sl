@@ -55,7 +55,7 @@ evaluate_model( LLM* llm,
   for( unsigned int i = 0; i < examples.size(); i++ ){
     vector< pair< vector< Feature* >, unsigned int > > features;
     double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-    if( pygx < 0.75 ){
+    if( pygx < 0.9 ){
 //    if( examples[ i ].first == "true" ){
       cout << "example " << i << " had pygx " << pygx << endl;
       cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
@@ -128,6 +128,7 @@ main( int argc,
 
     search_spaces[ i ] = new Search_Space();
     search_spaces[ i ]->fill_groundings( *symbol_dictionary, worlds[ i ] );
+    cout << "search_spaces:" << *search_spaces[ i ] << endl;
     search_spaces[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples, args.sample_mod_arg );
   }
 

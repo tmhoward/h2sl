@@ -23,7 +23,7 @@ namespace h2sl {
   template< class A, class B >
   class Feature_Merge_Children : public Feature {
   public:
-    Feature_Merge_Children( const bool& invert = false, const bool& order = false );
+    Feature_Merge_Children( const bool& invert = false, const bool& order = false, const bool& same = false );
     Feature_Merge_Children( xmlNodePtr root );
     Feature_Merge_Children( const Feature_Merge_Children& other );
     virtual ~Feature_Merge_Children();
@@ -37,13 +37,16 @@ namespace h2sl {
     virtual void to_xml( const std::string& file )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
-    bool& order( void );
-    const bool& order( void )const;
+    inline bool& order( void ){ return _order; };
+    inline const bool& order( void )const{ return _order; };
+    inline bool& same( void ){ return _same; };
+    inline const bool& same( void )const{ return _same; };
 
     virtual inline const feature_type_t type( void )const{ return FEATURE_TYPE_GROUNDING; };
 
   protected:
     bool _order;
+    bool _same;
 
   private:
 

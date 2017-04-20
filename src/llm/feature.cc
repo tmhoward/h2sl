@@ -63,6 +63,7 @@
 #include "h2sl/feature_type.h"
 #include "h2sl/feature_matches_child.h"
 #include "h2sl/feature_matches_only_child.h"
+#include "h2sl/feature_merge_children.h"
 #include "h2sl/feature_object_matches_child.h"
 #include "h2sl/feature_region_object_matches_child.h"
 #include "h2sl/feature_region_merge_partially_known_regions.h"
@@ -73,6 +74,7 @@
 #include "h2sl/feature_constraint_child_matches_child_region.h"
 #include "h2sl/feature_constraint_payload_type.h"
 #include "h2sl/feature_constraint_reference_type.h"
+#include "h2sl/feature_constraint_object_relationship.h"
 #include "h2sl/feature_grounding_string_property_value.h"
 #include "h2sl/feature_grounding_int_property_value.h"
 #include "h2sl/feature_grounding_string_property_value_matches_child_string_property_value.h"
@@ -177,10 +179,14 @@
 //#include "h2sl/feature_object_merge_object_property_region_container.h"
 //#include "h2sl/feature_object_merge_object_region_container.h"
 //#include "h2sl/feature_object_merge_single_object_different_container.h"
-//#include "h2sl/feature_object_merge_abstract_container_region_container.h"
+#include "h2sl/feature_object_merge_abstract_container_region_container.h"
 //#include "h2sl/feature_object_merge_abstract_container_spatial_relation.h"
 
+#include "h2sl/feature_rule_container_type_equals_world_objects.h"
 
+#include "h2sl/feature_is_in_a_container.h"
+#include "h2sl/feature_object_shape_abstract_container.h"
+#include "h2sl/feature_object_merge_container_pair.h"
 #include "h2sl/feature.h"
 
 using namespace std;
@@ -312,6 +318,8 @@ namespace h2sl {
       out << *static_cast< const Feature_Constraint_Payload_Type* >( &other );
     } else if( dynamic_cast< const Feature_Constraint_Reference_Type* >( &other ) != NULL ){
       out << *static_cast< const Feature_Constraint_Reference_Type* >( &other );
+    } else if( dynamic_cast< const Feature_Constraint_Object_Relationship* >( &other ) != NULL ){
+      out << *static_cast< const Feature_Constraint_Object_Relationship* >( &other );
     } else if ( dynamic_cast< const Feature_Grounding_String_Property_Value* >( &other ) != NULL ){
       out << *static_cast< const Feature_Grounding_String_Property_Value* >( &other );
     } else if ( dynamic_cast< const Feature_Grounding_Int_Property_Value* >( &other ) != NULL ){
@@ -338,6 +346,8 @@ namespace h2sl {
         out << *static_cast< const Feature_Container_Matches_Sorted_Objects* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Abstract_Container_Spatial_Relation* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Abstract_Container_Region_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Abstract_Container_Region_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Region_Abstract_Container_Container* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Merge_Region_Abstract_Container_Container* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Merge_Object_Property_Container* >( &other ) != NULL ){
@@ -376,6 +386,16 @@ namespace h2sl {
         out << *static_cast< const Feature_Object_Matches_Child_Container_Object* >( &other );
     } else if ( dynamic_cast< const Feature_Object_Matches_Child_Region_Container_Object* >( &other ) != NULL ){
         out << *static_cast< const Feature_Object_Matches_Child_Region_Container_Object* >( &other );
+    } else if ( dynamic_cast< const Feature_Is_In_A_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Is_In_A_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Shape_Abstract_Container* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Shape_Abstract_Container* >( &other );
+    } else if ( dynamic_cast< const Feature_Object_Merge_Container_Pair* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Object_Merge_Container_Pair* >( &other );
+    } else if ( dynamic_cast< const Feature_Rule_Container_Type_Equals_World_Objects* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Rule_Container_Type_Equals_World_Objects* >( &other );
+    } else if ( dynamic_cast< const Feature_Merge_Children< Object, Container >* >( &other ) != NULL ){
+        out << *static_cast< const Feature_Merge_Children< Object, Container >* >( &other );
     } else {
       cout << "could not load \"" << typeid( other ).name() << "\"" << endl;
     } 

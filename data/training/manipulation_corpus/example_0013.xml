@@ -20,13 +20,14 @@
   </world>
   <NP>
     <grounding_set>
+      <container container_type="column" object_ids="O3-cube-cube-base,O4-cube-cube-base"/>
       <object id="O3-cube-cube-base"/>
       <object id="O4-cube-cube-base"/>
     </grounding_set>
     <NP>
       <grounding_set>
-        <container container_type="group" object_ids="O10-cube-cube-base,O11-cube-cube-base"/>
-        <object id="O10-cube-cube-base"/>
+        <container container_type="group" object_ids="O7-cube-cube-base,O11-cube-cube-base"/>
+        <object id="O7-cube-cube-base"/>
         <object id="O11-cube-cube-base"/>
         <region_abstract_container spatial_relation_type="near" object_type="block" number="2" index="1" object_color="na"/>
         <object_type object_type="block"/>

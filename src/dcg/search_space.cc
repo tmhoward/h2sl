@@ -183,7 +183,6 @@ fill_rules( const Symbol_Dictionary& symbolDictionary,
   Rule_Constraint_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Rule_Constraint_Payload_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   Rule_Constraint_Reference_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
-  Rule_Container_Type::fill_search_space( symbolDictionary, world, _grounding_pairs, symbolType );
   return;
 }
 
@@ -220,6 +219,11 @@ scrape_examples( const string& filename,
   assert( phrase->grounding_set() != NULL );
   for( map< string, pair< string, vector< Grounding* > > >::const_iterator it_groundings = _grounding_pairs.begin(); it_groundings != _grounding_pairs.end(); it_groundings++ ){
     for( vector< Grounding* >::const_iterator it_grounding = it_groundings->second.second.begin(); it_grounding != it_groundings->second.second.end(); it_grounding++ ){
+      // uncomment to prune search space for feature implementation 
+//      if( (*it_grounding)->matches_class_name( "container" ) || (*it_grounding)->matches_class_name( "region_container" ) ){
+//      if( !(*it_grounding)->matches_class_name( "container" ) ){
+//        break;
+//      }
       map< string, vector< string > >::const_iterator it_cvs = _cvs.find( it_groundings->second.first );
       assert( it_cvs != _cvs.end() );
       string cv = phrase->grounding_set()->evaluate_cv( *it_grounding );

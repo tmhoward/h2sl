@@ -20,17 +20,24 @@ namespace h2sl {
      */
     class Feature_Object_Merge_Abstract_Container_Region_Container: public Feature {
     public:
-        Feature_Object_Merge_Abstract_Container_Region_Container( const bool& invert = false );
+        Feature_Object_Merge_Abstract_Container_Region_Container( const bool& invert = false, const std::string& spatialRelationType = "na", const std::string& sortingKey = "na" );
+        Feature_Object_Merge_Abstract_Container_Region_Container( xmlNodePtr root );
         virtual ~Feature_Object_Merge_Abstract_Container_Region_Container();
         Feature_Object_Merge_Abstract_Container_Region_Container( const Feature_Object_Merge_Abstract_Container_Region_Container& other );
         Feature_Object_Merge_Abstract_Container_Region_Container& operator=( const Feature_Object_Merge_Abstract_Container_Region_Container& other );
-        
-        virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const Phrase* phrase, const World* world );
-        virtual bool value( const std::string& cv, const Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const Phrase* phrase, const World* world, const Grounding* context );
+
+        virtual bool value( const std::string& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world );
+        virtual bool value( const std::string& cv, const h2sl::Grounding* grounding, const std::vector< std::pair< const h2sl::Phrase*, std::vector< h2sl::Grounding* > > >& children, const h2sl::Phrase* phrase, const World* world, const Grounding* context );
         
         virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
         
         virtual void from_xml( xmlNodePtr root );
+
+        inline std::string& spatial_relation_type( void ){ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); };
+        inline const std::string& spatial_relation_type( void )const{ return get_prop< std::string >( _string_properties, "spatial_relation_type" ); }; 
+ 
+        inline std::string& sorting_key( void ){ return get_prop< std::string >( _string_properties, "sorting_key" ); };
+        inline const std::string& sorting_key( void )const{ return get_prop< std::string >( _string_properties, "sorting_key" ); };
         
         virtual inline const h2sl::feature_type_t type( void )const{ return h2sl::FEATURE_TYPE_GROUNDING; };
         

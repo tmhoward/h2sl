@@ -52,7 +52,13 @@ main( int argc,
     //loop through each holdout fraction
     for( unsigned int j = 0; j < args.fr_arg; j++ ){
       //determine holdout fraction
-      double fraction = min_fraction + ( max_fraction - min_fraction ) * ( double )( j ) / ( double )( args.fr_arg - 1 );
+      double fraction = 0.0;
+      assert( args.fr_arg > 0 );
+      if( args.fr_arg != 1 ){
+        fraction = min_fraction + ( max_fraction - min_fraction ) * ( double )( j ) / ( double )( args.fr_arg - 1 );
+      } else {
+        fraction = min_fraction; 
+      }
       //set the size of the training and test datasets
       unsigned int training_set_size = floor( args.inputs_num * fraction );
       unsigned int test_set_size = args.inputs_num - training_set_size;  

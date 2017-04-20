@@ -46,7 +46,9 @@ using namespace h2sl;
 
 void
 evaluate_model( LLM* llm,
-                vector< pair< string, LLM_X > >& examples ){
+                vector< pair< string, LLM_X > >& examples,
+                const bool& showPhrase = false,
+                const bool& showFeatures = true ){
   vector< string > cvs;
   cvs.push_back( "false" );
   cvs.push_back( "true" );
@@ -55,7 +57,7 @@ evaluate_model( LLM* llm,
   for( unsigned int i = 0; i < examples.size(); i++ ){
     vector< pair< vector< Feature* >, unsigned int > > features;
     double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-    if( pygx < 0.75 ){
+    if( pygx < 0.9 ){
 //    if( examples[ i ].first == "true" ){
       cout << "example " << i << " had pygx " << pygx << endl;
       cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
@@ -69,18 +71,18 @@ evaluate_model( LLM* llm,
           cout << "children[" << j << "]:" << *examples[ i ].second.children()[ j ].second[ k ] << endl;
         }
       }
-      cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
-
-      cout << "     features[" << features.size() << "]" << endl;
-      for( unsigned int j = 0; j < features.size(); j++ ){
-          cout << "      ";
-        for( unsigned int k = 0; k < features[ j ].first.size(); k++ ){
-          cout << "(" << *features[ j ].first[ k ] << ")";
-          if( k != ( features[ j ].first.size() - 1 ) ){
-            cout << ",";
+      if( showPhrase ){
+        cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
+      }
+    
+      if( showFeatures ){
+        cout << "     features[" << features.size() << "]" << endl;
+        for( unsigned int j = 0; j < features.size(); j++ ){
+          cout << "      index:" << features[ j ].second << " weight:" << llm->weights()[ features[ j ].second ] << endl;
+          for( unsigned int k = 0; k < features[ j ].first.size(); k++ ){
+            cout << "        [" << k << "]:" << *features[ j ].first[ k ] << endl;
           }
         }
-        cout << ") index:" << features[ j ].second << " weight:" << llm->weights()[ features[ j ].second ] << endl;
       }
 
       cout << endl;
@@ -126,15 +128,17 @@ main( int argc,
       cout << "contains symbols in rules symbol dictionary" << endl;
       search_spaces_rules[ i ] = new Search_Space();
       search_spaces_rules[ i ]->fill_rules( *symbol_dictionary_rules, worlds[ i ] );
+      cout << "search_spaces_rules:" << *search_spaces_rules[ i ] << endl;
       search_spaces_rules[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples );
     } else {
       cout << "does not contains any rules symbols in symbol dictionary" << endl;
     }
-
+ 
     if( phrases[ i ]->contains_symbol_in_symbol_dictionary( *symbol_dictionary_groundings ) ){
       cout << "contains symbols in groundings symbol dictionary" << endl;
       search_spaces_groundings[ i ] = new Search_Space();
       search_spaces_groundings[ i ]->fill_groundings( *symbol_dictionary_groundings, worlds[ i ] ); 
+      cout << "search_spaces_groundings:" << *search_spaces_groundings[ i ] << endl;
       search_spaces_groundings[ i ]->scrape_examples( filenames[ i ], static_cast< Phrase* >( phrases[ i ] ), worlds[ i ], examples );
     } else {
       cout << "does not contains any groundings symbols in symbol dictionary" << endl;

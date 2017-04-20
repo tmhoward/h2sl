@@ -20,7 +20,9 @@ using namespace h2sl;
  * Feature_Container_Merge_Container_Type_Container class constructor
  */
 Feature_Container_Merge_Container_Type_Container::
-Feature_Container_Merge_Container_Type_Container( const bool& invert ) : Feature( invert ) {
+Feature_Container_Merge_Container_Type_Container( const bool& invert,
+                                                  const bool& order ) : Feature( invert ),
+                                                                        _order( order ) {
     
 }
 
@@ -28,7 +30,8 @@ Feature_Container_Merge_Container_Type_Container( const bool& invert ) : Feature
  * Feature_Container_Merge_Container_Type_Container class constructor
  */
 Feature_Container_Merge_Container_Type_Container::
-Feature_Container_Merge_Container_Type_Container( xmlNodePtr root ) : Feature() {
+Feature_Container_Merge_Container_Type_Container( xmlNodePtr root ) : Feature(),
+                                                                      _order( false ) {
   from_xml( root );
 }
 
@@ -44,7 +47,8 @@ Feature_Container_Merge_Container_Type_Container::
  * Feature_Container_Merge_Container_Type_Container class copy constructor
  */
 Feature_Container_Merge_Container_Type_Container::
-Feature_Container_Merge_Container_Type_Container( const Feature_Container_Merge_Container_Type_Container& other ) : Feature( other ) {
+Feature_Container_Merge_Container_Type_Container( const Feature_Container_Merge_Container_Type_Container& other ) : Feature( other ),
+                                                                                                                    _order( other._order ) {
     
 }
 
@@ -55,6 +59,7 @@ Feature_Container_Merge_Container_Type_Container&
 Feature_Container_Merge_Container_Type_Container::
 operator=( const Feature_Container_Merge_Container_Type_Container& other ) {
     _invert = other._invert;
+    _order = other._order;
     return (*this);
 }
 
@@ -96,26 +101,51 @@ value( const string& cv,
       }
 
       if( ( container_child.first != NULL ) && ( container_child.second != NULL ) && ( container_type_child.first != NULL ) && ( container_type_child.second != NULL ) ){ 
-        if( container_type_child.first->min_word_order() < container_child.first->min_word_order() ){
-          if( ( container->type() == container_type_child.second->type() ) && ( container->container().size() == container_child.second->container().size() ) ){
-            for( unsigned int i = 0; i < container->container().size(); i++ ){
-              bool found_match = false;
-              for( unsigned int j = 0; j < container_child.second->container().size(); j++ ){
-                if( container->container()[ i ] != NULL ){
-                  if( container->container()[ i ]->matches_class_name( "object" ) && container_child.second->container()[ j ]->matches_class_name( "object" ) ){
-                    if( *static_cast< const Object* >( container->container()[ i ] ) == *static_cast< const Object* >( container_child.second->container()[ j ] ) ){
-                      found_match = true;
+        if( _order ){
+          if( container_type_child.first->min_word_order() < container_child.first->min_word_order() ){
+            if( ( container->type() == container_type_child.second->type() ) && ( container->container().size() == container_child.second->container().size() ) ){
+              for( unsigned int i = 0; i < container->container().size(); i++ ){
+                bool found_match = false;
+                for( unsigned int j = 0; j < container_child.second->container().size(); j++ ){
+                  if( container->container()[ i ] != NULL ){
+                    if( container->container()[ i ]->matches_class_name( "object" ) && container_child.second->container()[ j ]->matches_class_name( "object" ) ){
+                      if( *static_cast< const Object* >( container->container()[ i ] ) == *static_cast< const Object* >( container_child.second->container()[ j ] ) ){
+                        found_match = true;
+                      }
+                    }
+                  }
+                }   
+                if( !found_match ){
+                  return _invert;
+                }
+              }
+              return !_invert;            
+            } else {
+              return _invert;
+            }
+          }
+        } else {
+          if( container_type_child.first->min_word_order() > container_child.first->min_word_order() ){
+            if( ( container->type() == container_type_child.second->type() ) && ( container->container().size() == container_child.second->container().size() ) ){
+              for( unsigned int i = 0; i < container->container().size(); i++ ){
+                bool found_match = false;
+                for( unsigned int j = 0; j < container_child.second->container().size(); j++ ){
+                  if( container->container()[ i ] != NULL ){
+                    if( container->container()[ i ]->matches_class_name( "object" ) && container_child.second->container()[ j ]->matches_class_name( "object" ) ){
+                      if( *static_cast< const Object* >( container->container()[ i ] ) == *static_cast< const Object* >( container_child.second->container()[ j ] ) ){
+                        found_match = true;
+                      }
                     }
                   }
                 }
-              }  
-              if( !found_match ){
-                return _invert;
+                if( !found_match ){
+                  return _invert;
+                }
               }
+              return !_invert;
+            } else {
+              return _invert;
             }
-            return !_invert;            
-          } else {
-            return _invert;
           }
         }
       }
@@ -133,6 +163,10 @@ to_xml( xmlDocPtr doc, xmlNodePtr root )const{
     stringstream invert_string;
     invert_string << _invert;
     xmlNewProp( node, ( const xmlChar* )( "invert" ), ( const xmlChar* )( invert_string.str().c_str() ) );
+    std::stringstream order_string;
+  order_string << _order;
+  xmlNewProp( node, ( const xmlChar* )( "order" ), ( const xmlChar* )( order_string.str().c_str() ) );
+  xmlAddChild( root, node );
     xmlAddChild( root, node );
     return;
 }
@@ -144,12 +178,18 @@ void
 Feature_Container_Merge_Container_Type_Container::
 from_xml( xmlNodePtr root ){
     _invert = false;
+    _order = false;
     if( root->type == XML_ELEMENT_NODE ){
         xmlChar * tmp = xmlGetProp( root, ( const xmlChar* )( "invert" ) );
         if( tmp != NULL ){
             string invert_string = ( char* )( tmp );
             _invert = ( bool )( strtol( invert_string.c_str(), NULL, 10 ) );
             xmlFree( tmp );
+        }
+
+        std::pair< bool, bool > order_prop = has_prop< bool >( root, "order" );
+        if( order_prop.first ) {
+          _order = order_prop.second;
         }
     }
     return;
@@ -162,7 +202,7 @@ namespace h2sl {
     ostream&
     operator<<( ostream& out,
                const Feature_Container_Merge_Container_Type_Container& other ) {
-      out << "class:\"Feature_Container_Merge_Container_Type_Container\" invert:(" << other.invert() << ")";  
+      out << "class:\"Feature_Container_Merge_Container_Type_Container\" invert:(" << other.invert() << ") order:\"" << other.order() << "\")";  
       return out;
     }
     
