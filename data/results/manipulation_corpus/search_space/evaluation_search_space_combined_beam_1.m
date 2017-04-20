@@ -46,6 +46,6 @@ set(gcf, 'PaperSize', [6 6]);
 set(gca, 'yscale', 'log');
 set(gca, 'xscale', 'log');
 
-saveas(gcf, 'search_space_comparison_all_man_beam_width_2', 'epsc');
-saveas(gcf, 'search_space_comparison_all_man_beam_width_2', 'pdf');
+saveas(gcf, 'search_space_comparison_all_man_beam_width_1', 'epsc');
+saveas(gcf, 'search_space_comparison_all_man_beam_width_1', 'pdf');
 
