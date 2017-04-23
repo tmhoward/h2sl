@@ -99,11 +99,70 @@ operator!=( const Grounding& other )const{
   return !( *this == other );
 }
 
+/*
 bool
 Grounding::
 _equals( const Grounding& other )const{
   return true;
 }
+*/
+
+bool
+Grounding::
+_equals( const Grounding& other )const{
+  if( typeid( *this ) != typeid( other ) ){
+    return false;
+  } else if( ( dynamic_cast< const Rule_Object_Type* >( this ) != NULL ) && ( dynamic_cast< const Rule_Object_Type* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Object_Type* >( this ) == *static_cast< const Rule_Object_Type* >( &other );
+  } else if( ( dynamic_cast< const Rule_Container_Type* >( this ) != NULL ) && ( dynamic_cast< const Rule_Container_Type* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Container_Type* >( this ) == *static_cast< const Rule_Container_Type* >( &other );
+  } else if( ( dynamic_cast< const Rule_Object_Color* >( this ) != NULL ) && ( dynamic_cast< const Rule_Object_Color* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Object_Color* >( this ) == *static_cast< const Rule_Object_Color* >( &other );
+  } else if( ( dynamic_cast< const Rule_Spatial_Relation* >( this ) != NULL ) && ( dynamic_cast< const Rule_Spatial_Relation* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Spatial_Relation* >( this ) == *static_cast< const Rule_Spatial_Relation* >( &other );
+  } else if( ( dynamic_cast< const Rule_Constraint_Type* >( this ) != NULL ) && ( dynamic_cast< const Rule_Constraint_Type* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Constraint_Type* >( this ) == *static_cast< const Rule_Constraint_Type* >( &other );
+  } else if( ( dynamic_cast< const Rule_Constraint_Payload_Type* >( this ) != NULL ) && ( dynamic_cast< const Rule_Constraint_Payload_Type* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Constraint_Payload_Type* >( this ) == *static_cast< const Rule_Constraint_Payload_Type* >( &other );
+  } else if( ( dynamic_cast< const Rule_Constraint_Reference_Type* >( this ) != NULL ) && ( dynamic_cast< const Rule_Constraint_Reference_Type* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Constraint_Reference_Type* >( this ) == *static_cast< const Rule_Constraint_Reference_Type* >( &other );
+  } else if( ( dynamic_cast< const Rule_Index* >( this ) != NULL ) && ( dynamic_cast< const Rule_Index* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Index* >( this ) == *static_cast< const Rule_Index* >( &other );
+  } else if( ( dynamic_cast< const Rule_Number* >( this ) != NULL ) && ( dynamic_cast< const Rule_Number* >( &other ) != NULL ) ){
+    return *static_cast< const Rule_Number* >( this ) == *static_cast< const Rule_Number* >( &other );
+  } else if( ( dynamic_cast< const Object* >( this ) != NULL ) && ( dynamic_cast< const Object* >( &other ) != NULL ) ){
+    return *static_cast< const Object* >( this ) == *static_cast< const Object* >( &other );
+  } else if( ( dynamic_cast< const Region* >( this ) != NULL ) && ( dynamic_cast< const Region* >( &other ) != NULL ) ){
+    return *static_cast< const Region* >( this ) == *static_cast< const Region* >( &other );
+  } else if( ( dynamic_cast< const Constraint* >( this ) != NULL ) && ( dynamic_cast< const Constraint* >( &other ) != NULL ) ){
+    return *static_cast< const Constraint* >( this ) == *static_cast< const Constraint* >( &other );
+  } else if( ( dynamic_cast< const Abstract_Container* >( this ) != NULL ) && ( dynamic_cast< const Abstract_Container* >( &other ) != NULL ) ){
+    return *static_cast< const Abstract_Container* >( this ) == *static_cast< const Abstract_Container* >( &other );
+  } else if( ( dynamic_cast< const Region_Abstract_Container* >( this ) != NULL ) && ( dynamic_cast< const Region_Abstract_Container* >( &other ) != NULL ) ){
+    return *static_cast< const Region_Abstract_Container* >( this ) == *static_cast< const Region_Abstract_Container* >( &other );
+  } else if( ( dynamic_cast< const Container* >( this ) != NULL ) && ( dynamic_cast< const Container* >( &other ) != NULL ) ){
+    return *static_cast< const Container* >( this ) == *static_cast< const Container* >( &other );
+  } else if( ( dynamic_cast< const Region_Container* >( this ) != NULL ) && ( dynamic_cast< const Region_Container* >( &other ) != NULL ) ){
+    return *static_cast< const Region_Container* >( this ) == *static_cast< const Region_Container* >( &other );
+  } else if( ( dynamic_cast< const Index* >( this ) != NULL ) && ( dynamic_cast< const Index* >( &other ) != NULL ) ){
+    return *static_cast< const Index* >( this ) == *static_cast< const Index* >( &other );
+  } else if( ( dynamic_cast< const Number* >( this ) != NULL ) && ( dynamic_cast< const Number* >( &other ) != NULL ) ){
+    return *static_cast< const Number* >( this ) == *static_cast< const Number* >( &other );
+  } else if( ( dynamic_cast< const Object_Color* >( this ) != NULL ) && ( dynamic_cast< const Object_Color* >( &other ) != NULL ) ){
+    return *static_cast< const Object_Color* >( this ) == *static_cast< const Object_Color* >( &other );
+  } else if( ( dynamic_cast< const Object_Property* >( this ) != NULL ) && ( dynamic_cast< const Object_Property* >( &other ) != NULL ) ){
+    return *static_cast< const Object_Property* >( this ) == *static_cast< const Object_Property* >( &other );
+  } else if( ( dynamic_cast< const Object_Type* >( this ) != NULL ) && ( dynamic_cast< const Object_Type* >( &other ) != NULL ) ){
+    return *static_cast< const Object_Type* >( this ) == *static_cast< const Object_Type* >( &other );
+  } else if( ( dynamic_cast< const Container_Type* >( this ) != NULL ) && ( dynamic_cast< const Container_Type* >( &other ) != NULL ) ){
+    return *static_cast< const Container_Type* >( this ) == *static_cast< const Container_Type* >( &other );
+  } else if( ( dynamic_cast< const Spatial_Relation* >( this ) != NULL ) && ( dynamic_cast< const Spatial_Relation* >( &other ) != NULL ) ){
+    return *static_cast< const Spatial_Relation* >( this ) == *static_cast< const Spatial_Relation* >( &other );
+  } else {
+    return true;
+  }
+}
+
 
 namespace h2sl {
   ostream&
