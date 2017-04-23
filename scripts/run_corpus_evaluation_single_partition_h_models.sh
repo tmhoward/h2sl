@@ -45,3 +45,5 @@ mkdir -p ../data/results/results_hdcg_hadcg_single/results_beam_width_4/solution
 #../build/bin/h2sl-search-space-corpus-analysis ../data/results/results_hdcg_single/results_beam_width_1/result_full.xml ../data/results/results_hadcg_single/results_beam_width_4/result_full.xml --output_script evaluation_search_space_hdcg_hadcg.m --output_text evaluation_search_space_hdcg_hadcg.txt
 
 ../build/bin/h2sl-search-space-corpus-analysis ../data/results/results-dcg-single/results/result_full.xml ../data/results/results-adcg-single/result_full.xml ../data/results/results_hdcg_single/results_beam_width_1/result_full.xml ../data/results/results_hadcg_single/results_beam_width_4/result_full.xml --output_script evaluation_search_space_hdcg_hadcg.m --output_text evaluation_search_space_hdcg_hadcg.txt
+
+

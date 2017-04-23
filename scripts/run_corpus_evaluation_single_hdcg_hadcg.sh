@@ -82,11 +82,3 @@ mkdir -p ../data/results/manipulation_corpus/results_hdcg_hadcg_single/results_b
 
 
 
-
-
-
-
-
-
-
-

@@ -317,6 +317,7 @@ main( int argc,
     for( map< string, vector< double > >::const_iterator it_hdcg_ss_concrete_wm = hdcg_ss_concrete_wm.begin(); it_hdcg_ss_concrete_wm != hdcg_ss_concrete_wm.end(); ++it_hdcg_ss_concrete_wm ){
       std::map< string, vector< double> >::iterator it_wm_results = wm_results.find( it_hdcg_ss_concrete_wm->first );
       if( it_wm_results != wm_results.end() ){
+        it_wm_results->second.push_back( it_hdcg_ss_concrete_wm->second.size() );
         cout << "HDCG: avg. concrete" << average( it_hdcg_ss_concrete_wm->second ) << endl;
         it_wm_results->second.push_back( average( it_hdcg_ss_concrete_wm->second ) );
         cout << "sd " << standard_deviation( it_hdcg_ss_concrete_wm->second ) << endl;
@@ -324,6 +325,7 @@ main( int argc,
       } else {
         wm_results.insert( pair< string, vector< double > >( it_hdcg_ss_concrete_wm->first, vector< double >() ) );
         it_wm_results = wm_results.find( it_hdcg_ss_concrete_wm->first );
+        it_wm_results->second.push_back( it_hdcg_ss_concrete_wm->second.size() );
         it_wm_results->second.push_back( average( it_hdcg_ss_concrete_wm->second ) );
         it_wm_results->second.push_back( standard_deviation( it_hdcg_ss_concrete_wm->second ) );
       }

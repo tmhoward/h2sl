@@ -42,15 +42,21 @@ mkdir -p ../data/results/manipulation_corpus/results_dcg_adcg_single/results_bea
 
 ../build//bin/h2sl-test-combine-model-results --source_model dcg --source ../data/results/manipulation_corpus/results_dcg_single/results_beam_width_1/result_full.xml --target ../data/results/manipulation_corpus/results_adcg_single/results_beam_width_4/result_full.xml --output ../data/results/manipulation_corpus/results_dcg_adcg_single/results_beam_width_4/result_dcg_adcg_single.xml
 
+mkdir -p ../data/results/manipulation_corpus/results_dcg_adcg_single/results_beam_width_2/solutions
+
+../build//bin/h2sl-test-combine-model-results --source_model dcg --source ../data/results/manipulation_corpus/results_dcg_single/results_beam_width_1/result_full.xml --target ../data/results/manipulation_corpus/results_adcg_single/results_beam_width_2/result_full.xml --output ../data/results/manipulation_corpus/results_dcg_adcg_single/results_beam_width_2/result_dcg_adcg_single.xml
+
+#
+
 # ============================  Timing data for table ==================================================
 ../build/bin/h2sl-scrape-results-runtime-normalized-vs-world-size --input ../data/results/manipulation_corpus/results_dcg_adcg_single/results_beam_width_1/result_dcg_adcg_single.xml > normalized_timing_comparison_dcg_adcg_man.txt
 
 # ============================  Search space data for table and scatter plot ==================================================
 # Search Space Table
-../build/bin/h2sl-search-space-corpus-analysis ../data/results/manipulation_corpus/results-dcg-single/results/result_full.xml ../data/results/manipulation_corpus/results-adcg-single/result_full.xml ../data/results/manipulation_corpus/results_dcg_single/results_beam_width_1/result_full.xml ../data/results/manipulation_corpus/results_adcg_single/results_beam_width_4/result_full.xml --output_script evaluation_search_space_dcg_adcg_man.m --output_text evaluation_search_space_dcg_adcg_man.txt
 
+../build/bin/h2sl-search-space-corpus-analysis-dcg-adcg ../data/results/manipulation_corpus/results_dcg_single/results_beam_width_1/result_full.xml ../data/results/manipulation_corpus/results_adcg_single/results_beam_width_1/result_full.xml --output_script evaluation_search_space_dcg_adcg_man_beam_1.m --output_text evaluation_search_space_dcg_adcg_man_beam_1.txt
 
-
+../build/bin/h2sl-search-space-corpus-analysis-dcg-adcg ../data/results/manipulation_corpus/results_dcg_single/results_beam_width_1/result_full.xml ../data/results/manipulation_corpus/results_adcg_single/results_beam_width_2/result_full.xml --output_script evaluation_search_space_dcg_adcg_man_beam_2.m --output_text evaluation_search_space_dcg_adcg_man_beam_2.txt
 
 
 

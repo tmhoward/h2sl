@@ -467,6 +467,8 @@ main( int argc,
   } // XML file parsing ends.
 
   cout << " Determining the Search Space sizes" << endl;
+ 
+
   if( ( dcg_ss_concrete_wm.size() > 0 ) && ( dcg_ss_abstract_avg_wm.size() > 0 ) && ( dcg_ss_abstract_max_wm.size() > 0 ) &&  
       (  adcg_ss_concrete_wm.size() > 0 ) && ( adcg_ss_abstract_avg_wm.size() > 0 ) && ( adcg_ss_abstract_max_wm.size() > 0 ) && 
       (  hdcg_ss_concrete_wm.size() > 0 ) && ( hdcg_ss_abstract_avg_wm.size() > 0 ) && ( hdcg_ss_abstract_max_wm.size() > 0 ) &&
