@@ -28,8 +28,6 @@ set(HDRS
     h2sl/feature_matches_child.ipp
     h2sl/feature_matches_only_child.h
     h2sl/feature_matches_only_child.ipp
-    h2sl/feature_matches_first_child.h
-    h2sl/feature_matches_first_child.ipp
     h2sl/feature_merge_children.h
     h2sl/feature_merge_children.ipp
     h2sl/feature_grounding_string_property_value.h
