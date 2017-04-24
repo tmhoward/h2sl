@@ -35,7 +35,8 @@
 #include <fstream>
 #include <sstream>
 
-#include <h2sl/phrase.h>
+#include "h2sl/common.h"
+#include "h2sl/phrase.h"
 
 using namespace std;
 using namespace h2sl;
@@ -233,6 +234,19 @@ contains_symbol_in_symbol_dictionary( const Symbol_Dictionary& symbolDictionary 
     contains_symbol = contains_symbol || (*it_child)->contains_symbol_in_symbol_dictionary( symbolDictionary );
   }
   return contains_symbol;
+}
+
+void
+Phrase::
+to_file( const string& filename )const{
+  if( boost::algorithm::ends_with( filename, "xml" ) ){
+    to_xml( filename );
+  } else if( boost::algorithm::ends_with( filename, "tex" ) ) {
+    to_tikz( filename );
+  } else {
+    cout << "could not write to \"" << filename << "\"" << endl;
+  }
+  return;
 }
 
 void
@@ -511,17 +525,21 @@ void
 Phrase::
 to_tikz( const string& filename,
           const string& caption,
-          const string& label ){
+          const string& label )const{
   ofstream outfile;
   outfile.open( filename );
 
   outfile << "\\begin{figure}[!htb]" << endl;
   outfile << "\\begin{center}" << endl;
-  outfile << "\\begin{tikzpicture}[textnode/.style={anchor=mid,font=\\tiny},nodeknown/.style={circle,draw=black!80,fill=black!10,minimum size=6mm,font=\\tiny,top color=white,bottom color=black!20},nodeunknown/.style={circle,draw=black!80,fill=white,minimum size=6mm,font=\\tiny},factor/.style={rectangle,draw=black!80,fill=black!80,minimum size=3mm,font=\\tiny,text=white}]" << endl;
+  outfile << "\\begin{tikzpicture}[textnode/.style={anchor=mid,font=\\tiny},nodeknown/.style={circle,draw=black!80,fill=black!10,minimum size=6mm,font=\\tiny,top color=white,bottom color=black!20},nodeunknown/.style={circle,draw=black!80,fill=white,minimum size=6mm,font=\\tiny},factor/.style={rectangle,draw=black!80,fill=black!80,minimum size=2mm,font=\\tiny,text=white}]" << endl;
 
-  map< string, pair< double, double > > nodes;
+  unsigned int offset = 0;
 
-  outfile << to_tikz( this, nodes );
+  outfile << to_tikz_edges_gm( this, offset );
+ 
+  offset = 0;
+ 
+  outfile << to_tikz_nodes_gm( this, offset );
 
   outfile << "\\end{tikzpicture}" << endl;
   outfile << "\\end{center}" << endl;
@@ -536,25 +554,94 @@ to_tikz( const string& filename,
 
 string
 Phrase::
-to_tikz( const h2sl::Phrase* phrase,
-          map< string, pair< double, double > >& nodes )const{
+to_tikz_nodes_gm( const h2sl::Phrase* phrase,
+                unsigned int& offset )const{
   stringstream tmp;
+  
   for( unsigned int i = 0; i < phrase->words().size(); i++ ){
-    stringstream word_name;
-    word_name << "W" << phrase->words()[ i ].order();
-    pair< double, double > word_position( phrase->words()[ i ].order() * 1.0, 0.0 );
-    tmp << "\\node[anchor=mid, align=center](" << word_name.str() << ") at (" << word_position.first << "," << word_position.second << ") {\\footnotesize{\\textit{" << phrase->words()[ i ].text() << "}}};" << endl;
-//    nodes.insert( pair< string, pair< double, double > >( word_name, word_position ) );
+    tmp << "\\node[textnode] (l" << offset << ") at (" << offset * 1.25 << "," << -0.25 * ( double )( i ) << ") {\\footnotesize{\\textit{" << phrase->words()[ i ].text() << "}}};" << endl;
   }
+  pair< double, double > p_node_position( offset * 1.25, 0.5 );
+  tmp << "\\node[nodeknown] (p" << offset << ") at (" << p_node_position.first << "," << p_node_position.second << ") {};" << endl; 
+  tmp << "\\node[font=\\tiny] (p" << offset << "label) at (" << p_node_position.first << "," << p_node_position.second << ") {$\\lambda_{" << offset << "}$};" << endl; 
+  tmp << "%" << endl;
+  pair< double, double > c1_node_position( -0.5 + offset * 1.25, 1.0 );
+  tmp << "\\node[nodeunknown] (c" << offset << "1) at (" << c1_node_position.first << "," << c1_node_position.second << ") {};" << endl;
+  tmp << "\\node[font=\\tiny] (c" << offset << "1label) at (" << c1_node_position.first << "," << c1_node_position.second << ") {$\\phi_{" << offset << "_{1}}$};" << endl;
+  pair< double, double > c2_node_position( -0.5 + offset * 1.25, 2.0 );
+  tmp << "\\node[nodeunknown] (c" << offset << "2) at (" << c2_node_position.first << "," << c2_node_position.second << ") {};" << endl;
+  tmp << "\\node[font=\\tiny] (c" << offset << "2label) at (" << c2_node_position.first << "," << c2_node_position.second << ") {$\\phi_{" << offset << "_{2}}$};" << endl;
+  pair< double, double > cn_node_position( -0.5 + offset * 1.25, 4.0 );
+  tmp << "\\node[nodeunknown] (c" << offset << "n) at (" << cn_node_position.first << "," << cn_node_position.second << ") {};" << endl;
+  tmp << "\\node[font=\\tiny] (c" << offset << "nlabel) at (" << cn_node_position.first << "," << cn_node_position.second << ") {$\\phi_{" << offset << "_{n}}$};" << endl;
+  pair< double, double > g1_node_position( offset * 1.25, 1.5 );
+  tmp << "\\node[nodeknown] (g" << offset << "1) at (" << g1_node_position.first << "," << g1_node_position.second << ") {};" << endl;
+  tmp << "\\node[font=\\tiny] (g" << offset << "1label) at (" << g1_node_position.first << "," << g1_node_position.second << ") {$\\phi_{" << offset << "_{1}}$};" << endl;
+  pair< double, double > g2_node_position( offset * 1.25, 2.5 );
+  tmp << "\\node[nodeknown] (g" << offset << "2) at (" << g2_node_position.first << "," << g2_node_position.second << ") {};" << endl;
+  tmp << "\\node[font=\\tiny] (g" << offset << "2label) at (" << g2_node_position.first << "," << g2_node_position.second << ") {$\\phi_{" << offset << "_{2}}$};" << endl;
+  tmp << "\\node[] (g" << offset << "dots) at (" << offset * 1.25 << "," << 3.375 << ") {$\\vdots$};" << endl;
+  pair< double, double > gn_node_position( offset * 1.25, 4.5 );
+  tmp << "\\node[nodeknown] (g" << offset << "n) at (" << gn_node_position.first << "," << gn_node_position.second << ") {};" << endl;
+  tmp << "\\node[font=\\tiny] (g" << offset << "nlabel) at (" << gn_node_position.first << "," << gn_node_position.second << ") {$\\phi_{" << offset << "_{n}}$};" << endl;
+  pair< double, double > f1_node_position( offset * 1.25, 1.0 );
+  tmp << "\\node[factor] (f" << offset << "1) at (" << f1_node_position.first << "," << f1_node_position.second << ") {};" << endl;
+  pair< double, double > f2_node_position( offset * 1.25, 2.0 );
+  tmp << "\\node[factor] (f" << offset << "2) at (" << f2_node_position.first << "," << f2_node_position.second << ") {};" << endl;
+  pair< double, double > fn_node_position( offset * 1.25, 4.0 );
+  tmp << "\\node[factor] (f" << offset << "n) at (" << fn_node_position.first << "," << fn_node_position.second << ") {};" << endl;
+  tmp << "%" << endl;
+
+  offset++;
 
   for( unsigned int i = 0; i < phrase->children().size(); i++ ){
-    tmp << to_tikz( phrase->children()[ i ], nodes );
+    tmp << to_tikz_nodes_gm( phrase->children()[ i ], offset );
   }
 
   return tmp.str();
 }
 
+string
+Phrase::
+to_tikz_edges_gm( const h2sl::Phrase* phrase,
+                unsigned int& offset )const{
+  stringstream tmp;
 
+  cout << "num_phrases:" << phrase->num_phrases() << endl;
+
+  tmp << "\\draw[-] (" << offset * 1.25 << ",0.5) to (" << offset * 1.25 << ",1);" << endl;
+  tmp << "\\draw[-] (" << offset * 1.25 << ",0.5) to [bend right=30] (" << offset * 1.25 << ",2);" << endl;
+  tmp << "\\draw[-] (" << offset * 1.25 << ",0.5) to [bend right=30] (" << offset * 1.25 << ",4);" << endl;
+  tmp << "\\draw[-] (" << -0.5 + offset * 1.25 << ",1) to (" << offset * 1.25 << ",1);" << endl;
+  tmp << "\\draw[-] (" << -0.5 + offset * 1.25 << ",2) to (" << offset * 1.25 << ",2);" << endl;
+  tmp << "\\draw[-] (" << -0.5 + offset * 1.25 << ",4) to (" << offset * 1.25 << ",4);" << endl;
+  tmp << "\\draw[-] (" << offset * 1.25 << ",1.5) to (" << offset * 1.25 << ",1);" << endl;
+  tmp << "\\draw[-] (" << offset * 1.25 << ",2.5) to (" << offset * 1.25 << ",2);" << endl;
+  tmp << "\\draw[-] (" << offset * 1.25 << ",4.5) to (" << offset * 1.25 << ",4);" << endl;
+
+  unsigned int child_offset = offset + 1;
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    cout << "children[" << i << "] num_phrases:" << phrase->children()[ i ]->num_phrases() << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",1.5) to (" << offset * 1.25 << ",1);" << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",2.5) to (" << offset * 1.25 << ",1);" << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",4.5) to (" << offset * 1.25 << ",1);" << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",1.5) to (" << offset * 1.25 << ",2);" << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",2.5) to (" << offset * 1.25 << ",2);" << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",4.5) to (" << offset * 1.25 << ",2);" << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",1.5) to (" << offset * 1.25 << ",4);" << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",2.5) to (" << offset * 1.25 << ",4);" << endl;
+    tmp << "\\draw[-] (" << child_offset * 1.25 << ",4.5) to (" << offset * 1.25 << ",4);" << endl;
+    child_offset += phrase->children()[ i ]->num_phrases();
+  }
+
+  offset++;
+
+  for( unsigned int i = 0; i < phrase->children().size(); i++ ){
+    tmp << to_tikz_edges_gm( phrase->children()[ i ], offset );
+  }
+
+  return tmp.str();
+}
 
 string
 Phrase::
@@ -567,6 +654,20 @@ words_to_std_string( void )const{
     }
   }   
   return tmp.str();
+}
+
+string
+Phrase::
+all_words_to_std_string( void )const{
+  string tmp = words_to_std_string();
+  for( unsigned int i = 0; i < _children.size(); i++ ){
+    if( tmp.empty() ){
+      tmp = tmp + _children[ i ]->all_words_to_std_string();
+    } else {
+      tmp = tmp + " " + _children[ i ]->all_words_to_std_string();
+    }
+  }
+  return tmp;
 }
   
 string

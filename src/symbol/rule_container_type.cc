@@ -155,6 +155,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Rule_Container_Type::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Rule_Container_Type* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Rule_Container_Type* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Rule_Container_Type class from an XML file
  */
@@ -231,6 +241,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "container_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "container_type" ).c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Rule_Container_Type::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Rule\\_Container\\_Type(container\\_type=" << container_type() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

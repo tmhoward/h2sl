@@ -90,19 +90,13 @@ operator=( const Grounding& other ) {
 bool 
 Grounding::
 operator==( const Grounding& other )const{
-  return _equals( other );
+  return equals( other );
 }
 
 bool 
 Grounding::
 operator!=( const Grounding& other )const{
   return !( *this == other );
-}
-
-bool
-Grounding::
-_equals( const Grounding& other )const{
-  return true;
 }
 
 namespace h2sl {

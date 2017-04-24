@@ -156,6 +156,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Rule_Object_Type::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Rule_Object_Type* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Rule_Object_Type* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Rule_Object_Type class from an XML file
  */
@@ -233,6 +243,16 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
+
+string
+Rule_Object_Type::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Rule_Object_Type(object_type=" << object_type() << ")";
+  return tmp.str();
+}
+
+
 
 namespace h2sl {
   /** 

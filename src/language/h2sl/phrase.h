@@ -80,6 +80,8 @@ namespace h2sl {
     virtual void scrape_groundings( const World * world, std::map< std::string, std::vector< std::string > >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const;
     bool contains_symbol_in_symbol_dictionary( const Symbol_Dictionary& symbolDictionary )const;
 
+    virtual void to_file( const std::string& filename )const;
+
     virtual void to_xml( const std::string& filename )const;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const;
 
@@ -106,10 +108,12 @@ namespace h2sl {
                                                  const std::string& property,
                                                  const std::string& statistic )const; 
 
-    virtual void to_tikz( const std::string& filename, const std::string& caption = "tbd", const std::string& lavel = "fig:tbd" );
-    virtual std::string to_tikz( const Phrase* phrase, std::map< std::string, std::pair< double, double > >& nodes )const;
-    
+    virtual void to_tikz( const std::string& filename, const std::string& caption = "tbd", const std::string& lavel = "fig:tbd" )const;
+    virtual std::string to_tikz_nodes_gm( const Phrase* phrase, unsigned int& offset )const;
+    virtual std::string to_tikz_edges_gm( const Phrase* phrase, unsigned int& offset )const;   
+ 
     std::string words_to_std_string( void )const;
+    std::string all_words_to_std_string( void )const;
 
     static std::string phrase_type_t_to_std_string( const phrase_type_t& phrase );
     static phrase_type_t phrase_type_t_from_std_string( const std::string& arg );

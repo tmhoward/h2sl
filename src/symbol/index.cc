@@ -157,6 +157,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Index::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Index* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Index* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Index class from an XML file
  */
@@ -232,6 +242,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "value" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "value" ) ).c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Index::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Index(" << value() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

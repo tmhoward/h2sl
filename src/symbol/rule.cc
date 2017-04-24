@@ -67,7 +67,7 @@ operator=( const Rule& other ) {
 bool 
 Rule::
 operator==( const Rule& other )const{
-  return _equals( other );
+  return equals( other );
 }
 
 bool 

@@ -155,6 +155,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Object_Color::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Object_Color* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Object_Color* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Object_Color class from an XML file
  */
@@ -225,6 +235,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "object_color_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color_type").c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Object_Color::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Object\\_Color(" << object_color_type() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

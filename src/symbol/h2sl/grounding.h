@@ -60,8 +60,11 @@ namespace h2sl {
     virtual void scrape_grounding( const World* world, std::vector< std::string >& classNames, std::map< std::string, std::vector< std::string > >& stringTypes, std::map< std::string, std::vector< int > >& intTypes )const = 0;
     virtual void fill_rules( const World* world, Grounding_Set* groundingSet )const = 0;
 
+    virtual bool equals( const Grounding& other )const = 0;
+
     virtual void to_xml( const std::string& filename )const = 0;
     virtual void to_xml( xmlDocPtr doc, xmlNodePtr root )const = 0;
+    virtual std::string to_latex( void )const = 0;
 
     virtual void from_xml( const std::string& filename, World* world ) = 0;
     virtual void from_xml( xmlNodePtr root, World* world ) = 0;
@@ -72,8 +75,6 @@ namespace h2sl {
     inline const std::map< std::string, int >& int_properties( void )const{ return _int_properties; };
 
   protected:
-    virtual bool _equals( const Grounding& other )const;
-
     std::map< std::string, std::string > _string_properties;
     std::map< std::string, int > _int_properties;  
 

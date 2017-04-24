@@ -154,6 +154,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Rule_Number::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Rule_Number* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Rule_Number* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Rule_Number class from an XML file
  */
@@ -231,6 +241,16 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
+
+string
+Rule_Number::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Rule_Number(value=" << number_value() << ")";
+  return tmp.str();
+}
+
+
 
 namespace h2sl {
   /** 

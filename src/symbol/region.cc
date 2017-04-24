@@ -176,6 +176,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Region::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Region* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Region* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 void
 Region::
 to_xml( const string& filename )const{
@@ -198,6 +208,15 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
+
+string
+Region::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Region(spatial_relation_type=" << spatial_relation_type() << ",object=" << object_id() << ")";
+  return tmp.str();
+}
+
 
 void
 Region::

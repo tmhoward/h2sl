@@ -196,6 +196,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Abstract_Container::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Abstract_Container* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Abstract_Container* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the abstract_container class from an XML file
  */
@@ -305,6 +315,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "object_color" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color" ).c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Abstract_Container::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Abstract\\_Container(" << type() << "," << number() << "," << index() << "," << color() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

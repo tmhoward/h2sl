@@ -166,12 +166,12 @@ main( int argc,
             string filename = args.latex_output_arg;
             if( filename.find( ".tex" ) != string::npos ){
               if( phrases.size() == 1 ){
-                dcg->to_latex( filename );
+                dcg->to_tikz( search_space, phrases[ i ], filename );
               } else {
                 boost::trim_if( filename, boost::is_any_of( ".tex" ) );
                 stringstream tmp;
                 tmp << filename << "_" << setw( 4 ) << setfill( '0' ) << i << ".tex";
-                dcg->to_latex( tmp.str() );
+                dcg->to_tikz( search_space, phrases[ i ], tmp.str() );
               }
             }
           }

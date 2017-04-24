@@ -87,11 +87,7 @@ main( int argc,
 
   //if output provided, export as either xml or tex
   if( args.output_given ){
-    if( boost::algorithm::ends_with( args.output_arg, "xml" ) ){
-      phrase->to_xml( args.output_arg );
-    } else if( boost::algorithm::ends_with( args.output_arg, "tex" ) ) {
-      phrase->to_tikz( args.output_arg );
-    } 
+    phrase->to_file( args.output_arg );
   }
 
   //check: dup_phrase matches phrase

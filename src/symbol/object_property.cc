@@ -182,6 +182,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Object_Property::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Object_Property* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Object_Property* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Object_Property class from an XML file
  */
@@ -270,6 +280,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Object_Property::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Object\\_Property(" << type() << "," << relation_type() << "," << index() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

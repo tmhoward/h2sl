@@ -57,7 +57,13 @@ namespace h2sl {
     virtual bool leaf_search( const Phrase* phrase, const Symbol_Dictionary& symbolDictionary, Search_Space* searchSpace, const World* world, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
     virtual bool leaf_search( const Phrase* phrase, const Symbol_Dictionary& symbolDictionary, Search_Space* searchSpace, const World* world, const Grounding* context, LLM* llm, const unsigned int beamWidth = 4, const bool& debug = false );
 
-    virtual void to_latex( const std::string& filename )const;
+    virtual void to_tikz( const Search_Space* searchSpace, const Phrase* phrase, const std::string& filename, const std::string& modelType = "gm", const std::string& caption = "tbd", const std::string& label = "fig:tbd" )const;
+    virtual std::string to_tikz_nodes_gm( const Phrase* phrase, unsigned int& offset )const;
+    virtual std::string to_tikz_edges_gm( const Phrase* phrase, unsigned int& offset )const;
+    virtual std::string to_tikz_nodes_egm( const Search_Space* searchSpace, const Phrase* phrase, unsigned int& offset )const;
+    virtual std::string to_tikz_edges_egm( const Search_Space* searchSpace, const Phrase* phrase, unsigned int& offset )const;
+    virtual void generate_tikz_legend_egm( const Search_Space* searchSpace, const Phrase* phrase, std::vector< std::pair< int, std::string > >& entries )const;
+    virtual std::string to_tikz_legend_egm( const Search_Space* searchSpace, const Phrase* phrase, const std::vector< std::pair< int, std::string > >& entries )const;
 
     inline const std::vector< std::pair< double, Phrase* > >& solutions( void )const{ return _solutions; };
     inline const Factor_Set* root( void )const{ return _root; };

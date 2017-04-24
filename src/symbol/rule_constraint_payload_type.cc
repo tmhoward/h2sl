@@ -183,6 +183,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Rule_Constraint_Payload_Type::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Rule_Constraint_Payload_Type* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Rule_Constraint_Payload_Type* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Rule_Constraint_Payload_Type class from an XML node pointer
  */
@@ -231,6 +241,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "constraint_payload_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "constraint_payload_type" ).c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Rule_Constraint_Payload_Type::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Rule_Constraint_Payload_Type(constraint_payload_type=" << constraint_payload_type() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

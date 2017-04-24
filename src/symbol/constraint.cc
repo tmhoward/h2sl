@@ -223,6 +223,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Constraint::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Constraint* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Constraint* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 void
 Constraint::
 to_xml( const string& filename )const{
@@ -316,6 +326,14 @@ from_xml( xmlNodePtr root, World* world ){
     }
   }
   return;
+}
+
+string
+Constraint::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Constraint(constraint\\_type=" << constraint_type() << ",payload=" << payload() << ",reference=" << reference() << ",reference\\_relation=" << reference_relation() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

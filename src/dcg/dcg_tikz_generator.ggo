@@ -1,0 +1,9 @@
+package "dcg_tikz_generator"
+version "0.0.1"
+purpose "A program used to generate figures for various models based on the DCG."
+
+option "example" - "example file" string required
+option "sd" - "groundings symbol dictionary for model" string required
+option "output" - "output file" string required
+
+text ""

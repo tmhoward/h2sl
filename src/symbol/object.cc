@@ -184,6 +184,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   insert_unique_grounding< Rule_Object_Color >( groundingSet, rule_object_color );
   return;
 }
+
+bool
+Object::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Object* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Object* >( &other ) );
+  } else {
+    return false;
+  }
+}
  
 void
 Object::
@@ -208,6 +218,14 @@ to_xml( const string& filename,
   xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
   xmlFreeDoc( doc );
   return;
+}
+
+string
+Object::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Object(id=" << id() << ")";
+  return tmp.str();
 }
 
 void

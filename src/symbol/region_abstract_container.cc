@@ -207,6 +207,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Region_Abstract_Container::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Region_Abstract_Container* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Region_Abstract_Container* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /**
  * exports the Region_Abstract_Container class to an XML file. 
  */
@@ -238,6 +248,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "object_color" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_color" ).c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Region_Abstract_Container::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Region\\_Abstract\\_Container(spatial\\_relation\\_type=" << spatial_relation_type() << "object\\_type=" << type() << ",number=" << number() << ",index=" << index() << "object\\_color=" << color() << ")";
+  return tmp.str();
 }
 
 /**

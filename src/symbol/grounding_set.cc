@@ -225,6 +225,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Grounding_Set::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Grounding_Set* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Grounding_Set* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 void
 Grounding_Set::
 to_xml( const string& filename )const{
@@ -249,6 +259,13 @@ to_xml( xmlDocPtr doc,
   }
   xmlAddChild( root, node );
   return;
+}
+
+string
+Grounding_Set::
+to_latex( void )const{
+  stringstream tmp;
+  return tmp.str();
 }
 
 void

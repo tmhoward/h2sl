@@ -156,6 +156,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Number::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Number* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Number* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Number class from an XML file
  */
@@ -233,6 +243,15 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
+
+string
+Number::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Number(" << value() << ")";
+  return tmp.str();
+}
+
 
 namespace h2sl {
   /** 

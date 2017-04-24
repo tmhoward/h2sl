@@ -278,6 +278,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
 
 bool
 Container::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Container* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Container* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
+bool
+Container::
 has_object( const Object* object )const{
   if( object != NULL ){
     for( unsigned int i = 0; i < _groundings.size(); i++ ){
@@ -449,6 +459,23 @@ to_xml( xmlDocPtr doc,
   return;
 }
 
+string
+Container::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Container(" << type() << ",objects[" << _groundings.size() << "]:\\{";
+  for( unsigned int i = 0; i < _groundings.size(); i++ ){
+    if( dynamic_cast< const Object* >( _groundings[ i ] ) != NULL ){
+      tmp << static_cast< const Object* >( _groundings[ i ] )->id();
+    }
+    if( i != ( _groundings.size() - 1 ) ){
+      tmp << ",";
+    }
+  }
+  tmp << "\\})";
+  return tmp.str();
+}
+
 /**
  * imports the Container class from an XML file
  */
@@ -527,16 +554,16 @@ namespace h2sl {
               const Container& other ){
    out << "Container(";
    out << "container_type=\"" << other.type() << "\",";
-   out << "objects=" << other.container().size();
+   out << "objects[" << other.container().size() << "]:{";
    for( unsigned int i = 0; i < other.container().size(); i++ ){
-      if( other.container()[ i ] != NULL ){
-        out << "(" << *other.container()[ i ] << ")";
+      if( dynamic_cast< const Object* >( other.container()[ i ] ) != NULL ){
+        out << static_cast< const Object* >( other.container()[ i ] )->id();
       }
       if( i != ( other.container().size() - 1 ) ){
         out << ",";
       }
     }
-    out << ")";
+    out << "}";
     return out;
   }
 }

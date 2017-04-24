@@ -155,6 +155,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Rule_Object_Color::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Rule_Object_Color* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Rule_Object_Color* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Rule_Object_Color class from an XML file
  */
@@ -232,6 +242,16 @@ to_xml( xmlDocPtr doc,
   xmlAddChild( root, node );
   return;
 }
+
+string
+Rule_Object_Color::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Rule_Object_Color(object_color=" << object_color() << ")";
+  return tmp.str();
+}
+
+
 
 namespace h2sl {
   /** 

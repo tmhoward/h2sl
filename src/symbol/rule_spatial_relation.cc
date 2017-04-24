@@ -154,6 +154,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Rule_Spatial_Relation::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Rule_Spatial_Relation* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Rule_Spatial_Relation* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Rule_Spatial_Relation class from an XML file
  */
@@ -230,6 +240,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "spatial_relation_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "spatial_relation_type").c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Rule_Spatial_Relation::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Rule\\_Spatial\\_Relation(spatial\\_relation\\_type=" << spatial_relation_type() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

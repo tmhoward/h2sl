@@ -154,6 +154,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Rule_Index::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Rule_Index* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Rule_Index* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Rule_Index class from an XML file
  */
@@ -230,6 +240,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "index" ), ( const xmlChar* )( to_std_string( get_prop< int >( _int_properties, "index" ) ).c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Rule_Index::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Rule_Index(value=" << index_value() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

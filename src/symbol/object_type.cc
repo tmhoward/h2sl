@@ -157,6 +157,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Object_Type::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Object_Type* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Object_Type* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /** 
  * imports the Object_Type class from an XML file
  */
@@ -234,6 +244,14 @@ to_xml( xmlDocPtr doc,
   xmlNewProp( node, ( const xmlChar* )( "object_type" ), ( const xmlChar* )( get_prop< std::string >( _string_properties, "object_type").c_str() ) );
   xmlAddChild( root, node );
   return;
+}
+
+string
+Object_Type::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Object\\_Type(" << type() << ")";
+  return tmp.str();
 }
 
 namespace h2sl {

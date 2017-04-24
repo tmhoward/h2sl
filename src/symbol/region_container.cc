@@ -273,6 +273,16 @@ fill_rules( const World* world, Grounding_Set* groundingSet )const{
   return;
 }
 
+bool
+Region_Container::
+equals( const Grounding& other )const{
+  if( dynamic_cast< const Region_Container* >( &other ) != NULL ){
+    return ( *this == *static_cast< const Region_Container* >( &other ) );
+  } else {
+    return false;
+  }
+}
+
 /**
  * exports the Region_Container class to an XML file. 
  */
@@ -302,6 +312,14 @@ to_xml( xmlDocPtr doc,
   
   xmlAddChild( root, node );
   return;
+}
+
+string
+Region_Container::
+to_latex( void )const{
+  stringstream tmp;
+  tmp << "Region_Container(spatial\\_relation\\_type=" << relation_type() << "," << _container.to_latex() << ")";
+  return tmp.str();
 }
 
 /**
