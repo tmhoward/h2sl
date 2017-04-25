@@ -416,7 +416,6 @@ main( int argc,
   outfile << "training_set_hadcg_accuracies_complete" << export_vector_double( training_set_hadcg_accuracies_complete ) << endl;
   outfile << "test_set_hadcg_accuracies_complete" << export_vector_double( test_set_hadcg_accuracies_complete ) << endl << endl;
 
-
   //matlab code to generate the training_set indices
   outfile << "\% extract each unique training_set size" << endl;
   outfile << "training_indices = [];" << endl;
@@ -450,7 +449,7 @@ main( int argc,
   outfile << "training_set_hadcg_accuracies_root_matrix = zeros(size(training_indices,1),size(training_ratios,1)/size(training_indices,1));" << endl;
   outfile << "training_set_hadcg_accuracies_complete_matrix = zeros(size(training_indices,1),size(training_ratios,1)/size(training_indices,1));" << endl;
   outfile << "test_set_hadcg_accuracies_complete_matrix = zeros(size(training_indices,1),size(training_ratios,1)/size(training_indices,1));" << endl;
-  outfile << "test_set_hadcg_accuracies_complete_matrix = zeros(size(training_indices,1),size(training_ratios,1)/size(training_indices,1));" << endl;
+  outfile << "test_set_hadcg_accuracies_complete_matrix = zeros(size(training_indices,1),size(training_ratios,1)/size(training_indices,1));" << endl << endl;
 
   //matlab code to fill in each of the zeros-matrices for each model
   outfile << "\% fill each cell of each matrix with the appropriate value" << endl;
@@ -492,7 +491,7 @@ main( int argc,
   outfile << "training_set_dcg_accuracies_root_matrix_means = mean(training_set_dcg_accuracies_root_matrix,2);" << endl;
   outfile << "training_set_dcg_accuracies_complete_matrix_means = mean(training_set_dcg_accuracies_complete_matrix,2);" << endl;
   outfile << "test_set_dcg_accuracies_root_matrix_means = mean(test_set_dcg_accuracies_root_matrix,2);" << endl;
-  outfile << "test_set_dcg_accuracies_complete_matrix_means = mean(test_set_dcg_accuracies_complete_matrix,2);" << endl;
+  outfile << "test_set_dcg_accuracies_complete_matrix_means = mean(test_set_dcg_accuracies_complete_matrix,2);" << endl << endl;
   //mean accuracies for the ADCG model extracted results
   outfile << "training_set_adcg_accuracies_root_matrix_means = mean(training_set_adcg_accuracies_root_matrix,2);" << endl;
   outfile << "training_set_adcg_accuracies_complete_matrix_means = mean(training_set_adcg_accuracies_complete_matrix,2);" << endl;
@@ -508,6 +507,120 @@ main( int argc,
   outfile << "training_set_hadcg_accuracies_complete_matrix_means = mean(training_set_hadcg_accuracies_complete_matrix,2);" << endl;
   outfile << "test_set_hadcg_accuracies_root_matrix_means = mean(test_set_hadcg_accuracies_root_matrix,2);" << endl;
   outfile << "test_set_hadcg_accuracies_complete_matrix_means = mean(test_set_hadcg_accuracies_complete_matrix,2);" << endl << endl;
+
+  //matlab code to find the std (root && complete) for each model
+  outfile << "\% matlab code to find the std (root && complete) for each model" << endl;
+  outfile << "test_set_dcg_accuracies_root_std = std(transpose(test_set_dcg_accuracies_root_matrix));" << endl;
+  outfile << "test_set_dcg_accuracies_complete_std = std(transpose(test_set_dcg_accuracies_complete_matrix));" << endl;
+  outfile << "test_set_adcg_accuracies_root_std = std(transpose(test_set_adcg_accuracies_root_matrix));" << endl;
+  outfile << "test_set_adcg_accuracies_complete_std = std(transpose(test_set_adcg_accuracies_complete_matrix));" << endl;
+  outfile << "test_set_hdcg_accuracies_root_std = std(transpose(test_set_hdcg_accuracies_root_matrix));" << endl;
+  outfile << "test_set_hdcg_accuracies_complete_std = std(transpose(test_set_hdcg_accuracies_complete_matrix));" << endl;
+  outfile << "test_set_hadcg_accuracies_root_std = std(transpose(test_set_hadcg_accuracies_root_matrix));" << endl;
+  outfile << "test_set_hadcg_accuracies_complete_std = std(transpose(test_set_hadcg_accuracies_complete_matrix));" << endl << endl;
+
+  //matlab code to sort the matrices according to the training_ratios
+  outfile << "\% sort the matrices according to the training_ratio indices" << endl;
+  outfile << "sorted_training_ratios_matrix_means = sort( training_ratios_matrix_means );" << endl << endl;
+
+  //matlab code to find the index mapping
+  outfile << "\% find the indices mapping from training_ratios to sorted_training" << endl;
+  outfile << "x =size(training_ratios_matrix_means);" << endl;
+  outfile << "index_mapping = zeros( size(training_ratios_matrix_means, 1 ), 1);" << endl;
+  outfile << "for i=1:size(training_ratios_matrix_means,1)" << endl;
+  outfile << "    for j=1:size(training_ratios_matrix_means,1)" << endl;
+  outfile << "        if( training_ratios_matrix_means(j, 1) == sorted_training_ratios_matrix_means(i, 1) )" << endl;
+  outfile << "            index_mapping( i ) = j;" << endl;
+  outfile << "        end" << endl;
+  outfile << "    end" << endl;
+  outfile << "end" << endl;
+
+
+  //matlab code to make sorted versions of each matrix
+  outfile <<"\% make sorted versions of each matrix" << endl;
+  outfile << "sorted_training_set_dcg_accuracies_root_matrix_means = zeros(size(training_set_dcg_accuracies_root_matrix_means, 1), 1 );" << endl;
+  outfile << "for i=1:size(sorted_training_set_dcg_accuracies_root_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_training_set_dcg_accuracies_root_matrix_means( i ) = training_set_dcg_accuracies_root_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_training_set_dcg_accuracies_complete_matrix_means = zeros(size(training_set_dcg_accuracies_complete_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_training_set_dcg_accuracies_complete_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_training_set_dcg_accuracies_complete_matrix_means( i ) = training_set_dcg_accuracies_complete_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_test_set_dcg_accuracies_root_matrix_means = zeros(size(test_set_dcg_accuracies_root_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_test_set_dcg_accuracies_root_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_test_set_dcg_accuracies_root_matrix_means( i ) = test_set_dcg_accuracies_root_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_test_set_dcg_accuracies_complete_matrix_means = zeros(size(test_set_dcg_accuracies_complete_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_test_set_dcg_accuracies_complete_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_test_set_dcg_accuracies_complete_matrix_means( i ) = test_set_dcg_accuracies_complete_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+
+  outfile << "sorted_training_set_adcg_accuracies_root_matrix_means = zeros(size(training_set_adcg_accuracies_root_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_training_set_adcg_accuracies_root_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_training_set_adcg_accuracies_root_matrix_means( i ) = training_set_adcg_accuracies_root_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_training_set_adcg_accuracies_complete_matrix_means = zeros(size(training_set_adcg_accuracies_complete_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_training_set_adcg_accuracies_complete_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_training_set_adcg_accuracies_complete_matrix_means( i ) = training_set_adcg_accuracies_complete_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_test_set_adcg_accuracies_root_matrix_means = zeros(size(test_set_adcg_accuracies_root_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_test_set_adcg_accuracies_root_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_test_set_adcg_accuracies_root_matrix_means( i ) = test_set_adcg_accuracies_root_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_test_set_adcg_accuracies_complete_matrix_means = zeros(size(test_set_adcg_accuracies_complete_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_test_set_adcg_accuracies_complete_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_test_set_adcg_accuracies_complete_matrix_means( i ) = test_set_adcg_accuracies_complete_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+
+  outfile << "sorted_training_set_hdcg_accuracies_root_matrix_means = zeros(size(training_set_hdcg_accuracies_root_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_training_set_hdcg_accuracies_root_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_training_set_hdcg_accuracies_root_matrix_means( i ) = training_set_hdcg_accuracies_root_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_training_set_hdcg_accuracies_complete_matrix_means = zeros(size(training_set_hdcg_accuracies_complete_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_training_set_hdcg_accuracies_complete_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_training_set_hdcg_accuracies_complete_matrix_means( i ) = training_set_hdcg_accuracies_complete_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_test_set_hdcg_accuracies_root_matrix_means = zeros(size(test_set_hdcg_accuracies_root_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_test_set_hdcg_accuracies_root_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_test_set_hdcg_accuracies_root_matrix_means( i ) = test_set_hdcg_accuracies_root_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_test_set_hdcg_accuracies_complete_matrix_means = zeros(size(test_set_hdcg_accuracies_complete_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_test_set_hdcg_accuracies_complete_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_test_set_hdcg_accuracies_complete_matrix_means( i ) = test_set_hdcg_accuracies_complete_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+
+  outfile << "sorted_training_set_hadcg_accuracies_root_matrix_means = zeros(size(training_set_hadcg_accuracies_root_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_training_set_hadcg_accuracies_root_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_training_set_hadcg_accuracies_root_matrix_means( i ) = training_set_hadcg_accuracies_root_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_training_set_hadcg_accuracies_complete_matrix_means = zeros(size(training_set_hadcg_accuracies_complete_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_training_set_hadcg_accuracies_complete_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_training_set_hadcg_accuracies_complete_matrix_means( i ) = training_set_hadcg_accuracies_complete_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_test_set_hadcg_accuracies_root_matrix_means = zeros(size(test_set_hadcg_accuracies_root_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_test_set_hadcg_accuracies_root_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_test_set_hadcg_accuracies_root_matrix_means( i ) = test_set_hadcg_accuracies_root_matrix_means( x );" << endl;
+  outfile << "end" << endl;
+  outfile << "sorted_test_set_hadcg_accuracies_complete_matrix_means = zeros(size(test_set_hadcg_accuracies_complete_matrix_means, 1),1);" << endl;
+  outfile << "for i=1:size(sorted_test_set_hadcg_accuracies_complete_matrix_means,1)" << endl;
+  outfile << "    x = index_mapping( i );" << endl;
+  outfile << "    sorted_test_set_hadcg_accuracies_complete_matrix_means( i ) = test_set_hadcg_accuracies_complete_matrix_means( x );" << endl;
+  outfile << "end" << endl << endl;
 
   //matlab code to find the mean and standard-deviation for the extracted runtime results
   //mean && standard-deviation for the DCG extracted runtime results
@@ -534,8 +647,7 @@ main( int argc,
   outfile << "stds = [ std_dcg_runtime, std_adcg_runtime, std_hdcg_runtime, std_hadcg_runtime ];" << endl << endl;
   outfile << "close all;" << endl << endl; 
 
-  //MATLAB code to plot various results
-  //plot the DCG training_set accuracy (root && complete)
+  // plot the DCG training_set accuracies
   outfile << "\% plot the DCG training_set accuracies" << endl;
   outfile << "figure(1);" << endl;
   outfile << "hold on;" << endl;
@@ -545,7 +657,7 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,training_set_dcg_accuracies_root,200);" << endl;
   outfile << "scatter(training_ratios,training_set_dcg_accuracies_complete,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_dcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "plot(sorted_training_ratios_matrix_means,sorted_training_set_dcg_accuracies_root_matrix_means,sorted_training_ratios_matrix_means,sorted_training_set_dcg_accuracies_complete_matrix_means);" << endl;
   outfile << "legend('DCG root','DCG complete','Location','NorthWest');" << endl;
   outfile << "title('DCG Training Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -557,7 +669,7 @@ main( int argc,
   outfile << "saveas(gcf, 'dcg-training-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'dcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
-  //plot the DCG test_set accuracy (root && complete)
+  // plot the DCG test_set accuracies
   outfile << "\% plot the DCG test_set accuracies" << endl;
   outfile << "figure(2);" << endl;
   outfile << "hold on;" << endl;
@@ -567,7 +679,7 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,test_set_dcg_accuracies_root,200);" << endl;
   outfile << "scatter(training_ratios,test_set_dcg_accuracies_complete,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_dcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_dcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "plot(sorted_training_ratios_matrix_means,sorted_test_set_dcg_accuracies_root_matrix_means,sorted_training_ratios_matrix_means,sorted_test_set_dcg_accuracies_complete_matrix_means);" << endl;
   outfile << "legend('DCG root','DCG complete','Location','NorthWest');" << endl;
   outfile << "title('DCG Test Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -579,7 +691,7 @@ main( int argc,
   outfile << "saveas(gcf, 'dcg-test-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'dcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
-  //plot the ADCG training_set accuracy (root && complete)
+  // plot the ADCG training_set accuracies
   outfile << "\% plot the ADCG training_set accuracies" << endl;
   outfile << "figure(3);" << endl;
   outfile << "hold on;" << endl;
@@ -589,7 +701,7 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,training_set_adcg_accuracies_root,200);" << endl;
   outfile << "scatter(training_ratios,training_set_adcg_accuracies_complete,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_adcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_adcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "plot(sorted_training_ratios_matrix_means,sorted_training_set_adcg_accuracies_root_matrix_means,sorted_training_ratios_matrix_means,sorted_training_set_adcg_accuracies_complete_matrix_means);" << endl;
   outfile << "legend('ADCG root','ADCG complete','Location','NorthWest');" << endl;
   outfile << "title('ADCG Training Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -601,7 +713,7 @@ main( int argc,
   outfile << "saveas(gcf, 'adcg-training-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'adcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
-  //plot the ADCG test_set accuracy (root && complete)
+  // plot the ADCG test_set accuracies
   outfile << "\% plot the ADCG test_set accuracies" << endl;
   outfile << "figure(4);" << endl;
   outfile << "hold on;" << endl;
@@ -611,7 +723,7 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,test_set_adcg_accuracies_root,200);" << endl;
   outfile << "scatter(training_ratios,test_set_adcg_accuracies_complete,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_adcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_adcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "plot(sorted_training_ratios_matrix_means,sorted_test_set_adcg_accuracies_root_matrix_means,sorted_training_ratios_matrix_means,sorted_test_set_adcg_accuracies_complete_matrix_means);" << endl;
   outfile << "legend('ADCG root','ADCG complete','Location','NorthWest');" << endl;
   outfile << "title('ADCG Test Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -623,9 +735,7 @@ main( int argc,
   outfile << "saveas(gcf, 'adcg-test-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'adcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
-
-  //plot the HDCG training_set accuracy (root && complete)
-  outfile << "\% plot the HDCG training_set accuracies" << endl;
+  // plot the HDCG training_set accuracies
   outfile << "figure(5);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -634,7 +744,7 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,training_set_hdcg_accuracies_root,200);" << endl;
   outfile << "scatter(training_ratios,training_set_hdcg_accuracies_complete,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_hdcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_hdcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "plot(sorted_training_ratios_matrix_means,sorted_training_set_hdcg_accuracies_root_matrix_means,sorted_training_ratios_matrix_means,sorted_training_set_hdcg_accuracies_complete_matrix_means);" << endl;
   outfile << "legend('HDCG root','HDCG complete','Location','NorthWest');" << endl;
   outfile << "title('HDCG Training Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -646,7 +756,7 @@ main( int argc,
   outfile << "saveas(gcf, 'hdcg-training-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'hdcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
-  //plot the HDCG test_set accuracy (root && complete)
+  // plot the HDCG test_set accuracies
   outfile << "\% plot the HDCG test_set accuracies" << endl;
   outfile << "figure(6);" << endl;
   outfile << "hold on;" << endl;
@@ -656,7 +766,7 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,test_set_hdcg_accuracies_root,200);" << endl;
   outfile << "scatter(training_ratios,test_set_hdcg_accuracies_complete,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_hdcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_hdcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "plot(sorted_training_ratios_matrix_means,sorted_test_set_hdcg_accuracies_root_matrix_means,sorted_training_ratios_matrix_means,sorted_test_set_hdcg_accuracies_complete_matrix_means);" << endl;
   outfile << "legend('HDCG root','HDCG complete','Location','NorthWest');" << endl;
   outfile << "title('HDCG Test Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -668,8 +778,7 @@ main( int argc,
   outfile << "saveas(gcf, 'hdcg-test-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'hdcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
-
-  //plot the HADCG training_set accuracy (root && complete)
+  // plot the HADCG training_set accuracies
   outfile << "\% plot the HADCG training_set accuracies" << endl;
   outfile << "figure(7);" << endl;
   outfile << "hold on;" << endl;
@@ -679,7 +788,7 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,training_set_hadcg_accuracies_root,200);" << endl;
   outfile << "scatter(training_ratios,training_set_hadcg_accuracies_complete,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_hadcg_accuracies_root_matrix_means,training_ratios_matrix_means,training_set_hadcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "plot(sorted_training_ratios_matrix_means,sorted_training_set_hadcg_accuracies_root_matrix_means,sorted_training_ratios_matrix_means,sorted_training_set_hadcg_accuracies_complete_matrix_means);" << endl;
   outfile << "legend('HADCG root','HADCG complete','Location','NorthWest');" << endl;
   outfile << "title('HADCG Training Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -691,8 +800,8 @@ main( int argc,
   outfile << "saveas(gcf, 'hadcg-training-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'hadcg-training-accuracy-root-complete', 'pdf');" << endl << endl;
 
-  //plot the HADCG test_set accuracy (root && complete)
-  outfile << "\% plot the HADCG test_set accuracies" << endl;
+  // plot the HADCG test_set accuracies
+  outfile << "% plot the HADCG test_set accuracies" << endl;
   outfile << "figure(8);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
@@ -701,7 +810,7 @@ main( int argc,
   outfile << "xlim( [0.1 0.9] );" << endl;
   outfile << "scatter(training_ratios,test_set_hadcg_accuracies_root,200);" << endl;
   outfile << "scatter(training_ratios,test_set_hadcg_accuracies_complete,200,'+');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_hadcg_accuracies_root_matrix_means,training_ratios_matrix_means,test_set_hadcg_accuracies_complete_matrix_means);" << endl;
+  outfile << "plot(sorted_training_ratios_matrix_means,sorted_test_set_hadcg_accuracies_root_matrix_means,sorted_training_ratios_matrix_means,sorted_test_set_hadcg_accuracies_complete_matrix_means);" << endl;
   outfile << "legend('HADCG root','HADCG complete','Location','NorthWest');" << endl;
   outfile << "title('HADCG Test Set Accuracy (root & complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
@@ -713,20 +822,21 @@ main( int argc,
   outfile << "saveas(gcf, 'hadcg-test-accuracy-root-complete', 'epsc');" << endl;
   outfile << "saveas(gcf, 'hadcg-test-accuracy-root-complete', 'pdf');" << endl << endl;
 
-
-  //matlab code to plot the DCG, ADCG, HDCG, and HADCG average test_set root-accuracies
-  outfile << "\% plot all of the models' average test_set root accuracies" << endl;
+  // plot the DCG and ADCG average test_set root accuracies
+  outfile << "\% plot DCG and ADCG average test_set root accuracies with error bars" << endl;
   outfile << "figure(9);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_dcg_accuracies_root_matrix_means, 'b');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_adcg_accuracies_root_matrix_means, 'r');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_hdcg_accuracies_root_matrix_means, 'g');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_hadcg_accuracies_root_matrix_means, 'y');" << endl;
-  outfile << "legend('DCG Root','ADCG Root','HDCG Root','HADCG Root','Location','NorthWest');" << endl;
+  outfile << "\%plot(sorted_training_ratios_matrix_means,sorted_test_set_dcg_accuracies_root_matrix_means, 'b');" << endl;
+  outfile << "\%plot(sorted_training_ratios_matrix_means,sorted_test_set_adcg_accuracies_root_matrix_means, 'r');" << endl;
+  outfile << "errorbar(sorted_training_ratios_matrix_means,sorted_test_set_dcg_accuracies_root_matrix_means,..." << endl;
+  outfile << "            test_set_dcg_accuracies_root_std,'b');" << endl;
+  outfile << "errorbar(sorted_training_ratios_matrix_means,sorted_test_set_adcg_accuracies_root_matrix_means,..." << endl;
+  outfile << "            test_set_adcg_accuracies_root_std,'r');" << endl;
+  outfile << "legend('DCG Root','ADCG Root','Location','NorthWest');" << endl;
   outfile << "title('Mean Test Set Accuracy (root) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
@@ -734,45 +844,51 @@ main( int argc,
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-avg-test-accuracy-root', 'epsc');" << endl;
-  outfile << "saveas(gcf, 'model-avg-test-accuracy-root', 'pdf');" << endl << endl;
+  outfile << "saveas(gcf, 'dcg-adcg-avg-test-accuracy-root', 'epsc');" << endl;
+  outfile << "saveas(gcf, 'dcg-adcg-avg-test-accuracy-root', 'pdf');" << endl << endl;
 
-  //matlab code to plot the DCG, ADCG, HDCG, and HADCG average training_set root-accuracies
-  outfile << "\% plot all of the models' average training_set root accuracies" << endl;
+
+  // plot the HDCG and HADCG average test_set root accuracies
+  outfile << "\% plot HDCG and HADCG average test_set root accuracies" << endl;
   outfile << "figure(10);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_root_matrix_means, 'b');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_adcg_accuracies_root_matrix_means, 'r');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_hdcg_accuracies_root_matrix_means, 'g');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_hadcg_accuracies_root_matrix_means, 'y');" << endl;
-  outfile << "legend('DCG Root','ADCG Root','HDCG Root','HADCG Root','Location','NorthWest');" << endl;
-  outfile << "title('Mean Training Set Accuracy (root) vs Holdout');" << endl;
+  outfile << "\%plot(sorted_training_ratios_matrix_means,sorted_test_set_hdcg_accuracies_root_matrix_means, 'b');" << endl;
+  outfile << "\%plot(sorted_training_ratios_matrix_means,sorted_test_set_hadcg_accuracies_root_matrix_means, 'r');" << endl;
+  outfile << "errorbar(sorted_training_ratios_matrix_means,sorted_test_set_hdcg_accuracies_root_matrix_means,..." << endl;
+  outfile << "            test_set_hdcg_accuracies_root_std,'b');" << endl;
+  outfile << "errorbar(sorted_training_ratios_matrix_means,sorted_test_set_hadcg_accuracies_root_matrix_means,..." << endl;
+  outfile << "            test_set_hadcg_accuracies_root_std,'r');" << endl;
+  outfile << "legend('HDCG Root','HADCG Root','Location','NorthWest');" << endl;
+  outfile << "title('Mean Test Set Accuracy (root) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
   outfile << "ylhand = get(gca,'ylabel');" << endl;
-  outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-avg-training-accuracy-root', 'epsc');" << endl;
-  outfile << "saveas(gcf, 'model-avg-training-accuracy-root', 'pdf');" << endl << endl;
+  outfile << "saveas(gcf, 'hdcg-hadcg-avg-test-accuracy-root', 'epsc');" << endl;
+  outfile << "saveas(gcf, 'hdcg-hadcg-avg-test-accuracy-root', 'pdf');" << endl << endl;
 
-  //matlab code to plot the DCG, ADCG, HDCG, and HADCG average test_set complete-accuracies
-  outfile << "\% plot all of the models' average test_set complete accuracies" << endl;
+
+  // plot the DCG and ADCG average test_set complete accuracies
+  outfile << "\% plot DCG and ADCG average test_set complete accuracies" << endl;
   outfile << "figure(11);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_dcg_accuracies_complete_matrix_means, 'b');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_adcg_accuracies_complete_matrix_means, 'r');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_hdcg_accuracies_complete_matrix_means, 'g');" << endl;
-  outfile << "plot(training_ratios_matrix_means,test_set_hadcg_accuracies_complete_matrix_means, 'y');" << endl;
-  outfile << "legend('DCG Complete','ADCG Complete','HDCG Complete','HADCG Complete','Location','NorthWest');" << endl;
+  outfile << "\%plot(sorted_training_ratios_matrix_means,sorted_test_set_dcg_accuracies_complete_matrix_means, 'b');" << endl;
+  outfile << "\%plot(sorted_training_ratios_matrix_means,sorted_test_set_adcg_accuracies_complete_matrix_means, 'r');" << endl;
+  outfile << "errorbar(sorted_training_ratios_matrix_means,sorted_test_set_dcg_accuracies_complete_matrix_means,..." << endl;
+  outfile << "            test_set_dcg_accuracies_complete_std,'b');" << endl;
+  outfile << "errorbar(sorted_training_ratios_matrix_means,sorted_test_set_adcg_accuracies_complete_matrix_means,..." << endl;
+  outfile << "            test_set_adcg_accuracies_complete_std,'r');" << endl;
+  outfile << "legend('DCG Complete','ADCG Complete','Location','NorthWest');" << endl;
   outfile << "title('Mean Test Set Accuracy (complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
@@ -780,32 +896,33 @@ main( int argc,
   outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-avg-test-accuracy-complete', 'epsc');" << endl;
-  outfile << "saveas(gcf, 'model-avg-test-accuracy-complete', 'pdf');" << endl << endl;
+  outfile << "saveas(gcf, 'dcg-adcg-avg-test-accuracy-complete', 'epsc');" << endl;
+  outfile << "saveas(gcf, 'dcg-adcg-avg-test-accuracy-complete', 'pdf');" << endl << endl;
 
-  //matlab code to plot the DCG, ADCG, HDCG, and HADCG average training_set complete-accuracies
-  outfile << "\% plot all of the models' average training_set complete accuracies" << endl;
+  // plot the HDCG and HADCG average test_set complete accuracies
+  outfile << "\% plot HDCG and HADCG average test_set complete accuracies" << endl;
   outfile << "figure(12);" << endl;
   outfile << "hold on;" << endl;
   outfile << "box on;" << endl;
   outfile << "grid on;" << endl;
   outfile << "ylim( [0.0 1.0] );" << endl;
   outfile << "xlim( [0.1 0.9] );" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_dcg_accuracies_complete_matrix_means, 'b');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_adcg_accuracies_complete_matrix_means, 'r');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_hdcg_accuracies_complete_matrix_means, 'g');" << endl;
-  outfile << "plot(training_ratios_matrix_means,training_set_hadcg_accuracies_complete_matrix_means, 'y');" << endl;
-  outfile << "legend('DCG Complete','ADCG Complete','HDCG Complete','HADCG Complete','Location','NorthWest');" << endl;
-  outfile << "title('Mean Training Set Accuracy (complete) vs Holdout');" << endl;
+  outfile << "\%plot(sorted_training_ratios_matrix_means,sorted_test_set_hdcg_accuracies_complete_matrix_means, 'b');" << endl;
+  outfile << "\%plot(sorted_training_ratios_matrix_means,sorted_test_set_hadcg_accuracies_complete_matrix_means, 'r');" << endl;
+  outfile << "errorbar(sorted_training_ratios_matrix_means,sorted_test_set_hdcg_accuracies_complete_matrix_means,..." << endl;
+  outfile << "            test_set_hdcg_accuracies_complete_std,'b');" << endl;
+  outfile << "errorbar(sorted_training_ratios_matrix_means,sorted_test_set_hadcg_accuracies_complete_matrix_means,..." << endl;
+  outfile << "            test_set_hadcg_accuracies_complete_std,'r');" << endl;
+  outfile << "legend('HDCG Complete','HADCG Complete','Location','NorthWest');" << endl;
+  outfile << "title('Mean Test Set Accuracy (complete) vs Holdout');" << endl;
   outfile << "xlhand = get(gca,'xlabel');" << endl;
   outfile << "set(xlhand,'string','Training Fraction','fontsize',15);" << endl;
   outfile << "ylhand = get(gca,'ylabel');" << endl;
-  outfile << "set(ylhand,'string','Training Set Accuracy','fontsize',15);" << endl;
+  outfile << "set(ylhand,'string','Test Set Accuracy','fontsize',15);" << endl;
   outfile << "set(gcf, 'PaperPosition', [0 0 6 6]);" << endl;
   outfile << "set(gcf, 'PaperSize', [6 6]);" << endl;
-  outfile << "saveas(gcf, 'model-avg-training-accuracy-complete', 'epsc');" << endl;
-  outfile << "saveas(gcf, 'model-avg-training-accuracy-complete', 'pdf');" << endl << endl;
-
+  outfile << "saveas(gcf, 'hdcg-hadcg-avg-test-accuracy-complete', 'epsc');" << endl;
+  outfile << "saveas(gcf, 'hdcg-hadcg-avg-test-accuracy-complete', 'pdf');" << endl << endl;
 
   outfile.close();
 
