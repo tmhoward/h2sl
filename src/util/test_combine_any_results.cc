@@ -222,8 +222,21 @@ main( int argc,
                             stringstream child_name;
                             child_name << child_node->name;
                             if( !example_it->second.children.count( child_name.str() ) ){
+                              // handle the other children (the models)
                               xmlNodePtr tmp = xmlNewDocNode( output_doc, NULL, child_node->name, NULL );
                               copy_xml_node_properties( child_node, tmp );
+                              // if world, get all of the children (object information)
+                              if( child_name.str() == "world" ){
+                                for( xmlNodePtr world_child_node = child_node->children; world_child_node; world_child_node = world_child_node->next ){
+                                  if( world_child_node->type == XML_ELEMENT_NODE ){
+                                    if( xmlStrcmp( world_child_node->name, ( const xmlChar* )( "object" ) ) == 0 ){
+                                      xmlNodePtr tmp_world_child = xmlNewDocNode( output_doc, NULL, world_child_node->name, NULL );
+                                      copy_xml_node_properties( world_child_node, tmp_world_child );
+                                      xmlAddChild( tmp, tmp_world_child );
+                                    }
+                                  }
+                                }
+                              }
                               example_it->second.children.insert( pair< string, xmlNodePtr >( child_name.str(), tmp ) );
                             }
                           }
@@ -274,6 +287,18 @@ main( int argc,
                               if( !example_it->second.children.count( child_name.str() ) ){
                                 xmlNodePtr tmp = xmlNewDocNode( output_doc, NULL, child_node->name, NULL );
                                 copy_xml_node_properties( child_node, tmp );
+                                // if world, get all of the children (object information)
+                                if( child_name.str() == "world" ){
+                                  for( xmlNodePtr world_child_node = child_node->children; world_child_node; world_child_node = world_child_node->next ){
+                                    if( world_child_node->type == XML_ELEMENT_NODE ){
+                                      if( xmlStrcmp( world_child_node->name, ( const xmlChar* )( "object" ) ) == 0 ){
+                                        xmlNodePtr tmp_world_child = xmlNewDocNode( output_doc, NULL, world_child_node->name, NULL );
+                                        copy_xml_node_properties( world_child_node, tmp_world_child );
+                                        xmlAddChild( tmp, tmp_world_child );
+                                      }
+                                    }
+                                  }
+                                }
                                 example_it->second.children.insert( pair< string, xmlNodePtr >( child_name.str(), tmp ) );
                               }
                             }
