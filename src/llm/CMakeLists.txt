@@ -28,6 +28,8 @@ set(HDRS
     h2sl/feature_matches_child.ipp
     h2sl/feature_matches_only_child.h
     h2sl/feature_matches_only_child.ipp
+    h2sl/feature_matches_ordered_child.h
+    h2sl/feature_matches_ordered_child.ipp
     h2sl/feature_merge_children.h
     h2sl/feature_merge_children.ipp
     h2sl/feature_grounding_string_property_value.h
@@ -134,6 +136,7 @@ set(HDRS
     h2sl/feature_object_merge_object_type_region_container.h
     h2sl/feature_object_merge_object_region_container.h
 #    h2sl/feature_object_merge_single_object_different_container.h
+    h2sl/feature_object_merge_abstract_container_region.h
     h2sl/feature_object_merge_abstract_container_region_container.h
     h2sl/feature_object_merge_abstract_container_spatial_relation.h
     h2sl/feature_object_merge_object_property_container.h
