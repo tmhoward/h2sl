@@ -136,7 +136,6 @@ set(HDRS
     h2sl/feature_object_merge_object_type_region_container.h
     h2sl/feature_object_merge_object_region_container.h
 #    h2sl/feature_object_merge_single_object_different_container.h
-    h2sl/feature_object_merge_abstract_container_region.h
     h2sl/feature_object_merge_abstract_container_region_container.h
     h2sl/feature_object_merge_abstract_container_spatial_relation.h
     h2sl/feature_object_merge_object_property_container.h
@@ -145,6 +144,7 @@ set(HDRS
     h2sl/feature_object_merge_object_type_region.h
     h2sl/feature_container_merge_abstract_container_spatial_relation.h
     h2sl/feature_container_merge_abstract_container_container_type.h
+    h2sl/feature_container_merge_abstract_container_region.h
     h2sl/feature_container_merge_abstract_container_region_container.h
     h2sl/feature_container_merge_region_abstract_container_container.h
     h2sl/feature_container_merge_container_type_container.h
