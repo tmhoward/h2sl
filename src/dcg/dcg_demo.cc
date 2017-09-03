@@ -138,13 +138,16 @@ main( int argc,
       for( unsigned int i = 0; i < phrases.size(); i++ ){
         if( phrases[ i ] != NULL ){
           cout << "phrases[" << i << "]:" << *phrases[ i ] << endl;
-    
-          gettimeofday( &start_time, NULL );
-          
-          // By default "all"
+          stringstream phrase_tmp;
+          phrase_tmp << "/tmp/phrase_" << i << ".xml";
+          phrases[ i ]->to_xml( phrase_tmp.str() ); 
+
+           // By default "all"
           search_space->fill_groundings( *symbol_dictionary, world );
           cout << "search_space:" << *search_space << endl;
-
+  
+          gettimeofday( &start_time, NULL );
+          
           dcg->leaf_search( phrases[ i ], *symbol_dictionary, search_space, world, context, llm, args.beam_width_arg, ( bool )( args.debug_arg ) );
 
           gettimeofday( &end_time, NULL );
