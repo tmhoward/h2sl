@@ -114,8 +114,9 @@ value( const string& cv,
         map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
         if( it_sorted_objects_map == world->sorted_objects().end() ){
           cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+          assert( false );
         }
-        assert( it_sorted_objects_map != world->sorted_objects().end() );
+        //assert( it_sorted_objects_map != world->sorted_objects().end() );
         map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object_type_child.second->type() );
         if( it_sorted_objects == it_sorted_objects_map->second.end() ){
           cout << "cannot find object \"" << object_type_child.second->type() << "\"" << endl; 
@@ -125,13 +126,16 @@ value( const string& cv,
             }
           }
         }
-        assert( it_sorted_objects != it_sorted_objects_map->second.end() );
-       
-        if( !it_sorted_objects->second.empty() ){
-          if( object->id() == it_sorted_objects->second.front()->id() ){
-            return !_invert; 
-          } else {
-            return _invert;
+      
+        // Making the change as earlier features. 
+        //assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+        if( it_sorted_objects != it_sorted_objects_map->second.end() ){ 
+          if( !it_sorted_objects->second.empty() ){
+            if( object->id() == it_sorted_objects->second.front()->id() ){
+              return !_invert; 
+            } else {
+              return _invert;
+            }
           } 
         } 
       }

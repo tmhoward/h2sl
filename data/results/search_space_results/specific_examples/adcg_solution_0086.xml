@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <VP abstract_avg_size="2" abstract_max_size="2" concrete_size="133">
+    <grounding_set>
+      <constraint constraint_type="inside" payload="husky" reference="barrel0" reference_relation="na"/>
+    </grounding_set>
+    <VB text="drive" order="0"/>
+    <PP abstract_avg_size="1" abstract_max_size="1" concrete_size="133">
+      <grounding_set>
+        <object id="barrel0"/>
+      </grounding_set>
+      <IN text="to" order="1"/>
+      <NP abstract_avg_size="3" abstract_max_size="3" concrete_size="133">
+        <grounding_set>
+          <object id="barrel0"/>
+        </grounding_set>
+        <NP abstract_avg_size="3" abstract_max_size="3" concrete_size="133">
+          <grounding_set>
+            <index value="1"/>
+            <object id="barrel0"/>
+            <object_type object_type="barrel"/>
+            <spatial_relation spatial_relation_type="left"/>
+            <object_property object_type="barrel" spatial_relation_type="left" index="1"/>
+          </grounding_set>
+          <DT text="the" order="2"/>
+          <JJS text="leftmost" order="3"/>
+          <NN text="cylinder" order="4"/>
+        </NP>
+        <PP abstract_avg_size="1" abstract_max_size="1" concrete_size="133">
+          <grounding_set>
+            <object id="barrel0"/>
+            <object id="barrel1"/>
+            <object id="barrel2"/>
+            <object id="barrel3"/>
+            <object id="barrel4"/>
+            <container container_type="row" object_ids="barrel0,barrel1,barrel2,barrel3,barrel4"/>
+          </grounding_set>
+          <IN text="in" order="5"/>
+          <NP abstract_avg_size="2" abstract_max_size="2" concrete_size="133">
+            <grounding_set>
+              <object id="barrel0"/>
+              <object id="barrel1"/>
+              <object id="barrel2"/>
+              <object id="barrel3"/>
+              <object id="barrel4"/>
+              <container container_type="row" object_ids="barrel0,barrel1,barrel2,barrel3,barrel4"/>
+            </grounding_set>
+            <NP abstract_avg_size="0" abstract_max_size="0" concrete_size="133">
+              <grounding_set>
+                <container_type container_type="row"/>
+              </grounding_set>
+              <DT text="the" order="6"/>
+              <NN text="row" order="7"/>
+            </NP>
+            <PP abstract_avg_size="1" abstract_max_size="1" concrete_size="133">
+              <grounding_set>
+                <object id="barrel0"/>
+                <object id="barrel1"/>
+                <object id="barrel2"/>
+                <object id="barrel3"/>
+                <object id="barrel4"/>
+                <container container_type="group" object_ids="barrel0,barrel1,barrel2,barrel3,barrel4"/>
+              </grounding_set>
+              <IN text="of" order="8"/>
+              <NP abstract_avg_size="1" abstract_max_size="1" concrete_size="133">
+                <grounding_set>
+                  <object id="barrel0"/>
+                  <object id="barrel1"/>
+                  <object id="barrel2"/>
+                  <object id="barrel3"/>
+                  <object id="barrel4"/>
+                  <container container_type="group" object_ids="barrel0,barrel1,barrel2,barrel3,barrel4"/>
+                </grounding_set>
+                <NNS text="cylinders" order="9"/>
+              </NP>
+            </PP>
+          </NP>
+        </PP>
+      </NP>
+    </PP>
+  </VP>
+</root>

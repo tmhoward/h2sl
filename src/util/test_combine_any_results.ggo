@@ -1,0 +1,7 @@
+package "test_combine_any_results"
+version "1.0"
+purpose "A program used combine test results of different models for the same data partitions"
+
+option "output" o "output filepath/filename.xml" string default="/tmp/test_combined_any_results.xml" optional
+
+text ""

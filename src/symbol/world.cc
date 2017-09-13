@@ -148,6 +148,40 @@ operator=( const World& other ) {
   return (*this);
 }
 
+bool
+World::
+operator==( const World& other )const{
+  const double th = 0.00001;
+  unsigned int loop_1_counter = 0;
+  for( map< string, Object* >::const_iterator it_this_object = _objects.begin(); it_this_object != _objects.end(); ++it_this_object ){
+    bool no_match = true;
+    unsigned int loop_2_counter = 0;
+    for( map< string, Object* >::const_iterator it_other_object = other.objects().begin(); it_other_object != other.objects().end(); ++it_other_object ){
+      //compare the object id, type, and color properties
+      if( *(it_this_object->second) == *(it_other_object->second) ){
+        //compare the position and orienation values
+        if( ( th > fabs( it_this_object->second->transform().position().x() - it_other_object->second->transform().position().x() ) ) &&
+            ( th > fabs( it_this_object->second->transform().position().y() - it_other_object->second->transform().position().y() ) ) &&
+            ( th > fabs( it_this_object->second->transform().position().z() - it_other_object->second->transform().position().z() ) ) &&
+            ( th > fabs( it_this_object->second->transform().orientation().qv().x() - it_other_object->second->transform().orientation().qv().x() ) ) &&
+            ( th > fabs( it_this_object->second->transform().orientation().qv().y() - it_other_object->second->transform().orientation().qv().y() ) ) &&
+            ( th > fabs( it_this_object->second->transform().orientation().qv().z() - it_other_object->second->transform().orientation().qv().z() ) ) &&
+            ( th > fabs( it_this_object->second->transform().orientation().qs() - it_other_object->second->transform().orientation().qs() ) ) ){
+          no_match = false;
+        }
+      }
+    }
+    if( no_match ){ return false; }
+  }
+  return true;
+}
+
+bool
+World::
+operator!=( const World& other )const{
+  return !( *this == other );
+}
+
 /** 
  * World class copy constructor. 
  */

@@ -23,10 +23,10 @@ main( int argc,
   gengetopt_args_info args;
   if( cmdline_parser( argc, argv, &args ) != 0 ){
     exit( 1 );
-  }  
+  }
 
   Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary();
-  symbol_dictionary->from_xml( args.sd_arg );  
+  symbol_dictionary->from_xml( args.sd_arg );
 
   map< string, vector< Grammar_Terminal > > grammar_terminals;
   map< string, vector< Grammar_Non_Terminal > > grammar_non_terminals;
@@ -50,10 +50,9 @@ main( int argc,
         return 1;
       }
     }
-  } 
+  }
 
   cout << "grammar:(" << *grammar << ")" << endl;
-
   Feature_Set * feature_set = new Feature_Set();
 
   feature_generator_add_grounding_features( grammar_terminals, grammar_non_terminals, *symbol_dictionary, *feature_set );
@@ -79,4 +78,5 @@ main( int argc,
 
   cout << "end of generate feature set program" << endl;
   return 0;
-} 
+}
+

@@ -93,15 +93,18 @@ value( const string& cv,
     map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
     if( it_sorted_objects_map == world->sorted_objects().end() ){
       cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+      assert( false );
     }
-    assert( it_sorted_objects_map != world->sorted_objects().end() );
+    //assert( it_sorted_objects_map != world->sorted_objects().end() );
     map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object->type() );
-    assert( it_sorted_objects != it_sorted_objects_map->second.end() );
-    if( index() < ( int )( it_sorted_objects->second.size() ) ){
-      if( object->id() == it_sorted_objects->second[ index() ]->id() ){
-        return !_invert;
+    //assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+    if( it_sorted_objects != it_sorted_objects_map->second.end() ){
+      if( index() < ( int )( it_sorted_objects->second.size() ) ){
+        if( object->id() == it_sorted_objects->second[ index() ]->id() ){
+          return !_invert;
+        }
+        return _invert; 
       }
-      return _invert; 
     }
   }
   return false;

@@ -87,8 +87,8 @@ value( const string& cv,
       const Phrase* phrase,
       const World* world,
       const Grounding* context){
-    const Object * object = dynamic_cast< const Object* >( grounding );
-    if( ( object != NULL ) && ( !children.empty() ) ){
+  const Object * object = dynamic_cast< const Object* >( grounding );
+  if( ( object != NULL ) && ( !children.empty() ) ){
     pair< const Phrase*, const Object_Type* > object_type_child( NULL, NULL );
     pair< const Phrase*, const Spatial_Relation* > spatial_relation_child( NULL, NULL );
     // enforce that children come from different phrases
@@ -116,18 +116,20 @@ value( const string& cv,
         map< string, map< string, vector< Object* > > >::const_iterator it_sorted_objects_map = world->sorted_objects().find( sorting_key() );
         if( it_sorted_objects_map == world->sorted_objects().end() ){
           cout << "could not find sorting index \"" << sorting_key() << "\"" << endl;
+          assert( false );
         }
-        assert( it_sorted_objects_map != world->sorted_objects().end() );
+        //assert( it_sorted_objects_map != world->sorted_objects().end() );
         map< string, vector< Object* > >::const_iterator it_sorted_objects = it_sorted_objects_map->second.find( object_type_child.second->type() );
-        assert( it_sorted_objects != it_sorted_objects_map->second.end() );
-       
-        if( !it_sorted_objects->second.empty() ){
-          if( object->id() == it_sorted_objects->second.front()->id() ){
-            return !_invert; 
-          } else {
-            return _invert;
-          } 
-        } 
+        //assert( it_sorted_objects != it_sorted_objects_map->second.end() );
+        if( it_sorted_objects != it_sorted_objects_map->second.end() ){
+          if( !it_sorted_objects->second.empty() ){
+            if( object->id() == it_sorted_objects->second.front()->id() ){
+              return !_invert; 
+            } else {
+              return _invert;
+            }
+          }
+        }
       }
     }
   }

@@ -152,9 +152,11 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
 
     if(  symbolType == "all" ){
       if( ( it_object_type_types != symbolDictionary.string_types().end() ) && ( it_spatial_relation_type_types != symbolDictionary.string_types().end() ) ){
-        for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
-          for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
-            it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( vector< Grounding* >(), it_container_type_types->second[ k ] ) ) );
+        if( it_container_type_types != symbolDictionary.string_types().end() ){
+          for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
+            for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
+              it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( vector< Grounding* >(), it_container_type_types->second[ k ] ) ) );
+            }
           }
         }
   
@@ -241,6 +243,13 @@ fill_search_space( const Symbol_Dictionary& symbolDictionary,
                       it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, it_container_type_types->second[ k ] ) ) );
                     }
                   }
+                //}
+                //if( it_container_type_types != symbolDictionary.string_types().end() ){
+                //  for( unsigned int k = 0; k < it_container_type_types->second.size(); k++ ){
+                //    for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
+                //      it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, it_container_type_types->second[ k ] ) ) );
+                //    }
+                //  }
                 } else {
                   for( unsigned int l = 0; l < it_spatial_relation_type_types->second.size(); l++ ){
                     it_search_spaces_symbol->second.second.push_back( new Region_Container( it_spatial_relation_type_types->second[ l ], Container( container_objects, "group" ) ) );

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <instruction text="the block in the center"/>
+  <world time="0">
+    <object id="O1-cube-cube-base" object_type="block" object_color="na" position="0.940369,-0.756179,0.737729" orientation="-7.55224e-06,1.50035e-05,-0.0681731,0.997674" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O2-cube-cube-base" object_type="block" object_color="na" position="0.93918,-0.556599,0.737727" orientation="-5.18847e-06,1.25208e-05,0.000332957,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O3-cube-cube-base" object_type="block" object_color="na" position="0.932411,-0.250054,0.737723" orientation="-5.69911e-06,1.34529e-05,0.0009299,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O4-cube-cube-base" object_type="block" object_color="na" position="0.898326,0.118836,0.73772" orientation="-5.85026e-06,1.33011e-05,4.97413e-05,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O5-cube-cube-base" object_type="block" object_color="na" position="0.941592,0.278093,0.737717" orientation="-5.67148e-06,1.29161e-05,-0.000361293,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O6-cube-cube-base" object_type="block" object_color="na" position="0.86518,0.542927,0.737716" orientation="-5.93938e-06,1.26986e-05,0.0167772,0.999859" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="O7-cube-cube-base" object_type="block" object_color="na" position="0.901144,0.746935,0.737713" orientation="-5.99012e-06,1.51202e-05,0.0111936,0.999937" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-left_hand" object_type="robot" object_color="na" position="0.849327,0.91849,1.2272" orientation="-0.253357,0.665873,0.249955,0.655703" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="baxter1-baxter-right_hand" object_type="robot" object_color="na" position="0.735076,-1.06253,1.22896" orientation="0.290983,0.649495,-0.287624,0.640903" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+    <object id="table-table-table-base" object_type="table" object_color="na" position="0.874999,-4.96131e-07,-0.0117897" orientation="-5.48281e-06,1.36326e-05,4.38145e-07,1" linear_velocity="0,0,0" angular_velocity="0,0,0"/>
+  </world>
+  <NP>
+    <grounding_set>
+      <rule_object_type object_type="block"/>
+      <rule_object_color object_color="na"/>
+    </grounding_set>
+    <NP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="na"/>
+        <rule_object_type object_type="block"/>
+        <rule_index index="1"/>
+      </grounding_set>
+      <DT text="the" order="0"/>
+      <NN text="block" order="1"/>
+    </NP>
+    <PP>
+      <grounding_set>
+        <rule_spatial_relation spatial_relation_type="center"/>
+      </grounding_set>
+      <IN text="in" order="2"/>
+      <NP>
+        <grounding_set>
+          <rule_spatial_relation spatial_relation_type="center"/>
+        </grounding_set>
+        <DT text="the" order="3"/>
+        <NN text="center" order="4"/>
+      </NP>
+    </PP>
+  </NP>
+</root>

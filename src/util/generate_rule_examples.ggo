@@ -1,5 +1,5 @@
-package "h2sl-rewrite-examples"
+package "h2sl-generate-rule-examples"
 version "0.0.1"
-purpose "A program used to rewrite the examples"
+purpose "A program used to generate rule examples from grounding examples for the H-DCG and H-ADCG models"
 
 text ""

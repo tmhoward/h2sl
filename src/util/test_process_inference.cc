@@ -131,9 +131,17 @@ load_symbol_dictionary( string filename, string dictionary_type, Symbol_Dictiona
       for( l1 = root->children; l1; l1 = l1->next ){
         if( l1->type == XML_ELEMENT_NODE ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( dictionary_type.c_str() ) ) == 0 ){
-            symbol_dictionary->from_xml( l1 );
-            xmlFreeDoc( doc );
-            return true;
+            for( xmlNodePtr l2 = l1->children; l2; l2 = l2->next ){
+              if( l2->type == XML_ELEMENT_NODE ){
+                if( xmlStrcmp( l2->name, ( const xmlChar* )( "symbol_dictionary" ) ) == 0 ){
+                  symbol_dictionary->from_xml( l2 );
+                  if( doc != NULL ){
+                    xmlFreeDoc( doc );
+                  }
+                  return true;
+                }
+              }
+            }
           }
         }
       }
@@ -146,60 +154,56 @@ load_symbol_dictionary( string filename, string dictionary_type, Symbol_Dictiona
 }
 
 /**
- * Evaluate the model. 
+ * load the training runtime for the log-linear model
+ * returns a string of the runtime value
  */
-void
-evaluate_model( LLM* llm,
-                vector< pair< string, LLM_X > >& examples ){
-  vector< string > cvs;
-  cvs.push_back( "false" );
-  cvs.push_back( "true" );
-
-  unsigned int num_correct = 0;
-  for( unsigned int i = 0; i < examples.size(); i++ ){
-    vector< pair< vector< Feature* >, unsigned int > > features;
-    double pygx = llm->pygx( examples[ i ].first, examples[ i ].second, cvs, features );
-    //if( pygx < 0.75 ){
-    if( false ){
-//    if( examples[ i ].first == "true" ){
-      cout << "example " << i << " had pygx " << pygx << endl;
-      cout << "   filename:\"" << examples[ i ].second.filename() << "\"" << endl;
-      cout << "         cv:" << examples[ i ].first << endl;
-      cout << "  grounding:" << *examples[ i ].second.grounding() << endl;
-      for( unsigned int j = 0; j < examples[ i ].second.children().size(); j++ ){
-        if( examples[ i ].second.children()[ j ].first != NULL ){
-          cout << "child phrase:(" << *examples[ i ].second.children()[ j ].first << ")" << endl;
-        }
-        for( unsigned int k = 0; k < examples[ i ].second.children()[ j ].second.size(); k++ ){
-          cout << "children[" << j << "]:" << *examples[ i ].second.children()[ j ].second[ k ] << endl;
-        }
-      }
-      cout << "     phrase:" << *examples[ i ].second.phrase() << endl;
-
-      cout << "     features[" << features.size() << "]" << endl;
-      for( unsigned int j = 0; j < features.size(); j++ ){
-          cout << "      ";
-        for( unsigned int k = 0; k < features[ j ].first.size(); k++ ){
-          cout << "(" << *features[ j ].first[ k ] << ")";
-          if( k != ( features[ j ].first.size() - 1 ) ){
-            cout << ",";
+string
+load_training_runtime( string filename ){
+  xmlDoc * doc = NULL;
+  xmlNodePtr root = NULL;
+  doc = xmlReadFile( filename.c_str(), NULL, 0 );
+  if( doc != NULL ){
+    root = xmlDocGetRootElement( doc );
+    if( root->type == XML_ELEMENT_NODE ){
+      xmlNodePtr l1 = NULL;
+      for( l1 = root->children; l1; l1 = l1->next ){
+        if( l1->type == XML_ELEMENT_NODE ){
+          if( xmlStrcmp( l1->name, ( const xmlChar* )( "training_runtime" ) ) == 0 ){
+            pair< bool, string > training_runtime_prop = has_prop< std::string >( l1, "train_time" );
+            if( training_runtime_prop.first ){
+              if( doc != NULL ){
+                xmlFreeDoc( doc );
+              }
+              return training_runtime_prop.second;
+            }
           }
         }
-        cout << ") index:" << features[ j ].second << " weight:" << llm->weights()[ features[ j ].second ] << endl;
       }
-
-      cout << endl;
-    } else {
-      num_correct++;
     }
   }
-
-  cout << ( double )( num_correct ) / ( double )( examples.size() ) * 100.0 << " accuracy (" << num_correct << "/" << examples.size() << ")" << endl;
-
-  return;
+  if( doc != NULL ){
+    xmlFreeDoc( doc );
+  }
+  return "na";
 }
 
-
+/*
+ * Helper function to write the solutions file.
+ * Includes the world and parse information.
+ */
+void
+solution_to_xml( const string& filename,
+                 const World* const& world, 
+                 const Phrase* const& phrase ){
+  xmlDocPtr doc = xmlNewDoc( ( xmlChar* )( "1.0" ) );
+  xmlNodePtr root = xmlNewDocNode( doc, NULL, ( xmlChar* )( "root" ), NULL );
+  xmlDocSetRootElement( doc, root );
+  world->to_xml( doc, root );
+  phrase->to_xml( doc, root );
+  xmlSaveFormatFileEnc( filename.c_str(), doc, "UTF-8", 1 );
+  xmlFreeDoc( doc );
+  return;
+}
 
 /* 
  * Run tests for the DCG model. 
@@ -212,10 +216,9 @@ run_tests_dcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            const string& symbol_dictionary_groundings_path, 
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
-
   /******* Variables to record statistics **************************/
   // Num objects. Phrases.
   double num_objects = 0.0;
@@ -232,6 +235,7 @@ run_tests_dcg( const std::vector< std::string >& filenames,
 
   // Runtime
   double runtime_dcg = 0.0;
+  double runtime_dcg_norm = 0.0;
  
   // Search Space Sizes
   double dataset_concrete_dcg = 0.0;
@@ -263,9 +267,6 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
 
-    // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
- 
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
     struct timeval start_time;
@@ -289,11 +290,17 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     runtime_dcg += microseconds_to_seconds( dcg_end_time - dcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( dcg->solutions().front().second ) != NULL );
+    // If the number of phrases are more than one then compute norm.
+    if ( dcg->solutions().front().second->num_phrases() ){
+      runtime_dcg_norm += microseconds_to_seconds( ( dcg_end_time - dcg_start_time ) / ( dcg->solutions().front().second->num_phrases() ) );
+    }
 
+    // Write the solution
     stringstream dcg_solution_filename;
-    dcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_dcg_solution_" << filename;
-    dcg->solutions().front().second->to_xml( dcg_solution_filename.str() );
+    dcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_dcg_solution_" << filename; 
+    solution_to_xml( dcg_solution_filename.str(), world, dcg->solutions().front().second );
 
+    // Write the metrics    
     xmlNodePtr dcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "dcg" ), NULL );
 
     // Runtime.
@@ -301,6 +308,12 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     dcg_example_runtime_string << microseconds_to_seconds( dcg_end_time - dcg_start_time );
     xmlNewProp( dcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( dcg_example_runtime_string.str().c_str() ) );
     cout << "    runtime:" << dcg_example_runtime_string.str() << endl;
+
+    // Runtime normalised.
+    stringstream dcg_example_runtime_norm_string;
+    dcg_example_runtime_norm_string << microseconds_to_seconds( ( dcg_end_time - dcg_start_time ) / ( dcg->solutions().front().second->num_phrases() ) ); 
+    xmlNewProp( dcg_example_node, ( const xmlChar* )( "runtime_norm" ), ( const xmlChar* )( dcg_example_runtime_norm_string.str().c_str() ) );
+    cout << "    runtime norm:" << dcg_example_runtime_norm_string.str() << endl;
 
     // Search space size: concrete
     double tmp_dcg_stats = 0.0;
@@ -377,11 +390,12 @@ run_tests_dcg( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< DCG >( dcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -391,6 +405,7 @@ run_tests_dcg( const std::vector< std::string >& filenames,
 
   // Average runtime.
   runtime_dcg /= ( double )( filenames.size() );
+  runtime_dcg_norm /= ( double )( filenames.size() );
 
   // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
@@ -403,11 +418,10 @@ run_tests_dcg( const std::vector< std::string >& filenames,
   double correct_root_dcg = ( double )( num_correct_root_dcg ) / ( double )( num_correct_root_dcg + num_incorrect_root_dcg );
   // Correct complete for all models.
   double correct_complete_dcg = ( double )( num_correct_complete_dcg ) / ( double )( num_correct_complete_dcg + num_incorrect_complete_dcg );
-  // Search Space
   // Search Space Sizes
   dataset_concrete_dcg = num_concrete_dcg / ( double )( filenames.size() ) ;
   dataset_abstract_avg_dcg = num_abstract_avg_dcg / ( double )( filenames.size() ) ;
-  dataset_abstract_max_dcg = num_abstract_avg_dcg / ( double )( filenames.size() );
+  dataset_abstract_max_dcg = num_abstract_max_dcg / ( double )( filenames.size() );
 
   /******  XML: correct root **************************/ 
   stringstream correct_root_dcg_string;
@@ -426,6 +440,12 @@ run_tests_dcg( const std::vector< std::string >& filenames,
   runtime_dcg_string << runtime_dcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_dcg" ), ( const xmlChar* )( runtime_dcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_dcg" ).c_str() ), ( const xmlChar* )( runtime_dcg_string.str().c_str() ) );
+
+  /******  XML: runtime  **************************/ 
+  stringstream runtime_dcg_norm_string;
+  runtime_dcg_norm_string << runtime_dcg_norm;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_dcg_norm" ), ( const xmlChar* )( runtime_dcg_norm_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_dcg_norm" ).c_str() ), ( const xmlChar* )( runtime_dcg_norm_string.str().c_str() ) );
 
   /******  XML: runtime  **************************/ 
   stringstream runtime_ratio_string;
@@ -449,6 +469,25 @@ run_tests_dcg( const std::vector< std::string >& filenames,
   stringstream runtime_object_ratio_dcg_string;
   runtime_object_ratio_dcg_string << ( runtime_dcg / num_objects );
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_dcg" ), ( const xmlChar* )( runtime_object_ratio_dcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "runtime_object_ratio_dcg" ).c_str() ), ( const xmlChar* )( runtime_object_ratio_dcg_string.str().c_str() ) );
+
+  /******  XML: dataset concrete dcg   **************************/ 
+  stringstream dataset_concrete_dcg_string;
+  dataset_concrete_dcg_string << dataset_concrete_dcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_concrete_dcg" ), ( const xmlChar* )( dataset_concrete_dcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_concrete_dcg" ).c_str() ), ( const xmlChar* )( dataset_concrete_dcg_string.str().c_str() ) );
+
+  /******  XML: dataset abstract avg dcg   **************************/ 
+  stringstream dataset_abstract_avg_dcg_string;
+  dataset_abstract_avg_dcg_string << dataset_abstract_avg_dcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_avg_dcg" ), ( const xmlChar* )( dataset_abstract_avg_dcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_avg_dcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_avg_dcg_string.str().c_str() ) );
+
+  /******  XML: dataset abstract max dcg   **************************/ 
+  stringstream dataset_abstract_max_dcg_string;
+  dataset_abstract_max_dcg_string << dataset_abstract_max_dcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_max_dcg" ), ( const xmlChar* )( dataset_abstract_max_dcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_max_dcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_max_dcg_string.str().c_str() ) );
 
   /******  console output **************************/ 
   cout << endl;
@@ -456,6 +495,7 @@ run_tests_dcg( const std::vector< std::string >& filenames,
 
   cout << "correct_complete_dcg: " << correct_complete_dcg << endl;
   cout << "runtime_dcg: " << runtime_dcg << endl;
+  cout << "runtime_dcg_norm: " << runtime_dcg_norm << endl;
 
   cout << "dcg_search_space_concrete: " << dataset_concrete_dcg << endl;
   cout << "dcg_search_space_abstract_avg: " << dataset_abstract_avg_dcg << endl;
@@ -478,7 +518,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory,
-            const string& symbol_dictionary_groundings_path,
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
 
@@ -498,6 +538,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
 
   // Runtime
   double runtime_adcg = 0.0;
+  double runtime_adcg_norm = 0.0;
 
   // Search Space Sizes
   double dataset_concrete_adcg = 0.0;
@@ -529,9 +570,6 @@ run_tests_adcg( const std::vector< std::string >& filenames,
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
 
-    // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
-
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
     struct timeval start_time;
@@ -555,10 +593,14 @@ run_tests_adcg( const std::vector< std::string >& filenames,
     runtime_adcg += microseconds_to_seconds( adcg_end_time - adcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( adcg->solutions().front().second ) != NULL );
+    // If the number of phrases are more than one then compute norm.
+    if ( adcg->solutions().front().second->num_phrases() ){
+      runtime_adcg_norm += microseconds_to_seconds( ( adcg_end_time - adcg_start_time ) / ( adcg->solutions().front().second->num_phrases() )  );
+    }
 
     stringstream adcg_solution_filename;
     adcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_adcg_solution_" << filename;
-    adcg->solutions().front().second->to_xml( adcg_solution_filename.str() );
+    solution_to_xml( adcg_solution_filename.str(), world, adcg->solutions().front().second );
 
     xmlNodePtr adcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "adcg" ), NULL );
 
@@ -567,6 +609,12 @@ run_tests_adcg( const std::vector< std::string >& filenames,
     adcg_example_runtime_string << microseconds_to_seconds( adcg_end_time - adcg_start_time );
     xmlNewProp( adcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( adcg_example_runtime_string.str().c_str() ) );
     cout << "    runtime:" << adcg_example_runtime_string.str() << endl;
+
+    // Runtime normalised.
+    stringstream adcg_example_runtime_norm_string;
+    adcg_example_runtime_norm_string << microseconds_to_seconds( ( adcg_end_time - adcg_start_time ) / ( adcg->solutions().front().second->num_phrases() ) ); 
+    xmlNewProp( adcg_example_node, ( const xmlChar* )( "runtime_norm" ), ( const xmlChar* )( adcg_example_runtime_norm_string.str().c_str() ) );
+    cout << "    runtime norm:" << adcg_example_runtime_norm_string.str() << endl;
 
     // Search space size: concrete
     double tmp_adcg_stats = 0.0;
@@ -643,11 +691,12 @@ run_tests_adcg( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< ADCG >( adcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -657,6 +706,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
 
   // Average runtime.
   runtime_adcg /= ( double )( filenames.size() );
+  runtime_adcg_norm /= ( double )( filenames.size() );
 
   // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
@@ -669,11 +719,10 @@ run_tests_adcg( const std::vector< std::string >& filenames,
   double correct_root_adcg = ( double )( num_correct_root_adcg ) / ( double )( num_correct_root_adcg + num_incorrect_root_adcg );
   // Correct complete for all models.
   double correct_complete_adcg = ( double )( num_correct_complete_adcg ) / ( double )( num_correct_complete_adcg + num_incorrect_complete_adcg );
-  // Search Space
   // Search Space Sizes
   dataset_concrete_adcg = num_concrete_adcg / ( double )( filenames.size() ) ;
   dataset_abstract_avg_adcg = num_abstract_avg_adcg / ( double )( filenames.size() ) ;
-  dataset_abstract_max_adcg = num_abstract_avg_adcg / ( double )( filenames.size() );
+  dataset_abstract_max_adcg = num_abstract_max_adcg / ( double )( filenames.size() );
 
   /******  XML: correct root **************************/
   stringstream correct_root_adcg_string;
@@ -687,12 +736,17 @@ run_tests_adcg( const std::vector< std::string >& filenames,
   xmlNewProp( test_group_node, ( const xmlChar* )( "correct_complete_adcg" ), ( const xmlChar* )( correct_complete_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_correct_complete_adcg" ).c_str() ), ( const xmlChar* )( correct_complete_adcg_string.str().c_str() ) );
 
-
  /******  XML: runtime  **************************/
   stringstream runtime_adcg_string;
   runtime_adcg_string << runtime_adcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_adcg" ), ( const xmlChar* )( runtime_adcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_adcg" ).c_str() ), ( const xmlChar* )( runtime_adcg_string.str().c_str() ) );
+
+ /******  XML: runtime normalised  **************************/
+  stringstream runtime_adcg_norm_string;
+  runtime_adcg_norm_string << runtime_adcg_norm;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_adcg_norm" ), ( const xmlChar* )( runtime_adcg_norm_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_adcg_norm" ).c_str() ), ( const xmlChar* )( runtime_adcg_norm_string.str().c_str() ) );
 
   /******  XML: runtime  **************************/
   stringstream runtime_ratio_string;
@@ -716,6 +770,25 @@ run_tests_adcg( const std::vector< std::string >& filenames,
   stringstream runtime_object_ratio_adcg_string;
   runtime_object_ratio_adcg_string << ( runtime_adcg / num_objects );
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_object_ratio_adcg" ), ( const xmlChar* )( runtime_object_ratio_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "runtime_object_ratio_adcg" ).c_str() ), ( const xmlChar* )( runtime_object_ratio_adcg_string.str().c_str() ) );
+
+  /******  XML: dataset concrete dcg   **************************/ 
+  stringstream dataset_concrete_adcg_string;
+  dataset_concrete_adcg_string << dataset_concrete_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_concrete_adcg" ), ( const xmlChar* )( dataset_concrete_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_concrete_adcg" ).c_str() ), ( const xmlChar* )( dataset_concrete_adcg_string.str().c_str() ) );
+
+  /******  XML: dataset abstract avg dcg   **************************/ 
+  stringstream dataset_abstract_avg_adcg_string;
+  dataset_abstract_avg_adcg_string << dataset_abstract_avg_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_avg_adcg" ), ( const xmlChar* )( dataset_abstract_avg_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_avg_adcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_avg_adcg_string.str().c_str() ) );
+
+  /******  XML: dataset abstract max dcg   **************************/ 
+  stringstream dataset_abstract_max_adcg_string;
+  dataset_abstract_max_adcg_string << dataset_abstract_max_adcg;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "dataset_abstract_max_adcg" ), ( const xmlChar* )( dataset_abstract_max_adcg_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_dataset_abstract_max_adcg" ).c_str() ), ( const xmlChar* )( dataset_abstract_max_adcg_string.str().c_str() ) );
 
   /******  console output **************************/
   cout << endl;
@@ -723,6 +796,7 @@ run_tests_adcg( const std::vector< std::string >& filenames,
 
   cout << "correct_complete_adcg: " << correct_complete_adcg << endl;
   cout << "runtime_adcg: " << runtime_adcg << endl;
+  cout << "runtime_adcg_norm: " << runtime_adcg_norm << endl;
 
   cout << "adcg_search_space_concrete: " << dataset_concrete_adcg << endl;
   cout << "adcg_search_space_abstract_avg: " << dataset_abstract_avg_adcg << endl;
@@ -744,7 +818,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            const string& symbol_dictionary_groundings_path, 
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
 
@@ -764,6 +838,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
 
   // Runtime
   double runtime_hdcg = 0.0;
+  double runtime_hdcg_norm = 0.0;
  
   // Search Space Sizes
   double dataset_concrete_hdcg = 0.0;
@@ -795,9 +870,6 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
 
-    // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
- 
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
     struct timeval start_time;
@@ -821,10 +893,14 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
     runtime_hdcg += microseconds_to_seconds( hdcg_end_time - hdcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( hdcg->solutions().front().second ) != NULL );
+    // If the number of phrases are more than one then compute norm.
+    if ( hdcg->solutions().front().second->num_phrases() ){
+      runtime_hdcg_norm += microseconds_to_seconds( ( hdcg_end_time - hdcg_start_time ) / ( hdcg->solutions().front().second->num_phrases() )  );
+    }
 
     stringstream hdcg_solution_filename;
     hdcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hdcg_solution_" << filename;
-    hdcg->solutions().front().second->to_xml( hdcg_solution_filename.str() );
+    solution_to_xml( hdcg_solution_filename.str(), world, hdcg->solutions().front().second );
 
     xmlNodePtr hdcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "hdcg" ), NULL );
 
@@ -833,6 +909,12 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
     hdcg_example_runtime_string << microseconds_to_seconds( hdcg_end_time - hdcg_start_time );
     xmlNewProp( hdcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( hdcg_example_runtime_string.str().c_str() ) );
     cout << "    runtime:" << hdcg_example_runtime_string.str() << endl;
+
+    // Runtime normalised.
+    stringstream hdcg_example_runtime_norm_string;
+    hdcg_example_runtime_norm_string << microseconds_to_seconds( ( hdcg_end_time - hdcg_start_time ) / ( hdcg->solutions().front().second->num_phrases() ) ); 
+    xmlNewProp( hdcg_example_node, ( const xmlChar* )( "runtime_norm" ), ( const xmlChar* )( hdcg_example_runtime_norm_string.str().c_str() ) );
+    cout << "    runtime norm:" << hdcg_example_runtime_norm_string.str() << endl;
 
     // Search space size: concrete
     double tmp_hdcg_stats = 0.0;
@@ -909,11 +991,12 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< HDCG >( hdcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -923,6 +1006,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
 
   // Average runtime.
   runtime_hdcg /= ( double )( filenames.size() );
+  runtime_hdcg_norm /= ( double )( filenames.size() );
 
   // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
@@ -939,7 +1023,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
   // Search Space Sizes
   dataset_concrete_hdcg = num_concrete_hdcg / ( double )( filenames.size() ) ;
   dataset_abstract_avg_hdcg = num_abstract_avg_hdcg / ( double )( filenames.size() ) ;
-  dataset_abstract_max_hdcg = num_abstract_avg_hdcg / ( double )( filenames.size() );
+  dataset_abstract_max_hdcg = num_abstract_max_hdcg / ( double )( filenames.size() );
 
   /******  XML: correct root **************************/ 
   stringstream correct_root_hdcg_string;
@@ -958,6 +1042,12 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
   runtime_hdcg_string << runtime_hdcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hdcg" ), ( const xmlChar* )( runtime_hdcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hdcg" ).c_str() ), ( const xmlChar* )( runtime_hdcg_string.str().c_str() ) );
+
+  /******  XML: runtime normalised  **************************/ 
+  stringstream runtime_hdcg_norm_string;
+  runtime_hdcg_norm_string << runtime_hdcg_norm;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hdcg_norm" ), ( const xmlChar* )( runtime_hdcg_norm_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hdcg_norm" ).c_str() ), ( const xmlChar* )( runtime_hdcg_norm_string.str().c_str() ) );
 
   /******  XML: runtime  **************************/ 
   stringstream runtime_ratio_string;
@@ -988,6 +1078,7 @@ run_tests_hdcg( const std::vector< std::string >& filenames,
 
   cout << "correct_complete_hdcg: " << correct_complete_hdcg << endl;
   cout << "runtime_hdcg: " << runtime_hdcg << endl;
+  cout << "runtime_hdcg_norm: " << runtime_hdcg_norm << endl;
 
   cout << "hdcg_search_space_concrete: " << dataset_concrete_hdcg << endl;
   cout << "hdcg_search_space_abstract_avg: " << dataset_abstract_avg_hdcg << endl;
@@ -1009,7 +1100,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
             const string& testGroup,
             const unsigned int cur_test_num,
             const string& solution_directory, 
-            const string& symbol_dictionary_groundings_path, 
+            const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
 
@@ -1029,6 +1120,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
 
   // Runtime
   double runtime_hadcg = 0.0;
+  double runtime_hadcg_norm = 0.0;
  
   // Search Space Sizes
   double dataset_concrete_hadcg = 0.0;
@@ -1060,9 +1152,6 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
     input_phrase->from_xml( filenames[ j ], world );
     clear( input_phrase );
 
-    // Symbol Dictionary 
-    Symbol_Dictionary * symbol_dictionary = new Symbol_Dictionary( symbol_dictionary_groundings_path );
- 
     // Search Space and fill the space of groundings.
     Search_Space * search_space = new Search_Space();
     struct timeval start_time;
@@ -1086,10 +1175,14 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
     runtime_hadcg += microseconds_to_seconds( hadcg_end_time - hadcg_start_time );
 
     assert( dynamic_cast< const Phrase* >( hadcg->solutions().front().second ) != NULL );
+    // If the number of phrases are more than one then compute norm.
+    if ( hadcg->solutions().front().second->num_phrases() ){
+      runtime_hadcg_norm += microseconds_to_seconds( ( hadcg_end_time - hadcg_start_time ) / ( hadcg->solutions().front().second->num_phrases() )  );
+    }
 
     stringstream hadcg_solution_filename;
     hadcg_solution_filename << solution_directory << "/test_" << setw( 4 ) << setfill( '0' ) << cur_test_num << "_hadcg_solution_" << filename;
-    hadcg->solutions().front().second->to_xml( hadcg_solution_filename.str() );
+    solution_to_xml( hadcg_solution_filename.str(), world, hadcg->solutions().front().second );
 
     xmlNodePtr hadcg_example_node = xmlNewDocNode( docPtr, NULL, ( const xmlChar* )( "hadcg" ), NULL );
 
@@ -1098,6 +1191,12 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
     hadcg_example_runtime_string << microseconds_to_seconds( hadcg_end_time - hadcg_start_time );
     xmlNewProp( hadcg_example_node, ( const xmlChar* )( "runtime" ), ( const xmlChar* )( hadcg_example_runtime_string.str().c_str() ) );
     cout << "    runtime:" << hadcg_example_runtime_string.str() << endl;
+
+    // Runtime normalised.
+    stringstream hadcg_example_runtime_norm_string;
+    hadcg_example_runtime_norm_string << microseconds_to_seconds( ( hadcg_end_time - hadcg_start_time ) / ( hadcg->solutions().front().second->num_phrases() ) ); 
+    xmlNewProp( hadcg_example_node, ( const xmlChar* )( "runtime_norm" ), ( const xmlChar* )( hadcg_example_runtime_norm_string.str().c_str() ) );
+    cout << "    runtime norm:" << hadcg_example_runtime_norm_string.str() << endl;
 
     // Search space size: concrete
     double tmp_hadcg_stats = 0.0;
@@ -1174,11 +1273,12 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< HADCG >( hadcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -1188,6 +1288,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
 
   // Average runtime.
   runtime_hadcg /= ( double )( filenames.size() );
+  runtime_hadcg_norm /= ( double )( filenames.size() );
 
   // Avg. runtime ratio
   average_runtime_ratio /= ( double )( filenames.size() );
@@ -1204,7 +1305,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
   // Search Space Sizes
   dataset_concrete_hadcg = num_concrete_hadcg / ( double )( filenames.size() ) ;
   dataset_abstract_avg_hadcg = num_abstract_avg_hadcg / ( double )( filenames.size() ) ;
-  dataset_abstract_max_hadcg = num_abstract_avg_hadcg / ( double )( filenames.size() );
+  dataset_abstract_max_hadcg = num_abstract_max_hadcg / ( double )( filenames.size() );
 
   /******  XML: correct root **************************/ 
   stringstream correct_root_hadcg_string;
@@ -1223,6 +1324,12 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
   runtime_hadcg_string << runtime_hadcg;
   xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hadcg" ), ( const xmlChar* )( runtime_hadcg_string.str().c_str() ) );
   xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hadcg" ).c_str() ), ( const xmlChar* )( runtime_hadcg_string.str().c_str() ) );
+
+  /******  XML: runtime normalised **************************/ 
+  stringstream runtime_hadcg_norm_string;
+  runtime_hadcg_norm_string << runtime_hadcg_norm;
+  xmlNewProp( test_group_node, ( const xmlChar* )( "runtime_hadcg_norm" ), ( const xmlChar* )( runtime_hadcg_norm_string.str().c_str() ) );
+  xmlNewProp( parentNode, ( const xmlChar* )( ( testGroup + "_runtime_hadcg_norm" ).c_str() ), ( const xmlChar* )( runtime_hadcg_norm_string.str().c_str() ) );
 
   /******  XML: runtime  **************************/ 
   stringstream runtime_ratio_string;
@@ -1253,6 +1360,7 @@ run_tests_hadcg( const std::vector< std::string >& filenames,
 
   cout << "correct_complete_hadcg: " << correct_complete_hadcg << endl;
   cout << "runtime_hadcg: " << runtime_hadcg << endl;
+  cout << "runtime_hadcg_norm: " << runtime_hadcg_norm << endl;
 
   cout << "hadcg_search_space_concrete: " << dataset_concrete_hadcg << endl;
   cout << "hadcg_search_space_abstract_avg: " << dataset_abstract_avg_hadcg << endl;
@@ -1276,8 +1384,7 @@ run_tests( const std::vector< std::string >& filenames,
             xmlNodePtr& parentNode,
             const string& testGroup,
             const unsigned int cur_test_num,
-           const string& solution_directory, 
-            //const string& symbol_dictionary_groundings_path, 
+            const string& solution_directory, 
             const Symbol_Dictionary* symbol_dictionary, 
             const unsigned int beam_width,
             const bool debug ){
@@ -1640,12 +1747,15 @@ run_tests( const std::vector< std::string >& filenames,
     world->to_xml( docPtr, example_node );
 
     // Clean up.
-    delete_ptr< Grounding >( context );
+    //delete_ptr< Grounding >( context );
     delete_ptr< DCG >( dcg );
     delete_ptr< ADCG >( adcg );
+    delete_ptr< HDCG >( hdcg );
+    delete_ptr< HADCG >( hadcg );
     delete_ptr< World >( world );
     delete_ptr< Phrase >( input_phrase );
     delete_ptr< Phrase >( truth_phrase );
+    delete_ptr< Search_Space >( search_space );
 
     // Add the node in XML.
     xmlAddChild( test_group_node, example_node );
@@ -1940,18 +2050,26 @@ main( int argc,
  
       // Create the LLM. Load from the xml.
       cout << "Creating the LLM model. " << endl;
-      cout << "Loading: " << args.inputs[ i ];
+      cout << "Loading: " << args.inputs[ i ] << endl;
       Feature_Set * feature_set = new Feature_Set();
       LLM * llm  = new LLM( feature_set );
       llm->from_xml( args.inputs[ i ] );
 
       //Create the symbol dictionary for groundings. Load from the xml
+      cout << "Loading the symbol_dictionary_groundings" << endl;
       Symbol_Dictionary * symbol_dictionary_groundings = new Symbol_Dictionary();
-      load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_groundings", symbol_dictionary_groundings );
+      if( !load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_groundings", symbol_dictionary_groundings ) ){
+        cout << "failed to load symbol_dictionary_groundings" << endl;
+        assert( false );
+      }
 
       //Create the symbol dictionary for rules. Load from the xml
+      //cout << "Loading the symbol_dictionary_rules" << endl;
       //Symbol_Dictionary * symbol_dictionary_rules = new Symbol_Dictionary();
-      //load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_rules", symbol_dictionary_rules );
+      //if( !load_symbol_dictionary( args.inputs[ i ], "symbol_dictionary_rules", symbol_dictionary_rules ) ){
+        //cout << "failed to load symbol_dictionary_rules" << endl;
+        //assert( false );
+      //}
  
       // Write out the statistics related ot the data set partition.
       stringstream training_set_size_string;
@@ -1965,20 +2083,71 @@ main( int argc,
       stringstream training_ratio_string;
       training_ratio_string << ( double )( training_set.size() ) / ( double )( training_set.size() + test_set.size() );
       xmlNewProp( test_node, ( const xmlChar* )( "training_ratio" ), ( const xmlChar* )( training_ratio_string.str().c_str() ) );
+      
+      // maintain the training runtime information
+      xmlNewProp( test_node, ( const xmlChar* )( "training_runtime" ), ( const xmlChar* )( load_training_runtime( args.inputs[ i ] ).c_str() ) ); 
 
       /********************* Run Inference Tests******************/
+      stringstream model_string;
+      model_string << args.model_arg;
       // Evaluate the DCG and ADCG models on the training set (if option).
       if (args.test_training_set_arg) {
-        run_tests( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+        cout << "evaluation on training set" << endl;  
+       if( !model_string.str().compare( "dcg" ) ) { 
+          cout << " starting dcg " << endl; 
+          run_tests_dcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "adcg" ) ) {
+          cout << " starting adcg " << endl; 
+          run_tests_adcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg ); 
+        } else if ( !model_string.str().compare( "hdcg" ) ) {
+          cout << " starting hdcg " << endl; 
+          run_tests_hdcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "hadcg" ) ) {
+          cout << " starting hadcg " << endl; 
+          run_tests_hadcg( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "all" ) ) {
+          cout << " starting all " << endl; 
+          run_tests( training_set, llm, results_doc, test_node, "training_set", i, solution_directory.str(),
+                      symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else {
+          cout << "model: " << model_string.str() << "does not exist."  <<endl;
+          exit(0);
+        }
         cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Evaluate the DCG and ADCG models on the test set (if option).
       if (args.test_test_set_arg) {
-        run_tests( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+        cout << "evaluation on test set" << endl; 
+        if( !model_string.str().compare( "dcg" ) ) { 
+          cout << " starting dcg " << endl; 
+          run_tests_dcg( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
                    symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
-        cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
+        } else if ( !model_string.str().compare( "adcg" ) ) {
+          cout << " starting adcg " << endl; 
+          run_tests_adcg( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg ); 
+        } else if ( !model_string.str().compare( "hdcg" ) ) {
+          cout << " starting hdcg " << endl; 
+          run_tests_hdcg( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "hadcg" ) ) {
+          cout << " starting hadcg " << endl; 
+          run_tests_hadcg( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+                   symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else if ( !model_string.str().compare( "all" ) ) {
+          cout << " starting all " << endl; 
+          run_tests( test_set, llm, results_doc, test_node, "test_set", i, solution_directory.str(),
+                      symbol_dictionary_groundings, args.beam_width_arg, args.debug_arg );
+        } else {
+          cout << "model: " << model_string.str() << "does not exist."  <<endl;
+          exit(0);
+        }
+       cout << "training_ratio:" << training_ratio_string.str() << endl << endl;
       }
 
       // Add the child node in the xml document.

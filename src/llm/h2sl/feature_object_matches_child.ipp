@@ -80,9 +80,11 @@ value( const std::string& cv,
         const O * child = dynamic_cast< const O* >( children[ i ].second[ j ] );
         if( child != NULL ){
           typename std::map< std::string, O* >::const_iterator it_object = world->objects().find( symbol->object_id() );
-          assert( it_object != world->objects().end() );
-          if( *(it_object->second) == *child ){
-            return !_invert;
+          //assert( it_object != world->objects().end() );
+          if( it_object != world->objects().end() ){
+            if( *(it_object->second) == *child ){
+              return !_invert;
+            }
           }
         }
       }

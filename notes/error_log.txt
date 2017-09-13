@@ -1,0 +1,28 @@
+In adcg training
+filling phrase:PP(IN/"of") grounding_set:{NULL} properties:{}
+solution:child_solution_indices[1]:{0} pygx:0.999571 grounding_set:([1]:{Object(id="husky_mm",object_type="robot",object_color="na",position=Vector3(0.369435,-0.010466,0.38539),orientation=Unit_Quaternion(qv=Vector3(0,0,0),qs=1),)})
+filling phrase:NP(DT/"the"),(NN/"robot") grounding_set:{NULL} properties:{}
+solution:child_solution_indices[0]:{} pygx:0.999579 grounding_set:([1]:{Object(id="husky_mm",object_type="robot",object_color="na",position=Vector3(0.369435,-0.010466,0.38539),orientation=Unit_Quaternion(qv=Vector3(0,0,0),qs=1),)})
+    runtime:2.77962
+    correct (root)
+    correct (complete)
+running test_set 25 (../data/training/navigation_corpus/groups/example_0032.xml)
+finished fill_seach_space in 0.001585 seconds
+  running adcg
+Segmentation fault (core dumped
+
+
+
+,)))})
+filling phrase:PP(IN/"aside") grounding_set:{NULL} properties:{}
+solution:child_solution_indices[1]:{0} pygx:0.835493 grounding_set:([0]:{})
+filling phrase:NP(DT/"the") grounding_set:{NULL} properties:{}
+solution:child_solution_indices[0]:{} pygx:0.835495 grounding_set:([0]:{})
+    runtime:4.05828
+    incorrect (root)
+    incorrect (complete)
+running test_set 38 (../data/training/navigation_corpus/objects_in_groups/example_0048.xml)
+finished fill_seach_space in 0.001436 seconds
+  running adcg
+Segmentation fault (core dumped)
+

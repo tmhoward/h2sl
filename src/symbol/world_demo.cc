@@ -71,6 +71,12 @@ main( int argc,
     } 
   }
 
+  World * other_world = new World( *world );
+  cout << "testing world equivalency operator, result should be true (1)" << endl;
+  cout << "*world == *other_world: " << ( *world == *other_world ) << endl << endl;
+  cout << "testing world inequivalency operator, result should be false (0)" << endl;
+  cout << "*world == *other_world: " << ( *world != *other_world ) << endl;
+
   if( args.output_given ){
     world->to_xml( args.output_arg );
   }

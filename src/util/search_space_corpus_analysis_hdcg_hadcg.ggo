@@ -1,0 +1,9 @@
+package "search_space_corpus_analysis_hdcg_hadcg"
+version "1.0"
+purpose "A program used to generate statistics for the search space sizes for the corpus for the hdcg and hadcg models" 
+
+option "input" i "input results file to be scraped" string optional 
+option "output_script" m "output matlab script file" string optional
+option "output_text" t "output tex script file" string optional
+
+text ""
