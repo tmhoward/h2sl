@@ -1,6 +1,6 @@
-H2SL (Human 2 Structured Language) provides the source code for a set
-of libraries and executables that convert free-form text input to its
-corresponding structured language instance.
+H2SL (Human to Structured Language) provides a framework for 
+realtime natural langugage symbol grounding in the context of 
+understanding robot instructions.   
 
 Copyright (C) 2014 by the Massachusetts Institute of Technology
 
@@ -8,7 +8,15 @@ Developed by Thomas M. Howard and Matthew R. Walter at the Computer
 Science and Artificial Intelligence Laboratory, MIT, Cambridge,
 Massachusetts USA, with partial support from the U.S. Army Research
 Laboratory under the Robotics Collaborative Technology Alliance,
-Cooperative Agreement W911NF-10-2-0016.
+Cooperative Agreement W911NF-10-2-0016 and National Science Foundation
+National Robotics Initiative Award #1427547.  Contributors to this
+project include:
+
+Derya Aksaray
+Jacob Arkin
+Rohan Paul
+Thomas Howard
+Matthew Walter
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,14 +36,80 @@ Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 
 OVERVIEW
 
-h2sl provides a set of base classes for developing a natural language
+H2SL provides a set of base classes for developing a natural language
 symbol grounding inferface.  Example symbols, features, and data is 
 provided, but is not intended to serve as a drop-in natural language
 interface for robotic system.  To adapt to new applications, one can
 replace the symbols, features, and examples with those that are 
-relevant to your system and domain.
+relevant to your system and domain.  The probablistic graphical models
+included in this project consist of the Distributed Correspondence 
+Graph (DCG), Hierarhical Distributed Correspondence Graph (HDCG), 
+Adaptive Distributed Correspondence Graph (ADCG), and Hierarhical 
+Adaptive Distributed Correspondence Graph (HADCG). For more details
+about the mathematical basis of each model, please refer to the
+following papers and articles:
 
-TUTORIAL
+T.M Howard, S. Tellex, and N. Roy. A natural language planner 
+interface for mobile manipulators. In Proceedings of the IEEE 
+International Conference on Robotics and Automation, pages 6652–6659. 
+IEEE, May 2014.
+
+O. Propp, I. Chung, M.R. Walter, and T.M. Howard.  On the performance 
+of hierarchical distributed correspondence graphs for efficient 
+symbol grounding of robot instructions. In Proceedings of the 2015 
+IEEE/RSJ International Conference on Intelligent Robots and Systems, 
+October 2015.
+
+R. Paul, J. Arkin, N. Roy, and T.M. Howard. Effcient grounding of 
+abstract spatial concepts for natural language interaction with robot 
+manipulators. In Proceedings of the 2016 Robotics: Science and Systems 
+Conference, June 2016.
+
+Examples of applications of this framework to various problems in 
+natural language symbol grounding of robot instructions include 
+inferring LTL from language, assistive robotics, inferring maps and
+behaviors, expressing homotopy constraints and multi-modal interactions 
+with human-robot teams.  For more details of these applications, 
+please refer to the following papers and articles:
+
+F. Duvallet, M.R. Walter, T.M. Howard, S. Hemachandra, J. Oh, S. Teller, 
+N. Roy, and A. Stentz. A probabilistic framework for inferring maps 
+and behaviors from natural language. In Proceedings of the 14th 
+International Symposium on Experimental Robotics, July 2014.
+
+S. Hemachandra, F. Duvallet, T.M. Howard, N. Roy, A. Stentz, and 
+M.R. Walter. Learning models for following natural language directions 
+in unknown environments. In Proceedings of the IEEE International 
+Conference on Robotics and Automation. IEEE, May 2015.
+
+D. Yi, T.M. Howard, K. Seppi, and M. Goodrich. Expressing homotopic 
+requirements for mobile robot navigation through natural language 
+instructions. In Proceedings of the 2016 IEEE/RSJ International 
+Conference on Intelligent Robots and Systems, October 2016.
+
+J. Oh, T.M. Howard, M. Walter, D. Barber, M. Zhu, S. Park, A. Suppe, 
+L. Navarro-Serment, F. Duvallet, A. Boularias, O. Romero, J. Vinokrov, 
+T. Keegan, R. Dean, C. Lennon, B. Bodt, M. Childers, J. Shi, K. Daniilidis, 
+N. Roy, C. Lebiere, M. Hebert, and A. Stentz. Integrated intelligence for 
+human-robot teams. In Proceedings of the 2016 International Symposium on 
+Experimental Robotics, October 2016.
+
+A. Boteanu, J. Arkin, T.M. Howard, and H. Kress-Gazit. A model for 
+verifable grounding and execution of complex language instructions. In
+Proceedings of the 2016 IEEE/RSJ International Conference on Intelligent 
+Robots and Systems, October 2016.
+
+A. Broad, J. Arkin, N. Ratliff, T. M. Howard, and B. Argall. Real-time 
+natural language corrections for assistive robotic manipulators. 
+International Journal of Robotics Research, 36(5-7):684–698, May 2017.
+
+J. Arkin, M. Walter, A. Boteanu, M. Napoli, H. Biggie, H. Kress-Gazit, 
+and T.M. Howard. Contextual awareness: Understanding monologic natural 
+language instructions for autonomous robots.  In Proceedings of the IEEE
+International Symposium on Robot and Human Interactive Communication, 
+August 2017.
+
+TUTORIAL (DCG)
 
 To train the model from a corpus of labeled examples, run ...
 
