@@ -39,6 +39,33 @@
 using namespace std;
 using namespace h2sl;
 
+void
+test_parent_pointer( const Phrase& phrase ){
+  if( phrase.children().size() > 0 ){
+    cout << "  phrase: " << phrase << endl;
+    cout << "  &phrase: " << &phrase << endl;
+    for( unsigned int i = 0; i < phrase.children().size(); i++ ){
+      if( phrase.children()[ i ] != NULL ){
+        if( phrase.children()[ i ]->parent() != NULL ){
+          cout << "     phrase.children()[ " << i << " ]->parent(): " << phrase.children()[ i ]->parent() << endl; 
+          cout << "     *phrase.children()[ " << i << " ]->parent(): " << *phrase.children()[ i ]->parent() << endl; 
+        } else{
+          cout << "     phrase.children()[ " << i << " ]->parent() was NULL" << endl; 
+        }
+      } else{
+        cout << "    phrase.children()[ " << i << " ] was NULL" << endl;
+      } 
+    }
+    cout << endl;
+    for( unsigned int i = 0; i < phrase.children().size(); i++ ){
+      if( phrase.children()[ i ] != NULL ){
+        test_parent_pointer( *phrase.children()[ i ] );
+      }
+    }
+  }
+  return;
+}
+
 int
 main( int argc,
       char* argv[] ) {
@@ -57,6 +84,9 @@ main( int argc,
     phrase->to_xml( argv[2] );
   }
 
+  cout << endl << "Testing the parent pointer" << endl;
+  test_parent_pointer( *phrase );
+
   Phrase * dup_phrase = phrase->dup();
 
   cout << "dup: " << *dup_phrase << endl;
@@ -67,6 +97,8 @@ main( int argc,
   }
 
   cout << "dup: " << *dup_phrase << endl;
+  cout << endl << "Testing the parent pointers for dup_phrase" << endl;
+  test_parent_pointer( *dup_phrase );
 
   cout << "end of Phrase class demo program" << endl;
   return status;

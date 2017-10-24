@@ -46,11 +46,13 @@ Phrase( const phrase_type_t& type,
         const string& text,
         const vector< Word >& words,
         const vector< Phrase* >& children,
+        Phrase* parent,
         Grounding* grounding ) : Grounding(),
                                               _type( type ),
                                               _text( text ),
                                               _words( words ),
                                               _children( children ),
+                                              _parent( parent ),
                                               _grounding( grounding ){
 
 }
@@ -66,9 +68,11 @@ Phrase( const Phrase& other ) : Grounding( other ),
                                 _text( other._text ),
                                 _words( other._words ),
                                 _children(),
+                                _parent(  ),
                                 _grounding( NULL ){
   for( unsigned int i = 0; i < other._children.size(); i++ ){
     _children.push_back( other._children[ i ]->dup() );
+    _children.back()->parent() = this;
   }
   if( other._grounding != NULL ){
     _grounding = other._grounding->dup();
@@ -89,6 +93,7 @@ operator=( const Phrase& other ) {
   }
   for( unsigned int i = 0; i < other._children.size(); i++ ){
     _children.push_back( other._children[ i ]->dup() );
+    _children.back()->parent() = this;
   }
   if( other._grounding != NULL ){
     _grounding = other._grounding->dup();
@@ -244,6 +249,7 @@ from_xml( xmlNodePtr root ){
           if( xmlStrcmp( l1->name, ( const xmlChar* )( phrase_type_t_to_std_string( ( phrase_type_t )( i ) ).c_str() ) ) == 0 ){
             _children.push_back( new Phrase() );
             _children.back()->from_xml( l1 );
+            _children.back()->parent() = this;
           }
         }
       }
@@ -383,6 +389,7 @@ namespace h2sl {
     }
     out << " ";
     if( other.grounding() != NULL ){
+      
       out << "grounding:{" << *other.grounding() << "}";
     } else {
       out << "grounding:{NULL}";
