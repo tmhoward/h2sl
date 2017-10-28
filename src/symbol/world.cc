@@ -372,7 +372,7 @@ convert_models( xmlNodePtr root ){
 
 
 /**
- * Function to transform all objects with respect to an input object
+ * Function to transform all objects with respect to object
  *
  */
 void 
