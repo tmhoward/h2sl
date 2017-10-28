@@ -370,6 +370,26 @@ convert_models( xmlNodePtr root ){
 }
 
 
+
+/**
+ * Function to transform all objects with respect to an input object
+ *
+ */
+void 
+World::
+transform_objects( const string& reference_object_id ) {
+  std::map< std::string, Object* >::iterator it = _objects.find( reference_object_id );
+  if( it == _objects.end() ){
+    cout << "Could not find object " << reference_object_id << endl;
+  } else {
+    Transform transform_to_apply = it->second->transform().inverse();
+    for( map< std::string, Object* >::iterator it_objects = _objects.begin(); it_objects != _objects.end(); ++it_objects ){
+      Transform& object_transform = it_objects->second->transform();
+      object_transform = transform_to_apply * object_transform;
+    }
+  }
+}
+
 /**
  * Sorting of objects according to types and spatial characteristics.
  * Object types are obtained by iterating over the object list.
@@ -636,3 +656,4 @@ namespace h2sl {
     return out;
   }
 }
+
