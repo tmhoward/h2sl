@@ -87,8 +87,6 @@ main( int argc,
 	Transform origin = Transform();
 	origin.from_std_string("0,0,0,1,0,0,0");
 	cout << "testing reference object at origin, result should be true (1)" << endl;
-	cout << world->objects().begin()->second->transform().to_std_string() << endl;
-	cout << origin.to_std_string() << endl;
 	cout << "reference object transform == origin: " << ( world->objects().begin()->second->transform().to_std_string() == origin.to_std_string() ) << endl;
   }
 
