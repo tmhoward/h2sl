@@ -81,6 +81,15 @@ main( int argc,
     world->to_xml( args.output_arg );
   }
 
+  if( ! world->objects().empty() ) {
+	const string reference_object_id = world->objects().begin()->first;
+	world->transform_objects(reference_object_id);
+	Transform origin = Transform();
+	origin.from_std_string("0,0,0,1,0,0,0");
+	cout << "testing reference object at origin, result should be true (1)" << endl;
+	cout << "reference object transform == origin: " << ( world->objects().begin()->second->transform().to_std_string() == origin.to_std_string() ) << endl;
+  }
+
   if( world != NULL ){
     delete world;
     world = NULL;

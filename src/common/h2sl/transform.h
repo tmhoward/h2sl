@@ -52,6 +52,7 @@ namespace h2sl {
     
     Transform inverse( void )const;
 
+    // string representation: 7 numbers separated by comma, first 4 for orientation, next 3 for position
     std::string to_std_string( void )const;
     void from_std_string( const std::string& arg );
   
