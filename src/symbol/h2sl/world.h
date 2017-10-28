@@ -112,8 +112,8 @@ namespace h2sl {
     // Convert model format.
     virtual void convert_models( xmlNodePtr root );
 
-    // Transform objects with respect to an input object
-    virtual void transform_objects( const std::string& referece_object_id );
+    // Transform objects with respect to object with id "reference_object_id"
+    virtual bool transform_objects( const std::string& referece_object_id );
 
   protected:
    // World model time instant.

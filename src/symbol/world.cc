@@ -372,22 +372,25 @@ convert_models( xmlNodePtr root ){
 
 
 /**
- * Function to transform all objects with respect to object
- *
+ * Transform objects with respect to object with id "reference_object_id"
  */
-void 
+bool
 World::
 transform_objects( const string& reference_object_id ) {
   std::map< std::string, Object* >::iterator it = _objects.find( reference_object_id );
-  if( it == _objects.end() ){
-    cout << "Could not find object " << reference_object_id << endl;
-  } else {
+  if( it != _objects.end() ){
     Transform transform_to_apply = it->second->transform().inverse();
     for( map< std::string, Object* >::iterator it_objects = _objects.begin(); it_objects != _objects.end(); ++it_objects ){
-      Transform& object_transform = it_objects->second->transform();
-      object_transform = transform_to_apply * object_transform;
+      if ( it_objects->second != NULL ) {
+		Transform& object_transform = it_objects->second->transform();
+		object_transform = transform_to_apply * object_transform;
+      }
     }
+  } else {
+	cout << "Could not find object " << reference_object_id << endl;
+	return 0;
   }
+  return 1;
 }
 
 /**
