@@ -261,6 +261,14 @@ to_xml( xmlDocPtr doc,
   return;
 }
 
+string 
+Grounding_Set::
+to_json_string( void )const {
+
+return "";
+}
+
+
 string
 Grounding_Set::
 to_latex( void )const{

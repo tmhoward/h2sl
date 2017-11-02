@@ -74,6 +74,8 @@ namespace h2sl {
     virtual void from_xml( const std::string& filename, World* world );
     virtual void from_xml( xmlNodePtr root, World* world );
 
+    virtual std::string to_json_string( void )const;
+
     inline std::vector< Grounding* >& groundings( void ){ return _groundings; };
     inline const std::vector< Grounding* >& groundings( void )const{ return _groundings; };
 
