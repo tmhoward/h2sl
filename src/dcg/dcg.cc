@@ -135,7 +135,7 @@ leaf_search( const Phrase* phrase,
         _solutions.back().second->grounding_set() = NULL;
       }
    
-      _fill_phrase( _root, _root->solutions()[ i ], _solutions.back().second );
+      _fill_phrase( _root, _root->solutions()[ i ], _solutions.back().second, debug );
     }
 
     return true;
@@ -507,9 +507,12 @@ void
 DCG::
 _fill_phrase( Factor_Set* node,
               Factor_Set_Solution& solution,
-              Phrase* phrase ){
-  cout << "filling phrase:" << *phrase << endl;
-  cout << "solution:" << solution << endl;
+              Phrase* phrase,
+              const bool& debug ){
+  if( debug ){
+    cout << "filling phrase:" << *phrase << endl;
+    cout << "solution:" << solution << endl;
+  }
 
    //cout << "transfer properties from factor set to phrase:" << endl;
    // Transfer relevant properties. 
