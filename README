@@ -2,20 +2,26 @@ H2SL (Human to Structured Language) provides a framework for
 realtime natural langugage symbol grounding in the context of 
 understanding robot instructions.   
 
-Copyright (C) 2014 by the Massachusetts Institute of Technology
-
-Developed by Thomas M. Howard and Matthew R. Walter at the Computer
-Science and Artificial Intelligence Laboratory, MIT, Cambridge,
-Massachusetts USA, with partial support from the U.S. Army Research
-Laboratory under the Robotics Collaborative Technology Alliance,
-Cooperative Agreement W911NF-10-2-0016 and National Science Foundation
-National Robotics Initiative Award #1427547.  Contributors to this
-project include:
+The H2SL project was originally started at the Massachusetts 
+Institute of Technology in 2014 by Thomas M. Howard and Matthew R. Walter.
+The original codebase was copyrighted by the Massachusetts 
+Institute of Technology in 2014. The new codebase has been 
+rewritten by researchers from the University of Rochester,
+Toyota Technological Institute at Chicago, and the Massachusetts
+Institute of Technology. This research was supported by partial
+support from the U.S. Army Research Laboratory under the Robotics
+Collaborative Technology Alliance, Cooperative Agreement W911NF-10-2-0016,
+National Science Foundation National Robotics Initiative Awards #1427547,
+#1637813, and #1638072, and an Early Career Faculty grant from NASA’s
+Space Technology Research Grants Program. Contributors to this project
+include:
 
 Derya Aksaray
 Jacob Arkin
 Rohan Paul
+Bennedd Hedegaard
 Thomas Howard
+Siddharth Patki
 Matthew Walter
 
 This program is free software; you can redistribute it and/or modify
@@ -42,12 +48,9 @@ provided, but is not intended to serve as a drop-in natural language
 interface for robotic system.  To adapt to new applications, one can
 replace the symbols, features, and examples with those that are 
 relevant to your system and domain.  The probablistic graphical models
-included in this project consist of the Distributed Correspondence 
-Graph (DCG), Hierarhical Distributed Correspondence Graph (HDCG), 
-Adaptive Distributed Correspondence Graph (ADCG), and Hierarhical 
-Adaptive Distributed Correspondence Graph (HADCG). For more details
-about the mathematical basis of each model, please refer to the
-following papers and articles:
+included in this project are based on the Distributed Correspondence 
+Graph (DCG). For more details about variations of DCGs, please refer
+to the following papers and articles:
 
 T.M Howard, S. Tellex, and N. Roy. A natural language planner 
 interface for mobile manipulators. In Proceedings of the IEEE 
@@ -109,20 +112,3 @@ language instructions for autonomous robots.  In Proceedings of the IEEE
 International Symposium on Robot and Human Interactive Communication, 
 August 2017.
 
-TUTORIAL (DCG)
-
-To train the model from a corpus of labeled examples, run ...
-
-h2sl-llm-train (examples files) --feature_set=(feature_set.xml) --output=(llm.xml)
-
-To run the Distributed Correspondence Graph (DCG) demo, run ...
-
-h2sl-dcg-demo --world=(world.xml) --llm=(llm.xml) --grammar=(grammar.xml) --command=(command string) -output=(output.xml)
-
-To run the Distributed Correspondence Graph (DCG) test, run ...
-
-h2sl-dcg-test (example files) --llm=(llm.xml) --grammar=(grammar.xml)
-
-To run the Graphical User Interface (GUI), run ...
-
-h2sl-gui-demo --world=(world.xml) --llm=(llm.xml) --grammar=(grammar.xml)
