@@ -239,7 +239,7 @@ add_executable(h2sl-unit-quaternion-demo src/unit-quaternion-demo.cc)
 add_dependencies(h2sl-unit-quaternion-demo ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(h2sl-unit-quaternion-demo h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
 
-add_executable(h2sl-object-demo src/object_demo.cc)
+add_executable(h2sl-object-demo src/object-demo.cc)
 add_dependencies(h2sl-object-demo ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(h2sl-object-demo h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
 
