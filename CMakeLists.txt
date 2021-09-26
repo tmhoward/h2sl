@@ -163,10 +163,6 @@ add_executable(h2sl-environment-constraint-demo src/environment-constraint-demo.
 add_dependencies(h2sl-environment-constraint-demo ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(h2sl-environment-constraint-demo h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
 
-add_executable(h2sl-constraint-extraction-demo src/constraint-extraction-demo.cc)
-add_dependencies(h2sl-constraint-extraction-demo ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(h2sl-constraint-extraction-demo h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
-
 add_executable(h2sl-feature-demo src/feature-demo.cc)
 add_dependencies(h2sl-feature-demo ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(h2sl-feature-demo h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
