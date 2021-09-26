@@ -12,7 +12,9 @@
   <url type="repository">https://github.com/tmhoward/h2sl</url>
 
   <author email="jarkin@ur.rochester.edu">Jacob Arkin</author>
+  <author email="bhedegaa@u.rochester.edu">Benned Hedegaard</author>
   <author email="thomas.howard@rochester.edu">Thomas M. Howard</author>
+  <author email="spatki@ur.rochester.edu">Siddharth Patki</author>
 
   <build_depend>cmake_modules</build_depend>
   <build_depend>message_generation</build_depend>
