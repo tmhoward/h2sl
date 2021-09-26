@@ -1,5 +1,0 @@
-package "h2sl-rewrite-examples"
-version "0.0.1"
-purpose "A program used to rewrite the examples"
-
-text ""

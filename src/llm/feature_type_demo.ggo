@@ -1,8 +1,0 @@
-package "feature_type_demo"
-version "1.0"
-purpose "A program used to run the h2sl::Feature_Type class process"
-
-option "input" i "input string" string optional
-option "output" o "output file" string optional
-
-text ""
