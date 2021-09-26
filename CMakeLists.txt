@@ -313,7 +313,6 @@ install(TARGETS
   h2sl-dcg-server
   h2sl-language-client
   h2sl-trained-dcg-demo
-  h2sl-constraint-extraction-demo
   h2sl-llm-train
   h2sl-spatial-relations-demo
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
