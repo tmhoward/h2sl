@@ -14,7 +14,12 @@ find_package(catkin REQUIRED COMPONENTS cmake_modules roscpp message_generation)
 find_package(Boost REQUIRED COMPONENTS system program_options filesystem)
 find_package(TinyXML2 REQUIRED)
 find_package(PkgConfig REQUIRED)
-find_package(LBFGS REQUIRED)
+
+PKG_CHECK_MODULES(PC_LIBLBFGS QUIET liblbfgs)
+find_path(LBFGS_INCLUDE_DIRS NAMES lbfgs.h HINTS ${PC_LIBBFGS_INCLUDEDIR} ${PC_LIBLBFGS_INCLUDE_DIRS})
+find_library(LBFGS_LIBRARIES NAMES lbfgs liblbfgs HINTS ${PC_LIBLBFGS_LIBDIR} ${PC_LIBLBFGS_LIBRARY_DIRS})
+
+
 pkg_check_modules(JSONCPP jsoncpp)
 if( NOT JSONCPP_FOUND )
   message( FATAL_ERROR "jsoncpp not found\n" )
@@ -80,6 +85,7 @@ catkin_package(
 ## Specify additional locations of header files
 include_directories(
   include
+  ${LBFGS_INCLUDE_DIRS}
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${TinyXML2_INCLUDE_DIRS}
@@ -265,7 +271,7 @@ target_link_libraries(h2sl-trained-dcg-demo h2sl ${Boost_LIBRARIES} ${TinyXML2_L
 
 add_executable(h2sl-llm-train src/llm-train.cc)
 add_dependencies(h2sl-llm-train ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(h2sl-llm-train h2sl LBFGS::lib ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(h2sl-llm-train h2sl ${LBFGS_LIBRARIES} ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
 
 add_executable(h2sl-spatial-relations-demo src/spatial-relations-demo.cc)
 add_dependencies(h2sl-spatial-relations-demo ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
