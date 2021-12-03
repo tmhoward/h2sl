@@ -30,7 +30,7 @@ public:
   ~Parser_ROS() = default;
 
   // Callback function to handle a parsing service request
-  //  1. Parse the request string 
+  //  1. Parse the request string
   //  2. Check for parses
   //  3. Fill the response with the top parse
   bool handle_parse_callback( h2sl::Parse::Request& req, h2sl::Parse::Response& res ){
@@ -121,8 +121,8 @@ int main( int argc, char* argv[] ){
     // Create any ROS ServiceServers
     ros_helper.create_service_server( server_parse_channel, &Parser_ROS::handle_parse_callback );
 
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//                                                 
-    //                              Begin ROS Spinning                              //                                                 
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    //                              Begin ROS Spinning                              //
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     ROS_INFO("ROS initiated, entering spin loop.");
     ros::Rate r(10);

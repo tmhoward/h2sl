@@ -27,6 +27,7 @@
  * @section description
  */
 
+#include <chrono>
 #include <boost/program_options.hpp>
 
 #include "h2sl/dcg.h"
