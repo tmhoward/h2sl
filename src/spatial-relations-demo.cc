@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -78,7 +78,7 @@ int main( int argc, char* argv[] ){
     std::cout << "Failed to load world" << std::endl;
     return EXIT_FAILURE;
   }
-  
+
   // Extract ObjectStates from the world to allow easy construction of examples
   std::cout << "Extracting object states from the world..." << std::endl;
   auto human = std::make_optional<h2sl::ObjectState>( world->objects.find( "human" )->second.state_history.back() );
@@ -93,10 +93,10 @@ int main( int argc, char* argv[] ){
   auto o2 = std::make_optional<h2sl::ObjectState>( world->objects.find( "o2" )->second.state_history.back() );
   auto y = std::make_optional<h2sl::ObjectState>( world->objects.find( "y" )->second.state_history.back() );
   auto r = std::make_optional<h2sl::ObjectState>( world->objects.find( "r" )->second.state_history.back() );
- 
+
   // Arguments of check_spatial_relation are:
   //          figure, landmark, viewpoint, axis, direction
-  
+
   std::cout << "Testing binary spatial relations:" << std::endl;
 
   // Example 1 - Left of u2 (human) => landmark u2, viewpoint human, axis y, direction +
@@ -114,7 +114,7 @@ int main( int argc, char* argv[] ){
   // o1 should give false
   bool example2_f = h2sl::SpatialRelation::check_binary_spatial_relation( *o1, rf2, 'x', '+' );
   std::cout << "Example 2: " << example2_t << " " << example2_f << std::endl << std::endl;
-  
+
   // Example 3 - My right (robot) => no landmark, viewpoint robot, axis y, direction -
   h2sl::Transform3D rf3 = h2sl::SpatialRelation::get_relation_frame( std::nullopt, robot );
   // p1 should give true
@@ -123,7 +123,7 @@ int main( int argc, char* argv[] ){
   bool example3_f = h2sl::SpatialRelation::check_binary_spatial_relation( *p2, rf3, 'y', '-' );
   std::cout << "Example 3: " << example3_t << " " << example3_f << std::endl << std::endl;
 
-  // Example 4 - Below o2 (human) => landmark o2, viewpoint human, axis z, direction - 
+  // Example 4 - Below o2 (human) => landmark o2, viewpoint human, axis z, direction -
   h2sl::Transform3D rf4 = h2sl::SpatialRelation::get_relation_frame( o2, human );
   // g3 should give true
   bool example4_t = h2sl::SpatialRelation::check_binary_spatial_relation( *g3, rf4, 'z', '-' );
@@ -180,32 +180,32 @@ int main( int argc, char* argv[] ){
   auto sort_vec3 = h2sl::SpatialRelation::get_sorted_uids( world_dcg, vp_robot_rf,
     'y', '+', "max", std::nullopt, block_type );
   std::cout << str_double_vector_to_str( sort_vec3 ) << std::endl;
-  
+
   // Example 4 - Least right block (robot) => No landmark, viewpoint robot, axis y-, extrema min, type block
   std::cout << "\nSorting items by \"Least right block (robot)\"" << std::endl;
   auto sort_vec4 = h2sl::SpatialRelation::get_sorted_uids( world_dcg, vp_robot_rf,
     'y', '-', "min", std::nullopt, block_type );
   std::cout << str_double_vector_to_str( sort_vec4 ) << std::endl;
- 
+
   // Example 5 - Least left block (human) => No landmark, viewpoint human, axis y+, extrema min, type block
   std::cout << "\nSorting items by \"Least left block (human)\"" << std::endl;
   h2sl::Transform3D vp_human_rf = h2sl::SpatialRelation::get_relation_frame( std::nullopt, human );
   auto sort_vec5 = h2sl::SpatialRelation::get_sorted_uids( world_dcg, vp_human_rf,
     'y', '+', "min", std::nullopt, block_type );
   std::cout << str_double_vector_to_str( sort_vec5 ) << std::endl;
-  
+
   // Example 6 - Frontmost (human) => No landmark, viewpoint human, axis x-, extrema max
   std::cout << "\nSorting items by \"Frontmost (human)\"" << std::endl;
   auto sort_vec6 = h2sl::SpatialRelation::get_sorted_uids( world_dcg, vp_human_rf,
     'x', '-', "max", std::nullopt, std::nullopt );
   std::cout << str_double_vector_to_str( sort_vec6 ) << std::endl;
- 
+
   // Example 7 - Backmost (robot) => No landmark, viewpoint robot, axis x+, extrema max
   std::cout << "\nSorting items by \"Backmost (robot)\"" << std::endl;
   auto sort_vec7 = h2sl::SpatialRelation::get_sorted_uids( world_dcg, vp_robot_rf,
     'x', '+', "max", std::nullopt, std::nullopt );
   std::cout << str_double_vector_to_str( sort_vec7 ) << std::endl;
- 
+
   // Example 8 - Farthest from r => landmark r, no viewpoint, axis d+, extrema max
   std::cout << "\nSorting items by \"Farthest from r\"" << std::endl;
   h2sl::Transform3D lm_r_rf = h2sl::SpatialRelation::get_relation_frame( r, std::nullopt );
@@ -228,6 +228,6 @@ int main( int argc, char* argv[] ){
     'd', '+', "min", green, std::nullopt );
   std::cout << str_double_vector_to_str( sort_vec10 ) << std::endl;
 
-  std::cout << "End of the spatial relations demo program\n" << std::endl; 
+  std::cout << "End of the spatial relations demo program\n" << std::endl;
   return EXIT_SUCCESS;
 }

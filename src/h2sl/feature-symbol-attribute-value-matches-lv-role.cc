@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -88,7 +88,7 @@ bool FeatureSymbolAttributeValueMatchesLVRole::from_xml( const tinyxml2::XMLElem
     }
     return false;
   }
- 
+
   // Check to see if the class name is defined
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -113,7 +113,7 @@ bool FeatureSymbolAttributeValueMatchesLVRole::from_xml( const tinyxml2::XMLElem
     }
     return false;
   }
- 
+
   // Read the symbol_type attribute and set it to the symbol_type
   const tinyxml2::XMLAttribute* symbol_type_attr = root->FindAttribute("symbol_type");
   if( symbol_type_attr == nullptr ){
@@ -166,10 +166,10 @@ FeatureSymbolAttributeValueMatchesLVRole::evaluate( const std::shared_ptr< std::
                                                                   const std::shared_ptr<Symbol>& symbol )
 {
   value = FeatureValue::False;
-  
+
   // check if the language variable has roles at all
-  if( !lv->roles ) return value;
- 
+  if( lv->roles() == std::nullopt ) return value;
+
   // check if the symbol's type matches the feature's symbol_type
   if( symbol->type != symbol_type ) return value;
 
@@ -191,14 +191,14 @@ FeatureSymbolAttributeValueMatchesLVRole::evaluate( const std::shared_ptr< std::
   }
 
   // We have checked that the LV has roles; check if it has the feature's
-  auto it_roles = lv->roles->find( role_type );
-  if( it_roles == lv->roles->end() ) return value;
-  
+  auto it_roles = lv->roles()->find( role_type );
+  if( it_roles == lv->roles()->end() ) return value;
+
   // The LV has the role, but does it match?
   if( extracted_symbol_attribute == it_roles->second ){
     value = FeatureValue::True;
   }
-  
+
   return value;
 }
 

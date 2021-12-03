@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -59,17 +59,17 @@ int main( int argc, char* argv[] ){
   auto sr_symcompinfo =
             std::make_shared<h2sl::SymbolCompositionalInfo>("spatial_relation");
   auto symbol_props = h2sl::Symbol::propertiesMap({{"spatial_relation_type", "near"}});
-  h2sl::Symbol first_spatial_relation_symbol = h2sl::Symbol("spatial_relation", 
+  h2sl::Symbol first_spatial_relation_symbol = h2sl::Symbol("spatial_relation",
                                                                 symbol_props );
   symbol_props.clear();
   symbol_props = h2sl::Symbol::propertiesMap({{"spatial_relation_type", "far"}});
-  h2sl::Symbol second_spatial_relation_symbol = h2sl::Symbol("spatial_relation", 
+  h2sl::Symbol second_spatial_relation_symbol = h2sl::Symbol("spatial_relation",
                                                                   symbol_props );
   // Scrape the created Symbols; Pass in an empty world since the symbols are not Objects
   sr_symcompinfo->scrape_symbol( "PP", first_spatial_relation_symbol );
   sr_symcompinfo->scrape_symbol( "PP", second_spatial_relation_symbol );
 
-  // Create a SymbolCompositionalInfo of multiple Symbols of type "object_type" 
+  // Create a SymbolCompositionalInfo of multiple Symbols of type "object_type"
   auto ot_symcompinfo = std::make_shared<h2sl::SymbolCompositionalInfo>("object_type");
   symbol_props.clear();
   symbol_props = h2sl::Symbol::propertiesMap({{"object_type", "ball"}});
@@ -82,7 +82,7 @@ int main( int argc, char* argv[] ){
   // Scrape the created symbols; Pass in an empty world since the symbols are not Objects
   ot_symcompinfo->scrape_symbol( "NP", first_object_type_symbol );
   ot_symcompinfo->scrape_symbol( "PP", second_object_type_symbol );
-  
+
   // ************************************************************************* //
   // Insert the two SymbolCompositionalInfo objects onto default_symdict
   // ************************************************************************* //
@@ -101,10 +101,10 @@ int main( int argc, char* argv[] ){
 
   // Import a user-provided SymbolSpace from XML
   if( vm.count( "input" ) ){
-    std::cout << "Importing a SymbolDictionary from \"" 
+    std::cout << "Importing a SymbolDictionary from \""
               << vm["input"].as<std::string>() << "\"" << std::endl;
     default_symdict.from_xml( vm["input"].as<std::string>().c_str() );
-    std::cout << "Imported SymbolDictionary: " << default_symdict 
+    std::cout << "Imported SymbolDictionary: " << default_symdict
               << "\n" << std::endl;
   } else{
     std::cout << "No input XML file provided.\n" << std::endl;
@@ -112,7 +112,7 @@ int main( int argc, char* argv[] ){
 
   // Export the user-provided SymbolDictionary to XML
   if( vm.count( "output" ) ){
-    std::cout << "Exporting a SymbolDictionary to \"" 
+    std::cout << "Exporting a SymbolDictionary to \""
               << vm["output"].as<std::string>() << "\"" << std::endl;
     std::cout << "The SymbolDictionary is: " << default_symdict << std::endl;
     default_symdict.to_xml( vm["output"].as<std::string>().c_str() );

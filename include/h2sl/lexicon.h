@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -54,7 +54,7 @@ public:
     Type alias for an unordered map from strings to sets of strings.
   **/
   using mapSetStrings = std::unordered_map<std::string,setStrings>;
-  
+
   /**
     Structure to contain known information about some type of LanguageVariable
     words: the set of words associated with the LanguageVariable type
@@ -64,12 +64,12 @@ public:
   **/
   struct lv_type_information_t{
     lv_type_information_t( void ) : words(), edge_labels(){};
-    mapSetStrings words; 
+    mapSetStrings words;
     setStrings edge_labels;
     setStrings symbol_types;
-    mapSetStrings roles; 
+    mapSetStrings roles;
   };
-  
+
   /** Type alias to contain a LanguageVariable type and associated information structs **/
   using mapTypeInformation = std::unordered_map< std::string, lv_type_information_t >;
 
@@ -77,12 +77,12 @@ public:
     Default Lexicon constructor.
   */
   Lexicon( void ) = default;
-  
+
   /**
     Lexicon class copy constructor.
 
     @brief Lexicon class copy constructor.
-    @overload   
+    @overload
     @param[in]    other         Lexicon to be copied
     @return                     none
     @throws                     no expected throws
@@ -134,7 +134,7 @@ public:
   /**
     Lexicon class move assignment operator.
 
-    @brief Move and assign operator from another Lexicon 
+    @brief Move and assign operator from another Lexicon
     @param[in]    other       Lexicon to be moved
     @returns                  reference to this instance of Lexicon class
     @throws                   no expected throws
@@ -176,7 +176,7 @@ public:
     This method imports a Lexicon class from an XMLElement*.
 
     @brief Import a Lexicon class from an XMLElement*.
-    @overload   
+    @overload
     @param[in]    lexicon_elem        current XMLElement* to an XML Lexicon element
     @returns                          boolean flag; true if there are no errors
     @throws                           no expected throws

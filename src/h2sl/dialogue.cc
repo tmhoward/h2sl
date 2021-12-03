@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -41,21 +41,19 @@ namespace h2sl {
 ///
 /// Dialogue parameter constructor from a vector of sentences
 ///
-Dialogue::Dialogue( const std::vector< Sentence >& sentencesArg ) : sentences( sentencesArg ) {
-
-}
+Dialogue::Dialogue( const std::vector< Sentence >& sentences ) : sentences_( sentences ) {}
 
 ///
 /// Dialogue parameter constructor from a single sentence
 ///
-Dialogue::Dialogue( const Sentence& sentence ) : sentences() {
-  sentences.push_back( sentence );
+Dialogue::Dialogue( const Sentence& sentence ) : sentences_() {
+  sentences_.push_back( sentence );
 }
 
 ///
 /// Dialogue parameter constructor to load from a file
 ///
-Dialogue::Dialogue( const std::string& filename ) : sentences() {
+Dialogue::Dialogue( const std::string& filename ) : sentences_() {
   from_file( filename );
 }
 
@@ -64,12 +62,9 @@ Dialogue::Dialogue( const std::string& filename ) : sentences() {
 //
 std::string Dialogue::words_to_std_string( void ) const{
   std::string all_words_str;
-  for( auto it_sentence = sentences.cbegin();
-            it_sentence != sentences.cend();
-            ++it_sentence )
-  {
-    all_words_str = all_words_str + "[" + it_sentence->uid + "] " + it_sentence->words_to_std_string();
-    if( std::next( it_sentence ) != sentences.cend() ){
+  for( auto it_sentence = sentences_.cbegin(); it_sentence != sentences_.cend(); ++it_sentence ){
+    all_words_str = all_words_str + "[" + it_sentence->uid() + "] " + it_sentence->words_to_std_string();
+    if( std::next( it_sentence ) != sentences_.cend() ){
       all_words_str = all_words_str + " ";
     }
   }
@@ -79,118 +74,101 @@ std::string Dialogue::words_to_std_string( void ) const{
 ///
 /// Method to load from a file without symbols
 ///
-bool Dialogue::from_file( const std::string& filename ) {
-  if( boost::algorithm::ends_with( filename, "xml" ) ){
-    return from_xml( filename );
-  } else {
-    std::cerr << "[Dialogue Class Error] Erroneous file suffix (\"" << filename << "\") in from_file";
-    return false;
-  }
+void Dialogue::from_file( const std::string& filename ) {
+  from_file( filename, nullptr );
+  return;
 }
 
 ///
 /// Method to load from a file with symbols
 ///
-bool Dialogue::from_file( const std::string& filename, std::shared_ptr<SymbolSpace>& symbolSpace ) {
+void Dialogue::from_file( const std::string& filename, SymbolSpace *const p_symbolspace ) {
   if( boost::algorithm::ends_with( filename, "xml" ) ){
-    return from_xml( filename, symbolSpace );
+    from_xml( filename.c_str(), p_symbolspace );
   } else if ( boost::algorithm::ends_with( filename, "json" ) ){
-    return from_json( filename );
+    from_json( filename );
   } else {
-    std::cerr << "[Dialogue Class Error] Erroneous file suffix (\"" << filename << "\") in from_file";
-    return false;
+    std::stringstream error_msg;
+    error_msg << log_error( __FILE__, __LINE__) << "Erroneous file suffix (\"" << filename << "\")";
+    throw std::runtime_error( error_msg.str() );
   }
+  return;
 }
 
 ///
 /// Method to load from an XML file without symbols
 ///
-bool Dialogue::from_xml( const std::string& filename ) {
-  tinyxml2::XMLDocument doc;
-  doc.LoadFile(filename.c_str());
-  const tinyxml2::XMLElement *root = doc.FirstChildElement("root");
-  if (root != nullptr) {
-    const tinyxml2::XMLElement *child = root->FirstChildElement();
-    while( child != nullptr ){
-      from_xml(child);
-      child = child->NextSiblingElement();
-    }
-  }
-  return doc.ErrorID();
+void Dialogue::from_xml( const char* filename ) {
+  from_xml( filename, nullptr );
+  return;
 }
 
 ///
 /// Method to load from an XML file with symbols
 ///
-bool Dialogue::from_xml( const std::string& filename, std::shared_ptr<SymbolSpace>& symbolSpace ) {
+void Dialogue::from_xml( const char* filename, SymbolSpace *const p_symbolspace ){
+  // Initialize an error_msg for exception handling
+  std::stringstream error_msg;
+  // Load the file into a document object
   tinyxml2::XMLDocument doc;
-  doc.LoadFile(filename.c_str());
-  const tinyxml2::XMLElement *root = doc.FirstChildElement("root");
-  if (root != nullptr) {
-    const tinyxml2::XMLElement *child = root->FirstChildElement();
-    while( child != nullptr ){
-      from_xml(child, symbolSpace);
-      child = child->NextSiblingElement();
-    }
+  doc.LoadFile( filename );
+  if( doc.Error() ){
+    error_msg << log_error(__FILE__, __LINE__) << "Document error during LoadFile for \"" << filename << "\" with doc.Error(): "
+              << doc.Error();
+    throw std::runtime_error( error_msg.str() );
   }
-  return doc.ErrorID();
+
+  // Extract the root element from the document object
+  auto const* p_root = doc.RootElement();
+  if( p_root == nullptr ){
+    error_msg << log_error(__FILE__, __LINE__) << "Document error during RootElement for \"" << filename << "\"";
+    throw std::runtime_error( error_msg.str() );
+  }
+
+  // Check for any Dialogue child elements of the root
+  auto const* p_dialogue_element = p_root->FirstChildElement("dialogue");
+  if( p_dialogue_element == nullptr ){
+    error_msg << log_error(__FILE__, __LINE__) << "No dialogue element found as a child of the root element for \""
+              << filename << "\"";
+    throw std::runtime_error( error_msg.str() );
+  }
+  from_xml( p_dialogue_element, p_symbolspace );
+  return;
 }
 
 ///
-/// Method to load from a tinyxml2 element without symbols
+/// Method to load from an XMLElement*
 ///
-bool Dialogue::from_xml( const tinyxml2::XMLElement* dialogueElem ){
-  if( dialogueElem == nullptr )
-    return false;
-
-  if( std::strcmp( dialogueElem->Name(), "dialogue" ) == 0 ){
-    sentences.clear();
-    // Iterate through all of the children and load each sentence into the sentences vector
-    const tinyxml2::XMLElement* sentence_elem = dialogueElem->FirstChildElement("sentence");
-    while( sentence_elem != nullptr ){
-      Sentence sentence = Sentence();
-      if( !(sentence.from_xml( sentence_elem ) ) )
-        return false;
-      sentences.push_back( sentence );
+void Dialogue::from_xml( tinyxml2::XMLElement const * p_dialogue_element, SymbolSpace *const p_symbolspace ){
+  try{
+    // Initialize an error_msg for exception handling
+    std::stringstream error_msg;
+    // Clear the member data
+    reset_();
+    // Check that the element is a dialogue element
+    if( p_dialogue_element == nullptr ){
+      error_msg << log_error(__FILE__, __LINE__) << "The XMLElement* was nullptr";
+      throw std::runtime_error( error_msg.str() );
     }
-  } else if ( std::strcmp( dialogueElem->Name(), "sentence" ) == 0 ){
-    sentences.clear();
-    Sentence sentence = Sentence();
-    if( !(sentence.from_xml( dialogueElem ) ) )
-      return false;
-    sentences.push_back( sentence );
-  }
-
-  return true;
-}
-
-///
-/// Method to load from a tinyxml2 element with symbols
-///
-bool Dialogue::from_xml( const tinyxml2::XMLElement* dialogueElem,
-                          std::shared_ptr<SymbolSpace>& symbolSpace ){
-  if( dialogueElem == nullptr )
-    return false;
-
-  if( std::strcmp( dialogueElem->Name(), "dialogue" ) == 0 ){
-    sentences.clear();
-    // Iterate through all of the children and load each sentence into the sentences vector
-    const tinyxml2::XMLElement* sentence_elem = dialogueElem->FirstChildElement("sentence");
-    while( sentence_elem != nullptr ){
-      Sentence sentence = Sentence();
-      if( !(sentence.from_xml( sentence_elem, symbolSpace ) ) )
-        return false;
-      sentences.push_back( sentence );
+    if( strcmp( p_dialogue_element->Name(), "dialogue") != 0 ){
+      error_msg << log_error(__FILE__, __LINE__) << "The XMLElement* name \"" << p_dialogue_element->Name() << "\" did not match"
+                << " \"dialogue\"";
+      throw std::runtime_error( error_msg.str() );
     }
-  } else if ( std::strcmp( dialogueElem->Name(), "sentence" ) == 0 ){
-    sentences.clear();
-    Sentence sentence = Sentence();
-    if( !(sentence.from_xml( dialogueElem, symbolSpace ) ) )
-      return false;
-    sentences.push_back( sentence );
+    // Import child XMLElement sentences as this Dialogue's sentences
+    auto const * p_sentence_element = p_dialogue_element->FirstChildElement("sentence");
+    while( p_sentence_element != nullptr ){
+      h2sl::Sentence sentence;
+      sentence.from_xml( p_sentence_element, p_symbolspace );
+      sentences_.push_back( sentence );
+      p_sentence_element = p_sentence_element->NextSiblingElement("sentence");
+    }
   }
-  
-  return true;
+  catch( std::runtime_error& error ){
+    reset_();
+    throw error;
+  }
+  return;
 }
 
 ///
@@ -207,15 +185,12 @@ bool Dialogue::from_json( const std::string& json_string ){
 /// Method to load from a json value
 ///
 bool Dialogue::from_json( const Json::Value& root ){
-  
-  sentences.clear();
-
+  sentences_.clear();
   for( const auto& sentence_root : root["sentences"] ){
     h2sl::Sentence sentence = h2sl::Sentence();
     sentence.from_json( sentence_root );
-    sentences.push_back(sentence);
+    sentences_.push_back(sentence);
   }
-
   return true;
 }
 
@@ -255,10 +230,7 @@ void Dialogue::to_xml( const std::string& filename )const {
 void Dialogue::to_xml( tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* root )const{
   tinyxml2::XMLElement* dialogue_elem = doc.NewElement( "dialogue" );
   dialogue_elem->SetAttribute( "text", words_to_std_string().c_str() );
-  for( auto it_sentence = sentences.cbegin();
-            it_sentence != sentences.cend();
-            ++it_sentence )
-  {
+  for( auto it_sentence = sentences_.cbegin(); it_sentence != sentences_.cend(); ++it_sentence ){
     it_sentence->to_xml( doc, dialogue_elem );
   }
   root->InsertEndChild( dialogue_elem );
@@ -278,15 +250,20 @@ std::string Dialogue::to_json( void )const{
 /// Method to write to a json value
 ///
 void Dialogue::to_json( Json::Value& root )const{
-
-  root["sentences"] = Json::Value( Json::arrayValue ); 
-
-  for( const auto& sentence : sentences ){
+  root["sentences"] = Json::Value( Json::arrayValue );
+  for( const auto& sentence : sentences_ ){
     Json::Value sentence_root;
     sentence.to_json( sentence_root );
     root["sentences"].append( sentence_root );
   }
+  return;
+}
 
+///
+/// Method to reset the member data
+///
+void Dialogue::reset_( void ){
+  sentences_.clear();
   return;
 }
 
@@ -294,14 +271,9 @@ void Dialogue::to_json( Json::Value& root )const{
 /// Dialogue class ostream operator
 ///
 std::ostream& operator<<(std::ostream& out, const Dialogue& other) {
-  for( auto it_sentence = other.sentences.cbegin();
-            it_sentence != other.sentences.cend();
-            ++it_sentence )
-  {
+  for( auto it_sentence = other.sentences().cbegin(); it_sentence != other.sentences().cend(); ++it_sentence ){
     out << "(" << *it_sentence << ")";
-    if( std::next( it_sentence ) != other.sentences.cend() ){
-      out << ",";
-    }
+    if( std::next( it_sentence ) != other.sentences().cend() ) out << ",";
   }
   return out;
 }

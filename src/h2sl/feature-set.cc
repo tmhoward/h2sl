@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -38,10 +38,10 @@
 namespace h2sl {
 
 std::map< std::string, FeaturePool::indices_t >
-FeatureSet::evaluate( const std::shared_ptr< std::vector< std::shared_ptr< std::string > > >& cvs, 
-                      const std::shared_ptr< Symbol >& symbol, 
-                      const std::shared_ptr< LanguageVariable >& lv, 
-                      const std::shared_ptr< WorldDCG >& world, 
+FeatureSet::evaluate( const std::shared_ptr< std::vector< std::shared_ptr< std::string > > >& cvs,
+                      const std::shared_ptr< Symbol >& symbol,
+                      const std::shared_ptr< LanguageVariable >& lv,
+                      const std::shared_ptr< WorldDCG >& world,
                       std::map< std::string, std::vector< ExpressedFeature > >& expressedFeatures,
                       const bool& debug )
 {
@@ -205,7 +205,7 @@ FeatureSet::evaluate( const std::shared_ptr< std::vector< std::shared_ptr< std::
       feature_index.weight = convert_to_weight_index( feature_index.cv(), feature_index.language(), feature_index.symbol() );
       // Add the feature_index to indices
       indices.feature_indices.push_back( feature_index );
- 
+
       // Create a new expressed feature
       it_expressed_features->second.push_back( ExpressedFeature() );
       // Add the constituent features
@@ -227,7 +227,7 @@ FeatureSet::evaluate( const std::shared_ptr< std::vector< std::shared_ptr< std::
       it_expressed_features->second.back().symbol = symbol;
     } } }
   }
- 
+
   // Add debug printouts for the weight indices
   if( debug ){
     std::cout << "true_feature_indices[" << true_feature_indices.size() << "]:{";
@@ -399,13 +399,13 @@ std::ostream& operator<<(std::ostream& out, const FeatureSet& other) {
       if( std::next( it_feature ) != it_feature_vector->cend() ){
         out << ",";
       }
-    } 
+    }
     out << "}";
     if( std::next( it_feature_vector ) != other.constituent_feature_sets.cend() ){
       out << ",";
     }
   }
-  out << "}"; 
+  out << "}";
   return out;
 }
 

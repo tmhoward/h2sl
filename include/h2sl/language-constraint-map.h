@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -70,14 +70,14 @@ public:
   **/
   LanguageConstraintMap& operator=( LanguageConstraintMap&& ) = default;
 
-  /**                                                                                  
+  /**
     This method evaluates the stored constraints against a language variable
-                                                                                       
+
     @brief Evaluate the stored LanguageConstraint against an language model
     @param[in]    language_variable    LanguageVariable to evaluate
     @returns                           boolean flag indicating if any constraints failed
     @throws                            Throws runtime_error on parsing error
-   */                                                                                  
+   */
   bool evaluate( const h2sl::LanguageVariable& language_variable )const;
 
   /**

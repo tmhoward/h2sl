@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -81,7 +81,7 @@ inline std::ostream& operator<<( std::ostream& out, const std::map< std::string,
   Method to load an instruction field from an XML file
 **/
 std::optional< std::string > instruction_from_xml( const std::string& filename ){
-  
+
   // Load the file into a document object
   tinyxml2::XMLDocument doc;
   doc.LoadFile( filename.c_str() );
@@ -136,7 +136,7 @@ std::optional< std::string > instruction_from_xml( const std::string& filename )
 **/
 void scrape_examples( const std::string& filename,
                       const std::string& instruction,
-                      const std::shared_ptr<std::vector<std::shared_ptr<std::string>>>& cvs, 
+                      const std::shared_ptr<std::vector<std::shared_ptr<std::string>>>& cvs,
                       const std::shared_ptr<h2sl::LanguageVariable>& p_lv,
                       const std::shared_ptr<h2sl::World>& p_world,
                       const std::shared_ptr<h2sl::SymbolSpace>& p_symbolspace,
@@ -152,7 +152,7 @@ void scrape_examples( const std::string& filename,
     } else if ( (*cv) == "false" ){
       p_cv_false = cv;
     }
-  } 
+  }
 
   // Create an example for each symbol in the symbolspace; TRUE if part of the LV, False otherwise
   if( debug ) std::cout << "Checking the language variable: " << *p_lv << std::endl;
@@ -160,7 +160,7 @@ void scrape_examples( const std::string& filename,
     for( const auto& symbol : v_symbols ){
       if( debug ) std::cout << "\tChecking the symbol " << *symbol << std::endl;
       bool found_match = false;
-      for( const auto& lv_symbol : p_lv->symbols ){
+      for( const auto& lv_symbol : p_lv->symbols() ){
         if( debug ) std::cout << "\t\tComparing to the LV's symbol " << *lv_symbol << std::endl;
         if( *lv_symbol == *symbol ){
           found_match = true;
@@ -173,11 +173,13 @@ void scrape_examples( const std::string& filename,
       } else {
         if( debug ) std::cout << "\t\tNo match found" << std::endl;
         examples.push_back( std::make_shared<h2sl::Example>( filename, instruction, p_cv_false, cvs, p_lv, p_world, symbol ) );
-      } 
+      }
     }
   }
-  // Resursively scrape examples from any LanguageVariable children
-  for( const auto& child_connection : p_lv->children ){
+
+  // Recursively scrape examples from any LanguageVariable children
+  if( debug ) std::cout << "Now scraping examples from language variable children..." << std::endl;
+  for( const auto& child_connection : p_lv->children() ){
     scrape_examples( filename, instruction, cvs, child_connection.child, p_world, p_symbolspace, examples, debug );
   }
   return;
@@ -195,7 +197,7 @@ void scrape_examples( const std::string& filename,
   @returns                  The value of the computed objective (sum of log-likelihood)
   @throws                   no expected throws
 **/
-double compute_objective( std::shared_ptr<h2sl::LLM>& p_llm, 
+double compute_objective( std::shared_ptr<h2sl::LLM>& p_llm,
                           const std::vector< std::shared_ptr<h2sl::Example> >& examples,
                           const double lambda = 0.0 )
 {
@@ -321,7 +323,7 @@ lbfgsfloatval_t evaluate( void* func_data,
   }
 
   return -objective;
-  
+
 }
 
 /**
@@ -348,7 +350,7 @@ int lbfgs_training_progress( void* func_data,
                              const lbfgsfloatval_t gnorm,
                              const lbfgsfloatval_t step,
                              int n, int k, int ls ) {
-  std::cout << std::setw(3) << std::setfill(' ') << k << "\t" 
+  std::cout << std::setw(3) << std::setfill(' ') << k << "\t"
             << std::showpoint << std::setprecision(7) << -fx << "\t(" << xnorm << ")\t(" << gnorm << ")" << std::endl;
   return 0;
 }
@@ -406,9 +408,9 @@ std::vector< std::shared_ptr<h2sl::Example> > extract_unique_examples( const std
 
 
 /**
-  A program to train the optimal parameter values of feature weights for a log-linear model that approximates the conditional 
+  A program to train the optimal parameter values of feature weights for a log-linear model that approximates the conditional
   probability of an individual factor in a Distributed Correspondence Graph. Provided training example files are used to generate
-  the set of ground-truth (x,y) pairs at a factor-level. A single training example file consists of an instance of a world and a 
+  the set of ground-truth (x,y) pairs at a factor-level. A single training example file consists of an instance of a world and a
   parse tree of an utterance annotated per its meaning in the context of the world. The main steps of the program are:
 
   1. Load the command-line arguments (symbol dictionary, feature pool, training examples filenames, output filename, and debug flag)
@@ -472,7 +474,7 @@ int main( int argc, char* argv[] ){
   if( debug ) std::cout << "Imported feature-pool with " << feature_pool->num_constituent_features() << " features" << std::endl;
   // Construct the log-linear model with feature weight parameters initialized to 0
   auto llm = std::make_shared<h2sl::LLM>( feature_pool );
-  llm->weights.resize( feature_pool->num_constituent_features(), 0.0 ); 
+  llm->weights.resize( feature_pool->num_constituent_features(), 0.0 );
   if( debug ) std::cout << "Constructed llm with " << llm->weights.size() << " weights" << std::endl;
 
   /***********************************************************************************/
@@ -486,7 +488,6 @@ int main( int argc, char* argv[] ){
 
   // Initialize the data structures to hold the world, language variables, symbol spaces, and examples
   std::vector< std::shared_ptr<h2sl::World> > worlds;
-  std::vector< std::shared_ptr<h2sl::LanguageVariable> > language_variables;
   std::vector< std::shared_ptr<h2sl::SymbolSpace> > symbolspaces;
   std::vector< std::shared_ptr<h2sl::Example> > examples;
 
@@ -503,7 +504,7 @@ int main( int argc, char* argv[] ){
       if( debug ) std::cout << "World name found was \"" << world_name << "\"" << std::endl;
       world_filepath = vm["world-folder"].as<std::string>() + "/" + world_name + ".xml";
     }
-    worlds.back()->from_xml( world_filepath ); 
+    worlds.back()->from_xml( world_filepath );
     if( debug ) std::cout << "Loaded the world: " << worlds.back() << std::endl;
 
     symbolspaces.push_back( std::make_shared<h2sl::SymbolSpace>() );
@@ -511,34 +512,20 @@ int main( int argc, char* argv[] ){
       std::cout << "Failed to fill symbolspace for \"" << example_filepath << "\"" << std::endl;
       return EXIT_FAILURE;
     }
-    if( debug ) std::cout << "Constructed the symbolspace: " << symbolspaces.back() << std::endl;
+    if( debug ) std::cout << "Constructed the symbolspace: " << *symbolspaces.back() << std::endl;
 
     // Construct a sentence with an empty langauge variable child
     auto p_sentence = std::make_shared<h2sl::Sentence>();
+    p_sentence->from_xml( example_filepath.c_str(), symbolspaces.back().get() );
 
-    // Load language content into a LanguageVariable
-    std::optional<h2sl::LanguageVariable> lv = h2sl::LanguageVariable::flattened_from_xml( example_filepath.c_str(), symbolspaces.back() );
-    if( !lv ){
-      std::cout << "Failed to load language variable via LanguageVariable::flattened_from_xml()."
-                << "\nAttempting to load via h2sl::Sentence::from_xml()." << std::endl;
-      if( !p_sentence->from_xml( example_filepath.c_str(), symbolspaces.back() ) ){
-        std::stringstream error_msg;
-        error_msg << "Failed to load a sentence OR a flattened LV from " << example_filepath << std::endl;
-        throw std::runtime_error( error_msg.str() );
-      }
-    } else{
-      p_sentence->child = std::make_shared<h2sl::LanguageVariable>( lv.value() );
-    }
     // Construct LanguageVariable from imported content
-    language_variables.push_back( p_sentence->child );
-    if( debug ) std::cout << "Loaded the language variable: " << *language_variables.back() << std::endl;
+    if( debug ) std::cout << "Loaded the language variable: " << *p_sentence->child() << std::endl;
     // Load instruction from the filepath
-    std::optional< std::string > opt_instruction = instruction_from_xml( example_filepath.c_str() );
+    std::optional< std::string > o_instruction = instruction_from_xml( example_filepath.c_str() );
     std::string instruction = "";
-    if( opt_instruction ){
-      instruction = opt_instruction.value();
-    }
-    scrape_examples( example_filepath, instruction, cvs, language_variables.back(), worlds.back(), symbolspaces.back(), examples );
+    if( o_instruction ) instruction = *o_instruction;
+    if( debug ) std::cout << "Now scraping examples from " << example_filepath.c_str() << std::endl;
+    scrape_examples( example_filepath, instruction, cvs, p_sentence->child(), worlds.back(), symbolspaces.back(), examples, debug );
   }
 
   // Compute the feature indices for each example - this is necessary before extracting unique examples
@@ -577,7 +564,7 @@ int main( int argc, char* argv[] ){
   data.p_llm = llm;
   data.examples = unique_examples;
   data.lambda = vm["lambda"].as<double>();
-  
+
   // Declare lbfgs variables which store the objective value (fx) and weights (x)
   lbfgsfloatval_t fx;
   lbfgsfloatval_t * x = lbfgs_malloc( llm->weights.size() );
@@ -624,7 +611,7 @@ int main( int argc, char* argv[] ){
       if( llm->weights[i] > max_weight ){
         max_weight = llm->weights[i];
       }
-    } 
+    }
     std::cout << "}\nmin_weight:" << min_weight << "\nmax_weight:" << max_weight << std::endl;
   }
 

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -42,10 +42,10 @@ namespace h2sl{
 //
 // ObjectProbabilistic class constructor
 //
-ObjectProbabilistic::ObjectProbabilistic( const string& uidArg, 
+ObjectProbabilistic::ObjectProbabilistic( const string& uidArg,
                 const ObjectState::vectorObjectState& stateHistoryArg,
-                const mapPropertyDistributions& propertyDistributionsArg ) : 
-                
+                const mapPropertyDistributions& propertyDistributionsArg ) :
+
                 uid(uidArg), state_history( stateHistoryArg ),
                 property_distributions(propertyDistributionsArg) {
   if( !property_distributions_valid() ){
@@ -58,11 +58,11 @@ ObjectProbabilistic::ObjectProbabilistic( const string& uidArg,
 //
 ObjectProbabilistic::ObjectProbabilistic(const std::string& uidArg,
                const ObjectState& objectStateArg,
-               const mapPropertyDistributions& propertyDistributionsArg ) : 
+               const mapPropertyDistributions& propertyDistributionsArg ) :
 
                uid(uidArg), state_history(),
                property_distributions(propertyDistributionsArg) {
-  
+
   state_history.push_back( objectStateArg );
   if( !property_distributions_valid() ){
     std::cout << "ObjectProbabilistic constructed with invalid distributions!" << std::endl;
@@ -127,11 +127,11 @@ bool ObjectProbabilistic::from_xml( const string& filename ){
 // Imports the ObjectProbabilistic class from an tinyxml2::XMLElement pointer
 //
 bool ObjectProbabilistic::from_xml(const tinyxml2::XMLElement * object_elem) {
-  
+
   uid = "";
   state_history.clear();
   property_distributions.clear();
-  
+
   // Check that the element is a object element
   if( object_elem == nullptr )
     return false;
@@ -140,11 +140,11 @@ bool ObjectProbabilistic::from_xml(const tinyxml2::XMLElement * object_elem) {
     return false;
 
   // Read the attributes
-  const auto* uid_attribute = object_elem->FindAttribute("uid"); 
+  const auto* uid_attribute = object_elem->FindAttribute("uid");
 
   // Signal false if uid attribute is missing
-  if(uid_attribute == nullptr){ 
-    std::cout << "failed to find uid" << std::endl; 
+  if(uid_attribute == nullptr){
+    std::cout << "failed to find uid" << std::endl;
     return false;
   }
   uid = uid_attribute->Value();
@@ -162,7 +162,7 @@ bool ObjectProbabilistic::from_xml(const tinyxml2::XMLElement * object_elem) {
   }
 
   // Read state_history
-  // The state history should have one or more entries based on the task requirements. 
+  // The state history should have one or more entries based on the task requirements.
   auto state_history_element = object_elem->FirstChildElement("state_history");
   if( state_history_element != nullptr ){
 
@@ -193,10 +193,10 @@ bool ObjectProbabilistic::from_xml(const tinyxml2::XMLElement * object_elem) {
         auto property_distribution_ret = property_distributions.insert({ key_attr->Value(), new_distribution_map });
 	if( !property_distribution_ret.second ){
 	  std::cout << "failed on line " << __LINE__ << " in " << __FILE__ << std::endl;
-	  continue; // Skip to next distribution 
+	  continue; // Skip to next distribution
 	}
 
-	// Separate each distribution into its property options and probabilities 
+	// Separate each distribution into its property options and probabilities
         for( auto property_elem = distribution_elem->FirstChildElement();
 	     property_elem != nullptr;
 	     property_elem = property_elem->NextSiblingElement() ){
@@ -251,12 +251,12 @@ bool ObjectProbabilistic::from_json( const Json::Value& root ){
   uid = "";
   state_history.clear();
   property_distributions.clear();
-  
+
   if( root.isMember("uid") ) {
     uid = root["uid"].asString();
   }
 
-  // Read state_history, which may have one or more entries based on the task requirements. 
+  // Read state_history, which may have one or more entries based on the task requirements.
   if(root.isMember("state_history")){
     Json::Value state_history_array = root["state_history"];
     for( const auto& state_history_element : state_history_array ){
@@ -297,16 +297,16 @@ void ObjectProbabilistic::to_xml(tinyxml2::XMLDocument& document,
                     const int object_states_count) const {
 
   auto object_elem = document.NewElement("object_probabilistic");
-  
+
   // Write uid
   object_elem->SetAttribute("uid", uid.c_str());
 
   // Write the state_history
   auto state_history_elem = document.NewElement("state_history");
   // Write ObjectState from state_history as a child to the state_history node
-  // object_states_count indicates how many latest object states to be exported 
+  // object_states_count indicates how many latest object states to be exported
   int counter = 0;
-  for( auto object_state = state_history.rbegin(); object_state != state_history.rend(); ++object_state){    
+  for( auto object_state = state_history.rbegin(); object_state != state_history.rend(); ++object_state){
     if(counter >= object_states_count)
       break;
     object_state->to_xml( document, state_history_elem );
@@ -328,7 +328,7 @@ void ObjectProbabilistic::to_xml(tinyxml2::XMLDocument& document,
       }
       distributions_elem->InsertEndChild( distribution_elem );
     }
-    object_elem->InsertEndChild( distributions_elem ); 
+    object_elem->InsertEndChild( distributions_elem );
   }
 
   root->InsertEndChild( object_elem );
@@ -354,7 +354,7 @@ void ObjectProbabilistic::to_json( Json::Value& root )const{
   root["uid"] = uid;
 
   // Write the state_history
-  root["state_history"] = Json::Value( Json::arrayValue ); 
+  root["state_history"] = Json::Value( Json::arrayValue );
   for( const auto& object_state : state_history ){
     Json::Value state_history_root;
     object_state.to_json( state_history_root );
@@ -382,7 +382,7 @@ ostream& operator<<(ostream& out, const ObjectProbabilistic& other) {
   }
   out << "}";
 
-  if( !other.property_distributions.empty() ){ 
+  if( !other.property_distributions.empty() ){
     out << ",property_distributions{";
     for (auto it_prop_dist = other.property_distributions.begin();
         it_prop_dist != other.property_distributions.end(); it_prop_dist++) {

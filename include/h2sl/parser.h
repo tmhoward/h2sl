@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -42,7 +42,7 @@ namespace h2sl{
   Class to represent a constituency parser that utilizes a Binarized Probabilistic
   Context Free Grammar (only unary or binary production rules). The parsing algorithm
   is a modified probabilistic Cocke-Kasimi-Younger algorithm that allows unary rules.
-  
+
   This class is constructed from an initial non-binarized PCFG that is maintained as
   a member of the class. During construction, the class also constructs a binarized
   version of the grammar.
@@ -58,11 +58,11 @@ public:
 
   /**
     A Structure to contain the contents of a single producable constituent in the parse
-    chart. It includes back pointers to the rule constituents B and C used to produce 
+    chart. It includes back pointers to the rule constituents B and C used to produce
     the symbol A. It also includes the probability of the current symbol A:
       Binary rule: P(A) = P(A -> B C) * P(B) * P(C)
       Unary rule: P(A) = P(A -> B) * P(B)
-      
+
 
     prob: the probability of the parse up to the current symbol
     type: the type of the chart element
@@ -207,16 +207,16 @@ private:
     pushed onto the parent_phrase's children member. If child_chart_element
     represents a word, then a new word is constructed and pushed onto the parent_phrase
     words member.
-    
+
     @brief Populate an Phrase for a single chart element
-    @param[in]      parent_phrase         Phrase to be populated
+    @param[out]     r_parent_phrase       Phrase to be populated
     @param[in]      child_chart_element   The chart element for a child (word/phrase)
+    @param[out]     r_phrase_name         The name to be incremented and assigned to the child phrase
     @returns                              none
     @throws                               Throws runtime error if tree generation issue
   **/
   void
-  _populate_phrase( Phrase& parent_phrase,
-                    const chart_element_t& child_chart_element );
+  _populate_phrase( Phrase& r_parent_phrase, chart_element_t const & child_chart_element, char & r_phrase_name );
 
   /**
     This method sorts a vector of chart elements according to their probability. The

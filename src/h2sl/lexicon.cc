@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -46,16 +46,16 @@ Lexicon::Lexicon( const tinyxml2::XMLElement* root ) : type_information()
 bool Lexicon::_scrape_language_variable( const std::shared_ptr<h2sl::LanguageVariable>& language_variable )
 {
   // Make a recursive call for each child language variable
-  for( const auto& connection : language_variable->children ){
+  for( const auto& connection : language_variable->children() ){
     _scrape_language_variable( connection.child );
   }
 
   // Try inserting an entry for the current LV type into the map if it does not exist
-  const auto& [it_type_info, type_success] = type_information.emplace( language_variable->type, lv_type_information_t() );
+  const auto& [it_type_info, type_success] = type_information.emplace( language_variable->type(), lv_type_information_t() );
 
   // Iterate through words in this LanguageVariable
-  if( language_variable->words ){
-    for( const auto& word : language_variable->words.value() ){
+  if( language_variable->words() ){
+    for( const auto& word : language_variable->words().value() ){
       // Try to insert an unordered map for the POS type
       const auto& [it_pos_words, pos_success] = it_type_info->second.words.emplace( word.pos, Lexicon::setStrings() );
       // Try to insert the current word text into the word set
@@ -67,7 +67,7 @@ bool Lexicon::_scrape_language_variable( const std::shared_ptr<h2sl::LanguageVar
   }
 
   // Iterate through edge labels under this LanguageVariable
-  for( const auto& connection : language_variable->children ){
+  for( const auto& connection : language_variable->children() ){
     // Try to insert the current edge label if it exists
     if( connection.label ){
       it_type_info->second.edge_labels.emplace( connection.label.value() );
@@ -75,14 +75,14 @@ bool Lexicon::_scrape_language_variable( const std::shared_ptr<h2sl::LanguageVar
   }
 
   // Iterate through symbols under this LanguageVariable
-  for( const auto& symbol : language_variable->symbols ){
+  for( const auto& symbol : language_variable->symbols() ){
     // Try to insert the current symbol type
     it_type_info->second.symbol_types.emplace( symbol->type );
   }
 
   // Iterate through roles of this LanguageVariable
-  if( language_variable->roles ){
-    for( const auto& role : language_variable->roles.value() ){
+  if( language_variable->roles() ){
+    for( const auto& role : language_variable->roles().value() ){
       // Try inserting a new set for this role into the LV type's roles map in case it does not exist
       auto [it_roles, role_success] = it_type_info->second.roles.emplace( role.first, setStrings() );
       it_roles->second.emplace( role.second );
@@ -95,10 +95,9 @@ bool Lexicon::_scrape_language_variable( const std::shared_ptr<h2sl::LanguageVar
 //
 // This method scrapes information from Sentences into the lexicon.
 //
-bool Lexicon::scrape_sentences( const std::vector<std::shared_ptr<h2sl::Sentence>>& sentences )
-{
+bool Lexicon::scrape_sentences( const std::vector<std::shared_ptr<h2sl::Sentence>>& sentences ){
   for( const auto& sentence : sentences ){
-    if( !_scrape_language_variable( sentence->child ) ){
+    if( !_scrape_language_variable( sentence->child() ) ){
       return false;
     }
   }
@@ -207,7 +206,7 @@ bool Lexicon::from_xml( const tinyxml2::XMLElement* lexicon_elem ){
       }
     }
 
-    // Attempt to add the created lv_type_information_t to the type information map 
+    // Attempt to add the created lv_type_information_t to the type information map
     auto result = type_information.emplace( lv_type, info );
     if( !result.second ){
       return false;
@@ -238,12 +237,12 @@ bool Lexicon::to_xml( const char* filename ) const{
 //
 // Method to export a Lexicon to an XMLDocument object
 //
-void Lexicon::to_xml( tinyxml2::XMLDocument& doc, 
+void Lexicon::to_xml( tinyxml2::XMLDocument& doc,
                       tinyxml2::XMLElement* root) const
 {
   tinyxml2::XMLElement* lexicon_elem = doc.NewElement( XMLLexiconName );
   root->InsertEndChild( lexicon_elem );
-  
+
   // Create a language-variable-type element for each type in the Lexicon
   for( const auto& [lv_type, info] : type_information ){
 
@@ -251,7 +250,7 @@ void Lexicon::to_xml( tinyxml2::XMLDocument& doc,
 
     // Export language variable type as an XMLAttribute
     lv_type_elem->SetAttribute( "type", lv_type.c_str() );
-   
+
     // If there are words, create a corresponding child XMLElement
     // Get and export each POS and set of word texts
     if( !info.words.empty() ){
@@ -305,7 +304,7 @@ void Lexicon::to_xml( tinyxml2::XMLDocument& doc,
       }
       lv_type_elem->InsertEndChild( roles_elem );
     }
-    
+
     // Add LV type element to the lexicon
     lexicon_elem->InsertEndChild( lv_type_elem );
   }
@@ -354,7 +353,7 @@ std::ostream& operator<<( std::ostream& out, const Lexicon& other ){
       }
       out << "}" << std::endl;
     }
-  
+
     // Print symbol types if there are any
     if( !info.symbol_types.empty() ){
       unsigned int i = 0;

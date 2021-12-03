@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -135,13 +135,13 @@ FeatureValue FeatureSpatialRelationChildrenContradicted::evaluate( const std::sh
     return value;
   if( it_object->second.state_history.back().pose == nullptr )
     return value;
-  
+
   // Extract Figure symbol ObjectState for later use
   const ObjectState& figure = it_object->second.state_history.back();
 
   // Check all child LanguageVariables for binary spatial_relation symbols
-  for( const auto& connection : lv->children ){
-    for( const auto& child_symbol : connection.child->symbols ){
+  for( const auto& connection : lv->children() ){
+    for( const auto& child_symbol : connection.child->symbols() ){
       if( child_symbol->type != "spatial_relation" ){
         continue;
       }
@@ -166,7 +166,7 @@ FeatureValue FeatureSpatialRelationChildrenContradicted::evaluate( const std::sh
       // Convert axis into 2 characters
       char axis_dimension = it_axis->second[0];
       char axis_direction = it_axis->second[1];
-      
+
       // Check if the spatial relation has a landmark
       std::optional<std::string> landmark_uid = std::nullopt;
       auto it_landmark_uid = child_symbol->properties.find( "landmark" );
@@ -225,7 +225,7 @@ FeatureValue FeatureSpatialRelationChildrenContradicted::evaluate( const std::sh
         value = FeatureValue::True;
         return value;
       }
-    } 
+    }
   }
 
   return value;

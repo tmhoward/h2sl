@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -28,7 +28,6 @@
  */
 
 #include <boost/program_options.hpp>
-#include <chrono>
 
 #include "h2sl/dcg.h"
 #include "h2sl/feature.h"
@@ -73,7 +72,7 @@ public:
     _p_cvs->emplace_back( std::make_shared< std::string >( "true" ) );
     _p_cvs->emplace_back( std::make_shared< std::string >( "false" ) );
   }
- 
+
   // Default destructor for DCG_ROS
   ~DCG_ROS() = default;
 
@@ -95,9 +94,9 @@ public:
     }
     // Construct a Sentence with the received LV
     auto p_sentence = std::make_shared< h2sl::Sentence >();
-    p_sentence->child = std::make_shared< h2sl::LanguageVariable >( *o_lv );
+    p_sentence->child() = std::make_shared< h2sl::LanguageVariable >( *o_lv );
     ROS_INFO_STREAM("Loaded the sentence \"" << p_sentence->words_to_std_string() << "\" from the request message.");
-    
+
     // Request an updated world if the service client exists
     const auto it_world_client = _service_clients.find( client_world_channel );
     if( it_world_client != _service_clients.cend() ){
@@ -128,60 +127,41 @@ public:
     // Fill the reponse with the best solution
     auto& r_best_solution = _o_solutions->at(0);
     ROS_INFO_STREAM("Best solution has a probability: " << r_best_solution.prob);
-    for( const auto& symbol : r_best_solution.sentence.child->symbols ){
+    for( const auto& symbol : r_best_solution.sentence.child()->symbols() ){
       res.symbols.emplace_back( symbol->to_msg() );
     }
     return true;
   }
 
-  /*******************************************************************/
-  /******************** Member Accessor Methods **********************/
-  /*******************************************************************/
-  /**
-    Method to provide read-only access to the publishers member data
-  **/
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+  //      Member Accessor Methods           //
+  //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+
+  // Methods to provide read-only & read-write access to the publishers member data
   inline const std::map< std::string, ros::Publisher >& publishers( void )const{ return _publishers; }
-  /**
-    Method to provide read/write access to the publishers member data
-  **/
   inline std::map< std::string, ros::Publisher >& publishers( void ){ return _publishers; }
 
-  /**
-    Method to provide read-only access to the subscribers member data
-  **/
+  // Methods to provide read-only & read-write access to the subscribers member data
   inline const std::map< std::string, ros::Subscriber >& subscribers( void )const{ return _subscribers; }
-  /**
-    Method to provide read/write access to the subscribers member data
-  **/
   inline std::map< std::string, ros::Subscriber >& subscribers( void ){ return _subscribers; }
 
-  /**
-    Method to provide read-only access to the service_servers member data
-  **/
+  // Methods to provide read-only & read-write access to the service_servers member data
   inline const std::map< std::string, ros::ServiceServer >& service_servers( void )const{ return _service_servers; }
-  /**
-    Method to provide read/write access to the service_servers member data
-  **/
   inline std::map< std::string, ros::ServiceServer >& service_servers( void ){ return _service_servers; }
 
-  /**
-    Method to provide read-only access to the service_clients member data
-  **/
+  // Methods to provide read-only & read-write access to the service_clients member data
   inline const std::map< std::string, ros::ServiceClient >& service_clients( void )const{ return _service_clients; }
-  /**
-    Method to provide read/write access to the service_clients member data
-  **/
   inline std::map< std::string, ros::ServiceClient >& service_clients( void ){ return _service_clients; }
 protected:
 private:
-  /*** ROS-related members ***/
+  /// ROS-related members
   ros::NodeHandle _nh;
   std::map< std::string, ros::Publisher > _publishers = std::map< std::string, ros::Publisher>();
   std::map< std::string, ros::Subscriber > _subscribers = std::map< std::string, ros::Subscriber>();
   std::map< std::string, ros::ServiceServer > _service_servers = std::map< std::string, ros::ServiceServer>();
   std::map< std::string, ros::ServiceClient > _service_clients = std::map< std::string, ros::ServiceClient>();
 
-  /*** DCG-related members ***/
+  /// DCG-related members
   // Trained log-linear model, typically loaded from a file
   std::shared_ptr< h2sl::LLM > _p_llm = nullptr;
   // SymbolDictionary from which a SymbolSpace can be constructed
@@ -202,11 +182,15 @@ private:
 ///
 int main( int argc, char* argv[] ){
   try{
-    std::cout << "Start of the dcg-server node program." << std::endl;
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    //                              Load the CLI Arguments                          //
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    // Initialize the ROS process & Create a node handle
+    ros::init(argc, argv, "dcg_server_node");
+    ros::NodeHandle nh;
+    ROS_INFO("Start of the dcg-server node program.");
 
-    /********************************************************************************/
-    /****************************** Load the CLI Arguments **************************/
-    /********************************************************************************/
+    // Parse the command-line
     boost::program_options::options_description desc("Options");
     desc.add_options()("help,h", "Help Screen")(
       "channels,c", boost::program_options::value<std::string>(), "channel file location for use by the ROS node")(
@@ -222,55 +206,46 @@ int main( int argc, char* argv[] ){
     }
     // Load the channels from file into a map
     std::unordered_map< std::string, std::string > channels;
-    if( !vm.count("channels") ){
-      throw std::runtime_error("No channels file provided");
-    } else{
-      std::cout << "Loading the channels file \"" << vm["channels"].as<std::string>() << "\"" << std::endl;
+    if( !vm.count("channels") ) throw std::runtime_error("No channels file provided");
+    else{
+      ROS_INFO_STREAM("Loading the channels file \"" << vm["channels"].as<std::string>() << "\"");
       channels = h2sl::channels_from_xml( vm["channels"].as<std::string>().c_str() );
     }
     // Load the world model if provided; otherwise, expect a world service to be provided
     auto p_world = std::make_shared<h2sl::World>();
     if( !vm.count("world") ){
-      std::cout << "No world file provided - will construct a ROS::serviceClient() object to request world models" << std::endl;
+      ROS_INFO_STREAM("No world file provided - will construct a ROS::serviceClient() object to request world models");
       p_world = nullptr;
     } else{
-      std::cout << "Loading the world file \"" << vm["world"].as<std::string>() << "\"" << std::endl;
-      std::cout << "Not creating a ROS::serviceClient() object for a world service" << std::endl;
+      ROS_INFO_STREAM("Loading the world file \"" << vm["world"].as<std::string>() << "\"");
+      ROS_INFO("Not creating a ROS::serviceClient() object for a world service");
       p_world = std::make_shared<h2sl::World>();
       p_world->from_xml( vm["world"].as<std::string>() );
     }
     // Load the symboldictionary from file
     auto p_sd = std::make_shared<h2sl::SymbolDictionary>();
-    if( !vm.count("symbol_dictionary") ){
-      throw std::runtime_error("No symbol dictionary file provided");
-    }else{
-      std::cout << "Loading the symbol dictionary file \"" << vm["symbol_dictionary"].as<std::string>() << "\"" << std::endl;
+    if( !vm.count("symbol_dictionary") ) throw std::runtime_error("No symbol dictionary file provided");
+    else{
+      ROS_INFO_STREAM("Loading the symbol dictionary file \"" << vm["symbol_dictionary"].as<std::string>() << "\"");
       p_sd->from_file( vm["symbol_dictionary"].as<std::string>().c_str() );
     }
     // Load the log-linear model from file
     auto p_llm = std::make_shared<h2sl::LLM>();
-    if( !vm.count("llm") ){
-      throw std::runtime_error("No log-linear model file provided");
-    } else{
-      std::cout << "Loading the log-linear model file \"" << vm["llm"].as<std::string>() << "\"" << std::endl;
+    if( !vm.count("llm") ) throw std::runtime_error("No log-linear model file provided");
+    else{
+      ROS_INFO_STREAM("Loading the log-linear model file \"" << vm["llm"].as<std::string>() << "\"");
       p_llm->from_file( vm["llm"].as<std::string>().c_str() );
     }
 
-    /********************************************************************************/
-    /****************************** Setup the ROS Utilities *************************/
-    /********************************************************************************/
-    // Initialize the ROS process & Create a node handle
-    ros::init(argc, argv, "dcg_server_node");
-    ros::NodeHandle nh;
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    //                              Setup the ROS Utilities                         //
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 
     // Create the DCG_ROS object
     DCG_ROS dcg_ros( nh, p_llm, p_sd );
 
     // Create the ROS_Helper
     h2sl::ROS_Helper<DCG_ROS> ros_helper{ nh, dcg_ros, channels };
-
-    // Create any ROS publishers
-    // Create any ROS subscribers
 
     // Create any ROS ServiceServers
     ros_helper.create_service_server( server_ground_language_channel, &DCG_ROS::handle_ground_language_callback );
@@ -280,16 +255,16 @@ int main( int argc, char* argv[] ){
     }
 
 
-    /********************************************************************************/
-    /****************************** Begin ROS spinning ******************************/
-    /********************************************************************************/
-    std::cout << "ROS initiated, entering spin loop" << std::endl;
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    //                              Begin ROS Spinning                              //
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    ROS_INFO("ROS initiated, entering spin loop");
     ros::Rate r(10);
     while( ros::ok() ){
       ros::spinOnce();
       r.sleep();
     }
-    std::cout << "Node terminating, exiting the dcg-server node program." << std::endl;
+    ROS_INFO("Node terminating, exiting the dcg-server node program.");
     return EXIT_SUCCESS;
   }
   catch( const std::runtime_error& error ){

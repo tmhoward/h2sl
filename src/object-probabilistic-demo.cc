@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
 
   // Now test invalid property distribution detection
   std::map<std::string, std::map<std::string, double>> invalid_distributions;
-  
+
   invalid_distributions["color"] = std::map<std::string, double>();
   invalid_distributions["color"]["red"] = 0.8;
   invalid_distributions["color"]["blue"] = 0.21; // 0.01 too high
@@ -133,22 +133,22 @@ int main(int argc, char *argv[]) {
 
   // Finally, test conversion to Object class, which uses an Object constructor
   std::map<std::string, std::map<std::string, int>> sampled_property_counts;
-  
+
   srand( time( NULL ) ); // Initialize random seed
   int num_samples = 500000;
   std::cout << "Now sampling " << num_samples << " deterministic objects..." << std::endl << std::endl;
   for( int i = 0; i < num_samples; i++ ){
     h2sl::Object sampled_object( object ); // Samples each property to some deterministic value
-    
+
     // Count instances of semantic properties
     for( const auto& property : sampled_object.properties ){
       std::string property_key = property.first;
       std::string property_value = property.second;
-	
+
       // Attempt to add, or look up, the map for this particular property
       auto result = sampled_property_counts.emplace( property_key, std::map<std::string, int>() );
-      auto it_property_map = result.first; // Iterator to the property count map 
-      
+      auto it_property_map = result.first; // Iterator to the property count map
+
       // Attempt to initialize the count for this property value
       auto value_result = it_property_map->second.emplace( property_value, 1 );
       if( !value_result.second ){ // Could not insert because a value existed
@@ -196,7 +196,7 @@ int main(int argc, char *argv[]) {
   std::cout << std::endl;
 
   std::cout << "Object sampled from: " << object << std::endl << std::endl;
-  
+
   if (vm.count("output")) {
     std::cout << "writing object to \"" << vm["output"].as<std::string>()
               << "\"" << std::endl;

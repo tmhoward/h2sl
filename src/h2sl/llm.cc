@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -54,7 +54,7 @@ LLM::LLM( const std::shared_ptr< FeaturePool >& featurePoolArg ) : feature_pool(
 }
 
 ///
-/// Method to compute the conditional probability function (Probability of Y Given X) approximated by the LLM 
+/// Method to compute the conditional probability function (Probability of Y Given X) approximated by the LLM
 ///
 const LLM::pygx_result_t
 LLM::pygx( const std::shared_ptr< std::string >& cv,
@@ -64,7 +64,7 @@ LLM::pygx( const std::shared_ptr< std::string >& cv,
   auto result = pygx_result_t();
   if( store_sums )
     result.sum_of_weights = std::map< std::string, double >();
-  
+
   // Iterate through each index
   for( const auto& [cv_key, cv_indices] : indices ){
     // Compute the sum of the weights
@@ -130,7 +130,7 @@ void LLM::pygxs( std::shared_ptr<FeaturePool>& featureSpace, std::vector< std::p
     it_cvs->second = tmp;
     sum += tmp;
   }
- 
+
   // normalize the result by the sum of each of the weighted feature sums
   for( std::vector< std::pair< std::shared_ptr<std::string>, double > >::iterator it_cvs = cvs.begin(); it_cvs != cvs.end(); it_cvs++ ){
     it_cvs->second /= sum;
@@ -187,7 +187,7 @@ bool LLM::from_file( const std::string& filename ) {
 /// Method to load from an XML file
 ///
 bool LLM::from_xml( const std::string& filename ) {
-  
+
   // Load the file into a document object
   tinyxml2::XMLDocument doc;
   doc.LoadFile( filename.c_str() );
@@ -219,7 +219,7 @@ bool LLM::from_xml( const tinyxml2::XMLElement* llm_element ){
   // Import the feature-pool
   const tinyxml2::XMLElement* feature_pool_elem = llm_element->FirstChildElement("feature-pool");
   if( feature_pool_elem == nullptr ){
-    std::cout << "failed to find feature-pool" << std::endl;  
+    std::cout << "failed to find feature-pool" << std::endl;
     return false;
   }
   feature_pool = std::make_shared< FeaturePool >( feature_pool_elem );

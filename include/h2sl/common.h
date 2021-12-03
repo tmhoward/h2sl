@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -56,7 +56,7 @@ namespace h2sl {
     return 1.0;
   }
 
-  /** 
+  /**
    * converts unsigned int to std::string
    */
   inline std::string to_std_string( const unsigned int& arg, const unsigned int& precision = 4 ){
@@ -65,7 +65,7 @@ namespace h2sl {
     return tmp.str();
   }
 
-  /** 
+  /**
    * converts double to std::string
    */
   inline std::string to_std_string( const double& arg, const unsigned int& precision = 4 ){
@@ -74,7 +74,7 @@ namespace h2sl {
     return tmp.str();
   }
 
-  /** 
+  /**
    * converts three doubles to a std::string
    */
   inline std::string to_std_string( const double& val1Arg, const double& val2Arg, const double& val3Arg, const unsigned int& precision = 4 ){
@@ -83,7 +83,7 @@ namespace h2sl {
     return tmp.str();
   }
 
-  /** 
+  /**
    * converts four doubles to a std::string
    */
   inline std::string to_std_string( const double& val1Arg, const double& val2Arg, const double& val3Arg, const double& val4Arg, const unsigned int& precision = 4 ){
@@ -106,7 +106,7 @@ namespace h2sl {
     return strtod( stringArg, NULL );
   }
 
-  /** 
+  /**
    * converts string to double
    */
   inline double from_std_sring( const std::string& stringArg ){
@@ -129,7 +129,7 @@ namespace h2sl {
   /**
   * Method to convert an std::unordered_set of std::string to a comma-separated std::string
   */
-  inline std::string std_string_u_set_to_std_string( 
+  inline std::string std_string_u_set_to_std_string(
                             const std::unordered_set<std::string>& u_set )
   {
     std::string out = "";
@@ -227,7 +227,7 @@ namespace h2sl {
   inline std::pair< std::string, std::string > std_string_pair_from_std_string( const std::string& str ){
     std::pair< std::string, std::string > pair;
     std::stringstream ss(str);
-    
+
     // Extract first string
     std::string substr;
     std::getline( ss, substr, ',');
@@ -241,7 +241,7 @@ namespace h2sl {
   }
 
   /**
-  * Method to sort two strings in alphabetial order 
+  * Method to sort two strings in alphabetial order
   */
   inline bool std_string_alphabetical_sort( const std::string& a, const std::string& b ){
     int index = 0;
@@ -261,7 +261,7 @@ namespace h2sl {
     }
   }
 
-  /** 
+  /**
    * Method to load channels from xml file
   */
   inline std::unordered_map<std::string, std::string> channels_from_xml(const char* filename) {
@@ -375,7 +375,7 @@ namespace h2sl {
       // Look for a channel that matches the provded channel name
       auto const it_channel = channels.find( channel_name );
       if( it_channel != channels.cend() ){
-        c_ros.service_clients().emplace( channel_name, node_handle.serviceClient<T>( it_channel->second ) ); 
+        c_ros.service_clients().emplace( channel_name, node_handle.serviceClient<T>( it_channel->second ) );
       } else{
         std::stringstream error_msg;
         error_msg << "No matching channel name found for requested client on \"" << channel_name << "\"";
@@ -384,7 +384,17 @@ namespace h2sl {
     }
   }; // struct ROS_Helper
 
-  /** 
+
+  /**
+   * Method to convert a file and line to a string
+   */
+  inline std::string log_error( const char* file, const int line ){
+    std::stringstream preamble;
+    preamble << "[" << file << ":" << std::to_string( line ) << "] ";
+    return preamble.str();
+  }
+
+  /**
    * Method to print a vector of shared_ptr< std::string > values
    */
   inline std::ostream& operator<<( std::ostream& out, const std::vector< std::shared_ptr< std::string > >& other ){

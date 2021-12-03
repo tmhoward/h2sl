@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -35,7 +35,7 @@ namespace h2sl{
 //
 // SymbolSpace class default constructor
 //
-SymbolSpace::SymbolSpace( const symbolsMapVectorType& symbolsMap ) : 
+SymbolSpace::SymbolSpace( const symbolsMapVectorType& symbolsMap ) :
                                                       symbolsMap( symbolsMap ){}
 
 //
@@ -66,10 +66,12 @@ bool SymbolSpace::fill( const std::shared_ptr<SymbolDictionary>& symbolDictionar
   fill_spatial_relation_extrema( symbolDictionary, world );
   fill_spatial_relation_axis( symbolDictionary, world );
   fill_spatial_relations( symbolDictionary, world );
+  fill_distances( symbolDictionary, world );
+  fill_distance_units( symbolDictionary, world );
   fill_regions( symbolDictionary, world );
   fill_relations( symbolDictionary, world );
   fill_actions( symbolDictionary, world );
-  
+
   return true;
 }
 
@@ -85,7 +87,7 @@ bool SymbolSpace::fill_objects( const std::shared_ptr<SymbolDictionary>& symbolD
 bool SymbolSpace::fill_object_types( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
   // construct symbols for each object_type
 
-  // look for object_type in the symbol dictionary, return false if it is not found 
+  // look for object_type in the symbol dictionary, return false if it is not found
   auto it_object_type = symbolDictionary->dictionary.find( "object_type" );
   if( it_object_type == symbolDictionary->dictionary.end() ){
     std::cout << "could not find object_type in symbol dictionary" << std::endl;
@@ -112,7 +114,7 @@ bool SymbolSpace::fill_object_types( const std::shared_ptr<SymbolDictionary>& sy
 /// Method to construct symbols for each object_color
 ///
 bool SymbolSpace::fill_object_colors( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
-  // look for object_color in the symbol dictionary, return false if it is not found 
+  // look for object_color in the symbol dictionary, return false if it is not found
   auto const cit_object_color = symbolDictionary->dictionary.find( "object_color" );
   if( cit_object_color == symbolDictionary->dictionary.end() ){
     std::cout << "could not find object_color in symbol dictionary" << std::endl;
@@ -136,7 +138,7 @@ bool SymbolSpace::fill_object_colors( const std::shared_ptr<SymbolDictionary>& s
 
 // Method to construct symbols for each object_quantifier
 bool SymbolSpace::fill_object_quantifiers( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
-  // look for object_quantifier in the symbol dictionary, return false if it is not found 
+  // look for object_quantifier in the symbol dictionary, return false if it is not found
   auto const cit_object_quantifier = symbolDictionary->dictionary.find( "object_quantifier" );
   if( cit_object_quantifier == symbolDictionary->dictionary.end() ){
     std::cout << "could not find object_quantifier in symbol dictionary" << std::endl;
@@ -202,7 +204,7 @@ bool SymbolSpace::fill_spatial_relation_extrema( const std::shared_ptr<SymbolDic
     h2sl::Symbol symbol_extrema = h2sl::Symbol("spatial_relation_extrema", {{"extrema", extrema}} );
     insert( symbol_extrema );
   }
-  
+
   return true;
 }
 
@@ -234,7 +236,7 @@ bool SymbolSpace::fill_spatial_relation_axis( const std::shared_ptr<SymbolDictio
 bool SymbolSpace::fill_spatial_relations( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
   // construct symbols for each spatial_relation
 
-  // look for spatial_relation in the symbol dictionary, return false if it is not found 
+  // look for spatial_relation in the symbol dictionary, return false if it is not found
   auto it_spatial_relation = symbolDictionary->dictionary.find( "spatial_relation" );
   if( it_spatial_relation == symbolDictionary->dictionary.end() ){
     std::cout << "could not find spatial_relation in symbol dictionary" << std::endl;
@@ -289,7 +291,7 @@ bool SymbolSpace::fill_spatial_relations( const std::shared_ptr<SymbolDictionary
       insert( sym );
     }
   }
-  
+
   // All relative relations require a viewpoint; make sure the model has seen such relations
   // We assume that the symbol dictionary includes all possible viewpoints
   auto it_viewpoint = it_spatial_relation->second->properties.find( "viewpoint" );
@@ -309,7 +311,7 @@ bool SymbolSpace::fill_spatial_relations( const std::shared_ptr<SymbolDictionary
       h2sl::Symbol sym = h2sl::Symbol( "spatial_relation",
         {{"viewpoint",viewpoint},{"axis",d_axis}} );
       insert( sym );
-      
+
       // Also include optional extrema on these relations
       // Skip all extrema if none are in the symbol dictionary
       if( it_extrema == it_spatial_relation->second->properties.end() ) continue;
@@ -348,16 +350,73 @@ bool SymbolSpace::fill_spatial_relations( const std::shared_ptr<SymbolDictionary
   return true;
 }
 
+// Construct symbols for distances
+bool SymbolSpace::fill_distances( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
+  // Find distance in the symbol dictionary, return false if it is not found
+  auto const cit_distance = symbolDictionary->dictionary.find("distance");
+  if( cit_distance == symbolDictionary->dictionary.cend() ){
+    std::cout << "could not find spatial_relation_axis in symbol dictionary" << std::endl;
+    return false;
+  }
+
+  // Find the "unit" property in the symbol dictionary for distance
+  auto const cit_unit = cit_distance->second->properties.find("unit");
+  if( cit_unit == cit_distance->second->properties.cend() ){
+    std::cout << "could not find the \"unit\" property for distance in the symbol dictionary" << std::endl;
+    return false;
+  }
+
+  // Find the "quantity" property in the symbol dictionary for distance
+  auto const cit_quantity = cit_distance->second->properties.find("quantity");
+  if( cit_quantity == cit_distance->second->properties.cend() ){
+    std::cout << "could not find the \"quantity\" property for distance in the symbol dictionary" << std::endl;
+    return false;
+  }
+
+  // Create a symbol for each possible combination
+  for( const auto& unit : cit_unit->second ){
+    for( const auto& quantity : cit_quantity->second ){
+      h2sl::Symbol symbol_distance = h2sl::Symbol( "distance", {{"unit",unit},{"quantity",quantity}} );
+      insert( symbol_distance );
+    }
+  }
+  return true;
+}
+
+// Construct symbols for distance units
+bool SymbolSpace::fill_distance_units( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
+  // Find distance_unit in the symbol dictionary, return false if it is not found
+  auto const cit_distance_unit = symbolDictionary->dictionary.find("distance_unit");
+  if( cit_distance_unit == symbolDictionary->dictionary.cend() ){
+    std::cout << "could not find distance_unit in symbol dictionary" << std::endl;
+    return false;
+  }
+
+  // Find the "unit" property in the symbol dictionary
+  auto const cit_unit = cit_distance_unit->second->properties.find("unit");
+  if( cit_unit == cit_distance_unit->second->properties.cend() ){
+    std::cout << "could not find the \"unit\" property for distance_unit in the symbol dictionary" << std::endl;
+    return false;
+  }
+
+  // Create a symbol for each distance_unit
+  for( const auto& unit : cit_unit->second ){
+    h2sl::Symbol symbol_distance_unit = h2sl::Symbol( "distance_unit", {{"unit",unit}} );
+    insert( symbol_distance_unit );
+  }
+  return true;
+}
+
 bool SymbolSpace::fill_regions( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
   // construct symbols for each region
 
-  // look for region in the symbol dictionary, return false if it is not found 
+  // look for region in the symbol dictionary, return false if it is not found
   auto it_region = symbolDictionary->dictionary.find( "region" );
   if( it_region == symbolDictionary->dictionary.end() ){
     std::cout << "could not find region in symbol dictionary" << std::endl;
-    return false; 
-  } 
-    
+    return false;
+  }
+
   // look for spatial_relation_type in the region entry in the symbol dictionary, return false if it is not found
   auto it_spatial_relation_type = it_region->second->properties.find( "spatial_relation_type" );
   if( it_spatial_relation_type == it_region->second->properties.end() ){
@@ -380,7 +439,7 @@ bool SymbolSpace::fill_regions( const std::shared_ptr<SymbolDictionary>& symbolD
 bool SymbolSpace::fill_relations( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
   // construct symbols for each relation
 
-  // look for relation in the symbol dictionary, return false if it is not found 
+  // look for relation in the symbol dictionary, return false if it is not found
   auto it_relation = symbolDictionary->dictionary.find( "relation" );
   if( it_relation == symbolDictionary->dictionary.end() ){
     std::cout << "could not find relation in symbol dictionary" << std::endl;
@@ -425,7 +484,7 @@ bool SymbolSpace::fill_relations( const std::shared_ptr<SymbolDictionary>& symbo
 bool SymbolSpace::fill_actions( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world ){
   // construct symbols for each of the actions
 
-  // look for action in the symbol dictionary, return false if it is not found 
+  // look for action in the symbol dictionary, return false if it is not found
   auto it_action = symbolDictionary->dictionary.find( "action" );
   if( it_action == symbolDictionary->dictionary.end() ){
     std::cout << "could not find action in symbol dictionary" << std::endl;
@@ -439,12 +498,35 @@ bool SymbolSpace::fill_actions( const std::shared_ptr<SymbolDictionary>& symbolD
     return false;
   }
 
+  // look for payload in the action entry in the symbol dictionary
+  auto it_action_payload = it_action->second->properties.find( "payload" );
+  // look for goal in the action entry in the symbol dictionary
+  auto it_action_goal = it_action->second->properties.find( "goal" );
+  if( it_action_goal == it_action->second->properties.end() && it_action_payload == it_action->second->properties.end() ){
+    std::cout << "No \"payload\" or \"goal\" properties found associated with the action symbol, not adding actions." << std::endl;
+    return false;
+  }
+
+
   // iterate over all world model objects as goals
   for( auto& object : world->objects ){
-    // iterate over all action types
-    for( auto& action_type_value : it_action_type->second ){
-      h2sl::Symbol symaction = h2sl::Symbol( "action", {{"action_type",action_type_value},{"goal",object.second.uid}} );
-      insert( symaction );
+    if( it_action_goal != it_action->second->properties.end() ){
+      // iterate over all action types
+      for( auto& action_type_value : it_action_type->second ){
+        h2sl::Symbol symaction = h2sl::Symbol( "action",
+                                { {"action_type",action_type_value},
+                                  {"goal",object.second.uid}} );
+        insert( symaction );
+      }
+    } else if( it_action_payload != it_action->second->properties.end() ){
+      // iterate over all action types
+      for( auto& action_type_value : it_action_type->second ){
+        h2sl::Symbol symaction = h2sl::Symbol( "action",
+                                { {"action_type",action_type_value},
+                                  {"agent", "robot"},
+                                  {"payload",object.second.uid}} );
+        insert( symaction );
+      }
     }
   }
 
@@ -540,7 +622,7 @@ bool SymbolSpace::from_xml( const tinyxml2::XMLElement* symSpace_elem ){
     return false;
 
   // Import any child Symbols of this symSpace_elem into symbolsMap via insert()
-  const tinyxml2::XMLElement* child_symbol_elem = 
+  const tinyxml2::XMLElement* child_symbol_elem =
                                   symSpace_elem->FirstChildElement("symbol");
   while( child_symbol_elem != nullptr ){
     Symbol child_symbol = Symbol();
@@ -575,7 +657,7 @@ bool SymbolSpace::to_xml( const char* filename ) const{
 //
 // Method to export a SymbolSpace to an XMLDocument object
 //
-void SymbolSpace::to_xml( tinyxml2::XMLDocument& doc, 
+void SymbolSpace::to_xml( tinyxml2::XMLDocument& doc,
                           tinyxml2::XMLElement* root) const
 {
   // Create the symbolspace element to contain all of the symbols in symbolsMap
@@ -596,11 +678,11 @@ void SymbolSpace::to_xml( tinyxml2::XMLDocument& doc,
 //
 std::ostream& operator<<( std::ostream& out, const SymbolSpace& other ){
   out << "SymbolSpace(";
-  for( auto it_map = other.symbolsMap.cbegin(); 
+  for( auto it_map = other.symbolsMap.cbegin();
             it_map != other.symbolsMap.cend(); ++it_map )
   {
     out << it_map->first << "s[" << it_map->second.size() << "]:(";
-    for( auto it_vec = it_map->second.cbegin(); 
+    for( auto it_vec = it_map->second.cbegin();
               it_vec != it_map->second.cend(); ++it_vec )
     {
       out << **it_vec;

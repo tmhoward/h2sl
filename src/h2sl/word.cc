@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -41,7 +41,7 @@ namespace h2sl{
 //
 // Word class default constructor
 //
-Word::Word( const std::string& pos, 
+Word::Word( const std::string& pos,
             const std::string& text,
             const double time ) : pos( pos ), text( text ), time( time ){}
 
@@ -105,7 +105,7 @@ bool Word::from_xml( const char* filename ){
 }
 
 //
-// Method to import a Word from an XMLElement* 
+// Method to import a Word from an XMLElement*
 //
 bool Word::from_xml( const tinyxml2::XMLElement* word_elem ){
   pos = "";
@@ -124,8 +124,8 @@ bool Word::from_xml( const tinyxml2::XMLElement* word_elem ){
   const tinyxml2::XMLAttribute* time_attr = word_elem->FindAttribute("time");
 
   // Signal false if part-of-speech attributes is missing
-  if(pos_attr == nullptr){ 
-    std::cout << "failed to find part-of-speech" << std::endl; 
+  if(pos_attr == nullptr){
+    std::cout << "failed to find part-of-speech" << std::endl;
     return false;
   } else {
     pos = pos_attr->Value();
@@ -140,8 +140,8 @@ bool Word::from_xml( const tinyxml2::XMLElement* word_elem ){
   }
 
   // Signal false if time attributes is missing
-  if(time_attr == nullptr){ 
-    std::cout << "failed to find time attribute (text = \"" << text << "\")" << std::endl; 
+  if(time_attr == nullptr){
+    std::cout << "failed to find time attribute (text = \"" << text << "\")" << std::endl;
     return false;
   } else {
     time = time_attr->UnsignedValue();
@@ -173,7 +173,7 @@ bool Word::from_json( const Json::Value& root ){
 }
 
 //
-// Method to export a Word to an XML file 
+// Method to export a Word to an XML file
 //
 bool Word::to_xml( const char* filename ) const{
   tinyxml2::XMLDocument doc;
@@ -181,7 +181,7 @@ bool Word::to_xml( const char* filename ) const{
   doc.InsertEndChild( root );
   to_xml( doc, root );
 
-  // Save the file and store the error status; 
+  // Save the file and store the error status;
   tinyxml2::XMLError error_result = doc.SaveFile( filename );
   if( error_result != tinyxml2::XML_SUCCESS )
     return false;

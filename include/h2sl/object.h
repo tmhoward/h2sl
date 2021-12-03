@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -72,7 +72,7 @@ class Object {
   Object( const std::string& uidArg,
           const ObjectState::vectorObjectState& stateHistoryArg,
 	  const mapProperties& propertiesArg = mapProperties() );
-  
+
   /**
     Object class constructor from a static state.
 
@@ -85,7 +85,7 @@ class Object {
   */
   Object( const std::string& uidArg,
           const ObjectState& stateArg,
-          const mapProperties& propertiesArg = mapProperties() ); 
+          const mapProperties& propertiesArg = mapProperties() );
   /**
     Object class constructor from an ObjectProbabilistic.
 
@@ -105,7 +105,7 @@ class Object {
     @throws           no expected throws
   */
   Object( const tinyxml2::XMLElement *root );
-  
+
   /**
     Class constructor for Object from ObjectMessage message.
 
@@ -152,7 +152,7 @@ class Object {
     @throws                     no expected throws
   */
   bool from_xml(const std::string& filename);
-  
+
   /**
     This method imports an Object class from an XMLElement pointer.
 
@@ -228,7 +228,7 @@ class Object {
       @throws                 no expected throws
   */
   void to_json( Json::Value& root )const;
-  
+
   /**
       This method exports an Object to an ObjectMessage.
 
@@ -243,17 +243,17 @@ class Object {
   */
   friend std::ostream& operator<<(std::ostream& out, const Object& other);
 
-  /** std::string to represent the unique id of the object. */ 
+  /** std::string to represent the unique id of the object. */
   std::string uid;
 
   /**
     A vector of h2sl::ObjectState that defines the state_history of the object.
     If this vector is empty then no state information is available.
     Currently copied from the ObjectProbabilistic whose properties were sampled.
-  */ 
+  */
   ObjectState::vectorObjectState state_history;
 
-  /** A map of deterministic properties of the object. */ 
+  /** A map of deterministic properties of the object. */
   mapProperties properties;
 
  protected:

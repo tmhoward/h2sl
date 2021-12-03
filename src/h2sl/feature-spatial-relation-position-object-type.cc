@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -172,9 +172,9 @@ FeatureValue FeatureSpatialRelationPositionObjectType::evaluate( const std::shar
 
   // Check for an object_color child symbol to filter the sorted world
   std::optional< std::string > color_filter = std::nullopt;
-  for( const auto& connection : lv->children ){
+  for( const auto& connection : lv->children() ){
     if( connection.label != "color" ) continue; // Only consider :color child LVs
-    for( const auto& child_symbol : connection.child->symbols ){
+    for( const auto& child_symbol : connection.child->symbols() ){
       if( child_symbol->type != "object_color" ) continue;
       auto it_color = child_symbol->properties.find( "object_color" );
       if( it_color != child_symbol->properties.end() ){
@@ -189,13 +189,16 @@ FeatureValue FeatureSpatialRelationPositionObjectType::evaluate( const std::shar
   auto type_filter = std::make_optional< std::string >( object_type );
 
   // Check child LanguageVariables for ordered spatial_relation symbols
-  for( const auto& connection : lv->children ){
-    for( const auto& child_symbol : connection.child->symbols ){
+  for( const auto& connection : lv->children() ){
+    for( const auto& child_symbol : connection.child->symbols() ){
       if( child_symbol->type != "spatial_relation" ) continue;
 
-      // Skip the spatial relation if it doesn't have an extrema
+      // Assume "max" if the spatial relation doesn't have an extrema
+      std::string extrema = "max";
       auto it_extrema = child_symbol->properties.find( "extrema" );
-      if( it_extrema == child_symbol->properties.end() ) continue;
+      if( it_extrema != child_symbol->properties.end() ){
+        extrema = it_extrema->second;
+      }
 
       // Check that the spatial relation has an axis
       // This is the one attribute always required in a spatial relation!
@@ -242,7 +245,7 @@ FeatureValue FeatureSpatialRelationPositionObjectType::evaluate( const std::shar
         }
         landmark = std::make_optional<ObjectState>( it_landmark->second.state_history.back() );
       }
-      
+
       std::optional<ObjectState> viewpoint = std::nullopt;
       if( viewpoint_uid ){
         // Check that the viewpoint exists in the world
@@ -262,7 +265,7 @@ FeatureValue FeatureSpatialRelationPositionObjectType::evaluate( const std::shar
       // Now check if our object is the Xth object when the world is sorted w.r.t. the spatial relation
       // auto explained: std::vector< std::pair< std::string, double > >
       auto sorted_uids = h2sl::SpatialRelation::get_sorted_uids( world, relation_frame,
-        axis_dimension, axis_direction, it_extrema->second, color_filter, type_filter );
+        axis_dimension, axis_direction, extrema, color_filter, type_filter );
 
       if( position_index >= sorted_uids.size() ){
       	return value; // Index out-of-bounds => Will be for all spatial relations

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -47,11 +47,11 @@ namespace h2sl{
 class SymbolCompositionalInfo{
   public:
   /**
-    Type alias to contain a Symbol property name and associated possible 
+    Type alias to contain a Symbol property name and associated possible
     property values. The name of the property is the std::unordered_map key
     and the value is an unordered_set of possible property values.
   */
-  using mapSetSymbolProperties = 
+  using mapSetSymbolProperties =
             std::unordered_map< std::string, std::unordered_set<std::string> >;
 
   /**
@@ -59,7 +59,7 @@ class SymbolCompositionalInfo{
     keys are Symbol types and the values are SymbolCompositionalInfo objects for
     the Symbol type.
   */
-  using mapSymbolCompositionalInfo = 
+  using mapSymbolCompositionalInfo =
     std::unordered_map< std::string, std::shared_ptr<SymbolCompositionalInfo> >;
 
   /**
@@ -74,11 +74,11 @@ class SymbolCompositionalInfo{
     @throws                                  no expected throws
   */
   SymbolCompositionalInfo( const std::string& symbol_type = "",
-      const std::unordered_set<std::string>& language_variable_types = 
+      const std::unordered_set<std::string>& language_variable_types =
                                               std::unordered_set<std::string>(),
       const mapSetSymbolProperties& properties = mapSetSymbolProperties(),
       const mapSymbolCompositionalInfo& children = mapSymbolCompositionalInfo() );
-  
+
   /**
     Default copy constructor for SymbolCompositionalInfo.
   */
@@ -142,8 +142,8 @@ class SymbolCompositionalInfo{
     This method imports a SymbolCompositionalInfo class from an XMLElement*.
 
     @brief Import a SymbolCompositionalInfo class from an XMLElement*.
-    @overload   
-    @param[in]    symcompinfo_elem    current XMLElement* to an XML 
+    @overload
+    @param[in]    symcompinfo_elem    current XMLElement* to an XML
                                       SymbolCompositionalInfo element
     @returns                          boolean flag; true if there are no errors
     @throws                           no expected throws
@@ -168,7 +168,7 @@ class SymbolCompositionalInfo{
     @brief Export a SymbolCompostionalInfo to an XMLDocument object.
     @overload
     @param[in]    doc         XMLDocument object for the current document
-    @param[in]    root        XMLElement* to accept a SymbolCompositionalInfo 
+    @param[in]    root        XMLElement* to accept a SymbolCompositionalInfo
                               as a child element
     @returns                  none
     @throws                   no expected throws
@@ -185,7 +185,7 @@ class SymbolCompositionalInfo{
     @returns                reference to modified ostream operator
     @throws                 no expected throws
   */
-  friend std::ostream& operator<<( std::ostream& out, 
+  friend std::ostream& operator<<( std::ostream& out,
                                   const SymbolCompositionalInfo& other );
 
   /** Constant to define the string used in XMLElement Name for SymbolCompositionaLInfo */
@@ -203,7 +203,7 @@ class SymbolCompositionalInfo{
   /** A string to contain the Symbol type associated with this SymbolCompositionalInfo */
   std::string symbol_type = "";
 
-  /** 
+  /**
     An unordered_map of strings containing all LanguageVariable types associated with this
     SymbolCompositionalInfo's symbol_type.
   */
@@ -212,7 +212,7 @@ class SymbolCompositionalInfo{
   /** A container to hold the property names and associated values for this symbol_type */
   mapSetSymbolProperties properties = mapSetSymbolProperties();
 
-  /** 
+  /**
     An unordered_map to hold SymbolCompositionalInfo for any child Symbols of
     this symbol_type. The map keys are the Symbol type for the child Symbol and
     the map values are the associated SymbolCompositionalInfo.

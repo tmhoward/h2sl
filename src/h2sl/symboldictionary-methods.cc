@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -42,19 +42,19 @@ bool symboldictionary_scrape_world( SymbolDictionary& symbolDictionary,
 
     // Iterate through all of the properties of the object
     for( const auto& property : object.second.properties ){
-  
+
       // To improve readability
       std::string property_key = property.first;
       std::string property_value = property.second;
 
       // Try inserting an entry of type property_key into the dictionary if it does not exist
       auto result = symbolDictionary.dictionary.emplace( property_key,
-          std::make_shared<SymbolCompositionalInfo>( property_key ) );      
-      
+          std::make_shared<SymbolCompositionalInfo>( property_key ) );
+
       // Get iterator to the inserted or existing entry (if insertion failed)
       auto it_symbol_compositional_info = result.first;
 
-      // Try inserting the property key and property value to the properties map in symbolCompositionalInfo.   
+      // Try inserting the property key and property value to the properties map in symbolCompositionalInfo.
       std::unordered_set<std::string> object_property_value = { property_value };
       auto it_properties = it_symbol_compositional_info->second->properties.emplace( property_key,
           object_property_value );
@@ -77,7 +77,7 @@ bool symboldictionary_scrape_world( SymbolDictionary& symbolDictionary,
       // Try inserting an entry of type property_key into the dictionary if it does not exist
       auto result = symbolDictionary.dictionary.emplace( property_key,
           std::make_shared<SymbolCompositionalInfo>( property_key ) );
-      
+
       // Get iterator to the inserted or existing entry (if insertion failed)
       auto it_symbol_compositional_info = result.first;
 
@@ -106,12 +106,12 @@ bool symboldictionary_scrape_world( SymbolDictionary& symbolDictionary,
 bool symboldictionary_scrape_language_variable( SymbolDictionary& symbolDictionary,
                                      const std::shared_ptr<LanguageVariable>& language_variable ){
   // Make a recursive call for each child language variable
-  for( const auto& connection : language_variable->children ){
+  for( const auto& connection : language_variable->children() ){
     symboldictionary_scrape_language_variable( symbolDictionary, connection.child );
   }
 
   // Iterate over all of the symbols in the language variable
-  for( const auto& symbol : language_variable->symbols ){
+  for( const auto& symbol : language_variable->symbols() ){
     // skip if the symbol type is object
     if( symbol->type == "object" )
       continue;
@@ -119,12 +119,12 @@ bool symboldictionary_scrape_language_variable( SymbolDictionary& symbolDictiona
     // Insert a new entry to the dictionary if one does not exist
     auto result = symbolDictionary.dictionary.emplace( symbol->type,
         std::make_shared<SymbolCompositionalInfo>( symbol->type ) );
-	    
+
     // Get iterator to the inserted or existing entry
     auto it_symbol_compositional_info = result.first;
 
     // Scrape the symbol into the corresponding SymbolCompositionalInfo
-    if( !it_symbol_compositional_info->second->scrape_symbol( language_variable->type, *symbol ) ){
+    if( !it_symbol_compositional_info->second->scrape_symbol( language_variable->type(), *symbol ) ){
       std::cout << "failed on line " << __LINE__ << " in " << __FILE__ << std::endl;
       return false; // the scrape function failed
     }
@@ -137,16 +137,16 @@ bool symboldictionary_scrape_language_variable( SymbolDictionary& symbolDictiona
 // Method to scrape compositional info from multiple Sentence/World pairs by
 // calling scrape_language_variable for each.
 //
-bool symboldictionary_scrape_world_sentence_pairs( SymbolDictionary& symbolDictionary, 
+bool symboldictionary_scrape_world_sentence_pairs( SymbolDictionary& symbolDictionary,
                                         vectorPairWorldSentence& wsPairs ){
   for( const auto& ws_pair : wsPairs ){
 
-    if( !symboldictionary_scrape_world( symbolDictionary, ws_pair.first ) ){      
+    if( !symboldictionary_scrape_world( symbolDictionary, ws_pair.first ) ){
       std::cout << "failed on line " << __LINE__ << " in " << __FILE__ << std::endl;
       return false; // the scrape_world function failed
     }
 
-    if( !symboldictionary_scrape_language_variable( symbolDictionary, ws_pair.second->child ) ){      
+    if( !symboldictionary_scrape_language_variable( symbolDictionary, ws_pair.second->child() ) ){
       std::cout << "failed on line " << __LINE__ << " in " << __FILE__ << std::endl;
       return false; // the scrape_language_variable function failed
     }

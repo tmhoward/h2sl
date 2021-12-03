@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -52,7 +52,7 @@ BinarizedPCFG::BinarizedPCFG( const h2sl::PCFG& pcfgArg ){
     // Convert the lexical rules from PCFG::lexical_rule_t to BinarizedPCFG::unary_rule_t
     for( const auto& v_pcfg_lexical_rules : pcfgArg.get_lexical_rules() ){
       std::vector< unary_rule_t > v_lexical_rules;
-      auto ret_lexical_rule = lexical_rules.insert( std::make_pair( 
+      auto ret_lexical_rule = lexical_rules.insert( std::make_pair(
                                                     v_pcfg_lexical_rules.first,
                                                     v_lexical_rules ) );
       if( !ret_lexical_rule.second ){
@@ -72,7 +72,7 @@ BinarizedPCFG::BinarizedPCFG( const h2sl::PCFG& pcfgArg ){
 
     // Convert the production rules to unary/binary rules
     _binarize_production_rules( pcfgArg.get_production_rules() );
-    
+
     // Check that the class invariants are satisfied
     _check_invariants();
   }
@@ -256,7 +256,7 @@ void BinarizedPCFG::_check_invariants( void )const{
       }
     }
   }
- 
+
 
   /********************************************************************************/
   /************** Check that probabilities for a given lhs sum to 1.0  ************/

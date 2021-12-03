@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -98,7 +98,7 @@ namespace h2sl {
 
  // std::shared_ptr<FeatureObjectLessPositionOrder>
  // shared_from_this(){ return std::static_pointer_cast<FeatureObjectLessPositionOrder>( Feature::shared_from_this() ); }
- 
+
   /**
       This method evaluates a feature
 
@@ -109,7 +109,7 @@ namespace h2sl {
       @param[in]    symbol        symbol
       @returns      bool          true/false expression of feature
       @throws                     Throws runtime error if the sort key does not match one in the world
-  */ 
+  */
   virtual FeatureValue evaluate( const std::shared_ptr< std::string >& cv,
                                  const std::shared_ptr<LanguageVariable>& lv,
                                  const std::shared_ptr<WorldDCG>& world,
@@ -134,7 +134,7 @@ namespace h2sl {
       This method prints out the values of a feature
 
       @brief This method prints out the values of a feature
-      @returns      string    value of a feature      
+      @returns      string    value of a feature
       @throws                 no expected throws
   */
   virtual std::string print_string( const bool& printValue = false )const override;

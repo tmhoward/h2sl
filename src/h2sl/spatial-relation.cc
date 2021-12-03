@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -81,7 +81,7 @@ Transform3D SpatialRelation::get_relation_frame( const std::optional<ObjectState
     double qy_under_root = y_axis.y() - z_axis.z() - x_axis.x() + 1.0;
     double qz_under_root = z_axis.z() - x_axis.x() - y_axis.y() + 1.0;
     //std::cout << "Values under square root are " << qx_under_root << "," << qy_under_root << "," << qz_under_root << std::endl;
-    
+
     // Handle floating-point imprecision by checking for negative square roots
     if( qs_under_root < 0.0 ){ qs_under_root = 0.0; }
     if( qx_under_root < 0.0 ){ qx_under_root = 0.0; }
@@ -93,7 +93,7 @@ Transform3D SpatialRelation::get_relation_frame( const std::optional<ObjectState
     double qy = 0.5 * h2sl::sign( z_axis.x() - x_axis.z() ) * sqrt( qy_under_root );
     double qz = 0.5 * h2sl::sign( x_axis.y() - y_axis.x() ) * sqrt( qz_under_root );
     //std::cout << "Found qs:" << qs << " qv=[" << qx << "," << qy << "," << qz << "]" << std::endl;
-    
+
     relation_frame.orientation = UnitQuaternion( Vector3D( qx, qy, qz ), qs );
   } else if( landmark ){
     // Case 2: We have a landmark but no viewpoint => intrinsic relation
@@ -152,11 +152,11 @@ bool SpatialRelation::check_binary_spatial_relation( const ObjectState& figure, 
 
   // Find the figure's value along the spatial relation's specified axis
   double value = get_value( figure, relation_frame, axis );
-  
+
   // Finally, check if the found value obeys the specified direction constraint
   switch( direction ){
     case '+':
-      return ( value > 0.0 ); 
+      return ( value > 0.0 );
     case '-':
       return ( value < 0.0 );
     default: // We should not expect any other direction constraints
@@ -179,7 +179,7 @@ std::vector< std::pair< std::string, double > > SpatialRelation::get_sorted_uids
     const std::string& extrema,
     const std::optional< std::string >& color_filter,
     const std::optional< std::string >& type_filter ){
-  
+
   // 1. Find the value of each object in the world along the specified spatial relation axis
   auto object_uids = std::vector< std::pair< std::string, double > >();
   for( const auto& it_object : world->objects ){
@@ -194,7 +194,7 @@ std::vector< std::pair< std::string, double > > SpatialRelation::get_sorted_uids
       if( it_color == it_object.second.properties.end() ) continue;
       if( it_color->second != color_filter.value() ) continue;
     }
-    
+
     // Optionally filter the objects by their type
     if( type_filter ){
       auto it_object_type = it_object.second.properties.find( "object_type" );
@@ -205,7 +205,7 @@ std::vector< std::pair< std::string, double > > SpatialRelation::get_sorted_uids
     // Otherwise extract figure ObjectState and compute desired value
     std::string curr_uid = it_object.first;
     double curr_value = get_value( it_object.second.state_history.back(), relation_frame, axis );
-    
+
     // Negate the value if necessary
     switch( direction ){
       case '+':
@@ -220,7 +220,7 @@ std::vector< std::pair< std::string, double > > SpatialRelation::get_sorted_uids
     }
 
     //std::cout << "Found uid \"" << curr_uid << "\" to have value " << curr_value << " along axis " << axis << direction << std::endl;
-    
+
     // Push a pair onto the vector we're constructing and move to the next object
     object_uids.emplace_back( curr_uid, curr_value );
   }
@@ -237,6 +237,6 @@ std::vector< std::pair< std::string, double > > SpatialRelation::get_sorted_uids
   }
 
   return object_uids;
-}	
+}
 
 } // namespace h2sl

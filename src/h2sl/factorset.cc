@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -69,7 +69,7 @@ const FactorSet::vecFSSearchSolutions&
 FactorSet::search( const std::shared_ptr<LLM>& llm, const unsigned int beamwidth, const bool debug ){
   // Clear any old solutions and initialize with a probability of 1
   solutions.clear();
-  solutions.emplace_back( 1.0, std::make_shared<LanguageVariable>( language_variable->current() ) );  
+  solutions.emplace_back( 1.0, std::make_shared<LanguageVariable>( language_variable->current() ) );
   // Create the set of possible child solutions over which to search
   for( const auto& child_connection : children ){
     if( debug ){
@@ -87,7 +87,7 @@ FactorSet::search( const std::shared_ptr<LLM>& llm, const unsigned int beamwidth
           std::cout << "Before: " << new_solutions.back().prob << "  " << *new_solutions.back().language_variable << std::endl;
 	}
         new_solutions.back().prob *= child_solution.prob;
-        new_solutions.back().language_variable->children.emplace_back( child_connection.label, child_solution.language_variable );
+        new_solutions.back().language_variable->children().emplace_back( child_connection.label, child_solution.language_variable );
 	if( debug )
           std::cout << "After: " << new_solutions.back().prob << "  " << *new_solutions.back().language_variable << std::endl;
       }
@@ -97,7 +97,7 @@ FactorSet::search( const std::shared_ptr<LLM>& llm, const unsigned int beamwidth
 
   if( debug )
     std::cout << "Solutions size:" << solutions.size() << std::endl;
-  
+
   // iterate through each of the factors
   for( auto& p_factor : factors ){
     if( debug )
@@ -114,7 +114,7 @@ FactorSet::search( const std::shared_ptr<LLM>& llm, const unsigned int beamwidth
       p_factor->language_variable = solution.language_variable;
       // generate the list of expressed features
       std::map< std::string, std::vector< ExpressedFeature > > expressed_features;
-      p_factor->evaluate( expressed_features ); 
+      p_factor->evaluate( expressed_features );
 
       // update the expressed feature weights
       for( auto& it_expressed_features : expressed_features ){
@@ -132,7 +132,7 @@ FactorSet::search( const std::shared_ptr<LLM>& llm, const unsigned int beamwidth
             std::cout << "sum of weights:";
             if( p_factor->pygx_result->sum_of_weights ){
               for( const auto& [cv_key, sum_of_weights] : *(p_factor->pygx_result->sum_of_weights) ){
-                std::cout << "\n\t" << cv_key << ":\t" << sum_of_weights; 
+                std::cout << "\n\t" << cv_key << ":\t" << sum_of_weights;
               }
             }
             std::cout << "\nnumerator: " << p_factor->pygx_result->numerator << "\ndenominator: "
@@ -140,8 +140,8 @@ FactorSet::search( const std::shared_ptr<LLM>& llm, const unsigned int beamwidth
           }
           // add a new solution as a copy of the current solution with the symbol added
           new_solutions.emplace_back( solution.prob, std::make_shared<h2sl::LanguageVariable>( *solution.language_variable ) );
-          new_solutions.back().language_variable->symbols.push_back( std::make_shared<Symbol>( *p_factor->symbol ) );
-          new_solutions.back().language_variable->symbols.back()->expressed_features = expressed_features;
+          new_solutions.back().language_variable->symbols().push_back( std::make_shared<Symbol>( *p_factor->symbol ) );
+          new_solutions.back().language_variable->symbols().back()->expressed_features = expressed_features;
           new_solutions.back().prob *= p_factor->pygx_result.value().prob;
 	  if( debug )
             std::cout << "\t\tpygx:" << new_solutions.back().prob << " (added " << *p_factor->symbol << ")" << std::endl;
@@ -190,7 +190,7 @@ FactorSet::search( const std::shared_ptr<LLM>& llm, const unsigned int beamwidth
       }
       std::cout << std::endl;
     }
-  } // end loop over factors 
+  } // end loop over factors
   return solutions;
 }
 

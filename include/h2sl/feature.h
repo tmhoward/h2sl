@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -132,7 +132,7 @@ namespace h2sl {
       @throws                                   no expected throws
   */
   virtual std::shared_ptr<Feature> dup( void )const = 0;
- 
+
   /**
       This method evaluates a feature
 
@@ -143,7 +143,7 @@ namespace h2sl {
       @param[in]    symbol    symbol
       @returns      bool      true/false expression of feature
       @throws                 no expected throws
-  */ 
+  */
   virtual FeatureValue evaluate( const std::shared_ptr< std::string >& cvArg,
                                  const std::shared_ptr<LanguageVariable>& lvArg,
                                  const std::shared_ptr<WorldDCG>& worldArg,
@@ -154,7 +154,7 @@ namespace h2sl {
 
       @brief This method prints out the values of a feature
       @param[in]    out       ostream
-      @returns      none      
+      @returns      none
       @throws                 no expected throws
   */
   virtual void print( std::ostream& out )const;
@@ -193,7 +193,7 @@ namespace h2sl {
       This method prints out the values of a feature
 
       @brief This method prints out the values of a feature
-      @returns      string    value of a feature      
+      @returns      string    value of a feature
       @throws                 no expected throws
   */
   virtual std::string print_string( const bool& printValue = false )const = 0;

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -84,7 +84,7 @@ bool FeatureLVRoleValue::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // check to see if the class name is feature-lv-role-value
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -109,7 +109,7 @@ bool FeatureLVRoleValue::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // Read the lv_type attribute and set it to the lv_type
   const tinyxml2::XMLAttribute* lv_type_attr = root->FindAttribute("lv_type");
   if( lv_type_attr == nullptr ){
@@ -137,7 +137,7 @@ bool FeatureLVRoleValue::from_xml( const tinyxml2::XMLElement* root ){
     return false;
   }
   role_type = role_type_attr->Value();
-  
+
   // Read the role_value attribute and set it to the role_value
   const tinyxml2::XMLAttribute* role_value_attr = root->FindAttribute("role_value");
   if( role_value_attr == nullptr ){
@@ -161,12 +161,12 @@ FeatureValue FeatureLVRoleValue::evaluate( const std::shared_ptr<std::string>& c
                                           const std::shared_ptr<Symbol>& symbol )
 {
   value = FeatureValue::False;
-  if( lv_type != lv->type ) return value;
-  if( !lv->roles ) return value;
+  if( lv_type != lv->type() ) return value;
+  if( !lv->roles() ) return value;
 
   // Otherwise we have roles, check for the feature's
-  auto it_roles = lv->roles->find( role_type );
-  if( it_roles == lv->roles->end() ) return value;
+  auto it_roles = lv->roles()->find( role_type );
+  if( it_roles == lv->roles()->end() ) return value;
 
   // The LV has the role, but does it match?
   if( role_value == it_roles->second ){

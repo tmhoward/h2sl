@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -117,7 +117,7 @@ Vector3D Vector3D::operator-( const Vector3D& rhs )const{
     std::cout << "failed on line " << __LINE__ << " in " << __FILE__ << std::endl;
     exit(EXIT_FAILURE);
   }
-  
+
   h2sl::Vector3D result;
   for( unsigned int i = 0; i < data.size(); i++ ){
     result.data[i] = data[i] - rhs[i];
@@ -136,7 +136,7 @@ Vector3D Vector3D::operator*( const Vector3D& rhs )const{
     std::cout << "failed on line " << __LINE__ << " in " << __FILE__ << std::endl;
     exit(EXIT_FAILURE);
   }
-  
+
 
   h2sl::Vector3D result;
   for( unsigned int i = 0; i < data.size(); i++ ){
@@ -155,7 +155,7 @@ Vector3D Vector3D::operator/( const Vector3D& rhs )const{
     std::cout << "failed on line " << __LINE__ << " in " << __FILE__ << std::endl;
     exit(EXIT_FAILURE);
   }
-  
+
   h2sl::Vector3D result;
   for( unsigned int i = 0; i < data.size(); i++ ){
 
@@ -189,7 +189,7 @@ Vector3D Vector3D::operator+( const double& value )const{
 // Vector3D class element wise subtraction operator
 //
 Vector3D Vector3D::operator-( const double& value )const{
-  
+
   h2sl::Vector3D result = (*this);
   for( unsigned int i = 0; i < result.data.size(); i++ ){
     result[ i ] -= value;
@@ -202,7 +202,7 @@ Vector3D Vector3D::operator-( const double& value )const{
 // Vector3D class element wise multiplication operator
 //
 Vector3D Vector3D::operator*( const double& value )const{
-  
+
   h2sl::Vector3D result = (*this);
   for( unsigned int i = 0; i < result.data.size(); i++ ){
     result[ i ] *= value;
@@ -214,7 +214,7 @@ Vector3D Vector3D::operator*( const double& value )const{
 //
 // Vector3D class element wise division operator
 //
-Vector3D Vector3D::operator/( const double& value )const{  
+Vector3D Vector3D::operator/( const double& value )const{
 
   if( value == 0.0 ){
     std::cout << "cannot divide by 0" << std::endl;
@@ -248,7 +248,7 @@ double Vector3D::norm( void )const{
 //
 double Vector3D::distance( const Vector3D& rhs ){
 
-  h2sl::Vector3D difference_vector = (*this) - rhs; 
+  h2sl::Vector3D difference_vector = (*this) - rhs;
   return difference_vector.norm();
 
 }
@@ -258,9 +258,9 @@ double Vector3D::distance( const Vector3D& rhs ){
 // x1x2 + y1y2 + z1z2
 //
 double Vector3D::dot( const Vector3D& rhs )const{
-  
-  h2sl::Vector3D product_vector = (*this) * rhs; 
-  
+
+  h2sl::Vector3D product_vector = (*this) * rhs;
+
   double sum = 0.0;
   for( const auto& element : product_vector.data ){
     sum += element;
@@ -357,32 +357,32 @@ bool Vector3D::from_xml(const string &filename) {
 //
 bool Vector3D::from_xml(const tinyxml2::XMLElement *vector_element) {
 
-  if (vector_element == nullptr) 
+  if (vector_element == nullptr)
     return false;
 
   data = std::vector<double>( 3, 0.0 );
 
   // Read the attributes
-  const auto* x_attr = vector_element->FindAttribute("x"); 
-  const auto* y_attr = vector_element->FindAttribute("y"); 
+  const auto* x_attr = vector_element->FindAttribute("x");
+  const auto* y_attr = vector_element->FindAttribute("y");
   const auto* z_attr = vector_element->FindAttribute("z");
 
 
   // Signal false if x attribute is missing
-  if(x_attr == nullptr){ 
-    std::cout << "failed to find the x attribute" << std::endl; 
+  if(x_attr == nullptr){
+    std::cout << "failed to find the x attribute" << std::endl;
     return false;
   }
 
   // Signal false if y attribute is missing
-  if(y_attr == nullptr){ 
-    std::cout << "failed to find the y attribute" << std::endl; 
+  if(y_attr == nullptr){
+    std::cout << "failed to find the y attribute" << std::endl;
     return false;
   }
 
   // Signal false if z attribute is missing
-  if(z_attr == nullptr){ 
-    std::cout << "failed to find the z attribute" << std::endl; 
+  if(z_attr == nullptr){
+    std::cout << "failed to find the z attribute" << std::endl;
     return false;
   }
 
@@ -454,7 +454,7 @@ Vector3DMessage Vector3D::to_msg( void )const{
 // Vector3D class ostream operator
 //
 ostream &operator<<(ostream &out, const Vector3D &other) {
-  
+
   // out << "(Vector3D:";
 
   out << "x=" << other.data[0];

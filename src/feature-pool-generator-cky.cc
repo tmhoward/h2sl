@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -103,7 +103,7 @@ int main( int argc, char* argv[] ){
 
 
   // Generate CV related features
-  feature_pool.constituent_feature_sets.push_back( std::vector< std::shared_ptr< h2sl::Feature > >() ); 
+  feature_pool.constituent_feature_sets.push_back( std::vector< std::shared_ptr< h2sl::Feature > >() );
   feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureCV >( "false" ) );
   feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureCV >( "true" ) );
 
@@ -144,6 +144,7 @@ int main( int argc, char* argv[] ){
   // feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureObjectPositionOrder >( h2sl::World::SortKey::MAX_CENTER_DISTANCE, 0 ) );
 
   // Features for object less position order
+  /*
    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureObjectLessPositionOrder >( h2sl::World::SortKey::MIN_X_AXIS, 0 ) );
    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureObjectLessPositionOrder >( h2sl::World::SortKey::MAX_X_AXIS, 0 ) );
    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureObjectLessPositionOrder >( h2sl::World::SortKey::MIN_X_AXIS, 1 ) );
@@ -157,10 +158,11 @@ int main( int argc, char* argv[] ){
    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureObjectLessPositionOrder >( h2sl::World::SortKey::MAX_Y_AXIS, 1 ) );
    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureObjectLessPositionOrder >( h2sl::World::SortKey::MIN_Y_AXIS, 2 ) );
    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureObjectLessPositionOrder >( h2sl::World::SortKey::MAX_Y_AXIS, 2 ) );
-  
+  */
+
 
   // Features agnostic to the symbol type
-  for(const auto& symbol_type : sd.dictionary ){    
+  for(const auto& symbol_type : sd.dictionary ){
     // List the features that need to be tempalated for all of the symbols types in the symbol dictionary
     // feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolType >( symbol_type.first ) );
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolMatchesChild >( symbol_type.first ) );
@@ -187,7 +189,19 @@ int main( int argc, char* argv[] ){
     for(const auto& property_value : it_prop->second ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_object_type->first, it_prop->first, property_value, true ) );
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_object_type->first, it_prop->first, property_value, false ) );
-    } 
+    }
+  }
+
+  // Create object_color symbol and object property features for each known object color
+  auto it_object_color = sd.dictionary.find( "object_color" );
+  if( it_object_color != sd.dictionary.end() ){
+    auto it_prop = it_object_color->second->properties.find("object_color");
+    for( const auto& property_value : it_prop->second ){
+      feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_object_color->first, it_prop->first, property_value, true ) );
+      feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_object_color->first, it_prop->first, property_value, false ) );
+      feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( "object", it_prop->first, property_value, true ) );
+      feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( "object", it_prop->first, property_value, false ) );
+    }
   }
 
   // Spatial Relation related features

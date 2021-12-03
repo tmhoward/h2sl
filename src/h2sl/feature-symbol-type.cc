@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -78,7 +78,7 @@ bool FeatureSymbolType::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // check to see if the class name is feature-symbol-type
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -103,7 +103,7 @@ bool FeatureSymbolType::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // Read the symbol_type attribute and set it to the symbol_type
   const tinyxml2::XMLAttribute* symbol_type_attr = root->FindAttribute("symbol_type");
   if( symbol_type_attr == nullptr ){

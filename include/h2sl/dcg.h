@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -85,7 +85,7 @@ class DCG {
   DCG() = delete;
 
   /**
-    DCG parameter constructor for a factor graph. Language determines the columns of the graph (each column is a FactorSet). The 
+    DCG parameter constructor for a factor graph. Language determines the columns of the graph (each column is a FactorSet). The
     symbolspace determines the height of each column (each node in the column is a Factor with a unique symbol and cvs). The
     llm's FeaturePool provides the pool of features from which each Factor builds its FeatureSet.
 
@@ -162,7 +162,7 @@ class DCG {
   update_world_configuration( const std::shared_ptr<World> new_world, const bool debug = false );
 
   /**
-    This method introspects the state of the factors in the graph (after search) to identify which world-dependent constituent features 
+    This method introspects the state of the factors in the graph (after search) to identify which world-dependent constituent features
     substantially contribute to a factor's evaluation.
 
     @returns          A map of world-dependent constituent features and the associated substantial weight-vector indices
@@ -329,7 +329,7 @@ class DCG {
   **/
   inline const std::optional<vecDCGSearchSolutions>&
   solutions( void )const{ return _solutions; }
- 
+
   protected:
 
   private:
@@ -344,7 +344,7 @@ class DCG {
     @param[in]    parent          A pointer to the parent FactorSet, if there is one; Used to fill in child connections
     @returns                      None - Updates the DCG factorsets data member
     @throws                       No expected throws
-    
+
   **/
   virtual void
   _construct_child_factorset( const std::shared_ptr<SymbolSpace>& symbolSpace,
@@ -363,7 +363,7 @@ class DCG {
   void _set_factorset_state( const std::shared_ptr< LanguageVariable > solution_lv, const bool debug = false );
 
   /**
-    This method updates a factorset given a new world configuration. It recursively updates all children first. The result is 
+    This method updates a factorset given a new world configuration. It recursively updates all children first. The result is
     an efficiently updates solution that is equivalent to a search of beamwidth 1. The old solutions are discarded, each Factor
     is updated, and the new solution is stored.
 
@@ -398,7 +398,7 @@ class DCG {
   std::shared_ptr<LLM> _llm = nullptr;
 
   /** A member to hold the found solutions after search **/
-  std::optional<vecDCGSearchSolutions> _solutions = std::nullopt; 
+  std::optional<vecDCGSearchSolutions> _solutions = std::nullopt;
 
 };
 

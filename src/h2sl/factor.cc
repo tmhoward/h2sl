@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -44,7 +44,7 @@ Factor::Factor( const std::shared_ptr<Symbol>& symbolArg,
                 const std::shared_ptr<LanguageVariable>& lvArg,
                 const std::shared_ptr<WorldDCG>& worldArg,
                 const std::shared_ptr< std::vector< std::shared_ptr< std::string > > >& cvsArg,
-                const FeatureSet& featureSet ) : symbol( symbolArg ), 
+                const FeatureSet& featureSet ) : symbol( symbolArg ),
                                                   language_variable( lvArg ),
                                                   world( worldArg ),
                                                   cvs( cvsArg ),
@@ -118,7 +118,7 @@ Factor::Factor( const std::shared_ptr<FeaturePool>& featurePool,
 	  if( debug )
             std::cout << "\tAdding new feature " << it_symbol_feature_dup->second->print_string() << " (" << it_symbol_feature_dup->second << ")" << std::endl;
         }
-      } else if( p_feature->type == FeatureType::StaticSymbol ) {  
+      } else if( p_feature->type == FeatureType::StaticSymbol ) {
         // determine if a new instance of this feature is stored for the particular symbol to streamline similar features across a symbol
         auto const cit_symbol_feature = rmap_symbol_features.find( p_feature->key() );
         if( cit_symbol_feature != rmap_symbol_features.cend() ){
@@ -135,7 +135,7 @@ Factor::Factor( const std::shared_ptr<FeaturePool>& featurePool,
         }
       }
     }
-  } 
+  }
   if( debug )
     std::cout << "num_constituent_features:" << feature_set.num_constituent_features() << std::endl;
 }

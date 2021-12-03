@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -194,10 +194,10 @@ class WorldProbabilistic {
   */
   friend std::ostream& operator<<(std::ostream& out, const WorldProbabilistic& other);
 
-  /** 
+  /**
    * A std::map to store the probabilistic objects. A std::map was chosen over a std::unordered_map so that
    * the objects can be sorted in lexicographic (alphabetic) order. This helps with human readability.
-   */ 
+   */
   mapProbObjects objects = mapProbObjects();
 
 }; // class WorldProbabilistic

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -82,7 +82,7 @@ bool FeatureLVEdgeLabel::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // check to see if the class name is feature-lv-edge-label
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -107,7 +107,7 @@ bool FeatureLVEdgeLabel::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // Read the lv_type attribute and set it to the lv_type
   const tinyxml2::XMLAttribute* lv_type_attr = root->FindAttribute("lv_type");
   if( lv_type_attr == nullptr ){
@@ -145,8 +145,8 @@ FeatureValue FeatureLVEdgeLabel::evaluate( const std::shared_ptr<std::string>& c
                                           const std::shared_ptr<Symbol>& symbol )
 {
   value = FeatureValue::False;
-  if( lv_type == lv->type ){
-    for( auto& connection : lv->children ){
+  if( lv_type == lv->type() ){
+    for( auto& connection : lv->children() ){
       if( connection.label ){
         if( edge_label == connection.label.value() ){
 	        value = FeatureValue::True;
@@ -176,7 +176,7 @@ std::string FeatureLVEdgeLabel::print_string( const bool& printValue )const{
 ///
 std::string FeatureLVEdgeLabel::key( void ) const{
   std::stringstream out;
-  out << "feature-lv-edge-label(type=\"" << type << "\",lv_type=\"" << lv_type << "\",edge_label=\"" << edge_label << "\")";  
+  out << "feature-lv-edge-label(type=\"" << type << "\",lv_type=\"" << lv_type << "\",edge_label=\"" << edge_label << "\")";
   return out.str();
 }
 

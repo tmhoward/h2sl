@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -45,7 +45,7 @@ void PCFG::from_file( const char* filename ){
     } else{
       std::stringstream error_msg;
       error_msg << "Erroneous file extension (\"" << filename << "\") in from_file";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
   }
   catch( std::string msg ){
@@ -68,14 +68,14 @@ void PCFG::from_xml( const char* filename ){
   if( doc.Error() ){
     error_msg << "Document error during LoadFile for \"" << filename << "\""
               << " with doc.Error(): " << doc.Error();
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
 
   // Extract the root element from the document object
   const auto* root = doc.RootElement();
   if( root == nullptr ){
     error_msg << "Document error during RootElement for \"" << filename << "\"";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
 
   // Check for any PCFG child element of the extracted root element
@@ -83,7 +83,7 @@ void PCFG::from_xml( const char* filename ){
   if( pcfg_element == nullptr ){
     error_msg << "No grammar element found as a child of the root element for \""
               << filename << "\"";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
 
   from_xml( pcfg_element );
@@ -107,13 +107,13 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
   // Check that the element is a PCFG element
   if( pcfg_element == nullptr ){
     error_msg << "The XMLElement* was nullptr";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   if( std::strcmp( pcfg_element->Name(), XMLPCFGName ) != 0 ){
     error_msg << "The XMLElement* name (\"" << pcfg_element->Name()
               << "\") did not match the PCFG name (\""
               << XMLPCFGName << "\")";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
 
   /********************************************************************************/
@@ -123,13 +123,13 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
   const auto* terminals_element = pcfg_element->FirstChildElement(XMLTerminalsName);
   if( terminals_element == nullptr ){
     error_msg << "No XMLElement child found for the terminal symbols.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   const auto*
   terminals_attribute = terminals_element->FindAttribute(XMLSymbolsAttributeName);
   if( terminals_attribute == nullptr ){
     error_msg << "No XMLAttribute found for the terminals symbols.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   // Extract the csv string into a set and store as terminals data member
   std::string terminals_string = terminals_attribute->Value();
@@ -143,13 +143,13 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
   preterminals_element = pcfg_element->FirstChildElement(XMLPreTerminalsName);
   if( preterminals_element == nullptr ){
     error_msg << "No XMLElement child found for the preterminal symbols.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   const auto* preterminals_attribute =
                           preterminals_element->FindAttribute(XMLSymbolsAttributeName);
   if( preterminals_attribute == nullptr ){
     error_msg << "No XMLAttribute found for the preterminal symbols.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   // Extract the csv string into a set and store as preterminals data member
   std::string preterminals_string = preterminals_attribute->Value();
@@ -163,13 +163,13 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
   nonterminals_element = pcfg_element->FirstChildElement(XMLNonTerminalsName);
   if( nonterminals_element == nullptr ){
     error_msg << "No XMLElement child found for the nonterminal symbols.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   const auto* nonterminals_attribute =
                           nonterminals_element->FindAttribute(XMLSymbolsAttributeName);
   if( nonterminals_attribute == nullptr ){
     error_msg << "No XMLAttribute found for the nonterminal symbols.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   // Extract the csv string into a set and store as nonterminals data member
   std::string nonterminals_string = nonterminals_attribute->Value();
@@ -183,28 +183,28 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
   lexical_rules_element = pcfg_element->FirstChildElement(XMLLexicalRulesName);
   if( lexical_rules_element == nullptr ){
     error_msg << "No XMLElement child found for the lexical rules.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   // Check for child lexical rule elements
   auto*
   lexical_rule_element = lexical_rules_element->FirstChildElement(XMLLexicalRuleName);
   if( lexical_rule_element == nullptr ){
     error_msg << "No XMLElement children found for the lexical rules.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
 
   // Iterate through each child element containing a lexical rule
   while( lexical_rule_element != nullptr ){
     // Create a lexical_rule_t object to contain the constituents of the rule
     lexical_rule_t lexical_rule;
-    
+
     // Extract lhs, rhs, probability, and frequency from individual attributes
     const auto*
     lhs_attribute = lexical_rule_element->FindAttribute(XMLRuleLHSAttributeName);
     if( lhs_attribute == nullptr ){
       error_msg << "No \"" << XMLRuleLHSAttributeName << "\" XMLAttribute found for "
                 << "a lexical rule.";
-      throw error_msg.str(); 
+      throw std::runtime_error( error_msg.str() );
     }
     lexical_rule.lhs = lhs_attribute->Value();
 
@@ -213,7 +213,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
     if( rhs_attribute == nullptr ){
       error_msg << "No \"" << XMLRuleRHSAttributeName << "\" XMLAttribute found for "
                 << "a lexical rule.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     lexical_rule.rhs = rhs_attribute->Value();
 
@@ -222,7 +222,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
     if( prob_attribute == nullptr ){
       error_msg << "No \"" << XMLRuleProbAttributeName << "\" XMLAttribute found for "
                 << "a lexical rule.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     lexical_rule.prob = prob_attribute->DoubleValue();
 
@@ -231,7 +231,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
     if( freq_attribute == nullptr ){
       error_msg << "No \"" << XMLRuleFreqAttributeName << "\" XMLAttribute found for "
                 << "a lexical rule.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     lexical_rule.freq = freq_attribute->IntValue();
 
@@ -255,7 +255,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
   production_rules_element = pcfg_element->FirstChildElement(XMLProductionRulesName);
   if( production_rules_element == nullptr ){
     error_msg << "No XMLElement child found for the production rules.";
-  throw error_msg.str();
+  throw std::runtime_error( error_msg.str() );
   }
 
   // Check for child production rule elements
@@ -263,7 +263,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
                   production_rules_element->FirstChildElement(XMLProductionRuleName);
   if( production_rule_element == nullptr ){
     error_msg << "No XMLElement children found for the production rules.";
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
 
   // Iterate through each child element containing a production rule
@@ -277,7 +277,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
     if( lhs_attribute == nullptr ){
       error_msg << "No \"" << XMLRuleLHSAttributeName << "\" XMLAttribute found for "
                 << "a production rule.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     production_rule.lhs = lhs_attribute->Value();
 
@@ -286,7 +286,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
     if( rhs_attribute == nullptr ){
       error_msg << "No \"" << XMLRuleRHSAttributeName << "\" XMLAttribute found for "
                 << "a production rule.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     std::string rhs_string = rhs_attribute->Value();
     production_rule.rhs = std_string_vector_from_std_string( rhs_string );
@@ -296,7 +296,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
     if( prob_attribute == nullptr ){
       error_msg << "No \"" << XMLRuleProbAttributeName << "\" XMLAttribute found for "
                 << "a production rule.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     production_rule.prob = prob_attribute->DoubleValue();
 
@@ -305,7 +305,7 @@ void PCFG::from_xml( const tinyxml2::XMLElement* pcfg_element ){
     if( freq_attribute == nullptr ){
       error_msg << "No \"" << XMLRuleFreqAttributeName << "\" XMLAttribute found for "
                 << "a lexical rule.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     production_rule.freq = freq_attribute->IntValue();
 
@@ -341,7 +341,7 @@ void PCFG::to_xml( const char* filename )const{
   if( error_result != tinyxml2::XML_SUCCESS ){
     std::stringstream error_msg;
     error_msg << "Failed to save XML file, error state: " << error_result;
-    throw error_msg.str();
+    throw std::runtime_error( error_msg.str() );
   }
   return;
 }
@@ -459,7 +459,7 @@ void PCFG::scrape_sentences(
   try{
     // For each sentence, start a recursive call on the root Phrase
     for( const auto& sentence: sentences ){
-      _scrape_phrase( sentence->child );
+      _scrape_phrase( sentence->child() );
     }
 
     // Assign the rule probabilities for lexical_rules and production_rules
@@ -484,7 +484,7 @@ void PCFG::_scrape_phrase( const std::shared_ptr< Phrase >& phrase ){
   std::stringstream error_msg;
 
   // Scrape any child phrases first (recursive)
-  for( const auto& connection : phrase->children ){
+  for( const auto& connection : phrase->children() ){
     _scrape_phrase( connection.child );
   }
 
@@ -493,41 +493,43 @@ void PCFG::_scrape_phrase( const std::shared_ptr< Phrase >& phrase ){
   /********************************************************************************/
   // For each word, add the text to terminals & add the POS to preterminals
   // Check if the lexical rule exists; if no, add it; if yes, increment the freq
-  for( const auto& word : phrase->words.value() ){
-    terminals.insert( word.text );
-    preterminals.insert( word.pos );
-    // Check lexical_rules for an existing lhs (POS)
-    auto it_lexical_rules = lexical_rules.find( word.pos );
-    // If it does not exist, create one with a single lexical_rule_t element
-    // Else, look for a matching rhs; if no match, add new rule; if match, increment
-    if( it_lexical_rules == lexical_rules.end() ){
-      std::vector<lexical_rule_t>
-      v_lexical_rules ( 1, _make_lexical_rule_from_word( word ) );
-      auto ret_lexical_rules = lexical_rules.insert(std::make_pair( word.pos,
-                                                                  v_lexical_rules ));
-      if( !ret_lexical_rules.second ){
-        error_msg << "Error inserting new lexical rule.";
-        throw error_msg.str();
-      }
-    } else{
-      // Look for a matching rhs (word text)
-      bool found_match = false;
-      for( auto& lexical_rule : it_lexical_rules->second ){
-        if( word.text == lexical_rule.rhs ){
-          lexical_rule.freq++;
-          found_match = true;
-          break;
+  if( phrase->words() != std::nullopt ){
+    for( const auto& word : phrase->words().value() ){
+      terminals.insert( word.text );
+      preterminals.insert( word.pos );
+      // Check lexical_rules for an existing lhs (POS)
+      auto it_lexical_rules = lexical_rules.find( word.pos );
+      // If it does not exist, create one with a single lexical_rule_t element
+      // Else, look for a matching rhs; if no match, add new rule; if match, increment
+      if( it_lexical_rules == lexical_rules.end() ){
+        std::vector<lexical_rule_t>
+        v_lexical_rules ( 1, _make_lexical_rule_from_word( word ) );
+        auto ret_lexical_rules = lexical_rules.insert(std::make_pair( word.pos,
+                                                                    v_lexical_rules ));
+        if( !ret_lexical_rules.second ){
+          error_msg << "Error inserting new lexical rule.";
+          throw std::runtime_error( error_msg.str() );
         }
+      } else{
+        // Look for a matching rhs (word text)
+        bool found_match = false;
+        for( auto& lexical_rule : it_lexical_rules->second ){
+          if( word.text == lexical_rule.rhs ){
+            lexical_rule.freq++;
+            found_match = true;
+            break;
+          }
+        }
+        if( !found_match )
+          it_lexical_rules->second.push_back( _make_lexical_rule_from_word( word ) );
       }
-      if( !found_match )
-        it_lexical_rules->second.push_back( _make_lexical_rule_from_word( word ) );
     }
   }
 
   /********************************************************************************/
   /******************************* Scrape nonterminals ****************************/
   /********************************************************************************/
-  nonterminals.insert( phrase->type );
+  nonterminals.insert( phrase->type() );
 
   /********************************************************************************/
   /**************************** Scrape production rules ***************************/
@@ -546,7 +548,7 @@ void PCFG::_scrape_phrase( const std::shared_ptr< Phrase >& phrase ){
                                       new_production_rule.lhs, v_production_rules ));
     if( !ret_production_rules.second){
       error_msg << "Error inserting new production rule.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
   } else{
     // Look for a matching rhs (vector of nonterminals/preterminals)
@@ -583,22 +585,26 @@ PCFG::_make_lexical_rule_from_word( const h2sl::Word& word )const{
 PCFG::production_rule_t
 PCFG::_make_production_rule_from_phrase( const Phrase& phrase )const{
   production_rule_t production_rule;
-  production_rule.lhs = phrase.type;
+  production_rule.lhs = phrase.type();
   production_rule.rhs = std::vector< std::string >();
   production_rule.prob = 1.0;
   production_rule.freq = 1;
-  
+
   // Extract the rhs symbols with their time values
   // Use the minimum time found for a word in each child phrase
-  auto size = phrase.words->size() + phrase.children.size();
+  auto size = phrase.children().size();
+  if( phrase.words() ) size += phrase.words()->size();
+
   std::vector< std::pair< std::string, double > > rhs_symbols;
-  for( const auto& word : phrase.words.value() ){
-    auto rhs_symbol = std::make_pair( word.pos, word.time );
-    rhs_symbols.push_back( rhs_symbol );
+  if( phrase.words() != std::nullopt ){
+    for( const auto& word : phrase.words().value() ){
+      auto rhs_symbol = std::make_pair( word.pos, word.time );
+      rhs_symbols.push_back( rhs_symbol );
+    }
   }
-  for( const auto& connection : phrase.children ){
+  for( const auto& connection : phrase.children() ){
     auto child_time = _get_phrase_min_time( *(connection.child) );
-    auto rhs_symbol = std::make_pair( connection.child->type, child_time);
+    auto rhs_symbol = std::make_pair( connection.child->type(), child_time);
     rhs_symbols.push_back( rhs_symbol );
   }
   // Sort the rhs symbols by time & incrementally add them to production_rule
@@ -625,15 +631,17 @@ PCFG::_get_phrase_min_time( const Phrase& phrase )const{
   // Initialize to a value that is necessarily larger than any found
   double min_time = DBL_MAX;
   // Recursively find the minimum value for child phrases
-  for( const auto& connection : phrase.children ){
+  for( const auto& connection : phrase.children() ){
     auto child_min_time = _get_phrase_min_time( *(connection.child) );
     if( child_min_time < min_time )
       min_time = child_min_time;
   }
   // If the current phrase has words, compare their time
-  for( const auto& word : phrase.words.value() ){
-    if( word.time < min_time )
-      min_time = word.time;
+  if( phrase.words() != std::nullopt ){
+    for( const auto& word : phrase.words().value() ){
+      if( word.time < min_time )
+        min_time = word.time;
+    }
   }
   return min_time;
 }
@@ -653,7 +661,7 @@ void PCFG::_assign_rule_probabilities( void ){
       std::stringstream error_msg;
       error_msg << "Divide by 0 assigning probabilities for lexical rules with lhs \""
                 << v_lexical_rules.first << "\"";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     for( auto& lexical_rule : v_lexical_rules.second ){
       lexical_rule.prob = ( lexical_rule.freq / (double) denom );
@@ -671,7 +679,7 @@ void PCFG::_assign_rule_probabilities( void ){
       std::stringstream error_msg;
       error_msg << "Divide by 0 assigning probabilities for production rules with "
                 << "lhs \"" << v_production_rules.first << "\"";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
     for( auto& production_rule : v_production_rules.second ){
       production_rule.prob = ( production_rule.freq / (double) denom );
@@ -698,7 +706,7 @@ void PCFG::_check_invariants( void )const{
           error_msg << "Found redunant lexical rule with lhs \""
                     << v_lexical_rules.second[i].lhs << "\" and rhs \""
                     << v_lexical_rules.second[i].rhs;
-          throw error_msg.str();
+          throw std::runtime_error( error_msg.str() );
         }
       }
     }
@@ -714,7 +722,7 @@ void PCFG::_check_invariants( void )const{
             error_msg << symbol << " ";
           }
           error_msg << "\"";
-          throw error_msg.str();
+          throw std::runtime_error( error_msg.str() );
         }
       }
     }
@@ -733,7 +741,7 @@ void PCFG::_check_invariants( void )const{
     if( !(fabs(1.0 - sum) < (epsilon * DBL_EPSILON * fabs(1.0 + sum))) ){
       error_msg << "The sum of probabilities for lexical rules with the lhs \""
                 << v_lexical_rules.first << "\" did NOT sum to 1.0.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
   }
   // Check the probabilities constraint for production_rules
@@ -745,7 +753,7 @@ void PCFG::_check_invariants( void )const{
     if( !(fabs(1.0 - sum) < (epsilon * DBL_EPSILON * fabs(1.0 + sum))) ){
       error_msg << "The sum of probabilities for production rules with the lhs \""
                 << v_production_rules.first << "\" did NOT sum to 1.0.";
-      throw error_msg.str();
+      throw std::runtime_error( error_msg.str() );
     }
   }
   return;

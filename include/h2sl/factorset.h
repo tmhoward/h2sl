@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -50,7 +50,7 @@ namespace h2sl {
     std::optional< std::string > label = std::nullopt;
     std::shared_ptr<h2sl::FactorSet> factorset = nullptr;
   };
-  
+
   /**
     Structure to contain the solutions of a search call on the FactorSet
     prob: the probability associated with the solution
@@ -103,7 +103,7 @@ namespace h2sl {
     Default move assignment operator for h2sl::FactorSet
   */
   FactorSet& operator=( FactorSet&& other ) = default;
-  
+
   /**
     Method to search for the most likely correspondence variables for each Factor in the FactorSet. Uses a beamwidth.
 
@@ -238,10 +238,10 @@ namespace h2sl {
 
   /**
       This method counts the number of children with solutions
-      
+
       @brief This method counts the number of children with solutions
       @returns      unsigned int  number of child factorsets with solutions
-      @throws                     no expected throws 
+      @throws                     no expected throws
   */
   unsigned int num_children_with_solutions( void )const;
 

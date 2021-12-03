@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -51,44 +51,55 @@ class Sentence {
   Sentence() = default;
 
   /**
-    Parameter constructor for h2sl::Sentence class without symbols. This method instantiates a unique identified (uid) of the source
+    Parameter constructor for h2sl::Sentence class without symbols or a unique identifier. This method instantiates the child
+    language variable of the sentence.
+
+    @brief Parameter Sentence class constructor without symbols.
+    @param[in]    p_child     Child language variable of the sentence
+    @returns                  none
+    @throws                   no expected throws
+  **/
+  explicit Sentence( const std::shared_ptr<LanguageVariable>& p_child );
+
+  /**
+    Parameter constructor for h2sl::Sentence class without symbols. This method instantiates a unique identifier (uid) of the source
     and the child language variable of the sentence.
 
     @brief Parameter Sentence class constructor without symbols.
-    @param[in]    uidArg    Unique ID of the source
-    @param[in]    childArg  Child language variable of the sentence
-    @returns                none
-    @throws                 no expected throws
+    @param[in]    uid       Unique ID of the source
+    @param[in]    p_child     Child language variable of the sentence
+    @returns                  none
+    @throws                   no expected throws
   **/
-  Sentence( const std::string& uidArg, const std::shared_ptr<LanguageVariable>& childArg );
+  Sentence( const std::string& uid, const std::shared_ptr<LanguageVariable>& p_child );
 
   /**
     Parameter constructor for h2sl::Sentence class with symbols. This method instantiates a
-    unique identifier of the source, a vector of Symbols with which it 
+    unique identifier of the source, a vector of Symbols with which it
     corresponds, and the child language variable.
 
     @brief Parameter Sentence class constructor with symbols.
-    @param[in]    uidArg      Unique ID of the source
-    @param[in]    childArg    Child language variable
-    @param[in]    symbolsArg  Vector of Symbols corresponding to the sentence
-    @returns                  none
-    @throws                   no expected throws
+    @param[in]    uid         Unique ID of the source
+    @param[in]    p_child       Child language variable
+    @param[in]    symbols       Vector of Symbols corresponding to the sentence
+    @returns                    none
+    @throws                     no expected throws
   */
-  Sentence( const std::string& uidArg,
-            const std::shared_ptr<LanguageVariable>& childArg,
-            const LanguageVariable::symbolsVector& symbolsArg );
+  Sentence( const std::string& uid,
+            const std::shared_ptr<LanguageVariable>& p_child,
+            const LanguageVariable::symbolsVector& symbols );
 
   /**
     Sentence class constructor to instantiate a Sentence from an XMLElement*.
 
     @brief Sentence class constructor from XMLElement*.
     @overload
-    @param[in]    root          XMLElement* of the Sentence to be imported
-    @param[in]    symbolspace   SymbolSpace object to insert symbols
-    @returns                    none
-    @throws                     no expected throws
+    @param[in]    p_root          XMLElement* of the Sentence to be imported
+    @param[in]    p_symbolspace   SymbolSpace object to insert symbols
+    @returns                      none
+    @throws                       Throws runtime error on XML parse failure
   */
-  Sentence( const tinyxml2::XMLElement* root, std::shared_ptr<SymbolSpace>& symbolspace );
+  Sentence( tinyxml2::XMLElement const * p_root, SymbolSpace *const p_symbolspace );
 
   /**
     Default copy constructor for h2sl::Sentence
@@ -141,45 +152,34 @@ class Sentence {
     @brief Import a Sentence class from an XML file without symbols.
     @overload
     @param[in]    filename      filename of the XML file from which to import
-    @returns                    boolean flag; true if there are no errors
-    @throws                     no expected throws
+    @returns                    none
+    @throws                     Throws runtime_error on XML parsing error
   */
-  bool from_xml( const char* filename );
+  void from_xml( const char* filename );
 
   /**
     This method imports a Sentence class from an XML file with symbols.
 
     @brief Import a Sentence class from an XML file with symbols.
     @overload
-    @param[in]    filename      filename of the XML file from which to import
-    @param[in]    symbolspace   SymbolSpace object for inserting symbols
-    @returns                    boolean flag; true if there are no errors
-    @throws                     no expected throws
+    @param[in]    filename        filename of the XML file from which to import
+    @param[in]    p_symbolspace   SymbolSpace object for inserting symbols
+    @returns                      none
+    @throws                       Throws runtime_error on XML parsing error
   */
-  bool from_xml( const char* filename, std::shared_ptr<SymbolSpace>& symbolspace );
-
-  /**
-    This method imports a Sentence class from an XMLElement* without symbols.
-
-    @brief Import a Sentence class from an XMLElement* without symbols.
-    @overload
-    @param[in]      sentence_elem   current XMLElement* to an XML Sentence element
-    @returns                        boolean flag; true if there are no errors
-    @throws                         no expected throws
-  */
-  bool from_xml( const tinyxml2::XMLElement* sentence_elem );
+  void from_xml( const char* filename, SymbolSpace *const symbolspace );
 
   /**
     This method imports a Sentence class from an XMLElement* with symbols.
 
     @brief Import a Sentence class from an XMLElement* with symbols.
     @overload
-    @param[in]      sentence_elem   current XMLElement* to an XML Sentence element
-    @param[in]      symbolspace     SymbolSpace object for inserting symbols
-    @returns                        boolean flag; true if there are no errors
-    @throws                         no expected throws
+    @param[in]      p_sentence_element    current XMLElement* to an XML Sentence element
+    @param[in]      p_symbolspace         SymbolSpace object for inserting symbols
+    @returns                              none
+    @throws                               Throws runtime_error on XML parsing error
   */
-  bool from_xml( const tinyxml2::XMLElement* sentence_elem, std::shared_ptr<SymbolSpace>& symbolspace );
+  void from_xml( tinyxml2::XMLElement const * p_sentence_element, SymbolSpace *const p_symbolspace );
 
   /**
       This method imports a Sentence from a json formatted string.
@@ -245,6 +245,24 @@ class Sentence {
   virtual void to_json( Json::Value& root )const;
 
   /**
+    These methods provide read-only and read-write access to the _o_iud member data
+  **/
+  inline std::string const & uid( void )const{ return uid_; };
+  inline std::string& uid( void ){ return uid_; };
+
+  /**
+    These methods provide read-only and read-write access to the p_child_ member data
+  **/
+  inline std::shared_ptr<LanguageVariable> const & child( void )const{ return p_child_; };
+  inline std::shared_ptr<LanguageVariable>& child( void ){ return p_child_; };
+
+  /**
+    These methods provide read-only and read-write access to the symbols_ member data
+  **/
+  inline LanguageVariable::symbolsVector const & symbols( void )const{ return symbols_; };
+  inline LanguageVariable::symbolsVector& symbols( void ){ return symbols_; };
+
+  /**
     Sentence class ostream operator. Prints the Sentence to the ostream.
 
     @brief Sentence class ostream operator.
@@ -255,21 +273,26 @@ class Sentence {
   */
   friend std::ostream& operator<<( std::ostream& out, const Sentence& other );
 
-  /** std::string containing the uid of the source */
-  std::string uid = "";
- 
-  /** child language variable */
-  std::shared_ptr<LanguageVariable> child = std::make_shared<LanguageVariable>();
-  
-  /** 
-    std::vector containing std::shared_ptrs of Symbol objects corresponding to
-    this Sentence instance.
-  */
-  LanguageVariable::symbolsVector symbols = LanguageVariable::symbolsVector();
- 
   protected:
   private:
 
+  /**
+    This method resets the member data to an initialized state.
+
+    @brief This method resets the member data to an initialized state
+    @return                       none
+    @throws                       No expected throws
+  **/
+  void reset_( void );
+
+  // The unique ID string of the speaker/agent associated with the sentence
+  std::string uid_ = std::string();
+
+  // The root child language variable
+  std::shared_ptr<LanguageVariable> p_child_ = std::make_shared<LanguageVariable>();
+
+  // std::vector containing std::shared_ptrs of Symbol objects corresponding to the root of this sentence
+  LanguageVariable::symbolsVector symbols_ = LanguageVariable::symbolsVector();
 }; // class Sentence
 
 } // namespace h2sl

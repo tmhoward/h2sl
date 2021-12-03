@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -143,7 +143,7 @@ Parser::parse( const std::string& input, const int num_parses ){
                             unary_chart_elements.begin(),
                             unary_chart_elements.end() );
       }
-    } 
+    }
     /******************************************************************************/
     /************** Fill in the rest of the chart via production rules ************/
     /******************************************************************************/
@@ -166,7 +166,7 @@ Parser::parse( const std::string& input, const int num_parses ){
           slices.push_back( slice );
         }
         // For each slice, construct each possible rhs (pair of symbols)
-        std::vector<std::pair<chart_element_t, chart_element_t>> v_rhs_chart_elements; 
+        std::vector<std::pair<chart_element_t, chart_element_t>> v_rhs_chart_elements;
         for( const auto& slice : slices ){
           auto& first_chart_elements = parse_chart[slice.first_cell.first]
                                                   [slice.first_cell.second];
@@ -280,7 +280,7 @@ Parser::parse( const std::string& input, const int num_parses ){
     msg.insert(0, ParserPreamble);
     throw std::runtime_error( msg );
   }
-  
+
   return parse_trees;
 }
 
@@ -329,19 +329,20 @@ Parser::_generate_parse_trees( const int num_parses )
       //throw error_msg.str();
     }
     // Make the root phrase
+    char phrase_name = 'A';
     auto root = Phrase();
-    root.type = chart_element.symbol;
- 
+    root.type() = chart_element.symbol;
+    root.name() = phrase_name;
+
     // Handle the first back pointer for the top chart element
     if( chart_element.bp_1 == nullptr ){
       error_msg << "A top chart element had a nullptr bp_1";
       throw error_msg.str();
     } else{
-      _populate_phrase( root, *chart_element.bp_1 );
+      _populate_phrase( root, *chart_element.bp_1, phrase_name );
     }
     // Handle the second back pointer (can be nullptr)
-    if( chart_element.bp_2 != nullptr )
-      _populate_phrase( root, *chart_element.bp_2 );
+    if( chart_element.bp_2 != nullptr ) _populate_phrase( root, *chart_element.bp_2, phrase_name );
     // Add the phrase to parse_trees
     parse_trees.push_back( std::make_pair( root, chart_element.prob ) );
   }
@@ -353,10 +354,13 @@ Parser::_generate_parse_trees( const int num_parses )
 /// Method to generate a parse tree for a provided chart element
 ///
 void
-Parser::_populate_phrase( Phrase& parent_phrase,
-                          const chart_element_t& child_chart_element )
-{
+Parser::_populate_phrase( Phrase & r_parent_phrase, chart_element_t const & child_chart_element, char & r_phrase_name ){
   std::stringstream error_msg;
+  // Enforce that r_phrase_name is not at Z
+  if( r_phrase_name == 'Z' ){
+    error_msg << log_error(__FILE__,__LINE__) << "The phrase name to be assigned is Z, out of letters";
+    throw std::runtime_error( error_msg.str() );
+  }
   // Handle the chart element according to its type
   switch( child_chart_element.type ){
     // The chart element describes a word, add it to the parent phrase
@@ -365,10 +369,10 @@ Parser::_populate_phrase( Phrase& parent_phrase,
       word.pos = child_chart_element.symbol;
       word.text = child_chart_element.word.first;
       word.time = child_chart_element.word.second;
-      if( !parent_phrase.words ){
-        parent_phrase.words = std::make_optional<std::vector<Word>>();
+      if( r_parent_phrase.words() == std::nullopt ){
+        r_parent_phrase.words() = std::make_optional<std::vector<Word>>();
       }
-      parent_phrase.words->push_back( word );
+      r_parent_phrase.words()->push_back( word );
       break;
     }
     // The chart element describes a UnaryPhrase, add it to the parent phrase and call
@@ -380,39 +384,39 @@ Parser::_populate_phrase( Phrase& parent_phrase,
       }
       Phrase::language_variable_connection_t connection;
       connection.child = std::make_shared<Phrase>();
-      connection.child->type = child_chart_element.symbol;
-      parent_phrase.children.push_back( connection );
-      _populate_phrase( *(connection.child), *child_chart_element.bp_1 );
+      r_phrase_name = static_cast<char>( r_phrase_name + 1 );
+      connection.child->name() = r_phrase_name;
+      connection.child->type() = child_chart_element.symbol;
+      r_parent_phrase.children().push_back( connection );
+      _populate_phrase( *(connection.child), *child_chart_element.bp_1, r_phrase_name );
       break;
     }
     // The chart element describes a BinaryPhrase, add it to the parent phrase and call
     //    _populate_phrase for it and the both back pointers
     case ChartElementType::BinaryPhrase:{
-      if( (child_chart_element.bp_1 == nullptr)
-          || (child_chart_element.bp_2 == nullptr ) )
-      {
+      if( (child_chart_element.bp_1 == nullptr) || (child_chart_element.bp_2 == nullptr ) ){
         error_msg << "BinaryPhrase chart element had a nullptr back pointer";
         throw error_msg.str();
       }
       Phrase::language_variable_connection_t connection;
       connection.child = std::make_shared<Phrase>();
-      connection.child->type = child_chart_element.symbol;
-      parent_phrase.children.push_back( connection );
-      _populate_phrase( *(connection.child), *child_chart_element.bp_1 );
-      _populate_phrase( *(connection.child), *child_chart_element.bp_2 );
+      r_phrase_name = static_cast<char>( r_phrase_name + 1 );
+      connection.child->name() = r_phrase_name;
+      connection.child->type() = child_chart_element.symbol;
+      r_parent_phrase.children().push_back( connection );
+      _populate_phrase( *(connection.child), *child_chart_element.bp_1, r_phrase_name );
+      _populate_phrase( *(connection.child), *child_chart_element.bp_2, r_phrase_name );
       break;
     }
-    // The chart element described an XPhrase; pass the parent phrase and both 
+    // The chart element described an XPhrase; pass the parent phrase and both
     //    back pointers to _populate_phrase
     case ChartElementType::XPhrase:{
-      if( (child_chart_element.bp_1 == nullptr)
-          || (child_chart_element.bp_2 == nullptr ) )
-      {
+      if( (child_chart_element.bp_1 == nullptr) || (child_chart_element.bp_2 == nullptr ) ){
         error_msg << "XPhrase chart element had a nullptr back pointer";
         throw error_msg.str();
       }
-      _populate_phrase( parent_phrase, *child_chart_element.bp_1 );
-      _populate_phrase( parent_phrase, *child_chart_element.bp_2 );
+      _populate_phrase( r_parent_phrase, *child_chart_element.bp_1, r_phrase_name );
+      _populate_phrase( r_parent_phrase, *child_chart_element.bp_2, r_phrase_name );
       break;
     }
     default:{

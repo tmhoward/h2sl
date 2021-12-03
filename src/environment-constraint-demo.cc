@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -53,13 +53,13 @@ int main( int argc, char* argv[] ){
   if( vm.count("world")) {
     std::cout << "here" << std::endl;
   } else {
-    h2sl::Object object1( "object1", 
-                          h2sl::ObjectState( std::make_shared< h2sl::Transform3D >( h2sl::Vector3D( 1.0, 1.0, 0.0 ), h2sl::UnitQuaternion( h2sl::Vector3D( 0.0, 0.0, 0.0 ), 1.0 ) ), 
-                                              nullptr, 
-                                              nullptr, 
-                                              nullptr, 
+    h2sl::Object object1( "object1",
+                          h2sl::ObjectState( std::make_shared< h2sl::Transform3D >( h2sl::Vector3D( 1.0, 1.0, 0.0 ), h2sl::UnitQuaternion( h2sl::Vector3D( 0.0, 0.0, 0.0 ), 1.0 ) ),
+                                              nullptr,
+                                              nullptr,
+                                              nullptr,
                                               nullptr ) );
- 
+
     h2sl::Object object2( "object2",
                           h2sl::ObjectState( std::make_shared< h2sl::Transform3D >( h2sl::Vector3D( 1.0, 0.0, 0.0 ), h2sl::UnitQuaternion( h2sl::Vector3D( 0.0, 0.0, 0.0 ), 1.0 ) ),
                                               nullptr,
@@ -72,12 +72,12 @@ int main( int argc, char* argv[] ){
                                               nullptr,
                                               nullptr,
                                               nullptr,
-                                              nullptr ) );  
+                                              nullptr ) );
 
     world.objects.insert( std::make_pair( object1.uid, object1 ) );
     world.objects.insert( std::make_pair( object2.uid, object2 ) );
     world.objects.insert( std::make_pair( object3.uid, object3 ) );
-  }  
+  }
 
   std::cout << "world:(" << world << ")" << std::endl;
 

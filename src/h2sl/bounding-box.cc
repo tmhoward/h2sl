@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -101,25 +101,25 @@ bool BoundingBox::from_xml(const tinyxml2::XMLElement *bbox_element) {
   offset = h2sl::Transform3D();
 
   // Read the attributes
-  const auto* bdim_attr = bbox_element->FindAttribute("bdim"); 
-  const auto* bxyz_attr = bbox_element->FindAttribute("bxyz"); 
+  const auto* bdim_attr = bbox_element->FindAttribute("bdim");
+  const auto* bxyz_attr = bbox_element->FindAttribute("bxyz");
   const auto* bq_attr = bbox_element->FindAttribute("bq");
 
   // Signal false if dimension attributes is missing
-  if(bdim_attr == nullptr){ 
-    std::cout << "failed to find box dimension" << std::endl; 
+  if(bdim_attr == nullptr){
+    std::cout << "failed to find box dimension" << std::endl;
     return false;
   }
 
   // Signal false if offset position attributes is missing
-  if(bxyz_attr == nullptr){ 
-    std::cout << "failed to find box offset position" << std::endl; 
+  if(bxyz_attr == nullptr){
+    std::cout << "failed to find box offset position" << std::endl;
     return false;
   }
 
   // Signal false if offset orientation attributes is missing
-  if(bq_attr == nullptr){ 
-    std::cout << "failed to find box offset orientation" << std::endl; 
+  if(bq_attr == nullptr){
+    std::cout << "failed to find box offset orientation" << std::endl;
     return false;
   }
 
@@ -181,7 +181,7 @@ BoundingBoxMessage BoundingBox::to_msg( void )const{
 // BoundingBox class ostream operator
 //
 ostream& operator<<(ostream& out, const BoundingBox& other) {
-  
+
   // out << "(BoundingBox:";
 
   out << "dimX=" << other.dimensions.x() << ",";

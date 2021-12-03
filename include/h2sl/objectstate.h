@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -52,7 +52,7 @@ public:
     bounding box, angular velocity, linear velocity, and the associated timestamp.
   */
   using vectorObjectState = std::vector<h2sl::ObjectState>;
-  
+
   /**
     Default constructor for h2sl::ObjectState class.
 
@@ -89,7 +89,7 @@ public:
     @throws           no expected throws
   */
   ObjectState( const tinyxml2::XMLElement *root );
-  
+
   /**
     Class constructor for ObjectState from ObjectStateMessage message.
 
@@ -136,7 +136,7 @@ public:
     @throws                     no expected throws
   */
   bool from_xml(const std::string& filename);
-  
+
   /**
     This method imports a ObjectState class from an XMLElement pointer.
 
@@ -227,22 +227,22 @@ public:
 
   /** Shared pointer to an instance of Transform3D to represent the pose of the object.
   * This pointer points to NULL when this metric measurment is not available.
-  */ 
+  */
   std::shared_ptr<h2sl::Transform3D> pose = nullptr;
 
   /** Shared pointer to an instance of BoundingBox to represent the collision geometry of the object.
   * This pointer points to NULL when this metric measurment is not available.
-  */ 
+  */
   std::shared_ptr<h2sl::BoundingBox> bbox = nullptr;
 
   /** Shared pointer to a h2sl::Vector3 of doubles to represent the linear velocity of the object.
   * This pointer points to NULL when this metric measurment is not available.
-  */ 
+  */
   std::shared_ptr<h2sl::Vector3D> v = nullptr;
 
   /** Shared pointer to a h2sl::Vector3 of doubles to represent the angular velocity of the object.
   * This pointer points to NULL when this metric measurment is not available.
-  */ 
+  */
   std::shared_ptr<h2sl::Vector3D> w = nullptr;
 
   /** Shared pointer to a double to represent the timestamp in nano seconds (Unix epoch time).

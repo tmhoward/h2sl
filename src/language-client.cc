@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -56,14 +56,11 @@ int main( int argc, char* argv[] ){
 
   // Load language content into a LanguageVariable
   std::string example_filename = vm["example"].as<std::string>();
-  auto opt_lv = h2sl::LanguageVariable::flattened_from_xml( example_filename.c_str() );
-  if( !opt_lv ){
-    std::cout << "Failed to load language variable from " << example_filename.c_str() << std::endl;
-    return EXIT_SUCCESS;
-  }
+  auto lv = h2sl::LanguageVariable();
+  lv.from_xml( example_filename.c_str() );
 
   // Clear any symbols the LV might have
-  opt_lv->clear_symbols();
+  lv.clear_symbols();
 
   /******************************************************************
   * Initialize the ROS node
@@ -75,7 +72,7 @@ int main( int argc, char* argv[] ){
 
   // Populate the request part of the service
   h2sl::GroundLanguage srv;
-  srv.request.language = opt_lv->to_msg();
+  srv.request.language = lv.to_msg();
 
   if( client.call( srv ) ){
     // We can now access the srv.response member

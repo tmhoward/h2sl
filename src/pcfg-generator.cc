@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -56,22 +56,18 @@ int main( int argc, char* argv[] ){
 
     // Initialize a PCFG object that will extract a pcfg from the input sentences
     auto pcfg = h2sl::PCFG();
-    // Initialize a container to store the input sentences as h2sl::Sentence 
+    // Initialize a container to store the input sentences as h2sl::Sentence
     std::vector< std::shared_ptr<h2sl::Sentence> > sentences;
     // Construct a symbolspace to appease the Sentence from_xml API
-    auto symbolspace = std::make_shared<h2sl::SymbolSpace>();
-    
+    auto p_symbolspace = std::make_shared<h2sl::SymbolSpace>();
+
     for( const auto& sentence_filename : sentence_filenames ){
       std::cout << "processing_filename:\"" << sentence_filename << "\"" << std::endl;
 
       // Import the current sentence
-      auto sentence = std::make_shared<h2sl::Sentence>();
-      if( !sentence->from_xml( sentence_filename.c_str(), symbolspace ) ){
-        std::stringstream error_msg;
-        error_msg << "\nFailed to load sentence file \"" << sentence_filename <<"\"\n";
-        throw std::runtime_error( error_msg.str() );
-      }
-      sentences.push_back( sentence );
+      auto p_sentence = std::make_shared<h2sl::Sentence>( );
+      p_sentence->from_xml( sentence_filename.c_str(), p_symbolspace.get() );
+      sentences.push_back( p_sentence );
     }
 
     // Use the pcfg object to extract a pcfg for the sentences

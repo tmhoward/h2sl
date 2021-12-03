@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -94,7 +94,7 @@ bool FeatureSymbolAttributeValueMatchesChildAttributeValueLabel::from_xml( const
     }
     return false;
   }
- 
+
   // check to see if the class name is feature-symbol-attribute-value-matches-child-attribute-value-label
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -119,7 +119,7 @@ bool FeatureSymbolAttributeValueMatchesChildAttributeValueLabel::from_xml( const
     }
     return false;
   }
- 
+
   // Read the symbol_type attribute and set it to the symbol_type
   const tinyxml2::XMLAttribute* symbol_type_attr = root->FindAttribute("symbol_type");
   if( symbol_type_attr == nullptr ){
@@ -175,7 +175,7 @@ bool FeatureSymbolAttributeValueMatchesChildAttributeValueLabel::from_xml( const
     return false;
   }
   child_attribute_type = child_attribute_type_attr->Value();
-  
+
   // Read the edge_label attribute and assign it to edge_label
   const tinyxml2::XMLAttribute* edge_label_attr = root->FindAttribute("edge_label");
   if( edge_label_attr == nullptr ){
@@ -224,13 +224,13 @@ FeatureSymbolAttributeValueMatchesChildAttributeValueLabel::evaluate( const std:
 
   // check if the language variable has a child with a matching edge label which
   // contains a symbol with a type that matches the feature's child_symbol_type
-  for( auto& lv_connection : lv->children ){
+  for( auto& lv_connection : lv->children() ){
     if( !lv_connection.label )
       continue; // Reject children LV with no edge label
     if( lv_connection.label.value() != edge_label )
       continue; // Reject children LV with non-matching edge label
 
-    for( auto& child_symbol : lv_connection.child->symbols ){
+    for( auto& child_symbol : lv_connection.child->symbols() ){
       if( child_symbol->type != child_symbol_type )
         continue;
 

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -90,6 +90,7 @@ int main( int argc, char* argv[] ){
   }
 
   // Load symbol dictionary from the file
+  std::cout << "Loading symbol dictionary from file..." << std::endl;
   auto sd = h2sl::SymbolDictionary();
   if( sd.from_file( vm["sd"].as<std::string>().c_str() ) ){
     std::cout << "Imported symbol dictionary " << sd << std::endl << std::endl;
@@ -99,6 +100,7 @@ int main( int argc, char* argv[] ){
   }
 
   // Load lexicon from the file
+  std::cout << "Loading lexicon from file..." << std::endl;
   h2sl::Lexicon lx = h2sl::Lexicon();
   if( lx.from_file( vm["lexicon"].as<std::string>().c_str() ) ){
     std::cout << "Imported lexicon " << lx << std::endl << std::endl;
@@ -109,7 +111,7 @@ int main( int argc, char* argv[] ){
 
   // Generate CV related features
   std::cout << "Generating CV features..." << std::endl;
-  feature_pool.constituent_feature_sets.push_back( std::vector< std::shared_ptr< h2sl::Feature > >() ); 
+  feature_pool.constituent_feature_sets.push_back( std::vector< std::shared_ptr< h2sl::Feature > >() );
   feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureCV >( "false" ) );
   feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureCV >( "true" ) );
 
@@ -121,30 +123,33 @@ int main( int argc, char* argv[] ){
     // Create a feature for this type of LanguageVariable
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureLVType >( info.first ) );
 
-/*
-    // These LV features shouldn't really provide much information and only allow overfitting
+/* These LV features shouldn't really provide much information and only allow overfitting
     // Create features for edge labels
     for( const auto& label : info.second.edge_labels ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureLVEdgeLabel >( info.first, label ) );
     }
-    
+
     // Create features for words
     for( const auto& word : info.second.words ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureWord >( info.first, word ) );
     }
 */
+
     // Find any speakers from this LV type
+/* We don't need to find all speakers when there's only one in the dataset
     auto speaker_map_it = info.second.roles.find( "speaker" );
     if( speaker_map_it != info.second.roles.end() ){
       for( const auto& speaker : speaker_map_it->second ){
         speakers.insert( speaker );
       }
     }
+*/
   }
 
+/* Skip speaker features
   if( speakers.size() > 0 ){
     std::cout << "Generating speaker-related features..." << std::endl;
-    
+
     // Create features for all found speakers on LV "i" and "you" only
     for( const auto& info : lx.type_information ){
       if( info.first != "i" && info.first != "you" ) continue;
@@ -154,8 +159,9 @@ int main( int argc, char* argv[] ){
     }
 
     // Add a feature matching an object uid with a LV's speaker
-  feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesLVRole >( "object", "uid", "speaker" ) );
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesLVRole >( "object", "uid", "speaker" ) );
   }
+*/
 
   // Load Symbol related features using the Symbol Dictionary
   std::cout << "Generating symbol-related features..." << std::endl;
@@ -163,12 +169,11 @@ int main( int argc, char* argv[] ){
 
   // Features agnostic to the symbol type
   std::cout << "Generating symbol type features..." << std::endl;
-  for(const auto& [symbol_type, info] : sd.dictionary ){    
+  for(const auto& [symbol_type, info] : sd.dictionary ){
     // List the features that need to be templated for all of the symbol types in the symbol dictionary
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolType >( symbol_type ) );
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolMatchesChild >( symbol_type ) );
-    if( symbol_type == "spatial_relation_axis" )
-        feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolHasChild >( symbol_type ) );
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolHasChild >( symbol_type ) );
   }
 
   // Features specific to the symbol type
@@ -185,11 +190,22 @@ int main( int argc, char* argv[] ){
     }
   }
 
-  // Create object_quantifier features for each known quantifier 
+  // Create object_type symbol features for each known object type
+  std::cout << "Generating object_type features..." << std::endl;
+  it_object_type = sd.dictionary.find( "object_type" );
+  if( it_object_type != sd.dictionary.end() ){
+    auto it_prop = it_object_type->second->properties.find("object_type");
+    for( const auto& property_value : it_prop->second ){
+      feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_object_type->first, it_prop->first, property_value ) );
+    }
+  }
+
+/*
+  // Create object_quantifier features for each known quantifier
   auto it_object_quantifier = sd.dictionary.find( "object_quantifier" );
   if( it_object_quantifier != sd.dictionary.end() ){
     std::cout << "Generating object quantifier features..." << std::endl;
-    
+
     auto it_prop = it_object_quantifier->second->properties.find( "quantifier" );
     for(const auto& property_value : it_prop->second ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( "object_quantifier", it_prop->first, property_value ) );
@@ -199,26 +215,6 @@ int main( int argc, char* argv[] ){
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolChildAttributeValue >( "object", "object_quantifier", "quantifier", "all" ) );
   }
 
-/*
-  // TODO - Create object property features without doing so manually per-property
-  auto it_danger = sd.dictionary.find( "danger" );
-  if( it_danger != sd.dictionary.end() ){
-    auto it_prop = it_danger->second->properties.find("danger");
-    for(const auto& property_value : it_prop->second ){
-      feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( "object", it_prop->first, property_value ) );
-    }
-  }
-*/
-  // Create object_type symbol features for each known object type
-  std::cout << "Generating object_type features..." << std::endl;
-  it_object_type = sd.dictionary.find( "object_type" );
-  if( it_object_type != sd.dictionary.end() ){
-    auto it_prop = it_object_type->second->properties.find("object_type");
-    for( const auto& property_value : it_prop->second ){
-      feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_object_type->first, it_prop->first, property_value ) );
-    } 
-  }
-  
   // Create object_color symbol and object property features for each known object color
   auto it_object_color = sd.dictionary.find( "object_color" );
   if( it_object_color != sd.dictionary.end() ){
@@ -244,7 +240,8 @@ int main( int argc, char* argv[] ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_semantic_property->first, it_prop->first, property_value ) );
     }
   }
-  
+*/
+
   // Action related features
   auto it_action = sd.dictionary.find( "action" );
   if( it_action != sd.dictionary.end() ){
@@ -259,17 +256,71 @@ int main( int argc, char* argv[] ){
     for( const auto& agent : it_agent->second ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_action->first, it_agent->first, agent ) );
     }
-    
-    // Allows capturing of payloads from grounded child symbols
+
+    // Enable capturing of payload from grounded child object symbols
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValue >( "action", "payload", "object", "uid" ) );
-    
-    // Create edge-labeled action-goal selectors
+    // Enable capturing of landmark from grounded child spatial_relation symbols
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValue >( "action", "landmark", "spatial_relation", "landmark" ) );
+    // Enable capturing of viewpoint from grounded child spatial_relation symbols
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValue >( "action", "viewpoint", "spatial_relation", "viewpoint" ) );
+    // Enable capturing of axis from grounded child spatial_relation symbols
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValue >( "action", "axis", "spatial_relation", "axis" ) );
+    // Enable capturing of quantity from grounded child distance symbols
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValue >( "action", "quantity", "distance", "quantity" ) );
+    // Enable capturing of unit from grounded child distance symbols
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValue >( "action", "unit", "distance", "unit" ) );
+
+    // Create edge-labeled payload selectors
     for( const auto& info : lx.type_information ){
       for( const auto& label : info.second.edge_labels ){
         feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValueLabel >( "action", "payload", "object", "uid", label ) );
       }
     }
   }
+
+  // Distance related features
+  auto it_distance = sd.dictionary.find( "distance" );
+  if( it_distance != sd.dictionary.end() ){
+    std::cout << "Generating distance features..." << std::endl;
+
+    // Add indicators for all known units
+    auto it_unit = it_distance->second->properties.find("unit");
+    if( it_unit != it_distance->second->properties.end() ){
+      std::cout << "Generating features checking for each unit..." << std::endl;
+      for( const auto& u : it_unit->second ){
+        feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( "distance", "unit", u ) );
+      }
+    }
+/*
+    // Add indicators for all known quantities
+    auto it_quantity = it_distance->second->properties.find("quantity");
+    if( it_quantity != it_distance->second->properties.end() ){
+      std::cout << "Generating features checking for each quantity..." << std::endl;
+      for( const auto& q : it_quantity->second ){
+        feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( "distance", "quantity", q ) );
+      }
+    }
+*/
+    auto it_distance_unit = sd.dictionary.find( "distance_unit" );
+    if( it_distance_unit != sd.dictionary.end() ){
+      std::cout << "Generating distance unit features..." << std::endl;
+
+      // Add indicators for all known units
+      auto it_unit = it_distance_unit->second->properties.find("unit");
+      if( it_unit != it_distance_unit->second->properties.end() ){
+        std::cout << "Generating features checking for each unit..." << std::endl;
+        for( const auto& u : it_unit->second ){
+          feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( "distance_unit", "unit", u ) );
+        }
+      }
+    }
+
+    // Allow capturing of units from grounded child symbols
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValue >( "distance", "unit", "distance_unit", "unit" ) );
+
+    // Add a feature matching a quantity with a LV's quant role
+    feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesLVRole >( "distance", "quantity", "quant" ) );
+  } // End distance features
 
   // Spatial relation related features
   auto it_spatial_relation = sd.dictionary.find( "spatial_relation" );
@@ -290,7 +341,7 @@ int main( int argc, char* argv[] ){
     // Generate default features for ordinal spatial relations
     for( int position_index = 0; position_index < 3; position_index++ ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSpatialRelationPosition >( position_index ) );
-      
+
       // Create object-type-specific position features as well
       it_object_type = sd.dictionary.find( "object_type" );
       if( it_object_type != sd.dictionary.end() ){
@@ -300,7 +351,7 @@ int main( int argc, char* argv[] ){
         }
       }
     }
-    
+
     // Allow capturing of landmarks from grounded child symbols
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValue >( "spatial_relation", "landmark", "object", "uid" ) );
     // Add the inverted feature to provide useful negative information
@@ -317,8 +368,8 @@ int main( int argc, char* argv[] ){
         spatial_relation_edge_labels.insert( label );
       }
     }
-    
-    // Add unique features for each 
+
+    // Add unique features for each
     for( const auto& label : spatial_relation_edge_labels ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValueLabel >( "spatial_relation", "landmark", "object", "uid", label ) );
     }
@@ -328,15 +379,17 @@ int main( int argc, char* argv[] ){
     if( it_viewpoint != it_spatial_relation->second->properties.end() ){
       std::cout << "Generating features checking for each viewpoint..." << std::endl;
       for( const auto& vp : it_viewpoint->second ){
-        feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_spatial_relation->first, it_viewpoint->first, vp ) );
+        feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( "spatial_relation", "viewpoint", vp ) );
       }
     }
 
+/*
     // Create a feature matching a spatial_relation viewpoint with a LV's speaker
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesLVRole >( "spatial_relation", "viewpoint", "speaker" ) );
 
     // Add a feature matching child viewpoint object connected via :poss label
     feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValueMatchesChildAttributeValueLabel >( "spatial_relation", "viewpoint", "object", "uid", "poss" ) );
+*/
 
     // Add indicators for all known axes
     auto it_axis = it_spatial_relation->second->properties.find("axis");

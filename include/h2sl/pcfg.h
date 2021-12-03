@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -55,7 +55,7 @@ namespace h2sl{
         y is a string that can consist of symbols from T and/or N
 
 
-  However, in practice it is useful to modify this representation by introducing a 
+  However, in practice it is useful to modify this representation by introducing a
     lexicon that makes explicit a distinction between nonterminal part-of-speech
     symbols and nonterminal phrase-type symbols. So, the representation of a PCFG used
     by this class is a 7-tuple, G = (T,C,N,S,L,R,P), where:
@@ -98,7 +98,7 @@ namespace h2sl{
     production_rules: a container to hold the rules for producing phrase types from
                         a sequence of phrase types and POS tags; this container also
                         holds the probabilities for each rule.
-  
+
 **/
 
 class PCFG{
@@ -301,7 +301,7 @@ public:
   **/
   inline const mapVectorProductionRules&
   get_production_rules( void )const{ return production_rules; }
-  
+
 
   /**
     PCFG ostream operator. Prints the PCFG to the ostream
@@ -453,7 +453,7 @@ private:
 
   /**
     A container for the production rules and their associated probabilities. These
-    rules produce a nonterminal (phrase-type) from a sequence of nonterminal and 
+    rules produce a nonterminal (phrase-type) from a sequence of nonterminal and
     preterminal (POS tag) symbols.
   **/
   mapVectorProductionRules production_rules = mapVectorProductionRules();

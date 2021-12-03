@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -80,7 +80,7 @@ namespace h2sl {
     @param[in]    lv                The language variable parameter to be passed to each feature evaluation
     @param[in]    world             The world parameter to be passed to each feature evaluation
     @param[in]    expressedFeatures A structure of expressed features to be filled for True features
-    @param[in]    debug             An optional flag for more verbose printouts  
+    @param[in]    debug             An optional flag for more verbose printouts
     @returns                        The feature indices for features evaluated as true
     @throws                         Throws runtime_error for several enforced assumptions
   */
@@ -114,7 +114,7 @@ namespace h2sl {
   size_t convert_to_weight_index( size_t i, size_t j, size_t k )const{
     size_t j_max = constituent_feature_sets[1].size();
     size_t k_max = constituent_feature_sets[2].size();
-    return (i * j_max * k_max) + (j * k_max) + k; 
+    return (i * j_max * k_max) + (j * k_max) + k;
   }
 
   /**

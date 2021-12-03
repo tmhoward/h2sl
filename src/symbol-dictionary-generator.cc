@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -52,7 +52,7 @@ int main( int argc, char* argv[] ){
     return EXIT_SUCCESS;
   }
 
-  // Get vector of training examples 
+  // Get vector of training examples
   if( !vm.count( "examples" ) ){
     std::cout << "No example files provided, exiting." << std::endl << std::endl;
     return EXIT_FAILURE;
@@ -66,28 +66,14 @@ int main( int argc, char* argv[] ){
   h2sl::vectorPairWorldSentence world_sentence_pairs;
 
   for( auto & example_filepath : example_filepaths ){
-    std::cout << "Processing filepath:\"" << example_filepath << "\"" << std::endl;
+    std::cout << "\nProcessing filepath:\"" << example_filepath << "\"" << std::endl;
+    // Construct a sentence from the XML file
+    auto p_sentence = std::make_shared< h2sl::Sentence >( );
+    p_sentence->from_xml( example_filepath.c_str(), symbolspace.get() );
 
-    // Construct a sentence with an empty language variable child
-    auto p_sentence = std::make_shared< h2sl::Sentence >();
-
-    // Load language variable into the sentence's child member 
-    std::optional<h2sl::LanguageVariable> lv = h2sl::LanguageVariable::flattened_from_xml( example_filepath.c_str(), symbolspace );
-    if( !lv ){
-      std::cout << "Failed to load language variable via LanguageVariable::flattened_from_xml()."
-                << "\nAttempting to load via h2sl::Sentence::from_xml()." << std::endl;
-      if( !p_sentence->from_xml( example_filepath.c_str(), symbolspace ) ){
-        std::stringstream error_msg;
-        error_msg << "Failed to load a sentence OR a flattened LV from " << example_filepath << std::endl;
-        throw std::runtime_error( error_msg.str() );
-      }
-    } else{
-      p_sentence->child = std::make_shared<h2sl::LanguageVariable>( lv.value() );
-    }
-    
     // Next, load world
     std::shared_ptr<h2sl::World> world  = std::make_shared<h2sl::World>();
-    bool world_import_success = false;  
+    bool world_import_success = false;
     if( vm.count( "world-folder" ) ){ // Access world from elsewhere based on example filename
       // Extract world name from the filepath
       std::string example_name = example_filepath.substr( example_filepath.find_last_of( "/" ) + 1 );
@@ -95,20 +81,20 @@ int main( int argc, char* argv[] ){
       std::cout << "World name found was " << world_name << std::endl;
 
       std::string world_filepath = vm["world-folder"].as<std::string>() + "/" + world_name + ".xml";
-    
+
       world_import_success = world->from_xml( world_filepath );
     } else{ // Import world from the example
-      world_import_success = world->from_xml( example_filepath );  
+      world_import_success = world->from_xml( example_filepath );
     }
 
     if( world_import_success ){
-      std::cout << "\nworld:" << *world << std::endl;
+      std::cout << "world:" << *world << std::endl;
     } else {
       std::stringstream error_msg;
       error_msg << "Failed to load world for " << example_filepath.c_str() << std::endl;
       throw std::runtime_error( error_msg.str() );
     }
-    
+
     // Make a pair of the World and Sentence, push onto a vector
     auto world_sentence_pair = std::make_pair( world, p_sentence );
     world_sentence_pairs.push_back( world_sentence_pair );

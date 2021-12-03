@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -73,7 +73,7 @@ public:
     @throws           no expected throws
   */
   Vector3D( const tinyxml2::XMLElement *root );
-  
+
   /**
     Class constructor for Vector3D from Vector3DMessage message.
 
@@ -143,7 +143,7 @@ public:
     @throws                   no expected throws
   */
   Vector3D operator+( const Vector3D& rhs )const;
-  
+
   /**
     Vector3D class element wise subtraction operator.
 
@@ -183,7 +183,7 @@ public:
     @throws                   no expected throws
   */
   Vector3D operator+( const double& value )const;
-  
+
   /**
     Vector3D class element wise subtraction operator.
 
@@ -232,7 +232,7 @@ public:
     @throws                   no expected throws
   */
   double distance( const Vector3D& rhs );
- 
+
   /**
     This method returns the dot product between this vector and the input.
 
@@ -313,7 +313,7 @@ public:
     @throws                     no expected throws
   */
   bool from_xml( const std::string &filename );
-  
+
   /**
     This method imports a Vector3D class from an XMLElement pointer.
 
@@ -358,7 +358,7 @@ public:
       @throws                     no expected throws
   */
   std::string to_csv_string( const unsigned int& precision = 4 )const;
-  
+
   /**
       This method exports a Vector3D to a Vector3DMessage.
 

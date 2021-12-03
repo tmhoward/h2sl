@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -89,7 +89,7 @@ bool FeatureSymbolChildAttributeValue::from_xml( const tinyxml2::XMLElement* roo
     }
     return false;
   }
- 
+
   // Check that the Feature class is marked
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -114,7 +114,7 @@ bool FeatureSymbolChildAttributeValue::from_xml( const tinyxml2::XMLElement* roo
     }
     return false;
   }
- 
+
   // Read the symbol_type attribute and set it to the symbol_type
   const tinyxml2::XMLAttribute* symbol_type_attr = root->FindAttribute("symbol_type");
   if( symbol_type_attr == nullptr ){
@@ -188,8 +188,8 @@ FeatureSymbolChildAttributeValue::evaluate( const std::shared_ptr< std::string >
 
   // check if the language variable's children contain a symbol with a type that matches
   // the feature's child_symbol_type
-  for( auto& lv_connection : lv->children ){
-    for( auto& child_symbol : lv_connection.child->symbols ){
+  for( auto& lv_connection : lv->children() ){
+    for( auto& child_symbol : lv_connection.child->symbols() ){
       if( child_symbol->type != child_symbol_type )
         continue;
 

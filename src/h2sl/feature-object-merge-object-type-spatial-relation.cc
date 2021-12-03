@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -78,7 +78,7 @@ bool FeatureObjectMergeObjectTypeSpatialRelation::from_xml( const tinyxml2::XMLE
     }
     return false;
   }
- 
+
   // check to see if the class name is feature-object-merge-object-type-spatial-relation
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -103,7 +103,7 @@ bool FeatureObjectMergeObjectTypeSpatialRelation::from_xml( const tinyxml2::XMLE
     }
     return false;
   }
- 
+
   // Read the spatial_relation_type attribute and set it to the spatial_relation_type
   const tinyxml2::XMLAttribute* spatial_relation_type_attr = root->FindAttribute("spatial_relation_type");
   if( spatial_relation_type_attr == nullptr ){
@@ -149,8 +149,8 @@ FeatureObjectMergeObjectTypeSpatialRelation::evaluate( const std::shared_ptr< st
   // Further enforce that the symbols come from different language variables via break statements
   std::shared_ptr<h2sl::Symbol> child_object_type_symbol = nullptr;
   std::shared_ptr<h2sl::Symbol> child_spatial_relation_symbol = nullptr;
-  for( const auto& connection : lv->children ){
-    for( const auto& child_symbol : connection.child->symbols ){
+  for( const auto& connection : lv->children() ){
+    for( const auto& child_symbol : connection.child->symbols() ){
       if( child_symbol->type == "object_type" ){
         child_object_type_symbol = child_symbol;
         break;
@@ -169,7 +169,7 @@ FeatureObjectMergeObjectTypeSpatialRelation::evaluate( const std::shared_ptr< st
   auto it_child_spatial_relation_spatial_relation_type = child_spatial_relation_symbol->properties.find("spatial_relation_type");
   if( spatial_relation_type != it_child_spatial_relation_spatial_relation_type->second )
     return value;
-  
+
   // Enforce that the object's type and the child_object_type_symbol match
   auto it_child_object_type_type = child_object_type_symbol->properties.find( "object_type" );
   if( it_child_object_type_type == child_object_type_symbol->properties.end() )

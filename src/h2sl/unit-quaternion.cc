@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -50,12 +50,12 @@ UnitQuaternion::UnitQuaternion( const h2sl::Vector3D& qvArg,
 // UnitQuaternion class roll, pitch, yaw constructor
 //
 UnitQuaternion::UnitQuaternion( const double& roll, const double& pitch, const double& yaw ){
-  
+
   qs = cos( roll / 2.0 ) * cos( pitch / 2.0 ) * cos( yaw / 2.0 ) + sin( roll / 2.0 ) * sin ( pitch / 2.0 ) * sin( yaw / 2.0 );
   qv[0] = sin( roll / 2.0 ) * cos( pitch / 2.0 ) * cos( yaw / 2.0 ) - cos( roll / 2.0 ) * sin( pitch / 2.0 ) * sin( yaw / 2.0 );
   qv[1] = cos( roll / 2.0 ) * sin( pitch / 2.0 ) * cos( yaw / 2.0 ) + sin( roll / 2.0 ) * cos( pitch / 2.0 ) * sin( yaw / 2.0 );
   qv[2] = cos( roll / 2.0 ) * cos( pitch / 2.0 ) * sin( yaw / 2.0 ) - sin( roll / 2.0 ) * sin( pitch / 2.0 ) * cos( yaw / 2.0 );
-  
+
   _normalize();
 
 }
@@ -117,7 +117,7 @@ void UnitQuaternion::operator*=( const UnitQuaternion& rhs ){
 // UnitQuaternion class scalar self multiplication operator
 //
 void UnitQuaternion::operator*=( const double& rhs ){
-  qv = qv * rhs;  
+  qv = qv * rhs;
   qs = qs * rhs;
   _normalize();
   return;
@@ -237,32 +237,32 @@ bool UnitQuaternion::from_xml(const tinyxml2::XMLElement *unit_quaternion_elemen
   qs = 1.0;
 
   // Read the attributes
-  const auto* x_attr = unit_quaternion_element->FindAttribute("x"); 
-  const auto* y_attr = unit_quaternion_element->FindAttribute("y"); 
+  const auto* x_attr = unit_quaternion_element->FindAttribute("x");
+  const auto* y_attr = unit_quaternion_element->FindAttribute("y");
   const auto* z_attr = unit_quaternion_element->FindAttribute("z");
   const auto* w_attr = unit_quaternion_element->FindAttribute("w");
 
   // Signal false if x attribute is missing
-  if(x_attr == nullptr){ 
-    std::cout << "failed to find the x attribute" << std::endl; 
+  if(x_attr == nullptr){
+    std::cout << "failed to find the x attribute" << std::endl;
     return false;
   }
 
   // Signal false if y attribute is missing
-  if(y_attr == nullptr){ 
-    std::cout << "failed to find the y attribute" << std::endl; 
+  if(y_attr == nullptr){
+    std::cout << "failed to find the y attribute" << std::endl;
     return false;
   }
 
   // Signal false if z attribute is missing
-  if(z_attr == nullptr){ 
-    std::cout << "failed to find the z attribute" << std::endl; 
+  if(z_attr == nullptr){
+    std::cout << "failed to find the z attribute" << std::endl;
     return false;
   }
 
   // Signal false if z attribute is missing
-  if(w_attr == nullptr){ 
-    std::cout << "failed to find the w attribute" << std::endl; 
+  if(w_attr == nullptr){
+    std::cout << "failed to find the w attribute" << std::endl;
     return false;
   }
 

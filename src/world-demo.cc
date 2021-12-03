@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -61,7 +61,7 @@ main( int argc,
   objects.insert( std::pair<std::string, h2sl::Object>( object_b.uid, object_b ) );
 
   h2sl::World world(objects);
-  
+
   if ( vm.count( "input" ) ){
     std::cout << "reading from \"" << vm["input"].as<std::string>() << "\"" << std::endl;
     world.from_xml( vm["input"].as<std::string>() );
@@ -126,10 +126,10 @@ main( int argc,
   std::cout << world_result << std::endl;
   std::cout << "\nPrinting the message next..." << std::endl;
   std::cin.get();
-  
+
   std::cout << "Exported message:" << std::endl;
   std::cout << world_msg << std::endl;
-  
+
   if ( vm.count( "output" ) ){
     std::cout << "writing world to \"" << vm["output"].as<std::string>() << "\"" << std::endl;
     world.to_xml( vm["output"].as<std::string>() );
@@ -137,4 +137,4 @@ main( int argc,
 
   std::cout << "end of World class demo program" << std::endl;
   return 0;
-} 
+}

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -62,20 +62,20 @@ Object::Object( const std::string& uidArg, const ObjectState& stateArg,
 //
 Object::Object( const ObjectProbabilistic& objectArg ) : uid( objectArg.uid ),
     state_history( objectArg.state_history ), properties() {
-  
+
   // Sample object properties based on objectArg's property distributions.
-  double r, sum; 
+  double r, sum;
   for( const auto& prop_dist : objectArg.property_distributions ){
     r = ( rand() % 10000 ) / 10000.0; // Sample random number between 0 and 1
     sum = 0.0;
 
-    // Find the first property which makes the sum pass the random sample.   
+    // Find the first property which makes the sum pass the random sample.
     for( const auto& prop : prop_dist.second ){
       sum += prop.second; // Add this property's probability
       if( sum > r ){
 	// Add this property to the Object's properties
         properties.emplace( prop_dist.first, prop.first );
-	break; // Skip the rest of this distribution's properties	
+	break; // Skip the rest of this distribution's properties
       }
     } // property for
   } // property_distributions for
@@ -136,11 +136,11 @@ bool Object::from_xml( const string& filename ){
 // Imports the Object class from an tinyxml2::XMLElement pointer
 //
 bool Object::from_xml(const tinyxml2::XMLElement * object_elem) {
-  
+
   uid = "";
   state_history.clear();
   properties.clear();
-  
+
   // Check that the element is a object element
   if( object_elem == nullptr )
     return false;
@@ -149,11 +149,11 @@ bool Object::from_xml(const tinyxml2::XMLElement * object_elem) {
     return false;
 
   // Read the attributes
-  const auto* uid_attribute = object_elem->FindAttribute("uid"); 
+  const auto* uid_attribute = object_elem->FindAttribute("uid");
 
   // Signal false if uid attribute is missing
-  if(uid_attribute == nullptr){ 
-    std::cout << "failed to find uid" << std::endl; 
+  if(uid_attribute == nullptr){
+    std::cout << "failed to find uid" << std::endl;
     return false;
   }
   uid = uid_attribute->Value();
@@ -197,7 +197,7 @@ bool Object::from_xml(const tinyxml2::XMLElement * object_elem) {
   }
 
   // Read state_history
-  // The state history should have one or more entries based on the task requirements. 
+  // The state history should have one or more entries based on the task requirements.
   auto state_history_element = object_elem->FirstChildElement("state_history");
   if( state_history_element != nullptr ){
 
@@ -235,7 +235,7 @@ bool Object::from_json( const Json::Value& root ){
   uid = "";
   state_history.clear();
   properties.clear();
-  
+
   if( root.isMember("uid") ) {
     uid = root["uid"].asString();
   }
@@ -284,16 +284,16 @@ void Object::to_xml(tinyxml2::XMLDocument& document,
                     const int object_states_count) const {
 
   auto object_elem = document.NewElement("object");
-  
+
   // Write uid
   object_elem->SetAttribute("uid", uid.c_str());
 
   // Write the state_history
   auto state_history_elem = document.NewElement("state_history");
   // Write ObjectState from state_history as a child to the state_history node
-  // object_states_count indicates how many latest object states to be exported 
+  // object_states_count indicates how many latest object states to be exported
   int counter = 0;
-  for( auto object_state = state_history.rbegin(); object_state != state_history.rend(); ++object_state){    
+  for( auto object_state = state_history.rbegin(); object_state != state_history.rend(); ++object_state){
     if(counter >= object_states_count)
       break;
     object_state->to_xml( document, state_history_elem );
@@ -305,7 +305,7 @@ void Object::to_xml(tinyxml2::XMLDocument& document,
   for( const auto& property : properties ){
     object_elem->SetAttribute( property.first.c_str(), property.second.c_str() );
   }
-  
+
   root->InsertEndChild( object_elem );
   return;
 }
@@ -329,7 +329,7 @@ void Object::to_json( Json::Value& root )const{
   root["uid"] = uid;
 
   // Write the state_history
-  root["state_history"] = Json::Value( Json::arrayValue ); 
+  root["state_history"] = Json::Value( Json::arrayValue );
   for( const auto& object_state : state_history ){
     Json::Value state_history_root;
     object_state.to_json( state_history_root );
@@ -350,7 +350,7 @@ void Object::to_json( Json::Value& root )const{
 ObjectMessage Object::to_msg( void )const{
   ObjectMessage msg;
   msg.uid = uid;
-  
+
   // Export each ObjectState in the state history
   for( const auto& object_state : state_history ){
     msg.state_history.push_back( object_state.to_msg() );

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -46,16 +46,16 @@ namespace h2sl{
   using vectorPairWorldSentence = std::vector<std::pair< std::shared_ptr<World>, std::shared_ptr<Sentence> >>;
 
   /**
-    This method scrapes compositional information from Symbols contained in an 
+    This method scrapes compositional information from Symbols contained in an
     associated LanguageVariable class and updates the dictionary member accordingly.
 
     @brief Scrape compositional information from a LanguageVariable and its Symbols.
     @param[in]    symbolDictionary    Symboldictionary
     @param[in]    language_variable        LanguageVariable from which to scrape information
     @returns                    boolean flag; true if no errors
-    @throws                     no expected throws 
+    @throws                     no expected throws
   */
-  bool symboldictionary_scrape_language_variable( SymbolDictionary& symbolDictionary, 
+  bool symboldictionary_scrape_language_variable( SymbolDictionary& symbolDictionary,
                                        const std::shared_ptr<LanguageVariable>& language_variable );
 
   /**
@@ -67,7 +67,7 @@ namespace h2sl{
     @returns                          boolean flag; true if no errors
     @throws                           no expected throws
   */
-  bool symboldictionary_scrape_world( SymbolDictionary& symbolDictionary, 
+  bool symboldictionary_scrape_world( SymbolDictionary& symbolDictionary,
                                       const std::shared_ptr<World>& world );
 
   /**
@@ -80,7 +80,7 @@ namespace h2sl{
     @returns                    boolean flag; true if no errors
     @throws                     no expected throws
   */
-  bool symboldictionary_scrape_world_sentence_pairs( SymbolDictionary& symbolDictionary, 
+  bool symboldictionary_scrape_world_sentence_pairs( SymbolDictionary& symbolDictionary,
                                                      vectorPairWorldSentence& wsPairs );
 
 } // namespace h2sl

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -48,7 +48,7 @@ int main( int argc, char* argv[] ){
 
   // Create a Symbol using the default constructor and default values
   h2sl::Symbol default_symbol = h2sl::Symbol();
-  std::cout << "Default Symbol constructed: " << default_symbol 
+  std::cout << "Default Symbol constructed: " << default_symbol
             << std::endl << std::endl;
 
   // Create a Symbol using the default constructor and specified values
@@ -57,7 +57,7 @@ int main( int argc, char* argv[] ){
                                             {"object_type", "ball"},
                                             {"position","0.0,0.0,0.0"}});
   h2sl::Symbol specific_symbol = h2sl::Symbol( "object", symbol_props );
-  std::cout << "Specific Symbol constructed: " << specific_symbol 
+  std::cout << "Specific Symbol constructed: " << specific_symbol
             << std::endl << std::endl;
 
 
@@ -76,7 +76,7 @@ int main( int argc, char* argv[] ){
                                               {"object_type", "ball"},
                                               {"position","2.0,0.0,0.0"}});
   h2sl::Symbol third_child_symbol = h2sl::Symbol( "object", symbol_props );
-  
+
   // Make a parent Container Symbol and add the above Symbols as children
   symbol_props.clear();
   symbol_props = h2sl::Symbol::propertiesMap({{"container_type", "row"}});
@@ -92,7 +92,7 @@ int main( int argc, char* argv[] ){
   h2sl::Symbol copied_symbol = h2sl::Symbol( specific_symbol );
   std::cout << "Copied Symbol constructed: " << copied_symbol
             << std::endl << std::endl;
-  
+
   // Create a Symbol using the move constructor
   h2sl::Symbol moved_symbol = h2sl::Symbol(std::move( specific_symbol ));
   std::cout << "Moved Symbol constructed: " << moved_symbol << std::endl;
@@ -122,7 +122,7 @@ int main( int argc, char* argv[] ){
   } else{
     std::cout << "No input XML file provided." << std::endl << std::endl;
   }
-  
+
   // Export the user-provided Symbol to XML
   if( vm.count( "output" ) ){
     std::cout << "Exporting a Symbol to \"" << vm["output"].as<std::string>()

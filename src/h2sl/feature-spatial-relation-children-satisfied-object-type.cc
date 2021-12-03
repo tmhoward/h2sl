@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -149,7 +149,7 @@ FeatureValue FeatureSpatialRelationChildrenSatisfiedObjectType::evaluate( const 
   auto it_object = world->objects.find( it_object_uid->second );
   if( it_object == world->objects.end() ) return value;
   if( it_object->second.state_history.back().pose == nullptr ) return value;
-  
+
   // Check for matching object type
   auto it_object_type = it_object->second.properties.find( "object_type" );
   if( it_object_type == it_object->second.properties.end() ) return value;
@@ -160,8 +160,8 @@ FeatureValue FeatureSpatialRelationChildrenSatisfiedObjectType::evaluate( const 
   const ObjectState& figure = it_object->second.state_history.back();
 
   // Check all child LanguageVariables for binary spatial_relation symbols
-  for( const auto& connection : lv->children ){
-    for( const auto& child_symbol : connection.child->symbols ){
+  for( const auto& connection : lv->children() ){
+    for( const auto& child_symbol : connection.child->symbols() ){
       if( child_symbol->type != "spatial_relation" ){
         continue;
       }
@@ -186,7 +186,7 @@ FeatureValue FeatureSpatialRelationChildrenSatisfiedObjectType::evaluate( const 
       // Convert axis into 2 characters
       char axis_dimension = it_axis->second[0];
       char axis_direction = it_axis->second[1];
-      
+
       // Ensure that the axis defines a valid direction
       if( axis_direction == '+' || axis_direction == '-' ){
         // The feature's value will remain true as long as no spatial relations are contradicted
@@ -259,7 +259,7 @@ FeatureValue FeatureSpatialRelationChildrenSatisfiedObjectType::evaluate( const 
         value = FeatureValue::False;
         return value;
       }
-    } 
+    }
   }
 
   return value;

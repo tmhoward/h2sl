@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -66,17 +66,17 @@ int main( int argc, char* argv[] ){
     std::cout << "Using the world provided in the example file \"" << vm["example"].as<std::string>() << "\"." << std::endl;
     p_world->from_xml( vm["example"].as<std::string>().c_str() );
   }
-  
+
   // Ensure a symbol dictionary is provided
-  auto p_symbol_dictionary = std::make_shared<h2sl::SymbolDictionary>(); 
-  if( !vm.count( "symbol_dictionary" ) ){ 
+  auto p_symbol_dictionary = std::make_shared<h2sl::SymbolDictionary>();
+  if( !vm.count( "symbol_dictionary" ) ){
     std::cout << "No symbol dictionary file provided, exiting." << std::endl;
     return EXIT_FAILURE;
   } else{
     std::cout << "Using the symbol dictionary provided in \"" << vm["symbol_dictionary"].as<std::string>() << "\"." << std::endl;
     p_symbol_dictionary->from_file( vm["symbol_dictionary"].as<std::string>().c_str() );
   }
-  
+
   // Ensure an example file is provided for the language
   auto p_sentence = std::make_shared< h2sl::Sentence >();
   if( !vm.count( "example" ) ){
@@ -84,21 +84,10 @@ int main( int argc, char* argv[] ){
     return EXIT_FAILURE;
   } else{
     auto example_filepath = vm["example"].as<std::string>();
-    std::cout << "Loading the sentence provided in \"" << example_filepath << "\"." << std::endl;
-    auto opt_lv = h2sl::LanguageVariable::flattened_from_xml( example_filepath.c_str() );
-    if( !opt_lv ){
-      std::cout << "Failed to load language variable via LanguageVariable::flattened_from_xml()."
-                << "\nAttempting to load via h2sl::Sentence::from_xml()." << std::endl;
-      if( !p_sentence->from_xml( example_filepath.c_str() ) ){
-        std::stringstream error_msg;
-        error_msg << "Failed to load a sentence OR a flattened LV from " << example_filepath << std::endl;
-        throw std::runtime_error( error_msg.str() );
-      }
-    } else{
-      p_sentence->child = std::make_shared<h2sl::LanguageVariable>( opt_lv.value() );
-    }
+    p_sentence->from_xml( example_filepath.c_str() );
     // Remove any annotated symbols
-    p_sentence->child->clear_symbols();
+    p_sentence->symbols().clear();
+    p_sentence->child()->clear_symbols();
   }
 
   // Ensure a log linear model file is provided
@@ -122,7 +111,7 @@ int main( int argc, char* argv[] ){
   * Create the DCG, solve the example (search), record the runtime, export the top solution to XML
   *************************************************************************************************/
   std::cout << "Constructing the DCG, solving the example." << std::endl;
-  
+
   // Create the correspondence variables
   auto cvs = std::make_shared< std::vector< std::shared_ptr< std::string > > >();
   cvs->push_back( std::make_shared< std::string >( "false" ) );
@@ -140,9 +129,9 @@ int main( int argc, char* argv[] ){
   }
   auto sec_runtime = std::chrono::duration_cast<std::chrono::milliseconds>(stop_time - start_time).count()/1000.0;
   std::cout << "DCG::search() completed in " << sec_runtime << " seconds. " << std::endl;
-  
+
   std::cin.get();
-  
+
   if( dcg_search_results->empty() ){
     std::cout << "DCG::Search() did not provide any solutions, exiting." << std::endl;
     return EXIT_SUCCESS;

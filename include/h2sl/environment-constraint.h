@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -195,7 +195,7 @@ public:
     @param[in]    lhsArg                  lhs operand of the constraint
     @param[in]    constraintOperatorArg   operator of the constraint
     @returns                              none
-    @throws                               no throws expected  
+    @throws                               no throws expected
   **/
   EnvironmentConstraint( const operand_t& lhsArg,
                          const operand_t& rhsArg,
@@ -233,7 +233,7 @@ public:
 
   /**
     This method evaluates the EnvironmentConstraint against an environment model
-  
+
     @brief Evaluates the EnvironmentConstraint against an environment model
     @param[in]    world     world model
     @returns                boolean flag indicating the state of the constraint
@@ -323,7 +323,7 @@ public:
     @returns    const reference to _lhs
     @throws     no expected throws
   **/
-  inline const operand_t& 
+  inline const operand_t&
   lhs( void )const{ return _lhs; }
 
   /**
@@ -333,7 +333,7 @@ public:
     @returns    const reference to _rhs
     @throws     no expected throws
   **/
-  inline const operand_t& 
+  inline const operand_t&
   rhs( void )const{ return _rhs; }
 
   /**
@@ -343,7 +343,7 @@ public:
     @returns    const reference to _constraint_operator
     @throws     no expected throws
   **/
-  inline const ConstraintOperator& 
+  inline const ConstraintOperator&
   constraint_operator( void )const{ return _constraint_operator; }
 
   /** Constant to define the class preamble for exception handling */

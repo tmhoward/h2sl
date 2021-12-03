@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -49,7 +49,7 @@ int main( int argc, char* argv[] ){
     return EXIT_SUCCESS;
   }
 
-  // get vector of training examples 
+  // get vector of training examples
   if( !vm.count( "examples" ) ){
     std::cout << "No example files provided, exiting." << std::endl << std::endl;
     return EXIT_FAILURE;
@@ -63,22 +63,9 @@ int main( int argc, char* argv[] ){
   for( auto & example_filename : example_filenames ){
     std::cout << "Processing filename:\"" << example_filename << "\"" << std::endl;
 
-    // Construct a sentence with an empty language variable child
+    // Construct the sentence from the XML file
     auto p_sentence = std::make_shared<h2sl::Sentence>();
-
-    // Load language content into the sentence's child member
-    std::optional<h2sl::LanguageVariable> lv = h2sl::LanguageVariable::flattened_from_xml( example_filename.c_str() );
-    if( !lv ){
-      std::cout << "Failed to load language variable via LanguageVariable::flattened_from_xml()."
-                << "\nAttempting to load via h2sl::Sentence::from_xml()." << std::endl;
-      if( !p_sentence->from_xml( example_filename.c_str() ) ){
-        std::stringstream error_msg;
-        error_msg << "Failed to load a sentence OR a flattened LV from " << example_filename << std::endl;
-        throw std::runtime_error( error_msg.str() );
-      }
-    } else{
-      p_sentence->child = std::make_shared<h2sl::LanguageVariable>( lv.value() );
-    }
+    p_sentence->from_xml( example_filename.c_str() );
 
     // Make Sentence and push onto a vector
     sentences.push_back( p_sentence );

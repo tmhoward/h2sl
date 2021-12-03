@@ -12,12 +12,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or (at
  * your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the Free
@@ -136,7 +136,7 @@ class ObjectProbabilistic {
     @throws                     no expected throws
   */
   bool from_xml(const std::string& filename);
-  
+
   /**
     This method imports an ObjectProbabilistic class from an XMLElement pointer.
 
@@ -218,19 +218,19 @@ class ObjectProbabilistic {
   */
   friend std::ostream& operator<<(std::ostream& out, const ObjectProbabilistic& other);
 
-  /** std::string to represent the unique id of the object. */ 
+  /** std::string to represent the unique id of the object. */
   std::string uid;
 
   /**
    * A vector of h2sl::ObjectState that defines the state_history of the object.
    * If this vector is empty then no state information is available.
-   */ 
+   */
   ObjectState::vectorObjectState state_history;
 
   /**
    * A map from property names to probability distributions over their possible values.
    * Each probability distribution maps (std::string) values to (double) probabilities.
-   */ 
+   */
   mapPropertyDistributions property_distributions;
 
   protected:

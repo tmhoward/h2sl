@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -219,7 +219,7 @@ void World::to_json( Json::Value& root )const{
 
   root["class"] = "world";
 
-  root["objects"] = Json::Value( Json::arrayValue ); 
+  root["objects"] = Json::Value( Json::arrayValue );
 
   for( const auto& object : objects ){
     Json::Value object_root;
@@ -392,12 +392,12 @@ World::sort_objects( const SortKey sort_key )const{
 /// WorldDCG constructor from a base World - Copies the base members then fills the sorted_objects members
 ///
 WorldDCG::WorldDCG( const World& base_world ) : World( base_world ){
-  
-  if( base_world.objects.size() != 0 ){
+
+  if( !base_world.objects.empty() ){
     // Sort the objects
     _fill_sorted_objects();
   }
-  
+
   return;
 }
 

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -90,7 +90,7 @@ class World {
     @throws                no expected throws
   */
   World(const WorldProbabilistic& world);
-  
+
   /**
     Class constructor for World from WorldMessage message.
 
@@ -212,7 +212,7 @@ class World {
       @throws                 no expected throws
   */
   void to_json( Json::Value& root )const;
-  
+
   /**
       This method exports a World to a WorldMessage.
 
@@ -227,19 +227,19 @@ class World {
   */
   friend std::ostream& operator<<(std::ostream& out, const World& other);
 
-  /** 
+  /**
    * A std::map to store the objects. Note that a std::map was chosen over the std::unordered_map so that
    * the objects can be sorted in lexicographic (alphabetic) order. This helps with human readability.
-   */ 
+   */
   mapObjects objects = mapObjects();
 
 
   /**********************************************************************************/
   //  Below are class functionalities for sorting objects according to an enum type.
   /**********************************************************************************/
-  
+
   /*
-    A class enum for different types of sorting. The MIN/MAX prefix indicates the 
+    A class enum for different types of sorting. The MIN/MAX prefix indicates the
     direction of the sorted order (MIN means the minimum value is at the front).
 
     MIN/MAX_*_AXIS: These keys indicate a sort for a particular axis
@@ -360,7 +360,7 @@ class World {
   /* A method to return a sorted vector of world objects per a SortKey value */
   const std::map< std::string, std::vector< std::shared_ptr<Object> > >
   sort_objects( const SortKey sort_key )const;
-  
+
   /* A set of boolean comparison functions for objects to be used by std::sort() */
 
   // XYZ sorting methods
@@ -436,7 +436,7 @@ class World {
     return ( fabs( lhs->state_history.back().pose->z() )
               > fabs( rhs->state_history.back().pose->z() ) );
   };
- 
+
   // Euclidean Distance sorting methods
   // minimum sort
   inline static bool sort_min_euclidean_distance( const std::shared_ptr<Object>& lhs,
@@ -471,7 +471,7 @@ class World {
 class WorldDCG : public World {
 
   public:
-  
+
   /**
     Type alias to refer to a map of map of vectors of objects
     Key: a World::SortKey

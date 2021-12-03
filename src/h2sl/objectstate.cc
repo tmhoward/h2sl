@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -163,7 +163,7 @@ bool ObjectState::from_xml(const tinyxml2::XMLElement *object_state_element){
       } else if (strcmp(attribute->Name(), "t") == 0) {
         t = std::make_shared<double>( std::stod(attribute->Value()) );
       }
-      attribute = attribute->Next(); 
+      attribute = attribute->Next();
     }
     return true;
   } else {
@@ -202,42 +202,42 @@ bool ObjectState::from_json( const Json::Value& root ){
     if( pose == nullptr )
       pose = std::make_shared<h2sl::Transform3D>();
     pose->position.from_cs_string( root["xyz"].asString() );
-  } 
-  
+  }
+
   if (root.isMember("q")) {
     if( pose == nullptr )
       pose = std::make_shared<h2sl::Transform3D>();
     pose->orientation.from_cs_string( root["q"].asString() );
-  } 
-  
+  }
+
   if (root.isMember("bdim")) {
     if( bbox == nullptr )
       bbox = std::make_shared<h2sl::BoundingBox>();
     bbox->dimensions.from_cs_string( root["bdim"].asString() );
-  } 
-  
+  }
+
   if (root.isMember("bxyz")) {
     if( bbox == nullptr )
       bbox = std::make_shared<h2sl::BoundingBox>();
     bbox->offset.position.from_cs_string( root["bxyz"].asString() );
-  } 
-  
+  }
+
   if (root.isMember("bq")) {
     if( bbox == nullptr )
       bbox = std::make_shared<h2sl::BoundingBox>();
     bbox->offset.orientation.from_cs_string( root["bq"].asString() );
-  } 
-  
+  }
+
   if (root.isMember("v") ) {
     v = std::make_shared<h2sl::Vector3D>();
     v->from_cs_string( root["v"].asString() );
-  } 
-  
+  }
+
   if (root.isMember("w")) {
     w = std::make_shared<h2sl::Vector3D>();
     w->from_cs_string( root["w"].asString() );
-  } 
-  
+  }
+
   if (root.isMember("t")) {
     t = std::make_shared<double>( std::stod(root["t"].asString()) );
   }
@@ -349,7 +349,7 @@ void ObjectState::to_json( Json::Value& root )const{
 //
 ObjectStateMessage ObjectState::to_msg( void )const{
   ObjectStateMessage msg;
-  
+
   // Export pose if it exists
   if( pose != nullptr ){
     msg.pose = pose->to_msg();
@@ -397,14 +397,14 @@ ObjectStateMessage ObjectState::to_msg( void )const{
 // ObjectState class ostream operator
 //
 ostream& operator<<(ostream& out, const ObjectState& other) {
-  
+
   out << "(";
 
   // print time if available
   if(other.t != nullptr){
-    // out << std::setprecision(3) << "t=" << *other.t << ", ";  
+    // out << std::setprecision(3) << "t=" << *other.t << ", ";
     out << std::fixed;
-    out << "t=" << *other.t << ", ";  
+    out << "t=" << *other.t << ", ";
   }
 
   // print pose if available
@@ -415,7 +415,7 @@ ostream& operator<<(ostream& out, const ObjectState& other) {
 
     out << "orientation(rpy)={" << other.pose->orientation.roll() * 180.0 / M_PI << ", "
                                 << other.pose->orientation.pitch() * 180.0 / M_PI << ", "
-                                << other.pose->orientation.yaw() * 180.0 / M_PI << "}, ";                       
+                                << other.pose->orientation.yaw() * 180.0 / M_PI << "}, ";
   }
 
   // print collision geometry if available

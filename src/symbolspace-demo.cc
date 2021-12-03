@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -72,11 +72,11 @@ int main( int argc, char* argv[] ){
   // Create multiple Symbols of type "spatial_relation"
   symbol_props.clear();
   symbol_props = h2sl::Symbol::propertiesMap({{"spatial_relation_type", "near"}});
-  h2sl::Symbol first_spatialRelationSymbol = h2sl::Symbol("spatial_relation", 
+  h2sl::Symbol first_spatialRelationSymbol = h2sl::Symbol("spatial_relation",
                                                           symbol_props );
   symbol_props.clear();
   symbol_props = h2sl::Symbol::propertiesMap({{"spatial_relation_type", "far"}});
-  h2sl::Symbol second_spatialRelationSymbol = h2sl::Symbol("spatial_relation", 
+  h2sl::Symbol second_spatialRelationSymbol = h2sl::Symbol("spatial_relation",
                                                             symbol_props );
 
   // Insert the Symbols
@@ -96,7 +96,7 @@ int main( int argc, char* argv[] ){
   // Search for the copy
   auto ptr_found_symbol = default_symSpace.find_symbol( copy_second_objSymbol );
   if( ptr_found_symbol != nullptr ){
-    std::cout << "Searched for copy_second_objSymbol, returned: " 
+    std::cout << "Searched for copy_second_objSymbol, returned: "
               << *ptr_found_symbol << std::endl << std::endl;
   } else{
     std::cout << "Searched for copy_second_objSymbol, returned nullptr"
@@ -112,7 +112,7 @@ int main( int argc, char* argv[] ){
     std::cout << "Searched for an empty Symbol, returned nullptr"
               << std::endl << std::endl;
   }
-  
+
 
   // Check if ptr_second_objSymbol points to the same Symbol as in default_symSpace
   std::cout << "*(default_symSpace[second_objSymbol.type].back()): "
@@ -123,9 +123,9 @@ int main( int argc, char* argv[] ){
             << default_symSpace.symbolsMap[second_objSymbol.type].back().use_count()
             << std::endl;
   std::cout << "ptr_second_objSymbol: " << ptr_second_objSymbol << std::endl;
-  std::cout << "ptr_second_objSymbol.use_count(): " 
+  std::cout << "ptr_second_objSymbol.use_count(): "
             << ptr_second_objSymbol.use_count() << std::endl;
- 
+
   // Create a SymbolSpace using the copy constructor
   h2sl::SymbolSpace copied_symSpace = h2sl::SymbolSpace( default_symSpace );
   std::cout << "Copied SymbolSpace constructed: " << copied_symSpace

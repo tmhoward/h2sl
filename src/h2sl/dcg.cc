@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -47,20 +47,20 @@ DCG::DCG( const std::shared_ptr<SymbolSpace>& symbolSpace,
           const std::shared_ptr< std::vector< std::shared_ptr< std::string > > >& cvsArg,
           const bool debug )
           : _factorsets(),
-            _sentence( sentenceArg ),
+            _sentence(),
             _world( std::make_shared<WorldDCG>( *worldArg ) ),
-            _llm( llmArg ), 
+            _llm( llmArg ),
             _solutions()
 {
   // Construct the FactorSet for the root of the graph
   // Use the child language_variable of the sentence
-  if( !_sentence ){
-    throw std::runtime_error("DCG cannot be constructed with a nullptr sentence.");
-  }
-  if( debug )
-    std::cout << "Extracting the root language variable" << std::endl;
-  auto p_root_language_variable = _sentence->child;
-  auto p_root_factorset = std::make_shared<FactorSet>( _llm->feature_pool, symbolSpace, p_root_language_variable, _world, cvsArg ); 
+  if( sentenceArg == nullptr ) throw std::runtime_error("DCG cannot be constructed with a nullptr sentence.");
+  _sentence = std::make_shared<Sentence>( *sentenceArg );
+  _sentence->symbols().clear();
+  _sentence->child()->clear_symbols();
+  if( debug ) std::cout << "Extracting the root language variable" << std::endl;
+  std::shared_ptr<LanguageVariable> p_root_language_variable = _sentence->child();
+  auto p_root_factorset = std::make_shared<FactorSet>( _llm->feature_pool, symbolSpace, p_root_language_variable, _world, cvsArg );
 
   // Add the root FactorSet to LLM
   if( debug )
@@ -68,7 +68,7 @@ DCG::DCG( const std::shared_ptr<SymbolSpace>& symbolSpace,
   _factorsets.emplace( p_root_language_variable->key(), p_root_factorset );
 
   // Recursively construct the remaining FactorSets
-  for( const auto& child_connection : p_root_language_variable->children ){
+  for( const auto& child_connection : p_root_language_variable->children() ){
     _construct_child_factorset( symbolSpace, child_connection, cvsArg, p_root_factorset );
   }
 
@@ -90,7 +90,7 @@ DCG::DCG( const std::shared_ptr<SymbolSpace>& symbolSpace,
 
 ///
 /// Method to construct the factor graph - uses the DCG's _world member
-/// 
+///
 void DCG::_construct_child_factorset( const std::shared_ptr<SymbolSpace>& symbolSpace,
                                      const LanguageVariable::language_variable_connection_t& lvconnArg,
                                      const std::shared_ptr< std::vector< std::shared_ptr< std::string > > >& cvsArg,
@@ -103,7 +103,7 @@ void DCG::_construct_child_factorset( const std::shared_ptr<SymbolSpace>& symbol
     bool success;
     std::tie(it_factorsets, success) = _factorsets.emplace( lvconnArg.child->key(), child_factorset );
   }
-  
+
   // Assign the child_factorset to the parent
   FactorSet::factorset_connection_t child_factorset_connection;
   child_factorset_connection.label = lvconnArg.label;
@@ -111,9 +111,9 @@ void DCG::_construct_child_factorset( const std::shared_ptr<SymbolSpace>& symbol
   parent->children.push_back( child_factorset_connection );
 
   // Construct all child FactorSets of the current
-  for( auto const& child_lv_connection : lvconnArg.child->children ){
+  for( auto const& child_lv_connection : lvconnArg.child->children() ){
     _construct_child_factorset( symbolSpace, child_lv_connection, cvsArg, it_factorsets->second );
-  } 
+  }
   return;
 }
 
@@ -151,14 +151,13 @@ DCG::search( const unsigned int beamwidth, const bool debug ){
   // Initialize the solutions to a vector
   _solutions = DCG::vecDCGSearchSolutions();
   // Fill the vector of solutions from the root FactorSet
-  auto p_root_factorset = _factorsets.find( _sentence->child->key() );
+  auto p_root_factorset = _factorsets.find( _sentence->child()->key() );
   for( auto & solution : p_root_factorset->second->solutions ){
-    Sentence sentence( _sentence->uid, solution.language_variable );
-    _solutions->emplace_back( solution.prob, sentence );
+    _solutions->emplace_back( solution.prob, h2sl::Sentence( _sentence->uid(), solution.language_variable ) );
   }
 
   // Set the state of the Factors in the graph to reflect the argmax solution
-  _set_factorset_state( _solutions->front().sentence.child, debug );
+  _set_factorset_state( _solutions->front().sentence.child(), debug );
 
   // Return the solutions
   return _solutions;
@@ -177,7 +176,7 @@ std::shared_ptr<FactorSet> DCG::next_factorset( void )const{
       }
     }
   }
-  return nullptr; 
+  return nullptr;
 }
 
 ///
@@ -185,7 +184,7 @@ std::shared_ptr<FactorSet> DCG::next_factorset( void )const{
 ///
 void DCG::_set_factorset_state( const std::shared_ptr< LanguageVariable > solution_lv, const bool debug ){
   // Recursively set any children
-  for( const auto& child_connection : solution_lv->children ){
+  for( const auto& child_connection : solution_lv->children() ){
     _set_factorset_state( child_connection.child, debug );
   }
 
@@ -199,7 +198,7 @@ void DCG::_set_factorset_state( const std::shared_ptr< LanguageVariable > soluti
 
   if( debug )
     std::cout << "Setting the FactorSet state for the solution LV \"" << solution_lv->key() << "\"" << std::endl;
-  
+
   // Update each Factor in the FactorSet to reflect the solution
   for( auto& p_factor : it_factorset->second->factors ){
     // Set the Factor's language variable to the solution - This provides access to the child symbol for factor evaluation
@@ -209,10 +208,10 @@ void DCG::_set_factorset_state( const std::shared_ptr< LanguageVariable > soluti
     // Dummy expressed_features to call evaluate
     std::map< std::string, std::vector< ExpressedFeature > > expressed_features;
     p_factor->evaluate( expressed_features, debug );
-    
+
     // Check if the Factor's symbol is in the solution
     bool found_match = false;
-    for( const auto& symbol : solution_lv->symbols ){
+    for( const auto& symbol : solution_lv->symbols() ){
       if( *(p_factor->symbol) == *symbol ){
         found_match = true;
         break;
@@ -249,7 +248,7 @@ void DCG::_set_factorset_state( const std::shared_ptr< LanguageVariable > soluti
 ///
 /// Method to update the pygx result of each Factor & argmax solution for each Factorset given a new world configuration
 ///
-const std::optional< DCG::vecDCGSearchSolutions >& 
+const std::optional< DCG::vecDCGSearchSolutions >&
 DCG::update_world_configuration( const std::shared_ptr<World> new_world, const bool debug ){
   if( debug )
     std::cout << "Updating the DCG solution for a new world configuration" << std::endl;
@@ -271,11 +270,11 @@ DCG::update_world_configuration( const std::shared_ptr<World> new_world, const b
   // Assign the new world to the DCG's _world member - this is reflected across all Factors
   *_world = WorldDCG( *new_world );
 
-  // Get the root factorset 
-  auto it_root_factorset = _factorsets.find( _sentence->child->key() );
+  // Get the root factorset
+  auto it_root_factorset = _factorsets.find( _sentence->child()->key() );
   if( it_root_factorset == _factorsets.end() ){
     std::stringstream error_msg;
-    error_msg << "Could not find the root factorset for \"" << _sentence->child->key() << "\"";
+    error_msg << "Could not find the root factorset for \"" << _sentence->child()->key() << "\"";
     throw std::runtime_error( error_msg.str() );
   }
 
@@ -291,11 +290,11 @@ DCG::update_world_configuration( const std::shared_ptr<World> new_world, const b
   for( size_t symbol_index = 0; symbol_index < r_symbol_constituent_features.size(); ++symbol_index ){
     // Add any indices for features that depend on the world
     if( r_symbol_constituent_features[symbol_index]->depends_on.world ){
-      it_world_dependent_constituent_features->second.emplace_back( symbol_index );
+      it_world_dependent_constituent_features->second.push_back( symbol_index );
       continue;
     }
     if( r_symbol_constituent_features[symbol_index]->depends_on.children ){
-      it_children_dependent_constituent_features->second.emplace_back( symbol_index );
+      it_children_dependent_constituent_features->second.push_back( symbol_index );
     }
   }
 
@@ -304,10 +303,9 @@ DCG::update_world_configuration( const std::shared_ptr<World> new_world, const b
 
   // Fill the vector of solutions from the root FactorSet
   _solutions->clear();
-  auto p_root_factorset = _factorsets.find( _sentence->child->key() );
+  auto p_root_factorset = _factorsets.find( _sentence->child()->key() );
   for( auto & solution : p_root_factorset->second->solutions ){
-    Sentence sentence( _sentence->uid, solution.language_variable );
-    _solutions->emplace_back( solution.prob, sentence );
+    _solutions->emplace_back( solution.prob, h2sl::Sentence( _sentence->uid(), solution.language_variable ) );
   }
 
   // Return the solutions
@@ -318,9 +316,9 @@ DCG::update_world_configuration( const std::shared_ptr<World> new_world, const b
 ///
 /// Method to update a factorset given a new world configuration
 ///
-bool 
+bool
 DCG::_update_factorset_world_configuration(
-  const std::unordered_map< std::string, std::vector<size_t> >& parameter_dependent_constituent_indices, 
+  const std::unordered_map< std::string, std::vector<size_t> >& parameter_dependent_constituent_indices,
   std::shared_ptr<FactorSet> factorset,
   const bool debug )
 {
@@ -347,7 +345,7 @@ DCG::_update_factorset_world_configuration(
       for( const auto& child_solution : child_connection.factorset->solutions ){
         new_solutions.emplace_back( solution.prob, std::make_shared<h2sl::LanguageVariable>( *solution.language_variable ) );
         new_solutions.back().prob *= child_solution.prob;
-        new_solutions.back().language_variable->children.emplace_back( child_connection.label, child_solution.language_variable );
+        new_solutions.back().language_variable->children().emplace_back( child_connection.label, child_solution.language_variable );
       }
     }
     factorset->solutions = new_solutions;
@@ -356,7 +354,7 @@ DCG::_update_factorset_world_configuration(
     std::cout << "factorset->solutions.size(): " << factorset->solutions.size()
               << "\nfactorset->solutions[0].language_variable: " << *factorset->solutions[0].language_variable << std::endl;
   }
-  
+
   // Update each Factor in the factorset by selectively checking world-dependent features
   // Check child dependent features if the child argmax changed
   for( auto& p_factor : factorset->factors ){
@@ -399,8 +397,8 @@ DCG::_update_factorset_world_configuration(
           // If true, add the weight, add the relevant indices; Else, subtract the weight, remove the relevant indices
           if( new_value == FeatureValue::True ){
             // Add it to the Factor's constituent_feature_set_indices
-            r_indices["true"].constituent_feature_set_indices[2].emplace_back( symbol_index );
-            r_indices["false"].constituent_feature_set_indices[2].emplace_back( symbol_index );
+            r_indices["true"].constituent_feature_set_indices[2].push_back( symbol_index );
+            r_indices["false"].constituent_feature_set_indices[2].push_back( symbol_index );
             // Add a tuple for each language constituent feature; Update the sum_of_weights for each new feature
             if( debug ){
             std::cout << "Adding weights for features using the symbol feature: "
@@ -414,18 +412,18 @@ DCG::_update_factorset_world_configuration(
               feature_index.symbol() = symbol_index;
               feature_index.weight = _llm->feature_pool->convert_to_weight_index( 0, language_index, symbol_index );
               r_pygx_result.sum_of_weights.value()["false"] += _llm->weights[feature_index.weight];
-              r_indices["false"].feature_indices.emplace_back( feature_index );
+              r_indices["false"].feature_indices.push_back( feature_index );
               if( debug ){
                 std::cout << "\tlanguage feature: " << *p_factor->feature_set.constituent_feature_sets[1][language_index] << std::endl;
-                std::cout << "\t\ttrue weight: " << _llm->weights[feature_index.weight]; 
+                std::cout << "\t\ttrue weight: " << _llm->weights[feature_index.weight];
               }
               // Create a new feature_index for the True cv case; Add it's weight to the pygx_result; Append to indices
               feature_index.cv() = 1;
               feature_index.weight = _llm->feature_pool->convert_to_weight_index( 1, language_index, symbol_index );
               r_pygx_result.sum_of_weights.value()["true"] += _llm->weights[feature_index.weight];
-              r_indices["true"].feature_indices.emplace_back( feature_index );
+              r_indices["true"].feature_indices.push_back( feature_index );
               if( debug )
-                std::cout << "\t\tfalse weight: " << _llm->weights[feature_index.weight]; 
+                std::cout << "\t\tfalse weight: " << _llm->weights[feature_index.weight];
             }
           } else{
             // Remove the indices from the constituent_feature_set_indices
@@ -506,11 +504,11 @@ DCG::_update_factorset_world_configuration(
               feature_index.symbol() = symbol_index;
               feature_index.weight = _llm->feature_pool->convert_to_weight_index( 0, language_index, symbol_index );
               r_pygx_result.sum_of_weights.value()["false"] += _llm->weights[feature_index.weight];
-              r_indices["false"].feature_indices.emplace_back( feature_index );
+              r_indices["false"].feature_indices.push_back( feature_index );
               feature_index.cv() = 1;
               feature_index.weight = _llm->feature_pool->convert_to_weight_index( 1, language_index, symbol_index );
               r_pygx_result.sum_of_weights.value()["true"] += _llm->weights[feature_index.weight];
-              r_indices["true"].feature_indices.emplace_back( feature_index );
+              r_indices["true"].feature_indices.push_back( feature_index );
             }
           } else{
             // Remove the indices from the constituent_feature_set_indices
@@ -573,7 +571,7 @@ DCG::_update_factorset_world_configuration(
     }
     // Update the factorset solution - Add the symbol if the Factor is likely TRUE; Update the product of probabilities
     if( updated_factor_argmax )
-      factorset->solutions[0].language_variable->symbols.emplace_back( std::make_shared<Symbol>( *p_factor->symbol ) );
+      factorset->solutions[0].language_variable->symbols().push_back( std::make_shared<Symbol>( *p_factor->symbol ) );
     factorset->solutions[0].prob *= r_pygx_result.prob;
   }
   return argmax_changed;
@@ -591,7 +589,7 @@ DCG::extract_substantial_world_features( const bool debug )const{
 
   // Ensure that the DCG is not an empty graph
   if( _factorsets.empty() )
-    throw std::runtime_error("The DCG _factorsets member is empty"); 
+    throw std::runtime_error("The DCG _factorsets member is empty");
 
   // Initialize the return structure
   auto substantial_features = vecSubstantialFeatures();
@@ -605,7 +603,7 @@ DCG::extract_substantial_world_features( const bool debug )const{
       throw std::runtime_error( error_msg.str() );
     }
 
-    // Extract the world dependent indices for all factors in the factorset by looking at the featureset of any factor 
+    // Extract the world dependent indices for all factors in the factorset by looking at the featureset of any factor
     // Note: The language and CV features for these factors should all be evaluated the same
     auto& r_feature_set = p_factorset->factors.back()->feature_set;
     auto world_dependent_indices = std::map< std::string, FeaturePool::indices_t >();
@@ -623,13 +621,13 @@ DCG::extract_substantial_world_features( const bool debug )const{
         current_feature_indices.cv() = 0;
         current_feature_indices.language() = language_index;
         current_feature_indices.symbol() = symbol_index;
-        world_dependent_indices["false"].feature_indices.emplace_back( current_feature_indices );
+        world_dependent_indices["false"].feature_indices.push_back( current_feature_indices );
         // Construct and populate a FeaturePool::indices_t with the feature indices information for CV False
         current_feature_indices.weight = r_feature_set.convert_to_weight_index(1, language_index, symbol_index);
         current_feature_indices.cv() = 1;
         current_feature_indices.language() = language_index;
         current_feature_indices.symbol() = symbol_index;
-        world_dependent_indices["true"].feature_indices.emplace_back( current_feature_indices );
+        world_dependent_indices["true"].feature_indices.push_back( current_feature_indices );
       }
     } }
 
@@ -663,13 +661,13 @@ DCG::extract_substantial_world_features( const bool debug )const{
         std::cout << "Results for True cv:\n\tprob: " << factor_true_result.prob << "\n\tnumerator:" << factor_true_result.numerator
                   << "\n\tdemonimator: " << factor_true_result.denominator << "\n\tsum of weights:";
         for( const auto& [cv_key, sum_of_weights] : *factor_true_result.sum_of_weights ){
-          std::cout << "\n\t\t" << cv_key << ":\t" << sum_of_weights; 
+          std::cout << "\n\t\t" << cv_key << ":\t" << sum_of_weights;
         }
         std::cout << "\nResults for False cv:\n\tprob: " << factor_false_result.prob
                   << "\n\tnumerator:" << factor_false_result.numerator << "\n\tdemonimator: " << factor_false_result.denominator
                   << "\n\tsum of weights:";
         for( const auto& [cv_key, sum_of_weights] : *factor_false_result.sum_of_weights ){
-          std::cout << "\n\t\t" << cv_key << ":\t" << sum_of_weights; 
+          std::cout << "\n\t\t" << cv_key << ":\t" << sum_of_weights;
         }
         std::cout << std::endl;
       }
@@ -682,7 +680,7 @@ DCG::extract_substantial_world_features( const bool debug )const{
 
       // Create an entry in the return structure for the current Factor; Store the Factor as a shared_ptr
       // Use a reference to the factor_substantial_features_t::substantial_features for legibility
-      substantial_features.emplace_back( DCG::factor_substantial_features_t() );
+      substantial_features.push_back( DCG::factor_substantial_features_t() );
       substantial_features.back().factor = p_factor;
       auto& r_factor_substantial_features = substantial_features.back().substantial_features;
 
@@ -694,7 +692,7 @@ DCG::extract_substantial_world_features( const bool debug )const{
         const double false_weight = _llm->weights[world_dependent_indices["false"].feature_indices[i].weight];
         const double feature_weight_delta = fabs( true_weight - false_weight );
         if( debug ){
-          std::cout << "Feature weight delta: " << feature_weight_delta 
+          std::cout << "Feature weight delta: " << feature_weight_delta
                     << " {fabs( " << true_weight << " - " << false_weight << " )}" << std::endl;
         }
         // Store the feature indices for those that are substantial
@@ -713,7 +711,7 @@ DCG::extract_substantial_world_features( const bool debug )const{
             std::tie( it_factor_substantial_features, success ) =
                 r_factor_substantial_features.emplace( symbol_index, std::vector<FeaturePool::feature_indices_t>() );
           }
-          it_factor_substantial_features->second.emplace_back( world_dependent_indices["true"].feature_indices[i] );
+          it_factor_substantial_features->second.push_back( world_dependent_indices["true"].feature_indices[i] );
         }
       }
     } // End of Factors per FactorSet loop

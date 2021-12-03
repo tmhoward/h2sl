@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -74,7 +74,7 @@ public:
     @throws           no expected throws
   */
   Transform3D( const tinyxml2::XMLElement *root );
-  
+
   /**
     Class constructor for Transform3D from Transform3DMessage message.
 
@@ -180,7 +180,7 @@ public:
     @throws                     no expected throws
   */
   bool from_xml( const std::string &filename );
-  
+
   /**
     This method imports a Transform3D class from an XMLElement pointer.
 
@@ -215,7 +215,7 @@ public:
     @throws                 no expected throws
   */
   void to_xml( tinyxml2::XMLDocument &doc, tinyxml2::XMLElement *root ) const;
-  
+
   /**
       This method exports a Transform3D to a Transform3DMessage.
 
@@ -234,7 +234,7 @@ public:
   * A unit quaternion representing the orientation of the transform
   */
   h2sl::UnitQuaternion orientation = h2sl::UnitQuaternion( h2sl::Vector3D(0.0,0.0,0.0), 1.0 );
-  
+
   /**
   * A 3d vector representing the position transform
   */

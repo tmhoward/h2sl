@@ -53,6 +53,7 @@ add_message_files(
 add_service_files(
   FILES
   GroundLanguage.srv
+  Parse.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -65,6 +66,7 @@ add_service_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
+  std_msgs
 )
 
 ###################################
@@ -285,6 +287,10 @@ add_executable(h2sl-language-client src/language-client.cc)
 add_dependencies(h2sl-language-client ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(h2sl-language-client h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
 
+add_executable(h2sl-parser-server src/parser-server.cc)
+add_dependencies(h2sl-parser-server ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(h2sl-parser-server h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
+
 #############
 ## Install ##
 #############
@@ -321,6 +327,7 @@ install(TARGETS
   h2sl-trained-dcg-demo
   h2sl-llm-train
   h2sl-spatial-relations-demo
+  h2sl-parser-server
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -75,7 +75,7 @@ class SymbolDictionary{
     @throws                   no expected throws
   */
   explicit SymbolDictionary( const char* filename );
- 
+
   /**
     Default copy constructor for h2sl::SymbolDictionary
   */
@@ -86,7 +86,7 @@ class SymbolDictionary{
   */
   SymbolDictionary( SymbolDictionary&& other ) = default;
 
- 
+
   /**
     Default destructor for h2sl::SymbolDictionary
   */
@@ -146,7 +146,7 @@ class SymbolDictionary{
   bool to_xml( const char* filename ) const;
 
   /**
-    This method exports a SymbolDictionary class to an XMLDocument object. The 
+    This method exports a SymbolDictionary class to an XMLDocument object. The
     root XMLElement* takes the current SymbolDictionary as a child XMLElement.
 
     @brief Export a SymbolDictionary to an XMLDocument object.
@@ -177,7 +177,7 @@ class SymbolDictionary{
     An unordered_map of SymbolCompositionalInfo shared_ptrs with key values of
     the Symbol type
   */
-  SymbolCompositionalInfo::mapSymbolCompositionalInfo dictionary = 
+  SymbolCompositionalInfo::mapSymbolCompositionalInfo dictionary =
                         SymbolCompositionalInfo::mapSymbolCompositionalInfo();
 }; // class SymbolDictionary
 

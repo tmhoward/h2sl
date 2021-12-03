@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -47,7 +47,7 @@ Symbol::Symbol( const std::string& typeArg,
                 const std::vector< Symbol >& childrenArg,
                 const std::map< std::string, std::vector< ExpressedFeature > >& expressedFeaturesArg ): type( typeArg ),
                                                                                       properties( propertiesArg ),
-                                                                                      children( childrenArg ),  
+                                                                                      children( childrenArg ),
                                                                                       expressed_features( expressedFeaturesArg ){}
 
 //
@@ -113,7 +113,7 @@ std::string Symbol::key( void ) const{
       if( std::next( it_property ) != properties.cend() ){
         out << ",";
       }
-    }   
+    }
     out << ")";
   }
   // Output children
@@ -164,7 +164,7 @@ bool Symbol::from_xml( const char* filename ){
 bool Symbol::from_xml( const tinyxml2::XMLElement* symbol_elem ){
   type = "";
   properties.clear();
-  children.clear(); 
+  children.clear();
 
   // Check that the element is a symbol element
   if( symbol_elem == nullptr )
@@ -173,7 +173,7 @@ bool Symbol::from_xml( const tinyxml2::XMLElement* symbol_elem ){
     return false;
 
   // Read the type attribute and set it to this Symbol's type
-  const tinyxml2::XMLAttribute* type_attr = symbol_elem->FindAttribute("type"); 
+  const tinyxml2::XMLAttribute* type_attr = symbol_elem->FindAttribute("type");
   if( type_attr == nullptr )
     return false;
   type = type_attr->Value();
@@ -186,7 +186,7 @@ bool Symbol::from_xml( const tinyxml2::XMLElement* symbol_elem ){
       attribute = attribute->Next();
       continue;
     }
-    
+
     // Insert the property
     properties.emplace( attribute->Name(), attribute->Value() );
     attribute = attribute->Next();
@@ -202,7 +202,7 @@ bool Symbol::from_xml( const tinyxml2::XMLElement* symbol_elem ){
       return false;
     children.push_back( child_symbol );
     child_symbol_elem = child_symbol_elem->NextSiblingElement("symbol");
-  } 
+  }
   return true;
 }
 
@@ -269,12 +269,12 @@ void Symbol::to_xml( tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* root) con
 
   // Add all of the properties
   for( auto const& property : properties ){
-    symbol_elem->SetAttribute( property.first.c_str(), 
+    symbol_elem->SetAttribute( property.first.c_str(),
                                property.second.c_str() );
   }
 
   // Add the constructed element to the root
-  root->InsertEndChild( symbol_elem ); 
+  root->InsertEndChild( symbol_elem );
 
   // Export children
   for( auto const& child : children ){
@@ -297,7 +297,7 @@ void Symbol::to_xml( tinyxml2::XMLDocument& doc, tinyxml2::XMLElement* root) con
       double expressed_feature_weights = 0.0;
       tinyxml2::XMLElement* expressed_features_elem = doc.NewElement( "expressed_features" );
       for( auto & it_expressed_feature : it_expressed_features.second ){
-        expressed_feature_weights += it_expressed_feature.weight;  
+        expressed_feature_weights += it_expressed_feature.weight;
         it_expressed_feature.to_xml( doc, expressed_features_elem );
       }
       expressed_features_elem->SetAttribute( "numerator", to_std_string( exp( expressed_feature_weights ) ).c_str() );
@@ -376,9 +376,9 @@ std::ostream& operator<<( std::ostream& out, const Symbol& other ){
       out << *it;
       if( std::next(it) != other.children.cend() )
         out << ",";
-    } 
+    }
     out << ")";
-  }  
+  }
   out << "}";
   return out;
 }

@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -48,13 +48,13 @@ namespace h2sl{
 class SymbolSpace{
   public:
   /**
-    Type alias for an std::vector of Symbol std::shared_ptrs of the same Symbol 
-    type but different instantiated properties, e.g. object_type(ball) and 
+    Type alias for an std::vector of Symbol std::shared_ptrs of the same Symbol
+    type but different instantiated properties, e.g. object_type(ball) and
     object_type(block). The alias name reads "Vector of Symbols of the same Type".
   */
   using symbolsVectorType = std::vector< std::shared_ptr<Symbol> >;
 
-  /** 
+  /**
     Type alias for an std::unordered_map of symbolsVectorType. The key is the
     Symbol type for a given symbolsVectorType. The value is the symbolsVectorType.
     The alias name reads "Map of Vectors of Symbols of the same Type".
@@ -96,7 +96,7 @@ class SymbolSpace{
 
   /**
     SymbolSpace class constructor to instantiate a SymbolSpace from a SymbolDictionary and a World
-    
+
     @brief  SymbolSpace class constructor to instantiate a SymbolSpace from a SymbolDictionary and a World
     @param[in]    symbolDictionary  SymbolDictionary input
     @param[in]    world             World input
@@ -122,7 +122,7 @@ class SymbolSpace{
 
   /**
     Method to fill a SymbolSpace from a SymbolDictionary and a World
-    
+
     @brief  Method to fill a SymbolSpace from a SymbolDictionary and a World
     @param[in]    symbolDictionary  SymbolDictionary input
     @param[in]    world             World input
@@ -132,30 +132,34 @@ class SymbolSpace{
   virtual bool fill( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
 
   virtual bool fill_objects( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
-  
+
   virtual bool fill_object_types( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
 
   virtual bool fill_object_colors( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
 
   virtual bool fill_object_quantifiers( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
-  
+
   virtual bool fill_object_semantic_property_types( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
-  
+
   virtual bool fill_spatial_relation_extrema( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
-  
+
   virtual bool fill_spatial_relation_axis( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
-  
+
   virtual bool fill_spatial_relations( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
-    
+
+  virtual bool fill_distances( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
+
+  virtual bool fill_distance_units( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
+
   virtual bool fill_regions( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
-   
+
   virtual bool fill_relations( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
- 
+
   virtual bool fill_actions( const std::shared_ptr<SymbolDictionary>& symbolDictionary, const std::shared_ptr<World>& world );
 
   /**
     This method inserts a Symbol into the symbolsMap to store it as a shared_ptr.
-    If an identical Symbol already exists, it is not inserted but the 
+    If an identical Symbol already exists, it is not inserted but the
     shared_ptr is still returned.
 
     @brief Insert a new Symbol into the symbolsMap.

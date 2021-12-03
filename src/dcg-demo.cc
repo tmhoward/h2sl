@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -57,14 +57,14 @@ int main( int argc, char* argv[] ){
     auto llm = std::make_shared<h2sl::LLM>();
     if( vm.count( "llm" ) ){
       llm->from_file( vm["llm"].as<std::string>() );
-    } 
+    }
     std::cout << "world" << world << std::endl;
     std::cout << "dialogue:(" << dialogue << ")" << std::endl;
     // Construct the factor graph
     auto cvs = std::make_shared< std::vector< std::shared_ptr< std::string > > >();
     cvs->push_back( std::make_shared< std::string >( "false" ) );
     cvs->push_back( std::make_shared< std::string >( "true" ) );
-    h2sl::DCG dcg { symspace, std::make_shared<h2sl::Sentence>(dialogue.sentences.back()), world, llm, cvs, true }; 
+    h2sl::DCG dcg { symspace, std::make_shared<h2sl::Sentence>(dialogue.sentences().back()), world, llm, cvs, true };
     // Search the graph
     dcg.search( 1, false );
   }

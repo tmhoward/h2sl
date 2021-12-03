@@ -1,0 +1,5 @@
+# String of the language instruction 
+std_msgs/String instruction
+---
+# Returns a parse of the instruction in json form as a string 
+h2sl/LanguageVariableMessage parse

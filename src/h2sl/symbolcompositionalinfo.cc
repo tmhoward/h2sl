@@ -12,12 +12,12 @@
  * it under the terms of the gnu general public license as published by
  * the free software foundation; either version 2 of the license, or (at
  * your option) any later version.
- * 
+ *
  * this program is distributed in the hope that it will be useful, but
  * without any warranty; without even the implied warranty of
  * merchantability or fitness for a particular purpose.  see the gnu
  * general public license for more details.
- * 
+ *
  * you should have received a copy of the gnu general public license
  * along with this program; if not, see
  * <http://www.gnu.org/licenses/gpl-2.0.html> or write to the free
@@ -35,7 +35,7 @@ namespace h2sl{
 //
 // SymbolCompositionalInfo class default constructor
 //
-SymbolCompositionalInfo::SymbolCompositionalInfo( 
+SymbolCompositionalInfo::SymbolCompositionalInfo(
     const std::string& symbol_type,
     const std::unordered_set<std::string>& language_variable_types,
     const mapSetSymbolProperties& properties,
@@ -47,7 +47,7 @@ SymbolCompositionalInfo::SymbolCompositionalInfo(
 //
 // SymbolCompositionalInfo class constructor from XMLElement*
 //
-SymbolCompositionalInfo::SymbolCompositionalInfo( 
+SymbolCompositionalInfo::SymbolCompositionalInfo(
                 const tinyxml2::XMLElement* root ) : symbol_type(),
                                                     language_variable_types(),
                                                     properties(),
@@ -79,7 +79,7 @@ bool SymbolCompositionalInfo::scrape_symbol( const std::string& language_variabl
       properties.emplace( symbol_property.first, symbol_property_value );
     } else{
       // Check if the property value is in properties, insert it if not
-      if( it_properties->second.find( symbol_property.second ) == 
+      if( it_properties->second.find( symbol_property.second ) ==
                                       it_properties->second.end() )
       {
         it_properties->second.insert( symbol_property.second );
@@ -120,7 +120,7 @@ bool SymbolCompositionalInfo::from_xml( const char* filename ){
     return false;
 
   // Check for any SymbolCompositionalInfo child element of the root
-  const tinyxml2::XMLElement* symcompinfo_elem = 
+  const tinyxml2::XMLElement* symcompinfo_elem =
                       root->FirstChildElement( XMLSymbolCompositionalInfoName );
   if( symcompinfo_elem == nullptr )
     return false;
@@ -144,14 +144,14 @@ bool SymbolCompositionalInfo::from_xml( const tinyxml2::XMLElement* symcompinfo_
     return false;
 
   // Import the symbol_type from the XMLAttribute
-  const tinyxml2::XMLAttribute* symbol_type_attr = 
+  const tinyxml2::XMLAttribute* symbol_type_attr =
                                 symcompinfo_elem->FindAttribute(XMLSymbolTypeName);
   if( symbol_type_attr == nullptr )
     return false;
   symbol_type = symbol_type_attr->Value();
 
   // Import the language_variable_types from the XMLAttribute & parse the comma-separated values
-  const tinyxml2::XMLAttribute* language_variable_types_attr = 
+  const tinyxml2::XMLAttribute* language_variable_types_attr =
                                 symcompinfo_elem->FindAttribute(XMLLanguageVariableTypesName);
   if( language_variable_types_attr == nullptr )
     return false;
@@ -160,13 +160,13 @@ bool SymbolCompositionalInfo::from_xml( const tinyxml2::XMLElement* symcompinfo_
 
   // Import the properties from a child XMLElement whose attributes are the
   // property name (attribute name) and property values (attribute value)
-  const tinyxml2::XMLElement* symbol_properties_elem = 
+  const tinyxml2::XMLElement* symbol_properties_elem =
                               symcompinfo_elem->FirstChildElement(XMLPropertiesName);
   if( symbol_properties_elem == nullptr )
     return false;
 
   // Each property name and associated values is an XMLAttribute
-  const tinyxml2::XMLAttribute* symbol_property_attr = 
+  const tinyxml2::XMLAttribute* symbol_property_attr =
                                         symbol_properties_elem->FirstAttribute();
   // Reject if there are zero properties
   if( symbol_property_attr == nullptr )
@@ -174,20 +174,20 @@ bool SymbolCompositionalInfo::from_xml( const tinyxml2::XMLElement* symcompinfo_
   while( symbol_property_attr != nullptr ){
     std::string symbol_property_name = symbol_property_attr->Name();
     // Function call from h2sl::common to parse CSV string into std::unordered_set
-    auto symbol_property_values = 
+    auto symbol_property_values =
               std_string_u_set_from_std_string( symbol_property_attr->Value() );
     properties.insert(std::make_pair( symbol_property_name, symbol_property_values ));
     symbol_property_attr = symbol_property_attr->Next();
   }
 
   // Import all child SymbolCompositionalInfo via recursion
-  const tinyxml2::XMLElement* symcompinfo_child_elem = 
+  const tinyxml2::XMLElement* symcompinfo_child_elem =
             symcompinfo_elem->FirstChildElement(XMLSymbolCompositionalInfoName);
   while( symcompinfo_child_elem != nullptr ){
-    std::shared_ptr<SymbolCompositionalInfo> child = 
+    std::shared_ptr<SymbolCompositionalInfo> child =
                                   std::make_shared<SymbolCompositionalInfo>();
     if( !child->from_xml( symcompinfo_child_elem ) )
-      return false; 
+      return false;
     children.insert(std::make_pair( child->symbol_type, child ));
     symcompinfo_child_elem->NextSiblingElement(XMLSymbolCompositionalInfoName);
   }
@@ -213,7 +213,7 @@ bool SymbolCompositionalInfo::to_xml( const char* filename ) const{
 //
 // Method to export a SymbolCompositionalInfo to an XMLDocument object
 //
-void SymbolCompositionalInfo::to_xml( tinyxml2::XMLDocument& doc, 
+void SymbolCompositionalInfo::to_xml( tinyxml2::XMLDocument& doc,
                                       tinyxml2::XMLElement* root) const
 {
   tinyxml2::XMLElement* symcompinfo_elem =
@@ -229,7 +229,7 @@ void SymbolCompositionalInfo::to_xml( tinyxml2::XMLDocument& doc,
   root->InsertEndChild( symcompinfo_elem );
 
   // Export properties as a child XMLElement with XMLAttributes for each property
-  // with the property name as the attribute name and the property values as the 
+  // with the property name as the attribute name and the property values as the
   // attribute value
   tinyxml2::XMLElement* symbol_properties_elem = doc.NewElement(XMLPropertiesName);
   for( auto const& property : properties ){
@@ -239,7 +239,7 @@ void SymbolCompositionalInfo::to_xml( tinyxml2::XMLDocument& doc,
     symbol_properties_elem->SetAttribute( symbol_property_name.c_str(),
                                           symbol_property_values.c_str() );
   }
-  
+
   // Add the element as a child to symcompinfo_elem
   symcompinfo_elem->InsertEndChild( symbol_properties_elem );
 
