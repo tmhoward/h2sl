@@ -93,7 +93,7 @@ namespace h2sl {
       @throws                                   no expected throws
   */
   virtual std::shared_ptr<Feature> dup( void )const;
- 
+
   /**
       This method evaluates a feature
 
@@ -104,7 +104,7 @@ namespace h2sl {
       @param[in]    symbol    symbol
       @returns      bool      true/false expression of feature
       @throws                 no expected throws
-  */ 
+  */
   virtual FeatureValue evaluate( const std::shared_ptr< std::string >& cvArg,
                                   const std::shared_ptr<LanguageVariable>& lvArg,
                                   const std::shared_ptr<WorldDCG>& worldArg,
@@ -114,7 +114,7 @@ namespace h2sl {
       This method prints out the values of a feature
 
       @brief This method prints out the values of a feature
-      @returns      string    value of a feature      
+      @returns      string    value of a feature
       @throws                 no expected throws
   */
   virtual std::string print_string( const bool& printValue = false )const override;

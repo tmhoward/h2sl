@@ -112,7 +112,7 @@ int main( int argc, char* argv[] ){
 
 
   // Generate CV related features
-  feature_pool.constituent_feature_sets.push_back( std::vector< std::shared_ptr< h2sl::Feature > >() ); 
+  feature_pool.constituent_feature_sets.push_back( std::vector< std::shared_ptr< h2sl::Feature > >() );
   feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureCV >( "false" ) );
   feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureCV >( "true" ) );
 
@@ -161,7 +161,7 @@ int main( int argc, char* argv[] ){
     for(const auto& property_value : it_prop->second ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_object_type->first, it_prop->first, property_value, true ) );
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSymbolAttributeValue >( it_object_type->first, it_prop->first, property_value, false ) );
-    } 
+    }
   }
 
   // Spatial Relation related features
@@ -199,8 +199,8 @@ int main( int argc, char* argv[] ){
       }
     }
 
-    // Generate default features for ordinal spatial relations                                                                         
-    for( int position_index = 0; position_index < 3; position_index++ ){                                                               
+    // Generate default features for ordinal spatial relations
+    for( int position_index = 0; position_index < 3; position_index++ ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSpatialRelationPosition >( position_index ) );
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSpatialRelationPositionObjectType >( position_index ) );
     }

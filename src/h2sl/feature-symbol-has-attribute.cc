@@ -87,7 +87,7 @@ bool FeatureSymbolHasAttribute::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // check to see if the class name is feature-symbol-has-attribute
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -112,7 +112,7 @@ bool FeatureSymbolHasAttribute::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // Read the symbol_type attribute and set it to the symbol_type
   const tinyxml2::XMLAttribute* symbol_type_attr = root->FindAttribute("symbol_type");
   if( symbol_type_attr == nullptr ){
@@ -160,7 +160,7 @@ FeatureValue FeatureSymbolHasAttribute::evaluate( const std::shared_ptr< std::st
   if( symbol->type != symbol_type ){
     return value; // Reject when symbol does not match symbol type
   }
-  
+
   // Check if the symbol has the attribute
   std::unordered_map< std::string, std::string >::const_iterator it_symbol_attribute = symbol->properties.find( attribute_type );
   if( it_symbol_attribute != symbol->properties.end() ){

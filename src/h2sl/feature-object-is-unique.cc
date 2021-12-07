@@ -78,7 +78,7 @@ bool FeatureObjectIsUnique::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
   // check to see if the class name is feature-object-is-unique
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){
@@ -103,7 +103,7 @@ bool FeatureObjectIsUnique::from_xml( const tinyxml2::XMLElement* root ){
     }
     return false;
   }
- 
+
     // Read the invert attribute and set it to invert
   const auto* invert_attr = root->FindAttribute("invert");
   if( invert_attr == nullptr ){
@@ -127,7 +127,7 @@ FeatureValue FeatureObjectIsUnique::evaluate( const std::shared_ptr< std::string
   auto it_object_uid = symbol->properties.find( "uid" );
   // No "uid" property found, return false;
   if( it_object_uid == symbol->properties.end() ) return value;
-  auto it_object = world->objects.find( it_object_uid->second );                                                                       
+  auto it_object = world->objects.find( it_object_uid->second );
   // Enforce that the object is in the world && that the object has a state with pose
   if( it_object == world->objects.end() ) return value;
 

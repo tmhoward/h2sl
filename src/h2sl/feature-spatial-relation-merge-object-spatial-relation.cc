@@ -78,7 +78,7 @@ bool FeatureSpatialRelationMergeObjectSpatialRelation::from_xml( const tinyxml2:
     }
     return false;
   }
- 
+
   // check to see if the class name is feature-spatial-relation-merge-object-spatial-relation
   const tinyxml2::XMLAttribute* class_attr = root->FindAttribute("class");
   if( class_attr == nullptr ){

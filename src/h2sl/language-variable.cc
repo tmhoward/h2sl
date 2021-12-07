@@ -852,16 +852,20 @@ LanguageVariableMessage LanguageVariable::to_msg( void )const{
     }
 
     // Create word messages for each Word
-    for( const auto& word : *(p_lv_node->words()) ){
-      node_msg.words.push_back( word.to_msg() );
+    if( p_lv_node->words() != std::nullopt){
+      for( const auto& word : *(p_lv_node->words()) ){
+        node_msg.words.push_back( word.to_msg() );
+      }
     }
 
     // Create role messages for each Role
-    for( const auto& role : *(p_lv_node->roles()) ){
-      PropertyMessage p;
-      p.name = role.first;
-      p.value = role.second;
-      node_msg.roles.push_back( p );
+    if( p_lv_node->roles() != std::nullopt ){
+      for( const auto& role : *(p_lv_node->roles()) ){
+        PropertyMessage p;
+        p.name = role.first;
+        p.value = role.second;
+        node_msg.roles.push_back( p );
+      }
     }
 
     // Find all child connections and add to the message
