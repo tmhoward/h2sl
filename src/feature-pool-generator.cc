@@ -200,6 +200,7 @@ int main( int argc, char* argv[] ){
     }
   }
 
+
 /*
   // Create object_quantifier features for each known quantifier
   auto it_object_quantifier = sd.dictionary.find( "object_quantifier" );
@@ -341,15 +342,7 @@ int main( int argc, char* argv[] ){
     // Generate default features for ordinal spatial relations
     for( int position_index = 0; position_index < 3; position_index++ ){
       feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSpatialRelationPosition >( position_index ) );
-
-      // Create object-type-specific position features as well
-      it_object_type = sd.dictionary.find( "object_type" );
-      if( it_object_type != sd.dictionary.end() ){
-        auto it_prop = it_object_type->second->properties.find("object_type");
-        for(const auto& property_value : it_prop->second ){
-          feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSpatialRelationPositionObjectType >( position_index, property_value ) );
-        }
-      }
+      feature_pool.constituent_feature_sets.back().push_back( std::make_shared< h2sl::FeatureSpatialRelationPositionObjectType >( position_index ) );
     }
 
     // Allow capturing of landmarks from grounded child symbols

@@ -40,14 +40,14 @@ namespace h2sl {
 ///
 /// FeatureSymbolHasChild default class constructor
 ///
-FeatureSymbolHasChild::FeatureSymbolHasChild( const std::string& symbolTypeArg ) :
+FeatureSymbolHasChild::FeatureSymbolHasChild( const std::string& symbolTypeArg, const bool invertArg ) :
     Feature( FeatureType::DynamicSymbol, FeatureValue::Unknown, Feature::dependent_parameters_t( false, false, true, true, false ) ),
-    symbol_type( symbolTypeArg ) {}
+    symbol_type( symbolTypeArg ), invert( invertArg ) {}
 
 ///
 /// FeatureSymbolHasChild class constructor from an XMLElement
 ///
-FeatureSymbolHasChild::FeatureSymbolHasChild( const tinyxml2::XMLElement* root ) : Feature(), symbol_type() {
+FeatureSymbolHasChild::FeatureSymbolHasChild( const tinyxml2::XMLElement* root ) : Feature(), symbol_type(), invert() {
   from_xml( root );
 }
 
@@ -66,6 +66,7 @@ bool FeatureSymbolHasChild::from_xml( const tinyxml2::XMLElement* root ){
   value = FeatureValue::Unknown;
   depends_on = Feature::dependent_parameters_t( false, false, true, true, false );
   symbol_type = "";
+  invert = false;
 
   // Check that the element is a feature-symbol-has-child element
   if( root == nullptr ){
@@ -118,6 +119,13 @@ bool FeatureSymbolHasChild::from_xml( const tinyxml2::XMLElement* root ){
   }
   symbol_type = symbol_type_attr->Value();
 
+  // Read the invert attribute and set it to invert
+  const auto* invert_attr = root->FindAttribute("invert");
+  if( invert_attr == nullptr ){
+    throw std::runtime_error("[FeatureSymbolAttributeValue Class Error] Missing \"invert\" attribute in from_xml()");
+  }
+  invert = invert_attr->BoolValue();
+
   return true;
 }
 
@@ -129,7 +137,9 @@ FeatureValue FeatureSymbolHasChild::evaluate( const std::shared_ptr< std::string
   value = FeatureValue::False;
   if( symbol->type == symbol_type ){
     if( !lv->children().empty() ){
-      value = FeatureValue::True;
+      value = (invert) ? FeatureValue::False : FeatureValue::True;
+    } else{
+      value = (invert) ? FeatureValue::True : FeatureValue::False;
     }
   }
   return value;
@@ -141,9 +151,9 @@ FeatureValue FeatureSymbolHasChild::evaluate( const std::shared_ptr< std::string
 std::string FeatureSymbolHasChild::print_string( const bool& printValue )const{
   std::stringstream out;
   if( printValue ){
-    out << "feature-symbol-has-child(type=\"" << type << "\",value=\"" << value << "\",symbol_type=\"" << symbol_type << "\")";
+    out << "feature-symbol-has-child(type=\"" << type << "\",value=\"" << value << "\",symbol_type=\"" << symbol_type << "\",invert= " << invert << "\")";
   } else {
-    out << "feature-symbol-has-child(type=\"" << type << "\",symbol_type=\"" << symbol_type << "\")";
+    out << "feature-symbol-has-child(type=\"" << type << "\",symbol_type=\"" << symbol_type << "\",invert= " << invert << "\")";
   }
   return out.str();
 }
@@ -153,7 +163,7 @@ std::string FeatureSymbolHasChild::print_string( const bool& printValue )const{
 ///
 std::string FeatureSymbolHasChild::key( void ) const{
   std::stringstream out;
-  out << "feature-symbol-has-child(type=\"" << type << "\",symbol_type=\"" << symbol_type << "\")";
+  out << "feature-symbol-has-child(type=\"" << type << "\",symbol_type=\"" << symbol_type << "\",invert= " << invert << "\")";
   return out.str();
 }
 
@@ -181,6 +191,7 @@ void FeatureSymbolHasChild::to_xml( tinyxml2::XMLDocument& document, tinyxml2::X
   tinyxml2::XMLElement* feature_symbol_has_child_elem = document.NewElement( "feature" );
   feature_symbol_has_child_elem->SetAttribute( "class", "feature-symbol-has-child" );
   feature_symbol_has_child_elem->SetAttribute( "symbol_type", symbol_type.c_str() );
+  feature_symbol_has_child_elem->SetAttribute( "invert", invert );
   root->InsertEndChild( feature_symbol_has_child_elem );
 }
 

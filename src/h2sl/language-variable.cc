@@ -55,6 +55,16 @@ LanguageVariable( std::string const & type, std::string const & name, symbolsVec
                   std::vector<language_variable_connection_t> const & children, std::vector<Word> const & words )
                   : type_( type ), name_( name ), symbols_( symbols ), children_( children ),
                     o_words_( words ), o_roles_( std::nullopt ){}
+
+//
+// LanguageVariable class member parameter constructor; no words parameter
+//
+LanguageVariable::
+LanguageVariable( std::string const & type, std::string const & name, symbolsVector const & symbols,
+                  std::vector<language_variable_connection_t> const & children, rolesMap const & roles )
+                  : type_( type ), name_( name ), symbols_( symbols ), children_( children ),
+                    o_words_( std::nullopt ), o_roles_( roles ){}
+
 //
 // LanguageVariable class member parameter constructor; no roles or words parameters
 //
@@ -923,11 +933,16 @@ void LanguageVariable::flatten_recursive( flattened_language_variable_t& info )c
 //
 // Returns only the current language-variable absent of any children
 //
+//
+// Returns only the current language-variable absent of any children
+//
 LanguageVariable LanguageVariable::current( void )const{
   if( (o_words_ != std::nullopt) && (o_roles_ != std::nullopt) ){
     return LanguageVariable( type_, name_, symbols_, std::vector<language_variable_connection_t>(), *o_words_, *o_roles_ );
   } else if( o_words_ != std::nullopt ){
     return LanguageVariable( type_, name_, symbols_, std::vector<language_variable_connection_t>(), *o_words_ );
+  } else if( o_roles_ != std::nullopt ){
+    return LanguageVariable( type_, name_, symbols_, std::vector<language_variable_connection_t>(), *o_roles_ );
   } else{
     return LanguageVariable( type_, name_, symbols_, std::vector<language_variable_connection_t>() );
   }

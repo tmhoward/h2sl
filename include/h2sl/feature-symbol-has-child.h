@@ -45,10 +45,12 @@ namespace h2sl {
       FeatureSymbolHasChild default class constructor.
 
       @brief Default FeatureSymbolHasChild class constructor.
-      @returns              none
-      @throws               no expected throws
+      @param[in]  symbolTypeArg       The type of symbol the feature expects
+      @param[in]  invertArg           A flag to indicate whether to use the inverse of the feature
+      @returns                        none
+      @throws                         no expected throws
   */
-  explicit FeatureSymbolHasChild( const std::string& symbolTypeArg = "" );
+  explicit FeatureSymbolHasChild( const std::string& symbolTypeArg = "", const bool invertArg = false );
 
   /**
       FeatureSymbolHasChild class constructor from an XMLElement.
@@ -189,6 +191,7 @@ namespace h2sl {
   virtual void to_json( Json::Value& root )const;
 
   std::string symbol_type;
+  bool invert;
 
   protected:
 

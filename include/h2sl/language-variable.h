@@ -131,6 +131,24 @@ class LanguageVariable{
 
   /**
     Parameter constructor for h2sl::LanguageVariable class. This method instantiates a
+    LanguageVariable of the input type, its unique name, unordered_map of its roles,
+    vector of Symbols with which it corresponds, unordered map of child LanguageVariables.
+    The words are set as nullopt.
+
+    @brief Default LanguageVariable class constructor.
+    @param[in]    type        Type of the LanguageVariable
+    @param[in]    name        Unique variable name of the LanguageVariable
+    @param[in]    symbols     Vector of Symbols corresponding to the language variable
+    @param[in]    children    Vector of child language_variable_connection_t
+    @param[in]    roles       Map of Roles composing the language variable
+    @returns                  none
+    @throws                   no expected throws
+  */
+  LanguageVariable( std::string const & type, std::string const & name, symbolsVector const & symbols,
+                    std::vector<language_variable_connection_t> const & children, rolesMap const & roles );
+
+  /**
+    Parameter constructor for h2sl::LanguageVariable class. This method instantiates a
     LanguageVariable of the input type, its unique name, its text, vector of Symbols with
     which it corresponds, unordered map of child LanguageVariables. The roles and words are
     set as nullopt.

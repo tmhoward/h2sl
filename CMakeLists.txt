@@ -110,6 +110,7 @@ add_library(h2sl
   src/h2sl/feature-lv-type.cc
   src/h2sl/feature-lv-edge-label.cc 
   src/h2sl/feature-lv-role-value.cc
+  src/h2sl/feature-object-is-unique.cc
   src/h2sl/feature-object-position-order.cc
   src/h2sl/feature-object-merge-object-type-region.cc
   src/h2sl/feature-object-merge-object-type-spatial-relation.cc
@@ -118,6 +119,7 @@ add_library(h2sl
   src/h2sl/feature-set.cc
   src/h2sl/feature-symbol-attribute-value.cc
   src/h2sl/feature-symbol-type.cc
+  src/h2sl/feature-symbol-has-attribute.cc
   src/h2sl/feature-symbol-has-child.cc
   src/h2sl/feature-symbol-matches-child.cc
   src/h2sl/feature-symbol-child-attribute-value.cc
@@ -131,6 +133,7 @@ add_library(h2sl
   src/h2sl/feature-spatial-relation-children-satisfied.cc
   src/h2sl/feature-spatial-relation-children-satisfied-object-type.cc
   src/h2sl/feature-spatial-relation-children-contradicted.cc
+  src/h2sl/feature-spatial-relation-merge-object-spatial-relation.cc
   src/h2sl/pcfg.cc
   src/h2sl/binarized-pcfg.cc
   src/h2sl/object.cc
@@ -218,6 +221,10 @@ target_link_libraries(h2sl-feature-pool-generator h2sl ${Boost_LIBRARIES} ${Tiny
 add_executable(h2sl-feature-pool-generator-cky src/feature-pool-generator-cky.cc)
 add_dependencies(h2sl-feature-pool-generator-cky ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(h2sl-feature-pool-generator-cky h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
+
+add_executable(h2sl-feature-pool-generator-cky-sr src/feature-pool-generator-cky-sr.cc)
+add_dependencies(h2sl-feature-pool-generator-cky-sr ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(h2sl-feature-pool-generator-cky-sr h2sl ${Boost_LIBRARIES} ${TinyXML2_LIBRARIES} ${JSONCPP_LIBRARIES} ${catkin_LIBRARIES})
 
 add_executable(h2sl-language-variable-demo src/language-variable-demo.cc)
 add_dependencies(h2sl-language-variable-demo ${h2sl_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -311,6 +318,7 @@ install(TARGETS
   h2sl-language-variable-demo
   h2sl-feature-pool-generator
   h2sl-feature-pool-generator-cky
+  h2sl-feature-pool-generator-cky-sr
   h2sl-pcfg-demo
   h2sl-parser-demo
   h2sl-sentence-demo

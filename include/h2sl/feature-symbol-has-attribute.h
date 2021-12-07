@@ -1,5 +1,5 @@
 /**
- * @file feature-spatial-relation-position-object-type.h
+ * @file feature-symbol-has-attribute.h
  * @author H2SL Developers
  *
  * @version 2.0
@@ -34,58 +34,61 @@
 #include <jsoncpp/json/value.h>
 
 #include "h2sl/feature.h"
-#include "h2sl/spatial-relation.h"
 
 namespace h2sl {
   /**
-   * FeatureSpatialRelationPositionObjectType class definition
+   * FeatureSymbolHasAttribute class definition
    */
-  class FeatureSpatialRelationPositionObjectType : public Feature {
+  class FeatureSymbolHasAttribute : public Feature {
   public:
   /**
-      FeatureSpatialRelationPositionObjectType default class constructor.
+    FeatureSymbolHasAttribute default class constructor.
 
-      @brief Default FeatureSpatialRelationPositionObjectType class constructor.
-      @param[in]    positionIndexArg     the position index the feature will check for
-      @returns                           none
-      @throws                            no expected throws
+    @brief Default FeatureSymbolHasAttribute class constructor.
+    @param[in]    symbolTypeArg     The type of symbol the feature expects
+    @param[in]    attributeTypeArg  The type of symbol attribute the feature expects
+    @param[in]    invertArg         A flag indicating whether to use the inverse of the feature
+    @returns                        none
+    @throws                         no expected throws
   */
-  explicit FeatureSpatialRelationPositionObjectType( const unsigned int positionIndexArg = 0 );
+  FeatureSymbolHasAttribute( const std::string& symbolTypeArg = "",
+                               const std::string& attributeTypeArg = "",
+                               const bool invertArg = false );
 
   /**
-      FeatureSpatialRelationPositionObjectType class constructor from an XMLElement.
+    FeatureSymbolHasAttribute class constructor from an XMLElement.
 
-      @brief FeatureSpatialRelationPositionObjectType class constructor from an XMLElement.
-      @param[in]  root      xml element
-      @returns              none
-      @throws               no expected throws
+    @brief FeatureSymbolHasAttribute class constructor from an XMLElement.
+    @param[in]  root      xml element
+    @returns              none
+    @throws               no expected throws
   */
-  explicit FeatureSpatialRelationPositionObjectType( const tinyxml2::XMLElement* root );
-
-  /**
-    Default FeatureSpatialRelationPositionObjectType class copy constructor.
-  */
-  FeatureSpatialRelationPositionObjectType( const FeatureSpatialRelationPositionObjectType& other ) = default;
+  explicit FeatureSymbolHasAttribute( const tinyxml2::XMLElement* root );
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class move constructor.
+    Default FeatureSymbolHasAttribute class copy constructor.
   */
-  FeatureSpatialRelationPositionObjectType( FeatureSpatialRelationPositionObjectType&& other ) = default;
+  FeatureSymbolHasAttribute( const FeatureSymbolHasAttribute& other ) = default;
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class destructor.
+    Default FeatureSymbolHasAttribute class move constructor.
   */
-  virtual ~FeatureSpatialRelationPositionObjectType() = default;
+  FeatureSymbolHasAttribute( FeatureSymbolHasAttribute&& other ) = default;
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class copy assignment operator.
+    Default FeatureSymbolHasAttribute class destructor.
   */
-  FeatureSpatialRelationPositionObjectType& operator=( const FeatureSpatialRelationPositionObjectType& other ) = default;
+  virtual ~FeatureSymbolHasAttribute() = default;
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class move assignment operator.
+    Default FeatureSymbolHasAttribute class copy assignment operator.
   */
-  FeatureSpatialRelationPositionObjectType& operator=( FeatureSpatialRelationPositionObjectType&& other ) = default;
+  FeatureSymbolHasAttribute& operator=( const FeatureSymbolHasAttribute& other ) = default;
+
+  /**
+    Default FeatureSymbolHasAttribute class move assignment operator.
+  */
+  FeatureSymbolHasAttribute& operator=( FeatureSymbolHasAttribute&& other ) = default;
 
   /**
       This method generates a copy of a feature
@@ -95,7 +98,7 @@ namespace h2sl {
       @throws                                   no expected throws
   */
   virtual std::shared_ptr<Feature> dup( void )const;
-
+ 
   /**
       This method evaluates a feature
 
@@ -106,7 +109,7 @@ namespace h2sl {
       @param[in]    symbol    symbol
       @returns      bool      true/false expression of feature
       @throws                 no expected throws
-  */
+  */ 
   virtual FeatureValue evaluate( const std::shared_ptr< std::string >& cvArg,
                                   const std::shared_ptr<LanguageVariable>& lvArg,
                                   const std::shared_ptr<WorldDCG>& worldArg,
@@ -116,7 +119,7 @@ namespace h2sl {
       This method prints out the values of a feature
 
       @brief This method prints out the values of a feature
-      @returns      string    value of a feature
+      @returns      string    value of a feature      
       @throws                 no expected throws
   */
   virtual std::string print_string( const bool& printValue = false )const override;
@@ -131,9 +134,9 @@ namespace h2sl {
   virtual std::string key( void ) const override;
 
   /**
-      This method imports a FeatureSpatialRelationPositionObjectType from a tinyxml2 element.
+      This method imports a FeatureSymbolHasAttribute from a tinyxml2 element.
 
-      @brief This method imports a FeatureSpatialRelationPositionObjectType from a tinyxml2 element.
+      @brief This method imports a FeatureSymbolHasAttribute from a tinyxml2 element.
       @param[in]    root      tinyxml2 element to read from
       @returns                success/failure
       @throws                 no expected throws
@@ -141,9 +144,9 @@ namespace h2sl {
   virtual bool from_xml( const tinyxml2::XMLElement* root );
 
   /**
-      This method imports a FeatureSpatialRelationPositionObjectType from a json formatted string.
+      This method imports a FeatureSymbolHasAttribute from a json formatted string.
 
-      @brief This method imports a FeatureSpatialRelationPositionObjectType from a json formatted string.
+      @brief This method imports a FeatureSymbolHasAttribute from a json formatted string.
       @param[in]    root      json formatting string to read from
       @returns                success/failure
       @throws                 no expected throws
@@ -151,9 +154,9 @@ namespace h2sl {
   virtual bool from_json_string( const std::string& valueArg );
 
   /**
-      This method imports a FeatureSpatialRelationPositionObjectType from a json value.
+      This method imports a FeatureSymbolHasAttribute from a json value.
 
-      @brief This method imports a FeatureSpatialRelationPositionObjectType from a json value.
+      @brief This method imports a FeatureSymbolHasAttribute from a json value.
       @param[in]    root      json value to read from
       @returns                success/failure
       @throws                 no expected throws
@@ -161,9 +164,9 @@ namespace h2sl {
   virtual bool from_json( const Json::Value& root );
 
   /**
-      This method exports a FeatureSpatialRelationPositionObjectType to a tinyxml2 document.
+      This method exports a FeatureSymbolHasAttribute to a tinyxml2 document.
 
-      @brief This method exports a FeatureSpatialRelationPositionObjectType to a tinyxml2 document.
+      @brief This method exports a FeatureSymbolHasAttribute to a tinyxml2 document.
       @param[in]    document  tinyxml2 document to be written to
       @param[in]    root      root of tinyxml2 document to be written to
       @returns                none
@@ -172,39 +175,42 @@ namespace h2sl {
   virtual void to_xml( tinyxml2::XMLDocument& document, tinyxml2::XMLElement* root )const;
 
   /**
-      This method exports a FeatureSpatialRelationPositionObjectType to a json formatted string.
+      This method exports a FeatureSymbolHasAttribute to a json formatted string.
 
-      @brief This method exports a FeatureSpatialRelationPositionObjectType to a json formatted string
+      @brief This method exports a FeatureSymbolHasAttribute to a json formatted string
       @returns                json formatted string
       @throws                 no expected throws
   */
   virtual std::string to_json( void )const;
 
   /**
-      This method exports a FeatureSpatialRelationPositionObjectType to a json value.
+      This method exports a FeatureSymbolHasAttribute to a json value.
 
-      @brief This method exports a FeatureSpatialRelationPositionObjectType to a json value.
+      @brief This method exports a FeatureSymbolHasAttribute to a json value.
       @param[in]    root      root of json value to be written to
       @returns                none
       @throws                 no expected throws
   */
   virtual void to_json( Json::Value& root )const;
 
-  unsigned int position_index;
+  std::string symbol_type;
+  std::string attribute_type;
+  bool invert;
 
   protected:
+
   private:
 
   };
 
   /**
-      FeatureSpatialRelationPositionObjectType class ostream operator
+      FeatureSymbolHasAttribute class ostream operator
 
-      @brief FeatureSpatialRelationPositionObjectType class ostream operator
+      @brief FeatureSymbolHasAttribute class ostream operator
       @param[in]    out       std::ostream input
       @param[in]    other     class instance
       @returns                none
       @throws                 no expected throws
    */
-  std::ostream& operator<<( std::ostream& out, const FeatureSpatialRelationPositionObjectType& other );
+  std::ostream& operator<<( std::ostream& out, const FeatureSymbolHasAttribute& other );
 } // namespace h2sl

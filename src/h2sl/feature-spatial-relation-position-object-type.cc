@@ -42,19 +42,18 @@ namespace h2sl {
 /// FeatureSpatialRelationPositionObjectType default class constructor
 ///
 FeatureSpatialRelationPositionObjectType::FeatureSpatialRelationPositionObjectType(
-    const unsigned int positionIndexArg, const std::string& objectTypeArg ) :
+    const unsigned int positionIndexArg ) :
   Feature( FeatureType::DynamicSymbol,
            FeatureValue::Unknown,
            Feature::dependent_parameters_t( false, false, true, true, true ) ),
-  position_index( positionIndexArg ),
-  object_type( objectTypeArg ){
+  position_index( positionIndexArg ){
 
 }
 
 ///
 /// FeatureSpatialRelationPositionObjectType class constructor from an XMLElement
 ///
-FeatureSpatialRelationPositionObjectType::FeatureSpatialRelationPositionObjectType( const tinyxml2::XMLElement* root ) : Feature(), position_index(), object_type() {
+FeatureSpatialRelationPositionObjectType::FeatureSpatialRelationPositionObjectType( const tinyxml2::XMLElement* root ) : Feature(), position_index() {
   from_xml( root );
 }
 
@@ -72,7 +71,6 @@ bool FeatureSpatialRelationPositionObjectType::from_xml( const tinyxml2::XMLElem
   type = FeatureType::DynamicSymbol;
   value = FeatureValue::Unknown;
   position_index = 0;
-  object_type = "";
 
   // Check that the element is a valid root element
   if( root == nullptr ){
@@ -125,20 +123,6 @@ bool FeatureSpatialRelationPositionObjectType::from_xml( const tinyxml2::XMLElem
   }
   position_index = unsigned_int_from_std_string( position_attr->Value() );
 
-  // Read the object_type attribute
-  const tinyxml2::XMLAttribute* object_type_attr = root->FindAttribute("object_type");
-  if( object_type_attr == nullptr ){
-    try {
-      std::stringstream error_msg;
-      error_msg << "[FeatureSpatialRelationPositionObjectType Class Error] Missing \"object_type\" attribute in from_xml";
-      throw std::runtime_error( error_msg.str() );
-    } catch ( const char* msg ){
-      std::cerr << msg << std::endl;
-    }
-    return false;
-  }
-  object_type = object_type_attr->Value();
-
   return true;
 }
 
@@ -168,7 +152,25 @@ FeatureValue FeatureSpatialRelationPositionObjectType::evaluate( const std::shar
   // Check that the object has the correct type
   auto it_object_type = it_object->second.properties.find( "object_type" );
   if( it_object_type == it_object->second.properties.end() ) return value;
-  if( it_object_type->second != object_type ) return value;
+
+  // Check whether there is a object_type in the language variable
+  bool found_matching_child_object_type = false;
+  for( const auto& connection : lv->children() ){
+    for( const auto& child_symbol : connection.child->symbols() ){
+      if( child_symbol->type != "object_type" ) continue;
+
+      // Look for a child object_type symbol
+      auto it_child_object_type = child_symbol->properties.find( "object_type" );
+      if( it_child_object_type == child_symbol->properties.end() ) continue;
+
+      // Check to see if the child object_type matches the symbol object_type
+      if( it_object_type->second != it_child_object_type->second ) continue;
+
+      found_matching_child_object_type = true;
+    }
+  }
+  // Return false if did not find child object_type symbol
+  if( !found_matching_child_object_type ) return value;
 
   // Check for an object_color child symbol to filter the sorted world
   std::optional< std::string > color_filter = std::nullopt;
@@ -184,9 +186,6 @@ FeatureValue FeatureSpatialRelationPositionObjectType::evaluate( const std::shar
     }
     if( color_filter ) break;
   }
-
-  // Cast object_type into the data type expected by corresponding SpatialRelation method
-  auto type_filter = std::make_optional< std::string >( object_type );
 
   // Check child LanguageVariables for ordered spatial_relation symbols
   for( const auto& connection : lv->children() ){
@@ -265,7 +264,7 @@ FeatureValue FeatureSpatialRelationPositionObjectType::evaluate( const std::shar
       // Now check if our object is the Xth object when the world is sorted w.r.t. the spatial relation
       // auto explained: std::vector< std::pair< std::string, double > >
       auto sorted_uids = h2sl::SpatialRelation::get_sorted_uids( world, relation_frame,
-        axis_dimension, axis_direction, extrema, color_filter, type_filter );
+        axis_dimension, axis_direction, extrema, color_filter, it_object_type->second );
 
       if( position_index >= sorted_uids.size() ){
       	return value; // Index out-of-bounds => Will be for all spatial relations
@@ -289,9 +288,9 @@ FeatureValue FeatureSpatialRelationPositionObjectType::evaluate( const std::shar
 std::string FeatureSpatialRelationPositionObjectType::print_string( const bool& printValue )const{
   std::stringstream out;
   if( printValue ){
-    out << "feature-spatial-relation-position-object-type(type=\"" << type << "\",value=\"" << value << "\",position_index=\"" << position_index << "\",object_type=\"" << object_type << "\")";
+    out << "feature-spatial-relation-position-object-type(type=\"" << type << "\",value=\"" << value << "\",position_index=\"" << position_index << "\")";
   } else {
-    out << "feature-spatial-relation-position-object-type(type=\"" << type << "\",position_index=\"" << position_index << "\",object_type=\"" << object_type << "\")";
+    out << "feature-spatial-relation-position-object-type(type=\"" << type << "\",position_index=\"" << position_index << "\")";
   }
   return out.str();
 }
@@ -301,7 +300,7 @@ std::string FeatureSpatialRelationPositionObjectType::print_string( const bool& 
 ///
 std::string FeatureSpatialRelationPositionObjectType::key( void ) const{
   std::stringstream out;
-  out << "feature-spatial-relation-position-object-type(type=\"" << type << "\",position_index=\"" << position_index << "\",object_type=\"" << object_type << "\")";
+  out << "feature-spatial-relation-position-object-type(type=\"" << type << "\",position_index=\"" << position_index << "\")";
   return out.str();
 }
 
@@ -329,7 +328,6 @@ void FeatureSpatialRelationPositionObjectType::to_xml( tinyxml2::XMLDocument& do
   tinyxml2::XMLElement* feature_elem = document.NewElement( "feature" );
   feature_elem->SetAttribute( "class", "feature-spatial-relation-position-object-type" );
   feature_elem->SetAttribute( "position_index", to_std_string( position_index ).c_str() );
-  feature_elem->SetAttribute( "object_type", object_type.c_str() );
   root->InsertEndChild( feature_elem );
 }
 

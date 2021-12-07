@@ -58,6 +58,10 @@ DCG::DCG( const std::shared_ptr<SymbolSpace>& symbolSpace,
   _sentence = std::make_shared<Sentence>( *sentenceArg );
   _sentence->symbols().clear();
   _sentence->child()->clear_symbols();
+  // Clear the LLM of any prior stored features
+  _llm->feature_pool->symbol_features.clear();
+  _llm->feature_pool->language_variable_features.clear();
+  // Construct the factorset for the root
   if( debug ) std::cout << "Extracting the root language variable" << std::endl;
   std::shared_ptr<LanguageVariable> p_root_language_variable = _sentence->child();
   auto p_root_factorset = std::make_shared<FactorSet>( _llm->feature_pool, symbolSpace, p_root_language_variable, _world, cvsArg );

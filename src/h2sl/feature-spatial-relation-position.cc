@@ -148,6 +148,9 @@ FeatureValue FeatureSpatialRelationPosition::evaluate( const std::shared_ptr< st
   if( it_object == world->objects.end() ) return value;
   if( it_object->second.state_history.back().pose == nullptr ) return value;
 
+  auto it_object_type = it_object->second.properties.find( "object_type" );
+  if( it_object_type == it_object->second.properties.end() ) return value;
+
   // Check for an object_color child symbol to filter the sorted world
   std::optional< std::string > color_filter = std::nullopt;
   for( const auto& connection : lv->children() ){
@@ -240,7 +243,7 @@ FeatureValue FeatureSpatialRelationPosition::evaluate( const std::shared_ptr< st
       // Now check if our object is the Xth object when the world is sorted w.r.t. the spatial relation
       // auto explained: std::vector< std::pair< std::string, double > >
       auto sorted_uids = h2sl::SpatialRelation::get_sorted_uids( world, relation_frame,
-        axis_dimension, axis_direction, extrema, color_filter, std::nullopt );
+        axis_dimension, axis_direction, extrema, color_filter, it_object_type->second );
 
       if( position_index >= sorted_uids.size() ){
       	return value; // Index out-of-bounds => Will be for all spatial relations

@@ -45,8 +45,10 @@
 #include "h2sl/feature-object-merge-object-type-spatial-relation.h"
 #include "h2sl/feature-object-position-order.h"
 #include "h2sl/feature-object-less-position-order.h"
+#include "h2sl/feature-object-is-unique.h"
 #include "h2sl/feature-symbol-attribute-value.h"
 #include "h2sl/feature-symbol-type.h"
+#include "h2sl/feature-symbol-has-attribute.h"
 #include "h2sl/feature-symbol-has-child.h"
 #include "h2sl/feature-symbol-matches-child.h"
 #include "h2sl/feature-symbol-child-attribute-value.h"
@@ -59,6 +61,7 @@
 #include "h2sl/feature-spatial-relation-children-contradicted.h"
 #include "h2sl/feature-spatial-relation-position.h"
 #include "h2sl/feature-spatial-relation-position-object-type.h"
+#include "h2sl/feature-spatial-relation-merge-object-spatial-relation.h"
 
 namespace h2sl {
 
@@ -349,18 +352,27 @@ bool FeaturePool::from_xml( const tinyxml2::XMLElement* tmp ){
       } else if ( class_name == "feature-spatial-relation-position-object-type" ){
         // load a FeatureSpatialRelationPositionObjectType
         constituent_feature_sets.back().push_back( std::make_shared<FeatureSpatialRelationPositionObjectType>( feature_elem ) );
+      } else if ( class_name == "feature-spatial-relation-merge-object-spatial-relation" ){
+        // load a FeatureSpatialRelationMergeObjectSpatialRelation
+        constituent_feature_sets.back().push_back( std::make_shared<FeatureSpatialRelationMergeObjectSpatialRelation>( feature_elem ) );
       } else if ( class_name == "feature-object-position-order" ){
         // load a FeatureObjectPositionOrder if the class name is feature-object-position-order
         constituent_feature_sets.back().push_back( std::make_shared<FeatureObjectPositionOrder>( feature_elem ) );
       } else if ( class_name == "feature-object-less-position-order" ){
         // load a FeatureObjectLessPositionOrder if the class name is feature-object-position-order
         constituent_feature_sets.back().push_back( std::make_shared<FeatureObjectLessPositionOrder>( feature_elem ) );
+      } else if ( class_name == "feature-object-is-unique" ){
+        // load a FeatureObjectIsUnique if the class name is feature-object-is-unique
+        constituent_feature_sets.back().push_back( std::make_shared<FeatureObjectIsUnique>( feature_elem ) );
       } else if ( class_name == "feature-symbol-attribute-value" ){
         // load a FeatureSymbolAttributeValue if the class name is feature-symbol-attribute-value
         constituent_feature_sets.back().push_back( std::make_shared<FeatureSymbolAttributeValue>( feature_elem ) );
       } else if ( class_name == "feature-symbol-type" ){
         // load a FeatureSymbolType if the class name is feature-symbol-type
         constituent_feature_sets.back().push_back( std::make_shared<FeatureSymbolType>( feature_elem ) );
+      } else if ( class_name == "feature-symbol-has-attribute" ){
+        // load a FeatureSymbolHasAttribute if the class name is feature-symbol-has-attribute
+        constituent_feature_sets.back().push_back( std::make_shared<FeatureSymbolHasAttribute>( feature_elem ) );
       } else if ( class_name == "feature-symbol-has-child" ){
         // load a FeatureSymbolHasChild if the class name is feature-symbol-has-child
         constituent_feature_sets.back().push_back( std::make_shared<FeatureSymbolHasChild>( feature_elem ) );

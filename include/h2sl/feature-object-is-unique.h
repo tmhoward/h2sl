@@ -1,5 +1,5 @@
 /**
- * @file feature-spatial-relation-position-object-type.h
+ * @file feature-object-is-unique.h
  * @author H2SL Developers
  *
  * @version 2.0
@@ -34,58 +34,57 @@
 #include <jsoncpp/json/value.h>
 
 #include "h2sl/feature.h"
-#include "h2sl/spatial-relation.h"
 
 namespace h2sl {
   /**
-   * FeatureSpatialRelationPositionObjectType class definition
+   * FeatureObjectIsUnique class definition
    */
-  class FeatureSpatialRelationPositionObjectType : public Feature {
+  class FeatureObjectIsUnique : public Feature {
   public:
   /**
-      FeatureSpatialRelationPositionObjectType default class constructor.
+      FeatureObjectIsUnique default class constructor.
 
-      @brief Default FeatureSpatialRelationPositionObjectType class constructor.
-      @param[in]    positionIndexArg     the position index the feature will check for
-      @returns                           none
-      @throws                            no expected throws
+      @brief Default FeatureObjectIsUnique class constructor.
+      @param[in]  invertArg           A flag to indicate whether to use the inverse of the feature
+      @returns                        none
+      @throws                         no expected throws
   */
-  explicit FeatureSpatialRelationPositionObjectType( const unsigned int positionIndexArg = 0 );
+  explicit FeatureObjectIsUnique( const bool invertArg = false );
 
   /**
-      FeatureSpatialRelationPositionObjectType class constructor from an XMLElement.
+      FeatureObjectIsUnique class constructor from an XMLElement.
 
-      @brief FeatureSpatialRelationPositionObjectType class constructor from an XMLElement.
+      @brief FeatureObjectIsUnique class constructor from an XMLElement.
       @param[in]  root      xml element
       @returns              none
       @throws               no expected throws
   */
-  explicit FeatureSpatialRelationPositionObjectType( const tinyxml2::XMLElement* root );
+  explicit FeatureObjectIsUnique( const tinyxml2::XMLElement* root );
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class copy constructor.
+    Default FeatureObjectIsUnique class copy constructor.
   */
-  FeatureSpatialRelationPositionObjectType( const FeatureSpatialRelationPositionObjectType& other ) = default;
+  FeatureObjectIsUnique( const FeatureObjectIsUnique& other ) = default;
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class move constructor.
+    Default FeatureObjectIsUnique class move constructor.
   */
-  FeatureSpatialRelationPositionObjectType( FeatureSpatialRelationPositionObjectType&& other ) = default;
+  FeatureObjectIsUnique( FeatureObjectIsUnique&& other ) = default;
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class destructor.
+    Default FeatureObjectIsUnique class destructor.
   */
-  virtual ~FeatureSpatialRelationPositionObjectType() = default;
+  virtual ~FeatureObjectIsUnique() = default;
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class copy assignment operator.
+    Default FeatureObjectIsUnique class assignment operator.
   */
-  FeatureSpatialRelationPositionObjectType& operator=( const FeatureSpatialRelationPositionObjectType& other ) = default;
+  FeatureObjectIsUnique& operator=( const FeatureObjectIsUnique& other ) = default;
 
   /**
-    Default FeatureSpatialRelationPositionObjectType class move assignment operator.
+    Default FeatureObjectIsUnique class move assignment operator.
   */
-  FeatureSpatialRelationPositionObjectType& operator=( FeatureSpatialRelationPositionObjectType&& other ) = default;
+  FeatureObjectIsUnique& operator=( FeatureObjectIsUnique&& other ) = default;
 
   /**
       This method generates a copy of a feature
@@ -95,7 +94,7 @@ namespace h2sl {
       @throws                                   no expected throws
   */
   virtual std::shared_ptr<Feature> dup( void )const;
-
+ 
   /**
       This method evaluates a feature
 
@@ -106,7 +105,7 @@ namespace h2sl {
       @param[in]    symbol    symbol
       @returns      bool      true/false expression of feature
       @throws                 no expected throws
-  */
+  */ 
   virtual FeatureValue evaluate( const std::shared_ptr< std::string >& cvArg,
                                   const std::shared_ptr<LanguageVariable>& lvArg,
                                   const std::shared_ptr<WorldDCG>& worldArg,
@@ -116,7 +115,7 @@ namespace h2sl {
       This method prints out the values of a feature
 
       @brief This method prints out the values of a feature
-      @returns      string    value of a feature
+      @returns      string    value of a feature      
       @throws                 no expected throws
   */
   virtual std::string print_string( const bool& printValue = false )const override;
@@ -131,9 +130,9 @@ namespace h2sl {
   virtual std::string key( void ) const override;
 
   /**
-      This method imports a FeatureSpatialRelationPositionObjectType from a tinyxml2 element.
+      This method imports a FeatureObjectIsUnique from a tinyxml2 element.
 
-      @brief This method imports a FeatureSpatialRelationPositionObjectType from a tinyxml2 element.
+      @brief This method imports a FeatureObjectIsUnique from a tinyxml2 element.
       @param[in]    root      tinyxml2 element to read from
       @returns                success/failure
       @throws                 no expected throws
@@ -141,9 +140,9 @@ namespace h2sl {
   virtual bool from_xml( const tinyxml2::XMLElement* root );
 
   /**
-      This method imports a FeatureSpatialRelationPositionObjectType from a json formatted string.
+      This method imports a FeatureObjectIsUnique from a json formatted string.
 
-      @brief This method imports a FeatureSpatialRelationPositionObjectType from a json formatted string.
+      @brief This method imports a FeatureObjectIsUnique from a json formatted string.
       @param[in]    root      json formatting string to read from
       @returns                success/failure
       @throws                 no expected throws
@@ -151,9 +150,9 @@ namespace h2sl {
   virtual bool from_json_string( const std::string& valueArg );
 
   /**
-      This method imports a FeatureSpatialRelationPositionObjectType from a json value.
+      This method imports a FeatureObjectIsUnique from a json value.
 
-      @brief This method imports a FeatureSpatialRelationPositionObjectType from a json value.
+      @brief This method imports a FeatureObjectIsUnique from a json value.
       @param[in]    root      json value to read from
       @returns                success/failure
       @throws                 no expected throws
@@ -161,9 +160,9 @@ namespace h2sl {
   virtual bool from_json( const Json::Value& root );
 
   /**
-      This method exports a FeatureSpatialRelationPositionObjectType to a tinyxml2 document.
+      This method exports a FeatureObjectIsUnique to a tinyxml2 document.
 
-      @brief This method exports a FeatureSpatialRelationPositionObjectType to a tinyxml2 document.
+      @brief This method exports a FeatureObjectIsUnique to a tinyxml2 document.
       @param[in]    document  tinyxml2 document to be written to
       @param[in]    root      root of tinyxml2 document to be written to
       @returns                none
@@ -172,39 +171,40 @@ namespace h2sl {
   virtual void to_xml( tinyxml2::XMLDocument& document, tinyxml2::XMLElement* root )const;
 
   /**
-      This method exports a FeatureSpatialRelationPositionObjectType to a json formatted string.
+      This method exports a FeatureObjectIsUnique to a json formatted string.
 
-      @brief This method exports a FeatureSpatialRelationPositionObjectType to a json formatted string
+      @brief This method exports a FeatureObjectIsUnique to a json formatted string
       @returns                json formatted string
       @throws                 no expected throws
   */
   virtual std::string to_json( void )const;
 
   /**
-      This method exports a FeatureSpatialRelationPositionObjectType to a json value.
+      This method exports a FeatureObjectIsUnique to a json value.
 
-      @brief This method exports a FeatureSpatialRelationPositionObjectType to a json value.
+      @brief This method exports a FeatureObjectIsUnique to a json value.
       @param[in]    root      root of json value to be written to
       @returns                none
       @throws                 no expected throws
   */
   virtual void to_json( Json::Value& root )const;
 
-  unsigned int position_index;
+  bool invert;
 
   protected:
+
   private:
 
   };
 
   /**
-      FeatureSpatialRelationPositionObjectType class ostream operator
+      FeatureObjectIsUnique class ostream operator
 
-      @brief FeatureSpatialRelationPositionObjectType class ostream operator
+      @brief FeatureObjectIsUnique class ostream operator
       @param[in]    out       std::ostream input
       @param[in]    other     class instance
       @returns                none
       @throws                 no expected throws
    */
-  std::ostream& operator<<( std::ostream& out, const FeatureSpatialRelationPositionObjectType& other );
+  std::ostream& operator<<( std::ostream& out, const FeatureObjectIsUnique& other );
 } // namespace h2sl

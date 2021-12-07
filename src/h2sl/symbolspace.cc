@@ -292,6 +292,22 @@ bool SymbolSpace::fill_spatial_relations( const std::shared_ptr<SymbolDictionary
     }
   }
 
+  // Look for extrema property in the symbol dictionary
+  auto it_extrema = it_spatial_relation->second->properties.find( "extrema" );
+
+  // Create symbols for intrinsic proximity relations with extrema
+  for( auto& object : world->objects ){
+    for( auto& extrema : it_extrema->second ){
+      for( std::string& p_axis : proximity_axes ){
+        // Skip axes not included in the symbol dictionary
+        if( it_axis->second.find( p_axis ) == it_axis->second.end() ) continue;
+        h2sl::Symbol sym = h2sl::Symbol( "spatial_relation",
+          {{"landmark",object.second.uid},{"axis",p_axis},{"extrema",extrema}} );
+        insert( sym );
+      }
+    }
+  }
+
   // All relative relations require a viewpoint; make sure the model has seen such relations
   // We assume that the symbol dictionary includes all possible viewpoints
   auto it_viewpoint = it_spatial_relation->second->properties.find( "viewpoint" );
@@ -299,9 +315,6 @@ bool SymbolSpace::fill_spatial_relations( const std::shared_ptr<SymbolDictionary
     std::cout << "could not find spatial_relation viewpoint property in symbol dictionary" << std::endl;
     return true;
   }
-
-  // Look for extrema property in the symbol dictionary
-  auto it_extrema = it_spatial_relation->second->properties.find( "extrema" );
 
   // Create symbols for relative directional binary relations
   for( auto& viewpoint : it_viewpoint->second ){
@@ -355,7 +368,7 @@ bool SymbolSpace::fill_distances( const std::shared_ptr<SymbolDictionary>& symbo
   // Find distance in the symbol dictionary, return false if it is not found
   auto const cit_distance = symbolDictionary->dictionary.find("distance");
   if( cit_distance == symbolDictionary->dictionary.cend() ){
-    std::cout << "could not find spatial_relation_axis in symbol dictionary" << std::endl;
+    std::cout << "could not find distance in symbol dictionary" << std::endl;
     return false;
   }
 
@@ -515,7 +528,7 @@ bool SymbolSpace::fill_actions( const std::shared_ptr<SymbolDictionary>& symbolD
       for( auto& action_type_value : it_action_type->second ){
         h2sl::Symbol symaction = h2sl::Symbol( "action",
                                 { {"action_type",action_type_value},
-                                  {"goal",object.second.uid}} );
+                                  {"goal",object.second.uid} } );
         insert( symaction );
       }
     } else if( it_action_payload != it_action->second->properties.end() ){
@@ -524,7 +537,7 @@ bool SymbolSpace::fill_actions( const std::shared_ptr<SymbolDictionary>& symbolD
         h2sl::Symbol symaction = h2sl::Symbol( "action",
                                 { {"action_type",action_type_value},
                                   {"agent", "robot"},
-                                  {"payload",object.second.uid}} );
+                                  {"payload",object.second.uid} } );
         insert( symaction );
       }
     }
